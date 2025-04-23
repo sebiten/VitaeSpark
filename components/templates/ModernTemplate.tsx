@@ -42,7 +42,7 @@ export const ModernTemplate = React.forwardRef<HTMLDivElement, Props>(
         </div>
 
         {/* Sidebar en español */}
-        <aside className="col-span-1 space-y-6 bg-indigo-50 p-4 rounded">
+        <aside className="col-span-1 space-y-6 bg-indigo-50 p-6 rounded">
           {habilidades.length > 0 && (
             <>
               <h3 className="text-xl font-semibold text-indigo-600">Habilidades</h3>
