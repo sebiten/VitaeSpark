@@ -1,0 +1,3 @@
+1.okey se esta generando bien el tema ahora es que tengo que ver que pasa si hay mas texto y se divien las paginas antes de querer agregar estilos 
+2. Agregar estilos y plantillas una vez solucionado el tema de division de paginas.
+3. veremos....
