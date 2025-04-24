@@ -86,8 +86,8 @@ Estos son los datos brutos:
 `;
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-4",
-    temperature: 0.5,
+    model: "gpt-4o-mini",
+    temperature: 0.4,
     max_tokens: 600,
     messages: [
       { role: "system", content: systemMessage.trim() },
