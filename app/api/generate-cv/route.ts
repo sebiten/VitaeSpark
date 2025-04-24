@@ -10,7 +10,10 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 export async function POST(req: Request): Promise<NextResponse> {
   const body: DatosCVFormulario = await req.json();
   if (!body) {
-    return NextResponse.json({ error: "No se recibieron datos" }, { status: 400 });
+    return NextResponse.json(
+      { error: "No se recibieron datos" },
+      { status: 400 }
+    );
   }
   const decision = await aj
     .withRule(
@@ -21,8 +24,8 @@ export async function POST(req: Request): Promise<NextResponse> {
     .withRule(
       fixedWindow({
         mode: "LIVE",
-        max: 3,
-        window: "180s",
+        max: 1,
+        window: "3600s",
       })
     )
     .protect(req);
@@ -40,7 +43,6 @@ export async function POST(req: Request): Promise<NextResponse> {
       { status: 403 }
     );
   }
-
 
   const systemMessage = `
 Eres un redactor profesional de currículums en español, experto en optimización para sistemas ATS.  
