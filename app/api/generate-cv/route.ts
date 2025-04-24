@@ -25,7 +25,7 @@ export async function POST(req: Request): Promise<NextResponse> {
       fixedWindow({
         mode: "LIVE",
         max: 1,
-        window: "3600s",
+        window: "86400s" // 1 dia en seg
       })
     )
     .protect(req);
