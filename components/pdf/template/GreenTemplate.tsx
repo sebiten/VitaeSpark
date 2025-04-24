@@ -12,16 +12,15 @@ const colors = {
 }
 
 const styles = StyleSheet.create({
-  page: { fontFamily: "Roboto", fontSize: 10, color: colors.text, backgroundColor: colors.background },
+  page: { fontSize: 10, color: colors.text, backgroundColor: colors.background },
   container: { flex: 1, flexDirection: "row" },
   sidebar: { width: "28%", backgroundColor: colors.primary, padding: 15 },
   main: { width: "72%", padding: 20 },
   header: { marginBottom: 15 },
-  name: { fontFamily: "Montserrat", fontSize: 22, fontWeight: 700, color: "#FFF" },
-  position: { fontFamily: "Montserrat", fontSize: 12, fontWeight: 500, color: "#FFF", marginTop: 4 },
+  name: {  fontSize: 22, fontWeight: 700, color: "#FFF" },
+  position: {  fontSize: 12, fontWeight: 500, color: "#FFF", marginTop: 4 },
   section: { marginBottom: 15 },
   sectionTitle: {
-    fontFamily: "Montserrat",
     fontSize: 14,
     fontWeight: 600,
     marginBottom: 8,
