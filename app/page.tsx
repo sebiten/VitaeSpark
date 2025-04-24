@@ -59,6 +59,12 @@ export default function GeneradorCV() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
+
+    if (!res.ok) {
+      const errorText = await res.text(); // por si no es JSON válido
+      throw new Error(`Error al generar CV: ${res.status} - ${errorText}`);
+    }
+
     const json: RespuestaCV = await res.json();
     setCvData(json.cv);
   };

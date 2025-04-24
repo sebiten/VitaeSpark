@@ -8,6 +8,10 @@ import { aj } from "@/lib/arcjet";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 export async function POST(req: Request): Promise<NextResponse> {
+  const body: DatosCVFormulario = await req.json();
+  if (!body) {
+    return NextResponse.json({ error: "No se recibieron datos" }, { status: 400 });
+  }
   const decision = await aj
     .withRule(
       shield({
@@ -37,7 +41,6 @@ export async function POST(req: Request): Promise<NextResponse> {
     );
   }
 
-  const body: DatosCVFormulario = await req.json();
 
   const systemMessage = `
 Eres un redactor profesional de currículums en español, experto en optimización para sistemas ATS.  
