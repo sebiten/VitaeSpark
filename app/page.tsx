@@ -61,9 +61,13 @@ export default function GeneradorCV() {
     });
 
     if (!res.ok) {
-      const errorText = await res.text(); // por si no es JSON válido
-      throw new Error(`Error al generar CV: ${res.status} - ${errorText}`);
+      const fallbackMessage = res.status === 504
+        ? "⚠️ La generación está tardando demasiado. Intenta de nuevo en unos segundos."
+        : await res.text()
+    
+      throw new Error(`Error al generar CV: ${res.status} - ${fallbackMessage}`)
     }
+    
 
     const json: RespuestaCV = await res.json();
     setCvData(json.cv);
