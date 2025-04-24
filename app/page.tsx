@@ -83,14 +83,14 @@ export default function GeneradorCV() {
         📝 Generador de CV ATS
       </motion.h1>
 
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         <button
           onClick={() => reset(ejemplo)}
           className="text-sm text-blue-600 hover:underline"
         >
           Rellenar con ejemplo
         </button>
-      </div>
+      </div> */}
 
       <div>
         <label className="font-semibold mb-2 block">
