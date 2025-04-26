@@ -69,11 +69,7 @@ export default function Home() {
             </div>
             <div className="flex-1 relative">
               <div className="relative bg-[#1F1F22] rounded-lg p-1 shadow-2xl shadow-[#7C3AED]/20">
-                <img
-                  src="/placeholder.svg?height=600&width=500"
-                  alt="CV generado por VitaeSpark"
-                  className="rounded-lg w-full"
-                />
+              
                 <div className="absolute -top-4 -right-4 bg-[#38BDF8] text-[#0F0F10] font-bold px-4 py-2 rounded-full text-sm">
                   ¡Optimizado para ATS!
                 </div>
