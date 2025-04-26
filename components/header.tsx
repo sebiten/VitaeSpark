@@ -54,6 +54,12 @@ export function Header() {
             Crear mi CV ahora{" "}
             <ArrowRight className="ml-2 h-4 w-4 animate-pulse" />
           </Link>
+          <Link
+            href="/"
+            className="text-base font-medium text-white hover:text-[#7C3AED] transition-colors duration-200"
+          >
+            Inicio
+          </Link>
         </nav>
 
         <Button
@@ -88,6 +94,12 @@ export function Header() {
           >
             Crear mi CV ahora{" "}
             <ArrowRight className="ml-2 h-5 w-5 animate-pulse" />
+          </Link>
+          <Link
+            href="/"
+            className="text-base font-medium text-white hover:text-[#7C3AED] transition-colors duration-200"
+          >
+            Inicio
           </Link>
         </nav>
       </div>
