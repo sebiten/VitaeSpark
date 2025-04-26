@@ -24,8 +24,8 @@ export async function POST(req: Request): Promise<NextResponse> {
     .withRule(
       fixedWindow({
         mode: "LIVE",
-        max: 1,
-        window: "86400s" // 1 dia en seg
+        max: 10,
+        window: "86400s", // 1 dia en seg
       })
     )
     .protect(req);
@@ -89,11 +89,14 @@ Estos son los datos brutos:
 
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
-    temperature: 0.4,
-    max_tokens: 400,
+    temperature: 0.3,
+    response_format: { type: "json_object" }, // 👈 obliga JSON puro
     messages: [
-      { role: "system", content: systemMessage.trim() },
-      { role: "user", content: userMessage.trim() },
+      { role: "system", content: systemMessage },
+      {
+        role: "user",
+        content: JSON.stringify(body), // pasa los datos del formulario
+      },
     ],
   });
 

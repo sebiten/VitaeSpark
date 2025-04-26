@@ -22,6 +22,7 @@ import { Footer } from "@/components/footer";
 import { TestimonialCard } from "@/components/testimonial-card";
 import { FeatureCard } from "@/components/feature-card";
 import { TokenCard } from "@/components/token-card";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -46,15 +47,15 @@ export default function Home() {
                 realmente superan los filtros de las empresas.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button
-                  size="lg"
-                  className="bg-[#7C3AED] hover:bg-[#A78BFA] text-white"
-                >
-                  Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-                <Button size="lg" variant="ghost" className="border-[#1F1F22] ">
-                  Ver ejemplos
-                </Button>
+                <Link href="/crear">
+                  <Button
+                    size="lg"
+                    className="bg-[#7C3AED] hover:bg-[#A78BFA] text-white"
+                    variant="default"
+                  >
+                    Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </div>
               <div className="flex items-center gap-2 text-sm text-[#F4F4F5]/60 pt-4">
                 <CheckCircle2 className="h-4 w-4 text-[#38BDF8]" />
@@ -243,7 +244,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Tokens System Section */}
+      {/* Tokens System Section
       <section className="py-20 px-4 bg-[#0F0F10]/50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -416,7 +417,7 @@ export default function Home() {
             </TabsContent>
           </Tabs>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ Section */}
       <section className="py-20 px-4 bg-[#0F0F10]">
@@ -510,15 +511,15 @@ export default function Home() {
             con VitaeSpark.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-[#7C3AED] hover:bg-[#A78BFA] text-white"
-            >
-              Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button size="lg" variant="ghost" className="border-[#1F1F22] ">
-              Ver ejemplos
-            </Button>
+            <Link href="/crear">
+              <Button
+                size="lg"
+                className="bg-[#7C3AED] hover:bg-[#A78BFA] text-white"
+                variant="default"
+              >
+                Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

@@ -19,7 +19,7 @@ export function TestimonialCard({ quote, author, role, rating }: TestimonialCard
         </div>
         <blockquote className="text-[#F4F4F5] mb-4">"{quote}"</blockquote>
         <div>
-          <p className="font-semibold">{author}</p>
+          <p className="font-semibold text-[#F4F4F5]">{author}</p>
           <p className="text-sm text-[#F4F4F5]/60">{role}</p>
         </div>
       </CardContent>
