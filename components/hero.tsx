@@ -460,7 +460,7 @@ export default function Home() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-3" className="border-[#1F1F22]">
+            {/* <AccordionItem value="item-3" className="border-[#1F1F22]">
               <AccordionTrigger className="text-left">
                 ¿Puedo personalizar las plantillas?
               </AccordionTrigger>
@@ -470,7 +470,7 @@ export default function Home() {
                 para que tu CV refleje tu personalidad profesional, manteniendo
                 siempre un aspecto profesional.
               </AccordionContent>
-            </AccordionItem>
+            </AccordionItem> */}
 
             <AccordionItem value="item-4" className="border-[#1F1F22]">
               <AccordionTrigger className="text-left">
@@ -484,7 +484,7 @@ export default function Home() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-5" className="border-[#1F1F22]">
+            {/* <AccordionItem value="item-5" className="border-[#1F1F22]">
               <AccordionTrigger className="text-left">
                 ¿Qué pasa si no estoy satisfecho con el resultado?
               </AccordionTrigger>
@@ -493,7 +493,7 @@ export default function Home() {
                 completamente satisfecho con nuestro servicio, te reembolsaremos
                 el 100% de tu pago sin hacer preguntas.
               </AccordionContent>
-            </AccordionItem>
+            </AccordionItem> */}
           </Accordion>
         </div>
       </section>
