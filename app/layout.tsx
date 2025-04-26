@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     siteName: "Vitae Spark",
     images: [
       {
-        url: "/api/og?title=Vitae%20Spark", // TODO: reemplaza o apunta a tu imagen estática
+        url: "/logoreal.webp", // TODO: reemplaza o apunta a tu imagen estática
         width: 1200,
         height: 630,
         alt: "Vitae Spark – Generador de CVs IA",
@@ -73,21 +73,12 @@ export const metadata: Metadata = {
     title: "Vitae Spark | Generador de CVs con IA",
     description:
       "Crea currículums profesionales, optimizados para ATS, en cuestión de segundos.",
-    images: ["/api/og?title=Vitae%20Spark"], // TODO
+    images: ["/logoreal.webp"], // TODO
     creator: "@tu_handle", // TODO
   },
   icons: {
       icon: "/logochispa.png",
   },
-  manifest: "/site.webmanifest",
-  themeColor: "#000000", // adapta al color principal de tu UI
-};
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 5,
-  themeColor: metadata.themeColor as string,
 };
 
 export default function RootLayout({
