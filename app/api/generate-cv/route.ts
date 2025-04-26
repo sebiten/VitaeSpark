@@ -24,7 +24,7 @@ export async function POST(req: Request): Promise<NextResponse> {
     .withRule(
       fixedWindow({
         mode: "LIVE",
-        max: 10,
+        max: 3,
         window: "86400s", // 1 dia en seg
       })
     )

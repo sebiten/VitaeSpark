@@ -27,7 +27,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-[#0F0F10] text-[#F4F4F5]">
-      <Header />
 
       {/* Hero Section */}
       <section className="px-4 py-20 md:py-32 relative overflow-hidden">
