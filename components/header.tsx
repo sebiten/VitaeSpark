@@ -39,8 +39,8 @@ export function Header() {
             <Image
               src="/logoreal.webp"
               alt="Logo Vitae Spark"
-              width={150}
-              height={150}
+              width={120}
+              height={120}
               className=" rounded-full object-cover"
             />
           </Link>
