@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   sidebar: { width: "28%", backgroundColor: colors.primary, padding: 15 },
   main: { width: "72%", padding: 20 },
   header: { marginBottom: 15 },
-  name: {  fontSize: 22, fontWeight: 700, color: "#FFF" },
+  name: {  fontSize: 16, fontWeight: 700, color: "#FFF" },
   position: {  fontSize: 12, fontWeight: 500, color: "#FFF", marginTop: 4 },
   section: { marginBottom: 15 },
   sectionTitle: {
