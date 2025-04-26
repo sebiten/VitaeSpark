@@ -27,7 +27,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-[#0F0F10] text-[#F4F4F5]">
-
       {/* Hero Section */}
       <section className="px-4 py-20 md:py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/20 to-transparent opacity-30 z-0"></div>
@@ -70,11 +69,11 @@ export default function Home() {
             <div className="flex-1 relative mt-2 ">
               <div className="relative bg-[#1F1F22] rounded-lg p-1 shadow-2xl shadow-[#7C3AED]/20">
                 <img
-                  src="/ejemplocv111.webp"
+                  src="/example.png"
                   alt="CV generado por VitaeSpark"
                   className="rounded-lg w-full"
                 />
-                <div className="absolute -top-4 -right-4 bg-[#38BDF8] text-[#0F0F10] font-bold px-4 py-2 rounded-full text-sm">
+                <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-[#38BDF8] text-[#0F0F10] font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm">
                   ¡Optimizado para ATS!
                 </div>
               </div>
