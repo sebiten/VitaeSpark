@@ -622,7 +622,7 @@ const CVForm = () => {
                     className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white font-semibold hover:shadow-lg hover:shadow-[#7C3AED]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
                   >
                     <Lock className="w-5 h-5 mr-2" />
-                    Pagar para descargar ($1999)
+                    Pagar para descargar ($1499)
                   </button>
                 )}
 
@@ -642,7 +642,7 @@ const CVForm = () => {
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
         onSuccess={handlePaymentSuccess}
-        amount={1999}
+        amount={1499}
         productName="CV Profesional Optimizado para ATS"
       />
     </div>
