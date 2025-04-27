@@ -41,13 +41,11 @@ export function PaymentModal({ isOpen, onClose, onSuccess, amount, productName }
         try {
           // Verificar si el SDK ya está cargado
           if (!(window as any).MercadoPago) {
-            console.log("Esperando a que el SDK de Mercado Pago se cargue...")
             await new Promise((resolve) => setTimeout(resolve, 1000))
             loadMercadoPago() // Intentar nuevamente
             return
           }
 
-          console.log("SDK de Mercado Pago cargado, inicializando...")
           const mp = new (window as any).MercadoPago(process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY, {
             locale: "es-AR",
           })
@@ -95,7 +93,6 @@ export function PaymentModal({ isOpen, onClose, onSuccess, amount, productName }
   const createPreference = async () => {
     try {
       setPaymentStatus("loading")
-      console.log("Creando preferencia de pago...")
 
       const response = await fetch("/api/create-payment", {
         method: "POST",
@@ -116,7 +113,6 @@ export function PaymentModal({ isOpen, onClose, onSuccess, amount, productName }
       }
 
       const data = await response.json()
-      console.log("Preferencia creada:", data)
 
       if (!data.preferenceId) {
         throw new Error("No se recibió un ID de preferencia válido")
