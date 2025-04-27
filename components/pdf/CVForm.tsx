@@ -617,10 +617,17 @@ const CVForm = () => {
                       .replace(/\s+/g, "-")}-${selectedTemplate}.pdf`}
                     className="block w-full"
                   >
-                    {({ loading }) => (
+                    {({ loading, url, blob }) => (
                       <button
                         className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#22C55E] to-[#15803D] text-white font-semibold hover:shadow-lg hover:shadow-[#22C55E]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
                         disabled={loading}
+                        onClick={() => {
+                          // ✅ Al clickear descargar, esperamos que PDF se genere
+                          if (!loading && url) {
+                            // ✅ Una vez que existe url, limpiamos localStorage
+                            localStorage.removeItem("vitae-cv-data");
+                          }
+                        }}
                       >
                         {loading ? (
                           <>
@@ -637,15 +644,8 @@ const CVForm = () => {
                     )}
                   </PDFDownloadLink>
                 ) : (
-                  <button
-                    onClick={() => setIsPaymentModalOpen(true)}
-                    className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white font-semibold hover:shadow-lg hover:shadow-[#7C3AED]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
-                  >
-                    <Lock className="w-5 h-5 mr-2" />
-                    Pagar para descargar ($100)
-                  </button>
+                  <button>Pagar para descargar</button>
                 )}
-
                 <p className="text-center text-xs text-[#A1A1AA] mt-4">
                   {hasPaid
                     ? "Tu CV ha sido optimizado para sistemas ATS y está listo para ser descargado."
