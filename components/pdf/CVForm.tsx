@@ -582,6 +582,12 @@ const CVForm = () => {
                     Volver al formulario
                   </Button>
                 </div>
+                {paymentStatus.status === "success" && !isVerifyingPayment && (
+                  <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-green-500/20 to-green-700/20 border border-green-500/30 text-green-300 font-semibold text-center">
+                    ¡Tu pago fue exitoso! Ahora puedes descargar tu CV
+                    optimizado.
+                  </div>
+                )}
 
                 <div className="bg-[#0F0F10] border border-[#2A2A2D] rounded-xl p-4 shadow-inner">
                   <PDFViewer
