@@ -97,6 +97,7 @@ const CVForm = () => {
     status: "idle",
   });
   const [hasPaid, setHasPaid] = useState(false);
+  const [isVerifyingPayment, setIsVerifyingPayment] = useState(false);
 
   const {
     register,
@@ -205,21 +206,28 @@ const CVForm = () => {
                 setCvData(storedCv);
                 setActiveTab("preview");
               }
+              setIsVerifyingPayment(false); // ✅ Terminamos de verificar
             }}
             onPending={() => {
               setPaymentStatus({
                 status: "pending",
                 message: "Tu pago está pendiente de confirmación",
               });
+              setIsVerifyingPayment(false); // ✅ Terminamos de verificar
             }}
             onFailure={() => {
               setPaymentStatus({
                 status: "error",
                 message: "Hubo un problema con tu pago. Intenta nuevamente.",
               });
+              setIsVerifyingPayment(false); // ✅ Terminamos de verificar
+            }}
+            onStartVerifying={() => {
+              setIsVerifyingPayment(true); // ✅ Empezamos a verificar
             }}
           />
         </Suspense>
+
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
@@ -587,7 +595,14 @@ const CVForm = () => {
                   </PDFViewer>
                 </div>
 
-                {hasPaid ? (
+                {isVerifyingPayment ? (
+                  <div className="flex flex-col items-center space-y-2 p-6 bg-[#1F1F22] border border-[#3F3F46] rounded-xl">
+                    <Loader2 className="w-6 h-6 animate-spin text-[#38BDF8]" />
+                    <p className="text-sm text-[#D4D4D8]">
+                      Verificando tu pago...
+                    </p>
+                  </div>
+                ) : hasPaid ? (
                   <PDFDownloadLink
                     document={
                       <DocumentoCV cv={cvData} template={selectedTemplate} />
@@ -597,7 +612,7 @@ const CVForm = () => {
                       .replace(/\s+/g, "-")}-${selectedTemplate}.pdf`}
                     className="block w-full"
                   >
-                    {({ loading, error }) => (
+                    {({ loading }) => (
                       <button
                         className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#22C55E] to-[#15803D] text-white font-semibold hover:shadow-lg hover:shadow-[#22C55E]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
                         disabled={loading}
@@ -622,7 +637,7 @@ const CVForm = () => {
                     className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white font-semibold hover:shadow-lg hover:shadow-[#7C3AED]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
                   >
                     <Lock className="w-5 h-5 mr-2" />
-                    Pagar para descargar ($1499)
+                    Pagar para descargar ($100)
                   </button>
                 )}
 
@@ -642,7 +657,7 @@ const CVForm = () => {
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
         onSuccess={handlePaymentSuccess}
-        amount={1499}
+        amount={100}
         productName="CV Profesional Optimizado para ATS"
       />
     </div>
