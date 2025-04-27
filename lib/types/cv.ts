@@ -38,3 +38,8 @@ export interface CV {
 export interface RespuestaCV {
   cv: CV
 }
+
+export interface PaymentStatus {
+  status: "idle" | "pending" | "success" | "error"
+  message?: string
+}

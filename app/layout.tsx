@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -88,6 +89,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head>
+        <Script src="https://sdk.mercadopago.com/js/v2" strategy="beforeInteractive" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >

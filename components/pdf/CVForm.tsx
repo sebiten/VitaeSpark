@@ -1,54 +1,144 @@
-"use client"
-import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer"
-import type { NextPage } from "next"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { DocumentoCV } from "./CVDocument"
-import { motion } from "framer-motion"
-import { Sparkles, Download, Info, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+"use client";
+import type {
+  DatosCVFormulario,
+  RespuestaCV,
+  PaymentStatus,
+} from "@/lib/types/cv";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { DocumentoCV } from "./CVDocument";
+import { motion } from "framer-motion";
+import {
+  Sparkles,
+  Download,
+  Info,
+  CheckCircle,
+  AlertCircle,
+  Loader2,
+  Lock,
+} from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation"
+import { PaymentModal } from "../payment-modal";
 
 const schema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
   puesto: z.string().min(1, "El puesto es obligatorio"),
   contacto: z.string().min(1, "La información de contacto es obligatoria"),
-  sobreMi: z.string().min(10, "Describe un poco sobre ti (mínimo 10 caracteres)"),
-  experiencia: z.string().min(20, "Detalla tu experiencia laboral (mínimo 20 caracteres)"),
-  formacion: z.string().min(10, "Incluye tu formación académica (mínimo 10 caracteres)"),
+  sobreMi: z
+    .string()
+    .min(10, "Describe un poco sobre ti (mínimo 10 caracteres)"),
+  experiencia: z
+    .string()
+    .min(20, "Detalla tu experiencia laboral (mínimo 20 caracteres)"),
+  formacion: z
+    .string()
+    .min(10, "Incluye tu formación académica (mínimo 10 caracteres)"),
   habilidades: z.string().min(1, "Incluye al menos una habilidad"),
   idiomas: z.string().min(1, "Incluye al menos un idioma"),
   informacionAdicional: z.string().optional(),
-})
+});
 
 const templates = [
-  { id: "purple", name: "Morado", color: "#7C3AED", gradient: "from-[#7C3AED] to-[#6D28D9]" },
-  { id: "blue", name: "Azul", color: "#1E40AF", gradient: "from-[#2563EB] to-[#1E40AF]" },
-  { id: "green", name: "Verde", color: "#15803D", gradient: "from-[#22C55E] to-[#15803D]" },
-]
+  {
+    id: "purple",
+    name: "Morado",
+    color: "#7C3AED",
+    gradient: "from-[#7C3AED] to-[#6D28D9]",
+  },
+  {
+    id: "blue",
+    name: "Azul",
+    color: "#1E40AF",
+    gradient: "from-[#2563EB] to-[#1E40AF]",
+  },
+  {
+    id: "green",
+    name: "Verde",
+    color: "#15803D",
+    gradient: "from-[#22C55E] to-[#15803D]",
+  },
+];
 
 const ejemplo: DatosCVFormulario = {
   nombre: "Juan Pérez",
   puesto: "Desarrollador Frontend",
   contacto: "juan.perez@example.com, +54 9 387 1234567",
   sobreMi: "Desarrollador frontend con 5 años de experiencia...",
-  experiencia: "Frontend Lead; Acme Inc; Ene 2021–Dic 2023; Lideré migración a React...",
+  experiencia:
+    "Frontend Lead; Acme Inc; Ene 2021–Dic 2023; Lideré migración a React...",
   formacion: "Universidad Nacional de Salta; Lic. en Sistemas; 2016–2020",
   habilidades: "TypeScript, React, Next.js, Tailwind CSS",
   idiomas: "Español – Nativo, Inglés – B2",
   informacionAdicional: "Ponente en TechSalta 2024",
-}
+};
 
-const CVForm: NextPage = () => {
-  const [selectedTemplate, setSelectedTemplate] = useState("purple")
-  const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null)
-  const [activeTab, setActiveTab] = useState("form")
-  const [isGenerating, setIsGenerating] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+const CVForm = () => {
+  const router = useRouter()
+  const [selectedTemplate, setSelectedTemplate] = useState("purple");
+  const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
+  const [activeTab, setActiveTab] = useState("form");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>({
+    status: "idle",
+  });
+  const [hasPaid, setHasPaid] = useState(false);
+
+  const searchParams = useSearchParams();
+
+  // Verificar el estado del pago desde la URL (cuando regresa de Mercado Pago)
+ // Verificar el estado del pago desde la URL (cuando regresa de Mercado Pago)
+useEffect(() => {
+  const status = searchParams.get("status");
+
+  if (status) {
+    switch (status) {
+      case "success":
+        setPaymentStatus({
+          status: "success",
+          message: "¡Pago completado con éxito!",
+        });
+        setHasPaid(true);
+
+        // NUEVO: Restaurar automáticamente el CV
+        const storedCv = localStorage.getItem("vitae-cv-data");
+        if (storedCv) {
+          const parsedCv = JSON.parse(storedCv);
+          setCvData(parsedCv);
+          setActiveTab("preview"); // Opcional: saltar a la vista previa automática
+        }
+
+        break;
+      case "pending":
+        setPaymentStatus({
+          status: "pending",
+          message: "Tu pago está pendiente de confirmación",
+        });
+        break;
+      case "failure":
+        setPaymentStatus({
+          status: "error",
+          message:
+            "Hubo un problema con tu pago. Por favor, intenta nuevamente.",
+        });
+        break;
+    }
+  }
+}, [searchParams]);
+
 
   const {
     register,
@@ -58,43 +148,70 @@ const CVForm: NextPage = () => {
     formState: { errors, isSubmitting },
   } = useForm<DatosCVFormulario>({
     resolver: zodResolver(schema),
-  })
+  });
 
   const loadExample = () => {
     Object.entries(ejemplo).forEach(([key, value]) => {
-      setValue(key as keyof DatosCVFormulario, value)
-    })
-  }
+      setValue(key as keyof DatosCVFormulario, value);
+    });
+  };
 
   const onSubmit = async (data: DatosCVFormulario) => {
     try {
-      setIsGenerating(true)
-      setError(null)
-
+      setIsGenerating(true);
+      setError(null);
+  
       const res = await fetch("/api/generate-cv", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      })
-
+      });
+  
       if (!res.ok) {
         const fallbackMessage =
           res.status === 504
             ? "⚠️ La generación está tardando demasiado. Intenta de nuevo en unos segundos."
-            : await res.text()
-
-        throw new Error(`Error al generar CV: ${res.status} - ${fallbackMessage}`)
+            : await res.text();
+  
+        throw new Error(`Error al generar CV: ${res.status} - ${fallbackMessage}`);
       }
-
-      const json: RespuestaCV = await res.json()
-      setCvData(json.cv)
-      setActiveTab("preview")
+  
+      const json: RespuestaCV = await res.json();
+      
+      setCvData(json.cv);
+      setActiveTab("preview");
+  
+      // NUEVO: Guardar en localStorage
+      localStorage.setItem("vitae-cv-data", JSON.stringify(json.cv));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error desconocido")
+      setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
-      setIsGenerating(false)
+      setIsGenerating(false);
     }
-  }
+  };
+  
+
+  const handlePaymentSuccess = () => {
+    setHasPaid(true)
+    setIsPaymentModalOpen(false)
+    setPaymentStatus({
+      status: "success",
+      message: "¡Pago completado con éxito!",
+    });
+  
+    // NUEVO: Restaurar cvData desde localStorage
+    const storedCv = localStorage.getItem("vitae-cv-data");
+    if (storedCv) {
+      const parsedCv = JSON.parse(storedCv);
+      setCvData(parsedCv);
+      setActiveTab("preview"); // Ir a preview automáticamente si quieres
+    }
+  
+    setTimeout(() => {
+      router.push("/success");
+    }, 1000);
+  };
+  
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -114,15 +231,43 @@ const CVForm: NextPage = () => {
             Generador de CV Profesional
           </motion.h1>
           <p className="text-base text-[#D4D4D8]/80 mt-3 max-w-2xl mx-auto">
-            Crea un currículum moderno, claro y optimizado para superar filtros automáticos y destacar entre los demás
-            candidatos.
+            Crea un currículum moderno, claro y optimizado para superar filtros
+            automáticos y destacar entre los demás candidatos.
           </p>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+        {paymentStatus.status === "success" && (
+          <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 mb-6 text-center">
+            <CheckCircle className="w-5 h-5 mx-auto text-green-500 mb-2" />
+            <p className="text-green-400">{paymentStatus.message}</p>
+          </div>
+        )}
+
+        {paymentStatus.status === "error" && (
+          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mb-6 text-center">
+            <AlertCircle className="w-5 h-5 mx-auto text-red-500 mb-2" />
+            <p className="text-red-400">{paymentStatus.message}</p>
+          </div>
+        )}
+
+        {paymentStatus.status === "pending" && (
+          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 mb-6 text-center">
+            <Info className="w-5 h-5 mx-auto text-yellow-500 mb-2" />
+            <p className="text-yellow-400">{paymentStatus.message}</p>
+          </div>
+        )}
+
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="space-y-8"
+        >
           <div className="flex justify-between items-center">
             <TabsList className="bg-[#2A2A2D] border border-[#3F3F46] p-1">
-              <TabsTrigger value="form" className=" text-white data-[state=active]:bg-[#3F3F46] ">
+              <TabsTrigger
+                value="form"
+                className=" text-white data-[state=active]:bg-[#3F3F46] "
+              >
                 Formulario
               </TabsTrigger>
               <TabsTrigger
@@ -163,15 +308,19 @@ const CVForm: NextPage = () => {
                     <div className="flex items-start gap-3">
                       <Info className="w-5 h-5 text-[#38BDF8] mt-1 flex-shrink-0" />
                       <div>
-                        <h2 className="text-lg font-semibold text-[#38BDF8] mb-2">¿Qué es un CV a prueba de ATS?</h2>
+                        <h2 className="text-lg font-semibold text-[#38BDF8] mb-2">
+                          ¿Qué es un CV a prueba de ATS?
+                        </h2>
                         <p className="mb-2 text-[#D4D4D8]">
-                          Un sistema de seguimiento de candidatos (ATS) es un software utilizado por reclutadores para
-                          filtrar currículums. Evalúa el formato, estructura y palabras clave para decidir si un perfil
-                          avanza en el proceso.
+                          Un sistema de seguimiento de candidatos (ATS) es un
+                          software utilizado por reclutadores para filtrar
+                          currículums. Evalúa el formato, estructura y palabras
+                          clave para decidir si un perfil avanza en el proceso.
                         </p>
                         <p className="text-[#D4D4D8]">
-                          Nuestro generador está diseñado para ayudarte a superar este filtro automatizado, maximizando
-                          tus oportunidades laborales.
+                          Nuestro generador está diseñado para ayudarte a
+                          superar este filtro automatizado, maximizando tus
+                          oportunidades laborales.
                         </p>
                       </div>
                     </div>
@@ -192,9 +341,13 @@ const CVForm: NextPage = () => {
                               : "border-[#3A3A3D]"
                           }`}
                         >
-                          <div className={`w-12 h-12 rounded-full mb-2 bg-gradient-to-br ${tpl.gradient} shadow-md`} />
+                          <div
+                            className={`w-12 h-12 rounded-full mb-2 bg-gradient-to-br ${tpl.gradient} shadow-md`}
+                          />
                           <span className="text-[#E4E4E7]">{tpl.name}</span>
-                          {selectedTemplate === tpl.id && <CheckCircle className="w-4 h-4 text-[#38BDF8] mt-1" />}
+                          {selectedTemplate === tpl.id && (
+                            <CheckCircle className="w-4 h-4 text-[#38BDF8] mt-1" />
+                          )}
                         </button>
                       ))}
                     </div>
@@ -203,7 +356,9 @@ const CVForm: NextPage = () => {
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-medium mb-1.5 text-[#F4F4F5]/90">Nombre completo</label>
+                        <label className="block text-sm font-medium mb-1.5 text-[#F4F4F5]/90">
+                          Nombre completo
+                        </label>
                         <input
                           {...register("nombre")}
                           className={`w-full bg-[#2A2A2D] text-[#F4F4F5] placeholder:text-[#A1A1AA] p-3 rounded-lg border focus:outline-none focus:ring-2 shadow-sm transition ${
@@ -222,7 +377,9 @@ const CVForm: NextPage = () => {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium mb-1.5 text-[#F4F4F5]/90">Puesto profesional</label>
+                        <label className="block text-sm font-medium mb-1.5 text-[#F4F4F5]/90">
+                          Puesto profesional
+                        </label>
                         <input
                           {...register("puesto")}
                           className={`w-full bg-[#2A2A2D] text-[#F4F4F5] placeholder:text-[#A1A1AA] p-3 rounded-lg border focus:outline-none focus:ring-2 shadow-sm transition ${
@@ -252,6 +409,8 @@ const CVForm: NextPage = () => {
                             ? "border-red-500/70 focus:ring-red-500/30"
                             : "border-[#3F3F46] focus:ring-[#7C3AED]/30"
                         }`}
+                        type="text"
+                        autoComplete="email"
                         placeholder="Ej: juan.perez@example.com, +54 9 387 1234567"
                       />
                       {errors.contacto && (
@@ -263,7 +422,9 @@ const CVForm: NextPage = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium mb-1.5 text-[#F4F4F5]/90">Sobre mí</label>
+                      <label className="block text-sm font-medium mb-1.5 text-[#F4F4F5]/90">
+                        Sobre mí
+                      </label>
                       <textarea
                         {...register("sobreMi")}
                         rows={2}
@@ -284,8 +445,12 @@ const CVForm: NextPage = () => {
 
                     <div>
                       <div className="flex justify-between items-center mb-1.5">
-                        <label className="block text-sm font-medium text-[#F4F4F5]/90">Experiencia</label>
-                        <span className="text-xs text-[#A1A1AA]">Formato: Cargo; Empresa; Fechas; Logros</span>
+                        <label className="block text-sm font-medium text-[#F4F4F5]/90">
+                          Experiencia
+                        </label>
+                        <span className="text-xs text-[#A1A1AA]">
+                          Formato: Cargo; Empresa; Fechas; Logros
+                        </span>
                       </div>
                       <textarea
                         {...register("experiencia")}
@@ -307,8 +472,12 @@ const CVForm: NextPage = () => {
 
                     <div>
                       <div className="flex justify-between items-center mb-1.5">
-                        <label className="block text-sm font-medium text-[#F4F4F5]/90">Formación</label>
-                        <span className="text-xs text-[#A1A1AA]">Formato: Institución; Título; Fechas</span>
+                        <label className="block text-sm font-medium text-[#F4F4F5]/90">
+                          Formación
+                        </label>
+                        <span className="text-xs text-[#A1A1AA]">
+                          Formato: Institución; Título; Fechas
+                        </span>
                       </div>
                       <textarea
                         {...register("formacion")}
@@ -377,7 +546,9 @@ const CVForm: NextPage = () => {
                         <label className="block text-sm font-medium text-[#F4F4F5]/90">
                           Información adicional (opcional)
                         </label>
-                        <span className="text-xs text-[#A1A1AA]">Certificaciones, logros, etc.</span>
+                        <span className="text-xs text-[#A1A1AA]">
+                          Certificaciones, logros, etc.
+                        </span>
                       </div>
                       <textarea
                         {...register("informacionAdicional")}
@@ -428,7 +599,9 @@ const CVForm: NextPage = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-bold text-[#F4F4F5]">Vista previa de tu CV</h2>
+                  <h2 className="text-xl font-bold text-[#F4F4F5]">
+                    Vista previa de tu CV
+                  </h2>
                   <Button
                     variant="outline"
                     size="sm"
@@ -440,46 +613,77 @@ const CVForm: NextPage = () => {
                 </div>
 
                 <div className="bg-[#0F0F10] border border-[#2A2A2D] rounded-xl p-4 shadow-inner">
-                  <PDFViewer style={{ width: "100%", height: "650px", borderRadius: "0.5rem" }}>
+                  <PDFViewer
+                    style={{
+                      width: "100%",
+                      height: "650px",
+                      borderRadius: "0.5rem",
+                    }}
+                  >
                     <DocumentoCV cv={cvData} template={selectedTemplate} />
                   </PDFViewer>
                 </div>
 
-                <PDFDownloadLink
-                  document={<DocumentoCV cv={cvData} template={selectedTemplate} />}
-                  fileName={`cv-${cvData.nombre.toLowerCase().replace(/\s+/g, "-")}-${selectedTemplate}.pdf`}
-                  className="block w-full"
-                >
-                  {({ loading, error }) => (
-                    <button
-                      className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#22C55E] to-[#15803D] text-white font-semibold hover:shadow-lg hover:shadow-[#22C55E]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                          Preparando PDF...
-                        </>
-                      ) : (
-                        <>
-                          <Download className="w-5 h-5 mr-2" />
-                          Descargar CV
-                        </>
-                      )}
-                    </button>
-                  )}
-                </PDFDownloadLink>
+                {hasPaid ? (
+                  <PDFDownloadLink
+                    document={
+                      <DocumentoCV cv={cvData} template={selectedTemplate} />
+                    }
+                    fileName={`cv-${cvData.nombre
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}-${selectedTemplate}.pdf`}
+                    className="block w-full"
+                  >
+                    {({ loading, error }) => (
+                      <button
+                        className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#22C55E] to-[#15803D] text-white font-semibold hover:shadow-lg hover:shadow-[#22C55E]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <>
+                            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                            Preparando PDF...
+                          </>
+                        ) : (
+                          <>
+                            <Download className="w-5 h-5 mr-2" />
+                            Descargar CV
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </PDFDownloadLink>
+                ) : (
+                  <button
+                    onClick={() => setIsPaymentModalOpen(true)}
+                    className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white font-semibold hover:shadow-lg hover:shadow-[#7C3AED]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
+                  >
+                    <Lock className="w-5 h-5 mr-2" />
+                    Pagar para descargar ($499)
+                  </button>
+                )}
 
                 <p className="text-center text-xs text-[#A1A1AA] mt-4">
-                  Tu CV ha sido optimizado para sistemas ATS y está listo para ser descargado.
+                  {hasPaid
+                    ? "Tu CV ha sido optimizado para sistemas ATS y está listo para ser descargado."
+                    : "Tu CV ha sido optimizado para sistemas ATS. Realiza el pago para descargarlo."}
                 </p>
               </motion.div>
             )}
           </TabsContent>
         </Tabs>
       </motion.div>
-    </div>
-  )
-}
 
-export default CVForm
+      {/* Modal de pago */}
+      <PaymentModal  
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        onSuccess={handlePaymentSuccess}
+        amount={499}
+        productName="CV Profesional Optimizado para ATS"
+      />
+    </div>
+  );
+};
+
+export default CVForm;
