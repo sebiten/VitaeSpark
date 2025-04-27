@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
         {
           payment_id: paymentData.id.toString(),
           payer_email: paymentData.payer?.email ?? null,
-          amount: Math.round(paymentData.transaction_amount * 100), // en centavos
+          amount: Math.round(paymentData.transaction_amount), // en ars
           status: paymentData.status,
           payment_type: paymentData.payment_type_id,
         },
