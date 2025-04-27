@@ -1,4 +1,3 @@
-// components/CheckPaymentStatus.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -15,22 +14,24 @@ export function CheckPaymentStatus({ onSuccess, onPending, onFailure }: CheckPay
 
   useEffect(() => {
     const status = searchParams.get("status");
+    const collectionStatus = searchParams.get("collection_status");
 
-    if (status) {
+    if (!status) return; // ⛔ Si no hay status, no hacemos nada
+
+    try {
       const storedCv = localStorage.getItem("vitae-cv-data");
       const parsedCv = storedCv ? JSON.parse(storedCv) : null;
 
-      switch (status) {
-        case "success":
-          onSuccess(parsedCv);
-          break;
-        case "pending":
-          onPending();
-          break;
-        case "failure":
-          onFailure();
-          break;
+      if (status === "success" && collectionStatus === "approved") {
+        onSuccess(parsedCv);
+      } else if (status === "pending") {
+        onPending();
+      } else {
+        onFailure();
       }
+    } catch (error) {
+      console.error("Error procesando el pago:", error);
+      onFailure(); // ⛔ Si falló el parseo o algo raro, fallback a error
     }
   }, [searchParams, onSuccess, onPending, onFailure]);
 
