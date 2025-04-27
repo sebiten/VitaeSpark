@@ -6,7 +6,7 @@ import type {
 } from "@/lib/types/cv";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { DocumentoCV } from "./CVDocument";
@@ -29,8 +29,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 import { PaymentModal } from "../payment-modal";
+import { CheckPaymentStatus } from "../CheckPaymentStatus";
 
 const schema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
@@ -85,7 +86,7 @@ const ejemplo: DatosCVFormulario = {
 };
 
 const CVForm = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [selectedTemplate, setSelectedTemplate] = useState("purple");
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
   const [activeTab, setActiveTab] = useState("form");
@@ -96,49 +97,6 @@ const CVForm = () => {
     status: "idle",
   });
   const [hasPaid, setHasPaid] = useState(false);
-
-  const searchParams = useSearchParams();
-
-  // Verificar el estado del pago desde la URL (cuando regresa de Mercado Pago)
- // Verificar el estado del pago desde la URL (cuando regresa de Mercado Pago)
-useEffect(() => {
-  const status = searchParams.get("status");
-
-  if (status) {
-    switch (status) {
-      case "success":
-        setPaymentStatus({
-          status: "success",
-          message: "¡Pago completado con éxito!",
-        });
-        setHasPaid(true);
-
-        // NUEVO: Restaurar automáticamente el CV
-        const storedCv = localStorage.getItem("vitae-cv-data");
-        if (storedCv) {
-          const parsedCv = JSON.parse(storedCv);
-          setCvData(parsedCv);
-          setActiveTab("preview"); // Opcional: saltar a la vista previa automática
-        }
-
-        break;
-      case "pending":
-        setPaymentStatus({
-          status: "pending",
-          message: "Tu pago está pendiente de confirmación",
-        });
-        break;
-      case "failure":
-        setPaymentStatus({
-          status: "error",
-          message:
-            "Hubo un problema con tu pago. Por favor, intenta nuevamente.",
-        });
-        break;
-    }
-  }
-}, [searchParams]);
-
 
   const {
     register,
@@ -160,27 +118,29 @@ useEffect(() => {
     try {
       setIsGenerating(true);
       setError(null);
-  
+
       const res = await fetch("/api/generate-cv", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-  
+
       if (!res.ok) {
         const fallbackMessage =
           res.status === 504
             ? "⚠️ La generación está tardando demasiado. Intenta de nuevo en unos segundos."
             : await res.text();
-  
-        throw new Error(`Error al generar CV: ${res.status} - ${fallbackMessage}`);
+
+        throw new Error(
+          `Error al generar CV: ${res.status} - ${fallbackMessage}`
+        );
       }
-  
+
       const json: RespuestaCV = await res.json();
-      
+
       setCvData(json.cv);
       setActiveTab("preview");
-  
+
       // NUEVO: Guardar en localStorage
       localStorage.setItem("vitae-cv-data", JSON.stringify(json.cv));
     } catch (err) {
@@ -189,16 +149,15 @@ useEffect(() => {
       setIsGenerating(false);
     }
   };
-  
 
   const handlePaymentSuccess = () => {
-    setHasPaid(true)
-    setIsPaymentModalOpen(false)
+    setHasPaid(true);
+    setIsPaymentModalOpen(false);
     setPaymentStatus({
       status: "success",
       message: "¡Pago completado con éxito!",
     });
-  
+
     // NUEVO: Restaurar cvData desde localStorage
     const storedCv = localStorage.getItem("vitae-cv-data");
     if (storedCv) {
@@ -206,12 +165,11 @@ useEffect(() => {
       setCvData(parsedCv);
       setActiveTab("preview"); // Ir a preview automáticamente si quieres
     }
-  
+
     setTimeout(() => {
       router.push("/success");
     }, 1000);
   };
-  
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -235,28 +193,33 @@ useEffect(() => {
             automáticos y destacar entre los demás candidatos.
           </p>
         </div>
-
-        {paymentStatus.status === "success" && (
-          <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 mb-6 text-center">
-            <CheckCircle className="w-5 h-5 mx-auto text-green-500 mb-2" />
-            <p className="text-green-400">{paymentStatus.message}</p>
-          </div>
-        )}
-
-        {paymentStatus.status === "error" && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mb-6 text-center">
-            <AlertCircle className="w-5 h-5 mx-auto text-red-500 mb-2" />
-            <p className="text-red-400">{paymentStatus.message}</p>
-          </div>
-        )}
-
-        {paymentStatus.status === "pending" && (
-          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 mb-6 text-center">
-            <Info className="w-5 h-5 mx-auto text-yellow-500 mb-2" />
-            <p className="text-yellow-400">{paymentStatus.message}</p>
-          </div>
-        )}
-
+        <Suspense fallback={null}>
+          <CheckPaymentStatus
+            onSuccess={(storedCv) => {
+              setPaymentStatus({
+                status: "success",
+                message: "¡Pago completado con éxito!",
+              });
+              setHasPaid(true);
+              if (storedCv) {
+                setCvData(storedCv);
+                setActiveTab("preview");
+              }
+            }}
+            onPending={() => {
+              setPaymentStatus({
+                status: "pending",
+                message: "Tu pago está pendiente de confirmación",
+              });
+            }}
+            onFailure={() => {
+              setPaymentStatus({
+                status: "error",
+                message: "Hubo un problema con tu pago. Intenta nuevamente.",
+              });
+            }}
+          />
+        </Suspense>
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
@@ -675,7 +638,7 @@ useEffect(() => {
       </motion.div>
 
       {/* Modal de pago */}
-      <PaymentModal  
+      <PaymentModal
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
         onSuccess={handlePaymentSuccess}

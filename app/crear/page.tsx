@@ -1,7 +1,6 @@
 import CVForm from "@/components/pdf/CVForm";
-import { NextPage } from "next";
 
-const Page: NextPage = ({}) => {
+const Page = () => {
   return (
     <div className="bg-[#1F1F22]">
       <CVForm />
