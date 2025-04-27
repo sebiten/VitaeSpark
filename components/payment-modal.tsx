@@ -24,6 +24,7 @@ interface PaymentModalProps {
   onSuccess: () => void;
   amount: number;
   productName: string;
+  cvId: string; // 👈 NUEVO
 }
 
 export function PaymentModal({
@@ -32,6 +33,7 @@ export function PaymentModal({
   onSuccess,
   amount,
   productName,
+  cvId, // 👈 NUEVO
 }: PaymentModalProps) {
   const [paymentStatus, setPaymentStatus] = useState<
     "idle" | "loading" | "success" | "error"
@@ -56,69 +58,65 @@ export function PaymentModal({
 
   // Inicializar Mercado Pago cuando el preferenceId está disponible
   useEffect(() => {
-    if (!preferenceId || typeof window === "undefined") return;
+    if (preferenceId && typeof window !== "undefined") {
+      const loadMercadoPago = async () => {
+        try {
+          // Verificar si el SDK ya está cargado
+          if (!(window as any).MercadoPago) {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            loadMercadoPago(); // Intentar nuevamente
+            return;
+          }
 
-    let brickInstance: any; // ➊ para poder limpiar luego
-    let cancelled = false; // ➋ evita setState si el modal se cierra rápido
+          const mp = new (window as any).MercadoPago(
+            process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY,
+            {
+              locale: "es-AR",
+            }
+          );
 
-    const loadMercadoPago = async () => {
-      try {
-        // 1. Esperar a que el SDK esté en window
-        while (!(window as any).MercadoPago) {
-          await new Promise((r) => setTimeout(r, 300));
-        }
+          const bricksBuilder = mp.bricks();
 
-        if (cancelled) return; // ➋
-
-        // 2. Instanciar MercadoPago
-        const mp = new (window as any).MercadoPago(
-          process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY,
-          { locale: "es-AR" }
-        );
-
-        const bricksBuilder = mp.bricks();
-
-        // 3. Renderizar el Wallet Brick en modo modal
-        bricksBuilder
-          .create("wallet", "mercadopago-wallet", {
-            initialization: { preferenceId },
-            customization: { redirectMode: "modal" }, // ⭐ <- evita deep-link
+          // Renderizar el botón de pago
+          bricksBuilder.create("wallet", "mercadopago-wallet", {
+            initialization: {
+              preferenceId: preferenceId,
+            },
             callbacks: {
-              onReady: () => console.log("Checkout listo"),
-              onSubmit: () => setPaymentStatus("loading"),
-              onError: (err: any) => {
-                console.error("Error en el checkout:", err);
+              onReady: () => {
+                console.log("Checkout listo");
+              },
+              onSubmit: () => {
+                setPaymentStatus("loading");
+              },
+              onError: (error: any) => {
+                console.error("Error en el checkout:", error);
                 setPaymentStatus("error");
                 setError(
-                  "Hubo un problema al procesar el pago. Intenta nuevamente."
+                  "Hubo un problema al procesar el pago. Por favor, intenta nuevamente."
                 );
               },
               onPaymentSuccess: (data: any) => {
                 console.log("Pago exitoso:", data);
                 setPaymentStatus("success");
-                setTimeout(onSuccess, 2000);
+                // Esperar un momento antes de cerrar el modal para mostrar el mensaje de éxito
+                setTimeout(() => {
+                  onSuccess();
+                }, 2000);
               },
             },
-          })
-          .then((brick: any) => {
-            brickInstance = brick;
           });
-      } catch (err) {
-        console.error("Error al inicializar Mercado Pago:", err);
-        setPaymentStatus("error");
-        setError(
-          "No se pudo iniciar el procesador de pagos. Intenta nuevamente."
-        );
-      }
-    };
+        } catch (error) {
+          console.error("Error al inicializar Mercado Pago:", error);
+          setPaymentStatus("error");
+          setError(
+            "Error al inicializar el procesador de pagos. Por favor, intenta nuevamente."
+          );
+        }
+      };
 
-    loadMercadoPago();
-
-    // 4. Clean-up para evitar bricks duplicados o memory-leaks
-    return () => {
-      cancelled = true;
-      if (brickInstance?.destroy) brickInstance.destroy();
-    };
+      loadMercadoPago();
+    }
   }, [preferenceId, onSuccess]);
 
   const createPreference = async () => {
@@ -134,6 +132,7 @@ export function PaymentModal({
           title: productName,
           price: amount,
           quantity: 1,
+          external_reference: cvId, // 🔗
         }),
       });
 
