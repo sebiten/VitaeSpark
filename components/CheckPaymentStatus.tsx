@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 interface CheckPaymentStatusProps {
@@ -12,8 +12,11 @@ interface CheckPaymentStatusProps {
 
 export function CheckPaymentStatus({ onSuccess, onPending, onFailure, onStartVerifying }: CheckPaymentStatusProps) {
   const searchParams = useSearchParams();
+  const [hasChecked, setHasChecked] = useState(false); // 👈 Nuevo estado para evitar loops
 
   useEffect(() => {
+    if (hasChecked) return; // 👈 Si ya verificó una vez, no vuelve a hacerlo
+
     const status = searchParams.get("status");
     const collectionStatus = searchParams.get("collection_status");
     const paymentId = searchParams.get("payment_id");
@@ -22,7 +25,7 @@ export function CheckPaymentStatus({ onSuccess, onPending, onFailure, onStartVer
 
     const verifyPayment = async () => {
       try {
-        onStartVerifying(); // 👈 Cuando empieza la verificación
+        onStartVerifying();
         const res = await fetch("/api/check-payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -40,6 +43,8 @@ export function CheckPaymentStatus({ onSuccess, onPending, onFailure, onStartVer
       } catch (error) {
         console.error("Error verificando pago:", error);
         onFailure();
+      } finally {
+        setHasChecked(true); // 👈 Marcar como ya verificado
       }
     };
 
@@ -47,10 +52,12 @@ export function CheckPaymentStatus({ onSuccess, onPending, onFailure, onStartVer
       verifyPayment();
     } else if (status === "pending") {
       onPending();
+      setHasChecked(true);
     } else {
       onFailure();
+      setHasChecked(true);
     }
-  }, [searchParams, onSuccess, onPending, onFailure, onStartVerifying]);
+  }, [searchParams, onSuccess, onPending, onFailure, onStartVerifying, hasChecked]);
 
   return null;
 }
