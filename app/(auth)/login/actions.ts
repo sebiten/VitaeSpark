@@ -1,0 +1,85 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+
+export async function login(formData: FormData) {
+  const supabase = await createClient();
+
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  if (!email || !password) {
+    redirect("/login?error=missing-fields");
+  }
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    console.error("Login error:", error);
+    redirect("/login?error=invalid-credentials");
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/"); // ✅ Redirecciona al dashboard
+}
+
+export async function signup(formData: FormData) {
+  const supabase = await createClient();
+
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  if (!name || !email || !password) {
+    redirect("/login?error=missing-fields");
+  }
+
+  // 1. Intentar registro
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: name, // Esto se guarda en auth.users.user_metadata
+      },
+    },
+  });
+
+  if (error) {
+    console.error("Signup error:", error);
+    redirect("/login?error=signup-failed");
+  }
+
+  // 2. Opcional: si quieres, también podrías crear explícitamente el perfil (por si no usas triggers en Supabase)
+  if (data.user) {
+    const { error: profileError } = await supabase.from("profiles").insert({
+      id: data.user.id,
+      full_name: name,
+      avatar_url: "", // Puedes dejarlo vacío al crear
+    });
+
+    if (profileError) {
+      console.error("Profile creation error:", profileError);
+      redirect("/login?error=profile-creation-failed");
+    }
+  }
+
+  redirect("/login?message=check-email");
+}
+export async function logout() {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Logout error:", error.message);
+    throw new Error("Error cerrando sesión");
+  }
+
+  redirect("/"); // O donde quieras llevarlo después
+}

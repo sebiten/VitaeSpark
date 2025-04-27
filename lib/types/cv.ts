@@ -1,45 +1,83 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
+
+export interface Database {
+  public: {
+    Tables: {
+      profiles: {
+        Row: {
+          id: string;
+          full_name: string | null;
+          avatar_url: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id: string;
+          full_name?: string | null;
+          avatar_url?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          full_name?: string | null;
+          avatar_url?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+    };
+  };
+}
+
 export interface DatosCVFormulario {
-  nombre: string
-  puesto: string
-  contacto: string
-  sobreMi: string
-  experiencia: string
-  formacion: string
-  habilidades: string
-  idiomas: string
-  informacionAdicional?: string
+  nombre: string;
+  puesto: string;
+  contacto: string;
+  sobreMi: string;
+  experiencia: string;
+  formacion: string;
+  habilidades: string;
+  idiomas: string;
+  informacionAdicional?: string;
 }
 
 export interface ExperienciaCV {
-  cargo: string
-  empresa: string
-  fechas: string
-  logros: string[]
+  cargo: string;
+  empresa: string;
+  fechas: string;
+  logros: string[];
 }
 
 export interface FormacionCV {
-  institucion: string
-  titulo: string
-  fechas: string
+  institucion: string;
+  titulo: string;
+  fechas: string;
 }
 
 export interface CV {
-  nombre: string
-  puesto: string
-  contacto: string[]
-  sobreMi: string
-  experiencia: ExperienciaCV[]
-  formacion: FormacionCV[]
-  habilidades: string[]
-  idiomas: string[]
-  informacionAdicional: string[]
+  nombre: string;
+  puesto: string;
+  contacto: string[];
+  sobreMi: string;
+  experiencia: ExperienciaCV[];
+  formacion: FormacionCV[];
+  habilidades: string[];
+  idiomas: string[];
+  informacionAdicional: string[];
 }
 
 export interface RespuestaCV {
-  cv: CV
+  cv: CV;
 }
 
 export interface PaymentStatus {
-  status: "idle" | "pending" | "success" | "error"
-  message?: string
+  status: "idle" | "pending" | "success" | "error";
+  message?: string;
 }
