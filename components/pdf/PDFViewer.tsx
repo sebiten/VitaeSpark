@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
 import { DocumentoCV } from "./CVDocument";
+import { Button } from "../ui/button";
 
 export function PDFViewerComponent({ cvData }: { cvData: RespuestaCV["cv"] }) {
   const [showPDF, setShowPDF] = useState(false);
@@ -11,9 +12,9 @@ export function PDFViewerComponent({ cvData }: { cvData: RespuestaCV["cv"] }) {
   return (
     <div className="flex flex-col items-center">
       <div className="flex gap-4 mb-6">
-        <button onClick={() => setShowPDF(!showPDF)}>
+        <Button onClick={() => setShowPDF(!showPDF)}>
           {showPDF ? "Ocultar Vista Previa" : "Mostrar Vista Previa"}
-        </button>
+        </Button>
 
         <PDFDownloadLink
           document={<DocumentoCV cv={cvData} />}

@@ -1,19 +1,27 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { login, signup } from "./actions"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { useFormStatus } from "react-dom"
-import { Loader2 } from "lucide-react"
+import { useState } from "react";
+import { login, signup } from "./actions";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { useFormStatus } from "react-dom";
+import { Loader2 } from "lucide-react";
+import { OAuthButtons } from "@/components/googleButton";
 
 function SubmitButton({ children }: { children: React.ReactNode }) {
-  const { pending } = useFormStatus()
+  const { pending } = useFormStatus();
 
   return (
     <Button type="submit" className="w-full" disabled={pending}>
@@ -26,11 +34,11 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
         children
       )}
     </Button>
-  )
+  );
 }
 
 export default function AuthPage() {
-  const [activeTab, setActiveTab] = useState<string>("login")
+  const [activeTab, setActiveTab] = useState<string>("login");
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#0F0F10] p-4">
@@ -47,6 +55,7 @@ export default function AuthPage() {
         </CardHeader>
 
         <CardContent>
+          <OAuthButtons />
           <Tabs defaultValue="login" onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#2A2A2D] border border-[#3F3F46]">
               <TabsTrigger
@@ -79,7 +88,10 @@ export default function AuthPage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password-login">Contraseña</Label>
-                    <a href="/forgot-password" className="text-sm text-[#38BDF8] hover:underline">
+                    <a
+                      href="/forgot-password"
+                      className="text-sm text-[#38BDF8] hover:underline"
+                    >
                       ¿Olvidaste tu contraseña?
                     </a>
                   </div>
@@ -143,10 +155,11 @@ export default function AuthPage() {
             y{" "}
             <a href="/privacy" className="text-[#38BDF8] hover:underline">
               Política de Privacidad
-            </a>.
+            </a>
+            .
           </p>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

@@ -69,7 +69,7 @@ export async function signup(formData: FormData) {
     }
   }
 
-  redirect("/login?message=check-email");
+  redirect("/");
 }
 export async function logout() {
   const supabase = await createClient();

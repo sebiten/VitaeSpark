@@ -183,7 +183,7 @@ const CVForm: NextPage = () => {
                     </label>
                     <div className="flex gap-4 flex-wrap">
                       {templates.map((tpl) => (
-                        <button
+                        <Button
                           key={tpl.id}
                           onClick={() => setSelectedTemplate(tpl.id)}
                           className={`w-24 h-28 rounded-xl border-2 transition-all duration-200 flex flex-col items-center justify-center text-xs font-medium ${
@@ -195,7 +195,7 @@ const CVForm: NextPage = () => {
                           <div className={`w-12 h-12 rounded-full mb-2 bg-gradient-to-br ${tpl.gradient} shadow-md`} />
                           <span className="text-[#E4E4E7]">{tpl.name}</span>
                           {selectedTemplate === tpl.id && <CheckCircle className="w-4 h-4 text-[#38BDF8] mt-1" />}
-                        </button>
+                        </Button>
                       ))}
                     </div>
                   </div>
@@ -396,7 +396,7 @@ const CVForm: NextPage = () => {
                       </div>
                     )}
 
-                    <button
+                    <Button
                       type="submit"
                       disabled={isSubmitting || isGenerating}
                       className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white font-semibold hover:shadow-lg hover:shadow-[#7C3AED]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
@@ -412,7 +412,7 @@ const CVForm: NextPage = () => {
                           Generar CV
                         </>
                       )}
-                    </button>
+                    </Button>
                   </form>
                 </div>
               </div>
@@ -451,7 +451,7 @@ const CVForm: NextPage = () => {
                   className="block w-full"
                 >
                   {({ loading, error }) => (
-                    <button
+                    <Button
                       className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#22C55E] to-[#15803D] text-white font-semibold hover:shadow-lg hover:shadow-[#22C55E]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
                       disabled={loading}
                     >
@@ -466,7 +466,7 @@ const CVForm: NextPage = () => {
                           Descargar CV
                         </>
                       )}
-                    </button>
+                    </Button>
                   )}
                 </PDFDownloadLink>
 
