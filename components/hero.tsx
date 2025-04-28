@@ -17,7 +17,6 @@ import {
   Award,
   ArrowRight,
 } from "lucide-react";
-import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { TestimonialCard } from "@/components/testimonial-card";
 import { FeatureCard } from "@/components/feature-card";
@@ -69,7 +68,7 @@ export default function Home() {
             <div className="flex-1 relative mt-2 ">
               <div className="relative bg-[#1F1F22] rounded-lg p-1 shadow-2xl shadow-[#7C3AED]/20">
                 <img
-                  src="/example.png"
+                  src="/example.webp"
                   alt="CV generado por VitaeSpark"
                   className="rounded-lg w-full"
                 />

@@ -2,8 +2,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/header";
 import Script from "next/script";
+import Navbar from "@/components/navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     creator: "@abelardo.web", // TODO
   },
   icons: {
-      icon: "/logochispa.png",
+    icon: "/logochispa.png",
   },
 };
 
@@ -90,12 +90,15 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        <Script src="https://sdk.mercadopago.com/js/v2" strategy="beforeInteractive" />
+        <Script
+          src="https://sdk.mercadopago.com/js/v2"
+          strategy="beforeInteractive"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
-        <Header />
+        <Navbar />
         {children}
       </body>
     </html>

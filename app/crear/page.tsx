@@ -2,7 +2,7 @@ import CVForm from "@/components/pdf/CVForm";
 
 const Page = () => {
   return (
-    <div className="bg-[#1F1F22]">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#0F0F10] p-4">
       <CVForm />
     </div>
   );
