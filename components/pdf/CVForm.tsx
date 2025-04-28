@@ -243,27 +243,34 @@ const CVForm: NextPage = () => {
                     </div>
                   </div>
 
-                  <div>
+                  <div >
                     <label className="font-semibold mb-3 block text-sm tracking-wide text-[#F4F4F5]/90">
                       Seleccionar color de la plantilla
                     </label>
-                    <div className="flex gap-4 flex-wrap">
+                    <div className="flex gap-2 flex-wrap">
                       {templates.map((tpl) => (
                         <Button
                           key={tpl.id}
                           onClick={() => setSelectedTemplate(tpl.id)}
-                          className={`w-24 h-28 rounded-xl border-2 transition-all duration-200 flex flex-col items-center justify-center text-xs font-medium ${
+                          className={`w-24 h-32 rounded-xl border-2 transition-all duration-200 flex flex-col items-center justify-between p-3 text-xs font-medium ${
                             selectedTemplate === tpl.id
                               ? `border-${tpl.gradient} scale-105 shadow-lg shadow-${tpl.color}/20`
                               : "border-[#3A3A3D]"
                           }`}
                         >
+                          {/* Círculo de color */}
                           <div
-                            className={`w-12 h-12 rounded-full mb-2 bg-gradient-to-br ${tpl.gradient} shadow-md`}
+                            className={`w-12 h-12 rounded-full bg-gradient-to-br ${tpl.gradient} shadow-md`}
                           />
-                          <span className="text-[#E4E4E7]">{tpl.name}</span>
+
+                          {/* Nombre */}
+                          <span className="text-[#E4E4E7] text-center">
+                            {tpl.name}
+                          </span>
+
+                          {/* Check de selección */}
                           {selectedTemplate === tpl.id && (
-                            <CheckCircle className="w-4 h-4 text-[#38BDF8] mt-1" />
+                            <CheckCircle className="w-4 h-4 text-[#38BDF8]" />
                           )}
                         </Button>
                       ))}
@@ -508,8 +515,8 @@ const CVForm: NextPage = () => {
           <TabsContent value="preview" className="mt-0">
             <p className="text-sm text-[#A1A1AA] mb-4 leading-relaxed italic">
               <span className="font-medium text-[#F4F4F5]">Nota:</span> cambia
-              los colores al instante volviendo a formulario. Para editar cualquier dato, pulsa
-              nuevamente{" "}
+              los colores al instante volviendo a formulario. Para editar
+              cualquier dato, pulsa nuevamente{" "}
               <span className="font-semibold text-white">Generar CV</span>.
             </p>
 
