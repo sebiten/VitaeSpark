@@ -28,5 +28,22 @@ Este proyecto está desarrollado con [Next.js 15](https://nextjs.org/), [Tailwin
 git clone https://github.com/tuusuario/vitae-spark.git
 cd vitae-spark
 npm i
-Configurar variables de entorno 
 npm run dev
+```
+### Configuración de variables de entorno
+
+1. **Supabase**  
+   - `NEXT_PUBLIC_SUPABASE_URL`  
+     - Desarrollo: `http://localhost:3000`  
+     - Producción: `https://tudominio.com`  
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`  
+   - `SUPABASE_SERVICE_ROLE_KEY`
+
+2. **MercadoPago**  
+   - `MERCADOPAGO_PUBLIC_KEY`  
+   - `MERCADOPAGO_ACCESS_TOKEN`
+
+3. **Google OAuth**  
+   - `GOOGLE_CLIENT_ID`  (Client ID desde Google Cloud Console)  
+   - `GOOGLE_CLIENT_SECRET`  (Client Secret desde Google Cloud Console)  
+
