@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     siteName: "Vitae Spark",
     images: [
       {
-        url: "/logoreal.webp", // TODO: reemplaza o apunta a tu imagen estática
+        url: "/logotab.webp", // TODO: reemplaza o apunta a tu imagen estática
         width: 1200,
         height: 630,
         alt: "Vitae Spark – Generador de CVs IA",
@@ -74,8 +74,8 @@ export const metadata: Metadata = {
     title: "Vitae Spark | Generador de CVs con IA",
     description:
       "Crea currículums profesionales, optimizados para ATS, en cuestión de segundos.",
-    images: ["/logoreal.webp"], // TODO
-    creator: "@tu_handle", // TODO
+    images: ["/logotab.webp"], // TODO
+    creator: "@abelardo.web", // TODO
   },
   icons: {
       icon: "/logochispa.png",
