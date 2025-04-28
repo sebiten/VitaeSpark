@@ -45,5 +45,26 @@ npm run dev
 
 3. **Google OAuth**  
    - `GOOGLE_CLIENT_ID`  (Client ID desde Google Cloud Console)  
-   - `GOOGLE_CLIENT_SECRET`  (Client Secret desde Google Cloud Console)  
+   - `GOOGLE_CLIENT_SECRET`  (Client Secret desde Google Cloud Console)
 
+## 🌐 Deployment
+
+El proyecto está preparado para ser desplegado fácilmente en Vercel:
+
+1. Conecta tu repositorio a [Vercel](https://vercel.com/).  
+2. Configura las variables de entorno en el dashboard de Vercel.  
+3. Vercel detectará automáticamente que es un proyecto Next.js y lo desplegará.
+
+Para más detalles, consulta la [documentación oficial de Next.js sobre deployment](https://nextjs.org/docs/deployment).
+
+---
+
+## 📄 Estructura básica del proyecto
+
+```bash
+/app           → Páginas y rutas (Next.js App Router)
+/components    → Componentes reutilizables
+/lib           → Funciones auxiliares y utilidades
+/styles        → Estilos globales (TailwindCSS, configuraciones)
+/public        → Archivos estáticos (imágenes, favicon, etc.)
+```
