@@ -24,7 +24,7 @@ Este proyecto está desarrollado con [Next.js 15](https://nextjs.org/), [Tailwin
 
 1. Clona este repositorio:
 
-```bash
+
 git clone https://github.com/tuusuario/vitae-spark.git
 cd vitae-spark
 
@@ -94,9 +94,5 @@ Desarrollado con pasión por Sebastián Burgos.
 Ayudando a las personas a destacar en su carrera profesional.
 
 ---
-
-✅ **Este bloque ya está en `.md` puro**, no tenés que hacer nada más que pegarlo en tu `README.md`.
-
-¿Querés que además te genere unos **badges** (por ejemplo, "Made with Next.js", "Deploy on Vercel", "OpenAI powered") para que quede todavía más pro? 🚀  
-Te los puedo preparar si querés.
+```bash
 
