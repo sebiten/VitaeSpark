@@ -68,3 +68,20 @@ Para más detalles, consulta la [documentación oficial de Next.js sobre deploym
 /styles        → Estilos globales (TailwindCSS, configuraciones)
 /public        → Archivos estáticos (imágenes, favicon, etc.)
 ```
+## 📚 Documentación adicional
+
+- [Next.js Documentation](https://nextjs.org/docs)  
+- [TailwindCSS Documentation](https://tailwindcss.com/docs)  
+- [ShadCN UI Documentation](https://ui.shadcn.dev/docs)  
+- [Clerk Documentation](https://clerk.dev/docs)  
+- [Supabase Documentation](https://supabase.com/docs)  
+- [@react-pdf/renderer Documentation](https://react-pdf.org/)  
+- [MercadoPago API Documentation](https://www.mercadopago.com.ar/developers/es)
+
+---
+
+## ✨ Créditos
+
+Desarrollado con pasión por **Sebastián Burgos**.  
+Ayudando a las personas a destacar en su carrera profesional.
+
