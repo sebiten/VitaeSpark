@@ -506,6 +506,13 @@ const CVForm: NextPage = () => {
           </TabsContent>
 
           <TabsContent value="preview" className="mt-0">
+            <p className="text-sm text-[#A1A1AA] mb-4 leading-relaxed italic">
+              <span className="font-medium text-[#F4F4F5]">Nota:</span> cambia
+              los colores al instante volviendo a formulario. Para editar cualquier dato, pulsa
+              nuevamente{" "}
+              <span className="font-semibold text-white">Generar CV</span>.
+            </p>
+
             {cvData && (
               <motion.div
                 className="space-y-6 bg-[#1F1F22] border border-[#2A2A2D] rounded-2xl shadow-xl p-6 md:p-8"
@@ -521,7 +528,7 @@ const CVForm: NextPage = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => setActiveTab("form")}
-                    className="text-xs border-[#3F3F46] "
+                    className="text-xs border-[#3F3F46]"
                   >
                     Volver al formulario
                   </Button>
@@ -569,8 +576,8 @@ const CVForm: NextPage = () => {
                 </PDFDownloadLink>
 
                 <p className="text-center text-xs text-[#A1A1AA] mt-4">
-                  Tu CV ha sido optimizado para sistemas ATS y está listo para
-                  ser descargado.
+                  Tu CV está optimizado para sistemas ATS y listo para
+                  descargar.
                 </p>
               </motion.div>
             )}
