@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vitae Spark
 
-## Getting Started
+**Vitae Spark** es una plataforma inteligente para la generación de currículums profesionales optimizados para sistemas ATS (Applicant Tracking Systems).  
+Permite a los usuarios crear, personalizar y descargar su CV en formato PDF, utilizando plantillas modernas y tecnología de IA para mejorar su perfil laboral.
 
-First, run the development server:
+Este proyecto está desarrollado con [Next.js 15](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [ShadCN UI](https://ui.shadcn.dev/), [Supabase-Auth](https://supabase.com/) para autenticación, y [Supabase](https://supabase.com/) para la gestión de la base de datos.
+
+---
+
+## 🚀 Tecnologías principales
+
+- **Next.js 15** (App Router, Server Actions)
+- **TypeScript**
+- **TailwindCSS + ShadCN UI**
+- **Supabase** (Base de datos, Auth)
+- **Clerk** (Autenticación segura)
+- **@react-pdf/renderer** (Generación de PDFs)
+- **MercadoPago API** (Sistema de pagos)
+- **OpenAI API** (Generación asistida de contenido)
+
+---
+
+## 🛠️ Instalación y ejecución local
+
+1. Clona este repositorio:
 
 ```bash
+git clone https://github.com/tuusuario/vitae-spark.git
+cd vitae-spark
+
+Instala las dependencias:
+
+bash
+Copy
+Edit
+npm install
+# o
+yarn install
+# o
+pnpm install
+Crea un archivo .env.local basado en .env.example y configura tus variables de entorno (Supabase, Clerk, MercadoPago, etc).
+
+Inicia el servidor de desarrollo:
+
+bash
+Copy
+Edit
 npm run dev
-# or
+# o
 yarn dev
-# or
+# o
 pnpm dev
-# or
-bun dev
-```
+Abre http://localhost:3000 en tu navegador.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+📦 Build para producción
+Para generar el build de producción:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+bash
+Copy
+Edit
+npm run build
+npm run start
+🌐 Deployment
+El proyecto está preparado para ser desplegado en Vercel.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Consulta la documentación oficial de Next.js para deployment para más detalles.
 
-## Learn More
+📄 Estructura básica del proyecto
+bash
+Copy
+Edit
+/app           → Páginas y rutas (Next.js App Router)
+/components    → Componentes reutilizables
+/lib           → Funciones auxiliares y utilidades
+/styles        → Estilos globales
+/public        → Archivos estáticos
+📚 Documentación adicional
+Documentación de Next.js
 
-To learn more about Next.js, take a look at the following resources:
+TailwindCSS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ShadCN UI
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Clerk Documentation
 
-## Deploy on Vercel
+Supabase Documentation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+@react-pdf/renderer Docs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MercadoPago API Docs
+
+✨ Créditos
+Desarrollado con pasión por Sebastián Burgos.
+Ayudando a las personas a destacar en su carrera profesional.
+
+---
+
+✅ **Este bloque ya está en `.md` puro**, no tenés que hacer nada más que pegarlo en tu `README.md`.
+
+¿Querés que además te genere unos **badges** (por ejemplo, "Made with Next.js", "Deploy on Vercel", "OpenAI powered") para que quede todavía más pro? 🚀  
+Te los puedo preparar si querés.
+
