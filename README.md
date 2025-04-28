@@ -22,81 +22,66 @@ Este proyecto está desarrollado con [Next.js 15](https://nextjs.org/), [Tailwin
 
 ## 🛠️ Instalación y ejecución local
 
-1. Clona este repositorio:
+### 1. Clona este repositorio
 
 ```bash
 git clone https://github.com/tuusuario/vitae-spark.git
 cd vitae-spark
-
-Instala las dependencias:
-
-bash
-Copy
-Edit
-npm install
-# o
-yarn install
-# o
-pnpm install
-Crea un archivo .env.local basado en .env.example y configura tus variables de entorno (Supabase, Clerk, MercadoPago, etc).
-
-Inicia el servidor de desarrollo:
-
-bash
-Copy
-Edit
+npm i
 npm run dev
-# o
-yarn dev
-# o
-pnpm dev
-Abre http://localhost:3000 en tu navegador.
+```
+### Configuración de variables de entorno
 
-📦 Build para producción
-Para generar el build de producción:
+1. **Supabase**  
+   - `NEXT_PUBLIC_SUPABASE_URL`  
+     - Desarrollo: `http://localhost:3000`  
+     - Producción: `https://tudominio.com`  
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`  
+   - `SUPABASE_SERVICE_ROLE_KEY`
 
-bash
-Copy
-Edit
-npm run build
-npm run start
-🌐 Deployment
-El proyecto está preparado para ser desplegado en Vercel.
+2. **MercadoPago**  
+   - `MERCADOPAGO_PUBLIC_KEY`  
+   - `MERCADOPAGO_ACCESS_TOKEN`
 
-Consulta la documentación oficial de Next.js para deployment para más detalles.
+3. **Google OAuth**  
+   - `GOOGLE_CLIENT_ID`  (Client ID desde Google Cloud Console)  
+   - `GOOGLE_CLIENT_SECRET`  (Client Secret desde Google Cloud Console)
 
-📄 Estructura básica del proyecto
-bash
-Copy
-Edit
-/app           → Páginas y rutas (Next.js App Router)
-/components    → Componentes reutilizables
-/lib           → Funciones auxiliares y utilidades
-/styles        → Estilos globales
-/public        → Archivos estáticos
-📚 Documentación adicional
-Documentación de Next.js
+## 🌐 Deployment
 
-TailwindCSS
+El proyecto está preparado para ser desplegado fácilmente en Vercel:
 
-ShadCN UI
+1. Conecta tu repositorio a [Vercel](https://vercel.com/).  
+2. Configura las variables de entorno en el dashboard de Vercel.  
+3. Vercel detectará automáticamente que es un proyecto Next.js y lo desplegará.
 
-Clerk Documentation
-
-Supabase Documentation
-
-@react-pdf/renderer Docs
-
-MercadoPago API Docs
-
-✨ Créditos
-Desarrollado con pasión por Sebastián Burgos.
-Ayudando a las personas a destacar en su carrera profesional.
+Para más detalles, consulta la [documentación oficial de Next.js sobre deployment](https://nextjs.org/docs/deployment).
 
 ---
 
-✅ **Este bloque ya está en `.md` puro**, no tenés que hacer nada más que pegarlo en tu `README.md`.
+## 📄 Estructura básica del proyecto
 
-¿Querés que además te genere unos **badges** (por ejemplo, "Made with Next.js", "Deploy on Vercel", "OpenAI powered") para que quede todavía más pro? 🚀  
-Te los puedo preparar si querés.
+```bash
+/app           → Páginas y rutas (Next.js App Router)
+/components    → Componentes reutilizables
+/lib           → Funciones auxiliares y utilidades
+/styles        → Estilos globales (TailwindCSS, configuraciones)
+/public        → Archivos estáticos (imágenes, favicon, etc.)
+```
+## 📚 Documentación adicional
+
+- [Next.js Documentation](https://nextjs.org/docs)  
+- [TailwindCSS Documentation](https://tailwindcss.com/docs)  
+- [ShadCN UI Documentation](https://ui.shadcn.dev/docs)  
+- [Clerk Documentation](https://clerk.dev/docs)  
+- [Supabase Documentation](https://supabase.com/docs)  
+- [@react-pdf/renderer Documentation](https://react-pdf.org/)  
+- [MercadoPago API Documentation](https://www.mercadopago.com.ar/developers/es)
+
+---
+
+## ✨ Créditos
+
+Desarrollado con pasión por **Sebastián Burgos**.  
+Ayudando a las personas a destacar en su carrera profesional.
 
