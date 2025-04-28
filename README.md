@@ -27,7 +27,7 @@ Este proyecto está desarrollado con [Next.js 15](https://nextjs.org/), [Tailwin
 
 git clone https://github.com/tuusuario/vitae-spark.git
 cd vitae-spark
-
+---
 Instala las dependencias:
 
 bash
@@ -39,7 +39,7 @@ yarn install
 # o
 pnpm install
 Crea un archivo .env.local basado en .env.example y configura tus variables de entorno (Supabase, Clerk, MercadoPago, etc).
-
+---
 Inicia el servidor de desarrollo:
 
 bash
