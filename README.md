@@ -27,3 +27,6 @@ Este proyecto está desarrollado con [Next.js 15](https://nextjs.org/), [Tailwin
 ```bash
 git clone https://github.com/tuusuario/vitae-spark.git
 cd vitae-spark
+npm i
+Configurar variables de entorno 
+npm run dev
