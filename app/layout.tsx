@@ -17,7 +17,6 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-/** URL base de la aplicación — cámbiala si usas otro dominio  */
 const baseUrl = new URL(
   process.env.NEXT_PUBLIC_BASE_URL ?? "https://vitaespark.com"
 );
@@ -72,7 +71,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vitae Spark | Generador de CVs con IA",
+    title: "Vitae Spark | Generador de CVs con IA ",
     description:
       "Crea currículums profesionales, optimizados para ATS, en cuestión de segundos.",
     images: ["/logotab.webp"], // TODO
