@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { DocumentoCV } from "./CVDocument";
 import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Sparkles,
   Download,
@@ -15,6 +16,8 @@ import {
   CheckCircle,
   AlertCircle,
   Loader2,
+  Lock,
+  UserCheck,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -25,6 +28,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { createClient } from "@/utils/supabase/client";
+import Image from "next/image";
+import { ShieldCheck } from "lucide-react";
 
 const schema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
@@ -493,7 +498,6 @@ const CVForm: NextPage = () => {
               </div>
             </div>
           </TabsContent>
-
           <TabsContent value="preview" className="mt-0">
             <p className="text-sm text-[#A1A1AA] mb-4 leading-relaxed italic">
               <span className="font-medium text-[#F4F4F5]">Nota:</span> cambia
@@ -530,42 +534,50 @@ const CVForm: NextPage = () => {
                       height: "650px",
                       borderRadius: "0.5rem",
                     }}
+                    showToolbar={false}
                   >
                     <DocumentoCV cv={cvData} template={selectedTemplate} />
                   </PDFViewer>
                 </div>
 
-                <PDFDownloadLink
-                  document={
-                    <DocumentoCV cv={cvData} template={selectedTemplate} />
-                  }
-                  fileName={`cv-${cvData.nombre
-                    .toLowerCase()
-                    .replace(/\s+/g, "-")}-${selectedTemplate}.pdf`}
-                  className="block w-full"
-                >
-                  {({ loading, error }) => (
-                    <Button
-                      className="w-full py-3.5 rounded-lg bg-gradient-to-r from-[#22C55E] to-[#15803D] text-white font-semibold hover:shadow-lg hover:shadow-[#22C55E]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                          Preparando PDF...
-                        </>
-                      ) : (
-                        <>
-                          <Download className="w-5 h-5 mr-2" />
-                          Descargar CV
-                        </>
-                      )}
-                    </Button>
-                  )}
-                </PDFDownloadLink>
-                {/* ✅ Botón para pagar */}
+                {/* Información de seguridad y confianza */}
+                <Card className="bg-[#0F0F10] border-[#2A2A2D] text-[#D4D4D8] ">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-white text-base">
+                      <ShieldCheck className="text-green-500 w-5 h-5" />
+                      Pago 100% Seguro
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-start text-center gap-3">
+                      <UserCheck className="text-blue-500 w-5 h-5 mt-1" />
+                      <p className="text-sm text-[#A1A1AA] mt-1">
+                        Tu CV se asociará automáticamente a tu cuenta una vez
+                        confirmado el pago.
+                      </p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Download className="text-indigo-400 w-5 h-5 mt-1" />
+                      <p className="text-sm text-[#A1A1AA] mt-1">
+                        Podrás descargar tu CV{" "}
+                        <strong>todas las veces que quieras</strong> desde tu
+                        perfil.
+                      </p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Lock className="text-yellow-400 w-5 h-5 mt-1" />
+                      <p className="text-sm text-[#A1A1AA] mt-1">
+                        Garantizamos privacidad total. Solo tú puedes acceder a
+                        tu información.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 <Button
-                  className="w-full mt-4 py-3.5 rounded-lg bg-gradient-to-r from-[#38BDF8] to-[#0EA5E9] text-white font-semibold hover:shadow-lg hover:shadow-[#0EA5E9]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
+                  className="w-full py-3.5 rounded-lg 
+                  bg-gradient-to-r from-[#009ee3] to-[#007bb6]
+                  text-white font-semibold hover:shadow-lg  transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
                   onClick={async () => {
                     const res = await fetch("/api/create-payment", {
                       method: "POST",
@@ -584,12 +596,15 @@ const CVForm: NextPage = () => {
                     }
                   }}
                 >
-                  Pagar y desbloquear descarga
+                  <Image
+                    src="/logompsolomano.png"
+                    width={24}
+                    height={24}
+                    alt="MercadoPago"
+                    className="rounded-md"
+                  />
+                  <span>Pagar con MercadoPago</span>
                 </Button>
-                <p className="text-center text-xs text-[#A1A1AA] mt-4">
-                  Tu CV está optimizado para sistemas ATS y listo para
-                  descargar.
-                </p>
               </motion.div>
             )}
           </TabsContent>
