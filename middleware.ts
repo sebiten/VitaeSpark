@@ -1,11 +1,7 @@
 import { type NextRequest } from "next/server";
 import { updateSession } from "./utils/supabase/middleware";
-import { checkCountryAccess } from "./utils/middleware-geo";
 
 export async function middleware(request: NextRequest) {
-  const geoBlock = checkCountryAccess(request);
-  if (geoBlock) return geoBlock;
-
   return await updateSession(request);
 }
 export const config = {

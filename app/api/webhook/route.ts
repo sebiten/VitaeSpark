@@ -3,12 +3,12 @@ import { createClient } from "@/utils/supabase/server";
 
 export async function POST(req: NextRequest) {
   // (opcional) Validar con clave secreta si la configuraste en MercadoPago
-  const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
-  const signature = req.headers.get("x-signature");
-  if (secret && signature !== secret) {
-    console.error("❌ Webhook rechazado: clave inválida");
-    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-  }
+  // const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
+  // const signature = req.headers.get("x-signature");
+  // if (secret && signature !== secret) {
+  //   console.error("❌ Webhook rechazado: clave inválida");
+  //   return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+  // }
 
   const body = await req.json();
 
@@ -33,34 +33,16 @@ export async function POST(req: NextRequest) {
     const supabase = await createClient();
 
     // Reintentar hasta encontrar el CV en DB (por si aún no fue insertado)
-    let cv = null;
-    let retries = 10;
 
-    while (retries > 0 && !cv) {
-      const { data, error } = await supabase
-        .from("cvs")
-        .select("profile_id")
-        .eq("id", payment.metadata.cv_id)
-        .maybeSingle();
+    const { data, error } = await supabase
+      .from("cvs")
+      .select("profile_id")
+      .eq("id", payment.metadata.cv_id)
+      .maybeSingle();
 
-      if (data) {
-        cv = data;
-        break;
-      }
-
-      console.log(
-        `⏳ CV aún no disponible. Reintentando... (${10 - retries + 1}/10)`
-      );
-      await new Promise((r) => setTimeout(r, 1000)); // esperar 1 segundo
-      retries--;
-    }
-
-    if (!cv || cv.profile_id !== payment.metadata.profile_id) {
-      console.error("❌ Mismatch entre metadata y CV:", {
-        cv,
-        metadata: payment.metadata,
-      });
-      return NextResponse.json({ error: "Metadata mismatch" }, { status: 400 });
+    if (!data) {
+      console.error("❌ CV no encontrado. Posible webhook demasiado temprano.");
+      return NextResponse.json({ error: "CV not found" }, { status: 404 });
     }
 
     // Insertar pago si no existía aún
