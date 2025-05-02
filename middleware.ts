@@ -1,7 +1,13 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "./utils/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  if (pathname.startsWith("/api/webhook")) {
+    return NextResponse.next(); // no aplicar middlewares ni redirecciones
+  }
+
   return await updateSession(request);
 }
 export const config = {
