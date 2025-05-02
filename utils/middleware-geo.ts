@@ -21,15 +21,22 @@ const ALLOWED_COUNTRIES = [
     "PR", // Puerto Rico
     "ES", // España
     "UY", // Uruguay
-    "VE"  // Venezuela
+    "VE",
+    "US"
+      // Venezuela
   ];
   
-export function checkCountryAccess(request: NextRequest) {
-  const country = request.headers.get("x-vercel-ip-country");
-
-  if (country && !ALLOWED_COUNTRIES.includes(country)) {
-    return new NextResponse("Access Denied", { status: 403 });
+  export function checkCountryAccess(request: NextRequest) {
+    const pathname = request.nextUrl.pathname;
+  
+    if (pathname === "/api/webhook") return NextResponse.next();
+  
+    const country = request.headers.get("x-vercel-ip-country");
+  
+    if (country && !ALLOWED_COUNTRIES.includes(country)) {
+      return new NextResponse("Access Denied", { status: 403 });
+    }
+  
+    return null;
   }
-
-  return null; // si está permitido, seguimos
-}
+  
