@@ -55,7 +55,7 @@ export default function Home() {
               </div>
               <div className="flex items-center gap-2 text-sm text-[#F4F4F5]/60 pt-4">
                 <CheckCircle2 className="h-4 w-4 text-[#38BDF8]" />
-                <span>Sin registro previo</span>
+                <span>Generado por IA</span>
                 <span className="mx-2">•</span>
                 <CheckCircle2 className="h-4 w-4 text-[#38BDF8]" />
                 <span>Listo en minutos</span>

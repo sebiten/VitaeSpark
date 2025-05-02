@@ -3,7 +3,7 @@ import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { DocumentoCV } from "./CVDocument";
@@ -18,18 +18,22 @@ import {
   Loader2,
   Lock,
   UserCheck,
+  AlertCircleIcon,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/utils/supabase/client";
+import Image from "next/image";
+import { ShieldCheck } from "lucide-react";
+import { Session } from "@supabase/supabase-js";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { createClient } from "@/utils/supabase/client";
-import Image from "next/image";
-import { ShieldCheck } from "lucide-react";
+} from "../ui/tooltip";
+import Link from "next/link";
+import { Badge } from "../ui/badge";
 
 const schema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
@@ -89,6 +93,19 @@ const CVForm: NextPage = () => {
   const [activeTab, setActiveTab] = useState("form");
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [userSession, setUserSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const supabase = createClient();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUserSession(session);
+    };
+
+    getUser();
+  }, []);
 
   const {
     register,
@@ -539,7 +556,6 @@ const CVForm: NextPage = () => {
                     <DocumentoCV cv={cvData} template={selectedTemplate} />
                   </PDFViewer>
                 </div>
-
                 {/* Información de seguridad y confianza */}
                 <Card className="bg-[#0F0F10] border-[#2A2A2D] text-[#D4D4D8] ">
                   <CardHeader>
@@ -565,46 +581,80 @@ const CVForm: NextPage = () => {
                       </p>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Lock className="text-yellow-400 w-5 h-5 mt-1" />
+                      <AlertCircleIcon className="text-yellow-400 w-5 h-5 mt-1" />
                       <p className="text-sm text-[#A1A1AA] mt-1">
-                        Garantizamos privacidad total. Solo tú puedes acceder a
-                        tu información.
+                        Debes iniciar sesion para pagar y descargar tu CV
                       </p>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Button
-                  className="w-full py-3.5 rounded-lg 
-                  bg-gradient-to-r from-[#009ee3] to-[#007bb6]
-                  text-white font-semibold hover:shadow-lg  transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
-                  onClick={async () => {
-                    const res = await fetch("/api/create-payment", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        cvData,
-                        template: selectedTemplate,
-                      }),
-                    });
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="w-full">
+                        <Button
+                          disabled={!userSession}
+                          className="w-full py-3.5 rounded-lg 
+          bg-gradient-to-r from-[#009ee3] to-[#007bb6]
+          text-white font-semibold hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
+                          onClick={async () => {
+                            if (!userSession) return;
 
-                    const { init_point } = await res.json();
-                    if (init_point) {
-                      window.location.href = init_point;
-                    } else {
-                      alert("No se pudo iniciar el pago. Intenta de nuevo.");
-                    }
-                  }}
-                >
-                  <Image
-                    src="/logompsolomano.png"
-                    width={24}
-                    height={24}
-                    alt="MercadoPago"
-                    className="rounded-md"
-                  />
-                  <span>Pagar con MercadoPago</span>
-                </Button>
+                            const res = await fetch("/api/create-payment", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({
+                                cvData,
+                                template: selectedTemplate,
+                              }),
+                            });
+
+                            const { init_point } = await res.json();
+                            if (init_point) {
+                              window.location.href = init_point;
+                            } else {
+                              alert(
+                                "No se pudo iniciar el pago. Intenta nuevamente."
+                              );
+                            }
+                          }}
+                        >
+                          <Image
+                            src="/logompsolomano.png"
+                            width={24}
+                            height={24}
+                            alt="MercadoPago"
+                            className="rounded-md"
+                          />
+                          <span className="ml-2">Pagar con MercadoPago</span>
+                        </Button>
+                        {!userSession && (
+                          <div className="flex items-center justify-center mt-2 gap-4">
+                            <Badge className="text-red-400 text-xs mt-1.5 flex items-center">
+                              <AlertCircle className="w-3 h-3 mr-1" />
+                              Debes iniciar sesión para pagar
+                            </Badge>
+                            <Link
+                              href="/login"
+                              className="text-blue-500 text-xs mt-1.5 flex items-center"
+                            >
+                              <Badge>
+                                <Lock className="w-3 h-3 mr-1" />
+                                Iniciar sesión ahora
+                              </Badge>
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    </TooltipTrigger>
+                    {!userSession && (
+                      <TooltipContent>
+                        <p>Debes iniciar sesión para pagar</p>
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                </TooltipProvider>
               </motion.div>
             )}
           </TabsContent>
