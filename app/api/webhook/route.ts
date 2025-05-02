@@ -21,8 +21,6 @@ export async function POST(req: NextRequest) {
   if (payment.status === "approved") {
     const supabase = await createClient();
 
-    console.log("Payment approved", payment.id, payment.metadata.cv_id);
-    console.log("Metadata", payment.metadata);
 
     // 🔁 Intentar encontrar el CV (porque puede que aún no esté insertado)
     let cv = null;
@@ -75,7 +73,6 @@ export async function POST(req: NextRequest) {
         .from("cvs")
         .update({ status: "paid" })
         .eq("id", payment.metadata.cv_id);
-      console.log("✅ CV actualizado a 'paid' para", payment.metadata.cv_id);
     }
   }
 

@@ -14,8 +14,6 @@ export async function POST(req: Request) {
 
   const profile_id = user.data.user.id;
 
-  console.log("profile_id", profile_id);
-  console.log("user", user.data.user.user_metadata);
 
   if (!profile_id) {
     return NextResponse.json({ error: "No profile_id found" }, { status: 400 });
@@ -58,10 +56,10 @@ export async function POST(req: Request) {
           },
         ],
         back_urls: {
-          success: `${process.env.NGROK_URL}/perfil?cv_id=${cv.id}`,
-          failure: `${process.env.NGROK_URL}/error`,
+          success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
+          failure: `${process.env.NEXT_PUBLIC_SITE_URL}/error`,
         },
-        notification_url: `${process.env.NGROK_URL}/api/webhook`,
+        notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
         metadata: {
           cv_id: cv.id,
           profile_id,
@@ -71,7 +69,6 @@ export async function POST(req: Request) {
   );
 
   const mpJson = await mpRes.json();
-  console.log("CV creado con ID:", cv.id);
 
   if (!mpJson.init_point) {
     return NextResponse.json(
