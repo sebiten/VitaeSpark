@@ -2,11 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { Button } from "@/components/ui/button";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,9 +20,9 @@ import {
   User2,
 } from "lucide-react";
 import Image from "next/image";
-import { logout } from "@/app/(auth)/login/actions";
 import { useState } from "react";
 import { User } from "@supabase/supabase-js";
+import { logout } from "@/app/(auth)/login/actions";
 
 export function Navegation({ user }: { user: User | null }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -148,7 +144,6 @@ export function Navegation({ user }: { user: User | null }) {
                 <button
                   type="submit"
                   className="w-full text-left text-base font-medium text-white hover:text-[#7C3AED] transition-colors"
-                  onClick={() => setMenuOpen(false)}
                 >
                   Cerrar sesión
                 </button>
