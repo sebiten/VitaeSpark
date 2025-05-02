@@ -81,3 +81,9 @@ export interface PaymentStatus {
   status: "idle" | "pending" | "success" | "error";
   message?: string;
 }
+
+export interface CVRecord {
+  id: string;
+  cv_data: CV;
+  template: string | null;
+}

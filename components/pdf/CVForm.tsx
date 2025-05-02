@@ -123,25 +123,7 @@ const CVForm: NextPage = () => {
         );
       }
 
-      const json: RespuestaCV = await res.json();
-
-      const supabase = createClient(); // o como tengas armado tu cliente
-
-      const user = await supabase.auth.getUser(); // traes el usuario actual
-
-      if (user?.data?.user?.id) {
-        const { error } = await supabase.from("cvs").insert({
-          profile_id: user.data.user.id,
-          cv_data: json.cv,
-          // opcional: podrías guardar también la plantilla seleccionada
-          // template: selectedTemplate,
-        });
-
-        if (error) {
-          console.error("Error guardando CV:", error);
-        }
-      }
-
+      const json = (await res.json()) as RespuestaCV;
       setCvData(json.cv);
       setActiveTab("preview");
     } catch (err) {
@@ -243,7 +225,7 @@ const CVForm: NextPage = () => {
                     </div>
                   </div>
 
-                  <div >
+                  <div>
                     <label className="font-semibold mb-3 block text-sm tracking-wide text-[#F4F4F5]/90">
                       Seleccionar color de la plantilla
                     </label>
@@ -581,7 +563,29 @@ const CVForm: NextPage = () => {
                     </Button>
                   )}
                 </PDFDownloadLink>
+                {/* ✅ Botón para pagar */}
+                <Button
+                  className="w-full mt-4 py-3.5 rounded-lg bg-gradient-to-r from-[#38BDF8] to-[#0EA5E9] text-white font-semibold hover:shadow-lg hover:shadow-[#0EA5E9]/20 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center"
+                  onClick={async () => {
+                    const res = await fetch("/api/create-payment", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        cvData,
+                        template: selectedTemplate,
+                      }),
+                    });
 
+                    const { init_point } = await res.json();
+                    if (init_point) {
+                      window.location.href = init_point;
+                    } else {
+                      alert("No se pudo iniciar el pago. Intenta de nuevo.");
+                    }
+                  }}
+                >
+                  Pagar y desbloquear descarga
+                </Button>
                 <p className="text-center text-xs text-[#A1A1AA] mt-4">
                   Tu CV está optimizado para sistemas ATS y listo para
                   descargar.
