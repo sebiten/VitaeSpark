@@ -39,8 +39,8 @@ export default function Home() {
                 <span className="text-[#7C3AED]">destacan</span>
               </h1>
               <p className="text-lg md:text-xl text-[#F4F4F5]/80 max-w-xl">
-                La forma más rápida y accesible de crear CVs profesionales que
-                realmente superan los filtros de las empresas.
+                La forma más rápida y accesible de crear CVs profesionales y
+                una herramienta poderosa para destacar en el competitivo mercado laboral.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link href="/crear">
