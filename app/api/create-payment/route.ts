@@ -56,7 +56,7 @@ export async function POST(req: Request) {
           success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
           failure: `${process.env.NEXT_PUBLIC_SITE_URL}/error`,
         },
-        auto_return: true,
+        auto_return: "approved",
         notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
         metadata: {
           cv_id: cv.id,
