@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
   const id = body.data?.id;
 
   if (type !== "payment" || !id) {
-    console.log("ℹ️ Webhook ignorado:", body);
     return NextResponse.json({ message: "Ignored" }, { status: 200 });
   }
 

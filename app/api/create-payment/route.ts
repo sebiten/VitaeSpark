@@ -14,7 +14,6 @@ export async function POST(req: Request) {
 
   const profile_id = user.data.user.id;
 
-
   if (!profile_id) {
     return NextResponse.json({ error: "No profile_id found" }, { status: 400 });
   }
@@ -36,8 +35,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Error creando CV" }, { status: 500 });
   }
 
-
-
   const mpRes = await fetch(
     "https://api.mercadopago.com/checkout/preferences",
     {
@@ -52,13 +49,14 @@ export async function POST(req: Request) {
           {
             title: "Descarga de CV Profesional",
             quantity: 1,
-            unit_price: 5,
+            unit_price: 1999,
           },
         ],
         back_urls: {
           success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
           failure: `${process.env.NEXT_PUBLIC_SITE_URL}/error`,
         },
+        auto_return: true,
         notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
         metadata: {
           cv_id: cv.id,
