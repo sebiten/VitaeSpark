@@ -40,19 +40,25 @@ export async function POST(req: Request): Promise<NextResponse> {
   // Parsear datos enviados
   const body: DatosCVFormulario = await req.json();
   if (!body) {
-    return NextResponse.json({ error: "No se recibieron datos" }, { status: 400 });
+    return NextResponse.json(
+      { error: "No se recibieron datos" },
+      { status: 400 }
+    );
   }
 
   // Protección y rate-limiting con Arcjet
   const decision = await aj
     .withRule(shield({ mode: "LIVE" }))
-    .withRule(fixedWindow({ mode: "LIVE", max: 34, window: "86400s" }))
+    .withRule(fixedWindow({ mode: "LIVE", max: 15, window: "86400s" }))
     .protect(req);
 
-  decision.results.forEach(res => console.log("Arcjet rule:", res));
+  decision.results.forEach((res) => console.log("Arcjet rule:", res));
   if (decision.isDenied()) {
     return NextResponse.json(
-      { error: "Too Many Requests or Suspicious Activity", reason: decision.reason },
+      {
+        error: "Too Many Requests or Suspicious Activity",
+        reason: decision.reason,
+      },
       { status: 403 }
     );
   }
@@ -100,15 +106,18 @@ Devuélveme solo un JSON con la siguiente estructura exacta:
       const status = err?.status ?? err?.response?.status;
       if (status >= 500 && attempt < 2) {
         console.warn(`OpenAI fallo (intento ${attempt}), reintentando...`);
-        await new Promise(r => setTimeout(r, 500 * attempt));
+        await new Promise((r) => setTimeout(r, 500 * attempt));
         continue;
       }
       console.error("Error OpenAI:", err);
-      return NextResponse.json({ error: "Error interno generando CV" }, { status: 502 });
+      return NextResponse.json(
+        { error: "Error interno generando CV" },
+        { status: 502 }
+      );
     }
   }
 
-    // Intentar extraer JSON via fallback
+  // Intentar extraer JSON via fallback
   if (!completion?.choices?.length) {
     console.error("No se recibieron choices en la respuesta:", completion);
     return NextResponse.json(
@@ -148,7 +157,10 @@ Devuélveme solo un JSON con la siguiente estructura exacta:
   const parsed = CVSchema.safeParse(result as Interna);
   if (!parsed.success) {
     console.error("Validación Zod falló:", parsed.error);
-    return NextResponse.json({ error: "Estructura inesperada" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Estructura inesperada" },
+      { status: 500 }
+    );
   }
 
   // Devolver en forma de RespuestaCV
