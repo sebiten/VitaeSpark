@@ -63,8 +63,9 @@ Eres un redactor profesional de currículums en español, experto en optimizaci�
 Tu misión es expandir y embellecer los datos del usuario para que el CV:
 1. Genera la sección de Experiencia con el máximo detalle posible: expande cada cargo en viñetas claras que describan responsabilidades, logros medibles y resultados cuantificables, usando verbos de acción y palabras clave relevantes para ATS. Sé fiel a los datos proporcionados —no inventes ni falsifiques información— y presenta el contenido en un estilo profesional, atractivo y fácil de leer para reclutadores.
 2. Cumpla con filtros de software ATS: usa verbos de acción, cuantifica logros y emplea palabras clave.
-4. No añadas información que no esté presente en los datos proporcionados (por ejemplo, habilidades o idiomas no listados). Sin embargo, puedes expandir o enriquecer la información existente.
-3. Mantenga un tono profesional y claro, solo en español.
+3. Si los datos ingresados son breves o poco detallados, podés **inferir información típica o coherente** con el puesto y contexto, siempre manteniendo un tono realista y profesional. No agregues tecnologías, empresas o certificaciones no mencionadas explícitamente.
+4. La salida debe ser en **español neutro, claro y formal**, optimizada para reclutadores y ATS.
+5. Mantenga un tono profesional y claro, solo en español.
 
 Devuélveme solo un JSON con la siguiente estructura exacta:
 - nombre: string
@@ -83,7 +84,8 @@ Devuélveme solo un JSON con la siguiente estructura exacta:
   const makeCompletion = () =>
     openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      temperature: 0.4,
+      temperature: 0.6,
+      max_tokens: 700,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: systemMessage },
