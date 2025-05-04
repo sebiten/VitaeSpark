@@ -363,7 +363,7 @@ function EmptyState({ router }: { router: any }) {
       <h3 className="text-xl font-semibold text-[#F4F4F5] mb-2">Sin CVs disponibles</h3>
       <p className="text-[#A1A1AA] mb-6">No tienes CVs generados y aprobados aún.</p>
       <Button
-        onClick={() => router.push("/crear-cv")}
+        onClick={() => router.push("/crear")}
         className="bg-primary hover:bg-primary/90 text-primary-foreground"
       >
         Crear mi primer CV

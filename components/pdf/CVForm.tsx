@@ -52,7 +52,7 @@ const CVForm: NextPage = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#7C3AED] to-[#38BDF8]"
+            className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#7C3AED] to-[#7C3AED]"
           >
             Generador de CV Profesional
           </motion.h1>
