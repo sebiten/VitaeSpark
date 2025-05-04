@@ -39,8 +39,9 @@ export default function Home() {
                 <span className="text-[#7C3AED]">destacan</span>
               </h1>
               <p className="text-lg md:text-xl text-[#F4F4F5]/80 max-w-xl">
-                La forma más rápida y accesible de crear CVs profesionales y
-                una herramienta poderosa para destacar en el competitivo mercado laboral.
+                La forma más rápida y accesible de crear CVs profesionales y una
+                herramienta poderosa para destacar en el competitivo mercado
+                laboral.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link href="/crear">
@@ -239,7 +240,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    
+
       {/* FAQ Section */}
       <section className="py-20 px-4 bg-[#0F0F10]">
         <div className="max-w-3xl mx-auto">
@@ -300,10 +301,8 @@ export default function Home() {
                 ¿En qué formatos puedo descargar mi CV?
               </AccordionTrigger>
               <AccordionContent className="text-[#F4F4F5]/70">
-                Con el plan básico puedes descargar tu CV en formato PDF. Los
-                planes premium permiten exportar en múltiples formatos como
-                DOCX, TXT y HTML, facilitando su uso en diferentes plataformas y
-                situaciones.
+                Con la generación de tu cv puedes descargarlo en formato PDF las
+                veces que sean necesesarias desde tu perfil.
               </AccordionContent>
             </AccordionItem>
 
