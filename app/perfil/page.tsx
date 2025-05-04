@@ -119,7 +119,6 @@ export default function PerfilCVs() {
           </Card>
         </div>
       )}
-bg-gradient-to-r from-[#7C3AED] to-[#38BDF8]
       <div className="text-center space-y-2 mb-8 ">
         <h2 className="text-3xl font-bold text-[#7C3AED]">Tus CVs Aprobados</h2>
         <p className="text-[#A1A1AA] max-w-md mx-auto">
