@@ -48,6 +48,7 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+        cache: "no-store"
       });
 
       if (!res.ok) {
