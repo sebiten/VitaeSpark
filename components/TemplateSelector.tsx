@@ -122,13 +122,13 @@ export default function TemplateSelector({
                   className="w-full rounded-b-lg"
                 />
               </div>
-              <div className="p-4">
+              <div className="p-1">
                 <Button
                   onClick={() => {
                     onSelectTemplate(tpl.id);
                     setOpenDialogId(null);
                   }}
-                  className="w-full bg-gradient-to-r text-white from-[#38BDF8] to-[#0EA5E9]"
+                  className="w-full text-white bg-[#7C3AED]"
                 >
                   Usar esta plantilla
                 </Button>

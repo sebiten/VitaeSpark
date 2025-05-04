@@ -1,7 +1,4 @@
 "use client";
-
-import { createClient } from "@/utils/supabase/server";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -18,6 +15,7 @@ import {
   FileText,
   HomeIcon,
   User2,
+  MenuIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -50,7 +48,7 @@ export function Navegation({ user }: { user: User | null }) {
             href="/crear"
             className="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#7C3AED]/20 hover:scale-105 transition"
           >
-            Crear mi CV ahora
+            Crear CV
             <ArrowRight className="ml-2 h-4 w-4 animate-pulse" />
           </Link>
 
@@ -59,6 +57,13 @@ export function Navegation({ user }: { user: User | null }) {
             className="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#7C3AED]/20 hover:scale-105 transition"
           >
             Inicio <HomeIcon className="ml-2 h-4 w-4" />
+          </Link>
+
+          <Link
+            href="/perfil"
+            className="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#7C3AED]/20 hover:scale-105 transition"
+          >
+            Perfil <HomeIcon className="ml-2 h-4 w-4" />
           </Link>
 
           {user ? (
@@ -76,6 +81,7 @@ export function Navegation({ user }: { user: User | null }) {
                 <span className="text-sm font-medium text-[#F4F4F5]">
                   {user.user_metadata?.full_name ?? "Usuario"}
                 </span>
+                <MenuIcon className="text-white"/>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-[#1F1F22] border-[#2A2A2D] text-white">
                 <DropdownMenuItem asChild>
@@ -114,7 +120,7 @@ export function Navegation({ user }: { user: User | null }) {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-[#0F0F10] border-t border-[#1F1F22]/50 px-4 py-6 space-y-4">
+        <div className="md:hidden bg-[#0F0F10] border-t border-[#1F1F22]/50 px-4 py-6 space-y-6">
           <Link
             href="/crear"
             className="flex w-full items-center justify-center rounded-md bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#7C3AED]/20 hover:scale-105 transition"

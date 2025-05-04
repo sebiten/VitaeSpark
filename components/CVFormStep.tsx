@@ -33,6 +33,7 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
   const {
     register,
     handleSubmit,
+    setValue, // 👈 necesario para autocompletar
     formState: { errors, isSubmitting },
   } = useForm<DatosCVFormulario>({
     resolver: zodResolver(schema),
@@ -66,9 +67,38 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
       setIsGenerating(false);
     }
   };
-
+  const rellenarDatosPrueba = () => {
+    setValue("nombre", "Sebastián Burgos");
+    setValue("puesto", "Desarrollador Frontend");
+    setValue("contacto", "sebastian@example.com, +54 9 387 1234567");
+    setValue(
+      "sobreMi",
+      "Apasionado por la tecnología, con más de 5 años desarrollando aplicaciones web modernas."
+    );
+    setValue(
+      "experiencia",
+      "Frontend Developer; VitaeSpark; 2022–2025; Lideré el desarrollo de un generador de CVs con IA usando React y Next.js."
+    );
+    setValue(
+      "formacion",
+      "Universidad Nacional de Salta; Licenciatura en Sistemas; 2016–2021"
+    );
+    setValue("habilidades", "React, Next.js, TailwindCSS, Supabase, TypeScript");
+    setValue("idiomas", "Español, Inglés");
+    setValue("informacionAdicional", "Certificación en desarrollo web por Coderhouse.");
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 mt-8">
+      <div className="w-full flex justify-end">
+        <Button
+          type="button"
+          onClick={rellenarDatosPrueba}
+          variant="default"
+          className="mb-4 text-sm"
+        >
+          Rellenar con datos de prueba
+        </Button>
+      </div>
       {/* Nombre y puesto */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
@@ -190,7 +220,7 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
           <input
             {...register("idiomas")}
             className="w-full bg-[#2A2A2D] text-white p-3 rounded-lg border border-[#3F3F46]"
-            placeholder="Español, Inglés"
+            placeholder="Español: Nativo, Inglés Avanzado"
           />
           {errors.idiomas && (
             <p className="text-red-400 text-xs mt-1 flex items-center">

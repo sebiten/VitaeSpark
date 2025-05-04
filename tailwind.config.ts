@@ -40,7 +40,7 @@ const config = {
           foreground: "#F4F4F5", // Texto claro
         },
         accent: {
-          DEFAULT: "#A78BFA", // Lavanda claro
+          default: "#A78BFA", // Lavanda claro
           foreground: "#0F0F10", // Fondo oscuro
         },
         popover: {

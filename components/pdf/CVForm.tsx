@@ -68,8 +68,8 @@ const CVForm: NextPage = () => {
           onValueChange={setActiveTab}
           className="space-y-8"
         >
-          <div className="flex justify-between items-center">
-            <TabsList className="bg-[#2A2A2D] border border-[#3F3F46] p-1">
+          <div className="flex justify-between items-center ">
+            <TabsList className="bg-[#2A2A2D] border border-[#3F3F46] p-1 ">
               <TabsTrigger
                 value="form"
                 className=" text-white data-[state=active]:bg-[#3F3F46] "
