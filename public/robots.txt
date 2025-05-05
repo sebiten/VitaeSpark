@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://vitaespark.com
+Host: https://www.vitaespark.com
 
 # Sitemaps
-Sitemap: https://vitaespark.com/sitemap.xml
+Sitemap: https://www.vitaespark.com/sitemap.xml
