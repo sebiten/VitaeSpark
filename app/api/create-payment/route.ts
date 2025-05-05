@@ -49,7 +49,7 @@ export async function POST(req: Request) {
           {
             title: "Descarga de CV Profesional",
             quantity: 1,
-            unit_price: 1999,
+            unit_price: 1500,
           },
         ],
         back_urls: {

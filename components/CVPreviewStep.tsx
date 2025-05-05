@@ -145,7 +145,7 @@ export default function CVPreviewStep({
                       alt="MercadoPago"
                       className="rounded-md"
                     />
-                    <span className="ml-2">Pagar con MercadoPago 1999 ARS</span>
+                    <span className="ml-2">Pagar con MercadoPago 1500 ARS</span>
                   </>
                 )}
               </Button>
