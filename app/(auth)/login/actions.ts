@@ -52,25 +52,23 @@ export async function signup(formData: FormData) {
 
   if (error) {
     console.error("Signup error:", error);
+
+    // Verificar el código de error directamente
+    if (error.status === 422 && error.code === "user_already_exists") {
+      redirect("/login?error=user-already-exists");
+    }
+
+    // Error genérico para otros casos
     redirect("/login?error=signup-failed");
   }
 
-  // 2. Opcional: si quieres, también podrías crear explícitamente el perfil (por si no usas triggers en Supabase)
-  if (data.user) {
-    const { error: profileError } = await supabase.from("profiles").insert({
-      id: data.user.id,
-      full_name: name,
-      avatar_url: "", // Puedes dejarlo vacío al crear
-    });
+  // No redireccionamos aquí para permitir mostrar el mensaje de éxito
+  // La redirección ocurrirá después de que el usuario inicie sesión
 
-    if (profileError) {
-      console.error("Profile creation error:", profileError);
-      redirect("/login?error=profile-creation-failed");
-    }
-  }
-
-  redirect("/");
+  // Si llegamos hasta aquí, el registro fue exitoso
+  return;
 }
+
 export async function logout() {
   const supabase = await createClient();
 
