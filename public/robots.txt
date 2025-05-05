@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://vitaespark.com
+
+# Sitemaps
+Sitemap: https://vitaespark.com/sitemap.xml
