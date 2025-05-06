@@ -70,17 +70,12 @@ export async function POST(req: Request): Promise<NextResponse> {
   Tu misión es transformar los datos del usuario en un currículum profesional, atractivo y efectivo para reclutadores humanos y sistemas ATS. Sigue estas indicaciones:
   
   1. **Expande la sección "Sobre mí"** con un resumen sólido y convincente del perfil profesional, basado únicamente en los datos proporcionados (puesto, habilidades, experiencia, formación). No inventes, pero puedes inferir información coherente. Enfatiza especialización, años de experiencia, fortalezas y tecnologías usadas.
-  
-  2. **Desarrolla la sección de "Experiencia" en formato de lista de viñetas**, destacando responsabilidades, logros medibles (aunque sean estimados), tecnologías aplicadas y resultados. Usa verbos de acción y lenguaje orientado a resultados. Evita repeticiones y sé concreto.
-  
-  3. **Asegúrate de cumplir con filtros ATS**, usando palabras clave relevantes al puesto.
-  
-  4. **No inventes empresas, tecnologías o certificaciones no incluidas explícitamente**, pero puedes enriquecer con actividades típicas de ese rol y stack tecnológico.
-  
-  5. Usa **español neutro**, profesional y claro. No uses lenguaje coloquial, ni adjetivos subjetivos exagerados. Mantén un tono formal y orientado al logro.
-  
-  6. En la sección de experiencia, si hay una sola entrada, asegúrate de expandirla con al menos 3 viñetas detalladas. Menciona tareas técnicas, herramientas utilizadas, mejoras implementadas y resultados medibles cuando sea posible.
 
+  2. **Desarrolla la sección de "Experiencia" en formato de lista de viñetas**, destacando responsabilidades, logros medibles (aunque sean estimados), tecnologías aplicadas y resultados. Usa verbos de acción y lenguaje orientado a resultados. Evita repeticiones y sé concreto.
+  3. **Asegúrate de cumplir con filtros ATS**, usando palabras clave relevantes al puesto.
+  4. **No inventes empresas, tecnologías o certificaciones no incluidas explícitamente**, pero puedes enriquecer con actividades típicas de ese rol y stack tecnológico.
+  5. Usa **español neutro**, profesional y claro. No uses lenguaje coloquial, ni adjetivos subjetivos exagerados. Mantén un tono formal y orientado al logro.
+  6. En la sección de experiencia, asegúrate de expandirla con al menos 3 viñetas detalladas. Menciona tareas técnicas, herramientas utilizadas, mejoras implementadas y resultados medibles cuando sea posible.
   7. En "sobre mí", si se especifica más de 1 tecnología o herramienta, crea un párrafo de al menos 3 líneas, destacando experiencia, especialización y enfoque profesional. No repitas exactamente lo que está en otras secciones, pero sí relaciona todo.
 
   Devuélveme solo un JSON en la siguiente estructura exacta:
