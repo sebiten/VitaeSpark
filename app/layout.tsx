@@ -1,5 +1,5 @@
-// app/layout.tsx (Next.js 15+)
-import type { Metadata, Viewport } from "next";
+// app/layout.tsx (Next.js 15+) – Mejoras Avanzadas de SEO para Vitae Spark
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
@@ -18,28 +18,33 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const baseUrl = new URL(
-  process.env.NEXT_PUBLIC_BASE_URL ?? "https://vitaespark.com"
-);
+const baseUrl = new URL(process.env.NEXT_PUBLIC_BASE_URL ?? "https://vitaespark.com");
 
 export const metadata: Metadata = {
   metadataBase: baseUrl,
   title: {
-    default: "Vitae Spark | Generador de CVs IA",
+    default: "Vitae Spark | Generador de CV con IA, optimizado para ATS",
     template: "%s | Vitae Spark",
   },
   description:
-    "Crea currículums profesionales, optimizados para ATS, con inteligencia artificial. Destaca tu talento y consigue más entrevistas.",
+    "Genera currículums profesionales en segundos usando inteligencia artificial. Supera filtros ATS fácilmente y consigue más entrevistas.",
   applicationName: "Vitae Spark",
   generator: "Next.js 15 – App Router",
   keywords: [
     "generador de CV",
     "currículum ATS",
+    "crear currículum gratis",
+    "currículum profesional",
     "resume builder",
-    "inteligencia artificial",
-    "IA",
-    "empleo",
+    "inteligencia artificial CV",
+    "IA para empleo",
+    "optimizar CV ATS",
     "busqueda laboral",
+    "crear cv",
+    "ia para cv",
+    "cv gratis",
+    "CV online",
+    "CV digital",
   ],
   authors: [{ name: "Vitae Spark", url: baseUrl.href }],
   creator: "Vitae Spark",
@@ -57,44 +62,41 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: baseUrl,
-    title: "Vitae Spark | Generador de CVs con IA",
+    title: "Vitae Spark | Crea currículums profesionales optimizados para ATS",
     description:
-      "Genera tu currículum en segundos, optimizado para superar los filtros ATS y captar la atención de los reclutadores.",
+      "Usa inteligencia artificial para crear CVs atractivos y optimizados para superar filtros automáticos y destacar ante reclutadores.",
     siteName: "Vitae Spark",
     images: [
       {
-        url: "/logotab.webp", // TODO: reemplaza o apunta a tu imagen estática
+        url: `${baseUrl.href}/logotab.webp`,
         width: 1200,
         height: 630,
-        alt: "Vitae Spark – Generador de CVs IA",
+        alt: "Vitae Spark – Generador Inteligente de Currículums",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vitae Spark | Generador de CVs con IA ",
+    title: "Vitae Spark | Crea CVs efectivos con IA",
     description:
-      "Crea currículums profesionales, optimizados para ATS, en cuestión de segundos.",
-    images: ["/logotab.webp"], // TODO
-    creator: "@abelardo.web", // TODO
+      "Genera tu currículum profesional optimizado para filtros ATS en segundos con inteligencia artificial.",
+    images: [`${baseUrl.href}/logotab.webp`],
+    creator: "@vitae.spark", 
   },
   icons: {
     icon: "/logochispa.png",
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <head>
+        {/* Google Tag Manager */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-17053866569"
-        ></script>                  
+        ></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -105,17 +107,34 @@ export default function RootLayout({
             `,
           }}
         />
+
+        {/* JSON-LD para datos estructurados */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              url: baseUrl.href,
+              name: "Vitae Spark",
+              alternateName: "Generador de CV Inteligente",
+              description:
+                "Genera currículums profesionales con IA optimizados para ATS y reclutadores.",
+            }),
+          }}
+        />
+
         <Script
           src="https://sdk.mercadopago.com/js/v2"
           strategy="beforeInteractive"
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-popover-foreground antialiased `}
+        className={`${geistSans.variable} ${geistMono.variable} bg-popover-foreground antialiased`}
       >
         <Navbar />
         {children}
-        <Footer/>
+        <Footer />
         <Analytics />
       </body>
     </html>
