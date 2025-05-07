@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Bot } from "lucide-react"
+import { motion } from "framer-motion";
+import { Bot } from "lucide-react";
 
 export function RoboAnimation() {
   return (
@@ -19,7 +19,7 @@ export function RoboAnimation() {
       >
         <div className="relative">
           <motion.div
-            className="absolute -inset-4 bg-purple-500/20 rounded-full blur-xl"
+            className="absolute -inset-4 bg-[#7C3AED]/10 rounded-full blur-xl"
             animate={{
               scale: [1, 1.2, 1],
               opacity: [0.5, 0.8, 0.5],
@@ -30,9 +30,9 @@ export function RoboAnimation() {
               ease: "easeInOut",
             }}
           />
-          <Bot className="w-32 h-32 text-purple-500" />
+          <Bot className="w-32 h-32 text-[#7C3AED]" />
         </div>
       </motion.div>
     </div>
-  )
+  );
 }
