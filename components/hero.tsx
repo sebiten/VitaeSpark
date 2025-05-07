@@ -21,16 +21,20 @@ import { Footer } from "@/components/footer";
 import { TestimonialCard } from "@/components/testimonial-card";
 import { FeatureCard } from "@/components/feature-card";
 import Link from "next/link";
+import { RoboAnimation } from "./roboto-animation";
+import { FloatingPaper } from "./floatin-paper";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-[#0F0F10] text-[#F4F4F5]">
       {/* Hero Section */}
       <section className="px-4 py-20 md:py-32 relative overflow-hidden">
+      <FloatingPaper/>
         <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/20 to-transparent opacity-30 z-0"></div>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1 space-y-6">
+              <RoboAnimation />
               <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
                 <Zap className="mr-1 h-3 w-3" /> Impulsado por IA
               </Badge>

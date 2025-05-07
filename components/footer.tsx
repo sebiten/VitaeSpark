@@ -32,7 +32,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-lg my-4">Producto</h3>
+            <h3 className="font-semibold text-lg my-4 text-white">Producto</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -54,9 +54,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-lg my-3">Empresa</h3>
+            <h3 className="font-semibold text-lg my-3 text-white">Empresa</h3>
             <ul className="space-y-2">
-              <li>Soporte:</li>
+              <li className="text-white">Soporte:</li>
               <li>
                 <Link
                   href="mailto:soporte@vitaespark.com"
