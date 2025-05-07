@@ -75,11 +75,15 @@ export default function CVPreviewStep({
       </div>
 
       {/* Visualizador de PDF */}
-      <div className="bg-[#0F0F10] border border-[#2A2A2D] rounded-xl p-4 shadow-inner">
+      <div className="relative">
+        <div
+          className="absolute top-0 left-0 w-full h-full z-10"
+          onContextMenu={(e) => e.preventDefault()}
+        />
         <PDFViewer
           style={{
             width: "100%",
-            height: "650px",
+            height: "34rem",
             borderRadius: "0.5rem",
           }}
           showToolbar={false}
