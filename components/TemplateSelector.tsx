@@ -41,9 +41,9 @@ export default function TemplateSelector({ selectedTemplate, onSelectTemplate }:
   const [openDialogId, setOpenDialogId] = useState<string | null>(null)
 
   return (
-    <div className="mb-10">
+    <div className="">
       {/* 🧠 Tips para completar el CV */}
-      <div className="bg-[#1A1A1C] border border-[#2A2A2D] text-[#D4D4D8] rounded-xl p-4 mb-6 text-sm leading-relaxed space-y-2">
+      <div className="bg-[#1A1A1C] border border-[#2A2A2D] text-[#D4D4D8] rounded-xl p-4 mb-4 text-sm leading-relaxed space-y-2">
         <p className="font-semibold text-[#F4F4F5]">🧠 Consejos para completar tu CV</p>
         <ul className="list-disc list-inside text-[#A1A1AA] space-y-1">
           <li>Escribe oraciones claras, evita listas sin contexto.</li>

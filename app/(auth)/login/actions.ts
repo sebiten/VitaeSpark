@@ -25,7 +25,7 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/"); // ✅ Redirecciona al dashboard
+  redirect("/crear"); // ✅ Redirecciona para crear un cv
 }
 
 export async function signup(formData: FormData) {

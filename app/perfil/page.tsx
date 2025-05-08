@@ -1,19 +1,31 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer"
-import { createClient } from "@/utils/supabase/client"
-import { DocumentoCV } from "@/components/pdf/CVDocument"
-import type { CVRecord } from "@/lib/types/cv"
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { createClient } from "@/utils/supabase/client";
+import { DocumentoCV } from "@/components/pdf/CVDocument";
+import type { CVRecord } from "@/lib/types/cv";
 
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader, DialogClose } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+  DialogHeader,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { Download, Eye, Loader2, User, X } from "lucide-react"
+import { Download, Eye, Loader2, User, X } from "lucide-react";
 
 // Componente para generar una miniatura del CV
 const CVThumbnail = ({ cv }: { cv: CVRecord }) => {
@@ -34,70 +46,73 @@ const CVThumbnail = ({ cv }: { cv: CVRecord }) => {
         <div className="w-1/2 h-2 bg-gray-200 rounded-sm"></div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default function PerfilCVs() {
-  const [cvs, setCvs] = useState<CVRecord[]>([])
-  const [loading, setLoading] = useState(true)
-  const [showCongrats, setShowCongrats] = useState(false)
-  const [paidCv, setPaidCv] = useState<CVRecord | null>(null)
-  const [selectedCV, setSelectedCV] = useState<CVRecord | null>(null)
+  const [cvs, setCvs] = useState<CVRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showCongrats, setShowCongrats] = useState(false);
+  const [paidCv, setPaidCv] = useState<CVRecord | null>(null);
+  const [selectedCV, setSelectedCV] = useState<CVRecord | null>(null);
 
-  const searchParams = useSearchParams()
-  const router = useRouter()
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   // 1) Al montar, chequear si llegó cv_id en la URL
   useEffect(() => {
-    const cvId = searchParams.get("cv_id")
+    const cvId = searchParams.get("cv_id");
     if (cvId) {
-      setShowCongrats(true)
-      router.replace("/perfil")
+      setShowCongrats(true);
+      router.replace("/perfil");
     }
-  }, [searchParams, router])
+  }, [searchParams, router]);
 
   // 2) Cargar los CVs pagados
   useEffect(() => {
     const fetchCVs = async () => {
-      const supabase = createClient()
+      const supabase = createClient();
       const {
         data: { user },
-      } = await supabase.auth.getUser()
-      if (!user) return
-
-      const { data, error } = await supabase
-        .from("cvs")
-        .select("id, cv_data, template, created_at")
-        .eq("profile_id", user.id)
-        .eq("status", "paid")
-        .order("created_at", { ascending: false })
-
-      if (error) {
-        console.error("Error cargando CVs:", error)
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.replace("/login");
       } else {
-        setCvs(data)
+        const { data, error } = await supabase
+          .from("cvs")
+          .select("id, cv_data, template, created_at")
+          .eq("profile_id", user?.id)
+          .eq("status", "paid")
+          .order("created_at", { ascending: false });
 
+        if (error) {
+          console.error("Error cargando CVs:", error);
+        } else {
+          setCvs(data);
+        }
         // 2.1) Si detectamos showCongrats y tenemos cv_id, buscamos el CV concreto
-        const cvId = searchParams.get("cv_id")
+        const cvId = searchParams.get("cv_id");
         if (cvId) {
-          const found = data.find((cv) => cv.id === cvId)
-          if (found) setPaidCv(found)
+          const found = data?.find((cv) => cv.id === cvId);
+          if (found) setPaidCv(found);
         }
       }
-      setLoading(false)
-    }
-    fetchCVs()
-  }, [searchParams])
+      setLoading(false);
+    };
+    fetchCVs();
+  }, [searchParams]);
 
   if (loading) {
     return (
       <div className="flex justify-center items-center py-20">
         <div className="bg-[#1A1A1D] p-6 rounded-xl shadow-xl border border-[#2A2A2D] flex flex-col items-center">
           <Loader2 className="w-8 h-8 animate-spin text-primary mb-3" />
-          <span className="text-[#F4F4F5] font-medium">Cargando tus CVs...</span>
+          <span className="text-[#F4F4F5] font-medium">
+            Cargando tus CVs...
+          </span>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -107,13 +122,16 @@ export default function PerfilCVs() {
         <div className="max-w-4xl mx-auto">
           <Card className="bg-gradient-to-r from-green-600 to-green-700 border-green-500 text-white p-4 rounded-lg shadow-lg transform transition-all duration-300 hover:shadow-green-500/20 hover:shadow-xl">
             <CardHeader className="pb-2 flex flex-row items-center space-y-0 gap-2">
-              <div className="w-6 h-6 text-white flex items-center justify-center">✓</div>
+              <div className="w-6 h-6 text-white flex items-center justify-center">
+                ✓
+              </div>
               <div className="text-xl font-bold">¡Pago Aprobado!</div>
             </CardHeader>
             <CardContent>
               <p className="text-green-100">
-                Tu pago para el CV de <strong className="text-white">{paidCv.cv_data.nombre}</strong> ha sido
-                confirmado. ¡Ahora puedes descargarlo!
+                Tu pago para el CV de{" "}
+                <strong className="text-white">{paidCv.cv_data.nombre}</strong>{" "}
+                ha sido confirmado. ¡Ahora puedes descargarlo!
               </p>
             </CardContent>
           </Card>
@@ -122,11 +140,13 @@ export default function PerfilCVs() {
       <div className="text-center space-y-2 mb-8 ">
         <h2 className="text-3xl font-bold text-[#7C3AED]">Tus CVs Aprobados</h2>
         <p className="text-[#A1A1AA] max-w-md mx-auto">
-          Aquí encontrarás todos tus currículums generados y listos para descargar
+          Aquí encontrarás todos tus currículums generados y listos para
+          descargar
         </p>
       </div>
 
       <Tabs defaultValue="grid" className="max-w-6xl mx-auto">
+        a
         <div className="flex justify-center mb-6">
           <TabsList className="bg-[#1A1A1D] p-1 rounded-full text-white">
             <TabsTrigger
@@ -137,13 +157,12 @@ export default function PerfilCVs() {
             </TabsTrigger>
             <TabsTrigger
               value="list"
-               className="data-[state=active]:bg-[#3F3F46] text-white"
+              className="data-[state=active]:bg-[#3F3F46] text-white"
             >
               Vista Lista
             </TabsTrigger>
           </TabsList>
         </div>
-
         <TabsContent value="grid" className="mt-0">
           {cvs.length === 0 ? (
             <EmptyState router={router} />
@@ -163,8 +182,12 @@ export default function PerfilCVs() {
                         <User className="w-4 h-4 text-[#F4F4F5]" />
                       </div>
                       <div className="flex flex-col">
-                        <div className="text-[#F4F4F5] font-medium">{cv.cv_data.nombre}</div>
-                        <div className="text-sm text-[#7C3AED]">{cv.cv_data.puesto}</div>
+                        <div className="text-[#F4F4F5] font-medium">
+                          {cv.cv_data.nombre}
+                        </div>
+                        <div className="text-sm text-[#7C3AED]">
+                          {cv.cv_data.puesto}
+                        </div>
                       </div>
                     </div>
                   </CardHeader>
@@ -175,8 +198,12 @@ export default function PerfilCVs() {
 
                   <CardFooter className="p-4 flex flex-col gap-2 bg-[#0F0F10]">
                     <div className="text-center w-full mb-1">
-                      <div className="font-medium text-[#F4F4F5]">CV Profesional</div>
-                      <div className="text-xs text-[#A1A1AA]">Listo para descargar</div>
+                      <div className="font-medium text-[#F4F4F5]">
+                        CV Profesional
+                      </div>
+                      <div className="text-xs text-[#A1A1AA]">
+                        Listo para descargar
+                      </div>
                     </div>
 
                     <div className="flex gap-2 w-full">
@@ -203,7 +230,10 @@ export default function PerfilCVs() {
                                 className="rounded-md border border-[#2A2A2D]"
                                 showToolbar={false}
                               >
-                                <DocumentoCV cv={selectedCV.cv_data} template={selectedCV.template || undefined} />
+                                <DocumentoCV
+                                  cv={selectedCV.cv_data}
+                                  template={selectedCV.template || undefined}
+                                />
                               </PDFViewer>
                             )}
                           </div>
@@ -211,8 +241,16 @@ export default function PerfilCVs() {
                       </Dialog>
 
                       <PDFDownloadLink
-                        document={<DocumentoCV cv={cv.cv_data} template={cv.template || undefined} />}
-                        fileName={`CV-${cv.cv_data.nombre.replace(/\s+/g, "-")}.pdf`}
+                        document={
+                          <DocumentoCV
+                            cv={cv.cv_data}
+                            template={cv.template || undefined}
+                          />
+                        }
+                        fileName={`CV-${cv.cv_data.nombre.replace(
+                          /\s+/g,
+                          "-"
+                        )}.pdf`}
                         className="flex-1"
                       >
                         {({ loading: dlLoading }) => (
@@ -225,7 +263,9 @@ export default function PerfilCVs() {
                             ) : (
                               <Download className="w-4 h-4" />
                             )}
-                            <span className="ml-2">{dlLoading ? "Preparando..." : "Descargar"}</span>
+                            <span className="ml-2">
+                              {dlLoading ? "Preparando..." : "Descargar"}
+                            </span>
                           </Button>
                         )}
                       </PDFDownloadLink>
@@ -236,7 +276,6 @@ export default function PerfilCVs() {
             </div>
           )}
         </TabsContent>
-
         <TabsContent value="list" className="mt-0">
           <ScrollArea className="max-h-[70vh] pr-4 pb-4">
             {cvs.length === 0 ? (
@@ -255,8 +294,12 @@ export default function PerfilCVs() {
                             <User className="w-4 h-4 text-[#F4F4F5]" />
                           </div>
                           <div className="flex flex-col">
-                            <div className="text-[#F4F4F5] font-medium">{cv.cv_data.nombre}</div>
-                            <div className="text-xs text-[#7C3AED]">{cv.cv_data.puesto}</div>
+                            <div className="text-[#F4F4F5] font-medium">
+                              {cv.cv_data.nombre}
+                            </div>
+                            <div className="text-xs text-[#7C3AED]">
+                              {cv.cv_data.puesto}
+                            </div>
                           </div>
                         </div>
                         <div className="mt-2">
@@ -277,8 +320,12 @@ export default function PerfilCVs() {
                             <div className="w-3/4 h-1 bg-gray-200 mb-1 rounded-sm"></div>
                           </div>
                           <div>
-                            <h3 className="font-medium text-[#F4F4F5]">CV Profesional</h3>
-                            <p className="text-xs text-[#A1A1AA]">Listo para descargar</p>
+                            <h3 className="font-medium text-[#F4F4F5]">
+                              CV Profesional
+                            </h3>
+                            <p className="text-xs text-[#A1A1AA]">
+                              Listo para descargar
+                            </p>
                           </div>
                         </div>
 
@@ -299,7 +346,11 @@ export default function PerfilCVs() {
                                   Vista previa: {selectedCV?.cv_data.nombre}
                                 </DialogTitle>
                                 <DialogClose asChild>
-                                  <Button variant="ghost" size="icon" className="rounded-full text-[#F4F4F5]">
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="rounded-full text-[#F4F4F5]"
+                                  >
                                     <X className="w-4 h-4" />
                                   </Button>
                                 </DialogClose>
@@ -311,7 +362,12 @@ export default function PerfilCVs() {
                                     className="rounded-md border border-[#2A2A2D]"
                                     showToolbar={false}
                                   >
-                                    <DocumentoCV cv={selectedCV.cv_data} template={selectedCV.template || undefined} />
+                                    <DocumentoCV
+                                      cv={selectedCV.cv_data}
+                                      template={
+                                        selectedCV.template || undefined
+                                      }
+                                    />
                                   </PDFViewer>
                                 )}
                               </div>
@@ -319,8 +375,16 @@ export default function PerfilCVs() {
                           </Dialog>
 
                           <PDFDownloadLink
-                            document={<DocumentoCV cv={cv.cv_data} template={cv.template || undefined} />}
-                            fileName={`CV-${cv.cv_data.nombre.replace(/\s+/g, "-")}.pdf`}
+                            document={
+                              <DocumentoCV
+                                cv={cv.cv_data}
+                                template={cv.template || undefined}
+                              />
+                            }
+                            fileName={`CV-${cv.cv_data.nombre.replace(
+                              /\s+/g,
+                              "-"
+                            )}.pdf`}
                           >
                             {({ loading: dlLoading }) => (
                               <Button
@@ -334,7 +398,8 @@ export default function PerfilCVs() {
                                   </>
                                 ) : (
                                   <>
-                                    <Download className="w-4 h-4 mr-2" /> Descargar
+                                    <Download className="w-4 h-4 mr-2" />{" "}
+                                    Descargar
                                   </>
                                 )}
                               </Button>
@@ -351,7 +416,7 @@ export default function PerfilCVs() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
 
 // Componente para estado vacío
@@ -359,8 +424,12 @@ function EmptyState({ router }: { router: any }) {
   return (
     <div className="text-center py-16 px-6 bg-[#0F0F10] rounded-xl border border-[#2A2A2D] max-w-md mx-auto">
       <User className="w-12 h-12 text-secondary mx-auto mb-4 opacity-50" />
-      <h3 className="text-xl font-semibold text-[#F4F4F5] mb-2">Sin CVs disponibles</h3>
-      <p className="text-[#A1A1AA] mb-6">No tienes CVs generados y aprobados aún.</p>
+      <h3 className="text-xl font-semibold text-[#F4F4F5] mb-2">
+        Sin CVs disponibles
+      </h3>
+      <p className="text-[#A1A1AA] mb-6">
+        No tienes CVs generados y aprobados aún.
+      </p>
       <Button
         onClick={() => router.push("/crear")}
         className="bg-primary hover:bg-primary/90 text-primary-foreground"
@@ -368,5 +437,5 @@ function EmptyState({ router }: { router: any }) {
         Crear mi primer CV
       </Button>
     </div>
-  )
+  );
 }

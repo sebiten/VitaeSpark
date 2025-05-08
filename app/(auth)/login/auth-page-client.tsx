@@ -105,8 +105,8 @@ export default function AuthPageClient() {
           <CardTitle className="text-3xl font-bold tracking-tight text-[#7C3AED]">Vitae Spark</CardTitle>
           <CardDescription className="text-[#A1A1AA]">
             {activeTab === "login"
-              ? "Ingresa tus credenciales para acceder a tu cuenta"
-              : "Crea una cuenta para comenzar"}
+              ? "Inicia sesión para gestionar y crear tu CV fácilmente."
+              : "Regístrate para comenzar a crear y personalizar tu CV."}
           </CardDescription>
         </CardHeader>
 

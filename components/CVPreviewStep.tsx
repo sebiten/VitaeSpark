@@ -87,6 +87,7 @@ export default function CVPreviewStep({
             borderRadius: "0.5rem",
           }}
           showToolbar={false}
+
         >
           <DocumentoCV cv={cvData} template={template} />
         </PDFViewer>

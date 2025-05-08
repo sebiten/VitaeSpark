@@ -59,13 +59,16 @@ export function Navegation({ user }: { user: User | null }) {
             Inicio <HomeIcon className="ml-2 h-4 w-4" />
           </Link>
 
-          <Link
-            href="/perfil"
-            className="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#7C3AED]/20 hover:scale-105 transition"
-          >
-            Perfil <HomeIcon className="ml-2 h-4 w-4" />
-          </Link>
-
+          {user ? (
+            <Link
+              href="/perfil"
+              className="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#7C3AED]/20 hover:scale-105 transition"
+            >
+              Perfil <HomeIcon className="ml-2 h-4 w-4" />
+            </Link>
+          ) : (
+            ""
+          )}
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-2 cursor-pointer hover:scale-105 transition">
@@ -81,7 +84,7 @@ export function Navegation({ user }: { user: User | null }) {
                 <span className="text-sm font-medium text-[#F4F4F5]">
                   {user.user_metadata?.full_name ?? "Usuario"}
                 </span>
-                <MenuIcon className="text-white"/>
+                <MenuIcon className="text-white" />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-[#1F1F22] border-[#2A2A2D] text-white">
                 <DropdownMenuItem asChild>
