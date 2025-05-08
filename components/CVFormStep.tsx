@@ -97,12 +97,12 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
   return (
     <div className="relative">
       {/* Fondo decorativo */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#2A2A2D]/80 to-[#1E1E20] rounded-xl -z-10 opacity-50"></div>
-      <div className="absolute inset-0 bg-[url('/placeholder.svg?height=100&width=100')] bg-repeat opacity-5 rounded-xl -z-10"></div>
+      {/* <div className="absolute inset-0  rounded-xl -z-10 opacity-50"></div>
+      <div className="absolute inset-0 bg-[url('/placeholder.svg?height=100&width=100')] bg-repeat opacity-5 rounded-xl -z-10"></div> */}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 mt-8 bg-[#1E1E20]/90 backdrop-blur-sm p-8 rounded-xl border border-[#3F3F46]/50 shadow-xl"
+        className="space-y-6 mt-8 p-2 rounded-xl "
       >
         <div className="mb-8 text-center">
           <div className="w-16 h-16 bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
@@ -112,7 +112,7 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
           <p className="text-white/60 text-sm">Completa los campos para generar tu CV profesional</p>
         </div>
 
-        <div className="w-full flex justify-end">
+        <div className="w-full ">
           <Button
             type="button"
             onClick={rellenarDatosPrueba}
@@ -126,11 +126,7 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
 
         {/* Sección de información personal */}
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
-          <h3 className="text-white/90 font-medium mb-4 flex items-center">
-            <User className="w-4 h-4 mr-2 text-[#7C3AED]" />
-            Información Personal
-          </h3>
-
+       
           {/* Nombre y puesto */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -201,10 +197,7 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
 
         {/* Sección de perfil */}
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
-          <h3 className="text-white/90 font-medium mb-4 flex items-center">
-            <BookOpen className="w-4 h-4 mr-2 text-[#7C3AED]" />
-            Perfil Profesional
-          </h3>
+       
 
           {/* Sobre mí */}
           <div>
@@ -232,10 +225,7 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
 
         {/* Sección de experiencia y formación */}
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
-          <h3 className="text-white/90 font-medium mb-4 flex items-center">
-            <Briefcase className="w-4 h-4 mr-2 text-[#7C3AED]" />
-            Experiencia y Formación
-          </h3>
+      
 
           {/* Experiencia */}
           <div className="mb-5">
@@ -286,11 +276,7 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
 
         {/* Sección de habilidades e idiomas */}
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
-          <h3 className="text-white/90 font-medium mb-4 flex items-center">
-            <Star className="w-4 h-4 mr-2 text-[#7C3AED]" />
-            Habilidades e Idiomas
-          </h3>
-
+       
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
@@ -337,11 +323,6 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
 
         {/* Información adicional */}
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
-          <h3 className="text-white/90 font-medium mb-4 flex items-center">
-            <PlusCircle className="w-4 h-4 mr-2 text-[#7C3AED]" />
-            Información Adicional
-          </h3>
-
           <div>
             <label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
               <PlusCircle className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />

@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   sidebar: {
-    width: "28%",
+    width: "30%",
     backgroundColor: colors.primary,
     padding: 15,
   },
   main: {
-    width: "72%",
+    width: "70%",
     padding: 20,
   },
   header: {

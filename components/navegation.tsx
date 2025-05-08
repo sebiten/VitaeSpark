@@ -16,11 +16,18 @@ import {
   HomeIcon,
   User2,
   MenuIcon,
+  UserCheck,
+  UserCircle,
+  UserCheck2,
+  LogIn,
+  Paperclip,
+  Home,
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { logout } from "@/app/(auth)/login/actions";
+import { Button } from "./ui/button";
 
 export function Navegation({ user }: { user: User | null }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -105,43 +112,65 @@ export function Navegation({ user }: { user: User | null }) {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link
-              href="/login"
-              className="text-sm font-medium text-white hover:text-[#7C3AED] transition-colors"
-            >
-              Iniciar sesión
-            </Link>
+            <Button>
+              <LogIn />
+              <Link
+                href="/login"
+                className="text-sm font-medium text-white hover:text-[#7C3AED] transition-colors"
+              >
+                Iniciar sesión
+              </Link>
+            </Button>
           )}
         </nav>
-
-        <button
-          className="md:hidden text-white"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
-        </button>
-      </div>
-
-      {menuOpen && (
-        <div className="md:hidden bg-[#0F0F10] border-t border-[#1F1F22]/50 px-4 py-6 space-y-6">
-          <Link
-            href="/crear"
-            className="flex w-full items-center justify-center rounded-md bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#7C3AED]/20 hover:scale-105 transition"
-            onClick={() => setMenuOpen(false)}
-          >
-            Crear mi CV ahora
-          </Link>
-
-          <Link
-            href="/"
-            className="block text-base font-medium text-white hover:text-[#7C3AED] transition-colors"
-            onClick={() => setMenuOpen(false)}
-          >
-            Inicio
-          </Link>
+        <div className="flex md:hidden gap-4 text-center justify-center items-center">
+          <Button variant={"link"}>
+            <Home className="text-white" />
+            <Link className="text-white" href={"/"}>
+              Inicio
+            </Link>
+          </Button>
 
           {user ? (
-            <>
+            <Button variant={"link"}>
+              <Link className="text-white flex gap-2" href={"/perfil"}>
+                <User2 />
+                Perfil
+              </Link>
+            </Button>
+          ) : (
+            <Button variant={"link"}>
+              <Paperclip className="text-white" />
+              <Link className="text-white" href={"/"}>
+                Crear CV
+              </Link>
+            </Button>
+          )}
+          <button
+            className="md:hidden text-white"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? (
+              <X className="h-8 w-8" />
+            ) : (
+              <Menu className="h-8 w-8" />
+            )}
+          </button>
+        </div>
+      </div>
+      {menuOpen && (
+        <div className="md:hidden bg-[#0F0F10] border-t border-[#1F1F22]/50 px-4 py-6 space-y-6 flex flex-col">
+          <Link
+            href="/crear"
+            className="flex w-full  gap-2 items-center justify-center rounded-md bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#7C3AED]/20 hover:scale-105 transition"
+            onClick={() => setMenuOpen(false)}
+          >
+            <Paperclip size={18} />
+            Crear mi CV ahora
+          </Link>
+          {user && (
+            <Button>
+              <User2 />
               <Link
                 href="/perfil"
                 className="block text-base font-medium text-white hover:text-[#7C3AED] transition-colors"
@@ -149,23 +178,30 @@ export function Navegation({ user }: { user: User | null }) {
               >
                 Perfil
               </Link>
+            </Button>
+          )}
+          {user ? (
+            <>
               <form action={logout}>
-                <button
+                <Button
                   type="submit"
                   className="w-full text-left text-base font-medium text-white hover:text-[#7C3AED] transition-colors"
                 >
                   Cerrar sesión
-                </button>
+                </Button>
               </form>
             </>
           ) : (
-            <Link
-              href="/login"
-              className="block text-sm font-medium text-white hover:text-[#7C3AED] transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              Iniciar sesión
-            </Link>
+            <Button>
+              <LogIn />
+              <Link
+                href="/login"
+                className="block text-lg font-medium text-white hover:text-[#7C3AED] transition-colors"
+                onClick={() => setMenuOpen(false)}
+              >
+                Iniciar sesión
+              </Link>
+            </Button>
           )}
         </div>
       )}

@@ -40,7 +40,7 @@ const CVForm: NextPage = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-12 mt-4 ">
+    <div className="container mx-auto py-12 mt-4 ">
       <RoboAnimation/>
       <motion.div
         initial={{ opacity: 0, y: 20 }}

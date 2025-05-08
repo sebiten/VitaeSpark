@@ -14,8 +14,8 @@ const colors = {
 const styles = StyleSheet.create({
   page: { fontSize: 10, color: colors.text, backgroundColor: colors.background },
   container: { flex: 1, flexDirection: "row" },
-  sidebar: { width: "28%", backgroundColor: colors.primary, padding: 15 },
-  main: { width: "72%", padding: 20 },
+  sidebar: { width: "30%", backgroundColor: colors.primary, padding: 15 },
+  main: { width: "70%", padding: 20 },
   header: { marginBottom: 15 },
   name: {  fontSize: 16, fontWeight: 700, color: "#FFF" },
   position: {  fontSize: 12, fontWeight: 500, color: "#FFF", marginTop: 4 },

@@ -49,7 +49,7 @@ export async function POST(req: Request): Promise<NextResponse> {
   // Protección y rate-limiting con Arcjet
   const decision = await aj
     .withRule(shield({ mode: "LIVE" }))
-    .withRule(fixedWindow({ mode: "LIVE", max: 34, window: "86400s" }))
+    .withRule(fixedWindow({ mode: "LIVE", max: 25, window: "86400s" }))
     .protect(req);
 
   decision.results.forEach((res) => console.log("Arcjet rule:", res));
