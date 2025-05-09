@@ -221,14 +221,32 @@ Información adicional: ${body.informacionAdicional}
   }
   const profile_id = user.data.user.id;
 
-  await supabase.from("generated_cvs").insert({
-    profile_id,
-    cv_data: parsed.data,
-    template: body.template || "default",
-    status: "pending",
-  }); // esto lo creamos solo para ver la gente que crea si compra o no
+  const { data: cv, error } = await supabase
+    .from("generated_cvs")
+    .insert({
+      profile_id,
+      cv_data: parsed.data,
+      template: body.template || "default",
+      status: "pending",
+    })
+    .select()
+    .single();
 
-  
+  if (error || !cv) {
+    console.error("Error al insertar el CV:", error?.message);
+    return NextResponse.json(
+      { error: "No se pudo guardar el CV" },
+      { status: 500 }
+    );
+  }
+
+  // Después de guardar el CV en la DB
+  await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/cv-preview`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cvId: cv.id }),
+  });
+
   // Devolver en forma de RespuestaCV
   const response: RespuestaCV = { cv: parsed.data };
   return NextResponse.json(response);

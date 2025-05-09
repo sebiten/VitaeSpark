@@ -65,6 +65,8 @@ export interface FormacionCV {
 }
 
 export interface CV {
+  id?: string;
+  previewImage?: string;
   nombre: string;
   puesto: string;
   contacto: string[];

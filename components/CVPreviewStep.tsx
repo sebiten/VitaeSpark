@@ -112,12 +112,12 @@ export default function CVPreviewStep({
           {/* Capa protectora */}
           <div className="absolute inset-0 z-10" />
           {/* PDFViewer ajustado para mostrar solo una página */}
-          <PDFViewer
-            className="absolute inset-0 w-full h-full"
-            showToolbar={false}
-          >
-            <DocumentoCV cv={cvData} template={template} />
-          </PDFViewer>
+          <Image
+            src={`https://xyz.supabase.co/storage/v1/object/public/cvpreview/${cvData.id}.jpg`}
+            alt="Vista previa del CV"
+            fill
+            className="object-contain rounded-lg z-0"
+          />
         </div>
       </div>
 
