@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   company: {
-    fontSize: 10,
+    fontSize: 11,
     fontFamily: "Times-Bold",
   },
   position: {
-    fontSize: 10,
+    fontSize: 11,
     fontStyle: "italic",
   },
   locationDate: {
@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   institution: {
-    fontSize: 10,
+    fontSize: 11,
     fontFamily: "Times-Bold",
   },
   degree: {
-    fontSize: 10,
+    fontSize: 11,
     fontStyle: "italic",
   },
   skillItem: {
