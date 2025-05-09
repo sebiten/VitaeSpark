@@ -22,7 +22,7 @@ import { RoboAnimation } from "../roboto-animation";
 // Subcomponentes
 
 const CVForm: NextPage = () => {
-  const [selectedTemplate, setSelectedTemplate] = useState("purple");
+  const [selectedTemplate, setSelectedTemplate] = useState("harvard");
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
   const [activeTab, setActiveTab] = useState("form");
   const [userSession, setUserSession] = useState<Session | null>(null);
@@ -97,7 +97,7 @@ const CVForm: NextPage = () => {
             <CVFormStep
               setCvData={setCvData}
               setActiveTab={setActiveTab}
-              selectedTemplate={selectedTemplate}
+              template={selectedTemplate}
             />
           </TabsContent>
 

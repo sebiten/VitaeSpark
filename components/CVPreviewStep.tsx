@@ -73,7 +73,6 @@ export default function CVPreviewStep({
           Volver al formulario
         </Button>
       </div>
-
       {/* Visualizador de PDF */}
       <div className="relative">
         <div
@@ -83,7 +82,7 @@ export default function CVPreviewStep({
         <PDFViewer
           style={{
             width: "100%",
-            height: "34rem",
+            height: "600px",
             borderRadius: "0.5rem",
           }}
           showToolbar={false}
@@ -92,7 +91,6 @@ export default function CVPreviewStep({
           <DocumentoCV cv={cvData} template={template} />
         </PDFViewer>
       </div>
-
       {/* Información de seguridad y beneficios */}
       <Card className="bg-[#0F0F10] border-[#2A2A2D] text-[#D4D4D8] ">
         <CardHeader>

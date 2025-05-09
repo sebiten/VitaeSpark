@@ -149,7 +149,9 @@ export default function PurpleTemplate({ cv }: { cv: RespuestaCV["cv"] }) {
                     }}
                   >
                     <Text style={styles.titleText}>{e.cargo}</Text>
-                    <Text style={styles.subtitleText}>{e.fechas}</Text>
+                    <Text style={styles.subtitleText}>
+                      {[e.fechas, e.ubicacion].filter(Boolean).join(" • ")}
+                    </Text>
                   </View>
                   <Text style={{ fontSize: 10, marginBottom: 3 }}>
                     {e.empresa}
@@ -171,7 +173,9 @@ export default function PurpleTemplate({ cv }: { cv: RespuestaCV["cv"] }) {
                     }}
                   >
                     <Text style={styles.titleText}>{f.institucion}</Text>
-                    <Text style={styles.subtitleText}>{f.fechas}</Text>
+                    <Text style={styles.subtitleText}>
+                      {[f.fechas, f.ubicacion].filter(Boolean).join(" • ")}
+                    </Text>
                   </View>
                   {f.titulo && (
                     <Text style={styles.subtitleText}>{f.titulo}</Text>

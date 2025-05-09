@@ -20,6 +20,7 @@ const CVSchema = z.object({
       cargo: z.string(),
       empresa: z.string(),
       fechas: z.string(),
+      ubicacion: z.string(), // ✅ nuevo
       logros: z.array(z.string()),
     })
   ),
@@ -28,6 +29,7 @@ const CVSchema = z.object({
       institucion: z.string(),
       titulo: z.string(),
       fechas: z.string(),
+      ubicacion: z.string(), // ✅ nuevo
     })
   ),
   habilidades: z.array(z.string()),
@@ -50,7 +52,7 @@ export async function POST(req: Request): Promise<NextResponse> {
   // Protección y rate-limiting con Arcjet
   const decision = await aj
     .withRule(shield({ mode: "LIVE" }))
-    .withRule(fixedWindow({ mode: "LIVE", max: 25, window: "86400s" }))
+    .withRule(fixedWindow({ mode: "LIVE", max: 10, window: "86400s" }))
     .protect(req);
 
   decision.results.forEach((res) => console.log("Arcjet rule:", res));
@@ -63,37 +65,37 @@ export async function POST(req: Request): Promise<NextResponse> {
       { status: 403 }
     );
   }
+  const systemMessage = `Actuás como redactor profesional de currículums optimizados para sistemas ATS. Tu tarea es convertir la información del usuario en un CV claro, formal y atractivo, siguiendo estas pautas:
 
-  const systemMessage = `
-Eres un experto redactor profesional de currículums en español, especializado en optimización para sistemas ATS.
+1. **Sobre mí**  
+Redactá un resumen un mínimo de 50 palabras y que responda a la pregunta“¿Por qué deberían contratarte?”, destacando experiencia, habilidades, formación y tecnologías mencionadas.
 
-Tu objetivo es transformar la información proporcionada por el usuario en un currículum profesional altamente efectivo para superar filtros ATS y atractivo para reclutadores humanos. Sigue estas reglas estrictamente:
+2. **Experiencia** (crucial):
+- Interpretá cada línea del usuario como una experiencia laboral diferente, sin importar el formato.
+Para cada experiencia laboral, generá entre 3 y 5 viñetas obligatoriamente. 
+- Si el usuario escribió solo una frase o idea, dividila y expandila en 3 puntos concretos como mínimo. 
+- Si hay múltiples acciones en una misma oración, separalas en viñetas individuales. 
+- En roles de más de 1 año, se espera al menos 3 viñetas desarrolladas. En cargos senior (ej: “Senior Frontend”), 4 o más. 
+- Si no hay suficiente contenido, completá lógicamente a partir del resto del CV.
+- Cada viñeta debe tratar sobre una tarea técnica, responsabilidad, herramienta utilizada, proceso aplicado o logro concreto.
+- Nunca inventes información. Podés enriquecer lógicamente con datos derivados del resto del CV (habilidades, formación, etc.).
+- Si faltan fechas o ubicación, usá “Fecha no especificada” o “Ubicación no especificada”.
+- Usá un estilo claro, profesional y orientado a resultados, compatible con sistemas ATS.
 
-1. **Sección "Sobre mí"**:
-   Redacta esta sección respondiendo directamente a la pregunta "¿Por qué deberíamos contratarte?". Expande significativamente generando un resumen profesional robusto, basado exclusivamente en los datos proporcionados (puesto, habilidades, experiencia, formación). Realiza inferencias coherentes y resalta claramente años de experiencia, tecnologías clave, especialización, enfoque práctico, fortalezas personales y valor añadido profesional, asegurate que no sean mas de 3 renglones.
+3. **Formación**  
+Indicá institución, título, ubicación y fechas. Relacioná brevemente con la experiencia si es relevante. No asumas datos que no se indican.
 
-2. **Sección "Experiencia"**:
-   - Desarrolla cada experiencia profesional en formato de viñetas detalladas (mínimo 3 viñetas por puesto).
-   - Destaca claramente tareas técnicas realizadas, responsabilidades específicas, tecnologías o herramientas empleadas y logros concretos (medibles cuando sea posible o inferibles por contexto).
-   - Usa verbos de acción y lenguaje enfocado en resultados y desempeño.
-   - Enriquece de forma lógica usando información relacionada que provenga exclusivamente del resto del CV (habilidades, formación, tecnologías claramente mencionadas).
+4. **Habilidades**  
+Listá exactamente las habilidades mencionadas por el usuario. No agregues nuevas.
 
-3. **Sección "Formación Académica"**:
-   Describe brevemente cómo la formación académica fortalece o respalda las experiencias profesionales mencionadas, sin inventar detalles adicionales.
+5. **Palabras clave y ATS**  
+Incluí términos técnicos relevantes del input del usuario. Evitá repeticiones y frases vacías.
 
-4. **Sección "Habilidades"**:
-   Enumera claramente todas las habilidades técnicas y personales mencionadas explícitamente por el usuario.
+6. **Precisión y estilo**  
+No inventes. Podés mejorar/redactar mejor tareas comunes, pero siempre basándote en la información provista. Usá un estilo claro, formal y profesional compatible con ATS.
 
-5. **Cumplimiento estricto con prácticas ATS**:
-   Incorpora siempre palabras clave técnicas y específicas mencionadas explícitamente por el usuario.
 
-6. **Precisión y coherencia**:
-   Nunca inventes empresas, tecnologías, puestos, certificaciones o responsabilidades que no estén explícitamente mencionadas por el usuario. Sin embargo, puedes enriquecer de forma lógica y coherente tareas habituales del rol, basándote únicamente en las tecnologías y herramientas claramente indicadas por el usuario.
-
-7. **Estilo profesional**:
-   Usa un lenguaje profesional, neutro, claro y formal. Evita exageraciones subjetivas, términos coloquiales o información poco específica.
-
-Devuelve únicamente un JSON estructurado exactamente así:
+Devuélveme únicamente un JSON estructurado exactamente así:
 {
   "nombre": string,
   "puesto": string,
@@ -104,6 +106,7 @@ Devuelve únicamente un JSON estructurado exactamente así:
       "cargo": string,
       "empresa": string,
       "fechas": string,
+      "ubicacion": string,
       "logros": string[]
     }
   ],
@@ -111,20 +114,22 @@ Devuelve únicamente un JSON estructurado exactamente así:
     {
       "institucion": string,
       "titulo": string,
-      "fechas": string
+      "fechas": string,
+      "ubicacion": string
     }
   ],
   "habilidades": string[],
   "idiomas": string[],
   "informacionAdicional": string[]
-}`;
+}
+`;
 
   const userMessage = `
 Nombre: ${body.nombre}
 Puesto: ${body.puesto}
 Sobre mí: ${body.sobreMi}
 Contacto: ${body.contacto}
-Experiencia: ${body.experiencia}
+Experiencia:${body.experiencia}
 Formación: ${body.formacion}
 Habilidades: ${body.habilidades}
 Idiomas: ${body.idiomas}
@@ -134,9 +139,9 @@ Información adicional: ${body.informacionAdicional}
   // Función con retries
   const makeCompletion = () =>
     openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      temperature: 0.7,
-      max_tokens: 800,
+      model: "gpt-4o",
+      temperature: 0.4,
+      max_tokens: 1300,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: systemMessage },

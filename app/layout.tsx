@@ -18,7 +18,9 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const baseUrl = new URL(process.env.NEXT_PUBLIC_BASE_URL ?? "https://vitaespark.com");
+const baseUrl = new URL(
+  process.env.NEXT_PUBLIC_BASE_URL ?? "https://vitaespark.com"
+);
 
 export const metadata: Metadata = {
   metadataBase: baseUrl,
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s | Vitae Spark",
   },
   description:
-    "Genera currículums profesionales en segundos usando inteligencia artificial. Supera filtros ATS fácilmente y consigue más entrevistas.",
+    "Crea currículums profesionales en segundos con inteligencia artificial. Optimizado para filtros ATS, aumenta tus oportunidades laborales y consigue más entrevistas.",
   applicationName: "Vitae Spark",
   generator: "Next.js 15 – App Router",
   keywords: [
@@ -45,6 +47,7 @@ export const metadata: Metadata = {
     "cv gratis",
     "CV online",
     "CV digital",
+    "plantilla harvard",
   ],
   authors: [{ name: "Vitae Spark", url: baseUrl.href }],
   creator: "Vitae Spark",
@@ -71,7 +74,15 @@ export const metadata: Metadata = {
         url: `${baseUrl.href}/logotab.webp`,
         width: 1200,
         height: 630,
-        alt: "Vitae Spark – Generador Inteligente de Currículums",
+        alt: "Vitae Spark – Generador Inteligente de Currículums con IA",
+      },
+      {
+        url: `${baseUrl.href}/harvard.webp`,
+        alt: "Vitae Spark – Plantilla recomendada por harvard",
+      },
+      {
+        url: `${baseUrl.href}/banner-ig.webp`,
+        alt: "Vitae Spark – Generador Inteligente de Currículums con IA",
       },
     ],
   },
@@ -81,14 +92,18 @@ export const metadata: Metadata = {
     description:
       "Genera tu currículum profesional optimizado para filtros ATS en segundos con inteligencia artificial.",
     images: [`${baseUrl.href}/logotab.webp`],
-    creator: "@vitae.spark", 
+    creator: "@vitae.spark",
   },
   icons: {
     icon: "/logochispa.png",
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="es" suppressHydrationWarning>
       <head>

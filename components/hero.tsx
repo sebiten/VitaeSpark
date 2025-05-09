@@ -16,6 +16,8 @@ import {
   Clock,
   Award,
   ArrowRight,
+  University,
+  GraduationCap,
 } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { TestimonialCard } from "@/components/testimonial-card";
@@ -23,21 +25,29 @@ import { FeatureCard } from "@/components/feature-card";
 import Link from "next/link";
 import { RoboAnimation } from "./roboto-animation";
 import { FloatingPaper } from "./floatin-paper";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-[#0F0F10] text-[#F4F4F5]">
       {/* Hero Section */}
       <section className="px-4 py-20 md:py-32 relative overflow-hidden">
-      <FloatingPaper/>
+        <FloatingPaper />
         <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/20 to-transparent opacity-30 z-0"></div>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1 space-y-6">
               <RoboAnimation />
-              <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
-                <Zap className="mr-1 h-3 w-3" /> Impulsado por IA
-              </Badge>
+              <div className="flex flex-wrap gap-2">
+                <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30">
+                  <Zap className="mr-1 h-3 w-3" /> Impulsado por IA
+                </Badge>
+                <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 animate-pulse">
+                  <GraduationCap className="mr-1 h-3 w-3" /> Plantilla
+                  recomendada por Harvard
+                </Badge>
+              </div>
+
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                 CVs inteligentes que{" "}
                 <span className="text-[#7C3AED]">destacan</span>
@@ -47,6 +57,25 @@ export default function Home() {
                 herramienta poderosa para destacar en el competitivo mercado
                 laboral.
               </p>
+
+              <div className="bg-[#1F1F22]/80 border border-[#38BDF8]/30 rounded-lg p-4 shadow-lg">
+                <div className="flex items-start gap-3">
+                  <div className="bg-[#38BDF8] p-2 rounded-full shrink-0">
+                    <GraduationCap className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-white">
+                      Formato profesional recomendado por Harvard
+                    </p>
+                    <p className="text-xs text-[#F4F4F5]/70 mt-1">
+                      Basado en estructuras sugeridas por universidades de
+                      prestigio como Harvard para destacar en procesos de
+                      selección exigentes.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link href="/crear">
                   <Button
@@ -72,12 +101,15 @@ export default function Home() {
             <div className="flex-1 relative mt-2 ">
               <div className="relative bg-[#1F1F22] rounded-lg p-1 shadow-2xl shadow-[#7C3AED]/20">
                 <img
-                  src="/example.webp"
+                  src="/harvard.webp"
                   alt="CV generado por VitaeSpark"
-                  className="rounded-lg w-full"
+                  className="rounded-lg w-full h-auto"
                 />
                 <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-[#38BDF8] text-[#0F0F10] font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm">
                   ¡Optimizado para ATS!
+                </div>
+                <div className="absolute -bottom-4 -right-4 bg-[#7C3AED] text-white font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm flex items-center">
+                  <GraduationCap className="mr-1 h-3 w-3" /> Formato Harvard
                 </div>
               </div>
               <div className="absolute -bottom-6 -left-6 bg-[#1F1F22] p-4 rounded-lg shadow-lg max-w-xs">
@@ -347,8 +379,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

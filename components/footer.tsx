@@ -7,7 +7,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
           <div className="space-y-1">
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center justify-start">
               <img
                 src="/logoreal.webp"
                 alt="Logo Vitae Spark"
@@ -16,17 +16,8 @@ export function Footer() {
             </Link>
 
             <div className="flex gap-4 mt-2">
-              <Link href="#" className="text-[#F4F4F5]/70 hover:text-[#F4F4F5]">
-                <Facebook className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-[#F4F4F5]/70 hover:text-[#F4F4F5]">
-                <Twitter className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-[#F4F4F5]/70 hover:text-[#F4F4F5]">
+              <Link href="https://www.instagram.com/vitae.spark/" className="text-[#F4F4F5]/70 hover:text-[#F4F4F5]">
                 <Instagram className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-[#F4F4F5]/70 hover:text-[#F4F4F5]">
-                <Linkedin className="h-5 w-5" />
               </Link>
             </div>
           </div>

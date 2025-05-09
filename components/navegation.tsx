@@ -34,7 +34,7 @@ export function Navegation({ user }: { user: User | null }) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#1F1F22]/50 bg-[#0F0F10] backdrop-blur-sm">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex h-20 items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex h-20 items-center justify-between">
         <div className="flex items-center gap-2">
           <Link
             href="/"

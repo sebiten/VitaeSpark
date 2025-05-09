@@ -50,6 +50,7 @@ export interface DatosCVFormulario {
 }
 
 export interface ExperienciaCV {
+  ubicacion: string;
   cargo: string;
   empresa: string;
   fechas: string;
@@ -57,6 +58,7 @@ export interface ExperienciaCV {
 }
 
 export interface FormacionCV {
+  ubicacion: string;
   institucion: string;
   titulo: string;
   fechas: string;
