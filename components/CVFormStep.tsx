@@ -130,7 +130,7 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-6 mt-8 p-2 rounded-xl "
       >
-        {/* <div className="w-full flex items-center justify-center ">
+        <div className="w-full flex items-center justify-center ">
           <Button
             type="button"
             onClick={rellenarDatosPrueba}
@@ -140,7 +140,7 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
             <CheckCircle2 className="w-4 h-4 mr-1.5 text-[#7C3AED]" />
             Rellenar con datos de prueba
           </Button>
-        </div> */}
+        </div>
 
         {/* Sección de información personal */}
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
