@@ -37,6 +37,7 @@ export interface Database {
 }
 
 export interface DatosCVFormulario {
+  template?: string;
   nombre: string;
   puesto: string;
   contacto: string;

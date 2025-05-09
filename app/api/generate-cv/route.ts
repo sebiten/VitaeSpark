@@ -5,6 +5,7 @@ import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { fixedWindow, shield } from "@arcjet/next";
 import { aj } from "@/lib/arcjet";
 import { z } from "zod";
+import { createClient } from "@/utils/supabase/server";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
@@ -118,7 +119,6 @@ Devuelve únicamente un JSON estructurado exactamente así:
   "informacionAdicional": string[]
 }`;
 
-
   const userMessage = `
 Nombre: ${body.nombre}
 Puesto: ${body.puesto}
@@ -209,6 +209,19 @@ Información adicional: ${body.informacionAdicional}
       { status: 500 }
     );
   }
+  const supabase = await createClient();
+  const user = await supabase.auth.getUser();
+  if (!user.data.user) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
+  const profile_id = user.data.user.id;
+
+  await supabase.from("generated_cvs").insert({
+    profile_id,
+    cv_data: parsed.data,
+    template: body.template || "default",
+    status: "pending",
+  }); // esto lo creamos solo para ver la gente que crea si compra o no
 
   // Devolver en forma de RespuestaCV
   const response: RespuestaCV = { cv: parsed.data };

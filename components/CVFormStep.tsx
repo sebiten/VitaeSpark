@@ -38,10 +38,10 @@ const schema = z.object({
 type Props = {
   setCvData: (data: RespuestaCV["cv"]) => void
   setActiveTab: (value: string) => void
-  selectedTemplate: string
+  template: string
 }
 
-export default function CVFormStep({ setCvData, setActiveTab }: Props) {
+export default function CVFormStep({ setCvData, setActiveTab, template }: Props) {
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -62,7 +62,7 @@ export default function CVFormStep({ setCvData, setActiveTab }: Props) {
       const res = await fetch("/api/generate-cv", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, template }),
         cache: "no-store",
       })
 
