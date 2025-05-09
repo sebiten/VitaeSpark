@@ -16,6 +16,13 @@ import {
 } from "@/components/ui/tooltip";
 import type { Session } from "@supabase/supabase-js";
 import { DocumentoCV } from "./pdf/CVDocument";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type Props = {
   cvData: RespuestaCV["cv"];
@@ -31,6 +38,7 @@ export default function CVPreviewStep({
   userSession,
 }: Props) {
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handlePay = async () => {
     if (!userSession) return;
@@ -68,9 +76,35 @@ export default function CVPreviewStep({
         </h2>
         <p className="text-white text-center italic">
           Para ver todas las paginas y en mejor calidad completa el pago y
-          descarga el cv desde tu <Link className="text-blue-500" href="/perfil">Perfil</Link>
+          descarga el cv desde tu{" "}
+          <Link className="text-blue-500" href="/perfil">
+            Perfil
+          </Link>
         </p>
       </div>
+      <div className="text-center"></div>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button
+            variant="secondary"
+            className="mt-4 text-white border border-gray-600"
+          >
+            Ver CV completo
+          </Button>
+        </DialogTrigger>
+
+        <DialogContent className=" w-full h-fautop-0 bg-accent ">
+          <DialogHeader className="p-4 border-b">
+            <DialogTitle className="text-lg">CV Completo</DialogTitle>
+          </DialogHeader>
+
+          <div className=" overflow-hidden bg-accent">
+            <PDFViewer className="min-h-[50vh] w-[50-vw]" showToolbar={false}>
+              <DocumentoCV cv={cvData} template={template} />
+            </PDFViewer>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Contenedor PDF optimizado para mobile */}
       <div className="w-full md:flex md:justify-center">
