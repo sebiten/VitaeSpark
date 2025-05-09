@@ -139,9 +139,9 @@ Información adicional: ${body.informacionAdicional}
   // Función con retries
   const makeCompletion = () =>
     openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-3.5-turbo-0125",
       temperature: 0.4,
-      max_tokens: 1300,
+      max_tokens: 3200,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: systemMessage },
