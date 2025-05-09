@@ -4,7 +4,7 @@ import GreenTemplate from "./template/GreenTemplate"
 import PurpleTemplate from "./template/PurpleTemplate"
 import HarvardTemplate from "./template/harvard-cv-template.tsx";
 
-export function DocumentoCV({ cv, template = "purple" }: { cv: RespuestaCV["cv"]; template?: string }) {
+export function DocumentoCV({ cv, template = "harvard" }: { cv: RespuestaCV["cv"]; template?: string }) {
   // Renderizar el template seleccionado
   switch (template) {
     case "blue":

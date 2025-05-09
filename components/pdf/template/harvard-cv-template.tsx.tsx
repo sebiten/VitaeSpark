@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Times-Roman",
     marginBottom: 5,
-    fontWeight: "800"
+    fontWeight: "800",
   },
   contactInfo: {
     fontSize: 11,
@@ -40,8 +40,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
     textTransform: "uppercase",
-    borderBottom: "1px solid black",
+    borderBottomWidth: 1,
+    borderBottomColor: "#000000",
   },
+
   experienceItem: {
     marginBottom: 10,
   },
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
 
 // Componente para listas con viñetas
 const BulletList = ({ items }: { items: string[] }) => (
-  <View style={styles.bulletList} wrap={true}>
+  <View style={styles.bulletList} wrap={false}>
     {items.map((item, i) => (
       <View key={i} style={styles.bulletItem}>
         <Text style={styles.bullet}>•</Text>
