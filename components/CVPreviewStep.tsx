@@ -59,7 +59,7 @@ export default function CVPreviewStep({
   };
 
   return (
-    <div className="space-y-6 bg-[#1F1F22] border border-[#2A2A2D] rounded-2xl shadow-xl p-6 md:p-8">
+    <div className="space-y-6 bg-[#1F1F22] border border-[#2A2A2D] rounded-2xl shadow-xl w-full p-3 md:p-8">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-[#F4F4F5]">
           Vista previa de tu CV
@@ -74,23 +74,26 @@ export default function CVPreviewStep({
         </Button>
       </div>
       {/* Visualizador de PDF */}
-      <div className="relative">
-        <div
-          className="absolute top-0 left-0 w-full h-full z-10"
-          onContextMenu={(e) => e.preventDefault()}
-        />
-        <PDFViewer
-          style={{
-            width: "100%",
-            height: "600px",
-            borderRadius: "0.5rem",
-          }}
-          showToolbar={false}
 
-        >
-          <DocumentoCV cv={cvData} template={template} />
-        </PDFViewer>
+      {/* PDFViewer ajustado responsivamente */}
+      <div className="w-full">
+        <div className="relative h-[50vh] md:h-screen w-full overflow-hidden rounded-lg border border-[#2A2A2D]">
+          {/* Capa protectora */}
+          <div
+            className="absolute inset-0 z-10"
+            onContextMenu={(e) => e.preventDefault()}
+            onMouseDown={(e) => e.preventDefault()}
+            onTouchStart={(e) => e.preventDefault()}
+            style={{ userSelect: "none", WebkitUserSelect: "none" }}
+          />
+
+          {/* Visor PDF */}
+          <PDFViewer className="w-full h-full" showToolbar={false}>
+            <DocumentoCV cv={cvData} template={template} />
+          </PDFViewer>
+        </div>
       </div>
+
       {/* Información de seguridad y beneficios */}
       <Card className="bg-[#0F0F10] border-[#2A2A2D] text-[#D4D4D8] ">
         <CardHeader>
@@ -115,9 +118,12 @@ export default function CVPreviewStep({
             </p>
           </div>
           <div className="flex items-start gap-3">
-            <AlertCircleIcon className="text-yellow-400 w-5 h-5 mt-1" />
+            <Lock className="text-purple-400 w-5 h-5 mt-1" />
             <p className="text-sm text-[#A1A1AA] mt-1">
-              Debes iniciar sesión para pagar y descargar tu CV
+              Si realizás el pago desde la app o la web,{" "}
+              <strong>al iniciar sesión</strong> el sistema reconocerá tu compra
+              y habilitará automáticamente la descarga. No hace falta que subas
+              comprobantes.
             </p>
           </div>
         </CardContent>

@@ -52,7 +52,7 @@ export async function POST(req: Request): Promise<NextResponse> {
   // Protección y rate-limiting con Arcjet
   const decision = await aj
     .withRule(shield({ mode: "LIVE" }))
-    .withRule(fixedWindow({ mode: "LIVE", max: 10, window: "86400s" }))
+    .withRule(fixedWindow({ mode: "LIVE", max: 35, window: "86400s" }))
     .protect(req);
 
   decision.results.forEach((res) => console.log("Arcjet rule:", res));
@@ -141,7 +141,7 @@ Información adicional: ${body.informacionAdicional}
     openai.chat.completions.create({
       model: "gpt-3.5-turbo-0125",
       temperature: 0.4,
-      max_tokens: 3200,
+      max_tokens: 1280,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: systemMessage },
@@ -228,6 +228,7 @@ Información adicional: ${body.informacionAdicional}
     status: "pending",
   }); // esto lo creamos solo para ver la gente que crea si compra o no
 
+  
   // Devolver en forma de RespuestaCV
   const response: RespuestaCV = { cv: parsed.data };
   return NextResponse.json(response);
