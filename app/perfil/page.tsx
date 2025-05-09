@@ -26,6 +26,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Download, Eye, Loader2, User, X } from "lucide-react";
+import { FloatingPaper } from "@/components/floatin-paper";
 
 // Componente para generar una miniatura del CV
 const CVThumbnail = ({ cv }: { cv: CVRecord }) => {
@@ -146,7 +147,6 @@ export default function PerfilCVs() {
       </div>
 
       <Tabs defaultValue="grid" className="max-w-6xl mx-auto">
-        a
         <div className="flex justify-center mb-6">
           <TabsList className="bg-[#1A1A1D] p-1 rounded-full text-white">
             <TabsTrigger

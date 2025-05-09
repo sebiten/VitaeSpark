@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 const Page = async () => {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
-
   if (!data.user) {
     redirect("/login");
   }

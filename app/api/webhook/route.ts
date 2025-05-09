@@ -11,7 +11,6 @@ export async function POST(req: NextRequest) {
   // }
 
   const body = await req.json();
-
   const type = body.type;
   const id = body.data?.id;
 
@@ -30,8 +29,6 @@ export async function POST(req: NextRequest) {
 
   if (payment.status === "approved") {
     const supabase = await createClient();
-
-    // Reintentar hasta encontrar el CV en DB (por si aún no fue insertado)
 
     const { data, error } = await supabase
       .from("cvs")

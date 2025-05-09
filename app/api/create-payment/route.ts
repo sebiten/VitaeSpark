@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 
 export async function POST(req: Request) {
+  // extraemos los datos provenientes del front, CVPreviewStep
   const body = await req.json();
   const { cvData, template } = body;
 
@@ -34,7 +35,7 @@ export async function POST(req: Request) {
     console.error("Error insertando CV:", cvError);
     return NextResponse.json({ error: "Error creando CV" }, { status: 500 });
   }
-
+  // creamos preferencia de mp y le pasamos el cv_id y el profile id, importante para verificar via webhook
   const mpRes = await fetch(
     "https://api.mercadopago.com/checkout/preferences",
     {
