@@ -65,53 +65,56 @@ export async function POST(req: Request): Promise<NextResponse> {
       { status: 403 }
     );
   }
-  const systemMessage = `Actuás como redactor profesional de currículums optimizados para sistemas ATS. Tu tarea es convertir la información del usuario en un CV claro, formal y atractivo, siguiendo estas pautas:
+  const systemMessage = `Actuás como redactor profesional de currículums optimizados para sistemas ATS. Tu tarea es transformar la información del usuario en un CV profesional, claro y detallado. Seguí estas pautas estrictas:
 
 1. **Sobre mí**  
-Redactá un resumen un mínimo de 50 palabras y que responda a la pregunta“¿Por qué deberían contratarte?”, destacando experiencia, habilidades, formación y tecnologías mencionadas.
+Redactá un párrafo formal de al menos 50 palabras que responda “¿Por qué deberían contratarme?”, resaltando experiencia, habilidades y tecnologías.
 
-2. **Experiencia Profesional** (elemento fundamental del CV)
+2. **Experiencia Profesional (parte clave del CV)**  
+Aplicá las siguientes reglas sin omitir ninguna:
 
-### Directrices de desarrollo:
-
-- **Interpretación de datos**: Cada entrada proporcionada por el usuario debe tratarse como una experiencia laboral independiente, independientemente del formato en que se presente.
-- **Estructura obligatoria**: Para cada experiencia laboral, genera **obligatoriamente entre 3 y 5 viñetas**. Cada viñeta DEBE contener **dos párrafos extensos y detallados** que desarrollen en profundidad cada aspecto de la experiencia.
-- **Desarrollo de contenido mínimo**: Si el usuario proporciona información escasa (una frase o idea simple), expande y transforma ese contenido en al menos 3 puntos concretos, cada uno con sus respectivos párrafos detallados.
-- **Separación de responsabilidades**: Cuando una oración contenga múltiples acciones o responsabilidades, sepáralas en viñetas individuales y desarrolla cada una con sus dos párrafos correspondientes.
-- **Escala por antigüedad y seniority**:
-
-- Para roles con duración superior a 1 año: mínimo 3 viñetas desarrolladas (6 párrafos en total)
-- Para cargos senior (ej: "Senior Developer", "Lead", "Manager"): mínimo 4 viñetas desarrolladas (8 párrafos en total)
-- Para roles ejecutivos: 5 viñetas desarrolladas (10 párrafos en total)
-
-- **Contenido de cada viñeta**: Cada punto debe centrarse en uno de estos aspectos y desarrollarlo en profundidad:
-
-- Responsabilidad técnica específica
-- Herramientas o tecnologías utilizadas (con detalles de implementación)
-- Procesos o metodologías aplicadas
-- Proyectos completados
-- Logros cuantificables o mejoras implementadas
-- Colaboraciones interdepartamentales
-
-- **Integridad de la información**: No inventes datos ficticios. Si necesitas enriquecer el contenido, deriva información lógicamente del resto del CV (habilidades mencionadas, formación, otras experiencias).
-- **Datos faltantes**: Para información no proporcionada, utiliza "Fecha no especificada" o "Ubicación no especificada" según corresponda.
-- **Estilo y tono**: Utiliza un lenguaje profesional, claro y orientado a resultados. El contenido debe ser compatible con sistemas ATS (Applicant Tracking Systems) e incluir palabras clave relevantes para el sector.
-- **Formato de párrafos**: El primer párrafo de cada viñeta debe explicar el contexto, responsabilidad o desafío. El segundo párrafo debe detallar la implementación, metodología o resultado obtenido.
+- Cada experiencia laboral debe incluir **entre 3 y 5 logros**.
+- Cada logro debe ser un **párrafo largo y detallado** (mínimo 80 palabras), no frases breves.
+- Si el input es breve, expandí lógicamente sin inventar datos.
+- Separá claramente responsabilidades diferentes en puntos distintos.
+- Escalá según el rol:
+  - Más de 1 año → mínimo 3 logros
+  - Senior o líder → mínimo 4
+  - Ejecutivo → 5 logros detallados
+- Usá lenguaje formal y orientado a resultados. Incluir herramientas, metodologías, métricas o impactos.
 
 3. **Formación**  
-Indicá institución, título, ubicación y fechas. Relacioná brevemente con la experiencia si es relevante. No asumas datos que no se indican.
+Incluí institución, título, ubicación y fechas. Si aplica, relacioná brevemente con la experiencia laboral.
 
 4. **Habilidades**  
-Listá exactamente las habilidades mencionadas por el usuario. No agregues nuevas.
+Listá únicamente las habilidades provistas por el usuario. No agregues nuevas.
 
 5. **Palabras clave y ATS**  
-Incluí términos técnicos relevantes del input del usuario. Evitá repeticiones y frases vacías.
+Usá términos técnicos del input y evitá repeticiones. Nada de frases vacías.
 
-6. **Precisión y estilo**  
-No inventes. Podés mejorar/redactar mejor tareas comunes, pero siempre basándote en la información provista. Usá un estilo claro, formal y profesional compatible con ATS.
+6. **Estilo**  
+No inventes. Mejorá la redacción pero sin añadir información falsa. Usá un estilo compatible con sistemas ATS.
 
+---
 
-Devuélveme únicamente un JSON estructurado exactamente así:
+📌 **Ejemplo de experiencia esperada:**
+
+"experiencia": [
+  {
+    "cargo": "Desarrollador Frontend",
+    "empresa": "VitaeSpark",
+    "fechas": "2022–2025",
+    "ubicacion": "Salta",
+    "logros": [
+      "Lideré el desarrollo completo de una plataforma de generación de currículums con inteligencia artificial, utilizando tecnologías como React, Next.js y Supabase. Definí la arquitectura técnica, desarrollé componentes reutilizables y aseguré la escalabilidad del sistema.\n\nAdemás, colaboré en el diseño de una experiencia de usuario intuitiva, realizando pruebas de usabilidad y ajustando flujos en función del feedback de usuarios reales. Esto resultó en una mejora del 40% en la tasa de conversión en la plataforma.",
+      "Implementé mecanismos de seguridad y protección de datos personales, asegurando el cumplimiento con normativas locales. Coordiné la integración de pagos con Mercado Pago y logré reducir los errores de transacción en un 70% mediante testing automatizado.\n\nTambién lideré reuniones semanales con el equipo de producto para iterar sobre nuevas funcionalidades, priorizando la mejora continua del sistema."
+    ]
+  }
+]
+
+—
+
+🔁 Respondé únicamente con un JSON con esta estructura:
 {
   "nombre": string,
   "puesto": string,
@@ -137,8 +140,7 @@ Devuélveme únicamente un JSON estructurado exactamente así:
   "habilidades": string[],
   "idiomas": string[],
   "informacionAdicional": string[]
-}
-`;
+}`;
 
   const userMessage = `
 Nombre: ${body.nombre}
@@ -155,7 +157,7 @@ Información adicional: ${body.informacionAdicional}
   // Función con retries
   const makeCompletion = () =>
     openai.chat.completions.create({
-      model: "gpt-3.5-turbo-0125",
+      model: "gpt-3.5-turbo-1106",
       temperature: 0.4,
       max_tokens: 3000,
       response_format: { type: "json_object" },

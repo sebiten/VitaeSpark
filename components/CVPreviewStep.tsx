@@ -65,7 +65,7 @@ export default function CVPreviewStepPurple({
       case "green":
       default:
         return (
-          <PDFViewer showToolbar={false}>
+          <PDFViewer showToolbar={false} >
             <DocumentoCV cv={cvData} template={template} />
           </PDFViewer>
         );

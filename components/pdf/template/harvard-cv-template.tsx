@@ -177,7 +177,11 @@ export default function HarvardTemplate({ cv }: { cv: RespuestaCV["cv"] }) {
         ))}
 
         {/* Skills Adicionales */}
-        <Text style={styles.sectionHeader}>Habilidades</Text>
+        <View break>
+          <Text style={styles.sectionHeader}>
+            Habilidades
+          </Text>
+        </View>
 
         <BulletList items={cv.habilidades} />
 

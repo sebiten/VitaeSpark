@@ -1,31 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
-  CheckCircle2,
-  FileText,
-  Zap,
-  Sparkles,
-  Search,
-  Clock,
-  Award,
-  ArrowRight,
-  University,
-  GraduationCap,
-} from "lucide-react";
-import { Footer } from "@/components/footer";
-import { TestimonialCard } from "@/components/testimonial-card";
-import { FeatureCard } from "@/components/feature-card";
-import Link from "next/link";
-import { RoboAnimation } from "./roboto-animation";
-import { FloatingPaper } from "./floatin-paper";
-import Image from "next/image";
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { CheckCircle2, FileText, Zap, Sparkles, Search, Clock, Award, ArrowRight, GraduationCap } from "lucide-react"
+import { TestimonialCard } from "@/components/testimonial-card"
+import { FeatureCard } from "@/components/feature-card"
+import Link from "next/link"
+import { RoboAnimation } from "./roboto-animation"
+import { FloatingPaper } from "./floatin-paper"
 
 export default function Home() {
   return (
@@ -33,7 +14,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="px-4 py-20 md:py-32 relative overflow-hidden">
         <FloatingPaper />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/20 to-transparent opacity-30 z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/30 via-[#38BDF8]/20 to-transparent opacity-40 z-0"></div>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1 space-y-6">
@@ -43,35 +24,60 @@ export default function Home() {
                   <Zap className="mr-1 h-3 w-3" /> Impulsado por IA
                 </Badge>
                 <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 animate-pulse">
-                  <GraduationCap className="mr-1 h-3 w-3" /> Plantilla
-                  recomendada por Harvard
+                  <GraduationCap className="mr-1 h-3 w-3" /> Plantilla recomendada por Harvard
                 </Badge>
               </div>
 
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                CVs inteligentes que{" "}
-                <span className="text-[#7C3AED]">destacan</span>
+                CVs inteligentes que <span className="text-[#7C3AED]">destacan</span>
               </h1>
               <p className="text-lg md:text-xl text-[#F4F4F5]/80 max-w-xl">
-                La forma más rápida y accesible de crear CVs profesionales y una
-                herramienta poderosa para destacar en el competitivo mercado
-                laboral.
+                La forma más rápida y accesible de crear CVs profesionales y una herramienta poderosa para destacar en
+                el competitivo mercado laboral.
               </p>
 
-              <div className="bg-[#1F1F22]/80 border border-[#38BDF8]/30 rounded-lg p-4 shadow-lg">
-                <div className="flex items-start gap-3">
-                  <div className="bg-[#38BDF8] p-2 rounded-full shrink-0">
-                    <GraduationCap className="h-5 w-5 text-white" />
+              <div className="relative overflow-hidden bg-gradient-to-br from-[#1F1F22] to-[#141415] border-l-4 border-[#38BDF8] rounded-lg p-5 shadow-xl group hover:shadow-2xl hover:shadow-[#38BDF8]/10 transition-all duration-300">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#38BDF8]/10 to-transparent blur-3xl opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-tr from-[#7C3AED]/10 to-transparent blur-3xl opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+
+                <div className="flex items-start gap-4 relative z-10">
+                  <div className="bg-gradient-to-br from-[#38BDF8] to-[#7C3AED] p-3 rounded-lg shrink-0 shadow-lg shadow-[#38BDF8]/20 group-hover:shadow-[#38BDF8]/30 transition-all duration-300">
+                    <GraduationCap className="h-6 w-6 text-white" />
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-white">
-                      Formato profesional recomendado por Harvard
+
+                  <div className="space-y-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="bg-[#7C3AED]/20 text-[#7C3AED] text-xs font-semibold px-2 py-1 rounded-full animate-pulse">
+                        ¡NUEVO!
+                      </span>
+                      <h3 className="text-base font-bold text-white">Plantilla Recomendada por Harvard</h3>
+                    </div>
+
+                    <p className="text-sm text-[#F4F4F5]/90">
+                      Ahora la puedes elegir a la hora de crear tu curriculum.
                     </p>
-                    <p className="text-xs text-[#F4F4F5]/70 mt-1">
-                      Basado en estructuras sugeridas por universidades de
-                      prestigio como Harvard para destacar en procesos de
-                      selección exigentes.
-                    </p>
+
+                    <div className="pt-1 border-t border-[#38BDF8]/20">
+                      <p className="text-xs text-[#F4F4F5]/70">
+                        Basado en estructuras sugeridas por universidades de prestigio como Harvard para destacar en
+                        procesos de selección exigentes.
+                      </p>
+                    </div>
+
+                    {/* <div className="flex items-center gap-2 pt-1">
+                      <div className="flex -space-x-2">
+                        <div className="w-6 h-6 rounded-full bg-[#38BDF8]/20 flex items-center justify-center">
+                          <CheckCircle2 className="h-3 w-3 text-[#38BDF8]" />
+                        </div>
+                        <div className="w-6 h-6 rounded-full bg-[#7C3AED]/20 flex items-center justify-center">
+                          <Award className="h-3 w-3 text-[#7C3AED]" />
+                        </div>
+                        <div className="w-6 h-6 rounded-full bg-[#38BDF8]/20 flex items-center justify-center">
+                          <FileText className="h-3 w-3 text-[#38BDF8]" />
+                        </div>
+                      </div>
+                      <span className="text-xs text-[#F4F4F5]/60">Formato profesional certificado</span>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -80,7 +86,7 @@ export default function Home() {
                 <Link href="/crear">
                   <Button
                     size="lg"
-                    className="bg-[#7C3AED] hover:bg-[#A78BFA] text-white"
+                    className="bg-[#7C3AED]  hover:opacity-90 text-white shadow-lg shadow-[#7C3AED]/30 transition-all duration-300"
                     variant="default"
                   >
                     Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
@@ -100,16 +106,12 @@ export default function Home() {
             </div>
             <div className="flex-1 relative mt-2 ">
               <div className="relative bg-[#1F1F22] rounded-lg p-1 shadow-2xl shadow-[#7C3AED]/20">
-                <img
-                  src="/harvard.webp"
-                  alt="CV generado por VitaeSpark"
-                  className="rounded-lg w-full h-auto"
-                />
+                <img src="/purplehero.webp" alt="CV generado por VitaeSpark" className="rounded-lg w-full h-auto" />
                 <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-[#38BDF8] text-[#0F0F10] font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm">
                   ¡Optimizado para ATS!
                 </div>
                 <div className="absolute -bottom-4 -right-4 bg-[#7C3AED] text-white font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm flex items-center">
-                  <GraduationCap className="mr-1 h-3 w-3" /> Formato Harvard
+                  <GraduationCap className="mr-1 h-3 w-3" /> Plantilla Morada
                 </div>
               </div>
               <div className="absolute -bottom-6 -left-6 bg-[#1F1F22] p-4 rounded-lg shadow-lg max-w-xs">
@@ -118,12 +120,8 @@ export default function Home() {
                     <Sparkles className="h-5 w-5 text-white" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium">
-                      Redacción mejorada por IA
-                    </p>
-                    <p className="text-xs text-[#F4F4F5]/60">
-                      Textos profesionales y persuasivos
-                    </p>
+                    <p className="text-sm font-medium">Redacción mejorada por IA</p>
+                    <p className="text-xs text-[#F4F4F5]/60">Textos profesionales y persuasivos</p>
                   </div>
                 </div>
               </div>
@@ -136,15 +134,11 @@ export default function Home() {
       <section className="py-20 px-4 bg-[#0F0F10]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
-              Características
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Todo lo que necesitas para un CV perfecto
-            </h2>
+            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">Características</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Todo lo que necesitas para un CV perfecto</h2>
             <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">
-              VitaeSpark combina tecnología avanzada con diseño profesional para
-              crear CVs que impresionan a reclutadores y sistemas ATS.
+              VitaeSpark combina tecnología avanzada con diseño profesional para crear CVs que impresionan a
+              reclutadores y sistemas ATS.
             </p>
           </div>
 
@@ -187,15 +181,10 @@ export default function Home() {
       <section className="py-20 px-4 bg-[#0F0F10]/50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
-              Proceso
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Crea tu CV en tres simples pasos
-            </h2>
+            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">Proceso</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Crea tu CV en tres simples pasos</h2>
             <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">
-              Nuestro proceso está diseñado para ser rápido, intuitivo y
-              efectivo.
+              Nuestro proceso está diseñado para ser rápido, intuitivo y efectivo.
             </p>
           </div>
 
@@ -208,8 +197,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-2">Ingresa tus datos</h3>
               <p className="text-[#F4F4F5]/70">
-                Completa un formulario simple con tu experiencia, educación y
-                habilidades.
+                Completa un formulario simple con tu experiencia, educación y habilidades.
               </p>
             </div>
 
@@ -219,8 +207,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-2">La IA optimiza tu CV</h3>
               <p className="text-[#F4F4F5]/70">
-                Nuestro sistema mejora automáticamente la redacción y estructura
-                de tu CV.
+                Nuestro sistema mejora automáticamente la redacción y estructura de tu CV.
               </p>
             </div>
 
@@ -230,8 +217,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-2">Descarga tu CV listo</h3>
               <p className="text-[#F4F4F5]/70">
-                Obtén tu CV profesional en PDF, listo para enviar a cualquier
-                empresa.
+                Obtén tu CV profesional en PDF, listo para enviar a cualquier empresa.
               </p>
             </div>
           </div>
@@ -242,21 +228,16 @@ export default function Home() {
       <section className="py-20 px-4 bg-[#0F0F10]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
-              Testimonios
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Lo que dicen nuestros usuarios
-            </h2>
+            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">Testimonios</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Lo que dicen nuestros usuarios</h2>
             <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">
-              Miles de profesionales ya han mejorado sus oportunidades laborales
-              con VitaeSpark.
+              Miles de profesionales ya han mejorado sus oportunidades laborales con VitaeSpark.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             <TestimonialCard
-              quote="Conseguí tres entrevistas en la primera semana después de actualizar mi CV con VitaSpark. ¡Increíble servicio!"
+              quote="Conseguí tres entrevistas en la primera semana después de actualizar mi CV con VitaeSpark. ¡Increíble servicio!"
               author="Laura Martínez"
               role="Diseñadora UX/UI"
               rating={5}
@@ -281,42 +262,28 @@ export default function Home() {
       <section className="py-20 px-4 bg-[#0F0F10]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
-              Preguntas frecuentes
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Resolvemos tus dudas
-            </h2>
-            <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">
-              Todo lo que necesitas saber sobre VitaeSpark.
-            </p>
+            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">Preguntas frecuentes</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Resolvemos tus dudas</h2>
+            <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">Todo lo que necesitas saber sobre VitaeSpark.</p>
           </div>
 
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1" className="border-[#1F1F22]">
-              <AccordionTrigger className="text-left">
-                ¿Qué es un sistema ATS y por qué es importante?
-              </AccordionTrigger>
+              <AccordionTrigger className="text-left">¿Qué es un sistema ATS y por qué es importante?</AccordionTrigger>
               <AccordionContent className="text-[#F4F4F5]/70">
-                Un ATS (Applicant Tracking System) es un software que utilizan
-                las empresas para filtrar automáticamente los CVs. Es importante
-                que tu CV esté optimizado para estos sistemas, ya que
-                aproximadamente el 75% de los currículums son rechazados antes
-                de que un reclutador los vea. VitaeSpark asegura que tu CV pase
+                Un ATS (Applicant Tracking System) es un software que utilizan las empresas para filtrar automáticamente
+                los CVs. Es importante que tu CV esté optimizado para estos sistemas, ya que aproximadamente el 75% de
+                los currículums son rechazados antes de que un reclutador los vea. VitaeSpark asegura que tu CV pase
                 estos filtros.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-2" className="border-[#1F1F22]">
-              <AccordionTrigger className="text-left">
-                ¿Cómo mejora la IA mi currículum?
-              </AccordionTrigger>
+              <AccordionTrigger className="text-left">¿Cómo mejora la IA mi currículum?</AccordionTrigger>
               <AccordionContent className="text-[#F4F4F5]/70">
-                Nuestra IA analiza tu información y mejora la redacción para
-                hacerla más impactante y profesional. También identifica
-                palabras clave relevantes para tu industria y las incorpora
-                estratégicamente, aumentando tus posibilidades de superar los
-                filtros ATS.
+                Nuestra IA analiza tu información y mejora la redacción para hacerla más impactante y profesional.
+                También identifica palabras clave relevantes para tu industria y las incorpora estratégicamente,
+                aumentando tus posibilidades de superar los filtros ATS.
               </AccordionContent>
             </AccordionItem>
 
@@ -333,12 +300,10 @@ export default function Home() {
             </AccordionItem> */}
 
             <AccordionItem value="item-4" className="border-[#1F1F22]">
-              <AccordionTrigger className="text-left">
-                ¿En qué formatos puedo descargar mi CV?
-              </AccordionTrigger>
+              <AccordionTrigger className="text-left">¿En qué formatos puedo descargar mi CV?</AccordionTrigger>
               <AccordionContent className="text-[#F4F4F5]/70">
-                Con la generación de tu cv puedes descargarlo en formato PDF las
-                veces que sean necesesarias desde tu perfil.
+                Con la generación de tu cv puedes descargarlo en formato PDF las veces que sean necesesarias desde tu
+                perfil.
               </AccordionContent>
             </AccordionItem>
 
@@ -359,18 +324,15 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 px-4 bg-gradient-to-br from-[#7C3AED]/20 to-[#38BDF8]/10">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Destaca en el mercado laboral hoy mismo
-          </h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">Destaca en el mercado laboral hoy mismo</h2>
           <p className="text-xl text-[#F4F4F5]/80 mb-8 max-w-2xl mx-auto">
-            Únete a miles de profesionales que ya han mejorado sus oportunidades
-            con VitaeSpark.
+            Únete a miles de profesionales que ya han mejorado sus oportunidades con VitaeSpark.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/crear">
               <Button
                 size="lg"
-                className="bg-[#7C3AED] hover:bg-[#A78BFA] text-white"
+                className="bg-gradient-to-r from-[#7C3AED] to-[#38BDF8] hover:opacity-90 text-white shadow-lg shadow-[#7C3AED]/30 transition-all duration-300"
                 variant="default"
               >
                 Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
@@ -380,5 +342,5 @@ export default function Home() {
         </div>
       </section>
     </div>
-  );
+  )
 }
