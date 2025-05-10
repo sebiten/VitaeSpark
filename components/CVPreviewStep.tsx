@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { PDFViewer } from "@react-pdf/renderer"
 import type { RespuestaCV } from "@/lib/types/cv"
-import { ShieldCheck, UserCheck, Download, Loader2, ChevronUp, ChevronDown } from "lucide-react"
+import { ShieldCheck, UserCheck, Download, Loader2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import type { Session } from "@supabase/supabase-js"
@@ -22,8 +22,6 @@ export default function CVPreviewStep({ cvData, template, onBack, userSession }:
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const pdfContainerRef = useRef<HTMLDivElement>(null)
-  const [scrollPosition, setScrollPosition] = useState(0)
 
   // Prevenir eventos de descarga
   useEffect(() => {
@@ -101,22 +99,6 @@ export default function CVPreviewStep({ cvData, template, onBack, userSession }:
     }
   }
 
-  // Función para desplazar hacia abajo
-  const scrollDown = () => {
-    setScrollPosition((prev) => prev + 100)
-    if (pdfContainerRef.current) {
-      pdfContainerRef.current.style.transform = `translateY(-${scrollPosition + 100}px)`
-    }
-  }
-
-  // Función para desplazar hacia arriba
-  const scrollUp = () => {
-    setScrollPosition((prev) => Math.max(prev - 100, 0))
-    if (pdfContainerRef.current) {
-      pdfContainerRef.current.style.transform = `translateY(-${Math.max(scrollPosition - 100, 0)}px)`
-    }
-  }
-
   return (
     <div className="space-y-4 border border-[#2A2A2D] rounded-2xl shadow-xl w-full p-4 md:p-8 bg-gradient-to-b from-[#1A1A1D] to-[#0F0F10]">
       {/* Header */}
@@ -132,7 +114,7 @@ export default function CVPreviewStep({ cvData, template, onBack, userSession }:
         <DialogTrigger asChild>
           <Button
             variant="default"
-            className="w-full mx-auto block text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700"
+            className="w-full py-3 text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 border-none shadow-md transition-all duration-200"
           >
             <ShieldCheck className="w-5 h-5 mr-2" />
             Ver vista previa del CV
@@ -148,43 +130,17 @@ export default function CVPreviewStep({ cvData, template, onBack, userSession }:
           </DialogHeader>
 
           <div className="bg-[#121214] p-4 relative">
-            {/* Controles de navegación */}
-            <div className="flex justify-center mb-2 gap-2 z-20 relative">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={scrollUp}
-                className="bg-black/50 border-gray-600 hover:bg-black/70 text-white h-8 w-8 p-0"
-              >
-                <ChevronUp className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={scrollDown}
-                className="bg-black/50 border-gray-600 hover:bg-black/70 text-white h-8 w-8 p-0"
-              >
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </div>
-
-            {/* Contenedor del PDF con overflow hidden */}
+            {/* Contenedor con scroll para el PDF */}
             <div
               ref={scrollContainerRef}
-              className="relative w-full rounded-lg shadow-lg overflow-hidden bg-white"
+              className="relative w-full rounded-lg shadow-lg overflow-auto bg-white"
               style={{
                 height: "75vh",
+                scrollBehavior: "smooth",
               }}
             >
-              {/* Visor de PDF con transformación para scroll */}
-              <div
-                ref={pdfContainerRef}
-                className="w-full transition-transform duration-300 ease-in-out"
-                style={{
-                  pointerEvents: "none",
-                  transform: `translateY(-${scrollPosition}px)`,
-                }}
-              >
+              {/* Visor de PDF con estilos para prevenir interacciones */}
+              <div className="w-full h-full" style={{ pointerEvents: "none" }}>
                 <PDFViewer
                   className="w-full bg-white pointer-events-none"
                   showToolbar={false}
@@ -197,7 +153,7 @@ export default function CVPreviewStep({ cvData, template, onBack, userSession }:
                 </PDFViewer>
               </div>
 
-              {/* Capa protectora transparente para prevenir descargas */}
+              {/* Capa protectora transparente para prevenir descargas - AHORA CON POINTER-EVENTS ACTIVADOS */}
               <div
                 className="absolute inset-0 z-10 cursor-not-allowed"
                 onContextMenu={(e) => e.preventDefault()}
@@ -218,9 +174,9 @@ export default function CVPreviewStep({ cvData, template, onBack, userSession }:
                 }}
               >
                 {/* Marca de agua */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="text-gray-300 text-4xl md:text-6xl font-bold transform rotate-45 opacity-10 whitespace-nowrap">
-                    VISTA PREVIA
+                <div className="sticky text-center transform bottom-8/12 top-1/2 -translate-x-1/12 -translate-y-0 pointer-events-none">
+                  <div className="z-100 text-gray-600 text-4xl md:text-6xl font-bold transform rotate-45 opacity-10 whitespace-nowrap">
+                    VitaeSpark
                   </div>
                 </div>
               </div>
@@ -257,7 +213,7 @@ export default function CVPreviewStep({ cvData, template, onBack, userSession }:
       {userSession ? (
         <Button
           disabled={loading}
-          className="w-full py-4 rounded-lg bg-gradient-to-r from-[#009ee3] to-[#0094d8] hover:from-[#008cc8] hover:to-[#0082c0] text-white font-semibold"
+          className="w-full py-4 rounded-lg bg-gradient-to-r from-[#009ee3] to-[#0094d8] hover:from-[#008cc8] hover:to-[#0082c0] text-white font-semibold border-none shadow-lg transition-all duration-200"
           onClick={handlePay}
         >
           {loading ? (
@@ -267,8 +223,8 @@ export default function CVPreviewStep({ cvData, template, onBack, userSession }:
             </>
           ) : (
             <>
-              <div className="bg-white p-1 rounded-md mr-2">
-                <Image src="/logompsolomano.png" width={20} height={20} alt="MercadoPago" className="rounded-md" />
+              <div className=" p-1 rounded-md flex items-center justify-center">
+                <Image src="/logompsolomano.png" width={25} height={25} alt="MercadoPago" className="rounded-md" />
               </div>
               <span>Pagar con MercadoPago 1500 ARS</span>
             </>
@@ -276,7 +232,10 @@ export default function CVPreviewStep({ cvData, template, onBack, userSession }:
         </Button>
       ) : (
         <Link href="/login" className="block w-full">
-          <Button variant="outline" className="w-full text-white border border-white/20 rounded-lg">
+          <Button
+            variant="outline"
+            className="w-full text-white border border-white/20 rounded-lg py-3 hover:bg-white/5 transition-colors duration-200"
+          >
             Iniciar sesión para pagar
           </Button>
         </Link>
