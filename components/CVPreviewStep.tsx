@@ -1,54 +1,55 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import type { RespuestaCV } from "@/lib/types/cv";
-import { ShieldCheck, UserCheck, Download, Loader2 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import type { Session } from "@supabase/supabase-js";
-import { PDFViewer } from "@react-pdf/renderer";
-import { DocumentoCV } from "./pdf/CVDocument";
+import type React from "react"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import type { RespuestaCV } from "@/lib/types/cv"
+import { ShieldCheck, UserCheck, Download, Loader2 } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import type { Session } from "@supabase/supabase-js"
+import { PDFViewer } from "@react-pdf/renderer"
+import { DocumentoCV } from "./pdf/CVDocument"
 
 type Props = {
-  cvData: RespuestaCV["cv"];
-  template: string;
-  onBack: () => void;
-  userSession: Session | null;
-};
+  cvData: RespuestaCV["cv"]
+  template: string
+  onBack: () => void
+  userSession: Session | null
+}
 
-export default function CVPreviewStepPurple({
-  cvData,
-  template,
-  onBack,
-  userSession,
-}: Props) {
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+export default function CVPreviewStepPurple({ cvData, template, onBack, userSession }: Props) {
+  const [loading, setLoading] = useState(false)
 
   const handlePay = async () => {
-    if (!userSession) return;
+    if (!userSession) return
 
-    setLoading(true);
+    setLoading(true)
     try {
       const res = await fetch("/api/create-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ cvData, template }),
-      });
+      })
 
-      const { init_point } = await res.json();
+      const { init_point } = await res.json()
       if (init_point) {
-        window.location.href = init_point;
+        window.location.href = init_point
       } else {
-        alert("No se pudo iniciar el pago. Intenta nuevamente.");
+        alert("No se pudo iniciar el pago. Intenta nuevamente.")
       }
     } catch (error) {
-      alert("Error al procesar el pago. Intenta nuevamente.");
+      alert("Error al procesar el pago. Intenta nuevamente.")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
+
+  // Prevent double-click
+  const handleDoubleClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+  }
 
   // Renderizar la plantilla según el template seleccionado
   const renderTemplate = () => {
@@ -60,11 +61,11 @@ export default function CVPreviewStepPurple({
       default:
         return (
           <PDFViewer showToolbar={false}>
-            <DocumentoCV cv={cvData} />
+            <DocumentoCV cv={cvData} template={template} />
           </PDFViewer>
-        );
+        )
     }
-  };
+  }
 
   return (
     <div className="space-y-4 border border-[#2A2A2D] rounded-2xl shadow-xl w-full p-4 md:p-8 bg-gradient-to-b from-[#1A1A1D] to-[#0F0F10]">
@@ -73,83 +74,28 @@ export default function CVPreviewStepPurple({
         <h2 className="text-lg md:text-xl font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
           Vista previa de tu CV
         </h2>
-        <p className="text-gray-300 text-sm">
-          Para ver todas las páginas y en mejor calidad completa el pago
-        </p>
+        <p className="text-gray-300 text-sm">Para ver todas las páginas y en mejor calidad completa el pago</p>
       </div>
+
       {/* Contenedor para la vista previa del CV con aspect ratio A4 */}
       <div className="relative w-full rounded-lg shadow-lg overflow-hidden bg-white flex flex-col items-center">
-        {/* Marca de agua */}
-        <div className="absolute inset-0 select-none z-10">
-          <div className="w-full h-full relative overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center transform -rotate-45">
-              {Array.from({ length: 20 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute text-gray-200 opacity-5 text-2xl font-bold whitespace-nowrap"
-                  style={{
-                    top: `${i * 100 - 1000}px`,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    width: "200%",
-                  }}
-                >
-                  {Array.from({ length: 20 }).map((_, j) => (
-                    <span key={j} className="mx-8">
-                      VitaeSpark.com
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Capa protectora que permite scroll pero no clicks */}
-        <div
-          className="absolute inset-0 z-20 pointer-events-auto"
-          style={{ pointerEvents: "all" }}
-        >
-          {/* Área transparente para los scrollbars */}
-          <div className="absolute inset-y-0 right-0 w-4 pointer-events-none"></div>
-          <div className="absolute inset-x-0 bottom-0 h-4 pointer-events-none"></div>
-
-          {/* Área bloqueada (todo excepto los scrollbars) */}
-          <div
-            className="absolute inset-0 bg-transparent cursor-not-allowed"
-            onClick={(e) => e.preventDefault()}
-            style={{
-              right: "19px", // Ancho aproximado de la scrollbar
-              bottom: "19px", // Alto aproximado de la scrollbar horizontal
-            }}
-          >
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-              <div className="bg-black/70 text-white px-4 py-2 rounded-lg text-sm">
-                Completa el pago para desbloquear
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Área de visualización con aspect ratio A4 (1:√2 o aproximadamente 1:1.414) */}
         <div
-          className="w-full relative z-0"
+          className="w-full relative z-0 cv-preview-container"
           style={{
             aspectRatio: "1/1.414" /* A4 aspect ratio */,
             maxHeight: "80vh",
             width: "full",
             overflow: "auto",
           }}
+          onDoubleClick={handleDoubleClick}
         >
           {renderTemplate()}
         </div>
       </div>
 
       <div className="mt-3 text-center text-xs text-gray-400">
-        <p>
-          Esta es una vista previa protegida. Para descargar el CV completo,
-          realiza el pago.
-        </p>
+        <p>Esta es una vista previa. Para descargar el CV completo, realiza el pago.</p>
       </div>
 
       {/* Información de pago */}
@@ -162,17 +108,12 @@ export default function CVPreviewStepPurple({
         <div className="space-y-3 text-sm">
           <div className="flex items-start gap-3">
             <UserCheck className="text-blue-500 w-5 h-5 flex-shrink-0" />
-            <p className="text-gray-300">
-              Tu CV se asociará a tu cuenta una vez confirmado el pago.
-            </p>
+            <p className="text-gray-300">Tu CV se asociará a tu cuenta una vez confirmado el pago.</p>
           </div>
 
           <div className="flex items-start gap-3">
             <Download className="text-indigo-400 w-5 h-5 flex-shrink-0" />
-            <p className="text-gray-300">
-              Podrás descargar tu CV todas las veces que quieras desde tu
-              perfil.
-            </p>
+            <p className="text-gray-300">Podrás descargar tu CV todas las veces que quieras desde tu perfil.</p>
           </div>
         </div>
       </div>
@@ -192,13 +133,7 @@ export default function CVPreviewStepPurple({
           ) : (
             <>
               <div className=" p-1 rounded-md flex items-center justify-center">
-                <Image
-                  src="/logompsolomano.png"
-                  width={20}
-                  height={20}
-                  alt="MercadoPago"
-                  className="rounded-md"
-                />
+                <Image src="/logompsolomano.png" width={20} height={20} alt="MercadoPago" className="rounded-md" />
               </div>
               <span>Pagar con MercadoPago 1500 ARS</span>
             </>
@@ -215,5 +150,5 @@ export default function CVPreviewStepPurple({
         </Link>
       )}
     </div>
-  );
+  )
 }

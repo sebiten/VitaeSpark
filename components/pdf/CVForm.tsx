@@ -1,8 +1,3 @@
-// CVForm.tsx - Entrada principal del generador de CV
-// --------------------------------------------------------------------
-// Este archivo importa y organiza los subcomponentes para generar, previsualizar
-// y pagar un CV profesional personalizado.
-
 "use client";
 
 import type { NextPage } from "next";
