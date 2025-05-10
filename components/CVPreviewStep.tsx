@@ -86,7 +86,7 @@ export default function CVPreviewStepPurple({
               {Array.from({ length: 20 }).map((_, i) => (
                 <div
                   key={i}
-                  className="absolute text-gray-200 opacity-10 text-2xl font-bold whitespace-nowrap"
+                  className="absolute text-gray-200 opacity-5 text-2xl font-bold whitespace-nowrap"
                   style={{
                     top: `${i * 100 - 1000}px`,
                     left: "50%",
