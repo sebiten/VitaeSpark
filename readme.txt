@@ -4,4 +4,13 @@
 4. confirmar el pago en el server
 
 
-TESTUSER100222095 64FFE91E#5e13#4653#
+Frontend Developer; VitaeSpark; 2022–2025; 
+Lideré el desarrollo de un generador de CVs con IA usando React y Next.js, 
+integrando OpenAI y 
+optimizando el rendimiento web.
+
+
+
+
+Frontend Developer; TechNova; 2020–2022; Desarrollé interfaces interactivas con React y Redux, logrando mejorar la usabilidad general y reducir tiempos de carga en un 35%.
+Frontend Developer Jr.; CodeWave; 2018–2020; Implementé componentes reutilizables con Next.js, optimicé el SEO e incrementé el tráfico orgánico del sitio web.
