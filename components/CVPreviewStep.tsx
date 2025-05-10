@@ -83,42 +83,48 @@ export default function CVPreviewStep({
         </p>
       </div>
       <div className="text-center"></div>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button
-            variant="secondary"
-            className="mt-4 text-white border border-gray-600"
-          >
-            Ver CV completo
-          </Button>
-        </DialogTrigger>
+      {/* Contenedor PDF -> ahora se reemplaza con un botón que abre un modal protegido */}
+      <div className="w-full flex justify-center">
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button
+              variant="default"
+              className="text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 border-none shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out px-6 py-3 rounded-lg font-semibold"
+            >
+              Ver vista previa protegida del CV
+            </Button>
+          </DialogTrigger>
 
-        <DialogContent className=" w-full h-fautop-0 bg-accent ">
-          <DialogHeader className="p-4 border-b">
-            <DialogTitle className="text-lg">CV Completo</DialogTitle>
-          </DialogHeader>
+          <DialogContent className="w-full max-w-4xl p-0 bg-foreground rounded-2xl overflow-hidden">
+            <DialogHeader className="p-4 border-b border-gray-700 bg-foreground">
+              <DialogTitle className="text-lg text-white font-bold">
+                Vista protegida del CV
+              </DialogTitle>
+            </DialogHeader>
 
-          <div className=" overflow-hidden bg-accent">
-            <PDFViewer className="min-h-[50vh] w-[50-vw]" showToolbar={false}>
-              <DocumentoCV cv={cvData} template={template} />
-            </PDFViewer>
-          </div>
-        </DialogContent>
-      </Dialog>
+            <div className="relative flex justify-center bg-gray-900 py-4 px-2">
+              {/* Capa protectora anti-click */}
+              <div
+                className="absolute inset-0 z-10 bg-transparent"
+                onContextMenu={(e) => e.preventDefault()}
+                onMouseDown={(e) => e.preventDefault()}
+                onTouchStart={(e) => e.preventDefault()}
+                style={{ userSelect: "none", WebkitUserSelect: "none" }}
+              />
 
-      {/* Contenedor PDF optimizado para mobile */}
-      <div className="w-full md:flex md:justify-center">
-        <div className="relative scale-100 w-[calc(100vw-32px)] h-[calc(100vw-35px)] md:w-[210mm] md:h-[297mm] md:scale-100 mx-auto bg-white shadow-md overflow-hidden">
-          {/* Capa protectora */}
-          <div className="absolute inset-0 z-10" />
-          {/* PDFViewer ajustado para mostrar solo una página */}
-          <Image
-            src={`https://xyz.supabase.co/storage/v1/object/public/cvpreview/${cvData.id}.jpg`}
-            alt="Vista previa del CV"
-            fill
-            className="object-contain rounded-lg z-0"
-          />
-        </div>
+              <div className="w-full max-w-[794px] aspect-[1/1.4142]">
+                <PDFViewer
+                  className="w-full h-full rounded-lg md:scale-100 scale-150 mx-auto mt-20 md:mt-0"
+                  showToolbar={false}
+                  width={"100%"}
+                  height={"50vh"}
+                >
+                  <DocumentoCV cv={cvData} template={template} />
+                </PDFViewer>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Información de pago optimizada */}

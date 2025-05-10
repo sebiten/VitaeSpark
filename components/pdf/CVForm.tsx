@@ -24,6 +24,7 @@ import { RoboAnimation } from "../roboto-animation";
 const CVForm: NextPage = () => {
   const [selectedTemplate, setSelectedTemplate] = useState("harvard");
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
+  const [cvId, setCvId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("form");
   const [userSession, setUserSession] = useState<Session | null>(null);
 
@@ -41,7 +42,7 @@ const CVForm: NextPage = () => {
 
   return (
     <div className="mx-auto py-12 mt-4 ">
-      <RoboAnimation/>
+      <RoboAnimation />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

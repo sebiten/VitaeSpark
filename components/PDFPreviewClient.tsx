@@ -13,7 +13,7 @@ export default function PDFViewerWrapper({
   template: string;
 }) {
   return (
-    <PDFViewer style={{ width: "794px", height: "1123px", margin: "0 auto" }}>
+    <PDFViewer style={{ width: "794px", height: "1000px", margin: "0 auto" }}>
       <DocumentoCV cv={cv} template={template} />
     </PDFViewer>
   );
