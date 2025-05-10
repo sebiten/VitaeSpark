@@ -70,17 +70,33 @@ export async function POST(req: Request): Promise<NextResponse> {
 1. **Sobre mí**  
 Redactá un resumen un mínimo de 50 palabras y que responda a la pregunta“¿Por qué deberían contratarte?”, destacando experiencia, habilidades, formación y tecnologías mencionadas.
 
-2. **Experiencia** (crucial):
-- Interpretá cada línea del usuario como una experiencia laboral diferente, sin importar el formato.
-Para cada experiencia laboral, generá entre 3 y 5 viñetas obligatoriamente. 
-- Si el usuario escribió solo una frase o idea, dividila y expandila en 3 puntos concretos como mínimo. 
-- Si hay múltiples acciones en una misma oración, separalas en viñetas individuales. 
-- En roles de más de 1 año, se espera al menos 3 viñetas desarrolladas. En cargos senior (ej: “Senior Frontend”), 4 o más. 
-- Si no hay suficiente contenido, completá lógicamente a partir del resto del CV.
-- Cada viñeta debe tratar sobre una tarea técnica, responsabilidad, herramienta utilizada, proceso aplicado o logro concreto.
-- Nunca inventes información. Podés enriquecer lógicamente con datos derivados del resto del CV (habilidades, formación, etc.).
-- Si faltan fechas o ubicación, usá “Fecha no especificada” o “Ubicación no especificada”.
-- Usá un estilo claro, profesional y orientado a resultados, compatible con sistemas ATS.
+2. **Experiencia Profesional** (elemento fundamental del CV)
+
+### Directrices de desarrollo:
+
+- **Interpretación de datos**: Cada entrada proporcionada por el usuario debe tratarse como una experiencia laboral independiente, independientemente del formato en que se presente.
+- **Estructura obligatoria**: Para cada experiencia laboral, genera **obligatoriamente entre 3 y 5 viñetas**. Cada viñeta DEBE contener **dos párrafos extensos y detallados** que desarrollen en profundidad cada aspecto de la experiencia.
+- **Desarrollo de contenido mínimo**: Si el usuario proporciona información escasa (una frase o idea simple), expande y transforma ese contenido en al menos 3 puntos concretos, cada uno con sus respectivos párrafos detallados.
+- **Separación de responsabilidades**: Cuando una oración contenga múltiples acciones o responsabilidades, sepáralas en viñetas individuales y desarrolla cada una con sus dos párrafos correspondientes.
+- **Escala por antigüedad y seniority**:
+
+- Para roles con duración superior a 1 año: mínimo 3 viñetas desarrolladas (6 párrafos en total)
+- Para cargos senior (ej: "Senior Developer", "Lead", "Manager"): mínimo 4 viñetas desarrolladas (8 párrafos en total)
+- Para roles ejecutivos: 5 viñetas desarrolladas (10 párrafos en total)
+
+- **Contenido de cada viñeta**: Cada punto debe centrarse en uno de estos aspectos y desarrollarlo en profundidad:
+
+- Responsabilidad técnica específica
+- Herramientas o tecnologías utilizadas (con detalles de implementación)
+- Procesos o metodologías aplicadas
+- Proyectos completados
+- Logros cuantificables o mejoras implementadas
+- Colaboraciones interdepartamentales
+
+- **Integridad de la información**: No inventes datos ficticios. Si necesitas enriquecer el contenido, deriva información lógicamente del resto del CV (habilidades mencionadas, formación, otras experiencias).
+- **Datos faltantes**: Para información no proporcionada, utiliza "Fecha no especificada" o "Ubicación no especificada" según corresponda.
+- **Estilo y tono**: Utiliza un lenguaje profesional, claro y orientado a resultados. El contenido debe ser compatible con sistemas ATS (Applicant Tracking Systems) e incluir palabras clave relevantes para el sector.
+- **Formato de párrafos**: El primer párrafo de cada viñeta debe explicar el contexto, responsabilidad o desafío. El segundo párrafo debe detallar la implementación, metodología o resultado obtenido.
 
 3. **Formación**  
 Indicá institución, título, ubicación y fechas. Relacioná brevemente con la experiencia si es relevante. No asumas datos que no se indican.
@@ -141,7 +157,7 @@ Información adicional: ${body.informacionAdicional}
     openai.chat.completions.create({
       model: "gpt-3.5-turbo-0125",
       temperature: 0.4,
-      max_tokens: 1280,
+      max_tokens: 3000,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: systemMessage },

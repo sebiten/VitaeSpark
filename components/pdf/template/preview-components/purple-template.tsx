@@ -24,7 +24,7 @@ const PurpleTemplateHTML = ({ cv }: { cv: RespuestaCV["cv"] }) => {
 
       <div className="mb-4">
         <p className="text-sm font-bold text-white border-b border-white/30 pb-0.5 mb-1.5 uppercase">Sobre mí</p>
-        <p className="text-[9px] md:text-[10px] text-white leading-relaxed">{cv.sobreMi}</p>
+        <p className="text-[10px] md:text-[11px] text-white leading-relaxed">{cv.sobreMi}</p>
       </div>
 
       <div className="mb-4">
@@ -39,7 +39,7 @@ const PurpleTemplateHTML = ({ cv }: { cv: RespuestaCV["cv"] }) => {
       <div className="mb-4">
         <p className="text-sm font-bold text-white border-b border-white/30 pb-0.5 mb-1.5 uppercase">Habilidades</p>
         {cv.habilidades.map((h, i) => (
-          <p key={i} className="text-[9px] md:text-[10px] text-white mb-1">
+          <p key={i} className="text-[10px] md:text-[11px] text-white mb-1">
             • {h}
           </p>
         ))}
@@ -49,7 +49,7 @@ const PurpleTemplateHTML = ({ cv }: { cv: RespuestaCV["cv"] }) => {
         <div className="mb-4">
           <p className="text-sm font-bold text-white border-b border-white/30 pb-0.5 mb-1.5 uppercase">Idiomas</p>
           {cv.idiomas.map((l, i) => (
-            <p key={i} className="text-[9px] md:text-[10px] text-white mb-1">
+            <p key={i} className="text-[10px] md:text-[11px] text-white mb-1">
               • {l}
             </p>
           ))}
@@ -111,7 +111,7 @@ const PurpleTemplateHTML = ({ cv }: { cv: RespuestaCV["cv"] }) => {
                       {[f.fechas, f.ubicacion].filter(Boolean).join(" • ")}
                     </p>
                   </div>
-                  {f.titulo && <p className="text-[9px] md:text-[10px] text-gray-500">{f.titulo}</p>}
+                  {f.titulo && <p className="text-[10px] md:text-[11px] text-gray-500">{f.titulo}</p>}
                 </div>
               ))}
             </div>

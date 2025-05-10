@@ -11,6 +11,7 @@ import PurpleTemplateHTML from "./pdf/template/preview-components/purple-templat
 import HarvardTemplateHTML from "./pdf/template/preview-components/harvard-template";
 import BlueTemplateHTML from "./pdf/template/preview-components/blue-template";
 import GreenTemplateHTML from "./pdf/template/preview-components/green-template";
+import { FloatingPaper } from "./floatin-paper";
 
 type Props = {
   cvData: RespuestaCV["cv"];
@@ -28,27 +29,6 @@ export default function CVPreviewStepPurple({
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  // Prevenir eventos de descarga
-  useEffect(() => {
-    const preventActions = (e: Event) => {
-      e.preventDefault();
-      return false;
-    };
-
-    // Agregar listeners para prevenir descargas
-    document.addEventListener("contextmenu", preventActions);
-    document.addEventListener("copy", preventActions);
-    document.addEventListener("selectstart", preventActions);
-    document.addEventListener("dragstart", preventActions);
-
-    return () => {
-      // Limpiar listeners al cerrar
-      document.removeEventListener("contextmenu", preventActions);
-      document.removeEventListener("copy", preventActions);
-      document.removeEventListener("selectstart", preventActions);
-      document.removeEventListener("dragstart", preventActions);
-    };
-  }, []);
 
   const handlePay = async () => {
     if (!userSession) return;
@@ -101,7 +81,6 @@ export default function CVPreviewStepPurple({
           Para ver todas las páginas y en mejor calidad completa el pago
         </p>
       </div>
-
       {/* Contenedor para la vista previa del CV con aspect ratio A4 */}
       <div className="relative w-full rounded-lg shadow-lg overflow-hidden bg-white flex flex-col items-center">
         {/* Marca de agua */}
@@ -111,7 +90,7 @@ export default function CVPreviewStepPurple({
               {Array.from({ length: 20 }).map((_, i) => (
                 <div
                   key={i}
-                  className="absolute text-gray-300 opacity-10 text-2xl font-bold whitespace-nowrap"
+                  className="absolute text-gray-200 opacity-10 text-2xl font-bold whitespace-nowrap"
                   style={{
                     top: `${i * 100 - 1000}px`,
                     left: "50%",
@@ -121,7 +100,7 @@ export default function CVPreviewStepPurple({
                 >
                   {Array.from({ length: 20 }).map((_, j) => (
                     <span key={j} className="mx-8">
-                      VISTA PREVIA
+                      VitaeSpark.com
                     </span>
                   ))}
                 </div>
@@ -138,8 +117,6 @@ export default function CVPreviewStepPurple({
             maxHeight: "80vh",
             overflow: "auto",
           }}
-          onContextMenu={(e) => e.preventDefault()}
-          onCopy={(e) => e.preventDefault()}
         >
           {renderTemplate()}
         </div>
@@ -191,7 +168,7 @@ export default function CVPreviewStepPurple({
             </>
           ) : (
             <>
-              <div className="bg-white p-1 rounded-md mr-2 flex items-center justify-center">
+              <div className=" p-1 rounded-md flex items-center justify-center">
                 <Image
                   src="/logompsolomano.png"
                   width={20}

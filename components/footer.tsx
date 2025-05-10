@@ -14,12 +14,6 @@ export function Footer() {
                 className="h-36 w-36 rounded-full object-cover"
               />
             </Link>
-
-            <div className="flex gap-4 mt-2">
-              <Link href="https://www.instagram.com/vitae.spark/" className="text-[#F4F4F5]/70 hover:text-[#F4F4F5]">
-                <Instagram className="h-5 w-5" />
-              </Link>
-            </div>
           </div>
 
           <div>
@@ -56,6 +50,15 @@ export function Footer() {
                   soporte@vitaespark.com
                 </Link>
               </li>
+              <div className="flex items-center justify-start gap-2 mt-2 text-[#F4F4F5]/70 hover:text-[#F4F4F5]">
+                <Instagram className="h-5 w-5 mt-1 text-white" />
+                <Link
+                  href="https://www.instagram.com/vitae.spark/"
+                  className=""
+                >
+                  Instagram
+                </Link>
+              </div>
             </ul>
           </div>
         </div>
