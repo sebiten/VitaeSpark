@@ -1,17 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { RespuestaCV } from "@/lib/types/cv";
 import { ShieldCheck, UserCheck, Download, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Session } from "@supabase/supabase-js";
-import PurpleTemplateHTML from "./pdf/template/preview-components/purple-template";
-import HarvardTemplateHTML from "./pdf/template/preview-components/harvard-template";
-import BlueTemplateHTML from "./pdf/template/preview-components/blue-template";
-import GreenTemplateHTML from "./pdf/template/preview-components/green-template";
-import { FloatingPaper } from "./floatin-paper";
+import { PDFViewer } from "@react-pdf/renderer";
+import { DocumentoCV } from "./pdf/CVDocument";
 
 type Props = {
   cvData: RespuestaCV["cv"];
@@ -28,7 +25,6 @@ export default function CVPreviewStepPurple({
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-
 
   const handlePay = async () => {
     if (!userSession) return;
@@ -58,15 +54,15 @@ export default function CVPreviewStepPurple({
   const renderTemplate = () => {
     switch (template) {
       case "purple":
-        return <PurpleTemplateHTML cv={cvData} />;
       case "harvard":
-        return <HarvardTemplateHTML cv={cvData} />;
       case "blue":
-        return <BlueTemplateHTML cv={cvData} />;
       case "green":
-        return <GreenTemplateHTML cv={cvData} />;
       default:
-        return <PurpleTemplateHTML cv={cvData} />;
+        return (
+          <PDFViewer showToolbar={false}>
+            <DocumentoCV cv={cvData} />
+          </PDFViewer>
+        );
     }
   };
 
@@ -84,7 +80,7 @@ export default function CVPreviewStepPurple({
       {/* Contenedor para la vista previa del CV con aspect ratio A4 */}
       <div className="relative w-full rounded-lg shadow-lg overflow-hidden bg-white flex flex-col items-center">
         {/* Marca de agua */}
-        <div className="absolute inset-0 pointer-events-none select-none z-10">
+        <div className="absolute inset-0 select-none z-10">
           <div className="w-full h-full relative overflow-hidden">
             <div className="absolute inset-0 flex items-center justify-center transform -rotate-45">
               {Array.from({ length: 20 }).map((_, i) => (
@@ -109,12 +105,39 @@ export default function CVPreviewStepPurple({
           </div>
         </div>
 
+        {/* Capa protectora que permite scroll pero no clicks */}
+        <div
+          className="absolute inset-0 z-20 pointer-events-auto"
+          style={{ pointerEvents: "all" }}
+        >
+          {/* Área transparente para los scrollbars */}
+          <div className="absolute inset-y-0 right-0 w-4 pointer-events-none"></div>
+          <div className="absolute inset-x-0 bottom-0 h-4 pointer-events-none"></div>
+
+          {/* Área bloqueada (todo excepto los scrollbars) */}
+          <div
+            className="absolute inset-0 bg-transparent cursor-not-allowed"
+            onClick={(e) => e.preventDefault()}
+            style={{
+              right: "19px", // Ancho aproximado de la scrollbar
+              bottom: "19px", // Alto aproximado de la scrollbar horizontal
+            }}
+          >
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+              <div className="bg-black/70 text-white px-4 py-2 rounded-lg text-sm">
+                Completa el pago para desbloquear
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Área de visualización con aspect ratio A4 (1:√2 o aproximadamente 1:1.414) */}
         <div
           className="w-full relative z-0"
           style={{
             aspectRatio: "1/1.414" /* A4 aspect ratio */,
             maxHeight: "80vh",
+            width: "full",
             overflow: "auto",
           }}
         >

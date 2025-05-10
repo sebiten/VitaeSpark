@@ -71,6 +71,32 @@ iframe {
     overflow: hidden !important;
   }
 }
+/* Estilos específicos para la vista de CV */
+.cv-container {
+  width: 100%;
+}
+
+/* Estilos para impresión */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  /* Asegurar que no haya escalado en la impresión */
+  .cv-container {
+    transform: scale(1) !important;
+  }
+}
 
 
 @theme inline {

@@ -2,39 +2,24 @@
 
 import { useState, useEffect } from "react"
 
-interface WindowSize {
-  width: number | undefined
-  height: number | undefined
-  isMobile: boolean
-}
-
-export function useWindowSize(): WindowSize {
-  // Inicializar con undefined para evitar errores de hidratación
-  const [windowSize, setWindowSize] = useState<WindowSize>({
-    width: undefined,
-    height: undefined,
-    isMobile: false,
-  })
+export function useMobile() {
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    // Función para actualizar el estado
-    function handleResize() {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-        isMobile: window.innerWidth < 768,
-      })
+    // Función para verificar si el dispositivo es móvil
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
     }
 
-    // Agregar event listener
-    window.addEventListener("resize", handleResize)
+    // Verificar al cargar
+    checkMobile()
 
-    // Llamar al handler inmediatamente para establecer el tamaño inicial
-    handleResize()
+    // Agregar listener para cambios de tamaño de ventana
+    window.addEventListener("resize", checkMobile)
 
-    // Limpiar event listener al desmontar
-    return () => window.removeEventListener("resize", handleResize)
+    // Limpiar listener al desmontar
+    return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  return windowSize
+  return isMobile
 }
