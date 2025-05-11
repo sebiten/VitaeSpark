@@ -4,7 +4,6 @@ import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { fixedWindow, shield } from "@arcjet/next";
 import { aj } from "@/lib/arcjet";
 import { z } from "zod";
-import { createClient } from "@/utils/supabase/server";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
@@ -35,18 +34,13 @@ const CVSchema = z.object({
   informacionAdicional: z.array(z.string()),
 });
 
-type Interna = z.infer<typeof CVSchema>;
-
 export async function POST(req: Request): Promise<NextResponse> {
   const body: DatosCVFormulario = await req.json();
   if (!body) {
-    return NextResponse.json({ error: "No se recibieron datos" }, { status: 400 });
-  }
-
-  const supabase = await createClient();
-  const { data: userData } = await supabase.auth.getUser();
-  if (!userData?.user) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    return NextResponse.json(
+      { error: "No se recibieron datos" },
+      { status: 400 }
+    );
   }
 
   const decision = await aj
@@ -56,11 +50,13 @@ export async function POST(req: Request): Promise<NextResponse> {
 
   if (decision.isDenied()) {
     return NextResponse.json(
-      { error: "Too Many Requests or Suspicious Activity", reason: decision.reason },
+      {
+        error: "Too Many Requests or Suspicious Activity",
+        reason: decision.reason,
+      },
       { status: 403 }
     );
   }
-
   const systemMessage = `Sos redactor experto en CVs optimizados para sistemas ATS. Convertí la información en un currículum profesional, claro y estructurado, siguiendo estas reglas:
 
 1. **SOBRE MÍ**  
@@ -111,8 +107,7 @@ Respondé **solo** con un JSON válido con esta estructura exacta:
   "habilidades": string[],
   "idiomas": string[],
   "informacionAdicional": string[]
-}
-`;
+}`;
 
   const userMessage = `
 Nombre: ${body.nombre}
@@ -149,42 +144,37 @@ Información adicional: ${body.informacionAdicional}
         await new Promise((r) => setTimeout(r, 500 * attempt));
         continue;
       }
-      return NextResponse.json({ error: "Error interno generando CV" }, { status: 502 });
+      return NextResponse.json(
+        { error: "Error interno generando CV" },
+        { status: 502 }
+      );
     }
   }
 
   const raw = completion?.choices?.[0]?.message?.content;
   if (!raw) {
-    return NextResponse.json({ error: "Respuesta inválida del modelo" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Respuesta inválida del modelo" },
+      { status: 500 }
+    );
   }
 
   let result;
   try {
     result = JSON.parse(raw);
   } catch (e) {
-    return NextResponse.json({ error: "JSON inválido del modelo" }, { status: 500 });
+    return NextResponse.json(
+      { error: "JSON inválido del modelo" },
+      { status: 500 }
+    );
   }
 
-  const [parsed, insertResult] = await Promise.all([
-    CVSchema.safeParseAsync(result),
-    supabase
-      .from("generated_cvs")
-      .insert({
-        profile_id: userData.user.id,
-        cv_data: result,
-        template: body.template || "default",
-        status: "pending",
-      })
-      .select()
-      .single(),
-  ]);
-
+  const parsed = await CVSchema.safeParseAsync(result);
   if (!parsed.success) {
-    return NextResponse.json({ error: "Estructura inesperada" }, { status: 500 });
-  }
-
-  if (insertResult.error || !insertResult.data) {
-    return NextResponse.json({ error: "No se pudo guardar el CV" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Estructura inesperada" },
+      { status: 500 }
+    );
   }
 
   const response: RespuestaCV = { cv: parsed.data };
