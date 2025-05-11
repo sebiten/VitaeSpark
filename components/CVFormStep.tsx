@@ -24,6 +24,8 @@ import {
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
+import { unstable_batchedUpdates } from "react-dom";
+import { Label } from "./ui/label";
 
 const schema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
@@ -54,7 +56,7 @@ export default function CVFormStep({
   const {
     register,
     handleSubmit,
-    setValue, // 👈 necesario para autocompletar
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<DatosCVFormulario>({
     resolver: zodResolver(schema),
@@ -65,61 +67,57 @@ export default function CVFormStep({
       setIsGenerating(true);
       setError(null);
 
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 20000);
+
       const res = await fetch("/api/generate-cv", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, template }),
-        cache: "no-store",
+        signal: controller.signal,
+        keepalive: true,
       });
 
+      clearTimeout(timeout);
+
       if (!res.ok) {
-        const msg =
-          res.status === 504
+        const isTimeout = res.status === 504;
+        throw new Error(
+          isTimeout
             ? "La generación está tardando demasiado. Intenta de nuevo."
-            : await res.text();
-        throw new Error(`Error al generar CV: ${msg}`);
+            : "Error al generar el CV. Intenta nuevamente."
+        );
       }
 
       const json = (await res.json()) as RespuestaCV;
-      setCvData(json.cv);
-      setActiveTab("preview");
+      // Agrupar actualizaciones de estado
+      unstable_batchedUpdates(() => {
+        setCvData(json.cv);
+        setActiveTab("preview");
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
       setIsGenerating(false);
     }
   };
-  const rellenarDatosPrueba = () => {
-    setValue("nombre", "Sebastián Burgos");
-    setValue("puesto", "Desarrollador Frontend");
-    setValue("contacto", "sebastian.burgos.dev@gmail.com, +54 9 387 6543210");
-    setValue(
-      "sobreMi",
-      "Desarrollador frontend con más de 5 años de experiencia creando interfaces modernas, rápidas y accesibles. Especializado en React, TypeScript y herramientas de diseño UI/UX. Comprometido con buenas prácticas, rendimiento y experiencia del usuario."
-    );
-    setValue(
-      "experiencia",
-      `Desarrollador Frontend en VitaeSpark, Salta, 2022–2025 - Lideré el desarrollo de una plataforma de generación de CVs con inteligencia artificial usando React, Next.js y Supabase.
-Diseñador Web en Agencia Creativa Salta, Salta, 2020–2022 - Rediseñé sitios corporativos, optimicé la experiencia de usuario y trabajé en posicionamiento SEO.
-Pasante en Secretaría de Modernización, Gobierno de Salta, 2019–2020 - Colaboré en la digitalización de trámites administrativos y desarrollé formularios internos interactivos.`
-    );
-    setValue(
-      "formacion",
-      `Universidad Nacional de Salta, Licenciatura en Sistemas, Salta, 2016–2021 - Formación sólida en programación, estructuras de datos y arquitectura de software.
-Instituto Chaucer, Inglés Avanzado, Salta, 2007–2017 - 10 años de formación integral en idioma inglés con orientación académica.
-Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 - Enfoque práctico en redes, hardware y desarrollo básico de software.`
-    );
-    setValue(
-      "habilidades",
-      "React, Next.js, TypeScript, TailwindCSS, Supabase, Git, Figma, Node.js"
-    );
-    setValue("idiomas", "Español: Nativo, Inglés: Avanzado (C1)");
-    setValue(
-      "informacionAdicional",
-      "Certificación en Desarrollo Web Frontend (Coderhouse), Curso intensivo de UI/UX (Platzi), Participación en hackathons de diseño web en Salta y Tucumán."
-    );
-  };
 
+  const rellenarDatosPrueba = () => {
+    reset({
+      nombre: "Sebastián",
+      puesto: "Desarrollador Frontend",
+      contacto: "sebastian@gmail.com, +54 9 387 123456",
+      sobreMi: "Desarrollador frontend con más de 5 años de experiencia...",
+      experiencia: `Desarrollador Frontend en VitaeSpark, Salta, 2022–2025. Lideré el desarrollo de una plataforma de generación de currículums con inteligencia artificial, optimizando la experiencia del usuario mediante el uso de React, Next.js 15 y TailwindCSS. Integré sistemas de pago con MercadoPago y lógica de autenticación con Clerk y Supabase, mejorando la conversión de usuarios en un 40%.
+      Diseñador Web en Agencia Creativa Salta, Salta, 2020–2022.Rediseñé más de 15 sitios web corporativos implementando interfaces modernas y responsivas con Figma y TailwindCSS, lo que elevó el tiempo promedio de permanencia en un 30%.Colaboré con equipos de marketing para mejorar la conversión SEO en páginas clave, aplicando prácticas de rendimiento y accesibilidad.
+      Pasante en Secretaría de Modernización, Gobierno de Salta, 2019–2020.Participé en la digitalización de procesos administrativos desarrollando formularios internos interactivos con HTML, CSS y JavaScript vanilla.Automatizamos reportes internos mediante herramientas no-code y scripts personalizados, reduciendo el tiempo de carga administrativa semanal en un 25%.
+`,
+      formacion: `Universidad Nacional de Salta, Lic. en Sistemas, 2016–2021...`,
+      habilidades: "React, Next.js, TypeScript, TailwindCSS...",
+      idiomas: "Español: Nativo, Inglés: Avanzado (C1)",
+      informacionAdicional: "Certificación en Desarrollo Web Frontend...",
+    });
+  };
   return (
     <div className="relative">
       {/* Fondo decorativo */}
@@ -147,10 +145,10 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
           {/* Nombre y puesto */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
+              <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
                 <User className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
                 Nombre completo
-              </label>
+              </Label>
               <div className="relative">
                 <input
                   {...register("nombre")}
@@ -167,10 +165,10 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
             </div>
 
             <div>
-              <label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
+              <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
                 <Briefcase className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
                 Puesto profesional
-              </label>
+              </Label>
               <div className="relative">
                 <input
                   {...register("puesto")}
@@ -189,10 +187,10 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
 
           {/* Contacto */}
           <div className="mt-5">
-            <label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
+            <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
               <Mail className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
               Contacto (email, teléfono)
-            </label>
+            </Label>
             <div className="relative">
               <input
                 {...register("contacto")}
@@ -213,10 +211,10 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
           {/* Sobre mí */}
           <div>
-            <label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
+            <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
               <BookOpen className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
               Sobre mí
-            </label>
+            </Label>
             <div className="relative">
               <textarea
                 {...register("sobreMi")}
@@ -238,15 +236,15 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
           {/* Experiencia */}
           <div className="mb-5">
-            <label className="text-sm font-medium text-white/90 flex items-center">
+            <Label className="text-sm font-medium text-white/90 flex items-center">
               <Briefcase className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
               Experiencia
-            </label>
+            </Label>
             <Card className="text-sm uppercase italic text-white bg-transparent border-0">
               <p>
                 Escribí la experiencia laboral de forma clara y natural,
                 separando con comas los siguientes datos:{" "}
-                <strong>puesto, empresa, ubicación y fechas</strong>.
+                <strong>puesto, empresa, ubicación,fechas y logros/actividades realizadas</strong>.
               </p>
             </Card>
             <div className="relative">
@@ -267,10 +265,10 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
 
           {/* Formación */}
           <div>
-            <label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
+            <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
               <GraduationCap className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
               Formación
-            </label>
+            </Label>
             <div className="relative">
               <textarea
                 {...register("formacion")}
@@ -292,10 +290,10 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
+              <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
                 <Code className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
                 Habilidades
-              </label>
+              </Label>
               <div className="relative">
                 <input
                   {...register("habilidades")}
@@ -311,10 +309,10 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
               )}
             </div>
             <div>
-              <label className="text-sm font-medium text-white/90 mb-1.5 flex items-center">
+              <Label className="text-sm font-medium text-white/90 mb-1.5 flex items-center">
                 <Globe className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
                 Idiomas
-              </label>
+              </Label>
               <div className="relative">
                 <input
                   {...register("idiomas")}
@@ -335,10 +333,10 @@ Escuela Técnica N° 3, Bachiller Técnico en Informática, Salta, 2010–2015 -
         {/* Información adicional */}
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
           <div>
-            <label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
+            <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
               <PlusCircle className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
               Información adicional
-            </label>
+            </Label>
             <div className="relative">
               <textarea
                 {...register("informacionAdicional")}
