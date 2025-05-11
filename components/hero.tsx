@@ -14,7 +14,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="px-4 py-20 md:py-32 relative overflow-hidden">
         <FloatingPaper />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/30 via-[#38BDF8]/20 to-transparent opacity-40 z-0"></div>
+        <div className="absolute inset-0  opacity-40 z-0"></div>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1 space-y-6">
@@ -54,7 +54,8 @@ export default function Home() {
                     </div>
 
                     <p className="text-sm text-[#F4F4F5]/90">
-                      Ahora la puedes elegir a la hora de crear tu curriculum.
+                      Ahora la puedes elegir a la hora de crear tu CV. Diseñada para maximizar tus oportunidades
+                      laborales.
                     </p>
 
                     <div className="pt-1 border-t border-[#38BDF8]/20">
@@ -86,8 +87,8 @@ export default function Home() {
                 <Link href="/crear">
                   <Button
                     size="lg"
-                    className="bg-[#7C3AED]  hover:opacity-90 text-white shadow-lg shadow-[#7C3AED]/30 transition-all duration-300"
-                    variant="default"
+                    className="bg-[#7C3AED] text-white shadow-lg shadow-[#7C3AED]/30 transition-all duration-300"
+                    variant="ghost"
                   >
                     Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -219,6 +220,171 @@ export default function Home() {
               <p className="text-[#F4F4F5]/70">
                 Obtén tu CV profesional en PDF, listo para enviar a cualquier empresa.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison Section */}
+      <section className="py-20 px-4 bg-[#0F0F10]">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">Comparativa</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">La diferencia VitaeSpark</h2>
+            <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">
+              Descubre por qué un CV optimizado marca la diferencia en tu búsqueda de empleo.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+            {/* CV Tradicional */}
+            <div className="bg-[#1F1F22] rounded-lg p-6 border border-[#F4F4F5]/10 relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#1F1F22] px-4 py-1 rounded-full border border-[#F4F4F5]/10">
+                <span className="text-sm font-medium text-[#F4F4F5]/70">CV Tradicional</span>
+              </div>
+
+              <div className="relative mb-6 bg-[#0F0F10] rounded-lg p-2 shadow-md">
+                <div className=" overflow-hidden">
+                  <img
+                    src="/hamdu.webp"
+                    alt="CV tradicional no optimizado"
+                    className="rounded-lg w-full h-full object-cover opacity-70"
+                  />
+                </div>
+                <div className="absolute top-2 right-2 bg-[#FF4A4A]/20 text-[#FF4A4A] text-xs font-bold px-2 py-1 rounded-full">
+                  No optimizado
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="bg-[#FF4A4A]/20 p-2 rounded-full shrink-0">
+                    <Search className="h-4 w-4 text-[#FF4A4A]" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold">Invisible para ATS</h3>
+                    <p className="text-xs text-[#F4F4F5]/60">
+                      Rechazado automáticamente por sistemas de filtrado sin llegar a reclutadores.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="bg-[#FF4A4A]/20 p-2 rounded-full shrink-0">
+                    <FileText className="h-4 w-4 text-[#FF4A4A]" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold">Formato genérico</h3>
+                    <p className="text-xs text-[#F4F4F5]/60">
+                      Diseño básico que no destaca entre cientos de candidatos.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="bg-[#FF4A4A]/20 p-2 rounded-full shrink-0">
+                    <Clock className="h-4 w-4 text-[#FF4A4A]" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold">Proceso lento</h3>
+                    <p className="text-xs text-[#F4F4F5]/60">
+                      Horas de edición manual sin garantía de resultados profesionales.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* CV VitaeSpark */}
+            <div className="bg-gradient-to-br from-[#1F1F22] to-[#141415] rounded-lg p-6 border border-[#7C3AED]/30 relative shadow-lg shadow-[#7C3AED]/5">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-[#7C3AED] to-[#38BDF8] px-4 py-1 rounded-full">
+                <span className="text-sm font-bold text-white">CV VitaeSpark</span>
+              </div>
+
+              <div className="relative mb-6 bg-[#0F0F10] rounded-lg p-2 shadow-xl">
+                <div className=" overflow-hidden">
+                  <img
+                    src="/purplehero.webp"
+                    alt="CV optimizado por VitaeSpark"
+                    className="rounded-lg w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute top-2 right-2 bg-[#38BDF8] text-[#0F0F10] text-xs font-bold px-2 py-1 rounded-full">
+                  Optimizado para ATS
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="bg-gradient-to-br from-[#7C3AED]/20 to-[#38BDF8]/20 p-2 rounded-full shrink-0">
+                    <Search className="h-4 w-4 text-[#38BDF8]" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold">Visible para reclutadores</h3>
+                    <p className="text-xs text-[#F4F4F5]/80">
+                      Optimizado con palabras clave que superan filtros ATS y llegan a los reclutadores.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="bg-gradient-to-br from-[#7C3AED]/20 to-[#38BDF8]/20 p-2 rounded-full shrink-0">
+                    <FileText className="h-4 w-4 text-[#7C3AED]" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold">Diseño profesional</h3>
+                    <p className="text-xs text-[#F4F4F5]/80">
+                      Plantillas modernas y profesionales que captan la atención inmediatamente.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="bg-gradient-to-br from-[#7C3AED]/20 to-[#38BDF8]/20 p-2 rounded-full shrink-0">
+                    <Sparkles className="h-4 w-4 text-[#38BDF8]" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold">Redacción mejorada por IA</h3>
+                    <p className="text-xs text-[#F4F4F5]/80">
+                      Textos persuasivos que destacan tus logros y competencias de forma impactante.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 p-6 bg-gradient-to-br from-[#1F1F22] to-[#141415] rounded-lg border border-[#7C3AED]/20">
+            <h3 className="text-xl font-bold mb-4 text-center">¿Por qué elegir VitaeSpark?</h3>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="flex flex-col items-center text-center p-4">
+                <div className="bg-[#7C3AED]/20 p-3 rounded-full mb-4">
+                  <CheckCircle2 className="h-6 w-6 text-[#7C3AED]" />
+                </div>
+                <h4 className="font-bold mb-2">300% más entrevistas</h4>
+                <p className="text-sm text-[#F4F4F5]/70">
+                  Nuestros usuarios reciben hasta 3 veces más llamadas para entrevistas.
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center text-center p-4">
+                <div className="bg-[#38BDF8]/20 p-3 rounded-full mb-4">
+                  <Zap className="h-6 w-6 text-[#38BDF8]" />
+                </div>
+                <h4 className="font-bold mb-2">90% de ahorro de tiempo</h4>
+                <p className="text-sm text-[#F4F4F5]/70">Crea un CV profesional en minutos, no en horas o días.</p>
+              </div>
+
+              <div className="flex flex-col items-center text-center p-4">
+                <div className="bg-[#7C3AED]/20 p-3 rounded-full mb-4">
+                  <Award className="h-6 w-6 text-[#7C3AED]" />
+                </div>
+                <h4 className="font-bold mb-2">Tecnología de vanguardia</h4>
+                <p className="text-sm text-[#F4F4F5]/70">
+                  Inteligencia artificial que se adapta a las últimas tendencias del mercado laboral.
+                </p>
+              </div>
             </div>
           </div>
         </div>
