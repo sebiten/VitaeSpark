@@ -1,125 +1,217 @@
-import type { RespuestaCV } from "@/lib/types/cv"
+// CV Template: Purple Theme - Mejorado
+// -----------------------------------------------------
+// Este componente genera un CV PDF con diseño elegante usando @react-pdf/renderer
+// con mejoras en jerarquía visual, alineación, estilos tipográficos y separación.
 
-// Componente para renderizar la plantilla Purple en HTML
-const PurpleTemplateHTML = ({ cv }: { cv: RespuestaCV["cv"] }) => {
-  // Componente para listas con viñetas
-  const BulletList = ({ items }: { items: string[] }) => (
-    <div className="ml-2.5 mt-1">
-      {items.map((item, i) => (
-        <div key={i} className="flex flex-row mb-0.5">
-          <div className="w-1 h-1 rounded-full bg-purple-700 mt-1.5 mr-1.5 flex-shrink-0"></div>
-          <p className="text-[9px] md:text-[10px] leading-relaxed flex-1">{item}</p>
-        </div>
+import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import type { RespuestaCV } from "@/lib/types/cv";
+
+// 🎨 Colores del tema
+const colors = {
+  primary: "#7E22CE",
+  primaryLight: "#A855F7",
+  text: "#1F2937",
+  textLight: "#4B5563",
+  background: "#FFF",
+  divider: "#E5E7EB",
+};
+
+// 📄 Estilos generales del documento
+const styles = StyleSheet.create({
+  page: {
+    fontSize: 10,
+    color: colors.text,
+    backgroundColor: colors.background,
+  },
+  container: { flex: 1, flexDirection: "row" },
+  sidebar: { width: "30%", backgroundColor: colors.primary, padding: 15 },
+  main: { width: "70%", padding: 20 },
+  header: { marginBottom: 15 },
+  name: { fontSize: 16, fontWeight: 700, color: "#FFF" },
+  position: { fontSize: 12, fontWeight: 500, color: "#FFF", marginTop: 4 },
+
+  section: { marginBottom: 18 },
+  sectionTitle: {
+    fontSize: 13,
+    fontWeight: 700,
+    marginBottom: 6,
+    color: colors.primary,
+    borderBottom: `1px solid ${colors.divider}`,
+    paddingBottom: 2,
+    textTransform: "uppercase",
+  },
+
+  titleText: { fontSize: 11, fontWeight: 700 },
+  subtitleText: { fontSize: 9, color: colors.textLight },
+  paragraphText: { fontSize: 9, lineHeight: 1.4 },
+
+  textLight: { color: colors.textLight },
+  bulletList: { marginLeft: 10, marginTop: 4 },
+  bulletDot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: colors.primary,
+    marginRight: 6,
+    marginTop: 5,
+  },
+  bulletText: { fontSize: 9, lineHeight: 1.4, flex: 1 },
+  watermarkContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+  },
+  watermark: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%) rotate(-45deg)",
+    opacity: 0.15,
+    fontSize: 60,
+    color: "#1E40AF",
+    zIndex: 1,
+  },
+});
+
+// Componente para la marca de agua
+const Watermark = () => (
+  <View style={styles.watermarkContainer} fixed>
+    <Text style={styles.watermark}>vitaespark.com</Text>
+  </View>
+);
+
+// ✅ Componente reutilizable para listas
+const BulletList = ({ items }: { items: string[] }) => (
+  <View style={styles.bulletList}>
+    {items.map((item, i) => (
+      <View key={i} style={{ flexDirection: "row", marginBottom: 2 }}>
+        <View style={styles.bulletDot} />
+        <Text style={styles.bulletText}>{item}</Text>
+      </View>
+    ))}
+  </View>
+);
+
+// 🧱 Barra lateral con datos personales
+const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
+  <View style={styles.sidebar}>
+    <View style={styles.header}>
+      <Text style={styles.name}>{cv.nombre}</Text>
+      <Text style={styles.position}>{cv.puesto}</Text>
+    </View>
+
+    <View style={styles.section}>
+      <Text style={[styles.sectionTitle, { color: "#FFF" }]}>Sobre mí</Text>
+      <Text style={{ fontSize: 9, color: "#FFF", lineHeight: 1.6 }}>
+        {cv.sobreMi}
+      </Text>
+    </View>
+
+    <View style={styles.section}>
+      <Text style={[styles.sectionTitle, { color: "#FFF" }]}>Contacto</Text>
+      {cv.contacto.map((c, i) => (
+        <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
+          • {c}
+        </Text>
       ))}
-    </div>
-  )
+    </View>
 
-  // Componente para la barra lateral
-  const Sidebar = () => (
-    <div className="w-full md:w-[35%] aspect-auto bg-purple-700 p-3 md:p-4 text-white">
-      <div className="mb-4">
-        <p className="text-base font-bold text-white">{cv.nombre}</p>
-        <p className="text-xs font-medium text-white mt-1">{cv.puesto}</p>
-      </div>
+    <View style={styles.section}>
+      <Text style={[styles.sectionTitle, { color: "#FFF" }]}>Habilidades</Text>
+      {cv.habilidades.map((h, i) => (
+        <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
+          • {h}
+        </Text>
+      ))}
+    </View>
 
-      <div className="mb-4">
-        <p className="text-sm font-bold text-white border-b border-white/30 pb-0.5 mb-1.5 uppercase">Sobre mí</p>
-        <p className="text-[10px] md:text-[11px] text-white leading-relaxed">{cv.sobreMi}</p>
-      </div>
-
-      <div className="mb-4">
-        <p className="text-sm font-bold text-white border-b border-white/30 pb-0.5 mb-1.5 uppercase">Contacto</p>
-        {cv.contacto.map((c, i) => (
-          <p key={i} className="text-[9px] md:text-[10px] text-white mb-1">
-            •{c}
-          </p>
+    {cv.idiomas.length > 0 && (
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: "#FFF" }]}>Idiomas</Text>
+        {cv.idiomas.map((l, i) => (
+          <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
+            • {l}
+          </Text>
         ))}
-      </div>
+      </View>
+    )}
 
-      <div className="mb-4">
-        <p className="text-sm font-bold text-white border-b border-white/30 pb-0.5 mb-1.5 uppercase">Habilidades</p>
-        {cv.habilidades.map((h, i) => (
-          <p key={i} className="text-[10px] md:text-[11px] text-white mb-1">
-            • {h}
-          </p>
+    {cv.informacionAdicional.length > 0 && (
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: "#FFF" }]}>
+          Información adicional
+        </Text>
+        {cv.informacionAdicional.map((a, i) => (
+          <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
+            • {a}
+          </Text>
         ))}
-      </div>
+      </View>
+    )}
+  </View>
+);
 
-      {cv.idiomas.length > 0 && (
-        <div className="mb-4">
-          <p className="text-sm font-bold text-white border-b border-white/30 pb-0.5 mb-1.5 uppercase">Idiomas</p>
-          {cv.idiomas.map((l, i) => (
-            <p key={i} className="text-[10px] md:text-[11px] text-white mb-1">
-              • {l}
-            </p>
-          ))}
-        </div>
-      )}
-
-      {cv.informacionAdicional.length > 0 && (
-        <div className="mb-4">
-          <p className="text-sm font-bold text-white border-b border-white/30 pb-0.5 mb-1.5 uppercase">
-            Información adicional
-          </p>
-          {cv.informacionAdicional.map((a, i) => (
-            <p key={i} className="text-[9px] md:text-[10px] text-white mb-1">
-              •{a}
-            </p>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-
+// 📄 Plantilla principal del documento PDF
+export default function PurpleTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
   return (
-    <div className="w-full bg-white text-gray-800 font-sans">
-      {/* A4 size container with responsive design */}
-      <div className="mx-auto w-full max-w-[210mm] h-[297mm] shadow-md print:shadow-none overflow-hidden">
-        {/* Flex column on mobile, row on desktop */}
-        <div className="flex flex-col md:flex-row h-full">
-          <Sidebar />
-          <div className="w-full md:w-[70%] p-4 md:p-5 overflow-y-auto">
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <Watermark />
+        <View style={styles.container}>
+          <Sidebar cv={cv} />
+          <View style={styles.main}>
             {/* Experiencia */}
-            <div className="mb-4">
-              <p className="text-sm font-bold text-purple-700 border-b border-gray-200 pb-0.5 mb-1.5 uppercase">
-                Experiencia Laboral
-              </p>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Experiencia Laboral</Text>
               {cv.experiencia.map((e, i) => (
-                <div key={i} className="mb-3">
-                  <div className="flex flex-col md:flex-row md:justify-between">
-                    <p className="text-[11px] font-bold">{e.cargo}</p>
-                    <p className="text-[9px] md:text-[10px] text-gray-500">
+                <View key={i} style={{ marginBottom: 12 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text style={styles.titleText}>{e.cargo}</Text>
+                    <Text style={styles.subtitleText}>
                       {[e.fechas, e.ubicacion].filter(Boolean).join(" • ")}
-                    </p>
-                  </div>
-                  <p className="text-[10px] mb-0.5">{e.empresa}</p>
+                    </Text>
+                  </View>
+                  <Text style={{ fontSize: 10, marginBottom: 3 }}>
+                    {e.empresa}
+                  </Text>
                   <BulletList items={e.logros} />
-                </div>
+                </View>
               ))}
-            </div>
+            </View>
 
             {/* Formación */}
-            <div className="mb-4">
-              <p className="text-sm font-bold text-purple-700 border-b border-gray-200 pb-0.5 mb-1.5 uppercase">
-                Formación
-              </p>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Formación</Text>
               {cv.formacion.map((f, i) => (
-                <div key={i} className="mb-3">
-                  <div className="flex flex-col md:flex-row md:justify-between">
-                    <p className="text-[11px] font-bold">{f.institucion}</p>
-                    <p className="text-[9px] md:text-[10px] text-gray-500">
+                <View key={i} style={{ marginBottom: 12 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text style={styles.titleText}>{f.institucion}</Text>
+                    <Text style={styles.subtitleText}>
                       {[f.fechas, f.ubicacion].filter(Boolean).join(" • ")}
-                    </p>
-                  </div>
-                  {f.titulo && <p className="text-[10px] md:text-[11px] text-gray-500">{f.titulo}</p>}
-                </div>
+                    </Text>
+                  </View>
+                  {f.titulo && (
+                    <Text style={styles.subtitleText}>{f.titulo}</Text>
+                  )}
+                </View>
               ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+            </View>
+          </View>
+        </View>
+      </Page>
+    </Document>
+  );
 }
-
-export default PurpleTemplateHTML

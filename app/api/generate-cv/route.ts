@@ -65,56 +65,24 @@ export async function POST(req: Request): Promise<NextResponse> {
       { status: 403 }
     );
   }
-  const systemMessage = `Actuás como redactor profesional de currículums optimizados para sistemas ATS. Tu tarea es transformar la información del usuario en un CV profesional, claro y detallado. Seguí estas pautas estrictas:
+  const systemMessage = `Eres un redactor de CVs optimizados para ATS. Transforma la información en un CV profesional siguiendo estas reglas:
 
-1. **Sobre mí**  
-Redactá un párrafo formal de al menos 50 palabras que responda “¿Por qué deberían contratarme?”, resaltando experiencia, habilidades y tecnologías.
+1. SOBRE MÍ: Párrafo formal (~50 palabras) que responda "¿Por qué contratarme?", destacando experiencia y habilidades.
 
-2. **Experiencia Profesional (parte clave del CV)**  
-Aplicá las siguientes reglas sin omitir ninguna:
+2. EXPERIENCIA: Punto crítico - Aplica estas reglas:
+   - MÍNIMO 3 logros por experiencia (sin excepciones)
+   - Cada logro: párrafo detallado (~80 palabras)
+   - Roles senior/liderazgo (>5 años): 5 logros
+   - Usa lenguaje formal orientado a resultados con métricas
+   - Si falta información, infiere lógicamente según el cargo
 
-- Cada experiencia laboral debe incluir **entre 3 y 5 logros**.
-- Cada logro debe ser un **párrafo largo y detallado** (mínimo 80 palabras), no frases breves.
-- Si el input es breve, expandí lógicamente sin inventar datos.
-- Separá claramente responsabilidades diferentes en puntos distintos.
-- Escalá según el rol:
-  - Más de 1 año → mínimo 3 logros
-  - Senior o líder → mínimo 4
-  - Ejecutivo → 5 logros detallados
-- Usá lenguaje formal y orientado a resultados. Incluir herramientas, metodologías, métricas o impactos.
+3. FORMACIÓN: Incluye institución, título, ubicación y fechas.
 
-3. **Formación**  
-Incluí institución, título, ubicación y fechas. Si aplica, relacioná brevemente con la experiencia laboral.
+4. HABILIDADES: Solo las proporcionadas por el usuario.
 
-4. **Habilidades**  
-Listá únicamente las habilidades provistas por el usuario. No agregues nuevas.
+5. ESTILO: Compatible con ATS, sin inventar información.
 
-5. **Palabras clave y ATS**  
-Usá términos técnicos del input y evitá repeticiones. Nada de frases vacías.
-
-6. **Estilo**  
-No inventes. Mejorá la redacción pero sin añadir información falsa. Usá un estilo compatible con sistemas ATS.
-
----
-
-📌 **Ejemplo de experiencia esperada:**
-
-"experiencia": [
-  {
-    "cargo": "Desarrollador Frontend",
-    "empresa": "VitaeSpark",
-    "fechas": "2022–2025",
-    "ubicacion": "Salta",
-    "logros": [
-      "Lideré el desarrollo completo de una plataforma de generación de currículums con inteligencia artificial, utilizando tecnologías como React, Next.js y Supabase. Definí la arquitectura técnica, desarrollé componentes reutilizables y aseguré la escalabilidad del sistema.\n\nAdemás, colaboré en el diseño de una experiencia de usuario intuitiva, realizando pruebas de usabilidad y ajustando flujos en función del feedback de usuarios reales. Esto resultó en una mejora del 40% en la tasa de conversión en la plataforma.",
-      "Implementé mecanismos de seguridad y protección de datos personales, asegurando el cumplimiento con normativas locales. Coordiné la integración de pagos con Mercado Pago y logré reducir los errores de transacción en un 70% mediante testing automatizado.\n\nTambién lideré reuniones semanales con el equipo de producto para iterar sobre nuevas funcionalidades, priorizando la mejora continua del sistema."
-    ]
-  }
-]
-
-—
-
-🔁 Respondé únicamente con un JSON con esta estructura:
+Responde únicamente con un JSON con esta estructura:
 {
   "nombre": string,
   "puesto": string,
@@ -157,9 +125,9 @@ Información adicional: ${body.informacionAdicional}
   // Función con retries
   const makeCompletion = () =>
     openai.chat.completions.create({
-      model: "gpt-3.5-turbo-1106",
-      temperature: 0.4,
-      max_tokens: 3000,
+      model: "gpt-4o",
+      temperature: 0.2,
+      max_tokens: 2500,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: systemMessage },

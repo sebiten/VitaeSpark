@@ -1,16 +1,22 @@
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { RespuestaCV } from "@/lib/types/cv";
-import { ShieldCheck, UserCheck, Download, Loader2 } from "lucide-react";
+import {
+  ShieldCheck,
+  UserCheck,
+  Download,
+  Loader2,
+  CheckCircle,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Session } from "@supabase/supabase-js";
 import { PDFViewer } from "@react-pdf/renderer";
-import { DocumentoCV } from "./pdf/CVDocument";
+import { DocumentoCVW } from "./pdf/CVDocument";
+import PaymentConfirmation from "./PaymentInformation";
 
 type Props = {
   cvData: RespuestaCV["cv"];
@@ -65,8 +71,8 @@ export default function CVPreviewStepPurple({
       case "green":
       default:
         return (
-          <PDFViewer showToolbar={false} >
-            <DocumentoCV cv={cvData} template={template} />
+          <PDFViewer showToolbar={false}>
+            <DocumentoCVW cv={cvData} template={template} />
           </PDFViewer>
         );
     }
@@ -75,8 +81,8 @@ export default function CVPreviewStepPurple({
   return (
     <div className="space-y-4 border border-[#2A2A2D] rounded-2xl shadow-xl w-full p-4 md:p-8 bg-gradient-to-b from-[#1A1A1D] to-[#0F0F10]">
       {/* Header */}
-      <div className="text-center space-y-2">
-        <h2 className="text-lg md:text-xl font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
+      <div className="text-center space-y-2 mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-white bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text ">
           Vista previa de tu CV
         </h2>
         <p className="text-gray-300 text-sm">
@@ -103,77 +109,55 @@ export default function CVPreviewStepPurple({
         >
           {renderTemplate()}
         </div>
-      </div>
 
-      <div className="mt-3 text-center text-xs text-gray-400">
-        <p>
-          Esta es una vista previa. Para descargar el CV completo, realiza el
-          pago.
-        </p>
-      </div>
-
-      {/* Información de pago */}
-      <div className="bg-[#0F0F10] border border-[#2A2A2D] rounded-lg p-4 shadow-inner">
-        <div className="flex items-center gap-2 text-white font-semibold mb-4">
-          <ShieldCheck className="text-green-500 w-5 h-5" />
-          <span>Pago 100% Seguro</span>
-        </div>
-
-        <div className="space-y-3 text-sm">
-          <div className="flex items-start gap-3">
-            <UserCheck className="text-blue-500 w-5 h-5 flex-shrink-0" />
-            <p className="text-gray-300">
-              Tu CV se asociará a tu cuenta una vez confirmado el pago.
-            </p>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <Download className="text-indigo-400 w-5 h-5 flex-shrink-0" />
-            <p className="text-gray-300">
-              Podrás descargar tu CV todas las veces que quieras desde tu
-              perfil.
-            </p>
-          </div>
+        {/* Watermark notice overlay */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent py-2 px-4 text-center">
+          <p className="text-white text-sm font-medium">
+            Versión de muestra con marca de agua
+          </p>
         </div>
       </div>
+
+      {/* Sección de beneficios y pago unificada */}
+      <PaymentConfirmation />
 
       {/* Botón de pago */}
-      {userSession ? (
-        <Button
-          disabled={loading}
-          className="w-full py-4 rounded-lg bg-gradient-to-r from-[#009ee3] to-[#0094d8] hover:from-[#008cc8] hover:to-[#0082c0] text-white font-semibold border-none shadow-lg transition-all duration-200"
-          onClick={handlePay}
-        >
-          {loading ? (
-            <>
-              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-              Redirigiendo...
-            </>
-          ) : (
-            <>
-              <div className=" p-1 rounded-md flex items-center justify-center">
-                <Image
-                  src="/logompsolomano.png"
-                  width={20}
-                  height={20}
-                  alt="MercadoPago"
-                  className="rounded-md"
-                />
-              </div>
-              <span>Pagar con MercadoPago 1500 ARS</span>
-            </>
-          )}
-        </Button>
-      ) : (
-        <Link href="/login" className="block w-full">
+      <div className="mt-5">
+        {userSession ? (
           <Button
-            variant="outline"
-            className="w-full text-white border border-white/20 rounded-lg py-3 hover:bg-white/5 transition-colors duration-200"
+            disabled={loading}
+            className="w-full py-5 rounded-lg bg-[#009ee3] hover:bg-[#008cc8] text-white font-semibold text-lg border-none shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            onClick={handlePay}
           >
-            Iniciar sesión para pagar
+            {loading ? (
+              <>
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Redirigiendo...
+              </>
+            ) : (
+              <div className="flex items-center justify-center">
+                <img
+                  src="/logompsolomano.png"
+                  width={36}
+                  height={36}
+                  alt="MercadoPago"
+                  className="rounded-md mr-3"
+                />
+                <span>Pagar en MercadoPago 1500 ARS</span>
+              </div>
+            )}
           </Button>
-        </Link>
-      )}
+        ) : (
+          <Link href="/login" className="block w-full">
+            <Button
+              variant="outline"
+              className="w-full text-white border border-white/20 rounded-lg py-4 hover:bg-white/5 transition-colors duration-200 text-lg"
+            >
+              Iniciar sesión para pagar
+            </Button>
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

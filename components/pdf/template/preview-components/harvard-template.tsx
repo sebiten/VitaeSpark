@@ -1,133 +1,232 @@
-"use client"
+import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import type { RespuestaCV } from "@/lib/types/cv";
 
-import type { RespuestaCV } from "@/lib/types/cv"
-import { useMobile } from "@/utils/hooks/hook"
-import { useEffect, useState } from "react"
+// Estilos minimalistas en blanco y negro, optimizados para ATS
+const styles = StyleSheet.create({
+  page: {
+    padding: 30,
+    paddingTop: 40,
+    fontSize: 10,
+    fontFamily: "Times-Roman",
+    color: "#000000",
+    backgroundColor: "#FFFFFF",
+    lineHeight: 1.5,
+  },
+  header: {
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  name: {
+    fontSize: 18,
+    fontFamily: "Times-Roman",
+    marginBottom: 5,
+    fontWeight: "800",
+  },
+  contactInfo: {
+    fontSize: 11,
+    color: "#1E40AF",
+    marginBottom: 2,
+    marginTop: 4,
+    textAlign: "center",
+  },
+  summary: {
+    fontSize: 10,
+    marginBottom: 4,
+    textAlign: "justify",
+  },
+  sectionHeader: {
+    fontSize: 10,
+    fontFamily: "Times-Bold",
+    marginTop: 10,
+    marginBottom: 5,
+    textTransform: "uppercase",
+    borderBottomWidth: 1,
+    borderBottomColor: "#000000",
+  },
 
-// Componente para renderizar la plantilla Harvard en HTML
-const HarvardTemplateHTML = ({ cv }: { cv: RespuestaCV["cv"] }) => {
-  const isMobile = useMobile()
-  const [scale, setScale] = useState(1)
+  experienceItem: {
+    marginBottom: 10,
+  },
+  experienceHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 2,
+  },
+  companyPosition: {
+    flexDirection: "column",
+  },
+  company: {
+    fontSize: 11,
+    fontFamily: "Times-Bold",
+  },
+  position: {
+    fontSize: 11,
+    fontStyle: "italic",
+  },
+  locationDate: {
+    flexDirection: "column",
+    alignItems: "flex-end",
+  },
+  location: {
+    fontSize: 10,
+    textAlign: "right",
+  },
+  date: {
+    fontSize: 10,
+    textAlign: "right",
+  },
+  bulletList: {
+    marginLeft: 15,
+  },
+  bulletItem: {
+    flexDirection: "row",
+    marginBottom: 2,
+  },
+  bullet: {
+    width: 8,
+    textAlign: "center",
+    marginRight: 5,
+  },
+  bulletText: {
+    fontSize: 9,
+    flex: 1,
+  },
+  educationItem: {
+    marginBottom: 5,
+  },
+  institution: {
+    fontSize: 11,
+    fontFamily: "Times-Bold",
+  },
+  degree: {
+    fontSize: 11,
+    fontStyle: "italic",
+  },
+  skillItem: {
+    flexDirection: "row",
+    marginBottom: 2,
+  },
+  divider: {
+    borderBottom: "1px solid black",
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  watermarkContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+  },
+  watermark: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%) rotate(-45deg)",
+    opacity: 0.15,
+    fontSize: 60,
+    color: "#1E40AF",
+    zIndex: 1,
+  },
+});
 
-  // Calcular el factor de escala basado en el ancho de la ventana
-  useEffect(() => {
-    const calculateScale = () => {
-      // A4 es aproximadamente 210mm de ancho
-      const a4WidthInPx = 794 // Aproximadamente 210mm en píxeles
-      const windowWidth = window.innerWidth
+// Componente para la marca de agua
+const Watermark = () => (
+  <View style={styles.watermarkContainer} fixed>
+    <Text style={styles.watermark}>vitaespark.com</Text>
+  </View>
+);
 
-      // Si estamos en móvil, calculamos la escala para que el A4 completo quepa en la pantalla
-      if (isMobile) {
-        // Usamos todo el ancho disponible (sin márgenes)
-        const availableWidth = windowWidth
-        const newScale = availableWidth / a4WidthInPx
-        setScale(newScale)
-      } else {
-        setScale(1) // Tamaño normal en desktop
-      }
-    }
+// Componente para listas con viñetas
+const BulletList = ({ items }: { items: string[] }) => (
+  <View style={styles.bulletList} wrap={false}>
+    {items.map((item, i) => (
+      <View key={i} style={styles.bulletItem}>
+        <Text style={styles.bullet}>•</Text>
+        <Text style={styles.bulletText}>{item}</Text>
+      </View>
+    ))}
+  </View>
+);
 
-    calculateScale()
-    window.addEventListener("resize", calculateScale)
-    return () => window.removeEventListener("resize", calculateScale)
-  }, [isMobile])
-
-  // Componente para listas con viñetas
-  const BulletList = ({ items }: { items: string[] }) => (
-    <div className="ml-4">
-      {items.map((item, i) => (
-        <div key={i} className="flex flex-row items-center">
-          <span className="w-2 text-center mr-1.5">•</span>
-          <p className="text-xs flex-1 m-0.5">{item}</p>
-        </div>
-      ))}
-    </div>
-  )
-
+// Plantilla principal del documento PDF
+export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
   return (
-    <div className="overflow-auto w-full flex justify-center p-0 ">
-      {/* Contenedor principal con dimensiones A4 y escalado */}
-      <div
-        className="bg-white text-black p-8 font-sans origin-top "
-        style={{
-          width: "55rem", // Ancho estándar A4
-          minHeight: "297mm", // Alto mínimo estándar A4
-          transform: `scale(${scale})`,
-          transformOrigin: "top center",
-          marginBottom: isMobile ? `${(1 - scale) * -100}%` : 0, // Ajustar el margen inferior para compensar el escalado
-        }}
-      >
-        {/* Header */}
-        <div className="text-center mb-2.5">
-          <p className="text-lg font-extrabold ">{cv.nombre}</p>
-          <p className="text-sm text-[#1E40AF] mb-0.5">{cv.contacto.join(" • ")}</p>
-        </div>
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <Watermark />
 
-        <p className="text-[11px] text-justify mb-3 leading-relaxed">{cv.sobreMi}</p>
+        {/* Encabezado con nombre y datos de contacto */}
+        <View style={styles.header}>
+          <Text style={styles.name}>{cv.nombre}</Text>
+          <Text style={styles.contactInfo}>{cv.contacto.join(" • ")}</Text>
+        </View>
 
-        {/* Experience */}
-        <div className="mb-2.5">
-          <p className="text-sm font-bold uppercase border-b border-black pb-1 mb-1.5">Experiencia Profesional</p>
-          {cv.experiencia.map((exp, i) => (
-            <div key={i} className="mb-2.5">
-              <div className="flex justify-between mb-0.5">
-                <div>
-                  <p className="text-xs font-bold">{exp.empresa}</p>
-                  <p className="text-[11px] italic mb-1">{exp.cargo}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-[10px]">{exp.ubicacion}</p>
-                  <p className="text-[10px]">{exp.fechas}</p>
-                </div>
-              </div>
-              <BulletList items={exp.logros} />
-            </div>
+        {/* Resumen profesional */}
+        <Text style={styles.summary}>{cv.sobreMi}</Text>
+
+        {/* Experiencia Profesional */}
+        <Text style={styles.sectionHeader}>Experiencia Profesional</Text>
+
+        {cv.experiencia.map((exp, index) => (
+          <View key={index} style={styles.experienceItem}>
+            <View style={styles.experienceHeader}>
+              <View style={styles.companyPosition}>
+                <Text style={styles.company}>{exp.empresa}</Text>
+                <Text style={styles.position}>{exp.cargo}</Text>
+              </View>
+              <View style={styles.locationDate}>
+                <Text style={styles.location}>{exp.ubicacion}</Text>
+                <Text style={styles.date}>{exp.fechas}</Text>
+              </View>
+            </View>
+            <BulletList items={exp.logros} />
+          </View>
+        ))}
+
+        <View wrap={false}>
+          {/* Educación */}
+          <Text style={styles.sectionHeader}>Educación</Text>
+
+          {cv.formacion.map((edu, index) => (
+            <View key={index} style={styles.educationItem}>
+              <View style={styles.experienceHeader}>
+                <View style={styles.companyPosition}>
+                  <Text style={styles.institution}>{edu.institucion}</Text>
+                  <Text style={styles.degree}>{edu.titulo || ""}</Text>
+                </View>
+                <View style={styles.locationDate}>
+                  <Text style={styles.location}>{edu.ubicacion}</Text>
+                  <Text style={styles.date}>{edu.fechas}</Text>
+                </View>
+              </View>
+            </View>
           ))}
-        </div>
+        </View>
 
-        {/* Education */}
-        <div className="mb-2.5">
-          <p className="text-sm font-bold uppercase border-b border-black pb-1 mb-1.5">Educación</p>
-          {cv.formacion.map((edu, i) => (
-            <div key={i} className="mb-1.5">
-              <div className="flex justify-between">
-                <div>
-                  <p className="text-xs font-bold my-0.5">{edu.institucion}</p>
-                  <p className="text-xs italic">{edu.titulo || ""}</p>
-                </div>
-                <div className="text-right mt-0.5">
-                  <p className="text-[10px]">{edu.ubicacion}</p>
-                  <p className="text-[10px]">{edu.fechas}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Skills */}
-        <div className="mb-2.5">
-          <p className="text-sm font-bold uppercase border-b border-black pb-1 mb-1.5">Habilidades</p>
+        {/* Skills Adicionales */}
+        <View wrap={false}>
+          <Text style={styles.sectionHeader}>Habilidades</Text>
           <BulletList items={cv.habilidades} />
-        </div>
+        </View>
 
-        {/* Languages */}
+        {/* Idiomas si existen */}
         {cv.idiomas.length > 0 && (
-          <div className="mb-2.5">
-            <p className="text-sm font-bold uppercase border-b border-black pb-1 mb-1.5">Idiomas</p>
+          <>
+            <Text style={styles.sectionHeader}>Idiomas</Text>
             <BulletList items={cv.idiomas} />
-          </div>
+          </>
         )}
 
-        {/* Additional Info */}
+        {/* Información Adicional si existe */}
         {cv.informacionAdicional.length > 0 && (
-          <div>
-            <p className="text-sm font-bold uppercase border-b border-black pb-1 mb-1.5">Información Adicional</p>
+          <View wrap={false}>
+            <Text style={styles.sectionHeader}>Información Adicional</Text>
             <BulletList items={cv.informacionAdicional} />
-          </div>
+          </View>
         )}
-      </div>
-    </div>
-  )
+      </Page>
+    </Document>
+  );
 }
-
-export default HarvardTemplateHTML

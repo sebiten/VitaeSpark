@@ -63,6 +63,11 @@ export async function POST(req: Request) {
           cv_id: cv.id,
           profile_id,
         },
+        customization: {
+          visual: {
+            showExternalReference: true,
+          },
+        },
       }),
     }
   );
