@@ -89,7 +89,7 @@ export async function signup(formData: FormData) {
     }
 
     // Success - redirect to dashboard
-    redirect("/dashboard");
+    redirect("/crear");
   } catch (signInError) {
     console.error("Auto sign-in exception:", signInError);
 
@@ -108,5 +108,5 @@ export async function logout() {
     throw new Error("Error cerrando sesión");
   }
 
-  redirect("/"); // O donde quieras llevarlo después
+  redirect("/login"); // O donde quieras llevarlo después
 }
