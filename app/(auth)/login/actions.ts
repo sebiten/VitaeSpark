@@ -39,34 +39,63 @@ export async function signup(formData: FormData) {
     redirect("/login?error=missing-fields");
   }
 
+  console.log("Attempting signup with:", { name, email }); // Log attempt (don't log password)
+
   // 1. Intentar registro
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: {
-        full_name: name, // Esto se guarda en auth.users.user_metadata
+        full_name: name,
       },
     },
   });
 
   if (error) {
-    console.error("Signup error:", error);
-
-    // Verificar el código de error directamente
     if (error.status === 422 && error.code === "user_already_exists") {
       redirect("/login?error=user-already-exists");
     }
 
+    // More specific error handling
+    if (error.message?.includes("password")) {
+      redirect("/login?error=invalid-password");
+    }
+
+    if (error.message?.includes("email")) {
+      redirect("/login?error=invalid-email");
+    }
+
     // Error genérico para otros casos
-    redirect("/login?error=signup-failed");
+    redirect(
+      `/login?error=signup-failed&message=${encodeURIComponent(
+        error.message || "Unknown error"
+      )}`
+    );
   }
 
-  // No redireccionamos aquí para permitir mostrar el mensaje de éxito
-  // La redirección ocurrirá después de que el usuario inicie sesión
+  console.log("Signup successful, session:", !!data?.session);
 
-  // Si llegamos hasta aquí, el registro fue exitoso
-  return;
+  // Try to sign in immediately
+  try {
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (signInError) {
+      console.error("Auto sign-in failed:", signInError.message);
+      redirect("/login?message=signup-success-login-failed");
+    }
+
+    // Success - redirect to dashboard
+    redirect("/dashboard");
+  } catch (signInError) {
+    console.error("Auto sign-in exception:", signInError);
+
+    // If email confirmation is required, show success message
+    redirect("/crear");
+  }
 }
 
 export async function logout() {
