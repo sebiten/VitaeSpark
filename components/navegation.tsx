@@ -141,7 +141,7 @@ export function Navegation({ user }: { user: User | null }) {
           ) : (
             <Button variant={"link"}>
               <Paperclip className="text-white" />
-              <Link className="text-white" href={"/"}>
+              <Link className="text-white" href={"/crear"}>
                 Crear CV
               </Link>
             </Button>
