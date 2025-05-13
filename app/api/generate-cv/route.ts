@@ -1,3 +1,4 @@
+export const runtime = "nodejs"; // Fuerza Node.js en lugar de Edge Runtime
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
@@ -57,53 +58,34 @@ export async function POST(req: Request): Promise<NextResponse> {
       { status: 403 }
     );
   }
-  const systemMessage = `Sos redactor experto en CVs optimizados para sistemas ATS. Convertí la información en un currículum profesional, claro y estructurado, siguiendo estas reglas:
+  const systemMessage = `Como redactor experto en CVs para sistemas ATS, transforma la información en un CV profesional siguiendo estas pautas:
 
-1. **SOBRE MÍ**  
-Escribí un párrafo formal (mínimo 50 palabras) que responda a "¿Por qué deberían contratarme?", resaltando experiencia, habilidades y formación.
+1. SOBRE MÍ
+Párrafo formal (50-70 palabras) que destaque valor profesional, experiencia clave y habilidades relevantes.
 
-2. **EXPERIENCIA PROFESIONAL**  
-Reglas estrictas:
-- Por experiencia, incluí **entre 3 y 5 logros** (según años y rol).
-- Cada logro debe ser un **párrafo sólido de ~80 palabras**. No aceptes frases sueltas ni oraciones breves.
-- Separá tareas diferentes en puntos distintos.
-- No intenes información que no se te dio.
-- Usá lenguaje orientado a resultados, incluyendo métricas, tecnologías y herramientas si corresponde.
-- Si falta información, completá lógicamente según el cargo. No uses frases vacías ni genéricas.
+2. EXPERIENCIA PROFESIONAL
+- 3-5 logros concretos por experiencia laboral
+- Cada logro: 2 párrafos cohesivo (~60-80 palabras)
+- Enfoque en resultados medibles y herramientas/tecnologías utilizadas
+- No inventes información; si faltan detalles, mantén lo esencial sin generalidades
 
-3. **FORMACIÓN**  
-Incluí institución, título, fechas y ubicación. Sin párrafos.
+3. FORMACIÓN
+Formato conciso: institución, título, fechas, ubicación.
 
-4. **HABILIDADES**  
-Listá solo las proporcionadas por el usuario. No inventes.
+4. HABILIDADES E IDIOMAS
+Incluye únicamente las proporcionadas por el usuario.
 
-5. **ESTILO GENERAL**  
-Formal, compatible con filtros ATS, sin errores ni invención de datos.
+5. FORMATO
+Estilo profesional compatible con ATS, sin errores gramaticales.
 
-Respondé **solo** con un JSON válido con esta estructura exacta:
-
+Responde exclusivamente con JSON válido según esta estructura:
 {
   "nombre": string,
   "puesto": string,
   "sobreMi": string,
   "contacto": string[],
-  "experiencia": [
-    {
-      "cargo": string,
-      "empresa": string,
-      "fechas": string,
-      "ubicacion": string,
-      "logros": string[]
-    }
-  ],
-  "formacion": [
-    {
-      "institucion": string,
-      "titulo": string,
-      "fechas": string,
-      "ubicacion": string
-    }
-  ],
+  "experiencia": [{"cargo": string, "empresa": string, "fechas": string, "ubicacion": string, "logros": string[]}],
+  "formacion": [{"institucion": string, "titulo": string, "fechas": string, "ubicacion": string}],
   "habilidades": string[],
   "idiomas": string[],
   "informacionAdicional": string[]
@@ -124,8 +106,8 @@ Información adicional: ${body.informacionAdicional}
   const makeCompletion = () =>
     openai.chat.completions.create({
       model: "gpt-4o",
-      temperature: 0.2,
-      max_tokens: 1500,
+      temperature: 0.3,
+      max_tokens: 1400,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: systemMessage },
@@ -134,13 +116,14 @@ Información adicional: ${body.informacionAdicional}
     });
 
   let completion;
-  for (let attempt = 1; attempt <= 2; attempt++) {
+  for (let attempt = 1; attempt <= 3; attempt++) {
     try {
       completion = await makeCompletion();
       break;
     } catch (err: any) {
       const status = err?.status ?? err?.response?.status;
-      if (status >= 500 && attempt < 2) {
+      if (status >= 500 && attempt < 3) {
+        // Exponential backoff: 500ms, 1000ms, 1500ms
         await new Promise((r) => setTimeout(r, 500 * attempt));
         continue;
       }
