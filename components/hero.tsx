@@ -24,7 +24,7 @@ export default function Home() {
                   <Zap className="mr-1 h-3 w-3" /> Impulsado por IA
                 </Badge>
                 <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 animate-pulse">
-                  <GraduationCap className="mr-1 h-3 w-3" /> Plantilla recomendada por Harvard
+                  <img src={"/logompsolomano.png"} className="mr-1 h-5 w-5" /> Por tan solo $1500 ARS
                 </Badge>
               </div>
 
@@ -57,13 +57,6 @@ export default function Home() {
                       Ahora la puedes elegir a la hora de crear tu CV. Diseñada para maximizar tus oportunidades
                       laborales.
                     </p>
-
-                    <div className="pt-1 border-t border-[#38BDF8]/20">
-                      <p className="text-xs text-[#F4F4F5]/70">
-                        Basado en estructuras sugeridas por universidades de prestigio como Harvard para destacar en
-                        procesos de selección exigentes.
-                      </p>
-                    </div>
 
                     {/* <div className="flex items-center gap-2 pt-1">
                       <div className="flex -space-x-2">
@@ -112,7 +105,7 @@ export default function Home() {
                   ¡Optimizado para ATS!
                 </div>
                 <div className="absolute -bottom-4 -right-4 bg-[#7C3AED] text-white font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm flex items-center">
-                  <GraduationCap className="mr-1 h-3 w-3" /> Plantilla Morada
+                  <GraduationCap className="mr-1 h-4 w-4" /> Plantilla Morada
                 </div>
               </div>
               <div className="absolute -bottom-6 -left-6 bg-[#1F1F22] p-4 rounded-lg shadow-lg max-w-xs">
