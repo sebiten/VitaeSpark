@@ -21,6 +21,12 @@ const CVForm: NextPage = () => {
   const [activeTab, setActiveTab] = useState("form");
   const [userSession, setUserSession] = useState<Session | null>(null);
 
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    // Scroll to top when changing tabs
+    window.scrollTo(0, 0);
+  };
+
   // Obtener la sesión del usuario autenticado (usando Supabase)
   useEffect(() => {
     const getUser = async () => {
@@ -61,7 +67,7 @@ const CVForm: NextPage = () => {
         {/* Tabs para Formulario y Vista Previa */}
         <Tabs
           value={activeTab}
-          onValueChange={setActiveTab}
+          onValueChange={handleTabChange}
           className="space-y-8"
         >
           <div className="flex justify-between items-center ">

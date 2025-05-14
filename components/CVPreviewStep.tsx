@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { RespuestaCV } from "@/lib/types/cv";
 import {
@@ -77,6 +77,11 @@ export default function CVPreviewStepPurple({
         );
     }
   };
+
+  useEffect(() => {
+    // Scroll to the top of the container when component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="space-y-4 border border-[#2A2A2D] rounded-2xl shadow-xl w-full p-4 md:p-8 bg-gradient-to-b from-[#1A1A1D] to-[#0F0F10]">
