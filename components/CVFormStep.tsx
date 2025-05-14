@@ -62,23 +62,23 @@ export default function CVFormStep({
     resolver: zodResolver(schema),
   });
 
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    // Scroll to top when changing tabs
+    window.scrollTo(0, 0);
+  };
+
   const onSubmit = async (data: DatosCVFormulario) => {
     try {
       setIsGenerating(true);
       setError(null);
 
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 20000);
-
       const res = await fetch("/api/generate-cv", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, template }),
-        signal: controller.signal,
         keepalive: true,
       });
-
-      clearTimeout(timeout);
 
       if (!res.ok) {
         const isTimeout = res.status === 504;
@@ -244,7 +244,11 @@ export default function CVFormStep({
               <p>
                 Escribí la experiencia laboral de forma clara y natural,
                 separando con comas los siguientes datos:{" "}
-                <strong>puesto, empresa, ubicación,fechas y logros/actividades realizadas</strong>.
+                <strong>
+                  puesto, empresa, ubicación,fechas y logros/actividades
+                  realizadas
+                </strong>
+                .
               </p>
             </Card>
             <div className="relative">
