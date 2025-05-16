@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
 
     if (!existing) {
       await supabase.from("payments").insert({
+        user_id: data.profile_id, // 👈 ESTO AGREGA EL user_id
         cv_id: payment.metadata.cv_id,
         payment_id: payment.id,
         amount: payment.transaction_amount,
