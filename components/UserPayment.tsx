@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Loader2, Receipt, AlertCircle } from "lucide-react";
-
 import {
   Card,
   CardContent,
@@ -200,11 +199,11 @@ export default function UserPayments() {
               <Table className="mx-auto">
                 <TableHeader>
                   <TableRow className="border-[#2A2A2D] hover:bg-[#1A1A1D]">
+                    <TableHead className="text-[#A1A1AA]">Estado</TableHead>
                     <TableHead className="text-[#A1A1AA]">Fecha</TableHead>
                     <TableHead className="text-[#A1A1AA]">CV</TableHead>
                     <TableHead className="text-[#A1A1AA]">ID de Pago</TableHead>
                     <TableHead className="text-[#A1A1AA]">Monto</TableHead>
-                    <TableHead className="text-[#A1A1AA]">Estado</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -213,6 +212,17 @@ export default function UserPayments() {
                       key={payment.id}
                       className="border-[#2A2A2D] hover:bg-[#1A1A1D]"
                     >
+                      <TableCell>
+                        <Badge
+                          className={`${getStatusColor(
+                            payment.status
+                          )} text-white`}
+                        >
+                          {payment.status === "approved"
+                            ? "Aprobado"
+                            : "Pendiente"}
+                        </Badge>
+                      </TableCell>
                       <TableCell className="text-[#F4F4F5]">
                         {formatDate(payment.created_at, "short")}
                       </TableCell>
@@ -224,15 +234,6 @@ export default function UserPayments() {
                       </TableCell>
                       <TableCell className="text-[#F4F4F5]">
                         {formatAmount(payment.amount)}
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          className={`${getStatusColor(
-                            payment.status
-                          )} text-white`}
-                        >
-                          {payment.status === "approved" ? "Aprobado" : "Pendiente"}
-                        </Badge>
                       </TableCell>
                     </TableRow>
                   ))}
