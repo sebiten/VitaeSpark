@@ -178,15 +178,6 @@ export default function AuthPageClient() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="password-login">Contraseña</Label>
-                    <a
-                      href="/forgot-password"
-                      className="text-sm text-[#38BDF8] hover:underline"
-                    >
-                      ¿Olvidaste tu contraseña?
-                    </a>
-                  </div>
                   <Input
                     id="password-login"
                     name="password"
