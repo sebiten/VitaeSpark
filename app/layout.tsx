@@ -6,6 +6,7 @@ import Script from "next/script";
 import Navbar from "@/components/navbar";
 import { Analytics } from "@vercel/analytics/react";
 import { Footer } from "@/components/footer";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -149,6 +150,7 @@ export default function RootLayout({
       >
         <Navbar />
         <main className="flex-grow">{children}</main>
+        <Toaster />
         <Footer />
         <Analytics />
       </body>
