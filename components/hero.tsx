@@ -352,26 +352,24 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-6">
             <TestimonialCard
-              quote="Conseguí tres entrevistas en la primera semana después de actualizar mi CV con VitaeSpark. ¡Increíble servicio!"
+              quote="Actualicé mi CV con VitaeSpark y a la semana ya tenía entrevistas. Súper práctico y fácil de usar."
               author="Laura Martínez"
               role="Diseñadora UX/UI"
-              rating={5}
             />
             <TestimonialCard
-              quote="La optimización para ATS marcó la diferencia. Después de meses buscando trabajo, finalmente empecé a recibir respuestas."
+              quote="Me ayudó un montón con el tema de los filtros de las empresas. Después de varios meses, por fin empecé a recibir respuestas."
               author="Carlos Rodríguez"
               role="Desarrollador Full Stack"
-              rating={5}
             />
             <TestimonialCard
-              quote="Rápido, fácil y profesional. Mi CV ahora se ve increíble y refleja mejor mis habilidades y experiencia."
+              quote="Muy simple de usar y el resultado quedó re bien. Ahora mi CV muestra mejor lo que sé hacer."
               author="Ana García"
               role="Marketing Digital"
-              rating={4}
+             
             />
-          </div>
+            </div>
         </div>
       </section>
 
