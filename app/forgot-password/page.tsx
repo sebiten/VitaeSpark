@@ -44,7 +44,7 @@ export default function ForgotPasswordForm() {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/update-password`,
       });
-        
+
       if (error) {
         throw error;
       }
@@ -63,15 +63,15 @@ export default function ForgotPasswordForm() {
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full max-w-7xl mx-auto h-fit mt-10 bg-[#1F1F22]">
       <CardHeader className="space-y-1">
         <div className="flex items-center">
           <img
-            src="/versus-illustration.png"
+            src="/logochispa.png"
             alt="VitaeSpark Logo"
             className="mr-2 h-10 w-10"
           />
-          <CardTitle className="text-2xl font-bold">VitaeSpark</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white">VitaeSpark</CardTitle>
         </div>
         <CardDescription>
           {!isSubmitted
@@ -83,7 +83,7 @@ export default function ForgotPasswordForm() {
         {!isSubmitted ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Correo Electrónico</Label>
+              <Label htmlFor="email " className="text-white">Correo Electrónico</Label>
               <Input
                 id="email"
                 type="email"
@@ -123,11 +123,11 @@ export default function ForgotPasswordForm() {
                 />
               </svg>
             </div>
-            <p>
+            <p className="text-white">
               Hemos enviado un correo electrónico a <strong>{email}</strong> con
               instrucciones para restablecer tu contraseña.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-lg text-green-500  animate-pulse">
               Si no recibes el correo en unos minutos, revisa tu carpeta de spam
               o intenta nuevamente.
             </p>
@@ -138,7 +138,7 @@ export default function ForgotPasswordForm() {
         <div className="w-full text-center">
           <Link
             href="/login"
-            className="inline-flex items-center text-sm text-primary hover:underline"
+            className="inline-flex items-center text-sm text-primary hover:underline text-white"
           >
             <ArrowLeft className="mr-1 h-4 w-4" />
             Volver al inicio de sesión

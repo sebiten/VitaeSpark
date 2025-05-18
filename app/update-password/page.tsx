@@ -119,23 +119,23 @@ export default function UpdatePasswordForm() {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full max-w-7xl mx-auto mt-10 bg-[#1F1F22] text-white">
       <CardHeader className="space-y-1">
         <div className="flex items-center">
           <img
-            src="/versus-illustration.png"
+            src="/logoreal.webp"
             alt="VitaeSpark Logo"
             className="mr-2 h-10 w-10"
           />
-          <CardTitle className="text-2xl font-bold">VitaeSpark</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white">VitaeSpark</CardTitle>
         </div>
-        <CardDescription>Establece tu nueva contraseña</CardDescription>
+        <CardDescription className="text-white">Establece tu nueva contraseña</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="password">Nueva Contraseña</Label>
-            <Input
+            <Label htmlFor="password" className="text-white">Nueva Contraseña</Label>
+            <Input 
               id="password"
               type="password"
               value={password}
@@ -145,7 +145,7 @@ export default function UpdatePasswordForm() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
+            <Label htmlFor="confirmPassword" className="text-white">Confirmar Contraseña</Label>
             <Input
               id="confirmPassword"
               type="password"
@@ -158,7 +158,7 @@ export default function UpdatePasswordForm() {
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin text-white" />
                 Actualizando...
               </>
             ) : (

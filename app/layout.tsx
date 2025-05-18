@@ -145,10 +145,10 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-popover-foreground antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-popover-foreground antialiased flex flex-col min-h-screen`}
       >
         <Navbar />
-        {children}
+        <main className="flex-grow">{children}</main>
         <Footer />
         <Analytics />
       </body>
