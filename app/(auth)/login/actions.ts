@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { ifError } from "assert";
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
@@ -110,3 +111,31 @@ export async function logout() {
 
   redirect("/login"); // O donde quieras llevarlo después
 }
+
+export async function sendFeedback(formData: FormData) {
+  const supabase = await createClient();
+
+  // Obtener el mensaje del formulario
+  const message = formData.get("message") as string;
+
+  // Obtener el usuario autenticado
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    console.error("No se pudo obtener el usuario:", userError);
+    return;
+  }
+
+  // Insertar en la tabla feedback
+  const { error: insertError } = await supabase.from("feedback").insert({
+    message,
+    user_id: user.id,
+  });
+
+  if (insertError) {
+    console.error("Error al insertar feedback:", insertError);
+  } else {
+    console.log("Feedback enviado correctamente");
+  }
+}
+

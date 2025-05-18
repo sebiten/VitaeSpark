@@ -14,11 +14,22 @@ import { Loader2, CheckCircle, AlertCircle } from "lucide-react"
 import { OAuthButtons } from "@/components/googleButton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
-function SubmitButton({ children }: { children: React.ReactNode }) {
-  const { pending } = useFormStatus()
+
+export function SubmitButton({
+  children,
+  disabled = false, // 👈 parámetro adicional
+}: {
+  children: React.ReactNode;
+  disabled?: boolean; // 👈 aceptar prop opcional
+}) {
+  const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" className="w-full" disabled={pending}>
+    <Button
+      type="submit"
+      className="w-full"
+      disabled={pending || disabled} // 👈 combinas ambos estados
+    >
       {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -28,8 +39,9 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
         children
       )}
     </Button>
-  )
+  );
 }
+
 
 export default function AuthPageClient() {
   const router = useRouter()
