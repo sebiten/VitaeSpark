@@ -23,9 +23,9 @@ export default function Home() {
                 <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30">
                   <Zap className="mr-1 h-3 w-3" /> Impulsado por IA
                 </Badge>
-                <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 animate-pulse">
+                {/* <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 animate-pulse">
                   <img src={"/logompsolomano.png"} className="mr-1 h-5 w-5" /> Por tan solo $1500 ARS
-                </Badge>
+                </Badge> */}
               </div>
 
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">

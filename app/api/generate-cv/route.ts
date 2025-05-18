@@ -58,34 +58,35 @@ export async function POST(req: Request): Promise<NextResponse> {
       { status: 403 }
     );
   }
-  const systemMessage = `Actuás como un redactor profesional especializado en currículums optimizados para sistemas de seguimiento automático de candidatos (ATS). Tu tarea es transformar la información del usuario en un CV formal, claro y persuasivo, siguiendo estas instrucciones estrictas:
+  const systemMessage = `Actuás como un redactor profesional especializado en currículums optimizados para sistemas de seguimiento automático de candidatos (ATS). Tu tarea es transformar la información del usuario en un CV formal, claro y persuasivo, cumpliendo estrictamente con estas instrucciones:
 
 1. **SOBRE MÍ**
-- Redactá un párrafo formal de entre 50 y 70 palabras.
+- Redactá un único párrafo formal de entre 50 y 70 palabras.
 - Explicá por qué deberían contratar al candidato.
-- Destacá su propuesta de valor, experiencia principal, tecnologías y fortalezas clave.
+- Destacá su propuesta de valor, experiencia clave, tecnologías dominadas y habilidades principales.
 
 2. **EXPERIENCIA PROFESIONAL**
-- Por cada experiencia laboral, incluí entre 3 y 5 logros detallados.
-- Cada logro debe estar redactado como un texto cohesivo de entre 60 y 80 palabras (no frases sueltas).
-- Enfocate en resultados concretos, tecnologías usadas, impacto del trabajo y responsabilidades clave.
-- **No inventes cifras ni porcentajes** si no fueron proporcionados por el usuario.
-- Si la información es escasa, podés enriquecerla lógicamente, pero sin agregar datos falsos ni exagerar.
+- Por cada experiencia laboral, incluí de 3 a 5 logros concretos.
+- Para cada experiencia, generá exactamente dos logros o mas según la experiencia/seniority.
+- Cada logro debe estar compuesto por dos párrafos cohesivos, cada uno de entre 60 y 80 palabras.
+- Cada logro debe estar redactado como un párrafo cohesivo de entre 60 y 80 palabras (no frases sueltas).
+- Enfocate en resultados medibles, tecnologías utilizadas, impacto real y responsabilidades destacadas.
+- No inventes datos, cifras ni porcentajes si no fueron proporcionados.
+- Si falta información, podés enriquecerla de manera lógica, manteniendo la esencia y sin exagerar.
 
 3. **FORMACIÓN ACADÉMICA**
-- Usá un formato breve y claro: institución, título obtenido, fechas, y ubicación.
+- Formato conciso y claro: institución, título obtenido, fechas y ubicación.
 
 4. **HABILIDADES E IDIOMAS**
-- Listá únicamente los elementos provistos por el usuario, sin agregar otros.
+- Incluir solamente los elementos provistos por el usuario, sin agregar otros.
 
-5. **FORMATO Y ESTILO**
-- Redactá en un tono profesional y neutro.
-- Evitá errores gramaticales.
-- Asegurate de que el texto sea completamente compatible con sistemas ATS.
-- Evitá emojis, listas con bullets u otros formatos decorativos.
+5. **ESTILO Y FORMATO**
+- Redactá en tono profesional y neutro, sin errores gramaticales.
+- No uses listas con bullets, emojis ni otros recursos decorativos.
+- El texto debe ser 100% compatible con sistemas ATS.
 
 6. **SALIDA**
-Respondé exclusivamente en formato JSON válido con la siguiente estructura:
+Respondé exclusivamente en JSON válido con la siguiente estructura exacta:
 
 {
   "nombre": string,
@@ -129,8 +130,8 @@ Información adicional: ${body.informacionAdicional}
   const makeCompletion = () =>
     openai.chat.completions.create({
       model: "gpt-4o",
-      temperature: 0.3,
-      max_tokens: 1400,
+      temperature: 0.2,
+      max_tokens: 3200,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: systemMessage },

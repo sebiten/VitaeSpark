@@ -52,7 +52,7 @@ export default function PaymentConfirmation() {
             </div>
           </div>
 
-          <div className="rounded-md bg-[#2a2a35] p-4">
+          {/* <div className="rounded-md bg-[#2a2a35] p-4">
             <h3 className="mb-3 flex items-center justify-start gap-2 text-center text-base font-medium text-green-400">
               <Check className="h-5 w-5" />
               Al completar el pago obtendrás:
@@ -80,7 +80,7 @@ export default function PaymentConfirmation() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
     </div>
