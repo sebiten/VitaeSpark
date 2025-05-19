@@ -39,6 +39,7 @@ export default async function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-[#0F0F10] text-[#F4F4F5]">
       {/* Hero Section */}
+
       <WelcomeHero />
 
       {/* Features Section */}
@@ -352,7 +353,7 @@ export default async function Home() {
             </p>
           </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             <TestimonialCard
               quote="Actualicé mi CV con VitaeSpark y a la semana ya tenía entrevistas. Súper práctico y fácil de usar."
               author="Laura Martínez"
@@ -367,9 +368,8 @@ export default async function Home() {
               quote="Muy simple de usar y el resultado quedó re bien. Ahora mi CV muestra mejor lo que sé hacer."
               author="Ana García"
               role="Marketing Digital"
-             
             />
-            </div>
+          </div>
         </div>
       </section>
 
@@ -473,15 +473,15 @@ export default async function Home() {
                   disabled={!user}
                 />
               </div>
-              <SubmitButton disabled={!user}>
-                Enviar comentario
-              </SubmitButton>
+              <SubmitButton disabled={!user}>Enviar comentario</SubmitButton>
               {!user && (
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-center mx-auto  text-white/50">
                     Debes iniciar sesion para enviar un comentario
                   </span>
-                  <Link href={"/login"} className="text-[#7C3AED] border-b">Iniciar sesion</Link>
+                  <Link href={"/login"} className="text-[#7C3AED] border-b">
+                    Iniciar sesion
+                  </Link>
                 </div>
               )}
             </form>
