@@ -67,7 +67,7 @@ export async function POST(req: Request): Promise<NextResponse> {
 
 2. **EXPERIENCIA PROFESIONAL**
 - Por cada experiencia laboral, incluí de 3 a 5 logros concretos.
-- Para cada experiencia, generá exactamente dos logros o mas según la experiencia/seniority.
+- Para cada experiencia, generá exactamente dos logros con dos parrafos de texto cada uno.
 - Cada logro debe estar compuesto por dos párrafos cohesivos, cada uno de entre 60 y 80 palabras.
 - Cada logro debe estar redactado como un párrafo cohesivo de entre 60 y 80 palabras (no frases sueltas).
 - Enfocate en resultados medibles, tecnologías utilizadas, impacto real y responsabilidades destacadas.

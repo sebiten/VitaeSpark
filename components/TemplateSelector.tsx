@@ -61,10 +61,13 @@ export default function TemplateSelector({
           🧠 Consejos para completar tu CV
         </p>
         <ul className="list-disc list-inside text-[#A1A1AA] space-y-1">
-          <li>Escribe oraciones claras, evita listas sin contexto.</li>
           <li>
             Incluye logros medibles en tu experiencia (ej: "Aumenté ventas un
             20%").
+          </li>
+          <li>
+            Incluí la fecha y ubicación en cada puesto laboral o formación
+            académica.
           </li>
           <li>No uses emojis ni símbolos extraños.</li>
           <li>Evita copiar directamente desde tu perfil de LinkedIn.</li>
@@ -92,7 +95,7 @@ export default function TemplateSelector({
         </div>
 
         {/* 🎨 Selector de plantilla */}
-
+        <h3 className="text-center text-white mb-2"> Elegí tu plantilla</h3>
         <div className="flex gap-3 flex-wrap items-center justify-center">
           {templates.map((tpl) => (
             <div key={tpl.id} className="relative">
