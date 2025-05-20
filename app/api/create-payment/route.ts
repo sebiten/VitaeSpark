@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function POST(req: Request) {
   // extraemos los datos provenientes del front, CVPreviewStep
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
       profile_id,
       cv_data: cvData,
       template,
-      status: "pending", // 👈 asegurate de tener el campo "status" creado en la DB
+      status: "pending", 
     })
     .select()
     .single();
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
               "Currículum profesional con diseño moderno y textos persuasivos",
             category_id: "services", // ✅ recomendado
             quantity: 1,
-            unit_price: 1500,
+            unit_price: 2500,
           },
         ],
         payer: {
