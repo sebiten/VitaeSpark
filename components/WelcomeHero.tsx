@@ -3,6 +3,7 @@ import {
   Badge,
   CheckCircle2,
   GraduationCap,
+  PencilIcon,
   Sparkles,
   Zap,
 } from "lucide-react";
@@ -28,10 +29,10 @@ const WelcomeHero: NextPage<Props> = ({}) => {
                 <Zap className="mr-1.5 h-3.5 w-3.5" />
                 <span>Impulsado por IA</span>
               </div>
-              <div className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 animate-pulse px-2 py-1.5 rounded-full text-sm font-medium flex items-center transition-colors duration-200">
-                <img src={"/logompsolomano.png"} className="mr-1.5 h-5 w-5" />
-                <span>Oferta limitada $1500ARS</span>
-              </div>
+                <div className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 px-2 py-1.5 rounded-full text-sm font-medium flex items-center transition-colors duration-200">
+                <PencilIcon className="mr-1.5 h-3.5 w-3.5" />
+                <span>Redacción profesional</span>
+                </div>
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
