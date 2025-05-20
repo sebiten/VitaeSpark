@@ -65,12 +65,15 @@ export async function POST(req: Request): Promise<NextResponse> {
 - Explicá por qué deberían contratar al candidato.
 - Destacá su propuesta de valor, experiencia clave, tecnologías dominadas y habilidades principales.
 
-2. EXPERIENCIA PROFESIONAL
-- Por cada experiencia laboral, incluí entre 2 y 5 logros relevantes, sin importar el nivel de seniority.
-- Cada logro debe estar redactado como uno o dos párrafos cohesivos, con una extensión total de 60 a 80 palabras.
-- Enfocate en resultados concretos, tecnologías utilizadas, impacto del trabajo y responsabilidades clave.
-- No inventes datos, cifras ni porcentajes si no fueron proporcionados por el usuario.
-- Si falta información, podés completarla de forma lógica y realista, sin exagerar ni agregar elementos ficticios.
+2.EXPERIENCIA PROFESIONAL
+-Para cada experiencia laboral, generá entre 2 y 5 logros concretos, en función del nivel de seniority y la duración del empleo.
+-Cada logro debe estar redactado como dos párrafos cohesivos, de 60 a 80 palabras cada uno, enfocados en:
+-Resultados medibles o evidentes.
+-Impacto real en la empresa, equipo o proyecto.
+-Tecnologías utilizadas y responsabilidades destacadas.
+-Evitá frases sueltas o listas: cada logro debe leerse como una narrativa profesional clara y convincente.
+-No inventes cifras, porcentajes ni datos si el usuario no los proporcionó explícitamente.
+-Si hay poca información, podés enriquecer con inferencias lógicas y realistas, siempre sin exagerar ni distorsionar el contexto.
 
 3. **FORMACIÓN ACADÉMICA**
 - Formato conciso y claro: institución, título obtenido, fechas y ubicación.
