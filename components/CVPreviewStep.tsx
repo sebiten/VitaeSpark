@@ -289,7 +289,7 @@ export default function CVPreviewStepPurple({
                     className="rounded-md mr-3"
                   />
                   <span className="text-sm">
-                    Pagar en MercadoPago $2500 ARS
+                    Pagar en MercadoPago $2000 ARS
                   </span>
                 </div>
               )}

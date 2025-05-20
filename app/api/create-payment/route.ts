@@ -56,7 +56,7 @@ export async function POST(req: Request) {
               "Currículum profesional con diseño moderno y textos persuasivos",
             category_id: "services", // ✅ recomendado
             quantity: 1,
-            unit_price: 2500,
+            unit_price: 2000,
           },
         ],
         payer: {
