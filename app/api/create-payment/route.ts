@@ -14,6 +14,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const profile_id = user.data.user.id;
+  const email = user.data.user.email;
 
   if (!profile_id) {
     return NextResponse.json({ error: "No profile_id found" }, { status: 400 });
@@ -48,17 +49,25 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         items: [
           {
-            title: "Descarga de CV Profesional",
+            id: `cv-${cv.id}`, // ✅ recomendado
+            title: "CV optimizado con IA",
+            description:
+              "Currículum profesional con diseño moderno y textos persuasivos",
+            category_id: "services", // ✅ recomendado
             quantity: 1,
             unit_price: 1500,
           },
         ],
+        payer: {
+          email: email, // ✅ obligatorio
+        },
+        external_reference: `cv_${cv.id}`, // ✅ obligatorio
+        notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
         back_urls: {
           success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
           failure: `${process.env.NEXT_PUBLIC_SITE_URL}/error`,
         },
         auto_return: "approved",
-        notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
         metadata: {
           cv_id: cv.id,
           profile_id,
