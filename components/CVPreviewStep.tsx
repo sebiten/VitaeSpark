@@ -1,5 +1,4 @@
 "use client";
-
 import type React from "react";
 import { useEffect, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +14,10 @@ import {
   Zap,
   Star,
   Unlock,
+  Handshake,
+  User,
+  Download,
+  Percent,
 } from "lucide-react";
 import Link from "next/link";
 import type { Session } from "@supabase/supabase-js";
@@ -30,50 +33,52 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import PaymentConfirmation from "./PaymentInformation";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 // Array de testimonios
-const testimonials = [
+export const testimonials = [
   {
-    text: "Gracias al nuevo formato de mi CV conseguí varias entrevistas rápidamente. Muy recomendable.",
+    text: "Actualicé mi CV con el nuevo formato y en pocos días ya me estaban llamando para entrevistas. La verdad, re útil.",
     author: "María S.",
   },
   {
-    text: "Noté una clara mejora en las respuestas de las empresas después de actualizar mi currículum.",
+    text: "Después de renovar mi currículum, empecé a recibir muchas más respuestas de empresas. Se nota la diferencia, buen precio.",
     author: "Carlos M.",
   },
   {
-    text: "Había estado buscando trabajo varios meses sin éxito, pero con este CV profesional finalmente conseguí empleo en pocas semanas.",
+    text: "Estuve meses buscando sin suerte. Cambie el CV y al toque conseguí laburo. Muy buena la herramienta y asequible.",
     author: "Alejandra P.",
   },
   {
-    text: "Me sorprendió que los reclutadores destacaran lo ordenado y claro que estaba mi nuevo CV.",
+    text: "Varios reclutadores me remarcaron lo claro y profesional que se ve mi nuevo CV. Eso antes no pasaba.",
     author: "Roberto G.",
   },
   {
-    text: "Antes ni siquiera recibía respuestas, y ahora he tenido que elegir entre varias ofertas laborales. ¡Funcionó genial!",
+    text: "Pasé de no recibir ni un mail a tener varias propuestas encima. Me ayudó un montón y no es tan caro.",
     author: "Laura T.",
   },
   {
-    text: "Mi currículum nunca había pasado tantos filtros automáticos. Definitivamente el formato ATS marcó la diferencia.",
+    text: "Antes sentia que mi cv no rendia. Con este formato, me empezaron a llegar oportunidades de verdad, vale cada peso.",
     author: "Daniel R.",
   },
   {
-    text: "Sin duda, una excelente inversión para impulsar mi carrera profesional. Valió cada peso.",
+    text: "Fue una inversión chica pero que me sirvió un montón para mover mi carrera. Recomendado.",
     author: "Sofía V.",
   },
   {
-    text: "Logré negociar un mejor salario gracias a que ahora puedo mostrar claramente mis logros en mi CV.",
+    text: "Gracias al nuevo CV pude mostrar mejor mis logros y eso me sirvió para negociar un mejor sueldo.",
     author: "Javier M.",
   },
   {
-    text: "Los reclutadores empezaron a contactarme directamente tras mejorar la presentación de mi experiencia profesional.",
+    text: "Apenas actualicé mi CV, empezaron a escribirme directo. Se nota que ahora está mucho mejor presentado.",
     author: "Ana L.",
   },
   {
-    text: "Pude cambiar de sector laboral fácilmente porque mi nuevo CV destaca claramente mis habilidades transferibles.",
+    text: "Quería cambiar de rubro y el nuevo CV me ayudó a resaltar mis habilidades. Me abrió nuevas puertas.",
     author: "Miguel Á.",
   },
 ];
+
 
 type Props = {
   cvData: RespuestaCV["cv"];
@@ -101,13 +106,22 @@ export default function CVPreviewStepPurple({
         body: JSON.stringify({ cvData, template }),
       });
 
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Error al crear preferencia:", errorData);
+        alert("No se pudo iniciar el pago. Intenta nuevamente.");
+        return;
+      }
+
       const { init_point } = await res.json();
+
       if (init_point) {
         window.location.href = init_point;
       } else {
         alert("No se pudo iniciar el pago. Intenta nuevamente.");
       }
     } catch (error) {
+      console.error("Error en handlePay:", error);
       alert("Error al procesar el pago. Intenta nuevamente.");
     } finally {
       setLoading(false);
@@ -146,17 +160,24 @@ export default function CVPreviewStepPurple({
     // Scroll to the top of the container when component mounts
     window.scrollTo(0, 0);
   }, []);
+  const precioOriginal = 2500;
+  const precioOferta = 1999;
+  const ahorro = precioOriginal - precioOferta;
+  const descuentoPorcentaje = Math.round((ahorro / precioOriginal) * 100);
 
   return (
-    <div className="space-y-4 border border-[#2A2A2D] rounded-2xl shadow-xl w-full p-4 md:p-8 bg-gradient-to-b from-[#1A1A1D] to-[#0F0F10]">
+    <div className="space-y-2 border border-[#2A2A2D] rounded-2xl shadow-xl w-full p-4 md:p-8 bg-gradient-to-b from-[#1A1A1D] to-[#0F0F10]">
       {/* Header con elementos persuasivos */}
       <div className="text-center space-y-2 mb-4">
-        <div className="flex justify-center mb-2">
-          <Badge className="bg-gradient-to-r from-amber-400 to-yellow-500 text-black font-bold px-3 py-1">
-            <Clock className="w-4 h-4 mr-1" /> Oferta por tiempo limitado
-          </Badge>
+        <div className=" rounded-lg p-3  animate-pulse">
+          <div className="flex items-center justify-center space-x-2">
+            <p className="text-[#7C3AED] font-medium text-sm md:text-base">
+              ¡Oferta por tiempo limitado!
+            </p>
+            <Clock className="w-5 h-5 text-blue-400" />
+          </div>
         </div>
-        <h2 className="text-xl md:text-2xl font-bold text-white bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
+        <h2 className="text-xl md:text-2xl font-bold text-white bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text">
           ¡Tu CV Profesional está listo!
         </h2>
         <p className="text-gray-300 text-sm">
@@ -194,136 +215,197 @@ export default function CVPreviewStepPurple({
           </p>
         </div>
       </div>
+      <section className="space-y-2">
 
-      {/* Beneficios destacados antes del componente PaymentConfirmation */}
-      <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 rounded-lg p-4 border border-purple-500/20">
-        <h3 className="text-lg font-bold text-white mb-3 flex items-center">
-          <Award className="w-5 h-5 mr-2 text-purple-400" />
-          Lo que obtendrás al desbloquear:
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div className="flex items-start">
-            <CheckCircle className="w-5 h-5 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
-            <span className="text-gray-200 text-sm">
-              CV optimizado para sistemas ATS
-            </span>
-          </div>
-          <div className="flex items-start">
-            <CheckCircle className="w-5 h-5 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
-            <span className="text-gray-200 text-sm">
-              Formato profesional de alta calidad
-            </span>
-          </div>
-          <div className="flex items-start">
-            <CheckCircle className="w-5 h-5 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
-            <span className="text-gray-200 text-sm">
-              Descarga inmediata en PDF
-            </span>
-          </div>
-          <div className="flex items-start">
-            <CheckCircle className="w-5 h-5 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
-            <span className="text-gray-200 text-sm">
-              Acceso permanente a tu CV
-            </span>
-          </div>
-        </div>
-      </div>
 
-      {/* Carrusel de testimonios con shadcn/ui */}
-      <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-lg p-3 border border-blue-500/20">
-        <div className="flex">
-          <Award className="w-5 h-5 text-purple-400 mb-1 inline-block mr-2" />
-          <h3 className="text-white">Testimonios</h3>
-        </div>
-        <Carousel
-          plugins={[
-            Autoplay({
-              delay: 5000,
-            }),
-          ]}
-          opts={{
-            align: "start",
-            loop: true,
-            dragFree: true,
-            active: true,
-          }}
-          className="w-full"
-        >
-          <CarouselContent className="-ml-1">
-            {testimonials.map((testimonial, index) => (
-              <CarouselItem key={index} className="pl-1 md:basis-full">
-                <div className="p-1">
-                  <p className="text-gray-300 text-sm italic">
-                    "{testimonial.text}" - {testimonial.author}
-                  </p>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-      </div>
-
-      <PaymentConfirmation />
-
-      {/* Botón de pago mejorado */}
-      <div className="mt-5">
-        {userSession ? (
-          <div className="space-y-3">
-            <Button
-              disabled={loading}
-              className="w-full py-6 rounded-lg bg-gradient-to-r from-[#009ee3] to-[#008cc8] hover:from-[#008cc8] hover:to-[#007ab0] text-white font-semibold text-lg border-none shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
-              onClick={handlePay}
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Redirigiendo...
-                </>
-              ) : (
-                <div className="flex items-center justify-center">
-                  <img
-                    src="/logompsolomano.png"
-                    width={36}
-                    height={36}
-                    alt="MercadoPago"
-                    className="rounded-md mr-3"
-                  />
-                  <span className="text-sm">
-                    Pagar en MercadoPago $2000 ARS
-                  </span>
-                </div>
-              )}
-            </Button>
-            <div className="flex items-center justify-center text-xs ml-6 md:ml-0 text-gray-400 space-x-3">
-              <div className="flex items-center">
-                <ShieldCheck className="w-3 h-3 mr-1 text-green-400" />
-                <span>Pago 100% seguro</span>
-              </div>
-              <div className="flex items-center">
-                <Zap className="w-3 h-3 mr-1 text-yellow-400" />
-                <span>Acceso inmediato</span>
-              </div>
-              <div className="flex items-center">
-                <UserCheck className="w-3 h-3 mr-1 text-blue-400" />
-                <span>Soporte incluido</span>
-              </div>
+        {/* Lo que obtendrás */}
+        {/* <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 rounded-lg p-6 border border-purple-500/20">
+          <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+            <Award className="w-6 h-6 mr-2 text-purple-400" />
+            Lo que obtendrás al desbloquear:
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex items-start">
+              <CheckCircle className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-200 text-base">
+                CV optimizado para sistemas ATS
+              </span>
+            </div>
+            <div className="flex items-start">
+              <CheckCircle className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-200 text-base">
+                Formato profesional de alta calidad
+              </span>
+            </div>
+            <div className="flex items-start">
+              <CheckCircle className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-200 text-base">
+                Descarga inmediata desde tu perfil
+              </span>
+            </div>
+            <div className="flex items-start">
+              <CheckCircle className="w-5 h-5 text-green-400 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-200 text-base">
+                Acceso permanente a tu CV
+              </span>
             </div>
           </div>
-        ) : (
-          <Link href="/login" className="block w-full">
-            <Button
-              variant="outline"
-              className="w-full text-white border border-white/20 rounded-lg py-6 hover:bg-white/5 transition-colors duration-200 text-lg group relative overflow-hidden"
-            >
-              <div className="absolute inset-0 w-full h-full bg-white/5 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
-              <span className="relative z-10 flex items-center">
-                <UserCheck className="w-5 h-5 mr-2" />
-                Iniciar sesión para desbloquear
+        </div> */}
+        {/* Carrusel de testimonios */}
+        <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-lg p-4 border border-blue-500/20">
+          <div className="flex items-center mb-2">
+            <Award className="w-5 h-5 text-purple-400 mr-2" />
+            <h3 className="text-white font-medium">
+              Lo que dicen nuestros clientes
+            </h3>
+          </div>
+          <Carousel
+            plugins={[
+              Autoplay({
+                delay: 5000,
+              }),
+            ]}
+            opts={{
+              align: "start",
+              loop: true,
+              dragFree: true,
+              active: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-1">
+              {testimonials.map((testimonial, index) => (
+                <CarouselItem key={index} className="pl-1 md:basis-full">
+                  <div className="p-2  rounded-md">
+                    <p className="text-gray-300 text-sm italic">
+                      "{testimonial.text}"
+                    </p>
+                    <p className="text-right text-purple-400 text-sm font-medium mt-2">
+                      - {testimonial.author}
+                    </p>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        </div>
+
+        {/* Garantías de seguridad */}
+        <Card className="w-full border-0 bg-[#1e1e24] text-white shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-start gap-2 text-center text-xl font-semibold">
+              <ShieldCheck className="h-5 w-5 text-green-400" />
+              Pago 100% Seguro
+            </CardTitle>
+          </CardHeader>
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <Badge className="bg-red-500 hover:bg-red-600 px-3 py-1 text-white">
+              <Percent className="w-4 h-4 mr-1" />
+              {descuentoPorcentaje}% DE DESCUENTO
+            </Badge>
+
+            <div className="flex items-center justify-center gap-3 mt-2">
+              <span className="text-gray-400 text-lg line-through">
+                ${precioOriginal} ARS
               </span>
-            </Button>
-          </Link>
-        )}
-      </div>
+              <span className="text-3xl font-bold text-white">
+                ${precioOferta} ARS
+              </span>
+            </div>
+
+            <p className="text-green-400 font-medium">
+              ¡Ahorras ${ahorro} ARS!
+            </p>
+          </div>
+          <CardContent className="space-y-3">
+            <div className="space-y-3">
+              <div className="flex items-start gap-3 rounded-md bg-[#252530] p-3">
+                <Handshake className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" />
+                <p className="text-sm text-gray-300">
+                  Pago protegido por MercadoPago
+                </p>
+              </div>
+              <div className="flex items-start gap-3 rounded-md bg-[#252530] p-3">
+                <User className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" />
+                <p className="text-sm text-gray-300">
+                  Tu CV se asociará a tu cuenta una vez confirmado el pago.
+                </p>
+              </div>
+
+              <div className="flex items-start gap-3 rounded-md bg-[#252530] p-3">
+                <Download className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" />
+                <p className="text-sm text-gray-300">
+                  Podrás descargar tu CV todas las veces que quieras desde tu{" "}
+                  <a href="/perfil" className="text-blue-400 hover:underline">
+                    perfil.
+                  </a>
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        {/* Botón de pago mejorado con urgencia */}
+        <div className="mt-1">
+          {userSession ? (
+            <div className="space-y-3">
+              <Button
+                disabled={loading}
+                className="w-full py-7 rounded-lg bg-gradient-to-r from-[#009ee3] to-[#008cc8] hover:from-[#008cc8] hover:to-[#007ab0] text-white font-bold text-lg border-none shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
+                onClick={handlePay}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Redirigiendo...
+                  </>
+                ) : (
+                  <div className="flex items-center justify-center">
+                    <img
+                      src="/logompsolomano.png"
+                      width={36}
+                      height={36}
+                      alt="MercadoPago"
+                      className="rounded-md mr-3"
+                    />
+                    <span className="text-sm">
+                      ¡COMPRAR AHORA POR ${precioOferta} ARS!
+                    </span>
+                  </div>
+                )}
+                <div className="absolute inset-0 w-3/4 h-full bg-white/10 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
+              </Button>
+
+              <div className="flex items-center justify-center text-xs text-gray-400 space-x-4 mt-2">
+                <div className="flex items-center">
+                  <ShieldCheck className="w-3 h-3 mr-1 text-green-400" />
+                  <span>Pago 100% seguro</span>
+                </div>
+                <div className="flex items-center">
+                  <Zap className="w-3 h-3 mr-1 text-yellow-400" />
+                  <span>Acceso inmediato</span>
+                </div>
+                <div className="flex items-center">
+                  <UserCheck className="w-3 h-3 mr-1 text-blue-400" />
+                  <span>Soporte incluido</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Link href="/login" className="block w-full">
+              <Button
+                variant="outline"
+                className="w-full text-white border border-white/20 rounded-lg py-6 hover:bg-white/5 transition-colors duration-200 text-lg group relative overflow-hidden"
+              >
+                <div className="absolute inset-0 w-full h-full bg-white/5 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
+                <span className="relative z-10 flex items-center">
+                  <UserCheck className="w-5 h-5 mr-2" />
+                  Iniciar sesión para desbloquear
+                </span>
+              </Button>
+            </Link>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

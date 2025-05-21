@@ -22,7 +22,7 @@ export default function PaymentConfirmation() {
         <CardHeader>
           <CardTitle className="flex items-center justify-start gap-2 text-center text-xl font-semibold">
             <ShieldCheck className="h-5 w-5 text-green-400" />
-            Pago 100% Seguro
+            Pago 100% Seguroas
           </CardTitle>
         </CardHeader>
 
@@ -52,35 +52,6 @@ export default function PaymentConfirmation() {
             </div>
           </div>
 
-          {/* <div className="rounded-md bg-[#2a2a35] p-4">
-            <h3 className="mb-3 flex items-center justify-start gap-2 text-center text-base font-medium text-green-400">
-              <Check className="h-5 w-5" />
-              Al completar el pago obtendrás:
-            </h3>
-
-            <ul className="space-y-2">
-              {[
-                "PDF sin marca de agua y en alta calidad",
-                "Acceso a todas las páginas de tu CV",
-                <p className="text-sm text-gray-300">
-                  Podrás descargar las veces que necesites desde tu{" "}
-                  <a href="/perfil" className="text-blue-400">
-                    perfil.
-                  </a>
-                </p>,
-              ].map((item, index) => (
-                <li
-                  key={index}
-                  className="flex items-center gap-2 text-sm text-gray-300"
-                >
-                  <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full">
-                    •
-                  </span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div> */}
         </CardContent>
       </Card>
     </div>
