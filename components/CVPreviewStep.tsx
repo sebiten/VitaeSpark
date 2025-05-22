@@ -250,7 +250,7 @@ export default function CVPreviewStepPurple({
       </div>
 
       {/* Pricing and Security */}
-      <Card className="mb-6 border-0 bg-slate-800/40 text-white">
+      <Card className="border-0 bg-slate-800/40 text-white">
         <CardContent className="space-y-4">
           {/* Pricing */}
           <div className="pb-2">
@@ -340,13 +340,13 @@ export default function CVPreviewStepPurple({
 
       {/* Payment Button */}
       {userSession ? (
-        <div className="space-y-3 mx-1">
+        <div className="space-y-3">
           <Button
             disabled={loading}
-            className="w-full py-6 rounded-xl bg-gradient-to-r from-[#009ee3] to-[#008cc8] hover:from-[#00a9f0] hover:to-[#0095d4] text-white font-bold text-lg border-none 
+            className="w-full rounded-xl bg-gradient-to-r from-[#009ee3] to-[#008cc8] hover:from-[#00a9f0] hover:to-[#0095d4] text-white font-bold text-lg border-none 
       shadow-[0_10px_25px_-5px_rgba(0,158,227,0.4)] transition-all duration-300 
       hover:shadow-[0_15px_30px_-5px_rgba(0,158,227,0.6)] 
-      hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
+      hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group py-5"
             onClick={handlePay}
           >
             {loading ? (
@@ -361,10 +361,10 @@ export default function CVPreviewStepPurple({
               </div>
             ) : (
               <div className="flex items-center justify-center gap-1">
-                  <LockOpen />
-                  <span className="font-semibold tracking-wide mb-0.5">
-                    Desbloquear curriculum
-                  </span>
+                <LockOpen />
+                <span className="font-semibold tracking-wide mb-0.5">
+                  Desbloquear curriculum
+                </span>
               </div>
             )}
 
