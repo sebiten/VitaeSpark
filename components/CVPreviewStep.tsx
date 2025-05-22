@@ -257,22 +257,10 @@ export default function CVPreviewStepPurple({
             <div className="flex items-start gap-3 rounded-md bg-slate-700/50 p-3">
               <Download className="h-5 w-5 flex-shrink-0 text-blue-400" />
               <p className="text-sm text-slate-300">
-                Descargalo desde tu{" "}
+                Tras el pago Descargalo desde tu{" "}
                 <Link href="/perfil" className="text-blue-400 hover:underline">
                   perfil
                 </Link>{" "}
-                siempre que quieras.
-              </p>
-            </div>
-
-            <div className="flex items-start gap-3 rounded-md bg-slate-700/50 p-3">
-              <CheckCircle className="h-5 w-5 flex-shrink-0 text-blue-400" />
-              <p className="text-sm text-slate-300">
-                Tras el pago, serás redirigido a tu{" "}
-                <Link href="/perfil" className="text-blue-400 hover:underline">
-                  perfil
-                </Link>
-                .
               </p>
             </div>
 
