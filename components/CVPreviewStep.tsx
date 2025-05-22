@@ -213,7 +213,7 @@ export default function CVPreviewStepPurple({
       </div>
 
       {/* Testimonials */}
-      <div className="mb-6 rounded-lg p-4 bg-slate-800/20 border border-slate-900">
+      <div className="mb-6 rounded-lg p-4 bg-slate-800/40 border border-slate-900">
         <div className="flex items-center mb-3">
           <Award className="w-5 h-5 text-purple-400 mr-2" />
           <h3 className="text-white font-medium">
@@ -248,7 +248,7 @@ export default function CVPreviewStepPurple({
       </div>
 
       {/* Pricing and Security */}
-      <Card className="mb-6 border-0 bg-slate-800/20 text-white">
+      <Card className="mb-6 border-0 bg-slate-800/40 text-white">
         <CardContent className="space-y-4">
           {/* Pricing */}
           <div className="pb-2">
