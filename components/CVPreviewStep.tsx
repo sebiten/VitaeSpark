@@ -138,7 +138,7 @@ export default function CVPreviewStepPurple({
   const descuentoPorcentaje = Math.round((ahorro / precioOriginal) * 100);
 
   return (
-    <div className="w-full p-6 rounded-xl shadow-xl">
+    <div className="w-full p-2 rounded-xl shadow-xl">
       <div className="text-center space-y-3 mb-6">
         <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-800/30 border border-purple-500/30">
           <p className="text-purple-400 font-medium text-sm">
