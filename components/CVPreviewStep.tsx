@@ -18,6 +18,7 @@ import {
   User,
   Download,
   Percent,
+  CreditCard,
 } from "lucide-react";
 import Link from "next/link";
 import type { Session } from "@supabase/supabase-js";
@@ -319,6 +320,12 @@ export default function CVPreviewStepPurple({
                 perfil
               </Link>
               : ahí estará tu CV disponible para descargar y visualizar.
+              </p>
+            </div>
+            <div className="flex items-start gap-3 rounded-md bg-slate-700/50 p-3">
+              <CreditCard className="h-5 w-5 flex-shrink-0 text-blue-400" />
+              <p className="text-sm text-slate-300">
+              Podés pagar con cualquier método: tarjeta de crédito, débito, y más opciones a través de Mercado Pago.
               </p>
             </div>
           </div>
