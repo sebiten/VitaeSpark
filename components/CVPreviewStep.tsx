@@ -20,6 +20,7 @@ import {
   CreditCard,
   CheckCircle,
   Download,
+  Phone,
 } from "lucide-react";
 import {
   Carousel,
@@ -169,8 +170,9 @@ export default function CVPreviewStepPurple({
         </div>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent py-3 px-4 text-center">
           <p className="text-white text-sm font-medium flex items-center justify-center">
-            <Lock className="w-4 h-4 mr-2" />
-            Versión de muestra con marca de agua
+            <Phone className="w-4 h-4 mr-2" />
+            En el celular, el CV se puede mover con el dedo para ver todo su
+            contenido.
           </p>
         </div>
       </div>
