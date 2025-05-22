@@ -169,7 +169,7 @@ export default function CVPreviewStepPurple({
     <div className="w-full p-6 rounded-xl  shadow-xl">
       {/* Header */}
       <div className="text-center space-y-3 mb-6">
-        <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-800/50 border border-purple-500/30">
+        <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-800/30 border border-purple-500/30">
           <p className="text-purple-400 font-medium text-sm">
             ¡Oferta por tiempo limitado!
           </p>
@@ -212,7 +212,7 @@ export default function CVPreviewStepPurple({
       </div>
 
       {/* Testimonials */}
-      <div className="mb-6 rounded-lg p-4 bg-slate-800/50 border border-slate-700">
+      <div className="mb-6 rounded-lg p-4 bg-slate-800/20 border border-slate-900">
         <div className="flex items-center mb-3">
           <Award className="w-5 h-5 text-purple-400 mr-2" />
           <h3 className="text-white font-medium">
@@ -245,7 +245,7 @@ export default function CVPreviewStepPurple({
       </div>
 
       {/* Pricing and Security */}
-      <Card className="mb-6 border-0 bg-slate-800/50 text-white">
+      <Card className="mb-6 border-0 bg-slate-800/20 text-white">
         <CardContent className="space-y-4">
           {/* Pricing */}
           <div className="pb-2">
@@ -255,7 +255,7 @@ export default function CVPreviewStepPurple({
             </p>
           </div>
           <div className="space-y-2">
-            <Badge className="bg-red-500 hover:bg-red-600 px-3 py-1 text-white">
+            <Badge className="bg-red-500 hover:bg-red-600 px-3 py-1 text-white uppercase">
               <Percent className="w-4 h-4 mr-1" />
               {descuentoPorcentaje}% DE DESCUENTO
             </Badge>
@@ -327,10 +327,10 @@ export default function CVPreviewStepPurple({
 
       {/* Payment Button */}
       {userSession ? (
-        <div className="space-y-3">
+        <div className="space-y-3 mx-1">
           <Button
             disabled={loading}
-            className="w-full py-8 rounded-xl bg-gradient-to-r from-[#009ee3] to-[#008cc8] hover:from-[#00a9f0] hover:to-[#0095d4] text-white font-bold text-lg border-none 
+            className="w-full py-6 rounded-xl bg-gradient-to-r from-[#009ee3] to-[#008cc8] hover:from-[#00a9f0] hover:to-[#0095d4] text-white font-bold text-lg border-none 
       shadow-[0_10px_25px_-5px_rgba(0,158,227,0.4)] transition-all duration-300 
       hover:shadow-[0_15px_30px_-5px_rgba(0,158,227,0.6)] 
       hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
