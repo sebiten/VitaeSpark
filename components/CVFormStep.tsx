@@ -118,12 +118,12 @@ export default function CVFormStep({ setCvData, setActiveTab, template }: Props)
       <div className="absolute inset-0 bg-[url('/placeholder.svg?height=100&width=100')] bg-repeat opacity-5 rounded-xl -z-10"></div> */}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-8 p-2 rounded-xl ">
-        <div className="w-full flex items-center justify-center ">
+        {/* <div className="w-full flex items-center justify-center ">
           <Button type="button" onClick={rellenarDatosPrueba} variant="default" className="mb-4 text-sm ">
             <CheckCircle2 className="w-4 h-4 mr-1.5 text-[#7C3AED]" />
             Rellenar con datos de prueba
           </Button>
-        </div>
+        </div> */}
 
         {/* Sección de información personal */}
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
