@@ -15,7 +15,7 @@ import CVPreviewStep from "../CVPreviewStep";
 import { RoboAnimation } from "../roboto-animation";
 
 const CVForm: NextPage = () => {
-  const [selectedTemplate, setSelectedTemplate] = useState("purple");
+  const [selectedTemplate, setSelectedTemplate] = useState("harvard");
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
   const [cvId, setCvId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("form");
