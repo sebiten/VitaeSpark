@@ -222,10 +222,12 @@ export default function CVPreviewStepPurple({
         </div>
 
         <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
+          plugins={[
+            Autoplay({
+              delay: 5000,
+              stopOnInteraction: false,
+            }),
+          ]}
           className="w-full"
         >
           <CarouselContent>
@@ -304,28 +306,30 @@ export default function CVPreviewStepPurple({
             <div className="flex items-start gap-3 rounded-md bg-slate-700/50 p-3">
               <CheckCircle className="h-5 w-5 flex-shrink-0 text-blue-400" />
               <p className="text-sm text-slate-300">
-              Una vez completado el pago, serás redirigido automáticamente a tu{" "}
-              <Link href="/perfil" className="text-blue-400 hover:underline">
-                perfil
-              </Link>
-              , donde podrás descargar y visualizar tu CV listo.
+                Una vez completado el pago, serás redirigido automáticamente a
+                tu{" "}
+                <Link href="/perfil" className="text-blue-400 hover:underline">
+                  perfil
+                </Link>
+                , donde podrás descargar y visualizar tu CV listo.
               </p>
             </div>
             {/* Acceso desde la aplicación */}
             <div className="flex items-start gap-3 rounded-md bg-slate-700/50 p-3">
               <User className="h-5 w-5 flex-shrink-0 text-blue-400" />
               <p className="text-sm text-slate-300">
-              Si pagas desde la aplicación, solo inicia sesión y entra a tu{" "}
-              <Link href="/perfil" className="text-blue-400 hover:underline">
-                perfil
-              </Link>
-              : ahí estará tu CV disponible para descargar y visualizar.
+                Si pagas desde la aplicación, solo inicia sesión y entra a tu{" "}
+                <Link href="/perfil" className="text-blue-400 hover:underline">
+                  perfil
+                </Link>
+                : ahí estará tu CV disponible para descargar y visualizar.
               </p>
             </div>
             <div className="flex items-start gap-3 rounded-md bg-slate-700/50 p-3">
               <CreditCard className="h-5 w-5 flex-shrink-0 text-blue-400" />
               <p className="text-sm text-slate-300">
-              Podés pagar con cualquier método: tarjeta de crédito, débito, y más opciones a través de Mercado Pago.
+                Podés pagar con cualquier método: tarjeta de crédito, débito, y
+                más opciones a través de Mercado Pago.
               </p>
             </div>
           </div>
@@ -365,7 +369,7 @@ export default function CVPreviewStepPurple({
                   />
                 </div>
                 <span className=" font-semibold tracking-wide">
-                 Continuar en Mercado Pago
+                  Continuar en Mercado Pago
                 </span>
               </div>
             )}
