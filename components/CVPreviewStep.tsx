@@ -19,6 +19,8 @@ import {
   Download,
   Percent,
   CreditCard,
+  LockOpenIcon,
+  LockOpen,
 } from "lucide-react";
 import Link from "next/link";
 import type { Session } from "@supabase/supabase-js";
@@ -358,19 +360,11 @@ export default function CVPreviewStepPurple({
                 </span>
               </div>
             ) : (
-              <div className="flex items-center justify-center">
-                <div className="relative  p-1.5 rounded-md shadow-inner">
-                  <img
-                    src="/logompsolomano.png"
-                    width={32}
-                    height={32}
-                    alt="MercadoPago"
-                    className="rounded-sm"
-                  />
-                </div>
-                <span className=" font-semibold tracking-wide">
-                  Continuar en Mercado Pago
-                </span>
+              <div className="flex items-center justify-center gap-1">
+                  <LockOpen />
+                  <span className="font-semibold tracking-wide mb-0.5">
+                    Desbloquear curriculum
+                  </span>
               </div>
             )}
 
