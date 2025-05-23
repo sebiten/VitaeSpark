@@ -28,28 +28,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Download, Eye, Loader2, User, X } from "lucide-react";
 import { FloatingPaper } from "@/components/floatin-paper";
 import UserPayments from "@/components/UserPayment";
+import { CVThumbnail } from "./CvThumbnail";
 
 // Componente para generar una miniatura del CV
-const CVThumbnail = ({ cv }: { cv: CVRecord }) => {
-  return (
-    <div className="w-full h-[180px] flex items-center justify-center bg-[#111112] rounded-md overflow-hidden">
-      <div className="w-[120px] h-[160px] bg-white rounded shadow-md flex flex-col p-2">
-        <div className="w-full h-4 bg-primary mb-2 rounded-sm"></div>
-        <div className="w-3/4 h-2 bg-gray-300 mb-1 rounded-sm"></div>
-        <div className="w-1/2 h-2 bg-gray-300 mb-3 rounded-sm"></div>
-
-        <div className="w-full h-2 bg-gray-200 mb-1 rounded-sm"></div>
-        <div className="w-full h-2 bg-gray-200 mb-1 rounded-sm"></div>
-        <div className="w-3/4 h-2 bg-gray-200 mb-3 rounded-sm"></div>
-
-        <div className="w-full h-3 bg-secondary/30 mb-2 rounded-sm"></div>
-        <div className="w-full h-2 bg-gray-200 mb-1 rounded-sm"></div>
-        <div className="w-full h-2 bg-gray-200 mb-1 rounded-sm"></div>
-        <div className="w-1/2 h-2 bg-gray-200 rounded-sm"></div>
-      </div>
-    </div>
-  );
-};
 
 export default function PerfilCVs() {
   const [cvs, setCvs] = useState<CVRecord[]>([]);
@@ -57,59 +38,53 @@ export default function PerfilCVs() {
   const [showCongrats, setShowCongrats] = useState(false);
   const [paidCv, setPaidCv] = useState<CVRecord | null>(null);
   const [selectedCV, setSelectedCV] = useState<CVRecord | null>(null);
-
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // 1) Al montar, chequear si llegó cv_id en la URL
   useEffect(() => {
-    const cvId = searchParams.get("cv_id");
-    if (cvId) {
-      setShowCongrats(true);
-      router.replace("/perfil");
-    }
-  }, [searchParams, router]);
-
-  // 2) Cargar los CVs pagados
-  useEffect(() => {
-    const fetchCVs = async () => {
+    const fetchData = async () => {
       const supabase = createClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
       if (!user) {
         router.replace("/login");
-      } else {
-        const { data, error } = await supabase
-          .from("cvs")
-          .select("id, cv_data, template, created_at")
-          .eq("profile_id", user?.id)
-          .eq("status", "paid")
-          .order("created_at", { ascending: false });
+        return;
+      }
 
-        if (error) {
-          console.error("Error cargando CVs:", error);
-        } else {
-          setCvs(data);
-        }
-        // 2.1) Si detectamos showCongrats y tenemos cv_id, buscamos el CV concreto
+      const { data, error } = await supabase
+        .from("cvs")
+        .select("id, cv_data, template, created_at")
+        .eq("profile_id", user.id)
+        .eq("status", "paid")
+        .order("created_at", { ascending: false });
+
+      if (!error && data) {
+        setCvs(data);
         const cvId = searchParams.get("cv_id");
         if (cvId) {
-          const found = data?.find((cv) => cv.id === cvId);
-          if (found) setPaidCv(found);
+          const found = data.find((cv) => cv.id === cvId);
+          if (found) {
+            setPaidCv(found);
+            setShowCongrats(true);
+            router.replace("/perfil"); // 👈 movido aquí
+          }
         }
       }
+
       setLoading(false);
     };
-    fetchCVs();
-  }, [searchParams]);
+
+    fetchData();
+  }, []);
 
   if (loading) {
     return (
       <div className="flex justify-center items-center py-20">
-        <div className="bg-[#1A1A1D] p-6 rounded-xl shadow-xl border border-[#2A2A2D] flex flex-col items-center">
-          <Loader2 className="w-8 h-8 animate-spin text-primary mb-3" />
-          <span className="text-[#F4F4F5] font-medium">
+        <div className="bg-gradient-to-br from-[#1F1F22] to-[#141416] px-8 py-6 rounded-2xl shadow-2xl border border-[#2A2A2D] flex flex-col items-center space-y-4">
+          <Loader2 className="w-10 h-10 animate-spin text-white" />
+          <span className="text-[#E4E4E7] font-semibold text-lg tracking-wide">
             Cargando tus CVs...
           </span>
         </div>
