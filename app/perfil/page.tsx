@@ -26,9 +26,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Download, Eye, Loader2, User, X } from "lucide-react";
-import { FloatingPaper } from "@/components/floatin-paper";
 import UserPayments from "@/components/UserPayment";
 import { CVThumbnail } from "./CvThumbnail";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Componente para generar una miniatura del CV
 
@@ -38,6 +38,11 @@ export default function PerfilCVs() {
   const [showCongrats, setShowCongrats] = useState(false);
   const [paidCv, setPaidCv] = useState<CVRecord | null>(null);
   const [selectedCV, setSelectedCV] = useState<CVRecord | null>(null);
+  const [profileInfo, setProfileInfo] = useState<{
+    name: string;
+    email: string;
+    imgUrl: string;
+  } | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -51,6 +56,21 @@ export default function PerfilCVs() {
       if (!user) {
         router.replace("/login");
         return;
+      }
+
+      // Fetch user profile information
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", user.id)
+        .single();
+
+      if (!profileError && profileData) {
+        setProfileInfo({
+          name: profileData.full_name || user.email?.split("@")[0] || "Usuario",
+          email: user.email || "No disponible",
+          imgUrl: user.user_metadata?.avatar_url || "/avatar.png",
+        });
       }
 
       const { data, error } = await supabase
@@ -68,7 +88,7 @@ export default function PerfilCVs() {
           if (found) {
             setPaidCv(found);
             setShowCongrats(true);
-            router.replace("/perfil"); // 👈 movido aquí
+            router.replace("/perfil");
           }
         }
       }
@@ -94,6 +114,48 @@ export default function PerfilCVs() {
 
   return (
     <div className="w-full mx-auto px-4 py-10 space-y-8 bg-[#0F0F10]">
+      {/* Profile Information Card */}
+      {profileInfo && (
+        <div className="max-w-4xl mx-auto mb-8">
+          <Card className="bg-gradient-to-r from-[#1A1A1D] to-[#0F0F10] border-[#2A2A2D] text-white overflow-hidden rounded-xl shadow-lg hover:shadow-purple-900/10 transition-all duration-300">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-600 to-purple-400"></div>
+            <CardHeader className="pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0 p-5">
+              <div className="flex items-center gap-4">
+                <div className="bg-gradient-to-br from-[#7C3AED] to-[#5B21B6] p-3 rounded-full shadow-md ">
+                  <Avatar>
+                    <AvatarImage
+                      src={profileInfo.imgUrl}
+                      alt={profileInfo.name}
+                      className="rounded-full object-cover"
+                    />
+                    <AvatarFallback className="bg-transparent text-white text-xl">
+                      {profileInfo.name?.charAt(0) ?? "U"}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-xl font-bold text-[#F4F4F5] flex items-center gap-2">
+                    ¡Hola, {profileInfo.name}!{" "}
+                    <span className="animate-wave inline-block">👋</span>
+                  </h3>
+                  <p className="text-sm text-[#A1A1AA] flex items-center gap-1.5">
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                    {profileInfo.email}
+                  </p>
+                </div>
+              </div>
+              <div className="bg-[#2A2A2D] px-4 py-1.5 rounded-full text-sm font-medium text-[#E4E4E7] flex items-center gap-2 shadow-inner border border-[#3F3F46]">
+                <span className="text-[#7C3AED]">{cvs.length}</span>
+                <span>
+                  {cvs.length === 1 ? "CV" : "CVs"} disponible
+                  {cvs.length !== 1 && "s"}
+                </span>
+              </div>
+            </CardHeader>
+          </Card>
+        </div>
+      )}
+
       {/* Notificación de pago aprobado */}
       {showCongrats && paidCv && (
         <div className="max-w-4xl mx-auto">
