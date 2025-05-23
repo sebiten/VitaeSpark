@@ -1,5 +1,5 @@
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
-import type { RespuestaCV } from "@/lib/types/cv";
+import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer"
+import type { RespuestaCV } from "@/lib/types/cv"
 
 // Estilos minimalistas en blanco y negro, optimizados para ATS
 const styles = StyleSheet.create({
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   bulletText: {
-    fontSize: 9,
+    fontSize: 10,
     flex: 1,
   },
   educationItem: {
@@ -129,14 +129,14 @@ const styles = StyleSheet.create({
     color: "#1E40AF",
     zIndex: 1,
   },
-});
+})
 
 // Componente para la marca de agua
 const Watermark = () => (
   <View style={styles.watermarkContainer} fixed>
     <Text style={styles.watermark}>vitaespark.com</Text>
   </View>
-);
+)
 
 // Componente para listas con viñetas
 const BulletList = ({ items }: { items: string[] }) => (
@@ -148,7 +148,7 @@ const BulletList = ({ items }: { items: string[] }) => (
       </View>
     ))}
   </View>
-);
+)
 
 // Plantilla principal del documento PDF
 export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
@@ -178,7 +178,7 @@ export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
               </View>
               <View style={styles.locationDate}>
                 <Text style={styles.location}>{exp.ubicacion}</Text>
-                <Text style={styles.date}>{exp.fechas}</Text>
+                <Text style={styles.date}>{exp.fechas || ""}</Text>
               </View>
             </View>
             <BulletList items={exp.logros} />
@@ -198,7 +198,7 @@ export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
                 </View>
                 <View style={styles.locationDate}>
                   <Text style={styles.location}>{edu.ubicacion}</Text>
-                  <Text style={styles.date}>{edu.fechas}</Text>
+                  <Text style={styles.date}>{edu.fechas || ""}</Text>
                 </View>
               </View>
             </View>
@@ -228,5 +228,5 @@ export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
         )}
       </Page>
     </Document>
-  );
+  )
 }

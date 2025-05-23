@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
     marginTop: 5,
   },
-  bulletText: { fontSize: 9, lineHeight: 1.4, flex: 1 },
+  bulletText: { fontSize: 10, lineHeight: 1.4, flex: 1 },
   watermarkContainer: {
     position: "absolute",
     top: 0,

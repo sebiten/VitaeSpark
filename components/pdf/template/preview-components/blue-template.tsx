@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   bulletText: {
-    fontSize: 11,
+    fontSize: 10,
     flex: 1,
     margin: "1 0 1 0",
   },

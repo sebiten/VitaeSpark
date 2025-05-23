@@ -73,10 +73,11 @@ export async function POST(req: Request): Promise<NextResponse> {
 -Tecnologías utilizadas y responsabilidades destacadas.
 -Evitá frases sueltas o listas: cada logro debe leerse como una narrativa profesional clara y convincente.
 -No inventes cifras, porcentajes ni datos si el usuario no los proporcionó explícitamente.
--Si hay poca información, podés enriquecer con inferencias lógicas y realistas, siempre sin exagerar ni distorsionar el contexto.
+- **Si el usuario no proporciona fechas para la experiencia laboral, dejá el campo de fechas vacío (no coloques "no especificado" ni texto similar).**
 
-3. **FORMACIÓN ACADÉMICA**
+3. FORMACIÓN ACADÉMICA
 - Formato conciso y claro: institución, título obtenido, fechas y ubicación.
+- **Si el usuario no proporciona fechas para la formación académica, dejá el campo de fechas vacío (no coloques "no especificado" ni texto similar).**
 
 4. **HABILIDADES E IDIOMAS**
 - Incluir solamente los elementos provistos por el usuario, sin agregar otros.
