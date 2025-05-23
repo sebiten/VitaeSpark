@@ -21,6 +21,15 @@ import {
   CheckCircle,
   Download,
   Phone,
+  CheckCheck,
+  CheckCheckIcon,
+  CheckCircle2Icon,
+  CheckIcon,
+  Unlock,
+  CheckCircleIcon,
+  TouchpadIcon,
+  HandIcon,
+  Pointer,
 } from "lucide-react";
 import {
   Carousel,
@@ -168,11 +177,12 @@ export default function CVPreviewStepPurple({
         >
           {renderTemplate}
         </div>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent py-3 px-4 text-center">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-black/60 py-3 px-4 text-center">
           <p className="text-white text-sm font-medium flex items-center justify-center">
-            <Phone className="w-4 h-4 mr-2" />
-            En el celular, el CV se puede mover con el dedo para ver todo su
-            contenido.
+            Desliza con el dedo para ver todo el CV
+          </p>
+          <p className="text-sm text-white italic">
+            Vista protegida con marca de agua
           </p>
         </div>
       </div>
