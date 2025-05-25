@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       profile_id,
       cv_data: cvData,
       template,
-      status: "pending", 
+      status: "pending",
     })
     .select()
     .single();
@@ -66,7 +66,8 @@ export async function POST(req: Request) {
         notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
         back_urls: {
           success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
-          failure: `${process.env.NEXT_PUBLIC_SITE_URL}/error`,
+          failure: `${process.env.NEXT_PUBLIC_SITE_URL}`,
+          pending: `${process.env.NEXT_PUBLIC_SITE_URL}`,
         },
         auto_return: "approved",
         metadata: {
