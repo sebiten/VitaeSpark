@@ -124,23 +124,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 0,
   },
-  watermark: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%) rotate(-45deg)",
-    opacity: 0.15,
-    fontSize: 60,
-    color: "#1E40AF",
-    zIndex: 1,
-  },
+ 
 });
 
-const Watermark = () => (
-  <View style={styles.watermarkContainer} fixed>
-    <Text style={styles.watermark}>vitaespark.com</Text>
-  </View>
-);
 
 const BulletList = ({ items }: { items: string[] }) => (
   <View style={styles.bulletList}>

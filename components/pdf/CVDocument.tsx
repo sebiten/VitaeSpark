@@ -31,7 +31,7 @@ export function DocumentoCV({
     case "purple":
       return <PurpleTemplate cv={cv} />;
     case "elegance":
-      return <EleganceTemplateW cv={cv} />;
+      return <EleganceTemplate cv={cv} />;
     default:
       return <PurpleTemplate cv={cv} />;
   }
