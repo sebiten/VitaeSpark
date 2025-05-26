@@ -142,8 +142,8 @@ export default function CVFormStep({
         >
           <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 via-transparent to-[#06B6D4]/10 rounded-3xl" />
           <div className="relative bg-gradient-to-br from-[#1A1A1C]/90 to-[#2A2A2D]/90 backdrop-blur-xl border border-[#3A3A3D]/50 rounded-3xl p-5 shadow-2xl">
-            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#7C3AED]/20 to-transparent rounded-full -translate-y-20 translate-x-20" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#06B6D4]/20 to-transparent rounded-full translate-y-16 -translate-x-16" />
+            {/* <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#7C3AED]/20 to-transparent rounded-full -translate-y-20 translate-x-20" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#06B6D4]/20 to-transparent rounded-full translate-y-16 -translate-x-16" /> */}
 
             <div className="relative">
               <div className="flex items-center gap-4 mb-6">
@@ -178,7 +178,7 @@ export default function CVFormStep({
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                     className="flex items-start gap-3 rounded-xl backdrop-blur-sm"
                   >
-                    <div className="w-2 h-2 bg-gradient-to-br from-[#7C3AED] to-[#06B6D4] rounded-full mt-2 flex-shrink-0" />
+                    <div className="w-2 h-2 bg-gradient-to-br from-[#7C3AED]  rounded-full mt-2 flex-shrink-0" />
                     <div className="flex items-center justify-center">
                       <span className="text-[#D4D4D8] text-sm leading-relaxed">
                         {tip}
@@ -196,19 +196,19 @@ export default function CVFormStep({
                 </p>
               </div>
             </div>
-            <div className="w-full flex items-center justify-center ">
-              <Button
-                type="button"
-                onClick={rellenarDatosPrueba}
-                variant="default"
-                className="mb-4 text-sm "
-              >
-                <CheckCircle2 className="w-4 h-4 mr-1.5 text-[#7C3AED]" />
-                Rellenar con datos de prueba
-              </Button>
-            </div>
           </div>
         </motion.div>
+        {/* <div className="w-full flex items-center justify-center ">
+          <Button
+            type="button"
+            onClick={rellenarDatosPrueba}
+            variant="default"
+            className="mb-4 text-sm "
+          >
+            <CheckCircle2 className="w-4 h-4 mr-1.5 text-[#7C3AED]" />
+            Rellenar con datos de prueba
+          </Button>
+        </div> */}
 
         {/* Datos personales */}
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
