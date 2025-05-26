@@ -9,14 +9,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   CheckIcon,
   FileText,
   Star,
-  StarIcon,
-  StarOff,
-  StarsIcon,
+  Eye,
+  Sparkles,
+  Crown,
+  Zap,
+  Award,
 } from "lucide-react";
+import { motion, AnimatePresence, color } from "framer-motion";
 
 const templates = [
   {
@@ -24,21 +28,48 @@ const templates = [
     name: "Harvard",
     color: "#fff",
     recommended: true,
+    description: "Clásico y profesional",
+    category: "Tradicional",
+    features: ["ATS Optimizado", "Formato Clásico", "Muy Legible"],
+    popularity: 95,
+  },
+  {
+    id: "elegance",
+    name: "Elegante",
+    color: "#1A1C2C", // algo asi pero mas claro
+    description: "Sofisticado y único",
+    category: "Moderno",
+    features: ["Diseño Oscuro", "Único", "Elegante"],
+    popularity: 85,
   },
   {
     id: "purple",
     name: "Morado",
     color: "#8B5CF6",
+    description: "Creativo y moderno",
+    category: "Creativo",
+    features: ["Diseño Moderno", "Colores Vibrantes", "Destacado"],
+    popularity: 87,
   },
   {
     id: "blue",
     name: "Azul",
     color: "#1E40AF",
+    description: "Corporativo y confiable",
+    category: "Creativo",
+    features: ["Diseño Moderno", "Colores Vibrantes", "Destacado"],
+
+    popularity: 92,
   },
   {
     id: "green",
     name: "Verde",
     color: "#15803D",
+    description: "Fresco y dinámico",
+    category: "Creativo",
+    features: ["Diseño Moderno", "Colores Vibrantes", "Destacado"],
+
+    popularity: 78,
   },
 ];
 
@@ -52,140 +83,273 @@ export default function TemplateSelector({
   onSelectTemplate,
 }: Props) {
   const [openDialogId, setOpenDialogId] = useState<string | null>(null);
+  const [hoveredTemplate, setHoveredTemplate] = useState<string | null>(null);
 
   return (
-    <div className="">
-      {/* 🧠 Tips para completar el CV */}
-      <div className="bg-[#1A1A1C] border border-[#2A2A2D] text-[#D4D4D8] rounded-xl p-4 mb-4 text-sm leading-relaxed space-y-2">
-        <p className="font-semibold text-[#F4F4F5]">
-          🧠 Consejos para completar tu CV
-        </p>
-        <ul className="list-disc list-inside text-[#A1A1AA] space-y-1">
-          <li>
-            Incluye logros medibles en tu experiencia (ej: "Aumenté ventas un
-            20%").
-          </li>
-          <li>
-            Incluí la fecha y ubicación en cada puesto laboral o formación
-            académica.
-          </li>
-          <li>No uses emojis ni símbolos extraños.</li>
-          <li>Evita copiar directamente desde tu perfil de LinkedIn.</li>
-          <li>
-            Verificá la ortografía y asegurate de que el contenido te refleje
-            cómo profesional.
-          </li>
-        </ul>
-        <p className="text-[#7F7F89] text-xs pt-2 border-t border-[#2A2A2D]">
-          Estos tips ayudan a que tu CV generado sea más efectivo y compatible
-          con sistemas de selección automatizados (ATS).
-        </p>
-      </div>
-      <div className="flex flex-col justify-around mt-14">
-        <div className="mb-8 text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-            <FileText className="w-8 h-8 text-white" />
+    <div className="space-y-8">
+  
+
+      {/* Header Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="text-center space-y-6"
+      >
+        <div className="relative inline-block">
+          <div className="w-24 h-24 bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-[#7C3AED]/25 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
+            <FileText className="w-12 h-12 text-white relative z-10" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">
-            Información de tu CV
-          </h2>
-          <p className="text-white/60 text-sm">
-            Completa los campos para generar tu CV profesional
-          </p>
+          <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-[#F59E0B] to-[#D97706] rounded-full flex items-center justify-center shadow-lg">
+            <Crown className="w-4 h-4 text-white" />
+          </div>
         </div>
 
-        {/* 🎨 Selector de plantilla */}
-        <h3 className="text-center text-white mb-2"> Elegí tu plantilla</h3>
-        <div className="flex gap-3 flex-wrap items-center justify-center">
-          {templates.map((tpl) => (
-            <div key={tpl.id} className="relative">
-              <div
-                className={`w-[70px] h-[70px] rounded-xl border-2 cursor-pointer flex flex-col items-center justify-center transition-all 
-                ${
-                  selectedTemplate === tpl.id
-                    ? "border-[#38BDF8]"
-                    : "border-[#2A2A2D]"
-                }
-                bg-[#1C1C1E]`}
-                onClick={() => onSelectTemplate(tpl.id)}
-              >
-                <div
-                  className={`w-10 h-10 rounded-full`}
-                  style={{ backgroundColor: tpl.color }}
+        <div>
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-white via-[#F4F4F5] to-[#D4D4D8] bg-clip-text text-transparent mb-3">
+            Elige tu plantilla perfecta
+          </h2>
+          <p className="text-[#A1A1AA] text-lg max-w-2xl mx-auto leading-relaxed">
+            Selecciona el diseño que mejor represente tu estilo profesional y
+            destaque tus fortalezas
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Template Grid */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
+        {templates.map((tpl, index) => (
+          <motion.div
+            key={tpl.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="relative group"
+            onMouseEnter={() => setHoveredTemplate(tpl.id)}
+            onMouseLeave={() => setHoveredTemplate(null)}
+          >
+            <div
+              className={`relative overflow-hidden rounded-2xl border-2 transition-all duration-500 cursor-pointer transform hover:scale-[1.02] ${
+                selectedTemplate === tpl.id
+                  ? "border-[#7C3AED] shadow-2xl shadow-[#7C3AED]/25 bg-gradient-to-br from-[#7C3AED]/5 to-[#06B6D4]/5"
+                  : "border-[#3A3A3D] hover:border-[#7C3AED]/50 bg-gradient-to-br from-[#1C1C1E] to-[#2A2A2D]"
+              }`}
+              onClick={() => onSelectTemplate(tpl.id)}
+            >
+              {/* Background Effects */}
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20" />
+              <AnimatePresence>
+                {hoveredTemplate === tpl.id && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 via-transparent to-[#06B6D4]/10"
+                  />
+                )}
+              </AnimatePresence>
+
+              {/* CV Preview Image */}
+              <div className="relative h-48 overflow-hidden rounded-t-xl">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
+                <img
+                  src={`/${tpl.id}.webp`}
+                  alt={`Vista previa ${tpl.name}`}
+                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
                 />
 
-                {selectedTemplate === tpl.id && (
-                  <div className="absolute top-1 right-1">
-                    <CheckIcon className="w-4 h-4 text-[#38BDF8]" />
+                {/* Overlay Info */}
+                <div className="absolute top-3 left-3 z-20">
+                  <Badge className="bg-black/50 backdrop-blur-sm text-white border-white/20">
+                    {tpl.category}
+                  </Badge>
+                </div>
+
+                <div className="absolute top-3 right-3 z-20">
+                  <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm rounded-full px-2 py-1">
+                    <Star className="w-3 h-3 text-yellow-400" />
+                    <span className="text-white text-xs font-medium">
+                      {tpl.popularity}%
+                    </span>
                   </div>
-                )}
+                </div>
 
                 {tpl.recommended && (
-                  <div className="absolute -top-0 -left-0 text-[#FFD700] text-[10px] flex items-center">
-                    <StarsIcon className="w-5 h-5 font-bold" />
+                  <div className="absolute top-3 left-1/2 transform -translate-x-1/2 z-20">
+                    <Badge className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white border-0 shadow-lg">
+                      <Crown className="w-3 h-3 mr-1" />
+                      Recomendado
+                    </Badge>
                   </div>
                 )}
               </div>
 
-              <div className="text-xs text-center mt-1 w-[70px]">
-                <span
-                  className={
-                    tpl.recommended
-                      ? "text-[#F4F4F5] font-medium"
-                      : "text-[#D4D4D8]"
-                  }
-                >
-                  {tpl.name}
-                </span>
-                {tpl.recommended}
+              {/* Content */}
+              <div className="relative p-6 space-y-4">
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-4 h-4 rounded-full shadow-lg"
+                      style={{
+                        backgroundColor: tpl.color,
+                        boxShadow: `0 4px 15px ${tpl.color}40`,
+                      }}
+                    />
+                    <div>
+                      <h4 className="font-bold text-[#F4F4F5] text-lg">
+                        {tpl.name}
+                      </h4>
+                      <p className="text-[#A1A1AA] text-sm">
+                        {tpl.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  {selectedTemplate === tpl.id && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="w-8 h-8 bg-[#7C3AED] rounded-full flex items-center justify-center shadow-lg"
+                    >
+                      <CheckIcon className="w-4 h-4 text-white" />
+                    </motion.div>
+                  )}
+                </div>
+
+                {/* Features */}
+                <div className="flex gap-1  flex-wrap">
+                  {tpl.features.map((feature, idx) => (
+                    <span
+                      key={idx}
+                      className="px-1 py-1 bg-[#3A3A3D]/50 text-[#D4D4D8] text-xs rounded-md border border-[#4A4A4D]/30"
+                    >
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Preview Button */}
               </div>
 
-              <Dialog
-                open={openDialogId === tpl.id}
-                onOpenChange={(open) => setOpenDialogId(open ? tpl.id : null)}
-              >
-                <DialogTrigger asChild>
-                  <button
-                    className="w-full text-center text-xs text-[#38BDF8] mt-1 hover:underline"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpenDialogId(tpl.id);
+              {/* Hover Glow Effect */}
+              <AnimatePresence>
+                {hoveredTemplate === tpl.id && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className="absolute inset-0 rounded-2xl"
+                    style={{
+                      background: `linear-gradient(135deg, ${tpl.color}10, transparent)`,
+                      boxShadow: `0 0 30px ${tpl.color}20`,
                     }}
-                  >
-                    Vista previa
-                  </button>
-                </DialogTrigger>
+                  />
+                )}
+              </AnimatePresence>
+            </div>
+            <Dialog
+              open={openDialogId === tpl.id}
+              onOpenChange={(open) => setOpenDialogId(open ? tpl.id : null)}
+            >
+              <DialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="w-full   text-[#D4D4D8]   transition-all duration-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenDialogId(tpl.id);
+                  }}
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  Vista previa completa
+                </Button>
+              </DialogTrigger>
 
-                <DialogContent className="max-w-3xl p-0 overflow-hidden bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5]">
-                  <DialogHeader className="p-4">
-                    <DialogTitle className="text-[#E4E4E7]">
-                      Vista previa: {tpl.name}
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="w-full bg-[#1C1C1E]">
+              <DialogContent className="max-w-5xl p-0 overflow-hidden bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5]">
+                <DialogHeader className="p-8 bg-gradient-to-r from-[#1A1A1C] to-[#2A2A2D] border-b border-[#3A3A3D]">
+                  <DialogTitle className="text-[#E4E4E7] text-2xl flex items-center gap-4">
+                    <div
+                      className="w-10 h-10 rounded-xl shadow-lg"
+                      style={{
+                        backgroundColor: tpl.color,
+                        boxShadow: `0 8px 25px ${tpl.color}40`,
+                      }}
+                    />
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <span>Plantilla {tpl.name}</span>
+                        {tpl.recommended && (
+                          <Badge className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white">
+                            <Crown className="w-3 h-3 mr-1" />
+                            Recomendado
+                          </Badge>
+                        )}
+                      </div>
+                      <p className="text-[#A1A1AA] text-sm font-normal mt-1">
+                        {tpl.description}
+                      </p>
+                    </div>
+                  </DialogTitle>
+                </DialogHeader>
+
+                <div className="relative bg-gradient-to-br from-[#1C1C1E] to-[#2A2A2D] p-8">
+                  <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white">
                     <img
                       src={`/${tpl.id}.webp`}
-                      alt={`Vista previa ${tpl.name}`}
-                      className="w-full rounded-b-lg"
+                      alt={`Vista previa completa ${tpl.name}`}
+                      className="w-full transition-transform duration-500 hover:scale-105"
                     />
                   </div>
-                  <div className="p-4">
+
+                  {/* Features showcase */}
+                  <div className="mt-6 grid grid-cols-3 gap-4">
+                    {tpl.features.map((feature, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-2 p-3 bg-[#2A2A2D]/50 rounded-xl border border-[#3A3A3D]/30"
+                      >
+                        <Zap className="w-4 h-4 text-[#7C3AED]" />
+                        <span className="text-[#D4D4D8] text-sm">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="p-8 bg-gradient-to-r from-[#1A1A1C] to-[#2A2A2D] border-t border-[#3A3A3D]">
+                  <div className="flex gap-4">
                     <Button
                       onClick={() => {
                         onSelectTemplate(tpl.id);
                         setOpenDialogId(null);
                       }}
-                      className="w-full text-white bg-[#7C3AED] hover:bg-[#6D28D9]"
+                      className="flex-1 text-white bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] transition-all duration-300 shadow-lg shadow-[#7C3AED]/25 h-12"
                     >
-                      Usar esta plantilla
+                      <CheckIcon className="w-5 h-5 mr-2" />
+                      Seleccionar esta plantilla
+                    </Button>
+                    <Button
+                      variant="default"
+                      onClick={() => setOpenDialogId(null)}
+                      className="border-[#3A3A3D] text-[#D4D4D8] hover:bg-[#2A2A2D] h-12 px-8"
+                    >
+                      Cerrar
                     </Button>
                   </div>
-                </DialogContent>
-              </Dialog>
-            </div>
-          ))}
-        </div>
-      </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </motion.div>
+        ))}
+      </motion.div>
     </div>
   );
 }

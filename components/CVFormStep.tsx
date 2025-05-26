@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Loader2,
   Sparkles,
@@ -18,12 +18,14 @@ import {
   PlusCircle,
   BookOpen,
   CheckCircle2,
-} from "lucide-react"
-import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv"
-import { Card } from "./ui/card"
-import { unstable_batchedUpdates } from "react-dom"
-import { Label } from "./ui/label"
-
+  Star,
+  Award,
+} from "lucide-react";
+import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
+import { Card } from "./ui/card";
+import { unstable_batchedUpdates } from "react-dom";
+import { Label } from "./ui/label";
+import { motion} from "framer-motion";
 const schema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
   puesto: z.string().min(1, "El puesto es obligatorio"),
@@ -34,17 +36,21 @@ const schema = z.object({
   habilidades: z.string().min(1, "Incluye al menos una habilidad"),
   idiomas: z.string().min(1, "Incluye al menos un idioma"),
   informacionAdicional: z.string().optional(),
-})
+});
 
 type Props = {
-  setCvData: (data: RespuestaCV["cv"]) => void
-  setActiveTab: (value: string) => void
-  template: string
-}
+  setCvData: (data: RespuestaCV["cv"]) => void;
+  setActiveTab: (value: string) => void;
+  template: string;
+};
 
-export default function CVFormStep({ setCvData, setActiveTab, template }: Props) {
-  const [isGenerating, setIsGenerating] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+export default function CVFormStep({
+  setCvData,
+  setActiveTab,
+  template,
+}: Props) {
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
@@ -53,73 +59,144 @@ export default function CVFormStep({ setCvData, setActiveTab, template }: Props)
     formState: { errors, isSubmitting },
   } = useForm<DatosCVFormulario>({
     resolver: zodResolver(schema),
-  })
+  });
 
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab)
+    setActiveTab(tab);
     // Scroll to top when changing tabs
-    window.scrollTo(0, 0)
-  }
+    window.scrollTo(0, 0);
+  };
 
   const onSubmit = async (data: DatosCVFormulario) => {
     try {
-      setIsGenerating(true)
-      setError(null)
+      setIsGenerating(true);
+      setError(null);
 
       const res = await fetch("/api/generate-cv", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, template }),
         keepalive: true,
-      })
+      });
 
       if (!res.ok) {
-        const isTimeout = res.status === 504
+        const isTimeout = res.status === 504;
         throw new Error(
           isTimeout
             ? "La generación está tardando demasiado. Intenta de nuevo."
-            : "Error al generar el CV. Intenta nuevamente.",
-        )
+            : "Error al generar el CV. Intenta nuevamente."
+        );
       }
 
-      const json = (await res.json()) as RespuestaCV
+      const json = (await res.json()) as RespuestaCV;
       // Agrupar actualizaciones de estado
       unstable_batchedUpdates(() => {
-        setCvData(json.cv)
-        setActiveTab("preview")
-      })
+        setCvData(json.cv);
+        setActiveTab("preview");
+      });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error desconocido")
+      setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
-      setIsGenerating(false)
+      setIsGenerating(false);
     }
-  }
+  };
 
   const rellenarDatosPrueba = () => {
     reset({
       nombre: "Sebastián",
-      puesto: "Desarrollador Frontend",
+      puesto: "Desarrollador Web",
       contacto: "sebastian@gmail.com, +54 9 387 123456",
       sobreMi: "Desarrollador frontend con más de 5 años de experiencia...",
-      experiencia: `Desarrollador Frontend en VitaeSpark, Salta, 2022–2025. Lideré el desarrollo de una plataforma de generación de currículums con inteligencia artificial, optimizando la experiencia del usuario mediante el uso de React, Next.js 15 y TailwindCSS. Integré sistemas de pago con MercadoPago y lógica de autenticación con Clerk y Supabase, mejorando la conversión de usuarios en un 40%.
-      Diseñador Web en Agencia Creativa Salta, Salta, 2020–2022.Rediseñé más de 15 sitios web corporativos implementando interfaces modernas y responsivas con Figma y TailwindCSS, lo que elevó el tiempo promedio de permanencia en un 30%.Colaboré con equipos de marketing para mejorar la conversión SEO en páginas clave, aplicando prácticas de rendimiento y accesibilidad.
-      Pasante en Secretaría de Modernización, Gobierno de Salta, 2019–2020.Participé en la digitalización de procesos administrativos desarrollando formularios internos interactivos con HTML, CSS y JavaScript vanilla.Automatizamos reportes internos mediante herramientas no-code y scripts personalizados, reduciendo el tiempo de carga administrativa semanal en un 25%.
+      experiencia: `Desarrollador Frontend en VitaeSpark, Salta, 2022–2025. Lideré el desarrollo de una plataforma de generación de currículums con inteligencia artificial, optimizando la experiencia del usuario mediante el uso de React, Next.js 15 y TailwindCSS. Integré sistemas de pago con MercadoPago y lógica de autenticación con Clerk y Supabase, mejorando la conversión de usuarios en un 40%.Diseñador Web en Agencia Creativa Salta, Salta, 2020–2022.Rediseñé más de 15 sitios web corporativos implementando interfaces modernas y responsivas con Figma y TailwindCSS, lo que elevó el tiempo promedio de permanencia en un 30%.Colaboré con equipos de marketing para mejorar la conversión SEO en páginas clave, aplicando prácticas de rendimiento y accesibilidad.
 `,
       formacion: `Universidad Nacional de Salta, Lic. en Sistemas, 2016–2021...`,
       habilidades: "React, Next.js, TypeScript, TailwindCSS...",
       idiomas: "Español: Nativo, Inglés: Avanzado (C1)",
       informacionAdicional: "Certificación en Desarrollo Web Frontend...",
-    })
-  }
+    });
+  };
   return (
     <div className="relative">
       {/* Fondo decorativo */}
       {/* <div className="absolute inset-0  rounded-xl -z-10 opacity-50"></div>
       <div className="absolute inset-0 bg-[url('/placeholder.svg?height=100&width=100')] bg-repeat opacity-5 rounded-xl -z-10"></div> */}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-8 p-2 rounded-xl ">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 mt-8 p-2 rounded-xl "
+      >
+            {/* Enhanced Tips Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 via-transparent to-[#06B6D4]/10 rounded-3xl" />
+        <div className="relative bg-gradient-to-br from-[#1A1A1C]/90 to-[#2A2A2D]/90 backdrop-blur-xl border border-[#3A3A3D]/50 rounded-3xl p-8 shadow-2xl">
+          <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#7C3AED]/20 to-transparent rounded-full -translate-y-20 translate-x-20" />
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#06B6D4]/20 to-transparent rounded-full translate-y-16 -translate-x-16" />
+
+          <div className="relative">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="relative">
+                <div className="w-14 h-14 bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] rounded-2xl flex items-center justify-center shadow-2xl shadow-[#7C3AED]/25">
+                  <Sparkles className="w-7 h-7 text-white" />
+                </div>
+                <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-[#F59E0B] to-[#D97706] rounded-full flex items-center justify-center">
+                  <Star className="w-2.5 h-2.5 text-white" />
+                </div>
+              </div>
+              <div>
+                <h3 className="font-bold text-[#F4F4F5] text-xl">
+                  Consejos para un CV exitoso
+                </h3>
+                <p className="text-[#A1A1AA] text-sm">
+                  Maximiza tus oportunidades laborales
+                </p>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4 mb-6">
+              {[
+                "Incluye logros medibles en tu experiencia (ej: 'Aumenté ventas un 20%')",
+                "Incluí la fecha y ubicación en cada puesto laboral o formación académica",
+                "No uses emojis ni símbolos extraños",
+                "Evita copiar directamente desde tu perfil de LinkedIn",
+                "Verificá la ortografía y asegurate de que el contenido te refleje como profesional",
+              ].map((tip, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="flex items-start gap-3 p-3 rounded-xl bg-[#2A2A2D]/30 backdrop-blur-sm border border-[#3A3A3D]/30"
+                >
+                  <div className="w-2 h-2 bg-gradient-to-br from-[#7C3AED] to-[#06B6D4] rounded-full mt-2 flex-shrink-0" />
+                  <span className="text-[#D4D4D8] text-sm leading-relaxed">
+                    {tip}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-[#7C3AED]/10 to-[#06B6D4]/10 border border-[#7C3AED]/20">
+              <Award className="w-5 h-5 text-[#7C3AED]" />
+              <p className="text-[#A1A1AA] text-sm">
+                Estos tips ayudan a que tu CV sea más efectivo y compatible con
+                sistemas ATS
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
         <div className="w-full flex items-center justify-center ">
-          <Button type="button" onClick={rellenarDatosPrueba} variant="default" className="mb-4 text-sm ">
+          <Button
+            type="button"
+            onClick={rellenarDatosPrueba}
+            variant="default"
+            className="mb-4 text-sm "
+          >
             <CheckCircle2 className="w-4 h-4 mr-1.5 text-[#7C3AED]" />
             Rellenar con datos de prueba
           </Button>
@@ -227,8 +304,13 @@ export default function CVFormStep({ setCvData, setActiveTab, template }: Props)
             </Label>
             <Card className="text-sm uppercase italic text-white bg-transparent border-0">
               <p>
-                Escribí la experiencia laboral de forma clara y natural, separando con comas los siguientes datos:{" "}
-                <strong>puesto, fechas, empresa, ubicación, y logros/actividades realizadas</strong>.
+                Escribí la experiencia laboral de forma clara y natural,
+                separando con comas los siguientes datos:{" "}
+                <strong>
+                  puesto, fechas, empresa, ubicación, y logros/actividades
+                  realizadas
+                </strong>
+                .
               </p>
             </Card>
             <div className="relative">
@@ -363,5 +445,5 @@ export default function CVFormStep({ setCvData, setActiveTab, template }: Props)
         </Button>
       </form>
     </div>
-  )
+  );
 }
