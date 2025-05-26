@@ -25,7 +25,7 @@ import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { Card } from "./ui/card";
 import { unstable_batchedUpdates } from "react-dom";
 import { Label } from "./ui/label";
-import { motion} from "framer-motion";
+import { motion } from "framer-motion";
 const schema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio"),
   puesto: z.string().min(1, "El puesto es obligatorio"),
@@ -123,84 +123,74 @@ export default function CVFormStep({
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 mt-8 p-2 rounded-xl "
+        className="space-y-6 p-2 rounded-xl "
       >
-            {/* Enhanced Tips Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="relative overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 via-transparent to-[#06B6D4]/10 rounded-3xl" />
-        <div className="relative bg-gradient-to-br from-[#1A1A1C]/90 to-[#2A2A2D]/90 backdrop-blur-xl border border-[#3A3A3D]/50 rounded-3xl p-8 shadow-2xl">
-          <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#7C3AED]/20 to-transparent rounded-full -translate-y-20 translate-x-20" />
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#06B6D4]/20 to-transparent rounded-full translate-y-16 -translate-x-16" />
+        {/* Enhanced Tips Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 via-transparent to-[#06B6D4]/10 rounded-3xl" />
+          <div className="relative bg-gradient-to-br from-[#1A1A1C]/90 to-[#2A2A2D]/90 backdrop-blur-xl border border-[#3A3A3D]/50 rounded-3xl p-5 shadow-2xl">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#7C3AED]/20 to-transparent rounded-full -translate-y-20 translate-x-20" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#06B6D4]/20 to-transparent rounded-full translate-y-16 -translate-x-16" />
 
-          <div className="relative">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="relative">
-                <div className="w-14 h-14 bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] rounded-2xl flex items-center justify-center shadow-2xl shadow-[#7C3AED]/25">
-                  <Sparkles className="w-7 h-7 text-white" />
+            <div className="relative">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="relative">
+                  <div className="w-14 h-14 bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] rounded-2xl flex items-center justify-center shadow-2xl shadow-[#7C3AED]/25">
+                    <Sparkles className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-[#F59E0B] to-[#D97706] rounded-full flex items-center justify-center">
+                    <Star className="w-2.5 h-2.5 text-white" />
+                  </div>
                 </div>
-                <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-[#F59E0B] to-[#D97706] rounded-full flex items-center justify-center">
-                  <Star className="w-2.5 h-2.5 text-white" />
+                <div>
+                  <h3 className="font-bold text-[#F4F4F5] text-xl">
+                    Consejos para un CV exitoso
+                  </h3>
+                  <p className="text-[#A1A1AA] text-sm">
+                    Maximiza tus oportunidades laborales
+                  </p>
                 </div>
               </div>
-              <div>
-                <h3 className="font-bold text-[#F4F4F5] text-xl">
-                  Consejos para un CV exitoso
-                </h3>
+
+              <div className="grid md:grid-cols-2 gap-4 mb-2">
+                {[
+                  "Incluye logros medibles en tu experiencia (ej: 'Aumenté ventas un 20%')",
+                  "Incluí la fecha y ubicación en cada puesto laboral o formación académica",
+                  "No uses emojis ni símbolos extraños",
+                  
+                ].map((tip, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    className="flex items-start gap-3  rounded-xl  backdrop-blur-sm  "
+                  >
+                    <div className="w-2 h-2 bg-gradient-to-br from-[#7C3AED] to-[#06B6D4] rounded-full mt-2 flex-shrink-0" />
+                    <div className="flex items-center justify-center">
+                      <span className="text-[#D4D4D8] text-sm leading-relaxed">
+                        {tip}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-[#7C3AED]/10 to-[#06B6D4]/10 border border-[#7C3AED]/20">
+                <Award className="w-5 h-5 text-[#7C3AED]" />
                 <p className="text-[#A1A1AA] text-sm">
-                  Maximiza tus oportunidades laborales
+                  Estos tips ayudan a que tu CV sea más efectivo y compatible
+                  con sistemas ATS
                 </p>
               </div>
             </div>
-
-            <div className="grid md:grid-cols-2 gap-4 mb-6">
-              {[
-                "Incluye logros medibles en tu experiencia (ej: 'Aumenté ventas un 20%')",
-                "Incluí la fecha y ubicación en cada puesto laboral o formación académica",
-                "No uses emojis ni símbolos extraños",
-                "Evita copiar directamente desde tu perfil de LinkedIn",
-                "Verificá la ortografía y asegurate de que el contenido te refleje como profesional",
-              ].map((tip, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-start gap-3 p-3 rounded-xl bg-[#2A2A2D]/30 backdrop-blur-sm border border-[#3A3A3D]/30"
-                >
-                  <div className="w-2 h-2 bg-gradient-to-br from-[#7C3AED] to-[#06B6D4] rounded-full mt-2 flex-shrink-0" />
-                  <span className="text-[#D4D4D8] text-sm leading-relaxed">
-                    {tip}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-[#7C3AED]/10 to-[#06B6D4]/10 border border-[#7C3AED]/20">
-              <Award className="w-5 h-5 text-[#7C3AED]" />
-              <p className="text-[#A1A1AA] text-sm">
-                Estos tips ayudan a que tu CV sea más efectivo y compatible con
-                sistemas ATS
-              </p>
-            </div>
           </div>
-        </div>
-      </motion.div>
-        <div className="w-full flex items-center justify-center ">
-          <Button
-            type="button"
-            onClick={rellenarDatosPrueba}
-            variant="default"
-            className="mb-4 text-sm "
-          >
-            <CheckCircle2 className="w-4 h-4 mr-1.5 text-[#7C3AED]" />
-            Rellenar con datos de prueba
-          </Button>
-        </div>
+        </motion.div>
 
         {/* Sección de información personal */}
         <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
