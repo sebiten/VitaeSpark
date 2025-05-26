@@ -33,15 +33,15 @@ const templates = [
     features: ["ATS Optimizado", "Formato Clásico", "Muy Legible"],
     popularity: 95,
   },
-  {
-    id: "elegance",
-    name: "Elegante",
-    color: "#1A1C2C", // algo asi pero mas claro
-    description: "Sofisticado y único",
-    category: "Moderno",
-    features: ["Diseño Oscuro", "Único", "Elegante"],
-    popularity: 85,
-  },
+  // {
+  //   id: "elegance",
+  //   name: "Elegante",
+  //   color: "#1A1C2C", // algo asi pero mas claro
+  //   description: "Sofisticado y único",
+  //   category: "Moderno",
+  //   features: ["Diseño Oscuro", "Único", "Elegante"],
+  //   popularity: 85,
+  // },
   {
     id: "purple",
     name: "Morado",
