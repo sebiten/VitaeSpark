@@ -4,7 +4,6 @@ import {
   Award,
   Badge,
   CheckCircle2,
-  Clock,
   GraduationCap,
   PencilIcon,
   Sparkles,
@@ -39,9 +38,8 @@ const WelcomeHero: NextPage<Props> = ({}) => {
                 Impulsado por IA
               </span>
               <span className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 px-3 py-1.5 rounded-full text-sm font-medium flex items-center transition">
-                <Clock className="mr-1.5 h-4 w-4" />
-                ¡Oferta por tiempo limitado! <br></br>{" "}
-                
+                <PencilIcon className="mr-1.5 h-4 w-4" />
+                Redacción profesional
               </span>
             </div>
 
@@ -71,9 +69,7 @@ const WelcomeHero: NextPage<Props> = ({}) => {
             <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-lg p-3 border border-blue-500/20 max-w-xl">
               <div className="flex items-center ">
                 <Award className="w-5 h-5 text-purple-400 mr-2" />
-                <h3 className="text-white font-medium">
-                  Lo que dicen nuestros clientes
-                </h3>
+                <h3 className="text-white font-medium">Lo que dicen nuestros clientes</h3>
               </div>
               <Carousel
                 plugins={[Autoplay({ delay: 5000 })]}
@@ -84,9 +80,7 @@ const WelcomeHero: NextPage<Props> = ({}) => {
                   {testimonials.map((testimonial, index) => (
                     <CarouselItem key={index} className="pl-2 pr-2 basis-full">
                       <div className="p-3 rounded-md ">
-                        <p className="text-gray-300 text-sm italic">
-                          "{testimonial.text}"
-                        </p>
+                        <p className="text-gray-300 text-sm italic">"{testimonial.text}"</p>
                         <p className="text-right text-purple-400 text-sm font-medium">
                           - {testimonial.author}
                         </p>
@@ -146,12 +140,8 @@ const WelcomeHero: NextPage<Props> = ({}) => {
                   <Sparkles className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">
-                    Redacción mejorada por IA
-                  </p>
-                  <p className="text-xs text-[#F4F4F5]/60">
-                    Textos profesionales y persuasivos
-                  </p>
+                  <p className="text-sm font-semibold">Redacción mejorada por IA</p>
+                  <p className="text-xs text-[#F4F4F5]/60">Textos profesionales y persuasivos</p>
                 </div>
               </div>
             </div>
