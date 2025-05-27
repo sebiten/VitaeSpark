@@ -166,7 +166,8 @@ export default function CVFormStep({
 
               <div className="grid md:grid-cols-2 gap-4 mb-2">
                 {[
-                  "Contá logros concretos (ej: 'Vendí un 20% más')",
+                  "Usá un lenguaje claro y directo",
+                  "Incluí solo lo más relevante",
                   "Agregá fechas y lugares de cada trabajo o estudio",
                   "No uses emojis ni símbolos raros",
                 ].map((tip, index) => (
