@@ -156,8 +156,8 @@ export function Navegation({ user }: { user: User | null }) {
             <Image
               src="/logoreal.webp"
               alt="Logo Vitae Spark"
-              width={90}
-              height={90}
+              width={95}
+              height={95}
               className="rounded-lg object-cover"
             />
           </Link>
