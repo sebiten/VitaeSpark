@@ -124,7 +124,7 @@ const CVForm: NextPage = () => {
           </div>
 
           {/* Step Indicators */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-6 mx-1 ml-3">
             <div className="flex items-center gap-4 justify-center w-full max-w-lg">
               {/* Step 1 */}
               <div className="flex items-center">
@@ -146,7 +146,7 @@ const CVForm: NextPage = () => {
 
               {/* Connector */}
               <div
-                className={`w-8 h-0.5 ${
+                className={`w-7 h-0.5 ${
                   selectedTemplate ? "bg-[#22C55E]" : "bg-[#3F3F46]"
                 } transition-colors`}
               />
@@ -173,7 +173,7 @@ const CVForm: NextPage = () => {
 
               {/* Connector */}
               <div
-                className={`w-8 h-0.5 ${
+                className={`w-7 h-0.5 ${
                   cvData ? "bg-[#22C55E]" : "bg-[#3F3F46]"
                 } transition-colors`}
               />
