@@ -24,7 +24,6 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import { Download, Eye, Loader2, User, X } from "lucide-react";
 import UserPayments from "@/components/UserPayment";
 import { CVThumbnail } from "./CvThumbnail";

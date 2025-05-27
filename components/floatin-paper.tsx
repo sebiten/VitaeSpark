@@ -1,29 +1,29 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import { FileText } from "lucide-react"
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { FileText } from "lucide-react";
 
-export function FloatingPaper({ count = 5 }) {
-  const [dimensions, setDimensions] = useState({ width: 1200, height: 800 })
+export function FloatingPaper({ count = 7 }) {
+  const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
 
   useEffect(() => {
     // Update dimensions only on client side
     setDimensions({
       width: window.innerWidth,
       height: window.innerHeight,
-    })
+    });
 
     const handleResize = () => {
       setDimensions({
         width: window.innerWidth,
         height: window.innerHeight,
-      })
-    }
+      });
+    };
 
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="relative w-full h-full">
@@ -36,7 +36,11 @@ export function FloatingPaper({ count = 5 }) {
             y: Math.random() * dimensions.height,
           }}
           animate={{
-            x: [Math.random() * dimensions.width, Math.random() * dimensions.width, Math.random() * dimensions.width],
+            x: [
+              Math.random() * dimensions.width,
+              Math.random() * dimensions.width,
+              Math.random() * dimensions.width,
+            ],
             y: [
               Math.random() * dimensions.height,
               Math.random() * dimensions.height,
@@ -50,11 +54,11 @@ export function FloatingPaper({ count = 5 }) {
             ease: "linear",
           }}
         >
-          <div className="relative w-16 h-20 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center transform hover:scale-110 transition-transform">
-            <FileText className="w-8 h-8 text-purple-400/50" />
+          <div className="relative -z-20 w-16 h-16 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center transform hover:scale-110 transition-transform">
+            <FileText className="w-8 h-8 text-[#7C3AED]" />
           </div>
         </motion.div>
       ))}
     </div>
-  )
+  );
 }

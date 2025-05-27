@@ -11,9 +11,6 @@ import type { RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
 import CVFormStep from "../CVFormStep";
 import CVPreviewStep, { testimonials } from "../CVPreviewStep";
-import { RoboAnimation } from "../roboto-animation";
-import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 
 const CVForm: NextPage = () => {
   const [selectedTemplate, setSelectedTemplate] = useState("");
@@ -105,8 +102,8 @@ const CVForm: NextPage = () => {
             </CarouselContent>
           </Carousel>
         </div> */}
-
         {/* Progress Bar */}
+     
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm text-[#D4D4D8]/60">Progreso</span>

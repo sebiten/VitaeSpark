@@ -8,28 +8,13 @@ import { DocumentoCVW } from "./pdf/CVDocument";
 import type { RespuestaCV } from "@/lib/types/cv";
 import type { Session } from "@supabase/supabase-js";
 import {
-  Clock,
-  Lock,
   Award,
-  Percent,
   ShieldCheck,
   Handshake,
   User,
   Loader2,
-  LockOpen,
   CreditCard,
-  CheckCircle,
   Download,
-  Phone,
-  CheckCheck,
-  CheckCheckIcon,
-  CheckCircle2Icon,
-  CheckIcon,
-  Unlock,
-  CheckCircleIcon,
-  TouchpadIcon,
-  HandIcon,
-  Pointer,
 } from "lucide-react";
 import {
   Carousel,
@@ -38,7 +23,6 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "./ui/card";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
 // Array de testimonios
@@ -218,7 +202,7 @@ export default function CVPreviewStepPurple({
             ))}
           </CarouselContent>
         </Carousel>
-       </div>
+      </div>
       <Card className="border-0 bg-slate-800/40 text-white">
         <CardContent className="space-y-4">
           {/* Pricing */}

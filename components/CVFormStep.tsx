@@ -24,7 +24,6 @@ import {
   Languages,
 } from "lucide-react";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
-import { Card } from "./ui/card";
 import { unstable_batchedUpdates } from "react-dom";
 import { Label } from "./ui/label";
 import { motion } from "framer-motion";
