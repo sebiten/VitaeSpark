@@ -107,7 +107,7 @@ export default function TemplateSelector({
         </div>
 
         <div>
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-white via-[#F4F4F5] to-[#D4D4D8] bg-clip-text text-transparent mb-3">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-[#F4F4F5] to-[#D4D4D8] bg-clip-text text-transparent mb-3">
             Elige tu plantilla perfecta
           </h2>
           <p className="text-[#A1A1AA] text-lg max-w-2xl mx-auto leading-relaxed">

@@ -11,6 +11,7 @@ import type { RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
 import CVFormStep from "../CVFormStep";
 import CVPreviewStep, { testimonials } from "../CVPreviewStep";
+import { RoboAnimation } from "../roboto-animation";
 
 const CVForm: NextPage = () => {
   const [selectedTemplate, setSelectedTemplate] = useState("");
@@ -69,44 +70,11 @@ const CVForm: NextPage = () => {
         transition={{ duration: 0.5 }}
         className="max-w-4xl mx-auto "
       >
-        {/* Título y subtítulo */}
-        {/* <div className="text-center">
-            <p className="text-lg font-semibold text-[#A78BFA]  max-w-2xl mx-auto tracking-wide drop-shadow-sm">
-            Lo que dicen nuestros clientes:
-            </p>
-          <Carousel
-            plugins={[
-              Autoplay({
-                delay: 5000,
-                stopOnInteraction: false,
-              }),
-            ]}
-            className="w-full"
-          >
-            <CarouselContent>
-              {testimonials.map((testimonial, index) => (
-                <CarouselItem key={index} className="md:basis-full">
-                  <div className="p-2">
-                    <p className="text-slate-300 text-sm italic">
-                      "{testimonial.text}"
-                    </p>
-                    <p
-                      className="text-right 
-                    text-[#7C3AED] text-sm font-medium mt-2"
-                    >
-                      - {testimonial.author}
-                    </p>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
-        </div> */}
-        {/* Progress Bar */}
-     
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-[#D4D4D8]/60">Progreso</span>
+            <span className="text-sm text-[#D4D4D8]/60">
+              Progreso en la creación del CV
+            </span>
             <span className="text-sm text-[#7C3AED] font-medium">
               {getProgress()}%
             </span>
@@ -128,7 +96,7 @@ const CVForm: NextPage = () => {
           className="space-y-8 flex"
         >
           <div className="flex justify-center">
-            <TabsList className="bg-[#2A2A2D] border border-[#3F3F46] p-1 grid grid-cols-3 w-full max-w-md">
+            <TabsList className="bg-[#2A2A2D] border border-[#3F3F46] p-1 grid grid-cols-3 w-full max-w-lg">
               <TabsTrigger
                 value="template"
                 className="text-white data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white flex items-center gap-2 text-xs"
@@ -157,7 +125,7 @@ const CVForm: NextPage = () => {
 
           {/* Step Indicators */}
           <div className="flex justify-center mb-6">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-4 justify-center w-full max-w-lg">
               {/* Step 1 */}
               <div className="flex items-center">
                 <div
@@ -171,7 +139,7 @@ const CVForm: NextPage = () => {
                 >
                   {selectedTemplate ? <ShieldCheck className="w-4 h-4" /> : "1"}
                 </div>
-                <span className="ml-2 text-sm text-[#D4D4D8] hidden sm:inline">
+                <span className="ml-2 text-sm text-[#D4D4D8]  sm:inline">
                   Elegir Plantilla
                 </span>
               </div>
@@ -198,7 +166,7 @@ const CVForm: NextPage = () => {
                 >
                   {cvData ? <ShieldCheck className="w-4 h-4" /> : "2"}
                 </div>
-                <span className="ml-2 text-sm text-[#D4D4D8] hidden sm:inline">
+                <span className="ml-2 text-sm text-[#D4D4D8]  sm:inline">
                   Completar Datos
                 </span>
               </div>
@@ -223,7 +191,7 @@ const CVForm: NextPage = () => {
                 >
                   3
                 </div>
-                <span className="ml-2 text-sm text-[#D4D4D8] hidden sm:inline">
+                <span className="ml-2 text-sm text-[#D4D4D8]  sm:inline">
                   Vista Previa
                 </span>
               </div>
