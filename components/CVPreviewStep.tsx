@@ -210,7 +210,7 @@ export default function CVPreviewStepPurple({
                   <p className="text-slate-300 text-sm italic">
                     "{testimonial.text}"
                   </p>
-                  <p className="text-right text-purple-400 text-sm font-medium mt-2">
+                  <p className="text-right text-purple-400 text-sm font-medium">
                     - {testimonial.author}
                   </p>
                 </div>
@@ -218,7 +218,7 @@ export default function CVPreviewStepPurple({
             ))}
           </CarouselContent>
         </Carousel>
-      </div>
+       </div>
       <Card className="border-0 bg-slate-800/40 text-white">
         <CardContent className="space-y-4">
           {/* Pricing */}

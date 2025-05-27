@@ -211,7 +211,7 @@ export default function CVFormStep({
         </div> */}
 
         {/* Datos personales */}
-        <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
+        <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
           {/* Nombre y puesto */}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -279,7 +279,7 @@ export default function CVFormStep({
         </div>
 
         {/* Sobre mí */}
-        <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
+        <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
           <div>
             <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
               <BookOpen className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
@@ -303,14 +303,14 @@ export default function CVFormStep({
         </div>
 
         {/* Experiencia y formación */}
-        <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
+        <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
           {/* Experiencia */}
           <div className="mb-5">
             <Label className="text-sm font-medium text-white/90 flex items-center">
               <Briefcase className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
               Experiencia
             </Label>
-            <div className="text-sm uppercase italic my-2 text-white bg-transparent border-0">
+            <div className="text-sm ml-1 italic my-2 text-white bg-transparent border-0">
               <p>
                 Escribí cada trabajo con:{" "}
                 <strong>puesto, fechas, empresa, lugar y tareas</strong>.
@@ -338,7 +338,7 @@ export default function CVFormStep({
               <GraduationCap className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
               Estudios
             </Label>
-            <div className="text-sm uppercase italic my-2 text-white bg-transparent border-0">
+            <div className="text-sm ml-1 italic my-2 text-white bg-transparent border-0">
               <p>
                 Escribí cada estudio con:{" "}
                 <strong>nombre, fechas, institución y lugar</strong>.
@@ -362,14 +362,14 @@ export default function CVFormStep({
         </div>
 
         {/* Idiomas y habilidades */}
-        <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
+        <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
           {/* Idiomas */}
           <div className="mb-5">
             <Label className="text-sm font-medium text-white/90 flex items-center">
               <Languages className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
               Idiomas que sabés
             </Label>
-            <div className="text-sm uppercase italic my-2 text-white bg-transparent border-0">
+            <div className="text-sm ml-1 italic my-2 text-white bg-transparent border-0">
               <p>Ej: Español nativo, Inglés básico</p>
             </div>
             <div className="relative">
@@ -394,7 +394,7 @@ export default function CVFormStep({
               <Hammer className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
               Habilidades o herramientas que usás
             </Label>
-            <div className="text-sm uppercase italic my-2 text-white bg-transparent border-0">
+            <div className="text-sm ml-1 italic my-2 text-white bg-transparent border-0">
               <p>Ej: Excel, Mecánica, Costura, Ventas, Redes sociales</p>
             </div>
             <div className="relative">
@@ -413,7 +413,7 @@ export default function CVFormStep({
             )}
           </div>
         </div>
-        <div className="bg-[#2A2A2D]/50 p-5 rounded-lg border border-[#3F3F46]/30">
+        <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
           <div>
             <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
               <PlusCircle className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
@@ -430,11 +430,11 @@ export default function CVFormStep({
           </div>
         </div>
         {/* Botón continuar */}
-        <div className="w-full flex justify-end mt-6">
+        <div className="w-full flex justify-end">
           <Button
             variant="default"
             type="submit"
-            className="bg-[#7C3AED]  w-full text-white px-6 py-3 rounded-lg shadow-lg hover:opacity-90 transition duration-200 font-semibold"
+            className="bg-[#7C3AED]  w-full text-white px-6 py-5 rounded-lg shadow-lg hover:opacity-90 transition duration-200 font-semibold"
           >
             <Sparkles className="w-4 h-4 mr-2" />
             {isSubmitting ? "Generando..." : "Generar CV"}

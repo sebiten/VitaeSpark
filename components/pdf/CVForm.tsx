@@ -1,97 +1,118 @@
-"use client"
+"use client";
 
-import type { NextPage } from "next"
-import { motion } from "framer-motion"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useEffect, useState } from "react"
-import { createClient } from "@/utils/supabase/client"
-import type { Session } from "@supabase/supabase-js"
-import { ShieldCheck, Palette, FileText, Eye } from "lucide-react"
-import type { RespuestaCV } from "@/lib/types/cv"
-import TemplateSelector from "../TemplateSelector"
-import CVFormStep from "../CVFormStep"
-import CVPreviewStep from "../CVPreviewStep"
-import { RoboAnimation } from "../roboto-animation"
+import type { NextPage } from "next";
+import { motion } from "framer-motion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import type { Session } from "@supabase/supabase-js";
+import { ShieldCheck, Palette, FileText, Eye, Car } from "lucide-react";
+import type { RespuestaCV } from "@/lib/types/cv";
+import TemplateSelector from "../TemplateSelector";
+import CVFormStep from "../CVFormStep";
+import CVPreviewStep, { testimonials } from "../CVPreviewStep";
+import { RoboAnimation } from "../roboto-animation";
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const CVForm: NextPage = () => {
-  const [selectedTemplate, setSelectedTemplate] = useState("")
-  const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null)
-  const [cvId, setCvId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState("template")
-  const [userSession, setUserSession] = useState<Session | null>(null)
+  const [selectedTemplate, setSelectedTemplate] = useState("");
+  const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
+  const [cvId, setCvId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("template");
+  const [userSession, setUserSession] = useState<Session | null>(null);
 
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab)
+    setActiveTab(tab);
     // Scroll to top when changing tabs
-    window.scrollTo(0, 0)
-  }
+    window.scrollTo(0, 0);
+  };
 
   const handleTemplateSelected = (templateId: string) => {
-    setSelectedTemplate(templateId)
+    setSelectedTemplate(templateId);
     // Auto-advance to form step after template selection
     setTimeout(() => {
-      setActiveTab("form")
-    }, 500)
-  }
+      setActiveTab("form");
+    }, 500);
+  };
 
   const handleFormCompleted = (data: RespuestaCV["cv"]) => {
-    setCvData(data)
+    setCvData(data);
     // Auto-advance to preview step after form completion
     setTimeout(() => {
-      setActiveTab("preview")
-    }, 500)
-  }
+      setActiveTab("preview");
+    }, 500);
+  };
 
   // Obtener la sesión del usuario autenticado (usando Supabase)
   useEffect(() => {
     const getUser = async () => {
-      const supabase = createClient()
+      const supabase = createClient();
       const {
         data: { session },
-      } = await supabase.auth.getSession()
-      setUserSession(session)
-    }
-    getUser()
-  }, [])
+      } = await supabase.auth.getSession();
+      setUserSession(session);
+    };
+    getUser();
+  }, []);
 
   // Progress calculation
   const getProgress = () => {
-    if (activeTab === "template") return 33
-    if (activeTab === "form") return 66
-    if (activeTab === "preview") return 100
-    return 0
-  }
+    if (activeTab === "template") return 33;
+    if (activeTab === "form") return 66;
+    if (activeTab === "preview") return 100;
+    return 0;
+  };
 
   return (
-    <div className="mx-auto py-12 mt-4">
-      <RoboAnimation />
+    <div className="mx-auto py-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto mt-12"
+        className="max-w-4xl mx-auto "
       >
         {/* Título y subtítulo */}
-        <div className="text-center mb-10">
-          <motion.h1
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#7C3AED] to-[#7C3AED]"
+        {/* <div className="text-center">
+            <p className="text-lg font-semibold text-[#A78BFA]  max-w-2xl mx-auto tracking-wide drop-shadow-sm">
+            Lo que dicen nuestros clientes:
+            </p>
+          <Carousel
+            plugins={[
+              Autoplay({
+                delay: 5000,
+                stopOnInteraction: false,
+              }),
+            ]}
+            className="w-full"
           >
-            Generador de CV Profesional
-          </motion.h1>
-          <p className="text-base text-[#D4D4D8]/80 mt-3 max-w-2xl mx-auto">
-            Crea un currículum moderno, claro y optimizado para superar filtros automáticos y destacar entre los demás
-            candidatos.
-          </p>
-        </div>
+            <CarouselContent>
+              {testimonials.map((testimonial, index) => (
+                <CarouselItem key={index} className="md:basis-full">
+                  <div className="p-2">
+                    <p className="text-slate-300 text-sm italic">
+                      "{testimonial.text}"
+                    </p>
+                    <p
+                      className="text-right 
+                    text-[#7C3AED] text-sm font-medium mt-2"
+                    >
+                      - {testimonial.author}
+                    </p>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        </div> */}
 
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm text-[#D4D4D8]/60">Progreso</span>
-            <span className="text-sm text-[#7C3AED] font-medium">{getProgress()}%</span>
+            <span className="text-sm text-[#7C3AED] font-medium">
+              {getProgress()}%
+            </span>
           </div>
           <div className="w-full bg-[#2A2A2D] rounded-full h-2">
             <motion.div
@@ -104,7 +125,11 @@ const CVForm: NextPage = () => {
         </div>
 
         {/* Tabs para Plantilla, Formulario y Vista Previa */}
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-8 flex">
+        <Tabs
+          value={activeTab}
+          onValueChange={handleTabChange}
+          className="space-y-8 flex"
+        >
           <div className="flex justify-center">
             <TabsList className="bg-[#2A2A2D] border border-[#3F3F46] p-1 grid grid-cols-3 w-full max-w-md">
               <TabsTrigger
@@ -143,17 +168,23 @@ const CVForm: NextPage = () => {
                     activeTab === "template"
                       ? "bg-[#7C3AED] text-white"
                       : selectedTemplate
-                        ? "bg-[#22C55E] text-white"
-                        : "bg-[#3F3F46] text-[#D4D4D8]"
+                      ? "bg-[#22C55E] text-white"
+                      : "bg-[#3F3F46] text-[#D4D4D8]"
                   }`}
                 >
                   {selectedTemplate ? <ShieldCheck className="w-4 h-4" /> : "1"}
                 </div>
-                <span className="ml-2 text-sm text-[#D4D4D8] hidden sm:inline">Elegir Plantilla</span>
+                <span className="ml-2 text-sm text-[#D4D4D8] hidden sm:inline">
+                  Elegir Plantilla
+                </span>
               </div>
 
               {/* Connector */}
-              <div className={`w-8 h-0.5 ${selectedTemplate ? "bg-[#22C55E]" : "bg-[#3F3F46]"} transition-colors`} />
+              <div
+                className={`w-8 h-0.5 ${
+                  selectedTemplate ? "bg-[#22C55E]" : "bg-[#3F3F46]"
+                } transition-colors`}
+              />
 
               {/* Step 2 */}
               <div className="flex items-center">
@@ -162,19 +193,25 @@ const CVForm: NextPage = () => {
                     activeTab === "form"
                       ? "bg-[#7C3AED] text-white"
                       : cvData
-                        ? "bg-[#22C55E] text-white"
-                        : selectedTemplate
-                          ? "bg-[#3F3F46] text-[#D4D4D8]"
-                          : "bg-[#2A2A2D] text-[#71717A]"
+                      ? "bg-[#22C55E] text-white"
+                      : selectedTemplate
+                      ? "bg-[#3F3F46] text-[#D4D4D8]"
+                      : "bg-[#2A2A2D] text-[#71717A]"
                   }`}
                 >
                   {cvData ? <ShieldCheck className="w-4 h-4" /> : "2"}
                 </div>
-                <span className="ml-2 text-sm text-[#D4D4D8] hidden sm:inline">Completar Datos</span>
+                <span className="ml-2 text-sm text-[#D4D4D8] hidden sm:inline">
+                  Completar Datos
+                </span>
               </div>
 
               {/* Connector */}
-              <div className={`w-8 h-0.5 ${cvData ? "bg-[#22C55E]" : "bg-[#3F3F46]"} transition-colors`} />
+              <div
+                className={`w-8 h-0.5 ${
+                  cvData ? "bg-[#22C55E]" : "bg-[#3F3F46]"
+                } transition-colors`}
+              />
 
               {/* Step 3 */}
               <div className="flex items-center">
@@ -183,36 +220,57 @@ const CVForm: NextPage = () => {
                     activeTab === "preview"
                       ? "bg-[#7C3AED] text-white"
                       : cvData
-                        ? "bg-[#3F3F46] text-[#D4D4D8]"
-                        : "bg-[#2A2A2D] text-[#71717A]"
+                      ? "bg-[#3F3F46] text-[#D4D4D8]"
+                      : "bg-[#2A2A2D] text-[#71717A]"
                   }`}
                 >
                   3
                 </div>
-                <span className="ml-2 text-sm text-[#D4D4D8] hidden sm:inline">Vista Previa</span>
+                <span className="ml-2 text-sm text-[#D4D4D8] hidden sm:inline">
+                  Vista Previa
+                </span>
               </div>
             </div>
           </div>
 
           {/* Paso 1: Selección de plantilla */}
           <TabsContent value="template" className="space-y-6">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <TemplateSelector selectedTemplate={selectedTemplate} onSelectTemplate={handleTemplateSelected} />
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <TemplateSelector
+                selectedTemplate={selectedTemplate}
+                onSelectTemplate={handleTemplateSelected}
+              />
             </motion.div>
           </TabsContent>
 
           {/* Paso 2: Formulario */}
           <TabsContent value="form" className="space-y-6">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               {selectedTemplate && (
-                <CVFormStep setCvData={handleFormCompleted} setActiveTab={setActiveTab} template={selectedTemplate} />
+                <CVFormStep
+                  setCvData={handleFormCompleted}
+                  setActiveTab={setActiveTab}
+                  template={selectedTemplate}
+                />
               )}
             </motion.div>
           </TabsContent>
 
           {/* Paso 3: Vista previa */}
           <TabsContent value="preview" className="space-y-6">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               {cvData && (
                 <CVPreviewStep
                   cvData={cvData}
@@ -226,7 +284,7 @@ const CVForm: NextPage = () => {
         </Tabs>
       </motion.div>
     </div>
-  )
-}
+  );
+};
 
-export default CVForm
+export default CVForm;
