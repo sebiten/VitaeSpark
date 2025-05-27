@@ -15,6 +15,7 @@ import {
   Loader2,
   CreditCard,
   Download,
+  Clock,
 } from "lucide-react";
 import {
   Carousel,
@@ -126,19 +127,19 @@ export default function CVPreviewStepPurple({
   }, []);
 
   const precioOriginal = 2500;
-  const precioOferta = 1999;
+  const precioOferta = 1500;
   const ahorro = precioOriginal - precioOferta;
   const descuentoPorcentaje = Math.round((ahorro / precioOriginal) * 100);
 
   return (
     <div className="w-full p-2 rounded-xl shadow-xl">
       <div className="text-center space-y-3 mb-6">
-        {/* <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-800/30 border border-purple-500/30">
+        <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-800/30 border border-purple-500/30">
           <p className="text-purple-400 font-medium text-sm">
-            ¡Oferta por tiempo limitado!
+            ¡Oferta por tiempo limitado! 1500 ARS
           </p>
           <Clock className="w-4 h-4 text-purple-400 ml-2" />
-        </div> */}
+        </div>
         <h2 className="text-2xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text">
           ¡Tu CV Profesional está listo!
         </h2>
@@ -297,8 +298,13 @@ export default function CVPreviewStepPurple({
             ) : (
               <div className="flex items-center justify-center gap-1">
                 <img src="/logompsolomano.png" className="h-10 w-10" />
-                <span className="font-semibold tracking-wide mb-0.5">
-                  Desbloquear por $1999 ARS
+                <span className="font-semibold tracking-wide mb-0.5 flex items-center gap-2">
+                  <span className="line-through text-slate-400 text-base">
+                  $1999 ARS
+                  </span>
+                  <span className="text-white text-lg font-bold">
+                  $1500 ARS
+                  </span>
                 </span>
               </div>
             )}
