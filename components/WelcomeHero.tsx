@@ -54,7 +54,7 @@ const WelcomeHero: NextPage<Props> = ({}) => {
               laboral.
             </p>
 
-            <div className="flex sm:flex-row  gap-3 text-center  px-4  rounded-lg shadow">
+            {/* <div className="flex sm:flex-row  gap-3 text-center  px-4  rounded-lg shadow">
               <span className="bg-gradient-to-r from-[#7C3AED] to-[#38BDF8] text-white text-xs font-semibold px-3 py-1 rounded-full animate-pulse flex items-center">
                 <Badge className="mr-1 h-3 w-3" />
                 ¡NUEVO!
@@ -64,7 +64,7 @@ const WelcomeHero: NextPage<Props> = ({}) => {
                 Plantilla recomendada por
                 <span className="text-[#7C3AED] ml-1">Harvard</span>
               </h3>
-            </div>
+            </div> */}
 
             <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-lg p-3 border border-blue-500/20 max-w-xl">
               <div className="flex items-center ">
