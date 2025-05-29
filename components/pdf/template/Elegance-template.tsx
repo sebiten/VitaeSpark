@@ -1,215 +1,248 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
 
+// Colores del tema azul profesional
+const colors = {
+  primary: "#1E40AF",
+  primaryLight: "#3B82F6",
+  accent: "#EFF6FF",
+  text: "#111827",
+  textLight: "#6B7280",
+  background: "#FFFFFF",
+  divider: "#E5E7EB",
+  headerBg: "#F8FAFC",
+};
+
 const styles = StyleSheet.create({
   page: {
-    padding: 35,
     fontSize: 10,
-    fontFamily: "Times-Roman",
-    backgroundColor: "#0B0F1A", // fondo más oscuro
-    color: "#E5E7EB", // texto claro
-    lineHeight: 1.5,
+    color: colors.text,
+    backgroundColor: colors.background,
+    padding: 30,
+    lineHeight: 1.4,
   },
   header: {
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#334155", // gris oscuro
-    paddingBottom: 10,
+    backgroundColor: colors.headerBg,
+    padding: 20,
+    marginBottom: 16,
+    borderLeft: `4px solid ${colors.primary}`,
   },
   name: {
-    fontSize: 20,
-    fontFamily: "Times-Bold",
-    color: "#F8FAFC", // blanco casi puro
-    marginBottom: 4,
-  },
-  contactInfo: {
-    fontSize: 10,
-    color: "#60A5FA", // azul claro
-    fontFamily: "Times-Bold",
-    marginTop: 2,
-  },
-  section: {
-    marginTop: 18,
-  },
-  sectionTitle: {
-    fontSize: 11,
-    fontFamily: "Times-Bold",
-    color: "#60A5FA",
-    marginBottom: 6,
-    borderBottomWidth: 1,
-    borderBottomColor: "#1E293B", // borde oscuro
-    paddingBottom: 3,
-    textTransform: "uppercase",
-    letterSpacing: 1,
-  },
-  summary: {
-    fontSize: 10,
-    color: "#D1D5DB",
-    textAlign: "justify",
-    backgroundColor: "#1E293B", // fondo oscuro
-    padding: 12,
-    borderLeftWidth: 3,
-    borderLeftColor: "#60A5FA",
-  },
-  experienceItem: {
-    marginBottom: 12,
-  },
-  experienceHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 2,
-  },
-  company: {
-    fontFamily: "Times-Bold",
-    fontSize: 11,
+    fontSize: 24,
+    fontWeight: 700,
+    color: colors.primary,
+    marginBottom: 16,
   },
   position: {
-    fontSize: 10,
-    color: "#60A5FA",
-    marginBottom: 2,
+    fontSize: 14,
+    fontWeight: 500,
+    color: colors.textLight,
+    marginBottom: 8,
   },
-  location: {
-    fontSize: 9,
-    color: "#9CA3AF", // gris medio oscuro
-  },
-  date: {
-    fontSize: 9,
-    fontFamily: "Times-Bold",
-    color: "#D1D5DB", // gris claro
-  },
-  bulletList: {
-    marginLeft: 10,
-    marginTop: 4,
-  },
-  bulletItem: {
-    flexDirection: "row",
-    marginBottom: 2,
-  },
-  bullet: {
-    width: 10,
-    fontWeight: "bold",
-    color: "#60A5FA",
-  },
-  bulletText: {
-    fontSize: 10,
-    color: "#E5E7EB", // texto claro
-    flex: 1,
-  },
-  educationItem: {
-    marginBottom: 10,
-  },
-  skillsContainer: {
+  contactRow: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 4,
+    gap: 8,
   },
-  skillBox: {
-    borderWidth: 1,
-    borderColor: "#334155",
-    backgroundColor: "#1E293B",
-    paddingVertical: 3,
-    paddingHorizontal: 6,
-    marginRight: 6,
-    marginBottom: 4,
+  contactItem: {
+    fontSize: 10,
+    color: colors.textLight,
   },
-  skillText: {
+  section: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: 700,
+    marginBottom: 10,
+    color: colors.primary,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    borderBottom: `2px solid ${colors.primary}`,
+    paddingBottom: 5,
+  },
+  subsectionTitle: {
+    fontSize: 12,
+    fontWeight: 600,
+    color: colors.text,
+    marginBottom: 3,
+  },
+  company: {
+    fontSize: 11,
+    color: colors.textLight,
+    fontStyle: "italic",
+    marginBottom: 5,
+  },
+  dateRange: {
     fontSize: 9,
-    color: "#93C5FD", // azul más claro
+    color: colors.textLight,
+    fontWeight: 500,
   },
-  watermarkContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 0,
+  description: {
+    fontSize: 10,
+    color: colors.text,
+    marginBottom: 8,
+    lineHeight: 1.5,
   },
- 
+  achievementsList: {
+    marginLeft: 15,
+    marginBottom: 10,
+  },
+  achievement: {
+    fontSize: 9,
+    color: colors.text,
+    marginBottom: 3,
+    flexDirection: "row",
+  },
+  bullet: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: colors.primary,
+    marginRight: 8,
+    marginTop: 4,
+  },
+  skillsGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  skillItem: {
+    backgroundColor: colors.accent,
+    padding: "4 8",
+    borderRadius: 3,
+    fontSize: 9,
+    fontWeight: 500,
+  },
+  twoColumnRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 8,
+  },
+  aboutSection: {
+    backgroundColor: colors.accent,
+    padding: 15,
+    borderRadius: 5,
+    marginBottom: 20,
+  },
 });
 
-
-const BulletList = ({ items }: { items: string[] }) => (
-  <View style={styles.bulletList}>
+// Componente para logros con bullets
+const AchievementsList = ({ items }: { items: string[] }) => (
+  <View style={styles.achievementsList}>
     {items.map((item, i) => (
-      <View key={i} style={styles.bulletItem}>
-        <Text style={styles.bullet}>•</Text>
-        <Text style={styles.bulletText}>{item}</Text>
+      <View key={i} style={styles.achievement}>
+        <View style={styles.bullet} />
+        <Text style={{ flex: 1, fontSize: 9 }}>{item}</Text>
       </View>
     ))}
   </View>
 );
 
-const EleganceTemplate = ({ cv }: { cv: RespuestaCV["cv"] }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Text style={styles.name}>{cv.nombre}</Text>
-        <Text style={styles.contactInfo}>{cv.contacto.join(" • ")}</Text>
-      </View>
+// Componente para habilidades en formato grid
+const SkillsGrid = ({ skills }: { skills: string[] }) => (
+  <View style={styles.skillsGrid}>
+    {skills.map((skill, i) => (
+      <Text key={i} style={styles.skillItem}>
+        {skill}
+      </Text>
+    ))}
+  </View>
+);
 
-      <Text style={styles.summary}>{cv.sobreMi}</Text>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Experiencia Profesional</Text>
-        {cv.experiencia.map((exp, index) => (
-          <View key={index} style={styles.experienceItem}>
-            <View style={styles.experienceHeader}>
-              <Text style={styles.company}>{exp.empresa}</Text>
-              <View>
-                <Text style={styles.location}>{exp.ubicacion}</Text>
-                <Text style={styles.date}>{exp.fechas}</Text>
-              </View>
-            </View>
-            <Text style={styles.position}>{exp.cargo}</Text>
-            <BulletList items={exp.logros} />
-          </View>
-        ))}
-      </View>
-
-      {/* Educación */}
-      <Text style={styles.sectionTitle}>Educación</Text>
-
-      {cv.formacion.map((edu, index) => (
-        <View key={index} style={styles.educationItem}>
-          <View style={styles.experienceHeader}>
-            <View style={styles.company}>
-              <Text style={styles.company}>{edu.institucion}</Text>
-              <Text style={styles.position}>{edu.titulo || ""}</Text>
-            </View>
-            <View style={styles.location}>
-              <Text style={styles.location}>{edu.ubicacion}</Text>
-              <Text style={styles.date}>{edu.fechas}</Text>
-            </View>
+export default function ProfessionalBlueTemplate({
+  cv,
+}: {
+  cv: RespuestaCV["cv"];
+}) {
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.header}>
+          <Text style={styles.name}>{cv.nombre}</Text>
+          <Text style={styles.position}>{cv.puesto}</Text>
+          <View style={styles.contactRow}>
+            {cv.contacto.map((contact, i) => (
+              <Text key={i} style={styles.contactItem}>
+                {contact}
+              </Text>
+            ))}
           </View>
         </View>
-      ))}
 
-      <View style={styles.section} wrap={false}>
-        <Text style={styles.sectionTitle}>Habilidades</Text>
-        <View style={styles.skillsContainer}>
-          {cv.habilidades.map((skill, i) => (
-            <View key={i} style={styles.skillBox}>
-              <Text style={styles.skillText}>{skill}</Text>
+        {/* About Section */}
+        <View style={styles.aboutSection}>
+          <Text
+            style={[
+              styles.sectionTitle,
+              { borderBottom: "none", marginBottom: 8 },
+            ]}
+          >
+            Perfil Profesional
+          </Text>
+          <Text style={styles.description}>{cv.sobreMi}</Text>
+        </View>
+
+        {/* Experience Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Experiencia Profesional</Text>
+          {cv.experiencia.map((exp, i) => (
+            <View key={i} style={{ marginBottom: 15 }}>
+              <View style={styles.twoColumnRow}>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.subsectionTitle}>{exp.cargo}</Text>
+                  <Text style={styles.company}>{exp.empresa}</Text>
+                </View>
+                <Text style={styles.dateRange}>{exp.fechas}</Text>
+              </View>
+              <AchievementsList items={exp.logros} />
             </View>
           ))}
         </View>
-      </View>
 
-      {cv.idiomas.length > 0 && (
+        {/* Education Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Idiomas</Text>
-          <BulletList items={cv.idiomas} />
+          <Text style={styles.sectionTitle}>Formación Académica</Text>
+          {cv.formacion.map((edu, i) => (
+            <View key={i} style={styles.twoColumnRow}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.subsectionTitle}>{edu.titulo}</Text>
+                <Text style={styles.company}>{edu.institucion}</Text>
+              </View>
+              <Text style={styles.dateRange}>{edu.fechas}</Text>
+            </View>
+          ))}
         </View>
-      )}
 
-      {cv.informacionAdicional.length > 0 && (
+        {/* Skills Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Información Adicional</Text>
-          <BulletList items={cv.informacionAdicional} />
+          <Text style={styles.sectionTitle}>Competencias Técnicas</Text>
+          <SkillsGrid skills={cv.habilidades} />
         </View>
-      )}
-    </Page>
-  </Document>
-);
 
-export default EleganceTemplate;
+        {/* Languages Section */}
+        {cv.idiomas.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Idiomas</Text>
+            <View style={styles.skillsGrid}>
+              {cv.idiomas.map((lang, i) => (
+                <Text key={i} style={styles.skillItem}>
+                  {lang}
+                </Text>
+              ))}
+            </View>
+          </View>
+        )}
+
+        {/* Additional Information */}
+        {cv.informacionAdicional.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Información Adicional</Text>
+            <AchievementsList items={cv.informacionAdicional} />
+          </View>
+        )}
+      </Page>
+    </Document>
+  );
+}

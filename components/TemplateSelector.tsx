@@ -30,18 +30,18 @@ const templates = [
     recommended: true,
     description: "Clásico y profesional",
     category: "Tradicional",
-    features: ["ATS Optimizado", "Formato Clásico", "Muy Legible"],
+    features: [ "Diseño Clásico", "Muy Legible", "Destacado"],
     popularity: 95,
   },
-  // {
-  //   id: "elegance",
-  //   name: "Elegante",
-  //   color: "#1A1C2C", // algo asi pero mas claro
-  //   description: "Sofisticado y único",
-  //   category: "Moderno",
-  //   features: ["Diseño Oscuro", "Único", "Elegante"],
-  //   popularity: 85,
-  // },
+  {
+    id: "elegance",
+    name: "Elegante",
+    color: "#0A2C7C", // algo asi pero mas claro
+    description: "Sofisticado y único",
+    category: "Moderno",
+    features: ["Diseño moderno", "Destacado", "Elegante"],
+    popularity: 93,
+  },
   {
     id: "purple",
     name: "Morado",

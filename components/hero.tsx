@@ -374,8 +374,8 @@ export default async function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-4 bg-[#0F0F10]">
-        <div className="max-w-3xl mx-auto">
+      <section className="py-20 px-4  bg-[#0F0F10]">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
               Preguntas frecuentes
@@ -452,14 +452,15 @@ export default async function Home() {
         </div>
       </section>
       <div>
-        <div className="max-w-3xl mx-auto mb-12">
-          <div className=" rounded-lg p-6 shadow-md flex flex-col items-center">
+        <div className="max-w-6xl mx-auto mb-12">
+          <div className=" rounded-lg p-2 flex flex-col items-center">
             <h3 className="text-lg font-bold mb-2 text-[#7C3AED]">
               ¿Te gustó VitaeSpark?
             </h3>
-            <p className="text-[#F4F4F5]/80 mb-4 text-center">
+            <p className="text-[#F4F4F5]/80 mb-4 text-center text-lg">
               Déjanos tu comentario o testimonio si te ayudamos, o cuéntanos qué
-              podemos mejorar. ¡Tu opinión nos importa!
+              podemos mejorar, si necesitas ayuda podes escribirlo aqui tambien.
+              ¡Tu opinión nos importa!
             </p>
             <form action={sendFeedback} className="space-y-4 w-full">
               <div className="grid w-full gap-1.5">
