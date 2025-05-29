@@ -186,7 +186,7 @@ export function Navegation({ user }: { user: User | null }) {
               <DropdownMenuTrigger className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity p-2 rounded-lg hover:bg-[#1F1F22]/50">
                 <Avatar className="h-7 w-7 border border-[#1F1F22]">
                   <AvatarImage
-                    src={user.user_metadata?.avatar_url || "/avatar.png"}
+                    src={user.user_metadata?.avatar_url}
                     alt={user.user_metadata?.full_name || "User"}
                   />
                   <AvatarFallback className="bg-[#1F1F22] text-[#F4F4F5] text-xs">
