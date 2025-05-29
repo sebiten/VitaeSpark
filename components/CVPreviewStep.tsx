@@ -295,7 +295,7 @@ export default function CVPreviewStepPurple({
                 <img src="/logompsolomano.png" className="h-10 w-10" />
                 <span className="font-semibold tracking-wide mb-0.5 flex items-center gap-2">
                   <span className="line-through text-slate-400 text-base">
-                    $1999 ARS
+                    $3000 ARS
                   </span>
                   <span className="text-white text-lg font-bold">
                     $1500 ARS
@@ -312,9 +312,9 @@ export default function CVPreviewStepPurple({
               <div className="absolute inset-0 rounded-xl border border-white/30 scale-[1.02] blur-[1px]"></div>
             </div>
           </Button>
-          <div className="text-purple-400 flex font-medium text-sm text-center items-center justify-center gap-1 mx-auto"> 
+          <div className="text-purple-400 flex font-medium text-sm text-center items-center justify-center gap-1 mx-auto">
             <Clock className="w-4 h-4 text-purple-400" />
-            ¡Oferta por tiempo limitado!
+            ¡Oferta de lanzamiento!
           </div>
         </CardContent>
       </Card>
