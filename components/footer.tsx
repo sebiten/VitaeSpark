@@ -5,19 +5,9 @@ export function Footer() {
   return (
     <footer className="bg-[#0F0F10] border-t border-[#1F1F22] py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
-          <div className="space-y-1">
-            <Link href="/" className="flex items-center justify-start">
-              <img
-                src="/logoreal.webp"
-                alt="Logo Vitae Spark"
-                className="h-36 w-36 rounded-full object-cover"
-              />
-            </Link>
-          </div>
-
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <div>
-            <h3 className="font-semibold text-lg my-4 text-white">Producto</h3>
+            <h3 className="font-semibold text-lg mb-4 text-white">Producto</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -65,8 +55,7 @@ export function Footer() {
 
         <div className="border-t border-[#1F1F22] mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-[#F4F4F5]/60">
-            © {new Date().getFullYear()} VitaeSpark. Todos los derechos
-            reservados.
+            © {new Date().getFullYear()} VitaeSpark.
           </p>
         </div>
       </div>
