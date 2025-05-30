@@ -123,13 +123,13 @@ export default function CVPreviewStep({
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center gap-2 mb-2">
           <CheckCircle className="w-8 h-8 text-green-400" />
-          <Badge className="bg-green-500/20 text-green-400 border-green-500/30 px-4 py-1">
+          <Badge className="bg-green-500/20 text-green-400 border-green-500/30 px-6 py-2  text-sm font-semibold">
             ¡CV Generado!
           </Badge>
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text">
+        {/* <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text">
           Tu CV Profesional está Listo
-        </h1>
+        </h1> */}
         <p className="text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed">
           Desbloquea tu CV optimizado y aumenta tus posibilidades de conseguir
           entrevistas
@@ -137,7 +137,7 @@ export default function CVPreviewStep({
       </div>
 
       {/* Preview del CV mejorado */}
-      <Card className="relative overflow-hidden bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-slate-700/50">
+      <Card className="relative overflow-hidden bg-transparent border-slate-700/50">
         <CardContent className="p-6">
           <div className="relative w-full rounded-xl overflow-hidden bg-white shadow-2xl">
             <div
@@ -200,7 +200,7 @@ export default function CVPreviewStep({
       </Card>
 
       {/* Sección de pago mejorada */}
-      <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-700/50">
+      <Card className="bg-transparent border-slate-700/50">
         <CardContent className="p-6 space-y-6">
           {/* Precio destacado */}
           <div className="text-center space-y-4">
