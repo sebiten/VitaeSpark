@@ -68,7 +68,7 @@ export default function PerfilCVs() {
         setProfileInfo({
           name: profileData.full_name || user.email?.split("@")[0] || "Usuario",
           email: user.email || "No disponible",
-          imgUrl: user.user_metadata?.avatar_url || "/avatar.png",
+          imgUrl: user.user_metadata?.avatar_url,
         });
       }
 
