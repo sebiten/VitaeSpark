@@ -16,6 +16,8 @@ import {
   CreditCard,
   Download,
   Clock,
+  TrendingUp,
+  Target,
 } from "lucide-react";
 import {
   Carousel,
@@ -74,7 +76,7 @@ type Props = {
   userSession: Session | null;
 };
 
-export default function CVPreviewStepPurple({
+export default function CVPreviewStep({
   cvData,
   template,
   onBack,
@@ -128,7 +130,7 @@ export default function CVPreviewStepPurple({
   }, []);
 
   const precioOriginal = 2500;
-  const precioOferta = 1500;
+  const precioOferta = 3000;
   const ahorro = precioOriginal - precioOferta;
   const descuentoPorcentaje = Math.round((ahorro / precioOriginal) * 100);
 
@@ -199,6 +201,27 @@ export default function CVPreviewStepPurple({
           </CarouselContent>
         </Carousel>
       </div>
+      <Card className="mb-6 rounded-lg p-4 bg-gradient-to-r from-purple-900/40 to-blue-900/40 border border-purple-500/30">
+        <div className="text-center space-y-3">
+          <div className="flex items-start justify-center gap-2">
+            <TrendingUp className="w-6 h-6 mt-1 text-purple-400" />
+            <h3 className="text-lg font-bold text-white">
+              Mejorá tus oportunidades laborales
+            </h3>
+            <Target className="w-6 h-6 mt-1 text-purple-400" />
+          </div>
+          <p className="text-lg text-slate-200 font-medium">
+            Por solo{" "}
+            <span className="text-purple-400 font-bold text-xl">$3.000</span>,
+            obtenés acceso a un CV{" "}
+            <span className="italic font-bold">
+              optimizado que destaca tus logros
+            </span>{" "}
+            y mejora tus chances de conseguir entrevistas.
+          </p>
+        </div>
+      </Card>
+
       <Card className="border-0 bg-slate-800/40 text-white">
         <CardContent className="space-y-4">
           {/* Pricing */}
@@ -291,14 +314,11 @@ export default function CVPreviewStepPurple({
                 </span>
               </div>
             ) : (
-              <div className="flex items-center justify-center gap-1">
-                <img src="/logompsolomano.png" className="h-10 w-10" />
-                <span className="font-semibold tracking-wide mb-0.5 flex items-center gap-2">
-                  <span className="line-through text-slate-400 text-base">
-                    $3000 ARS
-                  </span>
-                  <span className="text-white text-lg font-bold">
-                    $1500 ARS
+              <div className="flex items-center justify-center  font-sans">
+                <img src="/logompsolomano.png" className="h-10 w-10 mr-0.5" />
+                <span className="font-bold tracking-wide mb-0.5 flex items-center gap-2">
+                  <span className="text-white text-sm font-bold">
+                    Pagar con Mercado Pago
                   </span>
                 </span>
               </div>
@@ -312,10 +332,6 @@ export default function CVPreviewStepPurple({
               <div className="absolute inset-0 rounded-xl border border-white/30 scale-[1.02] blur-[1px]"></div>
             </div>
           </Button>
-          <div className="text-purple-400 flex font-medium text-sm text-center items-center justify-center gap-1 mx-auto">
-            <Clock className="w-4 h-4 text-purple-400" />
-            ¡Oferta de lanzamiento!
-          </div>
         </CardContent>
       </Card>
     </div>
