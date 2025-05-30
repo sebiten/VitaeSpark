@@ -177,14 +177,14 @@ export default function TemplateSelector({
                   </div>
                 </div>
 
-                {tpl.recommended && (
+                {/* {tpl.recommended && (
                   <div className="absolute top-3 left-1/2 transform -translate-x-1/2 z-20">
                     <Badge className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white border-0 shadow-lg">
                       <Crown className="w-3 h-3 mr-1" />
                       Recomendado
                     </Badge>
                   </div>
-                )}
+                )} */}
               </div>
 
               {/* Content */}
@@ -282,12 +282,12 @@ export default function TemplateSelector({
                     <div>
                       <div className="flex items-center gap-3">
                         <span>Plantilla {tpl.name}</span>
-                        {tpl.recommended && (
+                        {/* {tpl.recommended && (
                           <Badge className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white">
                             <Crown className="w-3 h-3 mr-1" />
                             Recomendado
                           </Badge>
-                        )}
+                        )} */}
                       </div>
                       <p className="text-[#A1A1AA] text-sm font-normal mt-1">
                         {tpl.description}
