@@ -24,23 +24,22 @@ import { motion, AnimatePresence, color } from "framer-motion";
 
 const templates = [
   {
-    id: "harvard",
-    name: "Harvard",
-    color: "#fff",
-    recommended: true,
-    description: "Clásico y profesional",
-    category: "Tradicional",
-    features: [ "Diseño Clásico", "Muy Legible", "Destacado"],
-    popularity: 95,
-  },
-  {
     id: "elegance",
     name: "Elegante",
     color: "#0A2C7C", // algo asi pero mas claro
     description: "Sofisticado y único",
     category: "Moderno",
     features: ["Diseño moderno", "Destacado", "Elegante"],
-    popularity: 93,
+    popularity: 96,
+  },
+  {
+    id: "harvard",
+    name: "Harvard",
+    color: "#fff",
+    description: "Clásico y profesional",
+    category: "Tradicional",
+    features: ["Diseño Clásico", "Muy Legible", "Destacado"],
+    popularity: 95,
   },
   {
     id: "purple",
@@ -87,8 +86,6 @@ export default function TemplateSelector({
 
   return (
     <div className="space-y-8">
-  
-
       {/* Header Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
