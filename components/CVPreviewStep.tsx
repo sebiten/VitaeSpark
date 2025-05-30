@@ -177,9 +177,7 @@ export default function CVPreviewStepPurple({
           <div className="text-center space-y-4">
             <h3 className="text-xl font-bold text-white font-sans">
               Desbloquea tu CV Profesional
-              <p 
-                className="text-sm text-slate-400 font-normal mt-1"
-              >
+              <p className="text-sm text-slate-400 font-normal mt-1">
                 Mejora tus oportunidades laborales con un CV optimizado
               </p>
             </h3>
@@ -218,7 +216,7 @@ export default function CVPreviewStepPurple({
                 <Link href="/perfil" className="text-blue-400 hover:underline">
                   perfil
                 </Link>{" "}
-                tras el pago
+                las veces que quieras
               </p>
             </div>
 
@@ -253,6 +251,18 @@ export default function CVPreviewStepPurple({
               </div>
             )}
           </Button>
+          {/* <div className="text-center p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+            <p className="text-blue-300 text-lg font-sans">
+              💡 Tras pagar, podras ver tu cv completo y sin marca de
+              agua desde tu{" "}
+              <Link
+                href="/perfil"
+                className="text-blue-400 hover:underline font-medium"
+              >
+                perfil
+              </Link>{" "}
+            </p>
+          </div> */}
         </CardContent>
       </Card>
     </div>
