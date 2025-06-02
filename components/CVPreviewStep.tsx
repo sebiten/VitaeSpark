@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import type React from "react";
 import { Button } from "@/components/ui/button";
-import { PDFViewer } from "@react-pdf/renderer";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { DocumentoCVW } from "./pdf/CVDocument";
 import type { RespuestaCV } from "@/lib/types/cv";
 import type { Session } from "@supabase/supabase-js";
@@ -17,6 +17,7 @@ import {
   Download,
   Clock,
   CheckCircle,
+  Accessibility,
 } from "lucide-react";
 import {
   Carousel,
@@ -65,6 +66,10 @@ export const testimonials = [
   {
     text: "Bastante rapido y profesional el curriculum, muy buen precio",
     author: "Joaquin B.",
+  },
+  {
+    text: "Me ayudó a destacar mis habilidades y logros de una manera clara y atractiva, muy buena la herramienta.",
+    author: "Lucía G.",
   },
 ];
 
@@ -134,9 +139,9 @@ export default function CVPreviewStepPurple({
   const descuentoPorcentaje = Math.round((ahorro / precioOriginal) * 100);
 
   return (
-    <div className="w-full max-w-md mx-auto space-y-6">
+    <div className="w-full max-w-md lg:max-w-xl mx-auto space-y-6">
       {/* Header */}
-      <div className="text-center space-y-3">
+      <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold text-white">
           ¡Tu CV Profesional está listo!
         </h2>
@@ -172,17 +177,18 @@ export default function CVPreviewStepPurple({
 
       {/* Pricing Card */}
       <Card className="bg-slate-800/20 border-slate-900 backdrop-blur-sm">
-        <CardContent className="p-6 space-y-6">
+        <CardContent className="p-6 space-y-3">
           {/* Price Section */}
           <div className="text-center space-y-4">
             <h3 className="text-xl font-bold text-white font-sans">
-              Desbloquea tu CV Profesional
+              Accede a tu CV Profesional
               <p className="text-sm text-slate-400 font-normal mt-1">
-                Mejora tus oportunidades laborales con un CV optimizado
+                Destácate en el mercado laboral con un CV diseñado para
+                impresionar
               </p>
             </h3>
             <div className="flex items-baseline justify-center gap-2">
-              <span className="text-4xl font-bold text-white">$3.000</span>
+              <span className="text-4xl font-bold text-white">$2.500</span>
               <span className="text-slate-400 font-medium">ARS</span>
             </div>
           </div>
@@ -196,21 +202,21 @@ export default function CVPreviewStepPurple({
           {/* Features */}
           <div className="space-y-3">
             <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-700/30">
-              <Handshake className="h-4 w-4 flex-shrink-0 text-blue-400 mt-0.5" />
+              <Handshake className="h-4 w-4 flex-shrink-0 text-blue-400 " />
               <p className="text-sm text-slate-300">
-                Pago seguro con MercadoPago
+               Invertis una vez y obtienes tu CV profesional para siempre
               </p>
             </div>
 
             <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-700/30">
-              <User className="h-4 w-4 flex-shrink-0 text-blue-400 mt-0.5" />
+              <User className="h-4 w-4 flex-shrink-0 text-blue-400 " />
               <p className="text-sm text-slate-300">
                 Tu CV se vinculará a tu cuenta al pagar
               </p>
             </div>
 
             <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-700/30">
-              <Download className="h-4 w-4 flex-shrink-0 text-blue-400 mt-0.5" />
+              <Download className="h-4 w-4 flex-shrink-0 text-blue-400" />
               <p className="text-sm text-slate-300">
                 Descárgalo desde tu{" "}
                 <Link href="/perfil" className="text-blue-400 hover:underline">
@@ -221,36 +227,85 @@ export default function CVPreviewStepPurple({
             </div>
 
             <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-700/30">
-              <CreditCard className="h-4 w-4 flex-shrink-0 text-blue-400 mt-0.5" />
+              <CreditCard className="h-4 w-4 flex-shrink-0 text-blue-400 " />
               <p className="text-sm text-slate-300">
                 Tarjeta de crédito, débito y más opciones
               </p>
             </div>
-          </div>
 
+    
+          </div>
           {/* Payment Button */}
-          <Button
-            disabled={loading}
-            className="w-full h-14 rounded-xl bg-[#009ee3] hover:bg-[#0095d4] text-white font-semibold text-base
-                     shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-            onClick={handlePay}
-          >
-            {loading ? (
-              <div className="flex items-center justify-center gap-2">
-                <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Procesando pago...</span>
-              </div>
-            ) : (
-              <div className="flex items-center justify-center gap-3">
-                <img
-                  src="/logompsolomano.png"
-                  className="h-8 w-8"
-                  alt="MercadoPago"
-                />
-                <span>Pagar con MercadoPago</span>
-              </div>
-            )}
-          </Button>
+          <div className="flex flex-col gap-3">
+            <Button
+              disabled={loading}
+              onClick={handlePay}
+              className="w-full h-12 rounded-xl bg-gradient-to-r from-[#009ee3] to-[#00c6ff] hover:brightness-110 text-white font-semibold text-base shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              {loading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Procesando pago...</span>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <div className="flex items-center justify-center gap-1  ">
+                    <img
+                      src="/logompsolomano.png"
+                      className="h-7 w-7"
+                      alt="MercadoPago"
+                    />
+                    <span className="text-base font-semibold">
+                     Desbloquear por $2.500 ARS
+                    </span>
+                  </div>
+                </div>
+              )}
+            </Button>
+            <PDFDownloadLink
+              document={<DocumentoCVW cv={cvData} template={template} />}
+              fileName={`CV-${cvData.nombre.replace(/\s+/g, "-")}.pdf`}
+            >
+              {({ loading: dlLoading }) => (
+                <Button
+                  className="bg-slate-700/30 hover:bg-[#2A2A2D] rounded-lg p-6  w-full     text-[#F4F4F5]"
+                  disabled={dlLoading}
+                >
+                  {dlLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      Generando archivo...
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-4 h-4 font-semibold" />
+                      Descargar versión gratuita (con marca de agua)
+                    </>
+                  )}
+                </Button>
+              )}
+            </PDFDownloadLink>
+            <Carousel
+              plugins={[Autoplay({ delay: 5000 })]}
+              opts={{ align: "start", loop: true, dragFree: true }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-1">
+                {testimonials.map((testimonial, index) => (
+                  <CarouselItem key={index} className="pl-2 pr-2 basis-full">
+                    <div className="p-3 rounded-md ">
+                      <p className="text-gray-300 text-sm italic">
+                        "{testimonial.text}"
+                      </p>
+                      <p className="text-right text-purple-400 text-sm font-medium">
+                        - {testimonial.author}
+                      </p>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
           {/* <div className="text-center p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
             <p className="text-blue-300 text-lg font-sans">
               💡 Tras pagar, podras ver tu cv completo y sin marca de
