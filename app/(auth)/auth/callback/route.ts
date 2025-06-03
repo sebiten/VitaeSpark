@@ -12,7 +12,7 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
       // redirige al usuario a la página que querías
-      return NextResponse.redirect(`${origin}${next}`);
+      return NextResponse.redirect(`/crear`);
     }
     console.error("Error exchanging code:", error.message);
   }
