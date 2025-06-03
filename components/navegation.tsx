@@ -153,12 +153,10 @@ export function Navegation({ user }: { user: User | null }) {
             href="/"
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
-            <Image
+            <img
               src="/logoreal.webp"
               alt="Logo Vitae Spark"
-              width={95}
-              height={95}
-              className="rounded-lg object-cover"
+              className="rounded-lg object-cover h-28 w-28 "
             />
           </Link>
         </div>
