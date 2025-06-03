@@ -262,7 +262,7 @@ export default function CVPreviewStepPurple({
                 </div>
               )}
             </Button>
-            <PDFDownloadLink
+            {/* <PDFDownloadLink
               document={<DocumentoCVW cv={cvData} template={template} />}
               fileName={`CV-${cvData.nombre.replace(/\s+/g, "-")}.pdf`}
             >
@@ -284,7 +284,7 @@ export default function CVPreviewStepPurple({
                   )}
                 </Button>
               )}
-            </PDFDownloadLink>
+            </PDFDownloadLink> */}
             <Carousel
               plugins={[Autoplay({ delay: 5000 })]}
               opts={{ align: "start", loop: true, dragFree: true }}
