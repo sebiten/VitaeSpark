@@ -114,7 +114,7 @@ export default function AuthPageClient() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#0F0F10] p-4">
-      <Card className="w-full max-w-md shadow-lg border border-[#2A2A2D] bg-[#1F1F22] text-[#F4F4F5]">
+      <Card className="w-full max-w-md shadow-lg border border-[#2A2A2D] bg-[#1F1F22] text-[#F4F4F5] p-4 rounded-lg">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-3xl font-bold tracking-tight text-[#7C3AED]">Vitae Spark</CardTitle>
           <CardDescription className="text-[#A1A1AA]">
