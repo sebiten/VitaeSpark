@@ -19,6 +19,8 @@ import {
   Crown,
   Zap,
   Award,
+  Cross,
+  X,
 } from "lucide-react";
 import { motion, AnimatePresence, color } from "framer-motion";
 
@@ -271,8 +273,8 @@ export default function TemplateSelector({
               </DialogTrigger>
 
               <DialogContent className="max-w-5xl p-0 overflow-hidden bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5]">
-                <DialogHeader className="p-8 bg-gradient-to-r from-[#1A1A1C] to-[#2A2A2D] border-b border-[#3A3A3D]">
-                  <DialogTitle className="text-[#E4E4E7] text-2xl flex items-center gap-4">
+                <DialogHeader className="p-4 bg-gradient-to-r from-[#1A1A1C] to-[#2A2A2D] border-b border-[#3A3A3D]">
+                  <DialogTitle className="text-[#E4E4E7] text-xl flex items-center gap-4">
                     <div
                       className="w-10 h-10 rounded-xl shadow-lg"
                       style={{
@@ -283,12 +285,6 @@ export default function TemplateSelector({
                     <div>
                       <div className="flex items-center gap-3">
                         <span>Plantilla {tpl.name}</span>
-                        {/* {tpl.recommended && (
-                          <Badge className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white">
-                            <Crown className="w-3 h-3 mr-1" />
-                            Recomendado
-                          </Badge>
-                        )} */}
                       </div>
                       <p className="text-[#A1A1AA] text-sm font-normal mt-1">
                         {tpl.description}
@@ -297,7 +293,7 @@ export default function TemplateSelector({
                   </DialogTitle>
                 </DialogHeader>
 
-                <div className="relative bg-gradient-to-br from-[#1C1C1E] to-[#2A2A2D] p-8">
+                <div className="relative bg-gradient-to-br from-[#1C1C1E] to-[#2A2A2D] p-4">
                   <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white">
                     <img
                       src={`/${tpl.id}.png`}
@@ -305,31 +301,13 @@ export default function TemplateSelector({
                       className="w-full transition-transform duration-500 hover:scale-105"
                     />
                   </div>
-
-                  {/* Features showcase */}
-                  <div className="mt-6 grid grid-cols-3 gap-4">
-                    {tpl.features.map((feature, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-2 p-3 bg-[#2A2A2D]/50 rounded-xl border border-[#3A3A3D]/30"
-                      >
-                        <Zap className="w-4 h-4 text-[#7C3AED]" />
-                        <span className="text-[#D4D4D8] text-sm">
-                          {feature}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="p-8 bg-gradient-to-r from-[#1A1A1C] to-[#2A2A2D] border-t border-[#3A3A3D]">
-                  <div className="flex gap-4">
+                  <div className="flex flex-col items-center justify-center">
                     <Button
                       onClick={() => {
                         onSelectTemplate(tpl.id);
                         setOpenDialogId(null);
                       }}
-                      className="flex-1 text-white bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] transition-all duration-300 shadow-lg shadow-[#7C3AED]/25 h-12"
+                      className="flex-1 mt-4 gap-2 w-full  text-white bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] transition-all duration-300 shadow-lg shadow-[#7C3AED]/25 h-12"
                     >
                       <CheckIcon className="w-5 h-5 mr-2" />
                       Seleccionar esta plantilla
@@ -337,8 +315,9 @@ export default function TemplateSelector({
                     <Button
                       variant="default"
                       onClick={() => setOpenDialogId(null)}
-                      className="border-[#3A3A3D] text-[#D4D4D8] hover:bg-[#2A2A2D] h-12 px-8"
+                      className="flex-1 w-full mt-4 gap-2  text-white bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] transition-all duration-300 shadow-lg shadow-[#7C3AED]/25 h-12"
                     >
+                      <X />
                       Cerrar
                     </Button>
                   </div>
