@@ -3,10 +3,14 @@ import {
   ArrowRight,
   Award,
   Badge,
+  Bot,
   CheckCircle2,
   GraduationCap,
+  Image,
+  Paintbrush,
   PencilIcon,
   Sparkles,
+  User,
   Zap,
 } from "lucide-react";
 import { NextPage } from "next";
@@ -42,8 +46,8 @@ const WelcomeHero: NextPage<Props> = ({}) => {
                 Impulsado por IA
               </span>
               <span className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 px-3 py-1.5 rounded-full text-sm font-medium flex items-center transition">
-                <PencilIcon className="mr-1.5 h-4 w-4" />
-                Redacción profesional
+                <Image className="mr-1.5 h-4 w-4" />
+                Ahora podes agregar foto de perfil
               </span>
             </div>
 
@@ -130,16 +134,17 @@ const WelcomeHero: NextPage<Props> = ({}) => {
           <div className="flex-1 relative w-full max-w-md mx-auto">
             <div className="relative bg-[#1F1F22] rounded-lg shadow-lg">
               <img
-                src="/newhero.png"
+                src="/purple-hero.webp"
                 alt="CV generado por VitaeSpark"
-                className="rounded-lg w-full h-auto"
+                className="rounded-lg w-full h-full object-cover"
               />
               <div className="absolute -top-3 -right-3 bg-[#38BDF8] text-[#0F0F10] font-bold px-2 py-1 rounded-full text-[10px] sm:text-xs">
-                Optimizado para ATS
+                <Paintbrush className="mr-1 h-4 w-4 inline mb-1" />
+                Plantilla Morada
               </div>
-              <div className="absolute -bottom-4 -right-4 bg-[#7C3AED] text-white font-bold px-2 py-1 rounded-full text-[10px] sm:text-sm flex items-center">
+              {/* <div className="absolute -bottom-4 -right-4 bg-[#7C3AED] text-white font-bold px-2 py-1 rounded-full text-[10px] sm:text-sm flex items-center">
                 <GraduationCap className="mr-1 h-4 w-4" /> Plantilla Morada
-              </div>
+              </div> */}
             </div>
 
             <div className="absolute bottom-[-3rem] left-1 right-1 sm:bottom-[-1.5rem] sm:left-[-1.5rem] sm:right-auto bg-[#1F1F22] p-3 rounded-lg shadow-lg max-w-xs w-[95%] mx-auto sm:mx-0">
