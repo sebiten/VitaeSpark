@@ -47,7 +47,7 @@ const WelcomeHero: NextPage<Props> = ({}) => {
               </span>
               <span className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 px-3 py-1.5 rounded-full text-sm font-medium flex items-center transition">
                 <Image className="mr-1.5 h-4 w-4" />
-                Ahora podes agregar foto de perfil
+                Ahora con foto de perfil
               </span>
             </div>
 
