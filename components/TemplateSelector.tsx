@@ -274,8 +274,7 @@ export default function TemplateSelector({
 
               <DialogContent className="max-w-5xl p-2 overflow-hidden bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5]">
                 <DialogHeader>
-                  <DialogTitle className="text-lg font-bold flex items-center">
-                  </DialogTitle>
+                  <DialogTitle className="text-lg font-bold flex items-center"></DialogTitle>
                 </DialogHeader>
                 <div className="relative p-2">
                   <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white">
