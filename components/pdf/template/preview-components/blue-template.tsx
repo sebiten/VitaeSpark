@@ -9,6 +9,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
+import { Avatar } from "@/components/ui/avatar";
 
 // Colores del tema azul
 const colors = {
@@ -130,17 +131,19 @@ const BulletList = ({ items }: { items: string[] }) => (
 const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
   <View style={styles.sidebar}>
     <View style={styles.header}>
-      {cv.foto_url && (
-        <Image
+      <Avatar className="aspect-ratio-1/1">
+        {cv.foto_url && (
+          <Image
           src={cv.foto_url}
           style={{
-            width: 65,
+            width: 68,
             height: 65,
             borderRadius: 30,
             marginBottom: 10,
           }}
         />
-      )}
+        )}
+      </Avatar>
       <Text style={styles.name}>{cv.nombre}</Text>
       <Text style={styles.position}>{cv.puesto}</Text>
     </View>

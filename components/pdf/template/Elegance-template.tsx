@@ -7,6 +7,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
+import { Avatar } from "@/components/ui/avatar";
 
 // Colores del tema azul profesional
 const colors = {
@@ -168,17 +169,19 @@ export default function ProfessionalBlueTemplate({
       <Page size="A4" style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
-          {cv.foto_url && (
-            <Image
-              src={cv.foto_url}
-              style={{
-                width: 60,
-                height: 60,
-                borderRadius: 30,
-                marginBottom: 10,
-              }}
-            />
-          )}
+          <Avatar className="aspect-ratio-1/1">
+        {cv.foto_url && (
+          <Image
+          src={cv.foto_url}
+          style={{
+            width: 68,
+            height: 65,
+            borderRadius: 30,
+            marginBottom: 10,
+          }}
+        />
+        )}
+      </Avatar>
           <Text style={styles.name}>{cv.nombre}</Text>
           <Text style={styles.position}>{cv.puesto}</Text>
           <View style={styles.contactRow}>
