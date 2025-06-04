@@ -272,33 +272,17 @@ export default function TemplateSelector({
                 </Button>
               </DialogTrigger>
 
-              <DialogContent className="max-w-5xl p-0 overflow-hidden bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5]">
-                <DialogHeader className="p-4 bg-gradient-to-r from-[#1A1A1C] to-[#2A2A2D] border-b border-[#3A3A3D]">
-                  <DialogTitle className="text-[#E4E4E7] text-xl flex items-center gap-4">
-                    <div
-                      className="w-10 h-10 rounded-xl shadow-lg"
-                      style={{
-                        backgroundColor: tpl.color,
-                        boxShadow: `0 8px 25px ${tpl.color}40`,
-                      }}
-                    />
-                    <div>
-                      <div className="flex items-center gap-3">
-                        <span>Plantilla {tpl.name}</span>
-                      </div>
-                      <p className="text-[#A1A1AA] text-sm font-normal mt-1">
-                        {tpl.description}
-                      </p>
-                    </div>
+              <DialogContent className="max-w-5xl p-2 overflow-hidden bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5]">
+                <DialogHeader>
+                  <DialogTitle className="text-lg font-bold flex items-center">
                   </DialogTitle>
                 </DialogHeader>
-
-                <div className="relative bg-gradient-to-br from-[#1C1C1E] to-[#2A2A2D] p-4">
+                <div className="relative p-2">
                   <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white">
                     <img
                       src={`/${tpl.id}.png`}
                       alt={`Vista previa completa ${tpl.name}`}
-                      className="w-full transition-transform duration-500 hover:scale-105"
+                      className="w-full"
                     />
                   </div>
                   <div className="flex flex-col items-center justify-center">
