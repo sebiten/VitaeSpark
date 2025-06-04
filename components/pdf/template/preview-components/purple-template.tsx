@@ -3,7 +3,14 @@
 // Este componente genera un CV PDF con diseño elegante usando @react-pdf/renderer
 // con mejoras en jerarquía visual, alineación, estilos tipográficos y separación.
 
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+} from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
 
 // 🎨 Colores del tema
@@ -27,7 +34,7 @@ const styles = StyleSheet.create({
   sidebar: { width: "30%", backgroundColor: colors.primary, padding: 15 },
   main: { width: "70%", padding: 20 },
   header: { marginBottom: 15 },
-  name: { fontSize: 16, fontWeight: 700, color: "#FFF" },
+  name: { fontSize: 17, fontWeight: 700, color: "#FFF" },
   position: { fontSize: 12, fontWeight: 500, color: "#FFF", marginTop: 4 },
 
   section: { marginBottom: 18 },
@@ -99,6 +106,19 @@ const BulletList = ({ items }: { items: string[] }) => (
 const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
   <View style={styles.sidebar}>
     <View style={styles.header}>
+      <div className="aspect-ratio-1/1">
+        {cv.foto_url && (
+          <Image
+            src={cv.foto_url}
+            style={{
+              width: 65,
+              height: 65,
+              borderRadius: 30,
+              marginBottom: 10,
+            }}
+          />
+        )}
+      </div>
       <Text style={styles.name}>{cv.nombre}</Text>
       <Text style={styles.position}>{cv.puesto}</Text>
     </View>
@@ -134,19 +154,6 @@ const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
         {cv.idiomas.map((l, i) => (
           <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
             • {l}
-          </Text>
-        ))}
-      </View>
-    )}
-
-    {cv.informacionAdicional.length > 0 && (
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: "#FFF" }]}>
-          Información adicional
-        </Text>
-        {cv.informacionAdicional.map((a, i) => (
-          <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
-            • {a}
           </Text>
         ))}
       </View>
@@ -209,6 +216,21 @@ export default function PurpleTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
                 </View>
               ))}
             </View>
+            {cv.informacionAdicional.length > 0 && (
+              <View style={styles.section} wrap={false}>
+                <Text style={[styles.sectionTitle, { marginTop: 10 }]}>
+                  Información adicional
+                </Text>
+                {cv.informacionAdicional.map((a, i) => (
+                  <Text
+                    key={i}
+                    style={{ fontSize: 9, marginBottom: 4 }}
+                  >
+                    • {a}
+                  </Text>
+                ))}
+              </View>
+            )}
           </View>
         </View>
       </Page>

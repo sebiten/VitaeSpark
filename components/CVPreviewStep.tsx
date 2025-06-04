@@ -87,7 +87,8 @@ export default function CVPreviewStepPurple({
   userSession,
 }: Props) {
   const [loading, setLoading] = useState(false);
-
+  console.log("Rendering Professional Blue Template with CV data:", cvData);
+  
   const handlePay = async () => {
     if (!userSession) return;
 
@@ -137,7 +138,7 @@ export default function CVPreviewStepPurple({
   const precioOferta = 1500;
   const ahorro = precioOriginal - precioOferta;
   const descuentoPorcentaje = Math.round((ahorro / precioOriginal) * 100);
-
+  
   return (
     <div className="w-full max-w-md lg:max-w-xl mx-auto space-y-6">
       {/* Header */}

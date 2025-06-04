@@ -130,7 +130,7 @@ const WelcomeHero: NextPage<Props> = ({}) => {
           <div className="flex-1 relative w-full max-w-md mx-auto">
             <div className="relative bg-[#1F1F22] rounded-lg shadow-lg">
               <img
-                src="/purplehero.webp"
+                src="/purple.png"
                 alt="CV generado por VitaeSpark"
                 className="rounded-lg w-full h-auto"
               />

@@ -224,6 +224,7 @@ const CVForm: NextPage = () => {
                   setCvData={handleFormCompleted}
                   setActiveTab={setActiveTab}
                   template={selectedTemplate}
+                  userSession={userSession}
                 />
               )}
             </motion.div>

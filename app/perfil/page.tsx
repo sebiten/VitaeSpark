@@ -44,6 +44,38 @@ export default function PerfilCVs() {
   } | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
+  function getTemplateClass(template: string) {
+    switch (template) {
+      case "green":
+        return "bg-green-600 text-white";
+      case "blue":
+        return "bg-blue-600 text-white";
+      case "elegance":
+        return "bg-sky-800 text-white"; // o el azul que uses para "elegance"
+      case "purple":
+        return "bg-purple-600 text-white";
+      case "harvard":
+        return "bg-white text-black"; // o el rojo que uses para "harvard"
+      default:
+        return "bg-purple-600 text-white";
+    }
+  }
+  function getTemplateLabel(template: string): string {
+    switch (template) {
+      case "green":
+        return "Verde";
+      case "blue":
+        return "Azul";
+      case "elegance":
+        return "Elegance";
+      case "purple":
+        return "Púrpura";
+      case "harvard":
+        return "Harvard";
+      default:
+        return "Púrpura";
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -117,7 +149,6 @@ export default function PerfilCVs() {
       {profileInfo && (
         <div className="max-w-4xl mx-auto mb-8">
           <Card className="bg-gradient-to-r from-[#1A1A1D] to-[#0F0F10] border-[#2A2A2D] text-white overflow-hidden rounded-xl shadow-lg hover:shadow-purple-900/10 transition-all duration-300">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-600 to-purple-400"></div>
             <CardHeader className="pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0 p-5">
               <div className="flex items-center gap-4">
                 <div className="bg-gradient-to-br from-[#7C3AED] to-[#5B21B6] p-3 rounded-full shadow-md ">
@@ -211,9 +242,17 @@ export default function PerfilCVs() {
                   className="bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5] shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group hover:border-primary/50"
                 >
                   <CardHeader className="bg-[#1A1A1D] p-4 relative">
-                    <div className="absolute right-4 top-4 bg-primary text-xs font-medium text-primary-foreground px-2 py-0.5 rounded uppercase">
-                      {cv.template || "purple"}
+                    <div className="mt-2">
+                      <div
+                        className={`
+      text-xs font-medium px-2 py-0.5 rounded inline-block uppercase
+      ${getTemplateClass(cv.template || "purple")}
+    `}
+                      >
+                        Plantilla: {getTemplateLabel(cv.template || "purple")}
+                      </div>
                     </div>
+
                     <div className="flex items-center gap-3">
                       <div className="bg-[#2A2A2D] p-2 rounded-full">
                         <User className="w-4 h-4 text-[#F4F4F5]" />

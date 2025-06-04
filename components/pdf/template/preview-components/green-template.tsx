@@ -1,4 +1,11 @@
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+} from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
 
 // Colores del tema verde
@@ -21,7 +28,7 @@ const styles = StyleSheet.create({
   sidebar: { width: "30%", backgroundColor: colors.primary, padding: 15 },
   main: { width: "70%", padding: 20 },
   header: { marginBottom: 15 },
-  name: { fontSize: 16, fontWeight: 700, color: "#FFF" },
+  name: { fontSize: 17, fontWeight: 700, color: "#FFF" },
   position: { fontSize: 12, fontWeight: 500, color: "#FFF", marginTop: 4 },
   section: { marginBottom: 15 },
   sectionTitle: {
@@ -42,6 +49,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginTop: 5,
   },
+
   bulletText: { fontSize: 10, flex: 1 },
   watermarkContainer: {
     position: "absolute",
@@ -51,6 +59,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 0,
   },
+  titleText: { fontSize: 11, fontWeight: 700 },
+  subtitleText: { fontSize: 9, color: colors.textLight },
+  paragraphText: { fontSize: 9, lineHeight: 1.4 },
+
   watermark: {
     position: "absolute",
     top: "50%",
@@ -86,6 +98,17 @@ const BulletList = ({ items }: { items: string[] }) => (
 const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
   <View style={styles.sidebar}>
     <View style={styles.header}>
+      {cv.foto_url && (
+        <Image
+          src={cv.foto_url}
+          style={{
+            width: 65,
+            height: 65,
+            borderRadius: 30,
+            marginBottom: 10,
+          }}
+        />
+      )}
       <Text style={styles.name}>{cv.nombre}</Text>
       <Text style={styles.position}>{cv.puesto}</Text>
     </View>
@@ -121,18 +144,7 @@ const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
         ))}
       </View>
     )}
-    {cv.informacionAdicional.length > 0 && (
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: "#FFF" }]}>
-          Información adicional
-        </Text>
-        {cv.informacionAdicional.map((a, i) => (
-          <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
-            • {a}
-          </Text>
-        ))}
-      </View>
-    )}
+ 
   </View>
 );
 
@@ -169,20 +181,37 @@ export default function GreenTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Formación</Text>
               {cv.formacion.map((f, i) => (
-                <View key={i} style={{ marginBottom: 6 }}>
+                <View key={i} style={{ marginBottom: 12 }}>
                   <View
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
                     }}
                   >
-                    <Text style={{ fontWeight: 500 }}>{f.institucion}</Text>
-                    <Text style={styles.textLight}>{f.fechas}</Text>
+                    <Text style={styles.titleText}>{f.institucion}</Text>
+                    <Text style={styles.subtitleText}>
+                      {[f.fechas, f.ubicacion].filter(Boolean).join(" • ")}
+                    </Text>
                   </View>
-                  <Text style={{ fontSize: 10 }}>{f.titulo}</Text>
+                  {f.titulo && (
+                    <Text style={styles.subtitleText}>{f.titulo}</Text>
+                  )}
                 </View>
               ))}
             </View>
+
+            {cv.informacionAdicional.length > 0 && (
+              <View style={styles.section} wrap={false}>
+                <Text style={[styles.sectionTitle, { marginTop: 10 }]}>
+                  Información adicional
+                </Text>
+                {cv.informacionAdicional.map((a, i) => (
+                  <Text key={i} style={{ fontSize: 9, marginBottom: 4 }}>
+                    • {a}
+                  </Text>
+                ))}
+              </View>
+            )}
           </View>
         </View>
       </Page>

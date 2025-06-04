@@ -37,6 +37,7 @@ export interface Database {
 }
 
 export interface DatosCVFormulario {
+  foto_url?: string;
   template?: string;
   nombre: string;
   puesto: string;
@@ -65,6 +66,7 @@ export interface FormacionCV {
 }
 
 export interface CV {
+  foto_url?: string;
   id?: string;
   previewImage?: string;
   nombre: string;

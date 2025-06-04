@@ -155,7 +155,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} bg-popover-foreground antialiased flex flex-col min-h-screen`}
       >
         <Navbar />
-        <main className="flex-grow">{children}</main>
+        <main className="flex-grow h-full">{children}</main>
         <Toaster />
         <Footer />
         <Analytics />

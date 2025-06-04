@@ -29,26 +29,18 @@ const templates = [
     color: "#0A2C7C", // algo asi pero mas claro
     description: "Sofisticado y único",
     category: "Moderno",
-    features: ["Diseño moderno", "Destacado", "Elegante"],
+    features: ["Diseño moderno", "Elegante", "Con Foto"],
     popularity: 96,
   },
-  {
-    id: "harvard",
-    name: "Harvard",
-    color: "#fff",
-    description: "Clásico y profesional",
-    category: "Tradicional",
-    features: ["Diseño Clásico", "Muy Legible", "Destacado"],
-    popularity: 95,
-  },
+
   {
     id: "purple",
     name: "Morado",
     color: "#8B5CF6",
     description: "Creativo y moderno",
     category: "Creativo",
-    features: ["Diseño Moderno", "Colores Vibrantes", "Destacado"],
-    popularity: 87,
+    features: ["Diseño Moderno", "Colores Vibrantes", "Con Foto"],
+    popularity: 95,
   },
   {
     id: "blue",
@@ -56,7 +48,7 @@ const templates = [
     color: "#1E40AF",
     description: "Corporativo y confiable",
     category: "Creativo",
-    features: ["Diseño Moderno", "Colores Vibrantes", "Destacado"],
+    features: ["Diseño Moderno", "Colores Vibrantes", "Con Foto"],
 
     popularity: 92,
   },
@@ -66,9 +58,18 @@ const templates = [
     color: "#15803D",
     description: "Fresco y dinámico",
     category: "Creativo",
-    features: ["Diseño Moderno", "Colores Vibrantes", "Destacado"],
+    features: ["Diseño Moderno", "Colores Vibrantes", "Con Foto"],
 
     popularity: 78,
+  },
+  {
+    id: "harvard",
+    name: "Harvard",
+    color: "#fff",
+    description: "Clásico y profesional",
+    category: "Tradicional",
+    features: ["Diseño Clásico", "Muy Legible", "Destacado"],
+    popularity: 95,
   },
 ];
 
@@ -156,7 +157,7 @@ export default function TemplateSelector({
               <div className="relative h-48 overflow-hidden rounded-t-xl">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
                 <img
-                  src={`/${tpl.id}.webp`}
+                  src={`/${tpl.id}.png`}
                   alt={`Vista previa ${tpl.name}`}
                   className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
                 />
@@ -299,7 +300,7 @@ export default function TemplateSelector({
                 <div className="relative bg-gradient-to-br from-[#1C1C1E] to-[#2A2A2D] p-8">
                   <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white">
                     <img
-                      src={`/${tpl.id}.webp`}
+                      src={`/${tpl.id}.png`}
                       alt={`Vista previa completa ${tpl.name}`}
                       className="w-full transition-transform duration-500 hover:scale-105"
                     />

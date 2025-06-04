@@ -27,6 +27,7 @@ export async function POST(req: Request) {
     .insert({
       profile_id,
       cv_data: cvData,
+      foto_url: cvData.foto_url,
       template,
       status: "pending",
     })

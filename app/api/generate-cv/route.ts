@@ -9,6 +9,7 @@ import { z } from "zod";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 const CVSchema = z.object({
+  foto_url: z.string().url().optional(),
   nombre: z.string(),
   puesto: z.string(),
   sobreMi: z.string(),
@@ -64,6 +65,8 @@ export async function POST(req: Request): Promise<NextResponse> {
 - Redactá un único párrafo formal de entre 50 y 70 palabras.
 - Explicá por qué deberían contratar al candidato.
 - Destacá su propuesta de valor, experiencia clave, tecnologías dominadas y habilidades principales.
+- Evitá frases genéricas o clichés como "trabajo en equipo" o "responsable".
+- La foto_url no la toques, ya que se generará automáticamente y es opcional.
 
 2.EXPERIENCIA PROFESIONAL
 -Para cada experiencia laboral, generá entre 2 y 5 logros concretos, en función del nivel de seniority y la duración del empleo.
@@ -91,6 +94,7 @@ export async function POST(req: Request): Promise<NextResponse> {
 Respondé exclusivamente en JSON válido con la siguiente estructura exacta:
 
 {
+  "foto_url"?: string, 
   "nombre": string,
   "puesto": string,
   "sobreMi": string,
@@ -118,6 +122,7 @@ Respondé exclusivamente en JSON válido con la siguiente estructura exacta:
 }`;
 
   const userMessage = `
+Foto?: ${body.foto_url}
 Nombre: ${body.nombre}
 Puesto: ${body.puesto}
 Sobre mí: ${body.sobreMi}
@@ -126,8 +131,9 @@ Experiencia: ${body.experiencia}
 Formación: ${body.formacion}
 Habilidades: ${body.habilidades}
 Idiomas: ${body.idiomas}
-Información adicional: ${body.informacionAdicional}
+Información adicional: ${body.informacionAdicional} 
 `.trim();
+  console.log("User message:", userMessage);
 
   const makeCompletion = () =>
     openai.chat.completions.create({

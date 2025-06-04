@@ -6,6 +6,7 @@ import {
   Text,
   View,
   StyleSheet,
+  Image,
 } from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
 
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   name: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 700,
     color: "#FFF",
   },
@@ -90,6 +91,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 0,
   },
+  titleText: { fontSize: 11, fontWeight: 700 },
+  subtitleText: { fontSize: 9, color: colors.textLight },
+  paragraphText: { fontSize: 9, lineHeight: 1.4 },
+
   watermark: {
     position: "absolute",
     top: "50%",
@@ -102,14 +107,12 @@ const styles = StyleSheet.create({
   },
 });
 
-
 // Componente para la marca de agua
 const Watermark = () => (
   <View style={styles.watermarkContainer} fixed>
     <Text style={styles.watermark}>vitaespark.com</Text>
   </View>
 );
-
 
 // Reutilizable para listas con puntos
 const BulletList = ({ items }: { items: string[] }) => (
@@ -123,11 +126,21 @@ const BulletList = ({ items }: { items: string[] }) => (
   </View>
 );
 
-
 // Sidebar personalizado
 const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
   <View style={styles.sidebar}>
     <View style={styles.header}>
+      {cv.foto_url && (
+        <Image
+          src={cv.foto_url}
+          style={{
+            width: 65,
+            height: 65,
+            borderRadius: 30,
+            marginBottom: 10,
+          }}
+        />
+      )}
       <Text style={styles.name}>{cv.nombre}</Text>
       <Text style={styles.position}>{cv.puesto}</Text>
     </View>
@@ -168,18 +181,6 @@ const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
       </View>
     )}
 
-    {cv.informacionAdicional.length > 0 && (
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: "#FFF" }]}>
-          Información adicional
-        </Text>
-        {cv.informacionAdicional.map((a, i) => (
-          <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
-            • {a}
-          </Text>
-        ))}
-      </View>
-    )}
   </View>
 );
 
@@ -212,24 +213,39 @@ export default function BlueTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
                 </View>
               ))}
             </View>
-
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Formación</Text>
               {cv.formacion.map((f, i) => (
-                <View key={i} style={{ marginBottom: 6 }}>
+                <View key={i} style={{ marginBottom: 12 }}>
                   <View
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
                     }}
                   >
-                    <Text style={{ fontWeight: 500 }}>{f.institucion}</Text>
-                    <Text style={styles.textLight}>{f.fechas}</Text>
+                    <Text style={styles.titleText}>{f.institucion}</Text>
+                    <Text style={styles.subtitleText}>
+                      {[f.fechas, f.ubicacion].filter(Boolean).join(" • ")}
+                    </Text>
                   </View>
-                  <Text style={{ fontSize: 10 }}>{f.titulo}</Text>
+                  {f.titulo && (
+                    <Text style={styles.subtitleText}>{f.titulo}</Text>
+                  )}
                 </View>
               ))}
             </View>
+            {cv.informacionAdicional.length > 0 && (
+              <View style={styles.section} wrap={false}>
+                <Text style={[styles.sectionTitle, { marginTop: 10 }]}>
+                  Información adicional
+                </Text>
+                {cv.informacionAdicional.map((a, i) => (
+                  <Text key={i} style={{ fontSize: 9, marginBottom: 4 }}>
+                    • {a}
+                  </Text>
+                ))}
+              </View>
+            )}
           </View>
         </View>
       </Page>

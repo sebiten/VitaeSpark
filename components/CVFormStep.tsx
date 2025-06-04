@@ -27,7 +27,10 @@ import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { unstable_batchedUpdates } from "react-dom";
 import { Label } from "./ui/label";
 import { motion } from "framer-motion";
+import { createClient } from "@/utils/supabase/client";
+import { Session } from "@supabase/supabase-js";
 const schema = z.object({
+  foto_url: z.string().url().optional(),
   nombre: z.string().min(1, "El nombre es obligatorio"),
   puesto: z.string().min(1, "El puesto es obligatorio"),
   contacto: z.string().min(1, "La información de contacto es obligatoria"),
@@ -43,15 +46,18 @@ type Props = {
   setCvData: (data: RespuestaCV["cv"]) => void;
   setActiveTab: (value: string) => void;
   template: string;
+  userSession: Session | null;
 };
 
 export default function CVFormStep({
   setCvData,
   setActiveTab,
   template,
+  userSession,
 }: Props) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [foto_url, setFotoUrl] = useState<string | null>(null);
 
   const {
     register,
@@ -61,7 +67,32 @@ export default function CVFormStep({
   } = useForm<DatosCVFormulario>({
     resolver: zodResolver(schema),
   });
+  const supabase = createClient();
+  console.log("userSession", userSession?.user.id);
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const filePath = `fotos/user-${userSession?.user.id}/${fileName}`;
+
+    const { data, error } = await supabase.storage
+      .from("fotos-perfil")
+      .upload(filePath, file);
+
+    if (error) {
+      console.error("Error al subir la imagen", error);
+      return;
+    }
+
+    const { data: publicUrl } = supabase.storage
+      .from("fotos-perfil")
+      .getPublicUrl(filePath);
+
+    setFotoUrl(publicUrl.publicUrl);
+  };
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     // Scroll to top when changing tabs
@@ -76,7 +107,7 @@ export default function CVFormStep({
       const res = await fetch("/api/generate-cv", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, template }),
+        body: JSON.stringify({ ...data, template, foto_url }),
         keepalive: true,
       });
 
@@ -198,7 +229,7 @@ export default function CVFormStep({
             </div>
           </div>
         </motion.div>
-        {/* <div className="w-full flex items-center justify-center ">
+        <div className="w-full flex items-center justify-center ">
           <Button
             type="button"
             onClick={rellenarDatosPrueba}
@@ -208,7 +239,7 @@ export default function CVFormStep({
             <CheckCircle2 className="w-4 h-4 mr-1.5 text-[#7C3AED]" />
             Rellenar con datos de prueba
           </Button>
-        </div> */}
+        </div>
 
         {/* Datos personales */}
         <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
@@ -232,6 +263,24 @@ export default function CVFormStep({
                   <AlertCircle className="w-3 h-3 mr-1.5 flex-shrink-0" />
                   {errors.nombre.message}
                 </p>
+              )}
+            </div>
+            <div className="mb-4">
+              <Label className="text-white">Foto de perfil (opcional)</Label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="mt-1 block w-full text-sm text-gray-300 file:bg-[#7C3AED] file:border-0 file:text-white file:py-1 file:px-3 file:rounded"
+              />
+              {foto_url && (
+                <div className="mt-2">
+                  <img
+                    src={foto_url}
+                    alt="Foto de perfil"
+                    className="w-24 h-24 object-cover rounded-lg border border-[#3F3F46]"
+                  />
+                </div> // YA TENGO LA FOTO URL DE LA PERSONA, AHORA SOLO QUEDARIA IDENTIFICARLA EN EL CV
               )}
             </div>
 
