@@ -189,11 +189,6 @@ export default function ProfessionalBlueTemplate({
 }: {
   cv: RespuestaCV["cv"];
 }) {
-  console.log(
-    "Rendering Professional Blue Template with CV data:",
-    cv,
-    cv.foto_url
-  );
 
   return (
     <Document>

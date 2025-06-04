@@ -90,8 +90,6 @@ export default function UserPayments() {
           return;
         }
 
-        console.log("Usuario autenticado:", user.id);
-
         // Ahora podemos consultar directamente usando el campo user_id
         const { data: paymentsData, error: paymentsError } = await supabase
           .from("payments")
@@ -112,8 +110,6 @@ export default function UserPayments() {
           setLoading(false);
           return;
         }
-
-        console.log("Pagos encontrados:", paymentsData);
         setPayments(paymentsData || []);
         setLoading(false);
       } catch (error) {

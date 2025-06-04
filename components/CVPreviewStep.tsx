@@ -87,8 +87,8 @@ export default function CVPreviewStepPurple({
   userSession,
 }: Props) {
   const [loading, setLoading] = useState(false);
-  console.log("Rendering Professional Blue Template with CV data:", cvData);
-  
+
+  // Función para manejar el pago
   const handlePay = async () => {
     if (!userSession) return;
 
@@ -138,7 +138,7 @@ export default function CVPreviewStepPurple({
   const precioOferta = 1500;
   const ahorro = precioOriginal - precioOferta;
   const descuentoPorcentaje = Math.round((ahorro / precioOriginal) * 100);
-  
+
   return (
     <div className="w-full max-w-md lg:max-w-xl mx-auto space-y-6">
       {/* Header */}
@@ -205,7 +205,7 @@ export default function CVPreviewStepPurple({
             <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-700/30">
               <Handshake className="h-4 w-4 flex-shrink-0 text-blue-400 " />
               <p className="text-sm text-slate-300">
-               Invertis una vez y obtienes tu CV profesional para siempre
+                Invertis una vez y obtienes tu CV profesional para siempre
               </p>
             </div>
 
@@ -233,8 +233,6 @@ export default function CVPreviewStepPurple({
                 Tarjeta de crédito, débito y más opciones
               </p>
             </div>
-
-    
           </div>
           {/* Payment Button */}
           <div className="flex flex-col gap-3">
@@ -257,7 +255,7 @@ export default function CVPreviewStepPurple({
                       alt="MercadoPago"
                     />
                     <span className="text-base font-semibold">
-                     Desbloquear por $2.500 ARS
+                      Desbloquear por $2.500 ARS
                     </span>
                   </div>
                 </div>
