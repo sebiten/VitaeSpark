@@ -169,19 +169,27 @@ export default function ProfessionalBlueTemplate({
       <Page size="A4" style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
-          <Avatar className="aspect-ratio-1/1">
-        {cv.foto_url && (
-          <Image
-          src={cv.foto_url}
-          style={{
-            width: 68,
-            height: 65,
-            borderRadius: 30,
-            marginBottom: 10,
-          }}
-        />
-        )}
-      </Avatar>
+          <View
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: 40,
+              overflow: "hidden",
+              marginBottom: 10,
+              backgroundColor: "#ccc", // fondo por si no hay imagen
+            }}
+          >
+            {cv.foto_url ? (
+              <Image
+                src={cv.foto_url}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover", // en @react-pdf/renderer puedes usar resizeMode: 'cover'
+                }}
+              />
+            ) : null}
+          </View>
           <Text style={styles.name}>{cv.nombre}</Text>
           <Text style={styles.position}>{cv.puesto}</Text>
           <View style={styles.contactRow}>
