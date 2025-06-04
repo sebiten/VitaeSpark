@@ -23,10 +23,14 @@ interface Props {}
 const WelcomeHero: NextPage<Props> = ({}) => {
   return (
     <section className="px-4 sm:px-6 md:px-8 py-16 md:py-24 lg:py-32 relative overflow-hidden">
-      <FloatingPaper />
       <div className="absolute inset-0 opacity-40 z-0 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
+        <div
+          className="inset-0 absolute pointer-events-none opacity-100 -z-30"
+        >
+          <FloatingPaper />
+        </div>
         <div className="flex flex-col lg:flex-row items-center gap-12">
           {/* IZQUIERDA */}
           <div className="flex-1 space-y-6 w-full">
@@ -69,7 +73,9 @@ const WelcomeHero: NextPage<Props> = ({}) => {
             <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-lg p-3 border border-blue-500/20 max-w-xl">
               <div className="flex items-center ">
                 <Award className="w-5 h-5 text-purple-400 mr-2" />
-                <h3 className="text-white font-medium">Lo que dicen nuestros clientes</h3>
+                <h3 className="text-white font-medium">
+                  Lo que dicen nuestros clientes
+                </h3>
               </div>
               <Carousel
                 plugins={[Autoplay({ delay: 5000 })]}
@@ -80,7 +86,9 @@ const WelcomeHero: NextPage<Props> = ({}) => {
                   {testimonials.map((testimonial, index) => (
                     <CarouselItem key={index} className="pl-2 pr-2 basis-full">
                       <div className="p-3 rounded-md ">
-                        <p className="text-gray-300 text-sm italic">"{testimonial.text}"</p>
+                        <p className="text-gray-300 text-sm italic">
+                          "{testimonial.text}"
+                        </p>
                         <p className="text-right text-purple-400 text-sm font-medium">
                           - {testimonial.author}
                         </p>
@@ -140,8 +148,12 @@ const WelcomeHero: NextPage<Props> = ({}) => {
                   <Sparkles className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">Redacción mejorada por IA</p>
-                  <p className="text-xs text-[#F4F4F5]/60">Textos profesionales y persuasivos</p>
+                  <p className="text-sm font-semibold">
+                    Redacción mejorada por IA
+                  </p>
+                  <p className="text-xs text-[#F4F4F5]/60">
+                    Textos profesionales y persuasivos
+                  </p>
                 </div>
               </div>
             </div>
