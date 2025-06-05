@@ -238,7 +238,7 @@ export default async function Home() {
               <div className="relative mb-6 bg-[#0F0F10] rounded-lg p-2 shadow-xl">
                 <div className=" overflow-hidden">
                   <img
-                    src="/purplehero.webp"
+                    src="/purple-hero.webp"
                     alt="CV optimizado por VitaeSpark"
                     className="rounded-lg w-full h-full object-cover"
                   />
