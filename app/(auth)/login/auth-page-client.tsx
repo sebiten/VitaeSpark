@@ -1,19 +1,25 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { login, signup } from "./actions"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { useFormStatus } from "react-dom"
-import { Loader2, CheckCircle, AlertCircle } from "lucide-react"
-import { OAuthButtons } from "@/components/googleButton"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-
+import type React from "react";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { login, signup } from "./actions";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { useFormStatus } from "react-dom";
+import { Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { OAuthButtons } from "@/components/googleButton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export function SubmitButton({
   children,
@@ -27,7 +33,7 @@ export function SubmitButton({
   return (
     <Button
       type="submit"
-      className="w-full"
+      className="w-full bg-[#7C3AED] rounded-lg"
       disabled={pending || disabled} // 👈 combinas ambos estados
     >
       {pending ? (
@@ -42,81 +48,86 @@ export function SubmitButton({
   );
 }
 
-
 export default function AuthPageClient() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const [activeTab, setActiveTab] = useState<string>("login")
-  const [registrationSuccess, setRegistrationSuccess] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState<string>("login");
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Obtener error de los parámetros de URL
   useEffect(() => {
-    const errorParam = searchParams.get("error")
+    const errorParam = searchParams.get("error");
     if (errorParam) {
-      setError(errorParam)
+      setError(errorParam);
 
       // Si el error es específico de registro, cambiar a la pestaña de registro
-      if (errorParam === "user-already-exists" || errorParam === "signup-failed" || errorParam === "missing-fields") {
-        setActiveTab("register")
+      if (
+        errorParam === "user-already-exists" ||
+        errorParam === "signup-failed" ||
+        errorParam === "missing-fields"
+      ) {
+        setActiveTab("register");
       }
     } else {
-      setError(null)
+      setError(null);
     }
-  }, [searchParams])
+  }, [searchParams]);
 
   // Función para manejar el registro
   async function handleSignup(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
 
     try {
       // Llamamos a la acción del servidor
-      await signup(formData)
+      await signup(formData);
       // Si llegamos aquí, el registro fue exitoso
-      setRegistrationSuccess(true)
-      setActiveTab("login")
+      setRegistrationSuccess(true);
+      setActiveTab("login");
     } catch (error) {
       // Si hay un error, asumimos que la acción del servidor ya manejó la redirección
-      console.error("Error durante el registro:", error)
+      console.error("Error durante el registro:", error);
     }
   }
 
   // Resetear el mensaje de éxito cuando el usuario cambie manualmente a la pestaña de registro
   useEffect(() => {
     if (activeTab === "register") {
-      setRegistrationSuccess(false)
+      setRegistrationSuccess(false);
     }
-  }, [activeTab])
+  }, [activeTab]);
 
   // Función para mostrar mensaje de error
   const getErrorMessage = (errorCode: string) => {
     switch (errorCode) {
       case "missing-fields":
-        return "Por favor completa todos los campos requeridos."
+        return "Por favor completa todos los campos requeridos.";
       case "invalid-credentials":
-        return "Email o contraseña incorrectos."
+        return "Email o contraseña incorrectos.";
       case "signup-failed":
-        return "No se pudo completar el registro. Intenta nuevamente."
+        return "No se pudo completar el registro. Intenta nuevamente.";
       case "user-already-exists":
-        return "Este email ya está registrado. Por favor inicia sesión o usa otro email."
+        return "Este email ya está registrado. Por favor inicia sesión o usa otro email.";
       case "weak_password":
-        return "Ingresa una contraseña mas segura"
+        return "Ingresa una contraseña mas segura";
       default:
-        return "Ocurrió un error. Intenta nuevamente."
+        return "Ocurrió un error. Intenta nuevamente.";
     }
-  }
+  };
 
   // Función para cambiar a la pestaña de login (para el mensaje de error)
   const switchToLogin = () => {
-    setActiveTab("login")
-  }
+    setActiveTab("login");
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#0F0F10] p-4">
       <Card className="w-full max-w-md shadow-lg border border-[#2A2A2D] bg-[#1F1F22] text-[#F4F4F5] p-4 rounded-lg">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-3xl font-bold tracking-tight text-[#7C3AED]">Vitae Spark</CardTitle>
+          <CardTitle className="text-3xl font-bold tracking-tight text-[#7C3AED]">
+            Vitae Spark
+          </CardTitle>
           <CardDescription className="text-[#A1A1AA]">
             {activeTab === "login"
               ? "Inicia sesión para gestionar y crear tu CV fácilmente."
@@ -126,12 +137,22 @@ export default function AuthPageClient() {
 
         <CardContent>
           <OAuthButtons />
-          <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab}>
+          <Tabs
+            defaultValue="login"
+            value={activeTab}
+            onValueChange={setActiveTab}
+          >
             <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#2A2A2D] border border-[#3F3F46]">
-              <TabsTrigger value="login" className="data-[state=active]:bg-[#7C3AED] text-white">
+              <TabsTrigger
+                value="login"
+                className="data-[state=active]:bg-[#7C3AED] text-white"
+              >
                 Iniciar sesión
               </TabsTrigger>
-              <TabsTrigger value="register" className="data-[state=active]:bg-[#38BDF8] text-white">
+              <TabsTrigger
+                value="register"
+                className="data-[state=active]:bg-[#38BDF8] text-white"
+              >
                 Registrarse
               </TabsTrigger>
             </TabsList>
@@ -141,7 +162,8 @@ export default function AuthPageClient() {
                 <Alert className="mb-4 bg-[#10B981]/10 border-[#10B981] text-[#10B981]">
                   <CheckCircle className="h-4 w-4 mr-2" />
                   <AlertDescription>
-                    ¡Registro exitoso! Ahora puedes iniciar sesión con tus credenciales.
+                    ¡Registro exitoso! Ahora puedes iniciar sesión con tus
+                    credenciales.
                   </AlertDescription>
                 </Alert>
               )}
@@ -168,7 +190,10 @@ export default function AuthPageClient() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password-login">Contraseña</Label>
-                    <a href="/forgot-password" className="text-xs text-[#38BDF8] hover:underline">
+                    <a
+                      href="/forgot-password"
+                      className="text-xs text-[#38BDF8] hover:underline"
+                    >
                       ¿Olvidaste tu contraseña?
                     </a>
                   </div>
@@ -191,7 +216,11 @@ export default function AuthPageClient() {
                   <AlertDescription>
                     {getErrorMessage(error)}
                     {error === "user-already-exists" && (
-                      <Button variant="link" className="p-0 h-auto text-[#38BDF8] ml-1" onClick={switchToLogin}>
+                      <Button
+                        variant="link"
+                        className="p-0 h-auto text-[#38BDF8] ml-1"
+                        onClick={switchToLogin}
+                      >
                         Iniciar sesión
                       </Button>
                     )}
@@ -252,5 +281,5 @@ export default function AuthPageClient() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

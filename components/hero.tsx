@@ -16,6 +16,7 @@ import {
   Award,
   ArrowRight,
   GraduationCap,
+  MessageCircleIcon,
 } from "lucide-react";
 import { TestimonialCard } from "@/components/testimonial-card";
 import { FeatureCard } from "@/components/feature-card";
@@ -60,32 +61,32 @@ export default async function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FeatureCard
-              icon={<FileText className="h-6 w-6 text-[#7C3AED]" />}
+              icon={<FileText className="h-6 w-6 text-[#38BDF8] " />}
               title="Plantillas profesionales"
               description="Diseños modernos y efectivos que destacan tu experiencia y habilidades."
             />
             <FeatureCard
-              icon={<Search className="h-6 w-6 text-[#7C3AED]" />}
+              icon={<Search className="h-6 w-6 text-[#38BDF8] " />}
               title="Optimizado para ATS"
               description="Supera los filtros automáticos de las empresas con palabras clave estratégicas."
             />
             <FeatureCard
-              icon={<Sparkles className="h-6 w-6 text-[#7C3AED]" />}
+              icon={<Sparkles className="h-6 w-6 text-[#38BDF8] " />}
               title="Redacción inteligente"
               description="La IA mejora tus textos para hacerlos más impactantes y profesionales."
             />
             <FeatureCard
-              icon={<Clock className="h-6 w-6 text-[#7C3AED]" />}
+              icon={<Clock className="h-6 w-6 text-[#38BDF8] " />}
               title="Rápido y sencillo"
               description="Crea un CV profesional en minutos, sin complicaciones ni conocimientos técnicos."
             />
             <FeatureCard
-              icon={<Zap className="h-6 w-6 text-[#7C3AED]" />}
+              icon={<Zap className="h-6 w-6 text-[#38BDF8] " />}
               title="Personalización total"
               description="Adapta cada sección a tus necesidades específicas y al puesto que buscas."
             />
             <FeatureCard
-              icon={<Award className="h-6 w-6 text-[#7C3AED]" />}
+              icon={<Award className="h-6 w-6 text-[#38BDF8] " />}
               title="Resultados comprobados"
               description="Aumenta tus posibilidades de conseguir entrevistas con un CV que realmente funciona."
             />
@@ -152,7 +153,7 @@ export default async function Home() {
       <section className="py-20 px-4 bg-[#0F0F10]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
+            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
               Comparativa
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -341,7 +342,7 @@ export default async function Home() {
       <section className="py-20 px-4 bg-[#0F0F10]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
+            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
               Testimonios
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -378,7 +379,7 @@ export default async function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
-              Preguntas frecuentes
+              Preguntas Frecuentes
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Resolvemos tus dudas
@@ -454,9 +455,9 @@ export default async function Home() {
       <div>
         <div className="max-w-6xl mx-auto mb-12">
           <div className=" rounded-lg p-2 flex flex-col items-center">
-            <h3 className="text-lg font-bold mb-2 text-[#7C3AED]">
+            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
               ¿Te gustó VitaeSpark?
-            </h3>
+            </Badge>
             <p className="text-[#F4F4F5]/80 mb-4 text-center text-lg">
               Déjanos tu comentario o testimonio si te ayudamos, o cuéntanos qué
               podemos mejorar, si necesitas ayuda podes escribirlo aqui tambien.
@@ -470,11 +471,16 @@ export default async function Home() {
                   name="message"
                   placeholder="Escribí tu comentario o sugerencia..."
                   required
-                  className="min-h-[120px]"
+                  className="min-h-[120px]
+                  bg-[#1F1F22] border border-[#7C3AED]/20 text-[#F4F4F5] placeholder:text-[#F4F4F5]/50 focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent rounded-lg transition-all duration-200
+                  "
                   disabled={!user}
                 />
               </div>
-              <SubmitButton disabled={!user}>Enviar comentario</SubmitButton>
+              <SubmitButton disabled={!user}>
+                <MessageCircleIcon className=" h-4 w-4" />
+                Enviar comentario
+              </SubmitButton>
               {!user && (
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-center mx-auto  text-white/50">
@@ -503,7 +509,7 @@ export default async function Home() {
             <Link href="/crear">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-[#7C3AED] to-[#38BDF8] hover:opacity-90 text-white shadow-lg shadow-[#7C3AED]/30 transition-all duration-300"
+                className="bg-[#7C3AED]  hover:opacity-90 text-white shadow-lg shadow-[#7C3AED]/30 transition-all duration-300"
                 variant="default"
               >
                 Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
