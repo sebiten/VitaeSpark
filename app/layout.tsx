@@ -120,6 +120,11 @@ export default function RootLayout({
           src="https://www.googletagmanager.com/gtag/js?id=AW-17053866569"
         ></script>
         <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6876744642206659"
+          crossOrigin="anonymous"
+        ></script>
+        <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
