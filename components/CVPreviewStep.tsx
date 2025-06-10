@@ -52,7 +52,7 @@ export const testimonials = [
     author: "Daniel R.",
   },
   {
-    text: "Fue una inversión chica pero que me sirvió un montón para mover mi carrera, la verdad lo recomiendo.",
+    text: "Fue una inversión chica pero que me sirvió un montón para mover mi carrera, la verdad lo recomiendo podria agregar para colocar fotos tambien.",
     author: "Sofía V.",
   },
   {
@@ -64,7 +64,7 @@ export const testimonials = [
     author: "Miguel Á.",
   },
   {
-    text: "Bastante rapido y profesional el curriculum, muy buen precio",
+    text: "Bastante rapido y profesional el curriculum, muy buen precio pero estaria bueno que tenga mas plantillas.",
     author: "Joaquin B.",
   },
   {

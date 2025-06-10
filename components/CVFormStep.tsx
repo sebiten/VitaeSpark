@@ -227,7 +227,7 @@ export default function CVFormStep({
             </div>
           </div>
         </motion.div>
-        <div className="w-full flex items-center justify-center ">
+        {/* <div className="w-full flex items-center justify-center ">
           <Button
             type="button"
             onClick={rellenarDatosPrueba}
@@ -237,7 +237,7 @@ export default function CVFormStep({
             <CheckCircle2 className="w-4 h-4 mr-1.5 text-[#7C3AED]" />
             Rellenar con datos de prueba
           </Button>
-        </div>
+        </div> */}
 
         {/* Datos personales */}
         <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
