@@ -40,10 +40,8 @@ export async function signup(formData: FormData) {
     redirect("/login?error=missing-fields");
   }
 
-  console.log("Attempting signup with:", { name, email }); // Log attempt (don't log password)
-
   // 1. Intentar registro
-  const { data, error } = await supabase.auth.signUp({
+  const { error: signupError } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -53,50 +51,42 @@ export async function signup(formData: FormData) {
     },
   });
 
-  if (error) {
-    if (error.status === 422 && error.code === "user_already_exists") {
+  if (signupError) {
+    if (
+      signupError.status === 422 &&
+      signupError.code === "user_already_exists"
+    ) {
       redirect("/login?error=user-already-exists");
     }
 
-    // More specific error handling
-    if (error.message?.includes("password")) {
-      redirect("/login?error=invalid-password");
+    if (signupError.message?.toLowerCase().includes("password")) {
+      redirect("/login?error=weak_password");
     }
 
-    if (error.message?.includes("email")) {
+    if (signupError.message?.toLowerCase().includes("email")) {
       redirect("/login?error=invalid-email");
     }
 
-    // Error genérico para otros casos
     redirect(
       `/login?error=signup-failed&message=${encodeURIComponent(
-        error.message || "Unknown error"
+        signupError.message || "Unknown error"
       )}`
     );
   }
 
-  console.log("Signup successful, session:", !!data?.session);
+  // 2. Auto login tras registro exitoso
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-  // Try to sign in immediately
-  try {
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (signInError) {
-      console.error("Auto sign-in failed:", signInError.message);
-      redirect("/login?message=signup-success-login-failed");
-    }
-
-    // Success - redirect to dashboard
-    redirect("/crear");
-  } catch (signInError) {
-    console.error("Auto sign-in exception:", signInError);
-
-    // If email confirmation is required, show success message
-    redirect("/crear");
+  if (signInError) {
+    console.error("Auto sign-in failed:", signInError.message);
+    redirect("/login?message=signup-success-login-failed");
   }
+
+  // 3. Redirigir a la app principal
+  redirect("/crear");
 }
 
 export async function logout() {
@@ -119,7 +109,10 @@ export async function sendFeedback(formData: FormData) {
   const message = formData.get("message") as string;
 
   // Obtener el usuario autenticado
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
 
   if (userError || !user) {
     console.error("No se pudo obtener el usuario:", userError);
@@ -138,4 +131,3 @@ export async function sendFeedback(formData: FormData) {
     console.log("Feedback enviado correctamente");
   }
 }
-

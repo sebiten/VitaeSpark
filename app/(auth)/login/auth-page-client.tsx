@@ -17,7 +17,13 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useFormStatus } from "react-dom";
-import { Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import {
+  Loader2,
+  CheckCircle,
+  AlertCircle,
+  EyeClosed,
+  EyeIcon,
+} from "lucide-react";
 import { OAuthButtons } from "@/components/googleButton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -54,6 +60,8 @@ export default function AuthPageClient() {
   const [activeTab, setActiveTab] = useState<string>("login");
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Obtener error de los parámetros de URL
   useEffect(() => {
@@ -78,15 +86,19 @@ export default function AuthPageClient() {
   async function handleSignup(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const password = formData.get("password");
+    const confirmPassword = formData.get("confirmPassword");
+
+    if (password !== confirmPassword) {
+      setError("password-mismatch");
+      return;
+    }
 
     try {
-      // Llamamos a la acción del servidor
       await signup(formData);
-      // Si llegamos aquí, el registro fue exitoso
       setRegistrationSuccess(true);
       setActiveTab("login");
     } catch (error) {
-      // Si hay un error, asumimos que la acción del servidor ya manejó la redirección
       console.error("Error durante el registro:", error);
     }
   }
@@ -111,6 +123,9 @@ export default function AuthPageClient() {
         return "Este email ya está registrado. Por favor inicia sesión o usa otro email.";
       case "weak_password":
         return "Ingresa una contraseña mas segura";
+      case "password-mismatch":
+        return "Las contraseñas no coinciden.";
+
       default:
         return "Ocurrió un error. Intenta nuevamente.";
     }
@@ -250,16 +265,52 @@ export default function AuthPageClient() {
                     required
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 relative">
                   <Label htmlFor="password-register">Contraseña</Label>
                   <Input
                     id="password-register"
                     name="password"
-                    type="password"
-                    className="bg-[#2A2A2D] border-[#3F3F46] text-[#F4F4F5]"
+                    type={showPassword ? "text" : "password"}
+                    className="bg-[#2A2A2D] border-[#3F3F46] text-[#F4F4F5] pr-10"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-2 top-[34px] text-[#A1A1AA] text-sm"
+                  >
+                    {showPassword ? (
+                      <EyeClosed className="h-4 w-4" />
+                    ) : (
+                      <EyeIcon className="h-4 w-4" />
+                    )}
+                  </button>
                 </div>
+
+                <div className="space-y-2 relative">
+                  <Label htmlFor="confirm-password-register">
+                    Repetir contraseña
+                  </Label>
+                  <Input
+                    id="confirm-password-register"
+                    name="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    className="bg-[#2A2A2D] border-[#3F3F46] text-[#F4F4F5] pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-2 top-[34px] text-[#A1A1AA] text-sm"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeClosed className="h-4 w-4" />
+                    ) : (
+                      <EyeIcon className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+
                 <SubmitButton>Crear cuenta</SubmitButton>
               </form>
             </TabsContent>
