@@ -71,6 +71,22 @@ export const testimonials = [
     text: "Me ayudó a destacar mis habilidades y logros de una manera clara y atractiva, muy buena la herramienta.",
     author: "Lucía G.",
   },
+  {
+    text: "Nunca pense que pagar 2500 por un cv valiera la pena, pero realmente marcó la diferencia, super recomendable.",
+    author: "Federico L.",
+  },
+  {
+    text: "El diseño es limpio y claro, consegui entrevistas al toque. Lo mejor es que no tenes que saber nada tecnico.",
+    author: "Valeria D.",
+  },
+  {
+    text: "Hice el cv en 10 minutos y al dia siguiente ya me estaban escribiendo, muy practica la herramienta.",
+    author: "Nicolas G.",
+  },
+  {
+    text: "Por ese precio esperaba algo basico, pero salio un cv profesional que me ayudo a conseguir trabajo rapido.",
+    author: "Andrea T.",
+  },
 ];
 
 type Props = {

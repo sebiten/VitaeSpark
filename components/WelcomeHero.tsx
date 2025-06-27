@@ -30,9 +30,7 @@ const WelcomeHero: NextPage<Props> = ({}) => {
       <div className="absolute inset-0 opacity-40 z-0 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div
-          className="inset-0 absolute pointer-events-none opacity-100 -z-30"
-        >
+        <div className="inset-0 absolute pointer-events-none opacity-100 -z-30">
           <FloatingPaper />
         </div>
         <div className="flex flex-col lg:flex-row items-center gap-12">
@@ -56,11 +54,13 @@ const WelcomeHero: NextPage<Props> = ({}) => {
               <span className="text-[#7C3AED]">destacan</span>
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-[#F4F4F5]/80 max-w-2xl">
-              La forma más rápida y accesible de crear CVs profesionales y una
-              herramienta poderosa para destacar en el competitivo mercado
-              laboral.
+            <p className="text-base sm:text-lg md:text-lg text-[#F4F4F5] max-w-2xl leading-relaxed">
+              Crea un currículum profesional y optimizado con inteligencia
+              artificial en minutos. Con VitaeSpark, tu CV se adapta a cada
+              oferta laboral, destacando tus habilidades y logros de forma
+              efectiva.
             </p>
+
 
             {/* <div className="flex sm:flex-row  gap-3 text-center  px-4  rounded-lg shadow">
               <span className="bg-gradient-to-r from-[#7C3AED] to-[#38BDF8] text-white text-xs font-semibold px-3 py-1 rounded-full animate-pulse flex items-center">
