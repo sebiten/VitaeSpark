@@ -50,7 +50,7 @@ export async function signup(formData: FormData) {
       },
     },
   });
-
+  // actualicacion de react 
   if (signupError) {
     if (
       signupError.status === 422 &&
