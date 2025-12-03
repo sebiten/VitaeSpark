@@ -1,4 +1,5 @@
-// app/layout.tsx (Next.js 15+) – Mejoras Avanzadas de SEO para Vitae Spark
+// app/layout.tsx (Next.js 15+) – SEO para Vitae Spark SIN Google Ads
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -85,7 +86,7 @@ export const metadata: Metadata = {
       },
       {
         url: `${baseUrl.href}/harvard.webp`,
-        alt: "Vitae Spark – Plantilla recomendada por harvard",
+        alt: "Vitae Spark – Plantilla recomendada por Harvard",
       },
       {
         url: `${baseUrl.href}/banner-ig.webp`,
@@ -114,28 +115,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning={true}>
       <head>
-        {/* Google Tag Manager */}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17053866569"
-        ></script>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6876744642206659"
-          crossOrigin="anonymous"
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-17053866569');
-            `,
-          }}
-        />
-
-        {/* JSON-LD para datos estructurados */}
+        {/* JSON-LD: Datos estructurados SEO */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -151,6 +131,7 @@ export default function RootLayout({
           }}
         />
 
+        {/* MercadoPago SDK */}
         <Script
           src="https://sdk.mercadopago.com/js/v2"
           strategy="beforeInteractive"
