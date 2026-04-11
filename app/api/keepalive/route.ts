@@ -15,10 +15,10 @@ export async function GET(request: Request) {
 
     // Esto siempre funciona, no depende de ninguna tabla tuya
     const { error } = await supabase
-        .from('pg_tables')
-        .select('tablename')
+        .from('feedback')
+        .select('id')
         .limit(1)
-        
+
     return NextResponse.json({
         ok: !error,
         error: error?.message,
