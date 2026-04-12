@@ -1,61 +1,48 @@
-// app/layout.tsx (Next.js 15+) – SEO para Vitae Spark SIN Google Ads
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import Script from "next/script";
-import Navbar from "@/components/navbar";
 import { Analytics } from "@vercel/analytics/react";
+import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Toaster } from "sonner";
+import { getBaseUrl } from "@/lib/seo";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
 });
+
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
 });
 
-const baseUrl = new URL(
-  process.env.NEXT_PUBLIC_BASE_URL ?? "https://vitaespark.com"
-);
+const baseUrl = getBaseUrl();
 
 export const metadata: Metadata = {
   metadataBase: baseUrl,
   title: {
-    default: "Vitae Spark | Generador de CV con IA, optimizado para ATS",
+    default: "Vitae Spark | Crear curriculum online con IA",
     template: "%s | Vitae Spark",
   },
   description:
-    "Crea currículums profesionales en segundos con inteligencia artificial. Optimizado para filtros ATS, aumenta tus oportunidades laborales y consigue más entrevistas.",
+    "Crea tu curriculum vitae online con inteligencia artificial, plantillas profesionales y enfoque ATS para conseguir mas entrevistas.",
   applicationName: "Vitae Spark",
-  generator: "Next.js 15 – App Router",
+  generator: "Next.js 15 - App Router",
   keywords: [
-    "generador de CV",
-    "currículum ATS",
-    "crear currículum gratis",
-    "currículum profesional",
-    "resume builder",
-    "inteligencia artificial CV",
-    "IA para empleo",
-    "optimizar CV ATS",
-    "busqueda laboral",
-    "crear cv",
-    "ia para cv",
-    "crear cv gratis",
+    "crear curriculum online",
     "crear cv online",
-    "cv ya",
-    "cv para medicos",
-    "cv para programadores",
-    "cv para barberos",
-    "cv gratis",
-    "CV online",
-    "CV digital",
+    "hacer curriculum vitae",
+    "curriculum ats",
+    "curriculum profesional",
+    "ia para cv",
+    "crear cv con ia",
     "plantilla harvard",
+    "curriculum sin experiencia",
+    "cv online",
   ],
   authors: [{ name: "Vitae Spark", url: baseUrl.href }],
   creator: "Vitae Spark",
@@ -73,24 +60,25 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: baseUrl,
-    title: "Vitae Spark | Crea currículums profesionales optimizados para ATS",
+    title: "Vitae Spark | Crea curriculum online optimizado para ATS",
     description:
-      "Usa inteligencia artificial para crear CVs atractivos y optimizados para superar filtros automáticos y destacar ante reclutadores.",
+      "Usa inteligencia artificial para crear CVs atractivos y optimizados para superar filtros ATS y destacar ante reclutadores.",
     siteName: "Vitae Spark",
+    locale: "es_AR",
     images: [
       {
         url: `${baseUrl.href}/logotab.webp`,
         width: 1200,
         height: 630,
-        alt: "Vitae Spark – Generador Inteligente de Currículums con IA",
+        alt: "Vitae Spark - Generador inteligente de curriculum con IA",
       },
       {
         url: `${baseUrl.href}/harvard.webp`,
-        alt: "Vitae Spark – Plantilla recomendada por Harvard",
+        alt: "Vitae Spark - Plantilla Harvard para curriculum",
       },
       {
         url: `${baseUrl.href}/banner-ig.webp`,
-        alt: "Vitae Spark – Generador Inteligente de Currículums con IA",
+        alt: "Vitae Spark - Creador de curriculum online",
       },
     ],
   },
@@ -98,7 +86,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Vitae Spark | Crea CVs efectivos con IA",
     description:
-      "Genera tu currículum profesional optimizado para filtros ATS en segundos con inteligencia artificial.",
+      "Genera tu curriculum profesional optimizado para filtros ATS con inteligencia artificial.",
     images: [`${baseUrl.href}/logotab.webp`],
     creator: "@vitae.spark",
   },
@@ -109,13 +97,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="es" suppressHydrationWarning={true}>
+    <html lang="es" suppressHydrationWarning>
       <head>
-        {/* JSON-LD: Datos estructurados SEO */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -124,24 +111,37 @@ export default function RootLayout({
               "@type": "WebSite",
               url: baseUrl.href,
               name: "Vitae Spark",
-              alternateName: "Generador de CV Inteligente",
+              alternateName: "Creador de curriculum online",
               description:
-                "Genera currículums profesionales con IA optimizados para ATS y reclutadores.",
+                "Genera curriculum vitae online con IA, optimizado para ATS y reclutadores.",
             }),
           }}
         />
-
-        {/* MercadoPago SDK */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "Vitae Spark",
+              applicationCategory: "BusinessApplication",
+              operatingSystem: "Web",
+              url: baseUrl.href,
+              description:
+                "Herramienta web para crear curriculum vitae online con IA, plantillas profesionales y enfoque ATS.",
+            }),
+          }}
+        />
         <Script
           src="https://sdk.mercadopago.com/js/v2"
           strategy="beforeInteractive"
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-popover-foreground antialiased flex flex-col min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-popover-foreground antialiased flex min-h-screen flex-col`}
       >
         <Navbar />
-        <main className="flex-grow h-full">{children}</main>
+        <main className="h-full flex-grow">{children}</main>
         <Toaster />
         <Footer />
         <Analytics />

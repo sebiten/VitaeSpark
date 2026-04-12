@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Zap, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Instagram } from "lucide-react";
 
 export function Footer() {
   return (
     <footer className="bg-[#0F0F10] border-t border-[#1F1F22] py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div className="grid gap-10 md:grid-cols-3 mb-6">
           <div>
             <h3 className="font-semibold text-lg mb-4 text-white">Producto</h3>
             <ul className="space-y-2">
@@ -25,11 +25,57 @@ export function Footer() {
                   Perfil
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-sm text-[#F4F4F5]/70 hover:text-[#F4F4F5]"
+                >
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-semibold text-lg my-3 text-white">Empresa</h3>
+            <h3 className="font-semibold text-lg mb-4 text-white">Recursos SEO</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href="/crear-cv-online"
+                  className="text-sm text-[#F4F4F5]/70 hover:text-[#F4F4F5]"
+                >
+                  Crear CV online
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/curriculum-ats"
+                  className="text-sm text-[#F4F4F5]/70 hover:text-[#F4F4F5]"
+                >
+                  Curriculum ATS
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/curriculum-sin-experiencia"
+                  className="text-sm text-[#F4F4F5]/70 hover:text-[#F4F4F5]"
+                >
+                  CV sin experiencia
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/plantilla-harvard"
+                  className="text-sm text-[#F4F4F5]/70 hover:text-[#F4F4F5]"
+                >
+                  Plantilla Harvard
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-lg mb-4 text-white">Empresa</h3>
             <ul className="space-y-2">
               <li className="text-white">Soporte:</li>
               <li>
