@@ -172,6 +172,11 @@ export function Navegation({ user }: { user: User | null }) {
             Inicio
           </CustomLinkButton>
 
+          <CustomLinkButton href="/blog" variant="ghost" size="sm">
+            <FileText className="h-4 w-4" />
+            Blog
+          </CustomLinkButton>
+
           {user && (
             <CustomLinkButton href="/perfil" variant="ghost" size="sm">
               <User2 className="h-4 w-4" />
@@ -232,6 +237,10 @@ export function Navegation({ user }: { user: User | null }) {
           <CustomLinkButton href="/" variant="ghost" size="sm">
             <HomeIcon className="h-4 w-4" />
             <span className="hidden xs:inline">Inicio</span>
+          </CustomLinkButton>
+          <CustomLinkButton href="/blog" variant="ghost" size="sm">
+            <FileText className="h-4 w-4" />
+            <span className="hidden xs:inline">Blog</span>
           </CustomLinkButton>
           <CustomLinkButton href="/perfil" variant="ghost" size="sm">
             <User2 className="h-4 w-4" />

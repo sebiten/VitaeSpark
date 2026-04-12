@@ -452,6 +452,102 @@ export default async function Home() {
           </Accordion>
         </div>
       </section>
+
+      <section className="py-20 px-4 bg-[#0F0F10]">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
+              Guias y recursos
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Encuentra la guia correcta para tu tipo de CV
+            </h2>
+            <p className="text-[#F4F4F5]/70 max-w-3xl mx-auto">
+              Si llegaste buscando como hacer un curriculum, mejorar tu CV para
+              ATS o armar un perfil sin experiencia, aqui tienes paginas
+              pensadas para esa necesidad concreta.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {[
+              {
+                href: "/crear-cv-online",
+                title: "Crear CV online",
+                description:
+                  "Aprende como crear un curriculum profesional y dejarlo listo para descargar.",
+              },
+              {
+                href: "/curriculum-ats",
+                title: "Curriculum ATS",
+                description:
+                  "Consejos y estructura para pasar mejor filtros de seleccion automatizados.",
+              },
+              {
+                href: "/hacer-cv-con-ia",
+                title: "Hacer CV con IA",
+                description:
+                  "Usa inteligencia artificial para redactar mejor y ahorrar tiempo.",
+              },
+              {
+                href: "/plantilla-harvard",
+                title: "Plantilla Harvard",
+                description:
+                  "Una referencia clara y sobria para CVs profesionales y faciles de leer.",
+              },
+              {
+                href: "/curriculum-sin-experiencia",
+                title: "CV sin experiencia",
+                description:
+                  "Ideas para destacar estudios, proyectos y habilidades si buscas primer empleo.",
+              },
+              {
+                href: "/cv-para-programadores",
+                title: "CV para programadores",
+                description:
+                  "Aprende como mostrar stack, proyectos y experiencia tecnica de forma clara.",
+              },
+              {
+                href: "/cv-para-medicos",
+                title: "CV para medicos",
+                description:
+                  "Organiza formacion, experiencia clinica y especialidades en un solo CV.",
+              },
+              {
+                href: "/cv-para-estudiantes",
+                title: "CV para estudiantes",
+                description:
+                  "Ideal para pasantias, practicas y primeros pasos laborales.",
+              },
+              {
+                href: "/cv-para-atencion-al-cliente",
+                title: "CV para atencion al cliente",
+                description:
+                  "Destaca experiencia con usuarios, resolucion y habilidades operativas.",
+              },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-2xl border border-white/10 bg-[#15151A] p-6 transition hover:border-[#38BDF8]/40 hover:bg-[#181821]"
+              >
+                <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+                <p className="text-[#F4F4F5]/70 leading-7">
+                  {item.description}
+                </p>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link
+              href="/blog"
+              className="text-sm text-[#38BDF8] hover:text-[#F4F4F5]"
+            >
+              Ver mas guias en el blog
+            </Link>
+          </div>
+        </div>
+      </section>
       <div>
         <div className="max-w-6xl mx-auto mb-12">
           <div className=" rounded-lg p-2 flex flex-col items-center">

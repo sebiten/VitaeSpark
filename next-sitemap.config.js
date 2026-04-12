@@ -4,7 +4,7 @@ module.exports = {
   generateRobotsTxt: true,
   changefreq: "daily",
   priority: 0.7,
-  exclude: ["/login", "/api/*", "/admin/*"],
+  exclude: ["/login", "/api/*", "/admin/*", "/abelardo/*"],
   sourceDir: ".next", // 👈 explícitamente le decimos dónde está el build
   robotsTxtOptions: {
     policies: [

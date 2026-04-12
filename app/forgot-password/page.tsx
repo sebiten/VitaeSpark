@@ -1,11 +1,9 @@
 "use client";
 
 import type React from "react";
-
-import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Loader2 } from "lucide-react";
-
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,30 +15,26 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createClient } from "@/utils/supabase/client";
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email) {
-      alert({
-        title: "Error",
-        description: "Por favor ingresa tu correo electrónico",
-        variant: "destructive",
-      });
+      window.alert("Por favor ingresa tu correo electronico.");
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      // Llamar a la API de Supabase para solicitar el restablecimiento de contraseña
+      const { createClient } = await import("@/utils/supabase/client");
+      const supabase = createClient();
+
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/update-password`,
       });
@@ -51,19 +45,16 @@ export default function ForgotPasswordForm() {
 
       setIsSubmitted(true);
     } catch (error: any) {
-      alert({
-        title: "Error",
-        description:
-          error.message || "Ocurrió un error al procesar tu solicitud",
-        variant: "destructive",
-      });
+      window.alert(
+        error?.message || "Ocurrio un error al procesar tu solicitud."
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <Card className="w-full max-w-7xl mx-auto h-fit mt-10 bg-[#1F1F22]">
+    <Card className="mt-10 h-fit w-full max-w-7xl mx-auto bg-[#1F1F22]">
       <CardHeader className="space-y-1">
         <div className="flex items-center">
           <img
@@ -71,11 +62,13 @@ export default function ForgotPasswordForm() {
             alt="VitaeSpark Logo"
             className="mr-2 h-10 w-10"
           />
-          <CardTitle className="text-2xl font-bold text-white">VitaeSpark</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white">
+            VitaeSpark
+          </CardTitle>
         </div>
         <CardDescription>
           {!isSubmitted
-            ? "Ingresa tu correo electrónico para recuperar tu contraseña"
+            ? "Ingresa tu correo electronico para recuperar tu contrasena"
             : "Revisa tu bandeja de entrada"}
         </CardDescription>
       </CardHeader>
@@ -83,7 +76,9 @@ export default function ForgotPasswordForm() {
         {!isSubmitted ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email " className="text-white">Correo Electrónico</Label>
+              <Label htmlFor="email" className="text-white">
+                Correo electronico
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -101,13 +96,13 @@ export default function ForgotPasswordForm() {
                   Enviando...
                 </>
               ) : (
-                "Recuperar Contraseña"
+                "Recuperar contrasena"
               )}
             </Button>
           </form>
         ) : (
           <div className="space-y-4 text-center">
-            <div className="rounded-full bg-green-100 p-3 mx-auto w-fit">
+            <div className="mx-auto w-fit rounded-full bg-green-100 p-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-green-600"
@@ -124,10 +119,10 @@ export default function ForgotPasswordForm() {
               </svg>
             </div>
             <p className="text-white">
-              Hemos enviado un correo electrónico a <strong>{email}</strong> con
-              instrucciones para restablecer tu contraseña.
+              Hemos enviado un correo electronico a <strong>{email}</strong> con
+              instrucciones para restablecer tu contrasena.
             </p>
-            <p className="text-lg text-green-500  animate-pulse">
+            <p className="animate-pulse text-lg text-green-500">
               Si no recibes el correo en unos minutos, revisa tu carpeta de spam
               o intenta nuevamente.
             </p>
@@ -138,10 +133,10 @@ export default function ForgotPasswordForm() {
         <div className="w-full text-center">
           <Link
             href="/login"
-            className="inline-flex items-center text-sm text-primary hover:underline text-white"
+            className="inline-flex items-center text-sm text-white hover:underline"
           >
             <ArrowLeft className="mr-1 h-4 w-4" />
-            Volver al inicio de sesión
+            Volver al inicio de sesion
           </Link>
         </div>
       </CardFooter>
