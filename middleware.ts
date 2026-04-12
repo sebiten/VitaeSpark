@@ -2,7 +2,14 @@ import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "./utils/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
+  const hostname = request.nextUrl.hostname;
   const { pathname } = request.nextUrl;
+
+  if (hostname === "www.vitaespark.com") {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.hostname = "vitaespark.com";
+    return NextResponse.redirect(redirectUrl, 308);
+  }
 
   if (pathname.startsWith("/api/webhook")) {
     return NextResponse.next(); // no aplicar middlewares ni redirecciones
