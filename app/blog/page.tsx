@@ -17,10 +17,22 @@ export const metadata = buildMetadata({
 
 const posts = [
   {
+    href: "/blog/que-poner-en-un-curriculum",
+    title: "Que poner en un curriculum",
+    description:
+      "Guia clara para elegir el contenido correcto y armar un CV mas profesional.",
+  },
+  {
     href: "/blog/como-hacer-un-curriculum",
     title: "Como hacer un curriculum paso a paso",
     description:
       "Una guia base para estructurar tu CV y mejorar su claridad desde el principio.",
+  },
+  {
+    href: "/blog/como-hacer-un-cv-para-trabajo",
+    title: "Como hacer un CV para trabajo",
+    description:
+      "Aprende como orientar tu curriculum a vacantes reales y postularte mejor.",
   },
   {
     href: "/blog/como-hacer-un-cv-ats",
@@ -33,6 +45,54 @@ const posts = [
     title: "Habilidades para curriculum",
     description:
       "Como elegir habilidades relevantes y evitar listas genericas que no aportan.",
+  },
+  {
+    href: "/blog/habilidades-blandas-para-cv",
+    title: "Habilidades blandas para CV",
+    description:
+      "Aprende como usarlas sin sonar generico ni vacio.",
+  },
+  {
+    href: "/blog/errores-en-el-curriculum",
+    title: "Errores en el curriculum",
+    description:
+      "Detecta fallos comunes que pueden hacerte perder entrevistas antes de empezar.",
+  },
+  {
+    href: "/blog/como-mejorar-mi-curriculum",
+    title: "Como mejorar mi curriculum",
+    description:
+      "Ideas practicas para hacer tu CV mas claro, mas fuerte y mas util.",
+  },
+  {
+    href: "/blog/perfil-profesional-para-cv",
+    title: "Perfil profesional para CV",
+    description:
+      "Aprende a escribir un resumen profesional breve pero convincente.",
+  },
+  {
+    href: "/blog/ejemplo-de-perfil-profesional",
+    title: "Ejemplo de perfil profesional",
+    description:
+      "Toma una referencia clara para adaptar tu resumen profesional.",
+  },
+  {
+    href: "/blog/como-hacer-un-curriculum-sin-experiencia",
+    title: "Como hacer un curriculum sin experiencia",
+    description:
+      "Guia para mostrar potencial aunque todavia no tengas historial laboral fuerte.",
+  },
+  {
+    href: "/blog/como-adaptar-tu-cv-a-una-vacante",
+    title: "Como adaptar tu CV a una vacante",
+    description:
+      "Ajusta tu CV a ofertas concretas sin rehacerlo por completo.",
+  },
+  {
+    href: "/blog/como-hacer-un-cv-para-programador",
+    title: "Como hacer un CV para programador",
+    description:
+      "Destaca stack, proyectos y criterio tecnico sin caer en listas vacias.",
   },
 ];
 
@@ -69,6 +129,33 @@ export default function BlogIndexPage() {
               </p>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-12 rounded-3xl border border-white/10 bg-[#121217] p-8">
+          <h2 className="text-2xl font-semibold">
+            Recursos recomendados para seguir creciendo
+          </h2>
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <Link
+              href="/plantillas-curriculum"
+              className="rounded-2xl border border-white/10 bg-black/20 p-5 transition hover:border-[#38BDF8]/40 hover:bg-black/30"
+            >
+              <h3 className="text-lg font-semibold">Plantillas de curriculum</h3>
+              <p className="mt-2 text-sm leading-7 text-white/70">
+                Explora formatos y estructuras para distintos perfiles y
+                objetivos laborales.
+              </p>
+            </Link>
+            <Link
+              href="/generador-de-cv-con-ia"
+              className="rounded-2xl border border-white/10 bg-black/20 p-5 transition hover:border-[#38BDF8]/40 hover:bg-black/30"
+            >
+              <h3 className="text-lg font-semibold">Generador de CV con IA</h3>
+              <p className="mt-2 text-sm leading-7 text-white/70">
+                Lleva estas guias a la practica dentro del flujo de VitaeSpark.
+              </p>
+            </Link>
+          </div>
         </div>
       </section>
     </div>

@@ -3,11 +3,11 @@ import { Instagram } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-[#0F0F10] border-t border-[#1F1F22] py-12 px-4">
+    <footer className="border-t border-[#1F1F22] bg-[#0F0F10] px-4 py-12">
       <div className="max-w-6xl mx-auto">
-        <div className="grid gap-10 md:grid-cols-3 mb-6">
+        <div className="mb-6 grid gap-10 md:grid-cols-3">
           <div>
-            <h3 className="font-semibold text-lg mb-4 text-white">Producto</h3>
+            <h3 className="mb-4 text-lg font-semibold text-white">Producto</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -37,7 +37,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-lg mb-4 text-white">Recursos SEO</h3>
+            <h3 className="mb-4 text-lg font-semibold text-white">
+              Recursos SEO
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -71,11 +73,27 @@ export function Footer() {
                   Plantilla Harvard
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/plantillas-curriculum"
+                  className="text-sm text-[#F4F4F5]/70 hover:text-[#F4F4F5]"
+                >
+                  Plantillas de curriculum
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/generador-de-cv-con-ia"
+                  className="text-sm text-[#F4F4F5]/70 hover:text-[#F4F4F5]"
+                >
+                  Generador de CV con IA
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-semibold text-lg mb-4 text-white">Empresa</h3>
+            <h3 className="mb-4 text-lg font-semibold text-white">Empresa</h3>
             <ul className="space-y-2">
               <li className="text-white">Soporte:</li>
               <li>
@@ -86,20 +104,17 @@ export function Footer() {
                   soporte@vitaespark.com
                 </Link>
               </li>
-              <div className="flex items-center justify-start gap-2 mt-2 text-[#F4F4F5]/70 hover:text-[#F4F4F5]">
-                <Instagram className="h-5 w-5 mt-1 text-white" />
-                <Link
-                  href="https://www.instagram.com/vitae.spark/"
-                  className=""
-                >
+              <li className="mt-2 flex items-center justify-start gap-2 text-[#F4F4F5]/70 hover:text-[#F4F4F5]">
+                <Instagram className="mt-1 h-5 w-5 text-white" />
+                <Link href="https://www.instagram.com/vitae.spark/">
                   Instagram
                 </Link>
-              </div>
+              </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-[#1F1F22] mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
+        <div className="mt-12 flex flex-col items-center justify-between border-t border-[#1F1F22] pt-6 md:flex-row">
           <p className="text-sm text-[#F4F4F5]/60">
             © {new Date().getFullYear()} VitaeSpark.
           </p>
