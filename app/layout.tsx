@@ -6,7 +6,6 @@ import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Toaster } from "sonner";
 import { getBaseUrl } from "@/lib/seo";
-import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -92,6 +91,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/logochispa.png",
+  },
+  other: {
+    "instagram:url": "https://instagram.com/vitae.spark",
+    "tiktok:url": "https://tiktok.com/@vitaespark",
   },
 };
 
