@@ -29,6 +29,12 @@ const posts = [
       "Una guia base para estructurar tu CV y mejorar su claridad desde el principio.",
   },
   {
+    href: "/blog/ejemplo-de-curriculum-vitae",
+    title: "Ejemplo de curriculum vitae",
+    description:
+      "Aprende a usar ejemplos de CV como referencia sin terminar con un documento generico.",
+  },
+  {
     href: "/blog/como-hacer-un-cv-para-trabajo",
     title: "Como hacer un CV para trabajo",
     description:
@@ -63,6 +69,12 @@ const posts = [
     title: "Como mejorar mi curriculum",
     description:
       "Ideas practicas para hacer tu CV mas claro, mas fuerte y mas util.",
+  },
+  {
+    href: "/blog/como-hacer-un-cv-profesional",
+    title: "Como hacer un CV profesional",
+    description:
+      "Descubre que cambios vuelven mas profesional tu CV sin hacerlo artificial.",
   },
   {
     href: "/blog/perfil-profesional-para-cv",
@@ -153,6 +165,15 @@ export default function BlogIndexPage() {
               <h3 className="text-lg font-semibold">Generador de CV con IA</h3>
               <p className="mt-2 text-sm leading-7 text-white/70">
                 Lleva estas guias a la practica dentro del flujo de VitaeSpark.
+              </p>
+            </Link>
+            <Link
+              href="/cv-profesional"
+              className="rounded-2xl border border-white/10 bg-black/20 p-5 transition hover:border-[#38BDF8]/40 hover:bg-black/30"
+            >
+              <h3 className="text-lg font-semibold">CV profesional</h3>
+              <p className="mt-2 text-sm leading-7 text-white/70">
+                Da el siguiente paso si quieres una version mas seria y competitiva.
               </p>
             </Link>
           </div>
