@@ -502,6 +502,18 @@ export default async function Home() {
                   "Ideas para destacar estudios, proyectos y habilidades si buscas primer empleo.",
               },
               {
+                href: "/cv-para-primer-empleo",
+                title: "CV para primer empleo",
+                description:
+                  "Una pagina mas directa para quienes necesitan postularse pronto a su primer trabajo.",
+              },
+              {
+                href: "/curriculum-vitae-ejemplo",
+                title: "Curriculum vitae ejemplo",
+                description:
+                  "Usa una referencia clara para entender como deberia verse un buen CV.",
+              },
+              {
                 href: "/cv-para-programadores",
                 title: "CV para programadores",
                 description:
@@ -524,6 +536,12 @@ export default async function Home() {
                 title: "CV para atencion al cliente",
                 description:
                   "Destaca experiencia con usuarios, resolucion y habilidades operativas.",
+              },
+              {
+                href: "/cv-profesional",
+                title: "CV profesional",
+                description:
+                  "Mejora la estructura y la presentacion si quieres una version mas competitiva.",
               },
             ].map((item) => (
               <Link
