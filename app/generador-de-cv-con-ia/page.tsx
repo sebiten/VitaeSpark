@@ -82,6 +82,12 @@ export default function GeneradorDeCvConIaPage() {
       ]}
       relatedLinks={[
         {
+          href: "/cv-para-atencion-al-cliente",
+          title: "CV para atencion al cliente",
+          description:
+            "Un caso practico para usar IA y adaptar tu CV a un rol con alta demanda.",
+        },
+        {
           href: "/hacer-cv-con-ia",
           title: "Hacer CV con IA",
           description: "Otra landing enfocada en el uso practico de IA para tu curriculum.",

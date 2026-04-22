@@ -41,7 +41,7 @@ export default function ComoHacerUnCurriculumPage() {
           title: "Escribe experiencia con foco en impacto",
           paragraphs: [
             "No basta con listar tareas. Lo que mas suma es explicar responsabilidades, herramientas utilizadas y resultados. Incluso si no tienes cifras exactas, puedes mostrar contexto, tipo de trabajo realizado y como aportabas en cada experiencia.",
-            "Cuando describes mejor tu experiencia, el CV deja de verse como una lista generica y empieza a funcionar como una presentacion profesional mas convincente.",
+            "Cuando describes mejor tu experiencia, el CV deja de verse como una lista generica y empieza a funcionar como una presentacion profesional mas convincente. Esto se nota mucho en roles de atencion al cliente, donde frases vagas suelen esconder experiencia valiosa.",
           ],
         },
         {
@@ -70,6 +70,12 @@ export default function ComoHacerUnCurriculumPage() {
         },
       ]}
       relatedLinks={[
+        {
+          href: "/cv-para-atencion-al-cliente",
+          title: "CV para atencion al cliente",
+          description:
+            "Mira un ejemplo concreto para customer service, soporte o recepcion.",
+        },
         {
           href: "/crear-cv-online",
           title: "Crear CV online",

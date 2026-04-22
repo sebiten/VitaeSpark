@@ -2,15 +2,17 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Atencion al Cliente",
+  title: "CV para Atencion al Cliente: Ejemplo, Habilidades y Formato ATS",
   description:
-    "Prepara un curriculum para atencion al cliente destacando comunicacion, resolucion de problemas y experiencia con usuarios.",
+    "Crea un CV para atencion al cliente con ejemplo, habilidades clave y formato ATS. Mejora tu curriculum para postularte con mas claridad.",
   path: "/cv-para-atencion-al-cliente",
   keywords: [
     "cv para atencion al cliente",
     "curriculum atencion al cliente",
     "cv atencion al cliente",
     "curriculum para atencion al cliente",
+    "ejemplo cv atencion al cliente",
+    "habilidades atencion al cliente curriculum",
   ],
 });
 
@@ -19,47 +21,68 @@ export default function CvParaAtencionAlClientePage() {
     <MarketingPage
       path="/cv-para-atencion-al-cliente"
       eyebrow="CV por profesion"
-      title="CV para atencion al cliente con foco en comunicacion y resolucion"
-      description="Muestra experiencia con clientes, canales de atencion, organizacion y resolucion de problemas con un formato profesional y claro."
+      title="CV para atencion al cliente: ejemplo, habilidades y formato ATS"
+      description="Prepara un curriculum para atencion al cliente con habilidades clave, logros medibles y una estructura clara para reclutadores y filtros ATS."
       intro={[
-        "En atencion al cliente, el CV tiene que mostrar mucho mas que amabilidad. Debe reflejar capacidad para resolver problemas, organizar tareas, manejar volumen de consultas y sostener una buena experiencia para el usuario.",
-        "VitaeSpark te ayuda a convertir experiencia operativa y de contacto con clientes en un perfil mas claro, profesional y alineado a busquedas laborales reales.",
+        "En atencion al cliente, el CV tiene que mostrar mucho mas que amabilidad. Debe dejar claro como respondes consultas, resuelves reclamos, organizas volumen de trabajo y sostienes una experiencia positiva para el usuario en canales como telefono, chat, mostrador o mail.",
+        "VitaeSpark te ayuda a convertir experiencia operativa y contacto real con clientes en un curriculum mas claro, con palabras clave utiles, logros mejor explicados y una estructura compatible con procesos de seleccion actuales.",
       ]}
       benefits={[
-        "Mejor forma de explicar experiencia con clientes y canales de atencion.",
-        "Util para soporte, customer service, recepcion y roles similares.",
-        "Ayuda a destacar habilidades practicas y resultados del dia a dia.",
+        "Mejor forma de explicar experiencia con clientes, reclamos y canales de atencion.",
+        "Util para customer service, soporte, recepcion, call center y caja.",
+        "Ayuda a destacar habilidades practicas, resultados y lenguaje ATS real.",
       ]}
       steps={[
         {
           title: "Define el tipo de rol",
           description:
-            "Aclara si apuntas a soporte, customer service, ventas o recepcion.",
+            "Aclara si apuntas a soporte, customer service, ventas, call center o recepcion.",
         },
         {
-          title: "Describe tu experiencia real",
+          title: "Describe experiencia y logros",
           description:
-            "Explica volumen, canales, tareas y habilidades aplicadas en la operacion.",
+            "Explica volumen de consultas, canales usados, problemas resueltos y resultados concretos.",
         },
         {
           title: "Exporta tu CV final",
           description:
-            "Obtienes una version lista para procesos de seleccion comerciales u operativos.",
+            "Obtienes una version clara, profesional y lista para procesos de seleccion operativos o comerciales.",
         },
       ]}
       sections={[
         {
           title: "Que destacar en un CV de atencion al cliente",
           paragraphs: [
-            "Suele sumar experiencia con clientes, resolucion de consultas, manejo de reclamos, uso de sistemas, seguimiento de casos y coordinacion con otras areas. Tambien ayudan habilidades como comunicacion clara, orden y empatia.",
-            "Lo ideal es que esas cualidades no aparezcan solas, sino respaldadas por experiencia y contexto laboral.",
+            "Suele sumar experiencia con clientes, resolucion de consultas, manejo de reclamos, uso de CRM o sistemas internos, seguimiento de casos y coordinacion con otras areas. Tambien ayudan habilidades como comunicacion clara, orden, escucha activa y empatia.",
+            "Lo ideal es que esas cualidades no aparezcan solas, sino respaldadas por contexto laboral, tipo de canal, volumen gestionado y responsabilidades concretas.",
           ],
         },
         {
           title: "Como evitar un perfil demasiado generico",
           paragraphs: [
-            "Muchas veces estos CVs repiten frases como 'buen trato con el cliente' sin explicar nada mas. Mejora mucho cuando cuentas en que contexto trabajabas, que volumen manejabas o que responsabilidades concretas tenias.",
-            "Ese tipo de detalle hace que el perfil se vea mas profesional y creible.",
+            "Muchas veces estos CVs repiten frases como 'buen trato con el cliente' o 'excelente comunicacion' sin explicar nada mas. Mejora mucho cuando cuentas en que contexto trabajabas, que tipo de consultas atendias, que herramientas usabas o que volumen manejabas por dia.",
+            "Ese nivel de detalle hace que el perfil se vea mas profesional, mas creible y mejor alineado a lo que buscan tanto un ATS como un reclutador.",
+          ],
+        },
+        {
+          title: "Ejemplo de perfil profesional para atencion al cliente",
+          paragraphs: [
+            "Puedes usar una base como esta: 'Perfil orientado a atencion al cliente con experiencia en gestion de consultas, seguimiento de casos y resolucion de reclamos por canales telefonicos y digitales. Manejo de CRM, organizacion de tareas y enfoque en brindar respuestas claras y eficientes'.",
+            "No se trata de copiarlo literal, sino de adaptarlo a tu realidad. Si trabajaste en retail, soporte, recepcion o caja, conviene que el perfil nombre ese contexto para ganar relevancia.",
+          ],
+        },
+        {
+          title: "Habilidades y logros que si suman",
+          paragraphs: [
+            "En habilidades, prioriza las que realmente aparecen en avisos del sector: atencion al cliente, manejo de reclamos, CRM, ventas cruzadas, seguimiento de pedidos, soporte por chat, caja, facturacion o coordinacion con otras areas.",
+            "En experiencia, intenta sumar logros medibles como tiempos de respuesta, cantidad de consultas diarias, nivel de satisfaccion, cumplimiento de objetivos o mejora en procesos. Aunque no tengas numeros perfectos, cualquier contexto concreto ayuda mucho.",
+          ],
+        },
+        {
+          title: "Formato ATS para este tipo de puestos",
+          paragraphs: [
+            "Para atencion al cliente conviene un formato simple: titulo claro, perfil breve, experiencia en orden cronologico, habilidades especificas y educacion. Evita disenos demasiado decorativos, tablas innecesarias o bloques de texto largos.",
+            "Un CV ATS no garantiza entrevistas, pero si mejora la lectura del documento y ayuda a que las palabras clave correctas aparezcan en el lugar adecuado.",
           ],
         },
       ]}
@@ -68,6 +91,11 @@ export default function CvParaAtencionAlClientePage() {
           question: "Sirve para roles de call center?",
           answer:
             "Si. La estructura tambien funciona para soporte telefonico, chat o canales digitales.",
+        },
+        {
+          question: "Que habilidades poner en un CV de atencion al cliente?",
+          answer:
+            "Suelen sumar comunicacion clara, resolucion de problemas, gestion de reclamos, manejo de CRM, organizacion, empatia y seguimiento de casos, siempre que representen tu experiencia real.",
         },
         {
           question: "Debo incluir habilidades blandas?",
@@ -87,9 +115,19 @@ export default function CvParaAtencionAlClientePage() {
           description: "Util si estas entrando por primera vez a roles de contacto con clientes.",
         },
         {
+          href: "/cv-call-center",
+          title: "CV para call center",
+          description: "Adapta tu experiencia a soporte telefonico, ventas o atencion por canales remotos.",
+        },
+        {
           href: "/blog/habilidades-para-curriculum",
           title: "Habilidades para curriculum",
           description: "Elige mejor que habilidades destacar para este tipo de puesto.",
+        },
+        {
+          href: "/cv-para-cajero",
+          title: "CV para cajero",
+          description: "Enfoca experiencia con caja, clientes, cobros y orden operativo.",
         },
         {
           href: "/crear-cv-online",

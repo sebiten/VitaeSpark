@@ -83,6 +83,12 @@ export default function CurriculumSinExperienciaPage() {
       ]}
       relatedLinks={[
         {
+          href: "/cv-para-atencion-al-cliente",
+          title: "CV para atencion al cliente",
+          description:
+            "Una buena salida para primer empleo si quieres entrar en roles de contacto con clientes.",
+        },
+        {
           href: "/crear-cv-online",
           title: "Crear CV online",
           description:

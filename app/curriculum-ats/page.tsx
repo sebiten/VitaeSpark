@@ -100,6 +100,12 @@ export default function CurriculumAtsPage() {
       ]}
       relatedLinks={[
         {
+          href: "/cv-para-atencion-al-cliente",
+          title: "CV para atencion al cliente",
+          description:
+            "Ejemplo concreto de como aplicar estructura ATS a un rol muy buscado.",
+        },
+        {
           href: "/crear-cv-online",
           title: "Crear CV online",
           description:

@@ -535,7 +535,7 @@ export default async function Home() {
                 href: "/cv-para-atencion-al-cliente",
                 title: "CV para atencion al cliente",
                 description:
-                  "Destaca experiencia con usuarios, resolucion y habilidades operativas.",
+                  "Destaca experiencia con usuarios, reclamos, CRM y habilidades operativas.",
               },
               {
                 href: "/cv-profesional",
