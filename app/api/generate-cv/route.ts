@@ -133,8 +133,6 @@ Habilidades: ${body.habilidades}
 Idiomas: ${body.idiomas}
 Información adicional: ${body.informacionAdicional} 
 `.trim();
-  console.log("User message:", userMessage);
-
   const makeCompletion = () =>
     openai.chat.completions.create({
       model: "gpt-4o",

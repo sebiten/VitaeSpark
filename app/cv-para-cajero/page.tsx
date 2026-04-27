@@ -90,9 +90,19 @@ export default function CvParaCajeroPage() {
       ]}
       relatedLinks={[
         {
+          href: "/cv-para-vendedor",
+          title: "CV para vendedor",
+          description: "Refuerza la parte comercial si tambien atendias clientes o vendias.",
+        },
+        {
           href: "/cv-para-atencion-al-cliente",
           title: "CV para atencion al cliente",
           description: "Refuerza la parte de trato con usuarios y resolucion de consultas.",
+        },
+        {
+          href: "/cv-para-recepcionista",
+          title: "CV para recepcionista",
+          description: "Otra opcion cercana para perfiles de atencion presencial y organizacion.",
         },
         {
           href: "/curriculum-sin-experiencia",

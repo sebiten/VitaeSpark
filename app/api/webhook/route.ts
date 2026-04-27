@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -38,11 +38,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Metadata inválido" }, { status: 400 });
   }
 
-  const supabase = await createClient();
-
   // 3. Verificar que el CV existe Y pertenece al profile_id del metadata
   //    Esto evita que alguien manipule un cv_id ajeno
-  const { data: cv } = await supabase
+  const { data: cv } = await supabaseAdmin
     .from("cvs")
     .select("id, profile_id")
     .eq("id", cv_id)
@@ -55,7 +53,7 @@ export async function POST(req: NextRequest) {
   }
 
   // 4. Idempotencia: si ya procesamos este pago, no hacer nada
-  const { data: existing } = await supabase
+  const { data: existing } = await supabaseAdmin
     .from("payments")
     .select("id")
     .eq("payment_id", payment.id)
@@ -66,7 +64,7 @@ export async function POST(req: NextRequest) {
   }
 
   // 5. Insertar el pago
-  const { error: insertError } = await supabase.from("payments").insert({
+  const { error: insertError } = await supabaseAdmin.from("payments").insert({
     user_id: profile_id,
     cv_id,
     payment_id: payment.id,
@@ -82,7 +80,7 @@ export async function POST(req: NextRequest) {
   }
 
   // 6. Marcar el CV como pagado
-  const { error: updateError } = await supabase
+  const { error: updateError } = await supabaseAdmin
     .from("cvs")
     .update({ status: "paid" })
     .eq("id", cv_id);

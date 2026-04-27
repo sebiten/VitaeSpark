@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { ifError } from "assert";
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
@@ -127,7 +126,5 @@ export async function sendFeedback(formData: FormData) {
 
   if (insertError) {
     console.error("Error al insertar feedback:", insertError);
-  } else {
-    console.log("Feedback enviado correctamente");
   }
 }

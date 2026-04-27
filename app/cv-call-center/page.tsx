@@ -2,7 +2,7 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Call Center: Ejemplo, Perfil y Formato ATS",
+  title: "CV para Call Center: Ejemplo, Habilidades y Perfil Profesional",
   description:
     "Arma un CV para call center con ejemplo de perfil, habilidades clave y formato ATS para soporte, ventas o atencion telefonica.",
   path: "/cv-call-center",
@@ -89,6 +89,11 @@ export default function CvCallCenterPage() {
         },
       ]}
       relatedLinks={[
+        {
+          href: "/cv-para-vendedor",
+          title: "CV para vendedor",
+          description: "Conecta tu experiencia telefonica con objetivos comerciales y ventas.",
+        },
         {
           href: "/cv-para-atencion-al-cliente",
           title: "CV para atencion al cliente",

@@ -110,6 +110,16 @@ export default function CvParaAtencionAlClientePage() {
       ]}
       relatedLinks={[
         {
+          href: "/cv-para-vendedor",
+          title: "CV para vendedor",
+          description: "Ideal si tu experiencia con clientes tambien incluye ventas u objetivos.",
+        },
+        {
+          href: "/cv-para-recepcionista",
+          title: "CV para recepcionista",
+          description: "Enfoca tu experiencia en atencion presencial, agenda y administracion.",
+        },
+        {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",
           description: "Util si estas entrando por primera vez a roles de contacto con clientes.",

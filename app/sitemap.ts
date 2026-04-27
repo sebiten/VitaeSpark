@@ -24,6 +24,8 @@ const publicRoutes = [
   "/cv-para-atencion-al-cliente",
   "/cv-call-center",
   "/cv-para-cajero",
+  "/cv-para-vendedor",
+  "/cv-para-recepcionista",
   "/blog/como-hacer-un-curriculum",
   "/blog/ejemplo-de-curriculum-vitae",
   "/blog/como-hacer-un-curriculum-sin-experiencia",

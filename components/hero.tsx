@@ -538,6 +538,18 @@ export default async function Home() {
                   "Destaca experiencia con usuarios, reclamos, CRM y habilidades operativas.",
               },
               {
+                href: "/cv-para-vendedor",
+                title: "CV para vendedor",
+                description:
+                  "Muestra ventas, atencion al cliente, objetivos y resultados comerciales.",
+              },
+              {
+                href: "/cv-para-recepcionista",
+                title: "CV para recepcionista",
+                description:
+                  "Organiza experiencia en recepcion, agenda, llamadas y tareas administrativas.",
+              },
+              {
                 href: "/cv-profesional",
                 title: "CV profesional",
                 description:
