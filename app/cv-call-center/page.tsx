@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Call Center: Ejemplo, Habilidades y Perfil Profesional",
   description:
-    "Arma un CV para call center con ejemplo de perfil, habilidades clave y formato ATS para soporte, ventas o atencion telefonica.",
+    "Crea un CV para call center con ejemplo, habilidades clave y perfil profesional para soporte, ventas o atencion telefonica.",
   path: "/cv-call-center",
   keywords: [
     "cv para call center",

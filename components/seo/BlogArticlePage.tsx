@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { TrackedCtaLink } from "./TrackedCtaLink";
 
 type ArticleSection = {
   title: string;
@@ -78,15 +78,12 @@ export function BlogArticlePage({
           </h1>
           <p className="mt-6 text-lg leading-8 text-white/75">{description}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/crear">
-              <Button
-                size="lg"
-                className="bg-[#7C3AED] text-white shadow-lg shadow-[#7C3AED]/30 hover:opacity-90"
-              >
-                Crear mi CV
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+            <TrackedCtaLink
+              href="/crear"
+              label="Crear mi CV"
+              sourcePath={path}
+              sourceType="blog"
+            />
             <Link href="/blog">
               <Button
                 size="lg"

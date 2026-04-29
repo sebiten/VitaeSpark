@@ -27,6 +27,7 @@ import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { unstable_batchedUpdates } from "react-dom";
 import { Label } from "./ui/label";
 import { motion } from "framer-motion";
+import { track } from "@vercel/analytics";
 import { createClient } from "@/utils/supabase/client";
 import { Session } from "@supabase/supabase-js";
 const schema = z.object({
@@ -98,9 +99,12 @@ export default function CVFormStep({
   };
 
   const onSubmit = async (data: DatosCVFormulario) => {
+    let failureTracked = false;
+
     try {
       setIsGenerating(true);
       setError(null);
+      track("CV Generation Started", { template });
 
       const res = await fetch("/api/generate-cv", {
         method: "POST",
@@ -111,6 +115,11 @@ export default function CVFormStep({
 
       if (!res.ok) {
         const isTimeout = res.status === 504;
+        track("CV Generation Failed", {
+          status: res.status,
+          template,
+        });
+        failureTracked = true;
         throw new Error(
           isTimeout
             ? "La generación está tardando demasiado. Intenta de nuevo."
@@ -125,6 +134,9 @@ export default function CVFormStep({
         setActiveTab("preview");
       });
     } catch (err) {
+      if (!failureTracked) {
+        track("CV Generation Failed", { template });
+      }
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
       setIsGenerating(false);

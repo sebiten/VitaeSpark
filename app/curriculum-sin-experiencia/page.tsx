@@ -89,6 +89,12 @@ export default function CurriculumSinExperienciaPage() {
             "Una buena salida para primer empleo si quieres entrar en roles de contacto con clientes.",
         },
         {
+          href: "/cv-para-cajero",
+          title: "CV para cajero",
+          description:
+            "Otra opcion frecuente para primer empleo, retail y atencion presencial.",
+        },
+        {
           href: "/crear-cv-online",
           title: "Crear CV online",
           description:

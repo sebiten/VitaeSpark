@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Cajero: Ejemplo, Habilidades y Formato ATS",
   description:
-    "Crea un CV para cajero con ejemplo, habilidades clave y formato ATS para retail, supermercados, farmacias o comercio.",
+    "Crea tu CV para cajero en minutos con IA, ejemplo de perfil, habilidades clave y formato ATS listo para descargar.",
   path: "/cv-para-cajero",
   keywords: [
     "cv para cajero",
@@ -21,11 +21,17 @@ export default function CvParaCajeroPage() {
       path="/cv-para-cajero"
       eyebrow="CV por profesion"
       title="CV para cajero: ejemplo, habilidades y formato ATS"
-      description="Arma un curriculum para cajero destacando atencion al cliente, manejo de caja, cobros, orden y ritmo operativo en comercios."
+      description="Crea tu CV para cajero en minutos con IA, ejemplo de perfil, habilidades clave y formato ATS listo para descargar."
       intro={[
         "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa. No alcanza con poner 'manejo de caja': conviene mostrar atencion al cliente, medios de pago, cierre de caja, control basico y trabajo en entornos con ritmo alto.",
         "VitaeSpark te ayuda a convertir esa experiencia en un CV mas claro y competitivo para supermercados, farmacias, tiendas, estaciones de servicio o comercios de cercania.",
       ]}
+      exampleImage={{
+        src: "/example.webp",
+        alt: "ejemplo de cv para cajero",
+        caption:
+          "Ejemplo visual de CV profesional adaptable para puestos de cajero, retail y atencion al cliente.",
+      }}
       benefits={[
         "Destaca cobros, medios de pago, atencion y tareas de caja reales.",
         "Sirve para retail, supermercados, farmacias y comercios en general.",
@@ -64,6 +70,13 @@ export default function CvParaCajeroPage() {
           ],
         },
         {
+          title: "CV para cajero sin experiencia",
+          paragraphs: [
+            "Si buscas tu primer trabajo como cajero, no conviene dejar el CV vacio. Puedes destacar estudios, cursos, manejo basico de herramientas digitales, atencion al publico, ventas informales, voluntariado o tareas donde hayas usado responsabilidad y organizacion.",
+            "Tambien suma mencionar disponibilidad horaria, buena comunicacion, precision, aprendizaje rapido y trato cordial. Para puestos iniciales, el objetivo es mostrar que puedes aprender el proceso de caja y sostener una atencion ordenada.",
+          ],
+        },
+        {
           title: "Habilidades que suelen mirar reclutadores",
           paragraphs: [
             "Entre las habilidades mas utiles suelen estar manejo de caja, precision, organizacion, atencion al cliente, rapidez operativa, control basico y resolucion de incidencias simples.",
@@ -80,7 +93,7 @@ export default function CvParaCajeroPage() {
         {
           question: "Que pasa si no tengo experiencia exacta como cajero?",
           answer:
-            "Puedes destacar atencion al publico, ventas, manejo de dinero o tareas operativas relacionadas para construir una base creible.",
+            "Puedes destacar atencion al publico, ventas, manejo de dinero, estudios, cursos o tareas operativas relacionadas para construir una base creible.",
         },
         {
           question: "Conviene incluir reposicion o tareas de salon?",

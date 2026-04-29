@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
+import { track } from "@vercel/analytics";
 import { createClient } from "@/utils/supabase/client";
 import type { Session } from "@supabase/supabase-js";
 import { ShieldCheck, Palette, FileText, Eye, Car } from "lucide-react";
@@ -22,23 +23,28 @@ const CVForm: NextPage = () => {
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
+    track("CV Funnel Step Viewed", { step: tab });
     // Scroll to top when changing tabs
     window.scrollTo(0, 0);
   };
 
   const handleTemplateSelected = (templateId: string) => {
     setSelectedTemplate(templateId);
+    track("CV Template Selected", { template: templateId });
     // Auto-advance to form step after template selection
     setTimeout(() => {
       setActiveTab("form");
+      track("CV Funnel Step Viewed", { step: "form" });
     }, 500);
   };
 
   const handleFormCompleted = (data: RespuestaCV["cv"]) => {
     setCvData(data);
+    track("CV Generated", { template: selectedTemplate });
     // Auto-advance to preview step after form completion
     setTimeout(() => {
       setActiveTab("preview");
+      track("CV Funnel Step Viewed", { step: "preview" });
     }, 500);
   };
 

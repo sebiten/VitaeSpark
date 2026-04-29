@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { TrackedCtaLink } from "./TrackedCtaLink";
 
 type Faq = {
   question: string;
@@ -24,6 +25,12 @@ type Section = {
   paragraphs: string[];
 };
 
+type ExampleImage = {
+  src: string;
+  alt: string;
+  caption: string;
+};
+
 type MarketingPageProps = {
   path: string;
   eyebrow: string;
@@ -35,6 +42,7 @@ type MarketingPageProps = {
   sections: Section[];
   faqs: Faq[];
   relatedLinks: RelatedLink[];
+  exampleImage?: ExampleImage;
   ctaLabel?: string;
 };
 
@@ -57,6 +65,7 @@ export function MarketingPage({
   sections,
   faqs,
   relatedLinks,
+  exampleImage,
   ctaLabel = "Crear mi CV",
 }: MarketingPageProps) {
   const faqSchema = {
@@ -101,15 +110,12 @@ export function MarketingPage({
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Link href="/crear">
-                <Button
-                  size="lg"
-                  className="bg-[#7C3AED] text-white shadow-lg shadow-[#7C3AED]/30 hover:opacity-90"
-                >
-                  {ctaLabel}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
+              <TrackedCtaLink
+                href="/crear"
+                label={ctaLabel}
+                sourcePath={path}
+                sourceType="landing"
+              />
               <Link href="/blog">
                 <Button
                   size="lg"
@@ -154,6 +160,19 @@ export function MarketingPage({
                 </p>
               ))}
             </div>
+            {exampleImage ? (
+              <figure className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+                <img
+                  src={exampleImage.src}
+                  alt={exampleImage.alt}
+                  className="h-auto w-full"
+                  loading="lazy"
+                />
+                <figcaption className="border-t border-white/10 px-4 py-3 text-sm text-white/65">
+                  {exampleImage.caption}
+                </figcaption>
+              </figure>
+            ) : null}
           </div>
 
           <div className="rounded-3xl border border-[#7C3AED]/20 bg-[#15151A] p-8">

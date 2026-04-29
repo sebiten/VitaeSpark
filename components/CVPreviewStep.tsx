@@ -2,6 +2,7 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import type React from "react";
+import { track } from "@vercel/analytics";
 import { Button } from "@/components/ui/button";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { DocumentoCVW } from "./pdf/CVDocument";
@@ -18,6 +19,7 @@ import {
   Clock,
   CheckCircle,
   Accessibility,
+  Globe2,
 } from "lucide-react";
 import {
   Carousel,
@@ -108,7 +110,14 @@ export default function CVPreviewStepPurple({
   const handlePay = async () => {
     if (!userSession) return;
 
+    let failureTracked = false;
+
     setLoading(true);
+    track("Payment Started", {
+      template,
+      price: 2500,
+      currency: "ARS",
+    });
     try {
       const res = await fetch("/api/create-payment", {
         method: "POST",
@@ -118,6 +127,11 @@ export default function CVPreviewStepPurple({
 
       if (!res.ok) {
         const errorData = await res.json();
+        track("Payment Preference Failed", {
+          status: res.status,
+          template,
+        });
+        failureTracked = true;
         console.error("Error al crear preferencia:", errorData);
         alert("No se pudo iniciar el pago. Intenta nuevamente.");
         return;
@@ -126,11 +140,21 @@ export default function CVPreviewStepPurple({
       const { init_point } = await res.json();
 
       if (init_point) {
+        track("Payment Redirected", {
+          template,
+          price: 2500,
+          currency: "ARS",
+        });
         window.location.href = init_point;
       } else {
+        track("Payment Preference Failed", { template });
+        failureTracked = true;
         alert("No se pudo iniciar el pago. Intenta nuevamente.");
       }
     } catch (error) {
+      if (!failureTracked) {
+        track("Payment Preference Failed", { template });
+      }
       console.error("Error en handlePay:", error);
       alert("Error al procesar el pago. Intenta nuevamente.");
     } finally {
@@ -214,6 +238,15 @@ export default function CVPreviewStepPurple({
           <div className="flex items-center justify-center gap-2 py-3 px-4 bg-green-500/10 rounded-lg border border-green-500/20">
             <ShieldCheck className="h-5 w-5 text-green-400" />
             <span className="text-green-400 font-medium">Pago 100% Seguro</span>
+          </div>
+
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
+            <Globe2 className="h-4 w-4 flex-shrink-0 text-blue-300" />
+            <p className="text-sm leading-6 text-blue-100">
+              El pago se procesa con MercadoPago y depende de los medios
+              disponibles para tu pais. Luego puedes descargar tu CV en PDF
+              optimizado para ATS desde tu perfil.
+            </p>
           </div>
 
           {/* Features */}

@@ -7,7 +7,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "social:posts": "node scripts/generate-facebook-posts.mjs"
   },
   "dependencies": {
     "@arcjet/inspect": "^1.0.0-beta.6",

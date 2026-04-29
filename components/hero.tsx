@@ -550,6 +550,36 @@ export default async function Home() {
                   "Organiza experiencia en recepcion, agenda, llamadas y tareas administrativas.",
               },
               {
+                href: "/cv-para-administrativo",
+                title: "CV para administrativo",
+                description:
+                  "Ordena tareas de oficina, documentacion, datos y soporte administrativo.",
+              },
+              {
+                href: "/cv-para-repositor",
+                title: "CV para repositor",
+                description:
+                  "Destaca reposicion, stock, orden de gondola y tareas operativas.",
+              },
+              {
+                href: "/cv-para-operario",
+                title: "CV para operario",
+                description:
+                  "Muestra produccion, deposito, herramientas, procesos y seguridad.",
+              },
+              {
+                href: "/cv-para-seguridad",
+                title: "CV para seguridad",
+                description:
+                  "Enfoca control de accesos, recorridas, prevencion y responsabilidad.",
+              },
+              {
+                href: "/cv-para-limpieza",
+                title: "CV para limpieza",
+                description:
+                  "Presenta experiencia en limpieza, orden, mantenimiento y servicios generales.",
+              },
+              {
                 href: "/cv-profesional",
                 title: "CV profesional",
                 description:
