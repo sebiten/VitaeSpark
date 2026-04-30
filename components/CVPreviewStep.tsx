@@ -180,24 +180,25 @@ export default function CVPreviewStepPurple({
   const descuentoPorcentaje = Math.round((ahorro / precioOriginal) * 100);
 
   return (
-    <div className="w-full max-w-md lg:max-w-xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-6xl space-y-6">
       {/* Header */}
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-white">
+        <h2 className="text-3xl font-bold text-white">
           ¡Tu CV Profesional está listo!
         </h2>
-        <p className="text-slate-400 text-sm">
+        <p className="text-slate-400 text-sm sm:text-base">
           Desbloquea ahora y aumenta tus posibilidades de conseguir entrevistas
         </p>
       </div>
 
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
       {/* CV Preview */}
-      <div className="relative rounded-xl overflow-hidden bg-white shadow-lg">
+      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-black/30">
         <div
           className="w-full relative"
           style={{
             aspectRatio: "1/1.414",
-            maxHeight: "60vh",
+            maxHeight: "68vh",
             overflow: "hidden",
             display: "flex",
             alignItems: "center",
@@ -217,10 +218,10 @@ export default function CVPreviewStepPurple({
       </div>
 
       {/* Pricing Card */}
-      <Card className="bg-slate-800/20 border-slate-900 backdrop-blur-sm">
-        <CardContent className="p-6 space-y-3">
+      <Card className="border-white/10 bg-[#15151A] text-white shadow-2xl shadow-black/30">
+        <CardContent className="p-6 space-y-4">
           {/* Price Section */}
-          <div className="text-center space-y-4">
+          <div className="text-center space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
             <h3 className="text-xl font-bold text-white font-sans">
               Accede a tu CV Profesional
               <p className="text-sm text-slate-400 font-normal mt-1">
@@ -229,7 +230,7 @@ export default function CVPreviewStepPurple({
               </p>
             </h3>
             <div className="flex items-baseline justify-center gap-2">
-              <span className="text-4xl font-bold text-white">$2.500</span>
+              <span className="text-5xl font-bold text-white">$2.500</span>
               <span className="text-slate-400 font-medium">ARS</span>
             </div>
           </div>
@@ -238,6 +239,14 @@ export default function CVPreviewStepPurple({
           <div className="flex items-center justify-center gap-2 py-3 px-4 bg-green-500/10 rounded-lg border border-green-500/20">
             <ShieldCheck className="h-5 w-5 text-green-400" />
             <span className="text-green-400 font-medium">Pago 100% Seguro</span>
+          </div>
+
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-purple-500/10 border border-purple-500/20">
+            <CheckCircle className="h-4 w-4 flex-shrink-0 text-purple-300" />
+            <p className="text-sm leading-6 text-purple-100">
+              Al pagar se desbloquea la version final de tu CV sin marcas de
+              agua, lista para descargar en PDF desde tu perfil.
+            </p>
           </div>
 
           <div className="flex items-start gap-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
@@ -288,7 +297,7 @@ export default function CVPreviewStepPurple({
             <Button
               disabled={loading}
               onClick={handlePay}
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-[#009ee3] to-[#00c6ff] hover:brightness-110 text-white font-semibold text-base shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full h-14 rounded-xl bg-gradient-to-r from-[#009ee3] to-[#00c6ff] hover:brightness-110 text-white font-semibold text-base shadow-xl shadow-[#009ee3]/20 transition-all duration-200 hover:scale-[1.01] active:scale-[0.98]"
             >
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
@@ -368,6 +377,7 @@ export default function CVPreviewStepPurple({
           </div> */}
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }

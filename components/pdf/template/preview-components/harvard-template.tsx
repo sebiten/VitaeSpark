@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
   watermark: {
     position: "absolute",
     transform: "rotate(-35deg)",
-    opacity: 0.18,
-    fontSize: 28,
+   opacity: 0.30,
+    fontSize: 36,
     color: "#1E40AF",
     zIndex: 1,
   },
@@ -131,13 +131,10 @@ const styles = StyleSheet.create({
 
 // Componente para la marca de agua
 const watermarkItems = [
-  { top: 90, left: 20 },
-  { top: 180, left: 240 },
-  { top: 300, left: 70 },
-  { top: 420, left: 280 },
-  { top: 540, left: 30 },
-  { top: 660, left: 250 },
-  { top: 760, left: 90 },
+  { top: 140, left: 70 },
+  { top: 330, left: 260 },
+  { top: 520, left: 80 },
+  { top: 710, left: 270 },
 ]
 
 const Watermark = () => (
@@ -147,7 +144,7 @@ const Watermark = () => (
         key={index}
         style={[styles.watermark, { top: item.top, left: item.left }]}
       >
-        VitaeSpark - Vista previa
+          www.vitaeSpark.com
       </Text>
     ))}
   </View>

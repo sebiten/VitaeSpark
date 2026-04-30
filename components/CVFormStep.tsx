@@ -22,6 +22,7 @@ import {
   Award,
   Hammer,
   Languages,
+  Trash2,
 } from "lucide-react";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { unstable_batchedUpdates } from "react-dom";
@@ -163,6 +164,23 @@ export default function CVFormStep({
         "Certificación en Desarrollo Web Full Stack (2023).\nMentor en programas de formación para jóvenes desarrolladores.\nParticipación activa en comunidades como DevSalta y NodeConf Argentina.",
     });
   };
+
+  const limpiarCampos = () => {
+    reset({
+      nombre: "",
+      puesto: "",
+      contacto: "",
+      sobreMi: "",
+      experiencia: "",
+      formacion: "",
+      habilidades: "",
+      idiomas: "",
+      informacionAdicional: "",
+    });
+    setFotoUrl(null);
+    setError(null);
+  };
+
   return (
     <div className="relative">
       {/* Fondo decorativo */}
@@ -171,7 +189,7 @@ export default function CVFormStep({
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 p-2 rounded-xl "
+        className="space-y-6 rounded-2xl"
       >
         {/* Consejos para completar tu CV */}
         <motion.div
@@ -181,7 +199,7 @@ export default function CVFormStep({
           className="relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 via-transparent to-[#06B6D4]/10 rounded-3xl" />
-          <div className="relative bg-gradient-to-br from-[#1A1A1C]/90 to-[#2A2A2D]/90 backdrop-blur-xl border border-[#3A3A3D]/50 rounded-3xl p-5 shadow-2xl">
+          <div className="relative rounded-2xl border border-white/10 bg-[#15151A]/90 p-5 shadow-2xl shadow-black/20 backdrop-blur-xl">
             {/* <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#7C3AED]/20 to-transparent rounded-full -translate-y-20 translate-x-20" />
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#06B6D4]/20 to-transparent rounded-full translate-y-16 -translate-x-16" /> */}
 
@@ -239,20 +257,29 @@ export default function CVFormStep({
             </div>
           </div>
         </motion.div>
-        {/* <div className="w-full flex items-center justify-center ">
+        <div className="w-full flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button
             type="button"
             onClick={rellenarDatosPrueba}
-            variant="default"
-            className="mb-4 text-sm "
+            variant="outline"
+            className="mb-4 border-[#7C3AED]/40 bg-[#7C3AED]/10 text-white hover:bg-[#7C3AED]/20"
           >
             <CheckCircle2 className="w-4 h-4 mr-1.5 text-[#7C3AED]" />
             Rellenar con datos de prueba
           </Button>
-        </div> */}
+          <Button
+            type="button"
+            onClick={limpiarCampos}
+            variant="outline"
+            className="mb-4 border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
+          >
+            <Trash2 className="w-4 h-4 mr-1.5 text-white/60" />
+            Limpiar todos los campos
+          </Button>
+        </div>
 
         {/* Datos personales */}
-        <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
+        <div className="rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
           {/* Nombre y puesto */}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -338,7 +365,7 @@ export default function CVFormStep({
         </div>
 
         {/* Sobre mí */}
-        <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
+        <div className="rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
           <div>
             <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
               <BookOpen className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
@@ -362,7 +389,7 @@ export default function CVFormStep({
         </div>
 
         {/* Experiencia y formación */}
-        <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
+        <div className="rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
           {/* Experiencia */}
           <div className="mb-5">
             <Label className="text-sm font-medium text-white/90 flex items-center">
@@ -421,7 +448,7 @@ export default function CVFormStep({
         </div>
 
         {/* Idiomas y habilidades */}
-        <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
+        <div className="rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
           {/* Idiomas */}
           <div className="mb-5">
             <Label className="text-sm font-medium text-white/90 flex items-center">
@@ -472,7 +499,7 @@ export default function CVFormStep({
             )}
           </div>
         </div>
-        <div className="bg-[#2A2A2D]/50 p-3 rounded-lg border border-[#3F3F46]/30">
+        <div className="rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
           <div>
             <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
               <PlusCircle className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
@@ -493,7 +520,7 @@ export default function CVFormStep({
           <Button
             variant="default"
             type="submit"
-            className="bg-[#7C3AED]  w-full text-white px-6 py-5 rounded-lg shadow-lg hover:opacity-90 transition duration-200 font-semibold"
+            className="h-14 w-full rounded-xl bg-[#7C3AED] px-6 text-white shadow-lg shadow-[#7C3AED]/25 transition duration-200 hover:opacity-90 font-semibold"
           >
             <Sparkles className="w-4 h-4 mr-2" />
             {isSubmitting ? "Generando..." : "Generar CV"}

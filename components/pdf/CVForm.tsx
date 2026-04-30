@@ -7,17 +7,15 @@ import { useEffect, useState } from "react";
 import { track } from "@vercel/analytics";
 import { createClient } from "@/utils/supabase/client";
 import type { Session } from "@supabase/supabase-js";
-import { ShieldCheck, Palette, FileText, Eye, Car } from "lucide-react";
+import { ShieldCheck, Palette, FileText, Eye } from "lucide-react";
 import type { RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
 import CVFormStep from "../CVFormStep";
-import CVPreviewStep, { testimonials } from "../CVPreviewStep";
-import { RoboAnimation } from "../roboto-animation";
+import CVPreviewStep from "../CVPreviewStep";
 
 const CVForm: NextPage = () => {
   const [selectedTemplate, setSelectedTemplate] = useState("elegance");
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
-  const [cvId, setCvId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("template");
   const [userSession, setUserSession] = useState<Session | null>(null);
 
@@ -74,9 +72,9 @@ const CVForm: NextPage = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto "
+        className="mx-auto max-w-6xl"
       >
-        <div className="mb-8">
+        <div className="mb-8 rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-2xl shadow-black/20">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm text-[#D4D4D8]/60">
               Progreso en la creación del CV
@@ -85,9 +83,9 @@ const CVForm: NextPage = () => {
               {getProgress()}%
             </span>
           </div>
-          <div className="w-full bg-[#2A2A2D] rounded-full h-2">
+          <div className="w-full bg-white/10 rounded-full h-2">
             <motion.div
-              className="bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] h-2 rounded-full"
+              className="bg-gradient-to-r from-[#7C3AED] via-[#8B5CF6] to-[#38BDF8] h-2 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${getProgress()}%` }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -99,20 +97,20 @@ const CVForm: NextPage = () => {
         <Tabs
           value={activeTab}
           onValueChange={handleTabChange}
-          className="space-y-8 flex"
+          className="space-y-8"
         >
           <div className="flex justify-center">
-            <TabsList className="bg-[#2A2A2D] border border-[#3F3F46] p-1 grid grid-cols-3 w-full max-w-lg">
+            <TabsList className="bg-[#15151A] border border-white/10 p-1 grid grid-cols-3 w-full max-w-lg rounded-2xl">
               <TabsTrigger
                 value="template"
-                className="text-white data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white flex items-center gap-2 text-xs"
+                className="text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white flex items-center gap-2 text-xs rounded-xl"
               >
                 <Palette className="w-4 h-4" />
                 <span className="hidden sm:inline">Plantilla</span>
               </TabsTrigger>
               <TabsTrigger
                 value="form"
-                className="text-white data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white flex items-center gap-2 text-xs"
+                className="text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white flex items-center gap-2 text-xs rounded-xl"
                 disabled={!selectedTemplate}
               >
                 <FileText className="w-4 h-4" />
@@ -120,7 +118,7 @@ const CVForm: NextPage = () => {
               </TabsTrigger>
               <TabsTrigger
                 value="preview"
-                className="text-white data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white flex items-center gap-2 text-xs"
+                className="text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white flex items-center gap-2 text-xs rounded-xl"
                 disabled={!cvData}
               >
                 <Eye className="w-4 h-4" />
@@ -130,8 +128,8 @@ const CVForm: NextPage = () => {
           </div>
 
           {/* Step Indicators */}
-          <div className="flex justify-center mb-6 mx-1 ml-3">
-            <div className="flex items-center gap-4 justify-center w-full max-w-lg">
+          <div className="flex justify-center mb-6">
+            <div className="flex w-full max-w-2xl items-center justify-center gap-3 rounded-2xl border border-white/10 bg-[#15151A]/70 px-4 py-3">
               {/* Step 1 */}
               <div className="flex items-center">
                 <div
