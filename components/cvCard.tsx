@@ -1,5 +1,5 @@
 "use client";
-import { DocumentoCV, DocumentoCVW } from "@/components/pdf/CVDocument";
+import { DocumentoCV } from "@/components/pdf/CVDocument";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -89,7 +89,7 @@ export const CVCard = memo(({ cv }: { cv: CVprofile }) => {
               }}
               className=" origin-top-left w-[400%] h-[400%]"
             >
-              <DocumentoCVW cv={cv.cv_data} template={cv.template} />
+              <DocumentoCV cv={cv.cv_data} template={cv.template} />
             </PDFViewer>
           </div>
           <div className="absolute inset-0 bg-black/55 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
