@@ -159,9 +159,12 @@ export default function UserPayments() {
   }
 
   return (
-    <div className="w-full mx-auto px-4 py-10 space-y-8 bg-[#0F0F10]">
+    <div className="w-full mx-auto px-0 py-10 space-y-8 bg-transparent">
       <div className="text-center space-y-2 mb-8">
-        <h2 className="text-3xl font-bold text-[#7C3AED]">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#38BDF8]/10 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+          <Receipt className="h-6 w-6" />
+        </div>
+        <h2 className="text-3xl font-bold text-white">
           Historial de Pagos
         </h2>
         <p className="text-[#A1A1AA] max-w-md mx-auto">
@@ -169,8 +172,8 @@ export default function UserPayments() {
         </p>
       </div>
 
-      <Card className="bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5] shadow-lg max-w-6xl mx-auto">
-        <CardHeader className="bg-[#1A1A1D]">
+      <Card className="bg-[#15151A]/85 border border-white/10 text-[#F4F4F5] shadow-2xl shadow-black/10 max-w-6xl mx-auto rounded-3xl overflow-hidden">
+        <CardHeader className="bg-white/[0.03] border-b border-white/10">
           <CardTitle className="text-[#F4F4F5] flex items-center gap-2">
             <Receipt className="w-5 h-5" />
             Tus Facturas
@@ -191,8 +194,8 @@ export default function UserPayments() {
               </p>
             </div>
           ) : (
-            <div className="overflow-x-hidden ml-6">
-              <Table className="mx-auto">
+            <div className="overflow-x-auto">
+              <Table>
                 <TableHeader>
                   <TableRow className="border-[#2A2A2D] hover:bg-[#1A1A1D]">
                     <TableHead className="text-[#A1A1AA]">Estado</TableHead>

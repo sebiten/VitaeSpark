@@ -55,11 +55,11 @@ export const CVCard = memo(({ cv }: { cv: CVprofile }) => {
   );
 
   return (
-    <Card className="bg-[#1F1F22] border border-[#7C3AED]/20 hover:shadow-[#7C3AED]/10 hover:border-[#7C3AED]/40 transition-all">
-      <CardHeader className="p-4 border-b border-[#7C3AED]/10">
+    <Card className="group overflow-hidden rounded-3xl bg-[#15151A]/85 border border-white/10 shadow-xl shadow-black/10 hover:-translate-y-1 hover:border-[#38BDF8]/30 transition-all">
+      <CardHeader className="p-4 border-b border-white/10 bg-white/[0.03]">
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="p-2 rounded-full bg-[#7C3AED]/10">
+            <div className="p-2 rounded-2xl bg-[#7C3AED]/10 ring-1 ring-[#A78BFA]/15">
               <User className="h-4 w-4 text-[#A78BFA]" />
             </div>
             <div className="min-w-0">
@@ -92,7 +92,7 @@ export const CVCard = memo(({ cv }: { cv: CVprofile }) => {
               <DocumentoCVW cv={cv.cv_data} template={cv.template} />
             </PDFViewer>
           </div>
-          <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/55 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
             <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
               <DialogTrigger asChild>
                 <Button
@@ -124,7 +124,7 @@ export const CVCard = memo(({ cv }: { cv: CVprofile }) => {
           </div>
         </div>
 
-        <div className="p-4 text-sm text-[#F4F4F5]/70">
+        <div className="p-4 text-sm text-[#F4F4F5]/70 bg-[#15151A]">
           <p className="font-medium truncate">
             {cv.cv_data?.nombre || "Sin nombre"}
           </p>

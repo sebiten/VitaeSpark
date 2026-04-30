@@ -5,8 +5,11 @@ export default function PerfilPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center items-center py-20 text-white">
-          Cargando perfil...
+        <div className="flex min-h-[60vh] items-center justify-center bg-[#0F0F10] px-4 text-white">
+          <div className="rounded-3xl border border-white/10 bg-[#15151A]/80 px-8 py-6 text-center shadow-2xl shadow-black/20">
+            <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-[#7C3AED] border-t-transparent" />
+            Cargando perfil...
+          </div>
         </div>
       }
     >

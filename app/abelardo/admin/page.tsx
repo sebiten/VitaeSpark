@@ -4,12 +4,27 @@ import { supabaseAdmin } from "@/utils/supabase/admin";
 import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Users,
+  Activity,
+  ArrowRight,
   CreditCard,
+  DollarSign,
+  FileText,
   MessageSquare,
   Sparkles,
+  Target,
+  TrendingUp,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
+
+type DailyMetric = {
+  label: string;
+  users: number;
+  cvs: number;
+  payments: number;
+};
+
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
 export default async function AdminDashboardPage() {
   const supabase = await createClient();
@@ -28,88 +43,242 @@ export default async function AdminDashboardPage() {
 
   if (error || !profile || !profile.isadmin) return redirect("/");
 
-  // 👥 Total de usuarios
-  const { count: totalUsers } = await supabaseAdmin
-    .from("profiles")
-    .select("*", { count: "exact", head: true });
+  const since7Days = new Date(Date.now() - 6 * DAY_IN_MS);
+  since7Days.setHours(0, 0, 0, 0);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-  // 💳 Pagos aprobados
-  const { count: totalPayments } = await supabaseAdmin
-    .from("payments")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "approved");
+  const [
+    { count: totalUsers },
+    { count: totalCvs },
+    { count: totalPayments },
+    { count: totalFeedback },
+    { data: recentFeedback },
+    { data: approvedPayments },
+    { data: recentPayments },
+    { data: recentUsers },
+    { data: recentCvs },
+  ] = await Promise.all([
+    supabaseAdmin.from("profiles").select("*", { count: "exact", head: true }),
+    supabaseAdmin.from("cvs").select("*", { count: "exact", head: true }),
+    supabaseAdmin
+      .from("payments")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "approved"),
+    supabaseAdmin.from("feedback").select("*", { count: "exact", head: true }),
+    supabaseAdmin
+      .from("feedback")
+      .select("message, created_at")
+      .order("created_at", { ascending: false })
+      .limit(5),
+    supabaseAdmin
+      .from("payments")
+      .select("amount, status, created_at, payment_type, payer_email")
+      .eq("status", "approved")
+      .order("created_at", { ascending: false }),
+    supabaseAdmin
+      .from("payments")
+      .select("amount, status, created_at, payment_type, payer_email")
+      .order("created_at", { ascending: false })
+      .limit(6),
+    supabaseAdmin
+      .from("profiles")
+      .select("created_at")
+      .gte("created_at", since7Days.toISOString()),
+    supabaseAdmin
+      .from("cvs")
+      .select("created_at, status")
+      .gte("created_at", since7Days.toISOString()),
+  ]);
 
-  // 💬 Comentarios
-  const { count: totalFeedback } = await supabaseAdmin
-    .from("feedback")
-    .select("*", { count: "exact", head: true });
+  const payments = approvedPayments ?? [];
+  const usersLast7 = recentUsers ?? [];
+  const cvsLast7 = recentCvs ?? [];
+  const paidCvsLast7 = cvsLast7.filter((cv) => cv.status === "paid");
+  const paymentsLast7 = payments.filter(
+    (payment) => new Date(payment.created_at) >= since7Days
+  );
+  const paymentsToday = payments.filter(
+    (payment) => new Date(payment.created_at) >= today
+  );
 
-  // Últimos 5 comentarios
-  const { data: recentFeedback } = await supabaseAdmin
-    .from("feedback")
-    .select("message, created_at")
-    .order("created_at", { ascending: false })
-    .limit(5);
+  const totalRevenue = sumPayments(payments);
+  const revenueLast7 = sumPayments(paymentsLast7);
+  const revenueToday = sumPayments(paymentsToday);
+  const conversionRate =
+    totalCvs && totalCvs > 0 ? ((totalPayments ?? 0) / totalCvs) * 100 : 0;
+  const paidCvRate =
+    cvsLast7.length > 0 ? (paidCvsLast7.length / cvsLast7.length) * 100 : 0;
+  const dailyMetrics = buildDailyMetrics(usersLast7, cvsLast7, paymentsLast7);
+  const maxDailyValue = Math.max(
+    1,
+    ...dailyMetrics.map((day) => day.users + day.cvs + day.payments)
+  );
 
   return (
-    <main className="bg-[#0F0F10] min-h-screen py-12 px-4 text-[#F4F4F5]">
-      <div className="container mx-auto max-w-7xl">
-        <div className="mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-[#7C3AED] mb-2">
-            Panel de Administración
+    <main className="relative min-h-screen overflow-hidden bg-[#0F0F10] px-4 py-12 text-[#F4F4F5]">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-[#7C3AED]/10 blur-[130px]" />
+      <div className="relative container mx-auto max-w-7xl">
+        <div className="mb-10 rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10">
+          <BadgeLike icon={<Sparkles className="h-4 w-4" />} text="Admin" />
+          <h1 className="mt-4 text-3xl font-bold text-white md:text-4xl">
+            Panel de crecimiento
           </h1>
-          <p className="text-[#F4F4F5]/70">
-            Visualizá estadísticas clave de tu plataforma en un vistazo.
+          <p className="mt-2 max-w-2xl text-[#F4F4F5]/70">
+            Métricas rápidas para entender usuarios, CVs, pagos, conversión e
+            ingresos de VitaeSpark.
           </p>
         </div>
 
-        {/* Estadísticas clave */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="mb-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <StatsCard
-            title="Usuarios registrados"
-            value={totalUsers ?? 0}
-            icon={<Users className="h-8 w-8 text-[#38BDF8]" />}
+            title="Ingresos totales"
+            value={formatCurrency(totalRevenue)}
+            helper={`Hoy: ${formatCurrency(revenueToday)}`}
+            icon={<DollarSign className="h-8 w-8 text-[#38BDF8]" />}
           />
           <StatsCard
-            title="Pagos confirmados"
+            title="Pagos aprobados"
             value={totalPayments ?? 0}
+            helper={`Últimos 7 días: ${paymentsLast7.length}`}
             icon={<CreditCard className="h-8 w-8 text-[#7C3AED]" />}
           />
           <StatsCard
-            title="Comentarios recibidos"
-            value={totalFeedback ?? 0}
-            icon={<MessageSquare className="h-8 w-8 text-[#A78BFA]" />}
+            title="CVs generados"
+            value={totalCvs ?? 0}
+            helper={`Últimos 7 días: ${cvsLast7.length}`}
+            icon={<FileText className="h-8 w-8 text-[#A78BFA]" />}
+          />
+          <StatsCard
+            title="Usuarios registrados"
+            value={totalUsers ?? 0}
+            helper={`Últimos 7 días: ${usersLast7.length}`}
+            icon={<Users className="h-8 w-8 text-[#38BDF8]" />}
           />
         </div>
 
-        {/* Últimos comentarios */}
-        <div className="mb-10">
-          <h2 className="text-2xl font-semibold text-[#A78BFA] mb-4 flex items-center gap-2">
-            <MessageSquare className="h-5 w-5" /> Últimos comentarios
-          </h2>
+        <div className="mb-12 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
+          <Card className="overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/85 text-white shadow-2xl shadow-black/10">
+            <CardContent className="p-6">
+              <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+                <div>
+                  <h2 className="text-2xl font-semibold">Movimiento 7 días</h2>
+                  <p className="text-sm text-white/55">
+                    Altura combinada de usuarios, CVs y pagos aprobados.
+                  </p>
+                </div>
+                <BadgeLike
+                  icon={<TrendingUp className="h-4 w-4" />}
+                  text={`${formatCurrency(revenueLast7)} en 7 días`}
+                />
+              </div>
+              <div className="grid h-52 grid-cols-7 items-end gap-3">
+                {dailyMetrics.map((day) => {
+                  const total = day.users + day.cvs + day.payments;
+                  return (
+                    <div key={day.label} className="flex h-full flex-col justify-end gap-2">
+                      <div className="flex flex-1 items-end rounded-2xl bg-white/[0.035] p-1.5">
+                        <div
+                          className="w-full rounded-xl bg-gradient-to-t from-[#7C3AED] to-[#38BDF8]"
+                          style={{
+                            height: `${Math.max(8, (total / maxDailyValue) * 100)}%`,
+                          }}
+                          title={`${day.label}: ${total}`}
+                        />
+                      </div>
+                      <p className="text-center text-xs text-white/45">{day.label}</p>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="mt-5 grid gap-3 text-sm text-white/65 sm:grid-cols-3">
+                <MiniMetric label="Usuarios" value={usersLast7.length} />
+                <MiniMetric label="CVs" value={cvsLast7.length} />
+                <MiniMetric label="Pagos" value={paymentsLast7.length} />
+              </div>
+            </CardContent>
+          </Card>
 
-          <div className="space-y-4">
-            {recentFeedback && recentFeedback.length > 0 ? (
-              recentFeedback.map((item, index) => (
-                <Card
-                  key={index}
-                  className="bg-[#1F1F22] border border-[#7C3AED]/10 text-[#F4F4F5]"
-                >
-                  <CardContent className="p-4">
-                    <p className="text-sm">{item.message}</p>
-                    <p className="text-xs text-[#F4F4F5]/50 mt-2">
-                      {new Date(item.created_at).toLocaleString("es-AR", {
-                        dateStyle: "short",
-                        timeStyle: "short",
-                      })}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              <p className="text-[#F4F4F5]/60">No hay comentarios aún.</p>
-            )}
+          <Card className="overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/85 text-white shadow-2xl shadow-black/10">
+            <CardContent className="space-y-5 p-6">
+              <h2 className="text-2xl font-semibold">Salud del funnel</h2>
+              <FunnelRow
+                icon={<Target className="h-5 w-5" />}
+                label="Pago / CV generado"
+                value={formatPercent(conversionRate)}
+              />
+              <FunnelRow
+                icon={<Activity className="h-5 w-5" />}
+                label="CVs pagos últimos 7 días"
+                value={formatPercent(paidCvRate)}
+              />
+              <FunnelRow
+                icon={<MessageSquare className="h-5 w-5" />}
+                label="Comentarios totales"
+                value={totalFeedback ?? 0}
+              />
+              <p className="rounded-2xl border border-[#38BDF8]/15 bg-[#38BDF8]/10 p-4 text-sm leading-6 text-[#BFEFFF]">
+                Si suben los CVs pero no suben pagos, el cuello está en precio,
+                confianza o claridad del desbloqueo.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Link
+          href="/abelardo/admin/cv"
+          className="mb-12 flex items-center justify-between rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 text-white shadow-2xl shadow-black/10 transition hover:-translate-y-1 hover:border-[#38BDF8]/30"
+        >
+          <div className="flex items-center gap-4">
+            <div className="rounded-2xl bg-[#38BDF8]/10 p-4 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+              <FileText className="h-6 w-6" />
+            </div>
+            <div>
+              <h2 className="text-xl font-semibold">Ver currículums generados</h2>
+              <p className="text-sm text-white/55">
+                Revisá CVs creados por usuarios, filtros y vistas previas.
+              </p>
+            </div>
           </div>
+          <ArrowRight className="h-5 w-5 text-white/40" />
+        </Link>
+
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Panel title="Últimos pagos" icon={<CreditCard className="h-5 w-5" />}>
+            <div className="space-y-3">
+              {recentPayments && recentPayments.length > 0 ? (
+                recentPayments.map((payment, index) => (
+                  <InfoRow
+                    key={`${payment.created_at}-${index}`}
+                    title={payment.payer_email || "Email no disponible"}
+                    detail={`${formatCurrency(Number(payment.amount) || 0)} · ${
+                      payment.status
+                    }`}
+                    date={payment.created_at}
+                  />
+                ))
+              ) : (
+                <EmptyPanel text="Todavía no hay pagos registrados." />
+              )}
+            </div>
+          </Panel>
+
+          <Panel title="Últimos comentarios" icon={<MessageSquare className="h-5 w-5" />}>
+            <div className="space-y-3">
+              {recentFeedback && recentFeedback.length > 0 ? (
+                recentFeedback.map((item, index) => (
+                  <InfoRow
+                    key={`${item.created_at}-${index}`}
+                    title={item.message}
+                    detail="Feedback de usuario"
+                    date={item.created_at}
+                  />
+                ))
+              ) : (
+                <EmptyPanel text="No hay comentarios aún." />
+              )}
+            </div>
+          </Panel>
         </div>
       </div>
     </main>
@@ -119,23 +288,157 @@ export default async function AdminDashboardPage() {
 function StatsCard({
   title,
   value,
+  helper,
   icon,
 }: {
   title: string;
   value: number | string;
+  helper: string;
   icon: React.ReactNode;
 }) {
   return (
-      <Card className="bg-[#1F1F22] text-[#F4F4F5] border border-[#7C3AED]/20 shadow-md hover:shadow-lg transition-all">
-        <CardContent className="p-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-sm font-medium text-[#A78BFA]">{title}</p>
-              <p className="text-3xl font-bold mt-1">{value}</p>
-            </div>
-            {icon}
+    <Card className="group overflow-hidden bg-[#15151A]/85 text-[#F4F4F5] border border-white/10 shadow-xl shadow-black/10 hover:-translate-y-1 hover:border-[#38BDF8]/30 transition-all">
+      <CardContent className="p-6">
+        <div className="flex justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-[#A78BFA]">{title}</p>
+            <p className="mt-2 text-3xl font-bold">{value}</p>
+            <p className="mt-2 text-sm text-white/45">{helper}</p>
           </div>
-        </CardContent>
-      </Card>
+          <div className="rounded-2xl bg-white/[0.04] p-3 self-start">{icon}</div>
+        </div>
+      </CardContent>
+    </Card>
   );
+}
+
+function Panel({
+  title,
+  icon,
+  children,
+}: {
+  title: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10">
+      <h2 className="mb-5 flex items-center gap-2 text-2xl font-semibold text-white">
+        <span className="text-[#38BDF8]">{icon}</span>
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+}
+
+function InfoRow({
+  title,
+  detail,
+  date,
+}: {
+  title: string;
+  detail: string;
+  date: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+      <p className="line-clamp-2 text-sm font-medium text-white">{title}</p>
+      <p className="mt-1 text-xs text-white/55">{detail}</p>
+      <p className="mt-2 text-xs text-white/35">
+        {new Date(date).toLocaleString("es-AR", {
+          dateStyle: "short",
+          timeStyle: "short",
+        })}
+      </p>
+    </div>
+  );
+}
+
+function MiniMetric({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
+      <p className="text-xl font-bold text-white">{value}</p>
+      <p className="text-xs text-white/45">{label}</p>
+    </div>
+  );
+}
+
+function FunnelRow({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: number | string;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+      <div className="flex items-center gap-3">
+        <div className="rounded-xl bg-[#7C3AED]/15 p-2 text-[#A78BFA]">
+          {icon}
+        </div>
+        <span className="text-sm text-white/70">{label}</span>
+      </div>
+      <strong className="text-white">{value}</strong>
+    </div>
+  );
+}
+
+function BadgeLike({ icon, text }: { icon: React.ReactNode; text: string }) {
+  return (
+    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-[#38BDF8]">
+      {icon}
+      {text}
+    </div>
+  );
+}
+
+function EmptyPanel({ text }: { text: string }) {
+  return <p className="text-sm text-white/50">{text}</p>;
+}
+
+function sumPayments(payments: Array<{ amount: number | string | null }>) {
+  return payments.reduce((total, payment) => {
+    return total + (Number(payment.amount) || 0);
+  }, 0);
+}
+
+function formatCurrency(value: number) {
+  return new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+function formatPercent(value: number) {
+  return `${value.toFixed(1).replace(".", ",")}%`;
+}
+
+function buildDailyMetrics(
+  users: Array<{ created_at: string }>,
+  cvs: Array<{ created_at: string }>,
+  payments: Array<{ created_at: string }>
+): DailyMetric[] {
+  return Array.from({ length: 7 }).map((_, index) => {
+    const date = new Date(Date.now() - (6 - index) * DAY_IN_MS);
+    const key = toDateKey(date);
+
+    return {
+      label: date.toLocaleDateString("es-AR", { weekday: "short" }),
+      users: users.filter((item) => toDateKey(new Date(item.created_at)) === key)
+        .length,
+      cvs: cvs.filter((item) => toDateKey(new Date(item.created_at)) === key)
+        .length,
+      payments: payments.filter(
+        (item) => toDateKey(new Date(item.created_at)) === key
+      ).length,
+    };
+  });
+}
+
+function toDateKey(date: Date) {
+  return date.toISOString().slice(0, 10);
 }

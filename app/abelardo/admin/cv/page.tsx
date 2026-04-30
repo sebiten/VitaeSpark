@@ -47,7 +47,7 @@ import { CVCard, CVprofile } from "../../../../components/cvCard";
 
 export default function Page() {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
@@ -195,41 +195,50 @@ export default function Page() {
     );
 
   return (
-    <main className="bg-[#0F0F10] min-h-screen py-12 px-4 text-[#F4F4F5]">
-      <div className="container mx-auto max-w-7xl">
-        <header className="mb-10">
-          <h1 className="text-4xl font-bold text-[#7C3AED] mb-2">
+    <main className="relative overflow-hidden bg-[#0F0F10] min-h-screen py-12 px-4 text-[#F4F4F5]">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-[#7C3AED]/10 blur-[130px]" />
+      <div className="relative container mx-auto max-w-7xl">
+        <header className="mb-10 rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-[#38BDF8]">
+            <FileText className="h-4 w-4" />
+            Admin CVs
+          </div>
+          <h1 className="text-4xl font-bold text-white mb-2">
             Currículums Generados
           </h1>
           <p className="text-[#F4F4F5]/70">
             Visualiza y gestiona todos los CVs creados por los usuarios en la
             plataforma.
           </p>
-          <div className="mt-4 text-sm text-[#F4F4F5]/60 flex gap-2">
-            <span>Total: {cvs.length}</span>
+          <div className="mt-4 flex flex-wrap gap-2 text-sm text-[#F4F4F5]/70">
+            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
+              Total: {cvs.length}
+            </span>
             <span>•</span>
-            <span>Filtrados: {filteredCvs.length}</span>
+            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
+              Filtrados: {filteredCvs.length}
+            </span>
             <span>•</span>
-            <span>
+            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
               Página {currentPage} de {totalPages}
             </span>
           </div>
         </header>
 
         {/* Controles */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 rounded-3xl border border-white/10 bg-[#15151A]/80 p-4 shadow-xl shadow-black/10">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#F4F4F5]/40" />
             <Input
               placeholder="Buscar por nombre, email o título..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="pl-10 bg-[#1F1F22] border-[#7C3AED]/20 text-[#F4F4F5] placeholder:text-[#F4F4F5]/40"
+              className="pl-10 bg-[#0F0F10]/70 border-white/10 text-[#F4F4F5] placeholder:text-[#F4F4F5]/40"
             />
           </div>
 
           <Select value={selectedTemplate} onValueChange={handleTemplateChange}>
-            <SelectTrigger className="bg-[#1F1F22] border-[#7C3AED]/20 text-[#F4F4F5]">
+            <SelectTrigger className="bg-[#0F0F10]/70 border-white/10 text-[#F4F4F5]">
               <SelectValue placeholder="Filtrar por plantilla" />
             </SelectTrigger>
             <SelectContent className="bg-[#1F1F22] border-[#7C3AED]/20 text-[#F4F4F5]">
@@ -245,7 +254,7 @@ export default function Page() {
           <Button
             variant="outline"
             onClick={handleClearFilters}
-            className="bg-[#1F1F22] border-[#7C3AED]/20 text-[#F4F4F5] hover:bg-[#7C3AED]/10"
+            className="bg-[#0F0F10]/70 border-white/10 text-[#F4F4F5] hover:bg-[#7C3AED]/10"
           >
             <Filter className="h-4 w-4 mr-2" />
             Limpiar filtros

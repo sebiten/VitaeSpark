@@ -24,7 +24,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Download, Eye, Loader2, User, X } from "lucide-react";
+import { Download, Eye, FileText, Loader2, Sparkles, User, X } from "lucide-react";
 import UserPayments from "@/components/UserPayment";
 import { CVThumbnail } from "./CvThumbnail";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -144,11 +144,13 @@ export default function PerfilCVs() {
   }
 
   return (
-    <div className="w-full mx-auto px-4 py-10 space-y-8 bg-[#0F0F10]">
+    <div className="relative w-full mx-auto overflow-hidden px-4 py-10 space-y-8 bg-[#0F0F10]">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-[#7C3AED]/10 blur-[120px]" />
       {/* Profile Information Card */}
       {profileInfo && (
-        <div className="max-w-4xl mx-auto mb-8">
-          <Card className="bg-gradient-to-r from-[#1A1A1D] to-[#0F0F10] border-[#2A2A2D] text-white overflow-hidden rounded-xl shadow-lg hover:shadow-purple-900/10 transition-all duration-300">
+        <div className="relative max-w-5xl mx-auto mb-8">
+          <Card className="overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/85 text-white shadow-2xl shadow-black/20 transition-all duration-300">
+            <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#38BDF8]/10 blur-3xl" />
             <CardHeader className="pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0 p-5">
               <div className="flex items-center gap-4">
                 <div className="bg-gradient-to-br from-[#7C3AED] to-[#5B21B6] p-3 rounded-full shadow-md ">
@@ -174,7 +176,7 @@ export default function PerfilCVs() {
                   </p>
                 </div>
               </div>
-              <div className="bg-[#2A2A2D] px-4 py-1.5 rounded-full text-sm font-medium text-[#E4E4E7] flex items-center gap-2 shadow-inner border border-[#3F3F46]">
+              <div className="bg-white/[0.04] px-4 py-1.5 rounded-full text-sm font-medium text-[#E4E4E7] flex items-center gap-2 shadow-inner border border-white/10">
                 <span className="text-[#7C3AED]">{cvs.length}</span>
                 <span>
                   {cvs.length === 1 ? "CV" : "CVs"} disponible
@@ -206,26 +208,29 @@ export default function PerfilCVs() {
           </Card>
         </div>
       )}
-      <div className="text-center space-y-2 mb-8 ">
-        <h2 className="text-3xl font-bold text-[#7C3AED]">Tus CVs Aprobados</h2>
+      <div className="relative text-center space-y-2 mb-8 ">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#7C3AED]/15 text-[#A78BFA] ring-1 ring-[#A78BFA]/20">
+          <FileText className="h-6 w-6" />
+        </div>
+        <h2 className="text-3xl font-bold text-white">Tus CVs Aprobados</h2>
         <p className="text-[#A1A1AA] max-w-md mx-auto">
           Aquí encontrarás todos tus currículums generados y listos para
           descargar
         </p>
       </div>
 
-      <Tabs defaultValue="grid" className="max-w-6xl mx-auto">
+      <Tabs defaultValue="grid" className="relative max-w-6xl mx-auto">
         <div className="flex justify-center mb-6">
-          <TabsList className="bg-[#1A1A1D] p-1 rounded-full text-white">
+          <TabsList className="bg-[#15151A] border border-white/10 p-1 rounded-2xl text-white">
             <TabsTrigger
               value="grid"
-              className=" text-white data-[state=active]:bg-[#3F3F46] "
+              className="text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white rounded-xl"
             >
               Vista Grid
             </TabsTrigger>
             <TabsTrigger
               value="list"
-              className="data-[state=active]:bg-[#3F3F46] text-white"
+              className="text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white rounded-xl"
             >
               Vista Lista
             </TabsTrigger>
@@ -239,9 +244,9 @@ export default function PerfilCVs() {
               {cvs.map((cv) => (
                 <Card
                   key={cv.id}
-                  className="bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5] shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group hover:border-primary/50"
+                  className="group overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/85 text-[#F4F4F5] shadow-xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-[#38BDF8]/30"
                 >
-                  <CardHeader className="bg-[#1A1A1D] p-4 relative">
+                  <CardHeader className="bg-white/[0.03] p-4 relative border-b border-white/10">
                     <div className="mt-2">
                       <div
                         className={`
@@ -272,7 +277,7 @@ export default function PerfilCVs() {
                     <CVThumbnail cv={cv} />
                   </CardContent>
 
-                  <CardFooter className="p-4 flex flex-col gap-2 bg-[#0F0F10]">
+                  <CardFooter className="p-4 flex flex-col gap-2 bg-[#15151A]">
                     <div className="text-center w-full mb-1">
                       <div className="font-medium text-[#F4F4F5]">
                         CV Profesional
@@ -491,7 +496,9 @@ export default function PerfilCVs() {
           </ScrollArea>
         </TabsContent>
       </Tabs>
-      <UserPayments />
+      <div className="relative">
+        <UserPayments />
+      </div>
     </div>
   );
 }
@@ -499,8 +506,8 @@ export default function PerfilCVs() {
 // Componente para estado vacío
 function EmptyState({ router }: { router: any }) {
   return (
-    <div className="text-center py-16 px-6 bg-[#0F0F10] rounded-xl border border-[#2A2A2D] max-w-md mx-auto">
-      <User className="w-12 h-12 text-secondary mx-auto mb-4 opacity-50" />
+    <div className="text-center py-16 px-6 bg-[#15151A]/85 rounded-3xl border border-white/10 max-w-md mx-auto shadow-2xl shadow-black/10">
+      <Sparkles className="w-12 h-12 text-[#7C3AED] mx-auto mb-4 opacity-80" />
       <h3 className="text-xl font-semibold text-[#F4F4F5] mb-2">
         Sin CVs disponibles
       </h3>
