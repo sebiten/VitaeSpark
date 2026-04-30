@@ -15,6 +15,17 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next(); // no aplicar middlewares ni redirecciones
   }
 
+  const needsSessionRefresh =
+    pathname.startsWith("/perfil") ||
+    pathname.startsWith("/abelardo") ||
+    pathname.startsWith("/crear") ||
+    pathname.startsWith("/auth") ||
+    pathname.startsWith("/login");
+
+  if (!needsSessionRefresh) {
+    return NextResponse.next();
+  }
+
   return await updateSession(request);
 }
 export const config = {
@@ -24,8 +35,9 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - robots.txt / sitemap.xml / manifest icons
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|favicons/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|json)$).*)",
   ],
 };

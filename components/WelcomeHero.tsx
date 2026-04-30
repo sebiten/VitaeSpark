@@ -30,7 +30,7 @@ const steps = [
   },
   {
     icon: <Search className="h-4 w-4" />,
-    title: "Queda listo En PDF",
+    title: "Queda listo en PDF",
     description: "Con estructura limpia para postularte con más confianza.",
   },
 ];
@@ -44,7 +44,7 @@ export default function WelcomeHero() {
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       </div>
 
-      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[minmax(0,1.04fr)_minmax(380px,0.96fr)]">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[minmax(0,1.02fr)_minmax(420px,0.98fr)] lg:gap-14">
         <div className="relative max-w-3xl">
           <div className="pointer-events-none absolute -right-2 -top-4 z-0 flex h-20 w-20 items-center justify-center rounded-[1.6rem] border border-white/10 bg-white/[0.045] shadow-2xl shadow-[#7C3AED]/20 backdrop-blur-md sm:hidden">
             <div className="absolute inset-2 rounded-2xl bg-gradient-to-br from-[#7C3AED]/30 to-[#38BDF8]/20 blur-md" />
@@ -121,44 +121,41 @@ export default function WelcomeHero() {
             </div>
           </div>
 
-          <div className="mt-8 hidden gap-3 sm:grid-cols-3 lg:grid">
+          <div className="mt-8 hidden overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] shadow-2xl shadow-black/10 backdrop-blur lg:grid lg:grid-cols-3">
             {steps.map((step, index) => (
               <div
                 key={step.title}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#15151A]/80 p-4 shadow-xl shadow-black/10 transition hover:-translate-y-1 hover:border-[#38BDF8]/25 hover:bg-[#171720]"
+                className="group relative min-h-[132px] border-r border-white/10 p-4 transition last:border-r-0 hover:bg-white/[0.035]"
               >
-                <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#7C3AED]/10 blur-2xl transition group-hover:bg-[#38BDF8]/10" />
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="inline-flex rounded-2xl bg-[#38BDF8]/10 p-3 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+                <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[#7C3AED]/10 blur-2xl transition group-hover:bg-[#38BDF8]/10" />
+                <div className="relative mb-3 flex items-center justify-between">
+                  <div className="inline-flex rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
                     {step.icon}
                   </div>
-                  <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs font-semibold text-white/55">
+                  <span className="text-xs font-semibold text-white/35">
                     0{index + 1}
                   </span>
                 </div>
-                <h2 className="text-sm font-semibold text-white">
+                <h2 className="relative text-sm font-semibold text-white">
                   {step.title}
                 </h2>
-                <p className="mt-1 text-sm leading-6 text-[#F4F4F5]/60">
+                <p className="relative mt-1 text-sm leading-6 text-[#F4F4F5]/60">
                   {step.description}
                 </p>
-                <div className="mt-5 h-1 overflow-hidden rounded-full bg-white/10">
-                  <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#38BDF8]" />
-                </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-lg lg:mx-0">
-          <div className="absolute -inset-5 rounded-[2rem] bg-gradient-to-br from-[#7C3AED]/30 via-transparent to-[#38BDF8]/25 blur-2xl" />
+        <div className="relative mx-auto w-full max-w-lg lg:mx-0 lg:max-w-xl lg:translate-y-6">
+          <div className="absolute -inset-6 rounded-[2.2rem] bg-gradient-to-br from-[#7C3AED]/28 via-transparent to-[#38BDF8]/22 blur-2xl" />
           <div className="absolute -left-2 top-20 z-10 hidden rounded-2xl border border-[#38BDF8]/20 bg-[#0F0F10]/85 px-3 py-2 text-xs text-white shadow-xl shadow-[#38BDF8]/10 backdrop-blur sm:block lg:hidden">
             <span className="mr-1 text-[#38BDF8]">✦</span> ATS friendly
           </div>
           <div className="absolute -right-2 bottom-24 z-10 hidden rounded-2xl border border-[#7C3AED]/25 bg-[#0F0F10]/85 px-3 py-2 text-xs text-white shadow-xl shadow-[#7C3AED]/10 backdrop-blur sm:block lg:hidden">
             <span className="mr-1 text-[#A78BFA]">✦</span> IA incluida
           </div>
-          <div className="relative overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#17171B] p-2 shadow-2xl shadow-black/40 sm:rounded-[2rem] sm:p-3">
+          <div className="relative overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#17171B]/90 p-2 shadow-2xl shadow-black/35 ring-1 ring-white/[0.03] sm:rounded-[2rem] sm:p-3">
             <div className="mb-2 flex items-center justify-between rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5 sm:mb-3 sm:px-4 sm:py-3">
               <div className="flex items-center gap-3">
                 <div className="hidden h-10 w-10 items-center justify-center rounded-xl bg-[#7C3AED]/15 text-[#A78BFA] ring-1 ring-[#A78BFA]/20 sm:flex">
@@ -186,7 +183,7 @@ export default function WelcomeHero() {
                 height={950}
                 priority
                 sizes="(min-width: 1024px) 44vw, 92vw"
-                className="aspect-[4/4.35] w-full object-cover object-top sm:aspect-[4/5]"
+                className="aspect-[4/4.35] w-full object-cover object-top sm:aspect-[5/5]"
               />
               <div className="absolute bottom-3 left-3 right-3 rounded-2xl border border-white/15 bg-[#0F0F10]/82 p-3 text-white shadow-xl backdrop-blur-md sm:bottom-5 sm:left-5 sm:right-5 sm:p-4">
                 <div className="flex items-start gap-3">

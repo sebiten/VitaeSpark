@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getBaseUrl } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 export default function robots(): MetadataRoute.Robots {
   const baseUrl = getBaseUrl();
 
@@ -11,6 +13,5 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ["/api/", "/abelardo/", "/login", "/perfil"],
     },
     sitemap: new URL("/sitemap.xml", baseUrl).toString(),
-    host: baseUrl.toString(),
   };
 }

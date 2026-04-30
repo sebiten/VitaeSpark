@@ -8,7 +8,7 @@ const Page = async () => {
   if (!data.user) redirect("/login");
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#0F0F10] px-3 py-6 sm:px-6 sm:py-8 lg:px-8">
+    <div className="min-h-screen overflow-x-hidden bg-[#0F0F10] px-3 py-3 sm:px-6 sm:py-8 lg:px-8">
       <div className="mx-auto w-full max-w-6xl min-w-0">
         <CVForm />
       </div>

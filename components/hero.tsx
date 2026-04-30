@@ -30,6 +30,7 @@ import { sendFeedback } from "@/app/(auth)/login/actions";
 import { SubmitButton } from "@/app/(auth)/login/auth-page-client";
 import { Label } from "./ui/label";
 import WelcomeHero from "./WelcomeHero";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -186,10 +187,12 @@ export default function Home() {
 
               <div className="relative mb-6 bg-[#0F0F10] rounded-lg p-2 shadow-md">
                 <div className=" overflow-hidden">
-                  <img
+                  <Image
                     src="/hamdu.webp"
                     alt="CV tradicional no optimizado"
                     className="rounded-lg w-full h-full object-cover opacity-70"
+                    width={500}
+                    height={300}
                   />
                 </div>
                 <div className="absolute top-2 right-2 bg-[#FF4A4A]/20 text-[#FF4A4A] text-xs font-bold px-2 py-1 rounded-full">
@@ -248,10 +251,12 @@ export default function Home() {
 
               <div className="relative mb-6 bg-[#0F0F10] rounded-lg p-2 shadow-xl">
                 <div className=" overflow-hidden">
-                  <img
+                  <Image
+                    width={500}
+                    height={  300}
                     src="/purple-hero.webp"
                     alt="CV optimizado por VitaeSpark"
-                    className="rounded-lg w-full h-full object-cover"
+                    className="rounded-lg w-full h-full object-cover opacity-90"
                   />
                 </div>
                 <div className="absolute top-2 right-2 bg-[#38BDF8] text-[#0F0F10] text-xs font-bold px-2 py-1 rounded-full">

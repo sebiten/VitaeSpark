@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getBaseUrl } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 const publicRoutes = [
   "/",
   "/blog",

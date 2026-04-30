@@ -22,7 +22,7 @@ import {
   Cross,
   X,
 } from "lucide-react";
-import { motion, AnimatePresence, color } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const templates = [
   {
@@ -88,29 +88,29 @@ export default function TemplateSelector({
   const [hoveredTemplate, setHoveredTemplate] = useState<string | null>(null);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 sm:space-y-8">
       {/* Header Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="text-center space-y-6"
+        className="space-y-3 text-center sm:space-y-6"
       >
         <div className="relative inline-block">
-          <div className="w-24 h-24 bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-[#7C3AED]/25 relative overflow-hidden">
+          <div className="relative mx-auto flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] shadow-xl shadow-[#7C3AED]/20 sm:h-24 sm:w-24 sm:rounded-3xl sm:shadow-2xl">
             <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
-            <FileText className="w-12 h-12 text-white relative z-10" />
+            <FileText className="relative z-10 h-7 w-7 text-white sm:h-12 sm:w-12" />
           </div>
-          <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-[#F59E0B] to-[#D97706] rounded-full flex items-center justify-center shadow-lg">
-            <Crown className="w-4 h-4 text-white" />
+          <div className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-[#F59E0B] to-[#D97706] shadow-lg sm:h-8 sm:w-8">
+            <Crown className="h-3 w-3 text-white sm:h-4 sm:w-4" />
           </div>
         </div>
 
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-[#F4F4F5] to-[#D4D4D8] bg-clip-text text-transparent mb-3">
+          <h2 className="mb-2 bg-gradient-to-r from-white via-[#F4F4F5] to-[#D4D4D8] bg-clip-text text-2xl font-bold leading-tight text-transparent sm:mb-3 sm:text-3xl">
             Elige tu plantilla perfecta
           </h2>
-          <p className="text-[#A1A1AA] text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#A1A1AA] sm:text-lg">
             Selecciona el diseño que mejor represente tu estilo profesional y
             destaque tus fortalezas
           </p>
@@ -122,7 +122,7 @@ export default function TemplateSelector({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3"
       >
         {templates.map((tpl, index) => (
           <motion.div
@@ -135,7 +135,7 @@ export default function TemplateSelector({
             onMouseLeave={() => setHoveredTemplate(null)}
           >
             <div
-              className={`relative overflow-hidden rounded-2xl border-2 transition-all duration-500 cursor-pointer transform hover:scale-[1.02] ${
+              className={`relative cursor-pointer overflow-hidden rounded-2xl border-2 transition-all duration-500 hover:scale-[1.02] ${
                 selectedTemplate === tpl.id
                   ? "border-[#7C3AED] shadow-2xl shadow-[#7C3AED]/25 bg-gradient-to-br from-[#7C3AED]/5 to-[#06B6D4]/5"
                   : "border-[#3A3A3D] hover:border-[#7C3AED]/50 bg-gradient-to-br from-[#1C1C1E] to-[#2A2A2D]"
@@ -156,7 +156,7 @@ export default function TemplateSelector({
               </AnimatePresence>
 
               {/* CV Preview Image */}
-              <div className="relative h-48 overflow-hidden rounded-t-xl">
+              <div className="relative h-44 overflow-hidden rounded-t-xl sm:h-48">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
                 <img
                   src={`/${tpl.id}.png`}
@@ -191,7 +191,7 @@ export default function TemplateSelector({
               </div>
 
               {/* Content */}
-              <div className="relative p-6 space-y-4">
+              <div className="relative space-y-3 p-4 sm:space-y-4 sm:p-6">
                 {/* Header */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
