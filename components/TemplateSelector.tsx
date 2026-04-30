@@ -29,6 +29,7 @@ const templates = [
     id: "elegance",
     name: "Elegante",
     color: "#0A2C7C", // algo asi pero mas claro
+    image: "/elegance-good.webp",
     description: "Sofisticado y único",
     category: "Moderno",
     features: ["Diseño moderno", "Elegante", "Con Foto"],
@@ -39,6 +40,7 @@ const templates = [
     id: "purple",
     name: "Morado",
     color: "#8B5CF6",
+    image: "/purple-hero.webp",
     description: "Creativo y moderno",
     category: "Creativo",
     features: ["Diseño Moderno", "Colores Vibrantes", "Con Foto"],
@@ -48,6 +50,7 @@ const templates = [
     id: "blue",
     name: "Azul",
     color: "#1E40AF",
+    image: "/blue.webp",
     description: "Corporativo y confiable",
     category: "Creativo",
     features: ["Diseño Moderno", "Colores Vibrantes", "Con Foto"],
@@ -58,6 +61,7 @@ const templates = [
     id: "green",
     name: "Verde",
     color: "#15803D",
+    image: "/green.webp",
     description: "Fresco y dinámico",
     category: "Creativo",
     features: ["Diseño Moderno", "Colores Vibrantes", "Con Foto"],
@@ -68,6 +72,7 @@ const templates = [
     id: "harvard",
     name: "Harvard",
     color: "#fff",
+    image: "/harvard.webp",
     description: "Clásico y profesional",
     category: "Tradicional",
     features: ["Diseño Clásico", "Muy Legible", "Destacado"],
@@ -159,7 +164,7 @@ export default function TemplateSelector({
               <div className="relative h-44 overflow-hidden rounded-t-xl sm:h-48">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
                 <img
-                  src={`/${tpl.id}.png`}
+                  src={tpl.image}
                   alt={`Vista previa ${tpl.name}`}
                   className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
                 />
@@ -279,7 +284,7 @@ export default function TemplateSelector({
                 <div className="relative p-2">
                   <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white">
                     <img
-                      src={`/${tpl.id}.png`}
+                      src={tpl.image}
                       alt={`Vista previa completa ${tpl.name}`}
                       className="w-full"
                     />

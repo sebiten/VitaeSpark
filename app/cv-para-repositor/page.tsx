@@ -27,7 +27,7 @@ export default function CvParaRepositorPage() {
         "VitaeSpark te ayuda a ordenar esa experiencia y convertirla en un CV claro para supermercados, mayoristas, farmacias, tiendas y comercios.",
       ]}
       exampleImage={{
-        src: "/example.webp",
+        src: "/elegance-good.webp",
         alt: "ejemplo de cv para repositor",
         caption:
           "Ejemplo visual de CV adaptable para reposicion, supermercados y operaciones de retail.",

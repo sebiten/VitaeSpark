@@ -27,7 +27,7 @@ export default function CvParaCajeroPage() {
         "VitaeSpark te ayuda a convertir esa experiencia en un CV mas claro y competitivo para supermercados, farmacias, tiendas, estaciones de servicio o comercios de cercania.",
       ]}
       exampleImage={{
-        src: "/example.webp",
+        src: "/purple-hero.webp",
         alt: "ejemplo de cv para cajero",
         caption:
           "Ejemplo visual de CV profesional adaptable para puestos de cajero, retail y atencion al cliente.",

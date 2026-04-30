@@ -27,7 +27,7 @@ export default function CvParaLimpiezaPage() {
         "VitaeSpark te ayuda a presentar esa experiencia de forma profesional, con tareas claras, habilidades utiles y una estructura facil de leer para reclutadores.",
       ]}
       exampleImage={{
-        src: "/example.webp",
+        src: "/elegance-good.webp",
         alt: "ejemplo de cv para limpieza",
         caption:
           "Ejemplo visual de CV adaptable para limpieza, mantenimiento y servicios generales.",

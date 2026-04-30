@@ -27,7 +27,7 @@ export default function CvParaAdministrativoPage() {
         "VitaeSpark te ayuda a convertir esas tareas en un perfil profesional mas claro, con palabras clave utiles para reclutadores y una estructura compatible con filtros ATS.",
       ]}
       exampleImage={{
-        src: "/example.webp",
+        src: "/elegance-good.webp",
         alt: "ejemplo de cv para administrativo",
         caption:
           "Ejemplo visual de CV profesional adaptable para puestos administrativos y de oficina.",

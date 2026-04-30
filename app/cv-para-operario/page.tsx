@@ -27,7 +27,7 @@ export default function CvParaOperarioPage() {
         "VitaeSpark te ayuda a ordenar esas tareas y convertirlas en un perfil mas claro para empresas industriales, depositos, comercios y servicios.",
       ]}
       exampleImage={{
-        src: "/example.webp",
+        src: "/purple-hero.webp",
         alt: "ejemplo de cv para operario",
         caption:
           "Ejemplo visual de CV adaptable para operario, produccion, deposito y mantenimiento.",

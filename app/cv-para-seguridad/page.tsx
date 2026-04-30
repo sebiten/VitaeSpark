@@ -27,7 +27,7 @@ export default function CvParaSeguridadPage() {
         "VitaeSpark te ayuda a ordenar esa experiencia en un CV profesional, claro y enfocado en puestos de vigilador, seguridad privada, control de ingreso o prevencion.",
       ]}
       exampleImage={{
-        src: "/example.webp",
+        src: "/purple-hero.webp",
         alt: "ejemplo de cv para seguridad",
         caption:
           "Ejemplo visual de CV profesional adaptable para vigilador y seguridad privada.",
