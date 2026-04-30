@@ -176,12 +176,9 @@ export default function WelcomeHero() {
             </div>
 
             <div className="relative overflow-hidden rounded-2xl bg-white shadow-inner shadow-black/10">
-              <Image
+              <img
                 src="/purple-hero.webp"
                 alt="Ejemplo de curriculum vitae online creado con VitaeSpark"
-                width={760}
-                height={950}
-                priority
                 sizes="(min-width: 1024px) 44vw, 92vw"
                 className="aspect-[4/4.35] w-full object-cover object-top sm:aspect-[5/5]"
               />
