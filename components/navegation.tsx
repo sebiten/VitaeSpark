@@ -19,12 +19,12 @@ import {
   MenuIcon,
   LogIn,
   Paperclip,
-  PersonStanding,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { logout } from "@/app/(auth)/login/actions";
+import { createClient } from "@/utils/supabase/client";
 
 // Custom Button Component - Sober and Modern
 interface CustomButtonProps {
@@ -142,8 +142,25 @@ function CustomLinkButton({
   );
 }
 
-export function Navegation({ user }: { user: User | null }) {
+export function Navegation() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#1F1F22]/50 bg-[#0F0F10]/80 backdrop-blur-md">
@@ -153,10 +170,13 @@ export function Navegation({ user }: { user: User | null }) {
             href="/"
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
-            <img
+            <Image
               src="/logoreal.webp"
               alt="Logo Vitae Spark"
-              className="rounded-lg object-cover h-28 w-28 "
+              width={112}
+              height={112}
+              priority
+              className="rounded-lg object-cover h-28 w-28"
             />
           </Link>
         </div>
@@ -219,11 +239,13 @@ export function Navegation({ user }: { user: User | null }) {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
+          ) : user === null ? (
             <CustomLinkButton href="/login" variant="secondary" size="sm">
               <LogIn className="h-4 w-4" />
               Iniciar sesión
             </CustomLinkButton>
+          ) : (
+            <div className="h-8 w-28 rounded-lg bg-[#1F1F22]/50" />
           )}
         </nav>
 

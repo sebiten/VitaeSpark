@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -57,6 +56,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: baseUrl.href,
   },
+  manifest: "/favicons/manifest.json",
   openGraph: {
     type: "website",
     url: baseUrl,
@@ -91,7 +91,18 @@ export const metadata: Metadata = {
     creator: "@vitae.spark",
   },
   icons: {
-    icon: "/logochispa.png",
+    icon: [
+      { url: "/favicons/favicon.ico" },
+      { url: "/favicons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicons/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
+    shortcut: "/favicons/favicon.ico",
+    apple: [
+      { url: "/favicons/apple-icon-180x180.png", sizes: "180x180", type: "image/png" },
+      { url: "/favicons/apple-icon-152x152.png", sizes: "152x152", type: "image/png" },
+      { url: "/favicons/apple-icon-120x120.png", sizes: "120x120", type: "image/png" },
+    ],
   },
 };
 
@@ -131,10 +142,6 @@ export default function RootLayout({
                 "Herramienta web para crear curriculum vitae online con IA, plantillas profesionales y enfoque ATS.",
             }),
           }}
-        />
-        <Script
-          src="https://sdk.mercadopago.com/js/v2"
-          strategy="beforeInteractive"
         />
       </head>
       <body

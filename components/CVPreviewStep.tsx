@@ -20,6 +20,7 @@ import {
   CheckCircle,
   Accessibility,
   Globe2,
+  ArrowLeft,
 } from "lucide-react";
 import {
   Carousel,
@@ -164,7 +165,7 @@ export default function CVPreviewStepPurple({
 
   const renderTemplate = useMemo(() => {
     return (
-      <PDFViewer showToolbar={false} className="w-full h-full">
+      <PDFViewer showToolbar={false} className="h-full w-full border-0">
         <DocumentoCVW cv={cvData} template={template} />
       </PDFViewer>
     );
@@ -180,7 +181,7 @@ export default function CVPreviewStepPurple({
   const descuentoPorcentaje = Math.round((ahorro / precioOriginal) * 100);
 
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-6">
+    <div className="mx-auto w-full max-w-6xl space-y-6 overflow-x-hidden">
       {/* Header */}
       <div className="text-center space-y-2">
         <h2 className="text-3xl font-bold text-white">
@@ -191,15 +192,12 @@ export default function CVPreviewStepPurple({
         </p>
       </div>
 
-      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <div className="grid min-w-0 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
       {/* CV Preview */}
-      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-black/30">
+      <div className="relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-black/30">
         <div
-          className="w-full relative"
+          className="relative mx-auto h-[72vh] min-h-[430px] w-full max-w-full overflow-hidden sm:aspect-[1/1.414] sm:h-auto sm:min-h-0"
           style={{
-            aspectRatio: "1/1.414",
-            maxHeight: "68vh",
-            overflow: "hidden",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -218,8 +216,18 @@ export default function CVPreviewStepPurple({
       </div>
 
       {/* Pricing Card */}
-      <Card className="border-white/10 bg-[#15151A] text-white shadow-2xl shadow-black/30">
+      <Card className="min-w-0 border-white/10 bg-[#15151A] text-white shadow-2xl shadow-black/30">
         <CardContent className="p-6 space-y-4">
+          <Button
+            type="button"
+            onClick={onBack}
+            variant="outline"
+            className="w-full rounded-xl border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Volver y editar datos
+          </Button>
+
           {/* Price Section */}
           <div className="text-center space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
             <h3 className="text-xl font-bold text-white font-sans">

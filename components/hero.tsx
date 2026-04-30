@@ -15,28 +15,23 @@ import {
   Clock,
   Award,
   ArrowRight,
-  GraduationCap,
   MessageCircleIcon,
+  Bot,
+  Download,
+  HelpCircle,
+  PencilLine,
+  BookOpen,
 } from "lucide-react";
 import { TestimonialCard } from "@/components/testimonial-card";
 import { FeatureCard } from "@/components/feature-card";
 import Link from "next/link";
-import { RoboAnimation } from "./roboto-animation";
-import { FloatingPaper } from "./floatin-paper";
 import { Textarea } from "./ui/textarea";
 import { sendFeedback } from "@/app/(auth)/login/actions";
 import { SubmitButton } from "@/app/(auth)/login/auth-page-client";
 import { Label } from "./ui/label";
 import WelcomeHero from "./WelcomeHero";
-import { createClient } from "@/utils/supabase/server";
 
-export default async function Home() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
+export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-[#0F0F10] text-[#F4F4F5]">
       {/* Hero Section */}
@@ -44,7 +39,8 @@ export default async function Home() {
       <WelcomeHero />
 
       {/* Features Section */}
-      <section className="py-20 px-4 bg-[#0F0F10]">
+      <section className="relative overflow-hidden py-20 px-4 bg-[#0F0F10]">
+        <div className="pointer-events-none absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-[#38BDF8]/10 blur-[110px]" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
@@ -95,7 +91,8 @@ export default async function Home() {
       </section>
 
       {/* How it Works Section */}
-      <section className="py-20 px-4 bg-[#0F0F10]/50">
+      <section className="relative overflow-hidden py-20 px-4 bg-[#0F0F10]/50">
+        <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-[#38BDF8]/15 to-transparent" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
@@ -110,41 +107,54 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            <div className="hidden md:block absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-[#7C3AED] to-[#38BDF8] -translate-y-1/2 z-0"></div>
-
-            <div className="relative z-10 flex flex-col items-center text-center">
-              <div className="bg-[#1F1F22] border border-[#7C3AED]/20 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <span className="text-2xl font-bold text-[#7C3AED]">1</span>
+          <div className="grid md:grid-cols-3 gap-6 relative">
+            {[
+              {
+                number: "01",
+                icon: <PencilLine className="h-6 w-6" />,
+                title: "Ingresa tus datos",
+                description:
+                  "Completa un formulario simple con tu experiencia, educación y habilidades.",
+              },
+              {
+                number: "02",
+                icon: <Bot className="h-6 w-6" />,
+                title: "La IA optimiza tu CV",
+                description:
+                  "Mejora automáticamente la redacción, el orden y la estructura de tu CV.",
+              },
+              {
+                number: "03",
+                icon: <Download className="h-6 w-6" />,
+                title: "Descarga tu CV listo",
+                description:
+                  "Obtén un PDF profesional y preparado para enviar a empresas.",
+              },
+            ].map((step) => (
+              <div
+                key={step.number}
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-[#15151A] p-6 shadow-2xl shadow-black/10 transition hover:-translate-y-1 hover:border-[#38BDF8]/25"
+              >
+                <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#7C3AED]/10 blur-2xl transition group-hover:bg-[#38BDF8]/10" />
+                <div className="relative mb-8 flex items-center justify-between">
+                  <div className="rounded-2xl bg-[#38BDF8]/10 p-4 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+                    {step.icon}
+                  </div>
+                  <span className="text-5xl font-black text-white/[0.06]">
+                    {step.number}
+                  </span>
+                </div>
+                <h3 className="relative text-xl font-bold mb-3">
+                  {step.title}
+                </h3>
+                <p className="relative text-[#F4F4F5]/70 leading-7">
+                  {step.description}
+                </p>
+                <div className="relative mt-6 h-1 rounded-full bg-white/10">
+                  <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#38BDF8]" />
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">Ingresa tus datos</h3>
-              <p className="text-[#F4F4F5]/70">
-                Completa un formulario simple con tu experiencia, educación y
-                habilidades.
-              </p>
-            </div>
-
-            <div className="relative z-10 flex flex-col items-center text-center">
-              <div className="bg-[#1F1F22] border border-[#38BDF8]/20 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <span className="text-2xl font-bold text-[#38BDF8]">2</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">La IA optimiza tu CV</h3>
-              <p className="text-[#F4F4F5]/70">
-                Nuestro sistema mejora automáticamente la redacción y estructura
-                de tu CV.
-              </p>
-            </div>
-
-            <div className="relative z-10 flex flex-col items-center text-center">
-              <div className="bg-[#1F1F22] border border-[#7C3AED]/20 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <span className="text-2xl font-bold text-[#7C3AED]">3</span>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Descarga tu CV listo</h3>
-              <p className="text-[#F4F4F5]/70">
-                Obtén tu CV profesional en PDF, listo para enviar a cualquier
-                empresa.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -354,7 +364,7 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="relative grid md:grid-cols-3 gap-6">
             <TestimonialCard
               quote="Actualicé mi CV con VitaeSpark y a la semana ya tenía entrevistas. Súper práctico y fácil de usar."
               author="Laura Martínez"
@@ -371,11 +381,26 @@ export default async function Home() {
               role="Marketing Digital"
             />
           </div>
+          <div className="mt-8 grid gap-3 rounded-3xl border border-white/10 bg-white/[0.03] p-4 text-center sm:grid-cols-3">
+            <div className="rounded-2xl bg-black/20 p-4">
+              <p className="text-2xl font-bold text-white">ATS</p>
+              <p className="text-sm text-white/55">enfoque en filtros</p>
+            </div>
+            <div className="rounded-2xl bg-black/20 p-4">
+              <p className="text-2xl font-bold text-[#38BDF8]">PDF</p>
+              <p className="text-sm text-white/55">descarga profesional</p>
+            </div>
+            <div className="rounded-2xl bg-black/20 p-4">
+              <p className="text-2xl font-bold text-white">IA</p>
+              <p className="text-sm text-white/55">redacción mejorada</p>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-4  bg-[#0F0F10]">
+      <section className="relative overflow-hidden py-20 px-4 bg-[#0F0F10]">
+        <div className="pointer-events-none absolute right-0 top-10 h-72 w-72 rounded-full bg-[#7C3AED]/10 blur-[120px]" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
@@ -389,9 +414,14 @@ export default async function Home() {
             </p>
           </div>
 
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1" className="border-[#1F1F22]">
-              <AccordionTrigger className="text-left">
+          <Accordion
+            type="single"
+            collapsible
+            className="relative w-full rounded-3xl border border-white/10 bg-[#15151A]/80 p-3 shadow-2xl shadow-black/10"
+          >
+            <AccordionItem value="item-1" className="border-white/10 px-4">
+              <AccordionTrigger className="text-left hover:text-[#38BDF8]">
+                <HelpCircle className="mr-3 h-5 w-5 text-[#38BDF8]" />
                 ¿Qué es un sistema ATS y por qué es importante?
               </AccordionTrigger>
               <AccordionContent className="text-[#F4F4F5]/70">
@@ -404,8 +434,9 @@ export default async function Home() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-2" className="border-[#1F1F22]">
-              <AccordionTrigger className="text-left">
+            <AccordionItem value="item-2" className="border-white/10 px-4">
+              <AccordionTrigger className="text-left hover:text-[#38BDF8]">
+                <Sparkles className="mr-3 h-5 w-5 text-[#A78BFA]" />
                 ¿Cómo mejora la IA mi currículum?
               </AccordionTrigger>
               <AccordionContent className="text-[#F4F4F5]/70">
@@ -429,8 +460,9 @@ export default async function Home() {
               </AccordionContent>
             </AccordionItem> */}
 
-            <AccordionItem value="item-4" className="border-[#1F1F22]">
-              <AccordionTrigger className="text-left">
+            <AccordionItem value="item-4" className="border-0 px-4">
+              <AccordionTrigger className="text-left hover:text-[#38BDF8]">
+                <Download className="mr-3 h-5 w-5 text-[#38BDF8]" />
                 ¿En qué formatos puedo descargar mi CV?
               </AccordionTrigger>
               <AccordionContent className="text-[#F4F4F5]/70">
@@ -589,10 +621,19 @@ export default async function Home() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-2xl border border-white/10 bg-[#15151A] p-6 transition hover:border-[#38BDF8]/40 hover:bg-[#181821]"
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#15151A] p-6 transition hover:-translate-y-1 hover:border-[#38BDF8]/40 hover:bg-[#181821]"
               >
-                <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
-                <p className="text-[#F4F4F5]/70 leading-7">
+                <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#7C3AED]/10 blur-2xl transition group-hover:bg-[#38BDF8]/10" />
+                <div className="relative mb-5 flex items-center justify-between">
+                  <div className="rounded-2xl bg-[#38BDF8]/10 p-3 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+                    <BookOpen className="h-5 w-5" />
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-white/25 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
+                </div>
+                <h3 className="relative text-xl font-semibold mb-3">
+                  {item.title}
+                </h3>
+                <p className="relative text-[#F4F4F5]/70 leading-7">
                   {item.description}
                 </p>
               </Link>
@@ -608,18 +649,23 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <div>
+      <div className="px-4">
         <div className="max-w-6xl mx-auto mb-12">
-          <div className=" rounded-lg p-2 flex flex-col items-center">
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10 flex flex-col items-center">
+            <div className="absolute -left-16 -top-16 h-40 w-40 rounded-full bg-[#7C3AED]/10 blur-3xl" />
+            <div className="absolute -right-16 bottom-0 h-40 w-40 rounded-full bg-[#38BDF8]/10 blur-3xl" />
+            <div className="relative mb-4 rounded-2xl bg-[#38BDF8]/10 p-3 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+              <MessageCircleIcon className="h-6 w-6" />
+            </div>
             <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
               ¿Te gustó VitaeSpark?
             </Badge>
-            <p className="text-[#F4F4F5]/80 mb-4 text-center text-lg">
+            <p className="relative text-[#F4F4F5]/80 mb-6 text-center text-lg max-w-4xl">
               Déjanos tu comentario o testimonio si te ayudamos, o cuéntanos qué
               podemos mejorar, si necesitas ayuda podes escribirlo aqui tambien.
               ¡Tu opinión nos importa!
             </p>
-            <form action={sendFeedback} className="space-y-4 w-full">
+            <form action={sendFeedback} className="relative space-y-4 w-full">
               <div className="grid w-full gap-1.5">
                 <Label htmlFor="message">Tu comentario</Label>
                 <Textarea
@@ -628,49 +674,81 @@ export default async function Home() {
                   placeholder="Escribí tu comentario o sugerencia..."
                   required
                   className="min-h-[120px]
-                  bg-[#1F1F22] border border-[#7C3AED]/20 text-[#F4F4F5] placeholder:text-[#F4F4F5]/50 focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent rounded-lg transition-all duration-200
+                  bg-[#0F0F10]/70 border border-[#7C3AED]/20 text-[#F4F4F5] placeholder:text-[#F4F4F5]/50 focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent rounded-2xl transition-all duration-200
                   "
-                  disabled={!user}
                 />
               </div>
-              <SubmitButton disabled={!user}>
+              <SubmitButton>
                 <MessageCircleIcon className=" h-4 w-4" />
                 Enviar comentario
               </SubmitButton>
-              {!user && (
-                <div className="flex flex-col items-center justify-center">
-                  <span className="text-center mx-auto  text-white/50">
-                    Debes iniciar sesion para enviar un comentario
-                  </span>
-                  <Link href={"/login"} className="text-[#7C3AED] border-b">
-                    Iniciar sesion
-                  </Link>
-                </div>
-              )}
             </form>
           </div>
         </div>
       </div>
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-[#7C3AED]/20 to-[#38BDF8]/10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Destaca en el mercado laboral hoy mismo
-          </h2>
-          <p className="text-xl text-[#F4F4F5]/80 mb-8 max-w-2xl mx-auto">
-            Únete a miles de profesionales que ya han mejorado sus oportunidades
-            con VitaeSpark.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/crear">
-              <Button
-                size="lg"
-                className="bg-[#7C3AED]  hover:opacity-90 text-white shadow-lg shadow-[#7C3AED]/30 transition-all duration-300"
-                variant="default"
-              >
-                Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+      <section className="relative overflow-hidden px-4 py-20 bg-[#0F0F10]">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+        <div className="pointer-events-none absolute right-1/4 top-20 h-72 w-72 rounded-full bg-[#7C3AED]/12 blur-[110px]" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 rounded-[2rem] border border-white/10 bg-[#15151A]/85 p-6 shadow-2xl shadow-black/20 md:grid-cols-[1fr_360px] md:p-8">
+          <div>
+            <Badge className="mb-5 bg-[#7C3AED]/20 text-[#C4B5FD] hover:bg-[#7C3AED]/30">
+              Listo para postularte
+            </Badge>
+            <h2 className="text-3xl font-bold leading-tight md:text-5xl">
+              Tu próximo CV puede estar listo en minutos
+            </h2>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-[#F4F4F5]/75">
+              Completá tus datos, dejá que la IA mejore la redacción y descargá
+              un PDF profesional preparado para filtros ATS.
+            </p>
+
+            <div className="mt-7 grid gap-3 sm:grid-cols-3">
+              {[
+                "Redacción más clara",
+                "Estructura ATS",
+                "Descarga en PDF",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center gap-2 rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/75"
+                >
+                  <CheckCircle2 className="h-4 w-4 text-[#38BDF8]" />
+                  {item}
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8">
+              <Link href="/crear">
+                <Button
+                  size="lg"
+                  className="h-14 rounded-xl bg-[#7C3AED] px-8 hover:bg-[#6D28D9] text-white shadow-lg shadow-[#7C3AED]/30 transition-all duration-300"
+                  variant="default"
+                >
+                  Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative hidden md:block">
+            <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-[#7C3AED]/25 to-[#38BDF8]/10 blur-2xl" />
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0F0F10] p-3">
+              <div className="mb-3 flex items-center justify-between rounded-2xl bg-white/[0.04] px-4 py-3">
+                <span className="text-xs uppercase tracking-[0.22em] text-[#38BDF8]">
+                  Preview
+                </span>
+                <span className="rounded-full bg-[#38BDF8] px-3 py-1 text-xs font-bold text-[#0F0F10]">
+                  ATS
+                </span>
+              </div>
+              <img
+                src="/purple-hero.webp"
+                alt="Vista previa de CV profesional creado con VitaeSpark"
+                className="aspect-[4/4.4] w-full rounded-2xl object-cover object-top"
+              />
+            </div>
           </div>
         </div>
       </section>

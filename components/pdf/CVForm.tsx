@@ -67,12 +67,12 @@ const CVForm: NextPage = () => {
   };
 
   return (
-    <div className="mx-auto py-4">
+    <div className="mx-auto w-full overflow-x-hidden py-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="mx-auto max-w-6xl"
+        className="mx-auto w-full max-w-6xl min-w-0"
       >
         <div className="mb-8 rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-2xl shadow-black/20">
           <div className="flex justify-between items-center mb-2">
@@ -97,7 +97,7 @@ const CVForm: NextPage = () => {
         <Tabs
           value={activeTab}
           onValueChange={handleTabChange}
-          className="space-y-8"
+          className="min-w-0 space-y-8"
         >
           <div className="flex justify-center">
             <TabsList className="bg-[#15151A] border border-white/10 p-1 grid grid-cols-3 w-full max-w-lg rounded-2xl">
@@ -129,7 +129,7 @@ const CVForm: NextPage = () => {
 
           {/* Step Indicators */}
           <div className="flex justify-center mb-6">
-            <div className="flex w-full max-w-2xl items-center justify-center gap-3 rounded-2xl border border-white/10 bg-[#15151A]/70 px-4 py-3">
+            <div className="flex w-full max-w-2xl items-center justify-center gap-2 overflow-hidden rounded-2xl border border-white/10 bg-[#15151A]/70 px-3 py-3 sm:gap-3 sm:px-4">
               {/* Step 1 */}
               <div className="flex items-center">
                 <div
@@ -143,7 +143,7 @@ const CVForm: NextPage = () => {
                 >
                   {selectedTemplate ? <ShieldCheck className="w-4 h-4" /> : "1"}
                 </div>
-                <span className="ml-2 text-sm text-[#D4D4D8]  sm:inline">
+                <span className="ml-2 hidden text-sm text-[#D4D4D8] sm:inline">
                   Elegir Plantilla
                 </span>
               </div>
@@ -170,7 +170,7 @@ const CVForm: NextPage = () => {
                 >
                   {cvData ? <ShieldCheck className="w-4 h-4" /> : "2"}
                 </div>
-                <span className="ml-2 text-sm text-[#D4D4D8]  sm:inline">
+                <span className="ml-2 hidden text-sm text-[#D4D4D8] sm:inline">
                   Completar Datos
                 </span>
               </div>
@@ -195,7 +195,7 @@ const CVForm: NextPage = () => {
                 >
                   3
                 </div>
-                <span className="ml-2 text-sm text-[#D4D4D8]  sm:inline">
+                <span className="ml-2 hidden text-sm text-[#D4D4D8] sm:inline">
                   Vista Previa
                 </span>
               </div>

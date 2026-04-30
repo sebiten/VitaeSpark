@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" fill="#000000"/>
+  <path d="M32 3L37.2 28.1L61 32L37.2 35.9L32 61L26.8 35.9L3 32L26.8 28.1L32 3Z" fill="url(#spark-main)"/>
+  <path d="M32 3L37.2 28.1L61 32L37.2 35.9L32 61V3Z" fill="#06B6D4" fill-opacity="0.38"/>
+  <path d="M32 15L34.2 30.2L49 32L34.2 33.8L32 49L29.8 33.8L15 32L29.8 30.2L32 15Z" fill="#7C3AED"/>
+  <defs>
+    <linearGradient id="spark-main" x1="9" y1="16" x2="53" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="0.52" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+</svg>
