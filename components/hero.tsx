@@ -1,12 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
   CheckCircle2,
   FileText,
   Zap,
@@ -15,7 +9,6 @@ import {
   Clock,
   Award,
   ArrowRight,
-  MessageCircleIcon,
   Bot,
   Download,
   HelpCircle,
@@ -25,10 +18,6 @@ import {
 import { TestimonialCard } from "@/components/testimonial-card";
 import { FeatureCard } from "@/components/feature-card";
 import Link from "next/link";
-import { Textarea } from "./ui/textarea";
-import { sendFeedback } from "@/app/(auth)/login/actions";
-import { SubmitButton } from "@/app/(auth)/login/auth-page-client";
-import { Label } from "./ui/label";
 import WelcomeHero from "./WelcomeHero";
 import Image from "next/image";
 
@@ -419,39 +408,37 @@ export default function Home() {
             </p>
           </div>
 
-          <Accordion
-            type="single"
-            collapsible
-            className="relative w-full rounded-3xl border border-white/10 bg-[#15151A]/80 p-3 shadow-2xl shadow-black/10"
-          >
-            <AccordionItem value="item-1" className="border-white/10 px-4">
-              <AccordionTrigger className="text-left hover:text-[#38BDF8]">
+          <div className="relative w-full rounded-3xl border border-white/10 bg-[#15151A]/80 p-3 shadow-2xl shadow-black/10">
+            <details className="group border-b border-white/10 px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium transition hover:text-[#38BDF8]">
                 <HelpCircle className="mr-3 h-5 w-5 text-[#38BDF8]" />
                 ¿Qué es un sistema ATS y por qué es importante?
-              </AccordionTrigger>
-              <AccordionContent className="text-[#F4F4F5]/70">
+                <span className="ml-auto text-xl text-white/35 transition group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-3 pl-8 leading-7 text-[#F4F4F5]/70">
                 Un ATS (Applicant Tracking System) es un software que utilizan
                 las empresas para filtrar automáticamente los CVs. Es importante
                 que tu CV esté optimizado para estos sistemas, ya que
                 aproximadamente el 75% de los currículums son rechazados antes
                 de que un reclutador los vea. VitaeSpark asegura que tu CV pase
                 estos filtros.
-              </AccordionContent>
-            </AccordionItem>
+              </p>
+            </details>
 
-            <AccordionItem value="item-2" className="border-white/10 px-4">
-              <AccordionTrigger className="text-left hover:text-[#38BDF8]">
+            <details className="group border-b border-white/10 px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium transition hover:text-[#38BDF8]">
                 <Sparkles className="mr-3 h-5 w-5 text-[#A78BFA]" />
                 ¿Cómo mejora la IA mi currículum?
-              </AccordionTrigger>
-              <AccordionContent className="text-[#F4F4F5]/70">
+                <span className="ml-auto text-xl text-white/35 transition group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-3 pl-8 leading-7 text-[#F4F4F5]/70">
                 Nuestra IA analiza tu información y mejora la redacción para
                 hacerla más impactante y profesional. También identifica
                 palabras clave relevantes para tu industria y las incorpora
                 estratégicamente, aumentando tus posibilidades de superar los
                 filtros ATS.
-              </AccordionContent>
-            </AccordionItem>
+              </p>
+            </details>
 
             {/* <AccordionItem value="item-3" className="border-[#1F1F22]">
               <AccordionTrigger className="text-left">
@@ -465,16 +452,17 @@ export default function Home() {
               </AccordionContent>
             </AccordionItem> */}
 
-            <AccordionItem value="item-4" className="border-0 px-4">
-              <AccordionTrigger className="text-left hover:text-[#38BDF8]">
+            <details className="group px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium transition hover:text-[#38BDF8]">
                 <Download className="mr-3 h-5 w-5 text-[#38BDF8]" />
                 ¿En qué formatos puedo descargar mi CV?
-              </AccordionTrigger>
-              <AccordionContent className="text-[#F4F4F5]/70">
+                <span className="ml-auto text-xl text-white/35 transition group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-3 pl-8 leading-7 text-[#F4F4F5]/70">
                 Con la generación de tu cv puedes descargarlo en formato PDF las
                 veces que sean necesesarias desde tu perfil.
-              </AccordionContent>
-            </AccordionItem>
+              </p>
+            </details>
 
             {/* <AccordionItem value="item-5" className="border-[#1F1F22]">
               <AccordionTrigger className="text-left">
@@ -486,7 +474,7 @@ export default function Home() {
                 el 100% de tu pago sin hacer preguntas.
               </AccordionContent>
             </AccordionItem> */}
-          </Accordion>
+          </div>
         </div>
       </section>
 
@@ -654,43 +642,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <div className="px-4">
-        <div className="max-w-6xl mx-auto mb-12">
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10 flex flex-col items-center">
-            <div className="absolute -left-16 -top-16 h-40 w-40 rounded-full bg-[#7C3AED]/10 blur-3xl" />
-            <div className="absolute -right-16 bottom-0 h-40 w-40 rounded-full bg-[#38BDF8]/10 blur-3xl" />
-            <div className="relative mb-4 rounded-2xl bg-[#38BDF8]/10 p-3 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
-              <MessageCircleIcon className="h-6 w-6" />
-            </div>
-            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
-              ¿Te gustó VitaeSpark?
-            </Badge>
-            <p className="relative text-[#F4F4F5]/80 mb-6 text-center text-lg max-w-4xl">
-              Déjanos tu comentario o testimonio si te ayudamos, o cuéntanos qué
-              podemos mejorar, si necesitas ayuda podes escribirlo aqui tambien.
-              ¡Tu opinión nos importa!
-            </p>
-            <form action={sendFeedback} className="relative space-y-4 w-full">
-              <div className="grid w-full gap-1.5">
-                <Label htmlFor="message">Tu comentario</Label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  placeholder="Escribí tu comentario o sugerencia..."
-                  required
-                  className="min-h-[120px]
-                  bg-[#0F0F10]/70 border border-[#7C3AED]/20 text-[#F4F4F5] placeholder:text-[#F4F4F5]/50 focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent rounded-2xl transition-all duration-200
-                  "
-                />
-              </div>
-              <SubmitButton>
-                <MessageCircleIcon className=" h-4 w-4" />
-                Enviar comentario
-              </SubmitButton>
-            </form>
-          </div>
-        </div>
-      </div>
       {/* CTA Section */}
       <section className="relative overflow-hidden px-4 py-20 bg-[#0F0F10]">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
