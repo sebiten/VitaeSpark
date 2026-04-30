@@ -57,12 +57,12 @@ const styles = StyleSheet.create({
     color: colors.textLight,
   },
   section: {
-    marginBottom: 20,
+    marginBottom: 16,
   },
   sectionTitle: {
     fontSize: 14,
     fontWeight: 700,
-    marginBottom: 10,
+    marginBottom: 8,
     color: colors.primary,
     textTransform: "uppercase",
     letterSpacing: 0.5,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
 const AchievementsList = ({ items }: { items: string[] }) => (
   <View style={styles.achievementsList}>
     {items.map((item, i) => (
-      <View key={i} style={styles.achievement}>
+      <View key={i} style={styles.achievement} wrap={false}>
         <View style={styles.bullet} />
         <Text style={{ flex: 1, fontSize: 9 }}>{item}</Text>
       </View>
@@ -211,8 +211,8 @@ export default function ProfessionalBlueTemplate({
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Experiencia Profesional</Text>
           {cv.experiencia.map((exp, i) => (
-            <View key={i} style={{ marginBottom: 15 }}>
-              <View style={styles.twoColumnRow}>
+            <View key={i} style={{ marginBottom: 12 }}>
+              <View style={styles.twoColumnRow} wrap={false}>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.subsectionTitle}>{exp.cargo}</Text>
                   <Text style={styles.company}>{exp.empresa}</Text>
@@ -228,7 +228,7 @@ export default function ProfessionalBlueTemplate({
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Formación Académica</Text>
           {cv.formacion.map((edu, i) => (
-            <View key={i} style={styles.twoColumnRow}>
+            <View key={i} style={styles.twoColumnRow} wrap={false}>
               <View style={{ flex: 1 }}>
                 <Text style={styles.subsectionTitle}>{edu.titulo}</Text>
                 <Text style={styles.company}>{edu.institucion}</Text>

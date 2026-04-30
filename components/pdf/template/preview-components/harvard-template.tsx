@@ -4,8 +4,8 @@ import type { RespuestaCV } from "@/lib/types/cv"
 // Estilos minimalistas en blanco y negro, optimizados para ATS
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
-    paddingTop: 40,
+    padding: 28,
+    paddingTop: 34,
     fontSize: 10,
     fontFamily: "Times-Roman",
     color: "#000000",
@@ -37,20 +37,20 @@ const styles = StyleSheet.create({
   sectionHeader: {
     fontSize: 10,
     fontFamily: "Times-Bold",
-    marginTop: 10,
-    marginBottom: 5,
+    marginTop: 8,
+    marginBottom: 4,
     textTransform: "uppercase",
     borderBottomWidth: 1,
     borderBottomColor: "#000000",
   },
 
   experienceItem: {
-    marginBottom: 10,
+    marginBottom: 8,
   },
   experienceHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 2,
+    marginBottom: 1.5,
   },
   companyPosition: {
     flexDirection: "column",
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   location: {
-    fontSize: 10,
+    fontSize: 9,
     textAlign: "right",
   },
   date: {
@@ -152,9 +152,9 @@ const Watermark = () => (
 
 // Componente para listas con viñetas
 const BulletList = ({ items }: { items: string[] }) => (
-  <View style={styles.bulletList} wrap={false}>
+  <View style={styles.bulletList}>
     {items.map((item, i) => (
-      <View key={i} style={styles.bulletItem}>
+      <View key={i} style={styles.bulletItem} wrap={false}>
         <Text style={styles.bullet}>•</Text>
         <Text style={styles.bulletText}>{item}</Text>
       </View>
@@ -197,7 +197,7 @@ export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
           </View>
         ))}
 
-        <View wrap={false}>
+        <View>
           {/* Educación */}
           <Text style={styles.sectionHeader}>Educación</Text>
 
@@ -218,10 +218,8 @@ export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
         </View>
 
         {/* Skills Adicionales */}
-        <View wrap={false}>
-          <Text style={styles.sectionHeader}>Habilidades</Text>
-          <BulletList items={cv.habilidades} />
-        </View>
+        <Text style={styles.sectionHeader}>Habilidades</Text>
+        <BulletList items={cv.habilidades} />
 
         {/* Idiomas si existen */}
         {cv.idiomas.length > 0 && (
@@ -233,7 +231,7 @@ export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
 
         {/* Información Adicional si existe */}
         {cv.informacionAdicional.length > 0 && (
-          <View wrap={false}>
+          <View>
             <Text style={styles.sectionHeader}>Información Adicional</Text>
             <BulletList items={cv.informacionAdicional} />
           </View>

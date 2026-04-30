@@ -32,17 +32,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   container: { flex: 1, flexDirection: "row" },
-  sidebar: { width: "30%", backgroundColor: colors.primary, padding: 15 },
-  main: { width: "70%", padding: 20 },
+  sidebar: { width: "30%", backgroundColor: colors.primary, padding: 14 },
+  main: { width: "70%", padding: 18 },
   header: { marginBottom: 15 },
   name: { fontSize: 17, fontWeight: 700, color: "#FFF" },
   position: { fontSize: 12, fontWeight: 500, color: "#FFF", marginTop: 4 },
 
-  section: { marginBottom: 18 },
+  section: { marginBottom: 14 },
   sectionTitle: {
     fontSize: 13,
     fontWeight: 700,
-    marginBottom: 6,
+    marginBottom: 5,
     color: colors.primary,
     borderBottom: `1px solid ${colors.divider}`,
     paddingBottom: 2,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
     marginTop: 5,
   },
-  bulletText: { fontSize: 10, lineHeight: 1.4, flex: 1 },
+  bulletText: { fontSize: 9, lineHeight: 1.35, flex: 1 },
   watermarkContainer: {
     position: "absolute",
     top: 0,
@@ -107,7 +107,7 @@ const Watermark = () => (
 const BulletList = ({ items }: { items: string[] }) => (
   <View style={styles.bulletList}>
     {items.map((item, i) => (
-      <View key={i} style={{ flexDirection: "row", marginBottom: 2 }}>
+      <View key={i} style={{ flexDirection: "row", marginBottom: 2 }} wrap={false}>
         <View style={styles.bulletDot} />
         <Text style={styles.bulletText}>{item}</Text>
       </View>
@@ -188,8 +188,9 @@ export default function PurpleTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Experiencia Laboral</Text>
               {cv.experiencia.map((e, i) => (
-                <View key={i} style={{ marginBottom: 12 }}>
+                <View key={i} style={{ marginBottom: 10 }}>
                   <View
+                    wrap={false}
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
@@ -212,7 +213,7 @@ export default function PurpleTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Formación</Text>
               {cv.formacion.map((f, i) => (
-                <View key={i} style={{ marginBottom: 12 }}>
+                <View key={i} style={{ marginBottom: 10 }} wrap={false}>
                   <View
                     style={{
                       flexDirection: "row",
@@ -231,12 +232,12 @@ export default function PurpleTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
               ))}
             </View>
             {cv.informacionAdicional.length > 0 && (
-              <View style={styles.section} wrap={false}>
+              <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { marginTop: 10 }]}>
                   Información adicional
                 </Text>
                 {cv.informacionAdicional.map((a, i) => (
-                  <Text key={i} style={{ fontSize: 9, marginBottom: 4 }}>
+                  <Text key={i} style={{ fontSize: 9, marginBottom: 4 }} wrap={false}>
                     • {a}
                   </Text>
                 ))}

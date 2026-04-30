@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   section: {
-    marginBottom: 15,
+    marginBottom: 12,
   },
   sectionTitle: {
     fontSize: 14,
@@ -119,7 +119,7 @@ const Watermark = () => (
 const BulletList = ({ items }: { items: string[] }) => (
   <View style={styles.bulletList}>
     {items.map((item, i) => (
-      <View key={i} style={{ flexDirection: "row", marginBottom: 2 }}>
+      <View key={i} style={{ flexDirection: "row", marginBottom: 2 }} wrap={false}>
         <View style={styles.bulletDot} />
         <Text style={styles.bulletText}>{item}</Text>
       </View>
@@ -197,8 +197,9 @@ export default function BlueTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Experiencia Laboral</Text>
               {cv.experiencia.map((e, i) => (
-                <View key={i} style={{ marginBottom: 10 }}>
+                <View key={i} style={{ marginBottom: 9 }}>
                   <View
+                    wrap={false}
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
@@ -217,7 +218,7 @@ export default function BlueTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Formación</Text>
               {cv.formacion.map((f, i) => (
-                <View key={i} style={{ marginBottom: 12 }}>
+                <View key={i} style={{ marginBottom: 10 }} wrap={false}>
                   <View
                     style={{
                       flexDirection: "row",
@@ -236,12 +237,12 @@ export default function BlueTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
               ))}
             </View>
             {cv.informacionAdicional.length > 0 && (
-              <View style={styles.section} wrap={false}>
+              <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { marginTop: 10 }]}>
                   Información adicional
                 </Text>
                 {cv.informacionAdicional.map((a, i) => (
-                  <Text key={i} style={{ fontSize: 9, marginBottom: 4 }}>
+                  <Text key={i} style={{ fontSize: 9, marginBottom: 4 }} wrap={false}>
                     • {a}
                   </Text>
                 ))}
