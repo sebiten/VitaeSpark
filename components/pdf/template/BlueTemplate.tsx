@@ -1,6 +1,4 @@
-import React from "react";
 import {
-  Font,
   Document,
   Page,
   Text,
@@ -9,117 +7,110 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
-import { Avatar } from "@/components/ui/avatar";
 
-// Colores del tema azul
 const colors = {
   primary: "#1E40AF",
-  primaryLight: "#3B82F6",
+  primarySoft: "#DBEAFE",
+  primaryPale: "#EFF6FF",
+  sidebarText: "#EFF6FF",
+  sidebarMuted: "#BFDBFE",
   text: "#1F2937",
   textLight: "#4B5563",
-  background: "#FFF",
+  background: "#FFFFFF",
   divider: "#E5E7EB",
 };
 
 const styles = StyleSheet.create({
-  page: {
-    fontSize: 10,
-    color: colors.text,
-    backgroundColor: colors.background,
+  page: { fontSize: 10, color: colors.text, backgroundColor: colors.background },
+  container: { flex: 1, flexDirection: "row" },
+  sidebar: { width: "31%", backgroundColor: colors.primary, padding: 16 },
+  main: { width: "69%", padding: 20 },
+  header: { marginBottom: 18 },
+  photo: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    objectFit: "cover",
+    marginBottom: 10,
+    borderWidth: 2,
+    borderColor: "#BFDBFE",
   },
-  container: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  sidebar: {
-    width: "30%",
-    backgroundColor: colors.primary,
-    padding: 15,
-  },
-  main: {
-    width: "70%",
-    padding: 20,
-  },
-  header: {
-    marginBottom: 15,
-  },
-  name: {
-    fontSize: 17,
-    fontWeight: 700,
-    color: "#FFF",
-  },
+  name: { fontSize: 18, fontWeight: 700, color: "#FFFFFF", lineHeight: 1.08 },
   position: {
-    fontSize: 12,
-    fontWeight: 500,
-    color: "#FFF",
-    marginTop: 4,
-  },
-  section: {
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 14,
+    fontSize: 10,
     fontWeight: 600,
-    marginBottom: 8,
+    color: colors.sidebarMuted,
+    marginTop: 5,
+    lineHeight: 1.25,
+  },
+  section: { marginBottom: 14 },
+  sectionTitle: {
+    fontSize: 12,
+    fontWeight: 700,
+    marginBottom: 6,
     color: colors.primary,
-    borderBottom: `1px solid ${colors.divider}`,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.divider,
     paddingBottom: 3,
+    textTransform: "uppercase",
   },
-  textLight: {
-    color: colors.textLight,
+  profileBox: {
+    marginBottom: 14,
+    padding: 10,
+    backgroundColor: colors.primaryPale,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.primary,
   },
-  bulletList: {
-    marginLeft: 10,
-  },
+  titleText: { fontSize: 10.8, fontWeight: 700 },
+  subtitleText: { fontSize: 8.5, color: colors.textLight },
+  paragraphText: { fontSize: 9, lineHeight: 1.45 },
+  bulletList: { marginLeft: 8, marginTop: 4 },
   bulletDot: {
-    width: 3,
-    height: 3,
-    borderRadius: 1.5,
+    width: 4,
+    height: 4,
+    borderRadius: 2,
     backgroundColor: colors.primary,
-    marginRight: 5,
+    marginRight: 6,
     marginTop: 5,
   },
-  bulletText: {
-    fontSize: 10,
-    flex: 1,
-    margin: "1 0 1 0",
+  bulletText: { fontSize: 8.8, lineHeight: 1.35, flex: 1 },
+  skillWrap: { flexDirection: "row", flexWrap: "wrap", marginTop: 5 },
+  skillChip: {
+    fontSize: 8,
+    color: colors.text,
+    backgroundColor: colors.primarySoft,
+    borderRadius: 8,
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingLeft: 7,
+    paddingRight: 7,
+    marginRight: 5,
+    marginBottom: 5,
   },
-  watermarkContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 0,
+  sidebarSection: { marginBottom: 16 },
+  sidebarTitle: {
+    fontSize: 9.5,
+    fontWeight: 700,
+    color: "#FFFFFF",
+    letterSpacing: 0.6,
+    marginBottom: 7,
+    paddingBottom: 3,
+    borderBottomWidth: 1,
+    borderBottomColor: "#BFDBFE",
+    textTransform: "uppercase",
   },
-  titleText: { fontSize: 11, fontWeight: 700 },
-  subtitleText: { fontSize: 9, color: colors.textLight },
-  paragraphText: { fontSize: 9, lineHeight: 1.4 },
-
-  watermark: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%) rotate(-45deg)",
-    opacity: 0.15,
-    fontSize: 60,
-    color: "#1E40AF",
-    zIndex: 1,
+  sidebarText: {
+    fontSize: 8.8,
+    color: colors.sidebarText,
+    lineHeight: 1.45,
+    marginBottom: 6,
   },
 });
 
-// Componente para la marca de agua
-const Watermark = () => (
-  <View style={styles.watermarkContainer} fixed>
-    <Text style={styles.watermark}>vitaespark.com</Text>
-  </View>
-);
-
-// Reutilizable para listas con puntos
 const BulletList = ({ items }: { items: string[] }) => (
   <View style={styles.bulletList}>
-    {items.map((item, i) => (
-      <View key={i} style={{ flexDirection: "row", marginBottom: 2 }} wrap={false}>
+    {items.map((item, index) => (
+      <View key={index} style={{ flexDirection: "row", marginBottom: 2 }} wrap={false}>
         <View style={styles.bulletDot} />
         <Text style={styles.bulletText}>{item}</Text>
       </View>
@@ -127,59 +118,39 @@ const BulletList = ({ items }: { items: string[] }) => (
   </View>
 );
 
-// Sidebar personalizado
+const SkillList = ({ items }: { items: string[] }) => (
+  <View style={styles.skillWrap}>
+    {items.map((item, index) => (
+      <Text key={index} style={styles.skillChip}>
+        {item}
+      </Text>
+    ))}
+  </View>
+);
+
 const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
   <View style={styles.sidebar}>
     <View style={styles.header}>
-      <View>
-        {cv.foto_url ? (
-          <Image
-            src={cv.foto_url}
-            style={{
-              width: 80,
-              height: 80,
-              borderRadius: "50",
-              objectFit: "cover",
-                marginBottom: 8,
-            }}
-          />
-        ) : null}
-      </View>
+      {cv.foto_url ? <Image src={cv.foto_url} style={styles.photo} /> : null}
       <Text style={styles.name}>{cv.nombre}</Text>
       <Text style={styles.position}>{cv.puesto}</Text>
     </View>
 
-    <View style={styles.section}>
-      <Text style={[styles.sectionTitle, { color: "#FFF" }]}>Sobre mí</Text>
-      <Text style={{ fontSize: 9, color: "#FFF", lineHeight: 1.6 }}>
-        {cv.sobreMi}
-      </Text>
-    </View>
-
-    <View style={styles.section}>
-      <Text style={[styles.sectionTitle, { color: "#FFF" }]}>Contacto</Text>
-      {cv.contacto.map((c, i) => (
-        <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
-          • {c}
-        </Text>
-      ))}
-    </View>
-
-    <View style={styles.section}>
-      <Text style={[styles.sectionTitle, { color: "#FFF" }]}>Habilidades</Text>
-      {cv.habilidades.map((h, i) => (
-        <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
-          • {h}
+    <View style={styles.sidebarSection}>
+      <Text style={styles.sidebarTitle}>Contacto</Text>
+      {cv.contacto.map((item, index) => (
+        <Text key={index} style={styles.sidebarText}>
+          {item}
         </Text>
       ))}
     </View>
 
     {cv.idiomas.length > 0 && (
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: "#FFF" }]}>Idiomas</Text>
-        {cv.idiomas.map((l, i) => (
-          <Text key={i} style={{ fontSize: 9, color: "#FFF", marginBottom: 4 }}>
-            • {l}
+      <View style={styles.sidebarSection}>
+        <Text style={styles.sidebarTitle}>Idiomas</Text>
+        {cv.idiomas.map((item, index) => (
+          <Text key={index} style={styles.sidebarText}>
+            {item}
           </Text>
         ))}
       </View>
@@ -194,56 +165,58 @@ export default function BlueTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
         <View style={styles.container}>
           <Sidebar cv={cv} />
           <View style={styles.main}>
+            <View style={styles.profileBox}>
+              <Text style={styles.sectionTitle}>Perfil profesional</Text>
+              <Text style={styles.paragraphText}>{cv.sobreMi}</Text>
+            </View>
+
+            {cv.habilidades.length > 0 && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Habilidades clave</Text>
+                <SkillList items={cv.habilidades} />
+              </View>
+            )}
+
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Experiencia Laboral</Text>
-              {cv.experiencia.map((e, i) => (
-                <View key={i} style={{ marginBottom: 9 }}>
+              <Text style={styles.sectionTitle}>Experiencia laboral</Text>
+              {cv.experiencia.map((item, index) => (
+                <View key={index} style={{ marginBottom: 10 }}>
                   <View
                     wrap={false}
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
+                    style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 2 }}
                   >
-                    <Text style={{ fontWeight: 700 }}>{e.cargo}</Text>
-                    <Text style={styles.textLight}>{e.fechas}</Text>
-                  </View>
-                  <Text style={{ fontSize: 11, marginBottom: 4 }}>
-                    {e.empresa}
-                  </Text>
-                  <BulletList items={e.logros} />
-                </View>
-              ))}
-            </View>
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Formación</Text>
-              {cv.formacion.map((f, i) => (
-                <View key={i} style={{ marginBottom: 10 }} wrap={false}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Text style={styles.titleText}>{f.institucion}</Text>
+                    <Text style={styles.titleText}>{item.cargo}</Text>
                     <Text style={styles.subtitleText}>
-                      {[f.fechas, f.ubicacion].filter(Boolean).join(" • ")}
+                      {[item.fechas, item.ubicacion].filter(Boolean).join(" • ")}
                     </Text>
                   </View>
-                  {f.titulo && (
-                    <Text style={styles.subtitleText}>{f.titulo}</Text>
-                  )}
+                  <Text style={{ fontSize: 9.5, marginBottom: 3 }}>{item.empresa}</Text>
+                  <BulletList items={item.logros} />
                 </View>
               ))}
             </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Formación</Text>
+              {cv.formacion.map((item, index) => (
+                <View key={index} style={{ marginBottom: 9 }} wrap={false}>
+                  <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text style={styles.titleText}>{item.institucion}</Text>
+                    <Text style={styles.subtitleText}>
+                      {[item.fechas, item.ubicacion].filter(Boolean).join(" • ")}
+                    </Text>
+                  </View>
+                  {item.titulo ? <Text style={styles.subtitleText}>{item.titulo}</Text> : null}
+                </View>
+              ))}
+            </View>
+
             {cv.informacionAdicional.length > 0 && (
               <View style={styles.section}>
-                <Text style={[styles.sectionTitle, { marginTop: 10 }]}>
-                  Información adicional
-                </Text>
-                {cv.informacionAdicional.map((a, i) => (
-                  <Text key={i} style={{ fontSize: 9, marginBottom: 4 }} wrap={false}>
-                    • {a}
+                <Text style={styles.sectionTitle}>Información adicional</Text>
+                {cv.informacionAdicional.map((item, index) => (
+                  <Text key={index} style={{ fontSize: 8.8, marginBottom: 4 }}>
+                    • {item}
                   </Text>
                 ))}
               </View>

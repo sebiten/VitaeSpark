@@ -1,37 +1,40 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
 
-// Estilos minimalistas en blanco y negro, optimizados para ATS
 const styles = StyleSheet.create({
   page: {
-    padding: 28,
+    padding: 30,
     paddingTop: 34,
     fontSize: 10,
     fontFamily: "Times-Roman",
-    color: "#000000",
+    color: "#111111",
     backgroundColor: "#FFFFFF",
-    lineHeight: 1.5,
+    lineHeight: 1.42,
   },
   header: {
     marginBottom: 10,
     textAlign: "center",
   },
   name: {
-    fontSize: 18,
-    fontFamily: "Times-Roman",
-    marginBottom: 5,
-    fontWeight: "800",
+    fontSize: 19,
+    fontFamily: "Times-Bold",
+    marginBottom: 3,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  role: {
+    fontSize: 11,
+    fontFamily: "Times-Italic",
+    marginBottom: 4,
   },
   contactInfo: {
-    fontSize: 11,
-    color: "#1E40AF",
-    marginBottom: 2,
-    marginTop: 4,
+    fontSize: 9.5,
+    color: "#222222",
     textAlign: "center",
   },
   summary: {
-    fontSize: 10,
-    marginBottom: 4,
+    fontSize: 9.6,
+    marginBottom: 6,
     textAlign: "justify",
   },
   sectionHeader: {
@@ -41,83 +44,65 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     textTransform: "uppercase",
     borderBottomWidth: 1,
-    borderBottomColor: "#000000",
+    borderBottomColor: "#111111",
+    paddingBottom: 1.5,
+    letterSpacing: 0.3,
   },
-
-  experienceItem: {
-    marginBottom: 8,
+  item: {
+    marginBottom: 7,
   },
-  experienceHeader: {
+  itemHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 1.5,
   },
-  companyPosition: {
+  leftColumn: {
     flexDirection: "column",
+    flex: 1,
+    paddingRight: 10,
+  },
+  rightColumn: {
+    flexDirection: "column",
+    alignItems: "flex-end",
+    width: 105,
   },
   company: {
-    fontSize: 11,
+    fontSize: 10.5,
     fontFamily: "Times-Bold",
   },
   position: {
-    fontSize: 11,
-    fontStyle: "italic",
-  },
-  locationDate: {
-    flexDirection: "column",
-    alignItems: "flex-end",
-  },
-  location: {
     fontSize: 10,
-    textAlign: "right",
+    fontFamily: "Times-Italic",
   },
-  date: {
-    fontSize: 10,
+  meta: {
+    fontSize: 9,
     textAlign: "right",
   },
   bulletList: {
-    marginLeft: 15,
+    marginLeft: 12,
   },
   bulletItem: {
     flexDirection: "row",
-    marginBottom: 2,
+    marginBottom: 1.8,
   },
   bullet: {
-    width: 8,
-    textAlign: "center",
-    marginRight: 5,
+    width: 7,
+    marginRight: 4,
   },
   bulletText: {
-    fontSize: 9,
+    fontSize: 9.2,
     flex: 1,
   },
-  educationItem: {
-    marginBottom: 5,
-  },
-  institution: {
-    fontSize: 11,
-    fontFamily: "Times-Bold",
-  },
-  degree: {
-    fontSize: 11,
-    fontStyle: "italic",
-  },
-  skillItem: {
-    flexDirection: "row",
-    marginBottom: 2,
-  },
-  divider: {
-    borderBottom: "1px solid black",
-    marginTop: 5,
-    marginBottom: 5,
+  inlineList: {
+    fontSize: 9.5,
+    lineHeight: 1.35,
   },
 });
 
-// Componente para listas con viñetas
 const BulletList = ({ items }: { items: string[] }) => (
   <View style={styles.bulletList}>
-    {items.map((item, i) => (
-      <View key={i} style={styles.bulletItem} wrap={false}>
+    {items.map((item, index) => (
+      <View key={index} style={styles.bulletItem} wrap={false}>
         <Text style={styles.bullet}>•</Text>
         <Text style={styles.bulletText}>{item}</Text>
       </View>
@@ -125,75 +110,67 @@ const BulletList = ({ items }: { items: string[] }) => (
   </View>
 );
 
-// Plantilla principal del documento PDF
 export default function HarvardTemplate({ cv }: { cv: RespuestaCV["cv"] }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Encabezado con nombre y datos de contacto */}
         <View style={styles.header}>
           <Text style={styles.name}>{cv.nombre}</Text>
+          <Text style={styles.role}>{cv.puesto}</Text>
           <Text style={styles.contactInfo}>{cv.contacto.join(" • ")}</Text>
         </View>
 
-        {/* Resumen profesional */}
+        <Text style={styles.sectionHeader}>Perfil profesional</Text>
         <Text style={styles.summary}>{cv.sobreMi}</Text>
 
-        {/* Experiencia Profesional */}
-        <Text style={styles.sectionHeader}>Experiencia Profesional</Text>
-
-        {cv.experiencia.map((exp, index) => (
-          <View key={index} style={styles.experienceItem}>
-            <View style={styles.experienceHeader}>
-              <View style={styles.companyPosition}>
-                <Text style={styles.company}>{exp.empresa}</Text>
-                <Text style={styles.position}>{exp.cargo}</Text>
+        <Text style={styles.sectionHeader}>Experiencia profesional</Text>
+        {cv.experiencia.map((item, index) => (
+          <View key={index} style={styles.item}>
+            <View style={styles.itemHeader}>
+              <View style={styles.leftColumn}>
+                <Text style={styles.company}>{item.empresa}</Text>
+                <Text style={styles.position}>{item.cargo}</Text>
               </View>
-              <View style={styles.locationDate}>
-                <Text style={styles.location}>{exp.ubicacion}</Text>
-                <Text style={styles.date}>{exp.fechas}</Text>
+              <View style={styles.rightColumn}>
+                <Text style={styles.meta}>{item.ubicacion}</Text>
+                <Text style={styles.meta}>{item.fechas}</Text>
               </View>
             </View>
-            <BulletList items={exp.logros} />
+            <BulletList items={item.logros} />
           </View>
         ))}
 
-        {/* Educación */}
-        <Text style={styles.sectionHeader}>Educación</Text>
-
-        {cv.formacion.map((edu, index) => (
-          <View key={index} style={styles.educationItem}>
-            <View style={styles.experienceHeader}>
-              <View style={styles.companyPosition}>
-                <Text style={styles.institution}>{edu.institucion}</Text>
-                <Text style={styles.degree}>{edu.titulo || ""}</Text>
+        <Text style={styles.sectionHeader}>Formación</Text>
+        {cv.formacion.map((item, index) => (
+          <View key={index} style={styles.item} wrap={false}>
+            <View style={styles.itemHeader}>
+              <View style={styles.leftColumn}>
+                <Text style={styles.company}>{item.institucion}</Text>
+                <Text style={styles.position}>{item.titulo || ""}</Text>
               </View>
-              <View style={styles.locationDate}>
-                <Text style={styles.location}>{edu.ubicacion}</Text>
-                <Text style={styles.date}>{edu.fechas}</Text>
+              <View style={styles.rightColumn}>
+                <Text style={styles.meta}>{item.ubicacion}</Text>
+                <Text style={styles.meta}>{item.fechas}</Text>
               </View>
             </View>
           </View>
         ))}
 
-        {/* Skills Adicionales */}
         <Text style={styles.sectionHeader}>Habilidades</Text>
-        <BulletList items={cv.habilidades} />
+        <Text style={styles.inlineList}>{cv.habilidades.join(" • ")}</Text>
 
-        {/* Idiomas si existen */}
         {cv.idiomas.length > 0 && (
           <>
             <Text style={styles.sectionHeader}>Idiomas</Text>
-            <BulletList items={cv.idiomas} />
+            <Text style={styles.inlineList}>{cv.idiomas.join(" • ")}</Text>
           </>
         )}
 
-        {/* Información Adicional si existe */}
         {cv.informacionAdicional.length > 0 && (
-          <View>
-            <Text style={styles.sectionHeader}>Información Adicional</Text>
+          <>
+            <Text style={styles.sectionHeader}>Información adicional</Text>
             <BulletList items={cv.informacionAdicional} />
-          </View>
+          </>
         )}
       </Page>
     </Document>
