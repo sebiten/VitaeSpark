@@ -83,6 +83,18 @@ export default function CvParaPrimerEmpleoPage() {
       ]}
       relatedLinks={[
         {
+          href: "/cv-atencion-al-cliente-sin-experiencia",
+          title: "CV atencion al cliente sin experiencia",
+          description:
+            "Ideal si quieres entrar a soporte, retail, recepcion o atencion presencial.",
+        },
+        {
+          href: "/cv-para-cajero-sin-experiencia",
+          title: "CV para cajero sin experiencia",
+          description:
+            "Enfoca responsabilidad, disponibilidad y trato con clientes para puestos de caja.",
+        },
+        {
           href: "/curriculum-sin-experiencia",
           title: "Curriculum sin experiencia",
           description:

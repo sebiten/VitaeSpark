@@ -110,6 +110,11 @@ export default function CvParaAtencionAlClientePage() {
       ]}
       relatedLinks={[
         {
+          href: "/cv-atencion-al-cliente-sin-experiencia",
+          title: "CV atencion al cliente sin experiencia",
+          description: "Pagina especifica para primer empleo o perfiles iniciales.",
+        },
+        {
           href: "/cv-para-vendedor",
           title: "CV para vendedor",
           description: "Ideal si tu experiencia con clientes tambien incluye ventas u objetivos.",

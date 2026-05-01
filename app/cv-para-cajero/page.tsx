@@ -103,6 +103,11 @@ export default function CvParaCajeroPage() {
       ]}
       relatedLinks={[
         {
+          href: "/cv-para-cajero-sin-experiencia",
+          title: "CV para cajero sin experiencia",
+          description: "Pagina especifica si buscas tu primer puesto en caja.",
+        },
+        {
           href: "/cv-para-vendedor",
           title: "CV para vendedor",
           description: "Refuerza la parte comercial si tambien atendias clientes o vendias.",
