@@ -101,9 +101,9 @@ export default function CvParaOperarioPage() {
           description: "Cercano si tu experiencia incluye stock, deposito o mercaderia.",
         },
         {
-          href: "/cv-para-limpieza",
-          title: "CV para limpieza",
-          description: "Otra salida operativa para servicios generales.",
+          href: "/cv-para-mineria",
+          title: "CV para mineria",
+          description: "Util si apuntas a puestos operativos, mantenimiento o terreno.",
         },
         {
           href: "/crear-cv-online",

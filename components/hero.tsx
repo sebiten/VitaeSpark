@@ -593,6 +593,12 @@ export default function Home() {
                   "Muestra produccion, deposito, herramientas, procesos y seguridad.",
               },
               {
+                href: "/cv-para-mineria",
+                title: "CV para mineria",
+                description:
+                  "Enfoca seguridad, turnos, maquinaria, campamento y experiencia operativa.",
+              },
+              {
                 href: "/cv-para-seguridad",
                 title: "CV para seguridad",
                 description:

@@ -33,6 +33,7 @@ const publicRoutes = [
   "/cv-para-seguridad",
   "/cv-para-limpieza",
   "/cv-para-operario",
+  "/cv-para-mineria",
   "/blog/como-hacer-un-curriculum",
   "/blog/ejemplo-de-curriculum-vitae",
   "/blog/como-hacer-un-curriculum-sin-experiencia",
