@@ -2,15 +2,17 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Call Center: Ejemplo, Habilidades y Perfil Profesional",
+  title: "CV para Call Center: Perfil Profesional y Habilidades",
   description:
-    "Crea un CV para call center con ejemplo, habilidades clave y perfil profesional para soporte, ventas o atencion telefonica.",
+    "Crea un CV para call center con perfil profesional, habilidades, ejemplo para atencion telefonica, soporte, ventas y formato ATS.",
   path: "/cv-call-center",
   keywords: [
     "cv para call center",
     "curriculum call center",
     "ejemplo cv call center",
+    "perfil profesional call center",
     "perfil call center curriculum",
+    "habilidades call center curriculum",
     "cv atencion telefonica",
   ],
 });
@@ -20,8 +22,8 @@ export default function CvCallCenterPage() {
     <MarketingPage
       path="/cv-call-center"
       eyebrow="CV por profesion"
-      title="CV para call center: ejemplo, perfil y formato ATS"
-      description="Prepara un curriculum para call center con habilidades de comunicacion, gestion de objeciones y experiencia en canales telefonicos o digitales."
+      title="CV para call center: perfil profesional, habilidades y ejemplo"
+      description="Prepara un curriculum para call center orientado a atencion telefonica, soporte, ventas, cobranzas, chat y procesos ATS."
       intro={[
         "Un CV para call center necesita mostrar mucho mas que buena diccion. Las empresas suelen buscar capacidad para atender volumen, seguir guiones, resolver consultas, registrar informacion y sostener una conversacion clara aun bajo presion.",
         "VitaeSpark te ayuda a ordenar esa experiencia y traducirla a un formato mas profesional, con foco en soporte telefonico, ventas, cobranzas o atencion multicanal.",
@@ -64,6 +66,13 @@ export default function CvCallCenterPage() {
           ],
         },
         {
+          title: "Perfil profesional call center sin experiencia",
+          paragraphs: [
+            "Si todavia no trabajaste en call center, puedes enfocar el perfil en comunicacion clara, escucha activa, aprendizaje rapido, manejo basico de computadora y disponibilidad para trabajar con objetivos.",
+            "Tambien suma cualquier experiencia en atencion al publico, ventas, recepcion, chat, redes sociales o tareas donde hayas respondido consultas y registrado informacion.",
+          ],
+        },
+        {
           title: "Habilidades clave y formato ATS",
           paragraphs: [
             "Entre las habilidades mas buscadas suelen estar comunicacion oral, escucha activa, digitacion, manejo de CRM, resolucion de conflictos, trabajo por objetivos y tolerancia a entornos dinamicos.",
@@ -72,6 +81,11 @@ export default function CvCallCenterPage() {
         },
       ]}
       faqs={[
+        {
+          question: "Que poner en perfil profesional call center?",
+          answer:
+            "Conviene mencionar atencion telefonica, comunicacion clara, registro de datos, CRM, resolucion de consultas, objetivos y el tipo de servicio: soporte, ventas, cobranzas o chat.",
+        },
         {
           question: "Sirve para ventas telefonicas?",
           answer:
@@ -89,6 +103,11 @@ export default function CvCallCenterPage() {
         },
       ]}
       relatedLinks={[
+        {
+          href: "/cv-atencion-al-cliente-sin-experiencia",
+          title: "CV atencion al cliente sin experiencia",
+          description: "Cercano si buscas entrar a soporte, chat o atencion inicial.",
+        },
         {
           href: "/cv-para-vendedor",
           title: "CV para vendedor",

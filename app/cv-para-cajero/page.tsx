@@ -2,13 +2,15 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Cajero: Ejemplo, Habilidades y Formato ATS",
+  title: "CV para Cajero: Ejemplo para Supermercado y Retail",
   description:
-    "Crea tu CV para cajero en minutos con IA, ejemplo de perfil, habilidades clave y formato ATS listo para descargar.",
+    "Crea un CV para cajero con ejemplo de perfil, habilidades de caja, supermercado, retail y formato ATS listo para descargar.",
   path: "/cv-para-cajero",
   keywords: [
     "cv para cajero",
     "curriculum cajero",
+    "curriculum cajero supermercado",
+    "curriculum cajero sin experiencia",
     "ejemplo cv cajero",
     "habilidades cajero curriculum",
     "curriculum para supermercado",
@@ -20,8 +22,8 @@ export default function CvParaCajeroPage() {
     <MarketingPage
       path="/cv-para-cajero"
       eyebrow="CV por profesion"
-      title="CV para cajero: ejemplo, habilidades y formato ATS"
-      description="Crea tu CV para cajero en minutos con IA, ejemplo de perfil, habilidades clave y formato ATS listo para descargar."
+      title="CV para cajero: ejemplo para supermercado, retail y comercio"
+      description="Crea un curriculum para cajero con perfil profesional, habilidades de caja, atencion al cliente, supermercado, retail y formato ATS."
       intro={[
         "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa. No alcanza con poner 'manejo de caja': conviene mostrar atencion al cliente, medios de pago, cierre de caja, control basico y trabajo en entornos con ritmo alto.",
         "VitaeSpark te ayuda a convertir esa experiencia en un CV mas claro y competitivo para supermercados, farmacias, tiendas, estaciones de servicio o comercios de cercania.",
@@ -63,6 +65,13 @@ export default function CvParaCajeroPage() {
           ],
         },
         {
+          title: "Curriculum cajero para supermercado",
+          paragraphs: [
+            "Para supermercado conviene mencionar caja, reposicion, control de productos, atencion en salon, medios de pago, orden del sector y capacidad para trabajar con ritmo alto.",
+            "Si el puesto combina caja y reposicion, no lo escondas. Muchos comercios valoran perfiles versatiles que puedan cobrar, orientar clientes y apoyar tareas operativas.",
+          ],
+        },
+        {
           title: "Ejemplo de perfil profesional para cajero",
           paragraphs: [
             "Una base util puede ser: 'Perfil orientado a atencion al cliente y operacion de caja, con experiencia en cobros, manejo de distintos medios de pago, cierre diario y trabajo en entornos dinamicos'.",
@@ -85,6 +94,11 @@ export default function CvParaCajeroPage() {
         },
       ]}
       faqs={[
+        {
+          question: "Como hacer un curriculum cajero para supermercado?",
+          answer:
+            "Incluye atencion al cliente, cobros, medios de pago, cierre o arqueo de caja, reposicion, orden de salon y disponibilidad horaria si aplica.",
+        },
         {
           question: "Sirve para supermercados y farmacias?",
           answer:
