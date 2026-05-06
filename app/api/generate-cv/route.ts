@@ -187,7 +187,7 @@ Información adicional: ${body.informacionAdicional}
       max_tokens: 1800,
       response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: compactSystemMessage || systemMessage },
+        { role: "system", content: systemMessage || systemMessage },
         { role: "user", content: userMessage },
       ],
     });
