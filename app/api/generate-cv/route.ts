@@ -1,4 +1,4 @@
-export const runtime = "nodejs"; // Fuerza Node.js en lugar de Edge Runtime
+﻿export const runtime = "nodejs"; // Fuerza Node.js en lugar de Edge Runtime
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
