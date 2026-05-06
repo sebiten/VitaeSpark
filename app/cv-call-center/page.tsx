@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Call Center: Perfil Profesional y Habilidades",
+  title: "CV para Call Center: Perfil, Habilidades y Ejemplos",
   description:
-    "Crea un CV para call center con perfil profesional, habilidades, ejemplo para atencion telefonica, soporte, ventas y formato ATS.",
+    "Crea un CV para call center con perfil profesional, experiencia, habilidades, ejemplos para soporte, ventas, chat y formato ATS.",
   path: "/cv-call-center",
   keywords: [
     "cv para call center",
@@ -23,7 +23,7 @@ export default function CvCallCenterPage() {
       path="/cv-call-center"
       eyebrow="CV por profesion"
       title="CV para call center: perfil profesional, habilidades y ejemplo"
-      description="Prepara un curriculum para call center orientado a atencion telefonica, soporte, ventas, cobranzas, chat y procesos ATS."
+      description="Prepara un curriculum para call center orientado a atencion telefonica, soporte, ventas, cobranzas, chat, CRM y procesos ATS."
       intro={[
         "Un CV para call center necesita mostrar mucho mas que buena diccion. Las empresas suelen buscar capacidad para atender volumen, seguir guiones, resolver consultas, registrar informacion y sostener una conversacion clara aun bajo presion.",
         "VitaeSpark te ayuda a ordenar esa experiencia y traducirla a un formato mas profesional, con foco en soporte telefonico, ventas, cobranzas o atencion multicanal.",
@@ -66,6 +66,13 @@ export default function CvCallCenterPage() {
           ],
         },
         {
+          title: "Ejemplos de experiencia para call center",
+          paragraphs: [
+            "Para atencion al cliente, puedes escribir: 'Gestione llamadas entrantes, registre consultas en CRM y realice seguimiento de casos, manteniendo comunicacion clara y resolucion ordenada de reclamos frecuentes'.",
+            "Para ventas telefonicas, una version mas comercial seria: 'Contacte potenciales clientes, explique beneficios del servicio, respondi objeciones y cargue resultados en sistema para dar continuidad al proceso comercial'.",
+          ],
+        },
+        {
           title: "Perfil profesional call center sin experiencia",
           paragraphs: [
             "Si todavia no trabajaste en call center, puedes enfocar el perfil en comunicacion clara, escucha activa, aprendizaje rapido, manejo basico de computadora y disponibilidad para trabajar con objetivos.",
@@ -77,6 +84,13 @@ export default function CvCallCenterPage() {
           paragraphs: [
             "Entre las habilidades mas buscadas suelen estar comunicacion oral, escucha activa, digitacion, manejo de CRM, resolucion de conflictos, trabajo por objetivos y tolerancia a entornos dinamicos.",
             "En el formato, conviene evitar florituras y usar una estructura directa: titulo, perfil, experiencia, habilidades y estudios. Eso ayuda tanto a filtros ATS como a reclutadores.",
+          ],
+        },
+        {
+          title: "Errores comunes en un curriculum call center",
+          paragraphs: [
+            "No alcanza con decir 'buena comunicacion'. Es mejor explicar si atendiste llamadas, chat, ventas, cobranzas, reclamos, soporte tecnico o seguimiento de tickets.",
+            "Tambien conviene evitar frases exageradas. Un CV de call center funciona mejor cuando muestra canales atendidos, herramientas usadas, tipo de campana y responsabilidades concretas.",
           ],
         },
       ]}
@@ -100,6 +114,16 @@ export default function CvCallCenterPage() {
           question: "Este formato tambien sirve para soporte por chat?",
           answer:
             "Si. Solo conviene dejar claro el canal y las tareas especificas para que el CV no se vea ambiguo.",
+        },
+        {
+          question: "Que habilidades poner en un CV de call center?",
+          answer:
+            "Comunicacion oral, escucha activa, CRM, digitacion, resolucion de reclamos, seguimiento de casos, ventas telefonicas, manejo de objeciones y trabajo por objetivos.",
+        },
+        {
+          question: "Como escribir experiencia de call center?",
+          answer:
+            "Menciona si atendias llamadas entrantes o salientes, chat, ventas, soporte o cobranzas, y agrega tareas como registro en CRM, seguimiento y resolucion de consultas.",
         },
       ]}
       relatedLinks={[

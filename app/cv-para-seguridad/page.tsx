@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Seguridad: Ejemplo, Habilidades y Formato ATS",
   description:
-    "Crea un CV para seguridad o vigilador con ejemplo, habilidades clave, control de accesos y formato ATS.",
+    "Crea un CV para seguridad o vigilador con ejemplo de perfil, experiencia, habilidades clave, control de accesos y formato ATS.",
   path: "/cv-para-seguridad",
   keywords: [
     "cv para seguridad",
@@ -70,10 +70,31 @@ export default function CvParaSeguridadPage() {
           ],
         },
         {
+          title: "Ejemplos de experiencia para vigilador o seguridad",
+          paragraphs: [
+            "Para control de accesos, puedes escribir: 'Realice control de ingreso y egreso de personas, registro de visitantes, verificacion de novedades y comunicacion con responsables del establecimiento segun protocolo'.",
+            "Para recorridas preventivas, una frase util seria: 'Efectue rondas internas y externas, monitoreo visual de sectores, deteccion de incidencias y reporte de novedades para mantener condiciones de seguridad'.",
+          ],
+        },
+        {
           title: "CV para seguridad sin experiencia",
           paragraphs: [
             "Si estas empezando, puedes destacar responsabilidad, puntualidad, disponibilidad horaria, buen trato, atencion al detalle, estudios, cursos o experiencias donde hayas cuidado espacios, personas o procedimientos.",
             "Tambien ayuda mencionar si puedes trabajar de noche, fines de semana o turnos rotativos, siempre que sea real.",
+          ],
+        },
+        {
+          title: "Habilidades de seguridad que suman",
+          paragraphs: [
+            "Entre las habilidades mas utiles estan control de accesos, observacion, registro de novedades, trato respetuoso, cumplimiento de protocolos, monitoreo, recorridas, comunicacion clara y respuesta ordenada ante incidentes.",
+            "Si tienes curso de vigilador, habilitacion, manejo de camaras, licencia de conducir o experiencia nocturna, conviene incluirlo para que el CV sea mas competitivo.",
+          ],
+        },
+        {
+          title: "Errores comunes en un curriculum de seguridad",
+          paragraphs: [
+            "Un error frecuente es escribir un perfil demasiado agresivo o exagerado. Para seguridad privada suele funcionar mejor transmitir criterio, calma, responsabilidad y cumplimiento de procedimientos.",
+            "Tambien conviene evitar dejar tareas en abstracto. El reclutador necesita leer control de accesos, rondas, camaras, informes, registro de visitantes o respuesta ante novedades si eso forma parte de tu experiencia.",
           ],
         },
       ]}
@@ -93,6 +114,16 @@ export default function CvParaSeguridadPage() {
           answer:
             "Si. Conviene reforzar responsabilidad, disponibilidad, puntualidad y habilidades de observacion.",
         },
+        {
+          question: "Que habilidades poner en un CV de seguridad?",
+          answer:
+            "Control de accesos, recorridas, monitoreo, observacion, registro de novedades, cumplimiento de protocolos, trato con personas y comunicacion clara.",
+        },
+        {
+          question: "Como escribir experiencia de vigilador?",
+          answer:
+            "Menciona lugar o contexto, control de ingresos, rondas, monitoreo, informes, registro de visitantes, respuesta a novedades y cumplimiento de protocolos.",
+        },
       ]}
       relatedLinks={[
         {
@@ -109,6 +140,11 @@ export default function CvParaSeguridadPage() {
           href: "/crear-cv-online",
           title: "Crear CV online",
           description: "Pasa estas ideas a un CV listo para descargar.",
+        },
+        {
+          href: "/cv-para-operario",
+          title: "CV para operario",
+          description: "Alternativa si buscas puestos operativos, deposito o control.",
         },
       ]}
     />

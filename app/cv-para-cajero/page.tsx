@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Cajero: Ejemplo para Supermercado y Retail",
+  title: "CV para Cajero: Ejemplo, Perfil y Habilidades",
   description:
-    "Crea un CV para cajero con ejemplo de perfil, habilidades de caja, supermercado, retail y formato ATS listo para descargar.",
+    "Crea un CV para cajero con ejemplo de perfil profesional, experiencia, habilidades de caja, supermercado, retail y formato ATS.",
   path: "/cv-para-cajero",
   keywords: [
     "cv para cajero",
@@ -23,7 +23,7 @@ export default function CvParaCajeroPage() {
       path="/cv-para-cajero"
       eyebrow="CV por profesion"
       title="CV para cajero: ejemplo para supermercado, retail y comercio"
-      description="Crea un curriculum para cajero con perfil profesional, habilidades de caja, atencion al cliente, supermercado, retail y formato ATS."
+      description="Crea un curriculum para cajero con perfil profesional, experiencia de caja, habilidades para supermercado, retail y formato ATS."
       intro={[
         "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa. No alcanza con poner 'manejo de caja': conviene mostrar atencion al cliente, medios de pago, cierre de caja, control basico y trabajo en entornos con ritmo alto.",
         "VitaeSpark te ayuda a convertir esa experiencia en un CV mas claro y competitivo para supermercados, farmacias, tiendas, estaciones de servicio o comercios de cercania.",
@@ -79,6 +79,13 @@ export default function CvParaCajeroPage() {
           ],
         },
         {
+          title: "Ejemplos de experiencia para cajero",
+          paragraphs: [
+            "Para una experiencia en supermercado, una frase concreta seria: 'Realice cobros en efectivo, tarjeta y billeteras virtuales, manteniendo orden en caja, buena atencion al cliente y apoyo en reposicion durante horarios de alta demanda'.",
+            "Para comercio minorista, puedes escribir: 'Atendi clientes en salon, procese pagos, controle tickets y colabore con orden de productos, resolviendo consultas simples y manteniendo una experiencia de compra clara'.",
+          ],
+        },
+        {
           title: "CV para cajero sin experiencia",
           paragraphs: [
             "Si buscas tu primer trabajo como cajero, no conviene dejar el CV vacio. Puedes destacar estudios, cursos, manejo basico de herramientas digitales, atencion al publico, ventas informales, voluntariado o tareas donde hayas usado responsabilidad y organizacion.",
@@ -90,6 +97,13 @@ export default function CvParaCajeroPage() {
           paragraphs: [
             "Entre las habilidades mas utiles suelen estar manejo de caja, precision, organizacion, atencion al cliente, rapidez operativa, control basico y resolucion de incidencias simples.",
             "Para ATS y reclutadores, el mejor formato sigue siendo el mas claro: titulo, perfil, experiencia, habilidades y estudios. Cuanto menos ruido visual tenga, mejor.",
+          ],
+        },
+        {
+          title: "Errores comunes en un curriculum cajero",
+          paragraphs: [
+            "Un error frecuente es escribir solo 'atencion al cliente' sin explicar tareas. Es mejor mencionar caja, medios de pago, cierre, arqueo, reposicion, facturacion o control de tickets si realmente lo hiciste.",
+            "Otro problema es usar un perfil demasiado generico. Para cajero, el reclutador necesita ver confianza, orden, trato con clientes y capacidad para manejar dinero o transacciones sin complicar el proceso.",
           ],
         },
       ]}
@@ -113,6 +127,16 @@ export default function CvParaCajeroPage() {
           question: "Conviene incluir reposicion o tareas de salon?",
           answer:
             "Si. En muchos puestos valoran perfiles versatiles que apoyen mas alla de la caja.",
+        },
+        {
+          question: "Que habilidades poner en un CV de cajero?",
+          answer:
+            "Manejo de caja, medios de pago, atencion al cliente, cierre o arqueo, orden, precision, reposicion, facturacion basica y resolucion de consultas simples.",
+        },
+        {
+          question: "Como escribir experiencia de cajera o cajero?",
+          answer:
+            "Describe tareas concretas: cobros, medios de pago, cierre de caja, atencion, orden del sector, reposicion y apoyo en momentos de alta demanda.",
         },
       ]}
       relatedLinks={[

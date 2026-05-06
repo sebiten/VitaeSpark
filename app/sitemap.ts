@@ -55,11 +55,9 @@ const publicRoutes = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getBaseUrl();
-  const now = new Date();
 
   return publicRoutes.map((route) => ({
     url: new URL(route, baseUrl).toString(),
-    lastModified: now,
     changeFrequency: route.startsWith("/blog/") ? "weekly" : "daily",
     priority: route === "/" ? 1 : route.startsWith("/blog/") ? 0.7 : 0.8,
   }));

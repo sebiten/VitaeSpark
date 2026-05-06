@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Operario: Ejemplo, Habilidades y Formato ATS",
   description:
-    "Crea un CV para operario con ejemplo, habilidades de produccion, deposito, mantenimiento y formato ATS.",
+    "Crea un CV para operario con ejemplo de perfil, experiencia, habilidades de produccion, deposito, mantenimiento y formato ATS.",
   path: "/cv-para-operario",
   keywords: [
     "cv para operario",
@@ -70,10 +70,31 @@ export default function CvParaOperarioPage() {
           ],
         },
         {
+          title: "Ejemplos de experiencia para operario",
+          paragraphs: [
+            "Para produccion, puedes escribir: 'Realice tareas de armado, control visual, embalaje y apoyo en linea de produccion, cumpliendo procedimientos de seguridad, orden del sector y objetivos diarios'.",
+            "Para deposito, una frase util seria: 'Colabore en carga y descarga, preparacion de pedidos, orden de mercaderia, control basico de stock y mantenimiento de espacios operativos limpios y seguros'.",
+          ],
+        },
+        {
           title: "CV para operario sin experiencia",
           paragraphs: [
             "Si estas empezando, puedes destacar disponibilidad horaria, responsabilidad, capacidad fisica, estudios tecnicos, cursos, manejo basico de herramientas o experiencias informales relacionadas.",
             "Para puestos iniciales, suma mostrar ganas de aprender procesos concretos y cumplir rutinas con orden y puntualidad.",
+          ],
+        },
+        {
+          title: "Habilidades de operario que conviene incluir",
+          paragraphs: [
+            "Entre las habilidades mas utiles estan cumplimiento de procesos, orden, uso de herramientas, carga y descarga, embalaje, control de calidad, limpieza del sector, seguridad laboral y trabajo por turnos.",
+            "Si tienes cursos de seguridad, conocimientos de maquinaria, licencia de conducir o experiencia con deposito, conviene incluirlo en informacion adicional o experiencia para que no quede perdido.",
+          ],
+        },
+        {
+          title: "Errores comunes en un curriculum operario",
+          paragraphs: [
+            "Un error frecuente es escribir tareas demasiado generales, como 'trabajos varios'. Conviene nombrar acciones concretas: armado, embalaje, mantenimiento, carga, control, limpieza industrial o preparacion de pedidos.",
+            "Otro problema es no aclarar el contexto. Un operario de fabrica, deposito, mantenimiento o logistica puede tener tareas muy distintas, y el reclutador necesita entender rapido donde encaja tu experiencia.",
           ],
         },
       ]}
@@ -93,6 +114,16 @@ export default function CvParaOperarioPage() {
           answer:
             "Si. Conviene reforzar disponibilidad, responsabilidad, estudios tecnicos y habilidades practicas.",
         },
+        {
+          question: "Que poner en experiencia de operario?",
+          answer:
+            "Incluye tareas concretas como produccion, armado, embalaje, deposito, carga y descarga, control de calidad, mantenimiento basico, limpieza del sector y uso de herramientas.",
+        },
+        {
+          question: "Que habilidades poner en un CV de operario?",
+          answer:
+            "Orden, responsabilidad, seguridad laboral, uso de herramientas, trabajo por turnos, cumplimiento de procesos, carga y descarga, control de calidad y mantenimiento basico.",
+        },
       ]}
       relatedLinks={[
         {
@@ -109,6 +140,11 @@ export default function CvParaOperarioPage() {
           href: "/crear-cv-online",
           title: "Crear CV online",
           description: "Arma una version profesional lista para descargar.",
+        },
+        {
+          href: "/curriculum-sin-experiencia",
+          title: "CV sin experiencia",
+          description: "Util si buscas tu primer puesto operativo o de fabrica.",
         },
       ]}
     />

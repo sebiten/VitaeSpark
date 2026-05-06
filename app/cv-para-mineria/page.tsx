@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Mineria: Ejemplo, Habilidades y Formato ATS",
   description:
-    "Crea un CV para mineria con ejemplo, habilidades operativas, seguridad, turnos, maquinaria y formato ATS.",
+    "Crea un CV para mineria o minera con ejemplo de perfil, experiencia, habilidades operativas, seguridad, turnos, maquinaria y formato ATS.",
   path: "/cv-para-mineria",
   keywords: [
     "cv para mineria",
@@ -72,10 +72,31 @@ export default function CvParaMineriaPage() {
           ],
         },
         {
+          title: "Ejemplos de experiencia para CV minero",
+          paragraphs: [
+            "Para un perfil operativo, puedes escribir: 'Realice tareas de apoyo en operaciones, orden de area, uso de EPP, cumplimiento de procedimientos y colaboracion con equipos de mantenimiento o logistica en entornos industriales'.",
+            "Para mantenimiento o servicios, una frase util seria: 'Colabore en inspecciones, limpieza tecnica, traslado de materiales, asistencia a tecnicos y registro de novedades, respetando normas de seguridad y trabajo por turnos'.",
+          ],
+        },
+        {
           title: "CV para mineria sin experiencia",
           paragraphs: [
             "Si estas buscando entrar al sector, puedes destacar disponibilidad horaria, responsabilidad, condicion fisica, estudios tecnicos, cursos de seguridad e higiene, manejo de herramientas, licencia de conducir o experiencia en industria, deposito, construccion, transporte o mantenimiento.",
             "Para puestos iniciales, ayuda mostrar que entiendes la importancia de seguir procedimientos, usar EPP y trabajar con orden en entornos exigentes.",
+          ],
+        },
+        {
+          title: "Requisitos y datos que pueden sumar",
+          paragraphs: [
+            "En mineria suelen ser relevantes la disponibilidad para roster o campamento, licencia de conducir, cursos de seguridad, experiencia en altura, manejo de herramientas, mantenimiento, transporte, deposito o industria pesada.",
+            "No conviene inventar requisitos. Pero si los tienes, deben aparecer de forma visible porque muchas busquedas y filtros se apoyan en palabras como minera, seguridad, turnos, campamento, maquinaria, EPP y mantenimiento.",
+          ],
+        },
+        {
+          title: "Errores comunes en un curriculum para mineria",
+          paragraphs: [
+            "Un error frecuente es hacer un CV demasiado general, sin aclarar si apuntas a operacion, mantenimiento, chofer, ayudante, deposito, planta o campamento.",
+            "Otro problema es no mencionar seguridad. Aunque el puesto sea inicial, respetar procedimientos, usar EPP y trabajar con orden son senales importantes para empresas mineras y contratistas.",
           ],
         },
       ]}
@@ -95,6 +116,16 @@ export default function CvParaMineriaPage() {
           answer:
             "Si. Puedes enfocar experiencia en industria, deposito, construccion, transporte, mantenimiento, estudios tecnicos, cursos y disponibilidad.",
         },
+        {
+          question: "Que poner en un CV para trabajar en minera?",
+          answer:
+            "Puesto objetivo, experiencia operativa o tecnica, seguridad, EPP, turnos, disponibilidad, licencia, cursos, herramientas, maquinaria, mantenimiento o experiencia en industria.",
+        },
+        {
+          question: "Conviene mencionar campamento o roster?",
+          answer:
+            "Si tienes disponibilidad real para campamento, viaje, roster o turnos rotativos, conviene incluirlo porque puede ser clave para el sector.",
+        },
       ]}
       relatedLinks={[
         {
@@ -111,6 +142,11 @@ export default function CvParaMineriaPage() {
           href: "/crear-cv-online",
           title: "Crear CV online",
           description: "Arma una version profesional lista para descargar.",
+        },
+        {
+          href: "/curriculum-ats",
+          title: "Curriculum ATS",
+          description: "Refuerza estructura y palabras clave para procesos digitales.",
         },
       ]}
     />

@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Repositor: Ejemplo, Habilidades y Formato ATS",
   description:
-    "Arma un CV para repositor con ejemplo, habilidades operativas, stock, orden de gondola y formato ATS.",
+    "Arma un CV para repositor con ejemplo de perfil, experiencia, habilidades operativas, stock, gondola, supermercado y formato ATS.",
   path: "/cv-para-repositor",
   keywords: [
     "cv para repositor",
@@ -63,6 +63,20 @@ export default function CvParaRepositorPage() {
           ],
         },
         {
+          title: "Ejemplo de perfil profesional para repositor",
+          paragraphs: [
+            "Una base clara puede ser: 'Perfil operativo orientado a reposicion y orden de mercaderia, con experiencia en control de stock, rotacion de productos, limpieza de sector y apoyo a clientes en comercios de alto movimiento'.",
+            "Si tambien hiciste deposito, caja o atencion al cliente, conviene mencionarlo porque muchas empresas valoran perfiles que puedan cubrir varias tareas dentro del salon o supermercado.",
+          ],
+        },
+        {
+          title: "Ejemplos de experiencia para repositor",
+          paragraphs: [
+            "Para supermercado, puedes escribir: 'Realice reposicion de gondolas, control de fechas de vencimiento, rotacion de productos y orden del sector, colaborando con descarga y atencion basica a clientes'.",
+            "Para deposito o mayorista, una frase util seria: 'Colabore en recepcion de mercaderia, inventario, ubicacion de productos, preparacion de pedidos y mantenimiento de pasillos ordenados para facilitar el trabajo operativo'.",
+          ],
+        },
+        {
           title: "CV para repositor sin experiencia",
           paragraphs: [
             "Si no tienes experiencia directa, puedes destacar disponibilidad horaria, responsabilidad, puntualidad, buena condicion para tareas operativas, estudios, cursos o trabajos informales donde hayas demostrado orden y constancia.",
@@ -74,6 +88,13 @@ export default function CvParaRepositorPage() {
           paragraphs: [
             "Entre las habilidades mas utiles estan orden, rapidez, control de stock, atencion al detalle, trabajo fisico, rotacion de mercaderia, trabajo en equipo y cumplimiento de procesos.",
             "Para ATS, conviene que esas palabras aparezcan dentro del perfil y la experiencia, no solo en una lista aislada.",
+          ],
+        },
+        {
+          title: "Errores comunes en un curriculum repositor",
+          paragraphs: [
+            "Un error comun es quedarse solo en 'reposicion de productos'. Conviene agregar stock, vencimientos, rotacion, orden, limpieza, descarga, inventario o atencion basica si corresponden.",
+            "Otro error es no aclarar el rubro. Repositor de supermercado, farmacia, mayorista, tienda o deposito pueden parecer puestos parecidos, pero las tareas y exigencias cambian bastante.",
           ],
         },
       ]}
@@ -93,6 +114,16 @@ export default function CvParaRepositorPage() {
           answer:
             "Si. En ese caso conviene reforzar responsabilidad, disponibilidad, estudios y habilidades operativas.",
         },
+        {
+          question: "Que habilidades poner en un CV de repositor?",
+          answer:
+            "Orden, reposicion, control de stock, rotacion de mercaderia, atencion al detalle, carga y descarga, limpieza del sector, inventario y atencion basica al cliente.",
+        },
+        {
+          question: "Como describir experiencia de repositor?",
+          answer:
+            "Describe tareas como reposicion de gondolas, control de vencimientos, rotacion de productos, descarga, inventario, orden del sector y apoyo a clientes.",
+        },
       ]}
       relatedLinks={[
         {
@@ -109,6 +140,11 @@ export default function CvParaRepositorPage() {
           href: "/crear-cv-online",
           title: "Crear CV online",
           description: "Arma tu CV en una plantilla lista para descargar.",
+        },
+        {
+          href: "/cv-para-operario",
+          title: "CV para operario",
+          description: "Buena alternativa si tambien hiciste deposito, carga o tareas operativas.",
         },
       ]}
     />
