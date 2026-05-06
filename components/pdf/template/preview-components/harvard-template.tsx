@@ -20,7 +20,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   role: { fontSize: 11, fontFamily: "Times-Italic", marginBottom: 4 },
-  contactInfo: { fontSize: 9.5, color: "#222222", textAlign: "center" },
+  contactInfo: {
+    fontSize: 9.5,
+    color: "#222222",
+    textAlign: "center",
+    lineHeight: 1.25,
+  },
   summary: { fontSize: 9.6, marginBottom: 6, textAlign: "justify" },
   sectionHeader: {
     fontSize: 10,
@@ -95,6 +100,23 @@ const BulletList = ({ items }: { items: string[] }) => (
   </View>
 );
 
+const chunkItems = (items: string[], size = 3) =>
+  items.reduce<string[][]>((chunks, item, index) => {
+    if (index % size === 0) chunks.push([]);
+    chunks[chunks.length - 1].push(item);
+    return chunks;
+  }, []);
+
+const ContactLines = ({ items }: { items: string[] }) => (
+  <>
+    {chunkItems(items).map((line, index) => (
+      <Text key={index} style={styles.contactInfo}>
+        {line.join(" | ")}
+      </Text>
+    ))}
+  </>
+);
+
 export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
   return (
     <Document>
@@ -103,7 +125,7 @@ export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
         <View style={styles.header}>
           <Text style={styles.name}>{cv.nombre}</Text>
           <Text style={styles.role}>{cv.puesto}</Text>
-          <Text style={styles.contactInfo}>{cv.contacto.join(" • ")}</Text>
+          <ContactLines items={cv.contacto} />
         </View>
 
         <Text style={styles.sectionHeader}>Perfil profesional</Text>
@@ -162,3 +184,4 @@ export default function HarvardTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
     </Document>
   );
 }
+

@@ -9,7 +9,18 @@ import { z } from "zod";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 const CVSchema = z.object({
-  foto_url: z.string().url().optional(),
+  foto_url: z.preprocess((value) => {
+    if (
+      value === "" ||
+      value === null ||
+      value === undefined ||
+      value === "undefined"
+    ) {
+      return undefined;
+    }
+
+    return value;
+  }, z.string().url().optional()),
   nombre: z.string(),
   puesto: z.string(),
   sobreMi: z.string(),
@@ -36,8 +47,64 @@ const CVSchema = z.object({
   informacionAdicional: z.array(z.string()),
 });
 
+const limitWords = (text: string, maxWords: number) => {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  if (words.length <= maxWords) return text.trim();
+  return `${words.slice(0, maxWords).join(" ")}.`;
+};
+
+const compactText = (text: string, maxWords: number) => {
+  const clean = text.replace(/\s+/g, " ").trim();
+  const firstSentence = clean.split(/(?<=[.!?])\s+/)[0]?.trim();
+  return limitWords(firstSentence || clean, maxWords);
+};
+
+const normalizeAchievement = (text: string) => {
+  return compactText(text, 36)
+    .replace(/\bAutomatiz(?:e|é)\b/gi, "Automaticé")
+    .replace(/\bautomatiz(?:e|é)\b/g, "automaticé")
+    .replace(/^Cree\b/i, "Creé")
+    .replace(/^Desarrolle\b/i, "Desarrollé")
+    .replace(/^Implemente\b/i, "Implementé")
+    .replace(/^Integre\b/i, "Integré")
+    .replace(/^Optimice\b/i, "Optimicé")
+    .replace(/^Disene\b/i, "Diseñé")
+    .replace(/^Constru(?:i|í)\b/i, "Construí")
+    .replace(/^Gestione\b/i, "Gestioné")
+    .replace(/^Automatice\b/i, "Automaticé")
+    .replace(/^He desarrollado/i, "Desarrollé")
+    .replace(/^He implementado/i, "Implementé")
+    .replace(/^He integrado/i, "Integré")
+    .replace(/, lo que ha .*/i, ".")
+    .replace(/, mejorando significativamente .*/i, ".")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
+const compactSkills = (skills: string[]) => {
+  return skills
+    .map((skill) => skill.trim())
+    .filter(Boolean)
+    .filter(
+      (skill, index, list) =>
+        list.findIndex(
+          (item) => item.toLowerCase() === skill.toLowerCase()
+        ) === index
+    )
+    .slice(0, 22);
+};
+
 export async function POST(req: Request): Promise<NextResponse> {
-  const body: DatosCVFormulario = await req.json();
+  let body: DatosCVFormulario;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json(
+      { error: "JSON inválido en la solicitud" },
+      { status: 400 }
+    );
+  }
+
   if (!body) {
     return NextResponse.json(
       { error: "No se recibieron datos" },
@@ -59,127 +126,39 @@ export async function POST(req: Request): Promise<NextResponse> {
       { status: 403 }
     );
   }
-  const systemMessage = `Actuás como un redactor profesional especializado en currículums optimizados para sistemas de seguimiento automático de candidatos (ATS). Tu tarea es transformar la información del usuario en un CV formal, claro y persuasivo, cumpliendo estrictamente con estas instrucciones:
 
-1. **SOBRE MÍ**
-- Redactá un único párrafo formal de entre 50 y 70 palabras.
-- Explicá por qué deberían contratar al candidato.
-- Destacá su propuesta de valor, experiencia clave, tecnologías dominadas y habilidades principales.
-- Evitá frases genéricas o clichés como "trabajo en equipo" o "responsable".
-- La foto_url no la toques, ya que se generará automáticamente y es opcional.
+  const compactSystemMessage = `Redacta un CV profesional en español neutro, optimizado para ATS y fácil de escanear.
 
-2.EXPERIENCIA PROFESIONAL
--Para cada experiencia laboral, generá entre 2 y 5 logros concretos, en función del nivel de seniority y la duración del empleo.
--Cada logro debe estar redactado como dos párrafos cohesivos, de 60 a 80 palabras cada uno, enfocados en:
--Resultados medibles o evidentes.
--Impacto real en la empresa, equipo o proyecto.
--Tecnologías utilizadas y responsabilidades destacadas.
--Evitá frases sueltas o listas: cada logro debe leerse como una narrativa profesional clara y convincente.
--No inventes cifras, porcentajes ni datos si el usuario no los proporcionó explícitamente.
-- **Si el usuario no proporciona fechas para la experiencia laboral, dejá el campo de fechas vacío (no coloques "no especificado" ni texto similar).**
+Reglas:
+- No copies literal el texto del usuario: reescribe responsabilidades como logros claros.
+- No inventes cifras, empresas, seniority, fechas, ubicaciones ni tecnologías.
+- Perfil profesional: un único párrafo de 55 a 70 palabras, con perfil, stack/habilidades clave, tipo de proyectos y valor profesional.
+- Experiencia: 2 logros por experiencia. Usa 3 solo si la entrada tiene mucha información real. Cada logro debe ser una sola oración de 20 a 36 palabras.
+- Los logros deben empezar con verbos en pasado correcto: Desarrollé, Implementé, Integré, Construí, Optimicé, Diseñé, Gestioné, Automaticé o Mantengo.
+- No uses "Automatizé", "Cree", "Implemente" ni verbos sin tilde cuando correspondan.
+- Evita repetir el stack completo en cada experiencia; si ya aparece en perfil o habilidades, menciona solo tecnologías necesarias.
+- Si un proyecto es propio, freelance o institucional, dilo así. No lo presentes como empleo corporativo.
+- Formación: concisa. Sin descripciones largas salvo que el usuario las haya escrito.
+- Habilidades e idiomas: usa solo datos provistos, normaliza nombres técnicos y elimina duplicados.
+- Información adicional: máximo 4 items breves. Mantén links importantes, disponibilidad, certificaciones o datos útiles.
+- Si faltan fechas o ubicación, deja el campo como string vacío.
+- Compatible con ATS: sin markdown, emojis, tablas ni adornos.
 
-3. FORMACIÓN ACADÉMICA
-- Formato conciso y claro: institución, título obtenido, fechas y ubicación.
-- **Si el usuario no proporciona fechas para la formación académica, dejá el campo de fechas vacío (no coloques "no especificado" ni texto similar).**
+Responde exclusivamente JSON válido con esta estructura:
+{"foto_url"?:string,"nombre":string,"puesto":string,"sobreMi":string,"contacto":string[],"experiencia":[{"cargo":string,"empresa":string,"fechas":string,"ubicacion":string,"logros":string[]}],"formacion":[{"institucion":string,"titulo":string,"fechas":string,"ubicacion":string}],"habilidades":string[],"idiomas":string[],"informacionAdicional":string[]}`;
 
-4. **HABILIDADES E IDIOMAS**
-- Incluir solamente los elementos provistos por el usuario, sin agregar otros.
-
-5. **ESTILO Y FORMATO**
-- Redactá en tono profesional y neutro, sin errores gramaticales.
-- No uses listas con bullets, emojis ni otros recursos decorativos.
-- El texto debe ser 100% compatible con sistemas ATS.
-
-6. **SALIDA**
-Respondé exclusivamente en JSON válido con la siguiente estructura exacta:
-
-{
-  "foto_url"?: string, 
-  "nombre": string,
-  "puesto": string,
-  "sobreMi": string,
-  "contacto": string[],
-  "experiencia": [
-    {
-      "cargo": string,
-      "empresa": string,
-      "fechas": string,
-      "ubicacion": string,
-      "logros": string[]
-    }
-  ],
-  "formacion": [
-    {
-      "institucion": string,
-      "titulo": string,
-      "fechas": string,
-      "ubicacion": string
-    }
-  ],
-  "habilidades": string[],
-  "idiomas": string[],
-  "informacionAdicional": string[]
-}`;
-
-  const compactSystemMessage = `Actuas como un redactor profesional de curriculums ATS. Tu objetivo es convertir la informacion del usuario en un CV claro, compacto y con impacto real para reclutadores.
-
-Regla principal: el CV debe ser facil de escanear y debe poder entrar idealmente en 1 pagina si el usuario tiene poca o media experiencia. No infles el texto. No agregues relleno.
-
-1. SOBRE MI
-- Redacta un unico parrafo de 35 a 50 palabras.
-- Debe responder: perfil, stack o habilidades clave, tipo de proyectos/experiencia y valor profesional.
-- Evita frases genericas como "responsable", "proactivo", "trabajo en equipo", "apasionado" o "excelentes habilidades".
-- No menciones tecnologias que el usuario no haya proporcionado.
-- Conserva foto_url sin modificar si viene provista.
-
-2. EXPERIENCIA PROFESIONAL
-- Para cada experiencia genera entre 2 y 3 logros. Usa 2 si el puesto/proyecto no tiene mucha informacion; usa 3 solo si hay suficiente contenido real.
-- Cada logro debe tener una sola oracion, entre 18 y 32 palabras.
-- Cada logro debe empezar con un verbo de accion: Desarrolle, Implemente, Integre, Construi, Optimice, Disene, Gestione, Automatice o Mantengo.
-- Prioriza impacto verificable: producto construido, flujo implementado, problema resuelto, integracion realizada, mejora concreta o responsabilidad tecnica.
-- Incluye tecnologias solo cuando sean relevantes y hayan sido provistas por el usuario.
-- No uses dos frases para decir lo mismo. No repitas la misma idea entre bullets.
-- No inventes cifras, porcentajes, empresas, seniority, cargos ni resultados no provistos.
-- No conviertas proyectos personales en experiencia laboral corporativa; si corresponde usa "Proyecto propio", "Proyecto freelance" o "Proyecto institucional".
-- Si el usuario no proporciona fechas para una experiencia, deja "fechas" como string vacio.
-- Si el usuario no proporciona ubicacion, deja "ubicacion" como string vacio.
-
-3. FORMACION ACADEMICA
-- Manten cada entrada concisa: institucion, titulo, fechas y ubicacion.
-- No agregues descripcion extensa de materias salvo que el usuario la haya escrito.
-- Si faltan fechas o ubicacion, deja esos campos como string vacio.
-
-4. HABILIDADES E IDIOMAS
-- Incluye solamente elementos provistos por el usuario.
-- Normaliza nombres tecnicos, por ejemplo "Next.js", "TypeScript", "Supabase", "Mercado Pago".
-- Evita duplicados y habilidades demasiado vagas si ya hay una version mas concreta.
-
-5. INFORMACION ADICIONAL
-- Convierte links y datos extra en items breves.
-- Maximo 4 items.
-- No repitas proyectos o habilidades que ya aparecen claramente en experiencia, salvo enlaces clave como GitHub, LinkedIn o portfolio.
-
-6. ESTILO
-- Tono profesional, directo y neutro.
-- Compatible con ATS: sin emojis, tablas, markdown, bullets escritos dentro del texto ni caracteres decorativos.
-- Usa espanol neutro. No uses signos de exclamacion.
-- Prefiere claridad sobre adjetivos. El reclutador debe entender rapido que hizo la persona y con que herramientas.
-
-7. SALIDA
-Responde exclusivamente en JSON valido con la misma estructura exacta indicada por el contrato de la API.`;
-
-  const userMessage = `
-Foto?: ${body.foto_url}
-Nombre: ${body.nombre}
-Puesto: ${body.puesto}
-Sobre mí: ${body.sobreMi}
-Contacto: ${body.contacto}
-Experiencia: ${body.experiencia}
-Formación: ${body.formacion}
-Habilidades: ${body.habilidades}
-Idiomas: ${body.idiomas}
-Información adicional: ${body.informacionAdicional} 
-`.trim();
+  const userMessage = JSON.stringify({
+    foto_url: body.foto_url,
+    nombre: body.nombre,
+    puesto: body.puesto,
+    sobreMi: body.sobreMi,
+    contacto: body.contacto,
+    experiencia: body.experiencia,
+    formacion: body.formacion,
+    habilidades: body.habilidades,
+    idiomas: body.idiomas,
+    informacionAdicional: body.informacionAdicional,
+  });
   const makeCompletion = () =>
     openai.chat.completions.create({
       model: "gpt-4o",
@@ -187,7 +166,7 @@ Información adicional: ${body.informacionAdicional}
       max_tokens: 1800,
       response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: compactSystemMessage || systemMessage },
+        { role: "system", content: compactSystemMessage },
         { role: "user", content: userMessage },
       ],
     });
@@ -237,6 +216,23 @@ Información adicional: ${body.informacionAdicional}
     );
   }
 
-  const response: RespuestaCV = { cv: parsed.data };
+  const cv: RespuestaCV["cv"] = {
+    ...parsed.data,
+    sobreMi: limitWords(parsed.data.sobreMi.replace(/\s+/g, " "), 70),
+    experiencia: parsed.data.experiencia.map((item) => ({
+      ...item,
+      logros: item.logros
+        .map((logro) => normalizeAchievement(logro))
+        .filter(Boolean)
+        .slice(0, 3),
+    })),
+    habilidades: compactSkills(parsed.data.habilidades),
+    informacionAdicional: parsed.data.informacionAdicional
+      .map((item) => compactText(item, 18))
+      .filter(Boolean)
+      .slice(0, 4),
+  };
+
+  const response: RespuestaCV = { cv };
   return NextResponse.json(response);
 }

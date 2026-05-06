@@ -146,22 +146,31 @@ export default function CVFormStep({
 
   const rellenarDatosPrueba = () => {
     reset({
-      nombre: "Sebastián López",
-      puesto: "Desarrollador Web Full Stack",
-      contacto: "sebastian.lopez.dev@gmail.com, +54 9 387 456 7890",
+      nombre: "Sebastian",
+      puesto: "Desarrollador Full Stack Junior",
+      contacto:
+        "Salta, Argentina\nsebdevspace@gmail.com\nGitHub: https://github.com/sebiten\nPortfolio: https://sebdevspace.me\nLinkedIn: https://www.linkedin.com/in/sebdevspace",
       sobreMi:
-        "Desarrollador web full stack con más de 5 años de experiencia en la creación de aplicaciones robustas, escalables y centradas en el usuario. Manejo sólido de tecnologías modernas tanto del lado del cliente como del servidor. Me especializo en el desarrollo de soluciones completas, desde el diseño de bases de datos hasta la integración de servicios externos y la optimización del rendimiento.",
+        "Soy de Salta, Argentina. Me dedico al desarrollo web y estoy creando proyectos propios con Next.js, React, TypeScript, Supabase y Tailwind. Me gusta hacer productos completos, no solo pantallas: login, base de datos, pagos, panel admin, SEO, generacion de PDF e integraciones con IA.",
       experiencia:
-        "Desarrollador Full Stack en VitaeSpark, Salta, 2022–2025. Diseñé e implementé una plataforma de generación de CVs basada en inteligencia artificial. Integré sistemas de autenticación con Clerk, base de datos con Supabase y sistema de pagos con MercadoPago. Optimizamos tiempos de carga y escalabilidad utilizando Next.js 15 y funciones serverless.\n\n" +
-        "Desarrollador Web en Agencia Creativa Salta, 2020–2022. Trabajé en más de 20 proyectos de clientes desarrollando soluciones a medida con stacks MERN y JAMstack. Participé en la planificación de arquitectura, creación de APIs REST y GraphQL, diseño de bases de datos relacionales y no relacionales, y despliegue en entornos cloud como Vercel y Heroku.",
+        "Desarrollador web, 2024-Actualidad, proyectos propios / freelance, Salta, Argentina\n" +
+        "Hice varios proyectos web completos usando Next.js, React, TypeScript, Supabase, Tailwind y Vercel. Los mas importantes son VitaeSpark, Romi Tienda y Lumi People. En esos proyectos trabaje con login, bases de datos, paneles de administracion, pagos, webhooks, SEO, blogs, generacion de PDF e integracion con OpenAI.\n\n" +
+        "Desarrollador de VitaeSpark, 2026-Actualidad, proyecto propio, Salta, Argentina\n" +
+        "Cree VitaeSpark, una app para generar curriculums con inteligencia artificial. La app permite registrarse, completar un formulario, generar contenido con OpenAI, elegir plantilla, ver preview, pagar con Mercado Pago y descargar el CV en PDF. Tambien tiene perfil de usuario, CVs guardados, webhook de pago y panel interno.\n\n" +
+        "Desarrollador de Romi Tienda, 2026, proyecto ecommerce, Salta, Argentina\n" +
+        "Desarrolle una tienda online de indumentaria con Next.js, Supabase y Mercado Pago. Tiene catalogo, producto individual, carrito, perfil, login, panel admin para productos e imagenes, pedidos, stock, calculo de envio y checkout. Tambien trabaje en el webhook para actualizar pagos y no descontar stock dos veces.\n\n" +
+        "Desarrollador de Lumi People, 2024-2026, proyecto institucional, Salta, Argentina\n" +
+        "Trabaje en el sitio web de Lumi People, una consultora de recursos humanos de Salta. Hice landing, servicios, equipo, vacantes, noticias y blog. Use Next.js, TypeScript, Tailwind, MDX, sitemap, metadata, Open Graph y Schema.org para SEO.",
       formacion:
-        "Licenciatura en Sistemas, Universidad Nacional de Salta, 2016–2021. Promedio: 8.4/10.\n\n" +
-        "Curso Profesional de Backend con Node.js, Udemy, 2022.",
+        "Estudiante de Programacion / Desarrollo de Software, 2025-Actualidad, Universidad Nacional de Salta, Salta, Argentina\n" +
+        "Estoy estudiando fundamentos de programacion, logica y lenguaje C.\n\n" +
+        "Desarrollo Web Full Stack, 2023-Actualidad, formacion autodidacta / proyectos propios, online\n" +
+        "Aprendi desarrollo web construyendo proyectos reales y leyendo documentacion oficial. Practique HTML, CSS, JavaScript, React, Next.js, TypeScript, Supabase, MongoDB, Tailwind, Git, GitHub, Vercel, APIs, autenticacion, pagos e integracion con inteligencia artificial.",
       habilidades:
-        "JavaScript, TypeScript, React, Next.js, Node.js, Express, PostgreSQL, Supabase, Prisma, Git, Docker, Clerk, MercadoPago API, REST, GraphQL, CI/CD, Vercel.",
-      idiomas: "Español: Nativo\nInglés: Intermedio-avanzado (B2/C1)",
+        "Next.js, React, TypeScript, JavaScript, HTML, CSS, Tailwind CSS, shadcn/ui, Radix UI, Node.js, Supabase, MongoDB, OpenAI API, Mercado Pago, Stripe, Zod, Git, GitHub, Vercel, pnpm, npm, Framer Motion, SEO tecnico, APIs REST, autenticacion, webhooks, generacion de PDF, C",
+      idiomas: "Espanol nativo\nIngles B2",
       informacionAdicional:
-        "Certificación en Desarrollo Web Full Stack (2023).\nMentor en programas de formación para jóvenes desarrolladores.\nParticipación activa en comunidades como DevSalta y NodeConf Argentina.",
+        "Portfolio: https://sebdevspace.me\nGitHub: https://github.com/sebiten\nLinkedIn: https://www.linkedin.com/in/sebdevspace\nProducto propio: https://vitaespark.com\nDisponibilidad para trabajo remoto, freelance o presencial en Salta",
     });
   };
 

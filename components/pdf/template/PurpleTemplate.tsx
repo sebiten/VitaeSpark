@@ -167,6 +167,16 @@ const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
         ))}
       </View>
     )}
+    {cv.informacionAdicional.length > 0 && (
+      <View style={styles.sidebarSection}>
+        <Text style={styles.sidebarTitle}>Información adicional</Text>
+        {cv.informacionAdicional.slice(0, 4).map((item, index) => (
+          <Text key={index} style={styles.sidebarText}>
+            {item}
+          </Text>
+        ))}
+      </View>
+    )}
   </View>
 );
 
@@ -235,17 +245,6 @@ export default function PurpleTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
                 </View>
               ))}
             </View>
-
-            {cv.informacionAdicional.length > 0 && (
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Información adicional</Text>
-                {cv.informacionAdicional.map((item, index) => (
-                  <Text key={index} style={{ fontSize: 8.8, marginBottom: 4 }}>
-                    • {item}
-                  </Text>
-                ))}
-              </View>
-            )}
           </View>
         </View>
       </Page>

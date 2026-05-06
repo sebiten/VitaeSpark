@@ -166,6 +166,23 @@ const ChipList = ({ items }: { items: string[] }) => (
   </View>
 );
 
+const chunkItems = (items: string[], size = 3) =>
+  items.reduce<string[][]>((chunks, item, index) => {
+    if (index % size === 0) chunks.push([]);
+    chunks[chunks.length - 1].push(item);
+    return chunks;
+  }, []);
+
+const ContactLines = ({ items }: { items: string[] }) => (
+  <>
+    {chunkItems(items).map((line, index) => (
+      <Text key={index} style={styles.contact}>
+        {line.join(" | ")}
+      </Text>
+    ))}
+  </>
+);
+
 export default function ProfessionalBlueTemplate({
   cv,
 }: {
@@ -179,7 +196,7 @@ export default function ProfessionalBlueTemplate({
           <View style={styles.headerText}>
             <Text style={styles.name}>{cv.nombre}</Text>
             <Text style={styles.position}>{cv.puesto}</Text>
-            <Text style={styles.contact}>{cv.contacto.join(" • ")}</Text>
+            <ContactLines items={cv.contacto} />
           </View>
         </View>
 
@@ -243,3 +260,4 @@ export default function ProfessionalBlueTemplate({
     </Document>
   );
 }
+
