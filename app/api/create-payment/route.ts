@@ -2,12 +2,28 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
-import { supabaseAdmin } from "@/utils/supabase/admin";
+import { CreatePaymentSchema } from "@/lib/schemas/cv";
 
 export async function POST(req: Request) {
-  // extraemos los datos provenientes del front, CVPreviewStep
-  const body = await req.json();
-  const { cvData, template } = body;
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json(
+      { error: "JSON inválido en la solicitud" },
+      { status: 400 }
+    );
+  }
+
+  const parsed = CreatePaymentSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Datos inválidos", issues: parsed.error.flatten().fieldErrors },
+      { status: 400 }
+    );
+  }
+
+  const { cvData, template } = parsed.data;
 
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
@@ -17,8 +33,11 @@ export async function POST(req: Request) {
   const profile_id = user.data.user.id;
   const email = user.data.user.email;
 
-  if (!profile_id) {
-    return NextResponse.json({ error: "No profile_id found" }, { status: 400 });
+  if (!profile_id || !email) {
+    return NextResponse.json(
+      { error: "No se pudo identificar al usuario" },
+      { status: 400 }
+    );
   }
 
   // Creamos el CV en estado temporal
@@ -86,7 +105,8 @@ export async function POST(req: Request) {
 
   const mpJson = await mpRes.json();
 
-  if (!mpJson.init_point) {
+  if (!mpRes.ok || !mpJson.init_point) {
+    console.error("Error creando preferencia de Mercado Pago:", mpJson);
     return NextResponse.json(
       { error: "No se pudo generar link de pago" },
       { status: 500 }

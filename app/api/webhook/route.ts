@@ -1,10 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import { z } from "zod";
+
+const MercadoPagoWebhookSchema = z.object({
+  type: z.string().optional(),
+  data: z
+    .object({
+      id: z.union([z.string(), z.number()]).optional(),
+    })
+    .optional(),
+});
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const type = body.type;
-  const id = body.data?.id;
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const parsed = MercadoPagoWebhookSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid webhook" }, { status: 400 });
+  }
+
+  const type = parsed.data.type;
+  const id = parsed.data.data?.id;
 
   // Ignorar eventos que no son pagos
   if (type !== "payment" || !id) {
@@ -12,11 +33,14 @@ export async function POST(req: NextRequest) {
   }
 
   // 1. Consultar el pago directamente a MercadoPago (nunca confiar en el body)
-  const mpRes = await fetch(`https://api.mercadopago.com/v1/payments/${id}`, {
-    headers: {
-      Authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`,
-    },
-  });
+  const mpRes = await fetch(
+    `https://api.mercadopago.com/v1/payments/${encodeURIComponent(String(id))}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`,
+      },
+    }
+  );
 
   if (!mpRes.ok) {
     console.error("❌ Error consultando MercadoPago:", mpRes.status);
@@ -30,8 +54,8 @@ export async function POST(req: NextRequest) {
   }
 
   // 2. Extraer cv_id y profile_id del metadata (lo pusiste vos al crear la preferencia)
-  const cv_id = payment.metadata?.cv_id;
-  const profile_id = payment.metadata?.profile_id;
+  const cv_id = String(payment.metadata?.cv_id ?? "");
+  const profile_id = String(payment.metadata?.profile_id ?? "");
 
   if (!cv_id || !profile_id) {
     console.error("❌ Metadata incompleto:", payment.metadata);
@@ -75,6 +99,10 @@ export async function POST(req: NextRequest) {
   });
 
   if (insertError) {
+    if (insertError.code === "23505") {
+      return NextResponse.json({ message: "Already processed" }, { status: 200 });
+    }
+
     console.error("❌ Error insertando pago:", insertError);
     return NextResponse.json({ error: "DB error" }, { status: 500 });
   }
@@ -83,7 +111,8 @@ export async function POST(req: NextRequest) {
   const { error: updateError } = await supabaseAdmin
     .from("cvs")
     .update({ status: "paid" })
-    .eq("id", cv_id);
+    .eq("id", cv_id)
+    .eq("profile_id", profile_id);
 
   if (updateError) {
     console.error("❌ Error actualizando CV:", updateError);

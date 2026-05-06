@@ -4,48 +4,9 @@ import OpenAI from "openai";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { fixedWindow, shield } from "@arcjet/next";
 import { aj } from "@/lib/arcjet";
-import { z } from "zod";
+import { CVSchema, GenerateCVInputSchema } from "@/lib/schemas/cv";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
-
-const CVSchema = z.object({
-  foto_url: z.preprocess((value) => {
-    if (
-      value === "" ||
-      value === null ||
-      value === undefined ||
-      value === "undefined"
-    ) {
-      return undefined;
-    }
-
-    return value;
-  }, z.string().url().optional()),
-  nombre: z.string(),
-  puesto: z.string(),
-  sobreMi: z.string(),
-  contacto: z.array(z.string()),
-  experiencia: z.array(
-    z.object({
-      cargo: z.string(),
-      empresa: z.string(),
-      fechas: z.string(),
-      ubicacion: z.string(),
-      logros: z.array(z.string()),
-    })
-  ),
-  formacion: z.array(
-    z.object({
-      institucion: z.string(),
-      titulo: z.string(),
-      fechas: z.string(),
-      ubicacion: z.string(),
-    })
-  ),
-  habilidades: z.array(z.string()),
-  idiomas: z.array(z.string()),
-  informacionAdicional: z.array(z.string()),
-});
 
 const limitWords = (text: string, maxWords: number) => {
   const words = text.trim().split(/\s+/).filter(Boolean);
@@ -105,12 +66,15 @@ export async function POST(req: Request): Promise<NextResponse> {
     );
   }
 
-  if (!body) {
+  const input = GenerateCVInputSchema.safeParse(body);
+  if (!input.success) {
     return NextResponse.json(
-      { error: "No se recibieron datos" },
+      { error: "Datos inválidos", issues: input.error.flatten().fieldErrors },
       { status: 400 }
     );
   }
+
+  body = input.data;
 
   const decision = await aj
     .withRule(shield({ mode: "LIVE" }))

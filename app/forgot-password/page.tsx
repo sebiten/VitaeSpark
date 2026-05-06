@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ export default function ForgotPasswordForm() {
     e.preventDefault();
 
     if (!email) {
-      window.alert("Por favor ingresa tu correo electronico.");
+      toast.error("Por favor ingresa tu correo electrónico.");
       return;
     }
 
@@ -45,9 +46,7 @@ export default function ForgotPasswordForm() {
 
       setIsSubmitted(true);
     } catch (error: any) {
-      window.alert(
-        error?.message || "Ocurrio un error al procesar tu solicitud."
-      );
+      toast.error(error?.message || "Ocurrió un error al procesar tu solicitud.");
     } finally {
       setIsSubmitting(false);
     }
@@ -68,7 +67,7 @@ export default function ForgotPasswordForm() {
         </div>
         <CardDescription>
           {!isSubmitted
-            ? "Ingresa tu correo electronico para recuperar tu contrasena"
+            ? "Ingresa tu correo electrónico para recuperar tu contraseña"
             : "Revisa tu bandeja de entrada"}
         </CardDescription>
       </CardHeader>
@@ -77,7 +76,7 @@ export default function ForgotPasswordForm() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-white">
-                Correo electronico
+                Correo electrónico
               </Label>
               <Input
                 id="email"
@@ -96,7 +95,7 @@ export default function ForgotPasswordForm() {
                   Enviando...
                 </>
               ) : (
-                "Recuperar contrasena"
+                "Recuperar contraseña"
               )}
             </Button>
           </form>
@@ -119,8 +118,8 @@ export default function ForgotPasswordForm() {
               </svg>
             </div>
             <p className="text-white">
-              Hemos enviado un correo electronico a <strong>{email}</strong> con
-              instrucciones para restablecer tu contrasena.
+              Hemos enviado un correo electrónico a <strong>{email}</strong> con
+              instrucciones para restablecer tu contraseña.
             </p>
             <p className="animate-pulse text-lg text-green-500">
               Si no recibes el correo en unos minutos, revisa tu carpeta de spam
@@ -136,7 +135,7 @@ export default function ForgotPasswordForm() {
             className="inline-flex items-center text-sm text-white hover:underline"
           >
             <ArrowLeft className="mr-1 h-4 w-4" />
-            Volver al inicio de sesion
+            Volver al inicio de sesión
           </Link>
         </div>
       </CardFooter>

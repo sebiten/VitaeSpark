@@ -31,6 +31,7 @@ import { motion } from "framer-motion";
 import { track } from "@vercel/analytics";
 import { createClient } from "@/utils/supabase/client";
 import { Session } from "@supabase/supabase-js";
+import { toast } from "sonner";
 const schema = z.object({
   foto_url: z.string().url().optional(),
   nombre: z.string().min(1, "El nombre es obligatorio"),
@@ -84,6 +85,7 @@ export default function CVFormStep({
 
     if (error) {
       console.error("Error al subir la imagen", error);
+      toast.error("No se pudo subir la foto. Intenta con otra imagen.");
       return;
     }
 
@@ -92,6 +94,7 @@ export default function CVFormStep({
       .getPublicUrl(filePath);
 
     setFotoUrl(publicUrl.publicUrl);
+    toast.success("Foto cargada correctamente.");
   };
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -111,7 +114,6 @@ export default function CVFormStep({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, template, foto_url }),
-        keepalive: true,
       });
 
       if (!res.ok) {
@@ -134,6 +136,7 @@ export default function CVFormStep({
         setCvData(json.cv);
         setActiveTab("preview");
       });
+      toast.success("CV generado correctamente.");
     } catch (err) {
       if (!failureTracked) {
         track("CV Generation Failed", { template });

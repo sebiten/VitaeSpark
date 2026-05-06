@@ -4,21 +4,18 @@ import { useEffect, useState, useMemo } from "react";
 import type React from "react";
 import { track } from "@vercel/analytics";
 import { Button } from "@/components/ui/button";
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { PDFViewer } from "@react-pdf/renderer";
 import { DocumentoCVW } from "./pdf/CVDocument";
 import type { RespuestaCV } from "@/lib/types/cv";
 import type { Session } from "@supabase/supabase-js";
 import {
-  Award,
   ShieldCheck,
   Handshake,
   User,
   Loader2,
   CreditCard,
   Download,
-  Clock,
   CheckCircle,
-  Accessibility,
   Globe2,
   ArrowLeft,
 } from "lucide-react";
@@ -30,7 +27,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "./ui/card";
 import Link from "next/link";
-import { Badge } from "./ui/badge";
+import { toast } from "sonner";
 
 // Array de testimonios
 export const testimonials = [
@@ -134,7 +131,7 @@ export default function CVPreviewStepPurple({
         });
         failureTracked = true;
         console.error("Error al crear preferencia:", errorData);
-        alert("No se pudo iniciar el pago. Intenta nuevamente.");
+        toast.error("No se pudo iniciar el pago. Intenta nuevamente.");
         return;
       }
 
@@ -150,14 +147,14 @@ export default function CVPreviewStepPurple({
       } else {
         track("Payment Preference Failed", { template });
         failureTracked = true;
-        alert("No se pudo iniciar el pago. Intenta nuevamente.");
+        toast.error("No se pudo iniciar el pago. Intenta nuevamente.");
       }
     } catch (error) {
       if (!failureTracked) {
         track("Payment Preference Failed", { template });
       }
       console.error("Error en handlePay:", error);
-      alert("Error al procesar el pago. Intenta nuevamente.");
+      toast.error("Error al procesar el pago. Intenta nuevamente.");
     } finally {
       setLoading(false);
     }
@@ -207,7 +204,7 @@ export default function CVPreviewStepPurple({
         </div>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent py-4 px-4 text-center">
           <p className="text-white text-sm font-medium">
-            📲Desliza con el dedo para ver todo el CV
+            Desliza con el dedo para ver todo el CV
           </p>
           <p className="text-white/80 text-xs mt-1">
             Vista protegida con marca de agua

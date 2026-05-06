@@ -1,8 +1,0 @@
-   ▲ Next.js 15.3.8 (Turbopack)
-   - Local:        http://localhost:3001
-   - Network:      http://192.168.0.106:3001
-   - Environments: .env.local
-
- ✓ Starting...
- ✓ Compiled middleware in 204ms
- ✓ Ready in 1160ms

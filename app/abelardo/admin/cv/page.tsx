@@ -99,14 +99,15 @@ export default function Page() {
 
   const loadCVs = async () => {
     try {
-      const { data, error } = await supabase
-        .from("cvs")
-        .select("*")
-        .order("created_at", { ascending: false });
+      const res = await fetch("/api/admin/cvs", {
+        method: "GET",
+        credentials: "same-origin",
+      });
 
-      if (error) throw error;
+      if (!res.ok) throw new Error("No se pudieron cargar los CVs");
 
-      const enriched = data.map((cv: any) => ({
+      const { cvs } = (await res.json()) as { cvs: CVprofile[] };
+      const enriched = cvs.map((cv: any) => ({
         ...cv,
         user_name: cv.profiles?.name || "Usuario desconocido",
         user_email: cv.profiles?.email || "Email no disponible",
