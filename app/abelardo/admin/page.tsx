@@ -154,6 +154,7 @@ export default async function AdminDashboardPage() {
             value={totalUsers ?? 0}
             helper={`Últimos 7 días: ${usersLast7.length}`}
             icon={<Users className="h-8 w-8 text-[#38BDF8]" />}
+            href="/abelardo/admin/users"
           />
         </div>
 
@@ -290,13 +291,15 @@ function StatsCard({
   value,
   helper,
   icon,
+  href,
 }: {
   title: string;
   value: number | string;
   helper: string;
   icon: React.ReactNode;
+  href?: string;
 }) {
-  return (
+  const card = (
     <Card className="group overflow-hidden bg-[#15151A]/85 text-[#F4F4F5] border border-white/10 shadow-xl shadow-black/10 hover:-translate-y-1 hover:border-[#38BDF8]/30 transition-all">
       <CardContent className="p-6">
         <div className="flex justify-between gap-4">
@@ -310,6 +313,16 @@ function StatsCard({
       </CardContent>
     </Card>
   );
+
+  if (href) {
+    return (
+      <Link href={href} className="block no-underline">
+        {card}
+      </Link>
+    );
+  }
+
+  return card;
 }
 
 function Panel({

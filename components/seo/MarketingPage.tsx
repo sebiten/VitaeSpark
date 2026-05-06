@@ -1,5 +1,16 @@
 import Link from "next/link";
-import { CheckCircle2 } from "lucide-react";
+import Image from "next/image";
+import {
+  ArrowRight,
+  BookOpenCheck,
+  CheckCircle2,
+  FileText,
+  HelpCircle,
+  Lightbulb,
+  Link2,
+  PenLine,
+  Route,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { TrackedCtaLink } from "./TrackedCtaLink";
@@ -68,6 +79,13 @@ export function MarketingPage({
   exampleImage,
   ctaLabel = "Crear mi CV",
 }: MarketingPageProps) {
+  const sectionIcons = [FileText, PenLine, Lightbulb, CheckCircle2];
+  const visual = exampleImage ?? {
+    src: "/purple-hero.webp",
+    alt: "Ejemplo de curriculum profesional creado con VitaeSpark",
+    caption: "Referencia visual de CV profesional creado con VitaeSpark.",
+  };
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -82,7 +100,7 @@ export function MarketingPage({
   };
 
   return (
-    <div className="bg-[#0F0F10] text-[#F4F4F5]">
+    <div className="overflow-x-hidden bg-[#0F0F10] text-[#F4F4F5]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -97,15 +115,16 @@ export function MarketingPage({
               { label: eyebrow, href: path },
             ]}
           />
-          <div className="max-w-3xl space-y-6">
+
+          <div className="max-w-4xl space-y-6">
             <span className="inline-flex rounded-full border border-[#38BDF8]/30 bg-[#38BDF8]/10 px-4 py-1 text-sm font-medium text-[#38BDF8]">
               {eyebrow}
             </span>
             <div className="space-y-4">
-              <h1 className="text-4xl font-bold leading-tight sm:text-5xl">
+              <h1 className="max-w-[358px] text-[2.45rem] font-bold leading-tight sm:max-w-4xl sm:text-5xl">
                 {title}
               </h1>
-              <p className="max-w-2xl text-lg leading-8 text-white/75">
+              <p className="max-w-[358px] break-words text-base leading-8 text-white/75 sm:max-w-3xl sm:text-lg">
                 {description}
               </p>
             </div>
@@ -128,146 +147,170 @@ export function MarketingPage({
             </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-3 border-t border-white/10 pt-6 md:grid-cols-3">
             {benefits.map((benefit) => (
               <div
                 key={benefit}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                className="min-w-0 w-full max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-4 sm:max-w-full sm:flex sm:gap-3"
               >
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#38BDF8]/10 text-[#38BDF8]">
-                  <CheckCircle2 className="h-5 w-5" />
+                <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#38BDF8]/10 text-[#38BDF8]">
+                  <CheckCircle2 className="h-4 w-4" />
                 </div>
-                <p className="text-sm leading-7 text-white/80">{benefit}</p>
+                <p className="mt-3 min-w-0 break-words text-sm leading-7 text-white/76 sm:mt-0">
+                  {benefit}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-            <h2 className="mb-6 text-2xl font-semibold">
-              Como te ayuda VitaeSpark
-            </h2>
-            <div className="space-y-5">
-              {intro.map((paragraph) => (
-                <p
-                  key={paragraph}
-                  className="text-base leading-8 text-white/75"
-                >
-                  {paragraph}
-                </p>
-              ))}
+      <section className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-8">
+        <article className="min-w-0 w-full max-w-[calc(100vw-2rem)] overflow-hidden sm:max-w-full">
+          <div className="mb-12 grid min-w-0 w-full max-w-[calc(100vw-2rem)] grid-cols-[minmax(0,1fr)] gap-6 border-b border-white/10 pb-10 sm:max-w-full lg:grid-cols-[minmax(0,1fr)_280px]">
+            <div className="min-w-0 w-full max-w-[calc(100vw-2rem)] sm:max-w-full">
+              <div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-[#38BDF8]">
+                <BookOpenCheck className="h-4 w-4" />
+                Guia practica
+              </div>
+              <div className="space-y-5">
+                {intro.map((paragraph) => (
+                  <p
+                    key={paragraph}
+                    className="min-w-0 break-words text-lg leading-9 text-white/82 sm:text-xl"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             </div>
-            {exampleImage ? (
-              <figure className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-black/30">
-                <img
-                  src={exampleImage.src}
-                  alt={exampleImage.alt}
-                  className="h-auto w-full"
-                  loading="lazy"
+
+            {visual ? (
+              <figure className="min-w-0 max-w-full overflow-hidden rounded-2xl border border-white/10 bg-[#121217]">
+                <Image
+                  src={visual.src}
+                  alt={visual.alt}
+                  width={560}
+                  height={360}
+                  sizes="(min-width: 1024px) 280px, 92vw"
+                  className="block h-48 w-full max-w-full object-cover object-top"
                 />
-                <figcaption className="border-t border-white/10 px-4 py-3 text-sm text-white/65">
-                  {exampleImage.caption}
+                <figcaption className="border-t border-white/10 px-4 py-3 text-xs leading-5 text-white/58">
+                  {visual.caption}
                 </figcaption>
               </figure>
             ) : null}
           </div>
 
-          <div className="rounded-3xl border border-[#7C3AED]/20 bg-[#15151A] p-8">
-            <h2 className="mb-6 text-2xl font-semibold">Como funciona</h2>
-            <div className="space-y-6">
-              {steps.map((step, index) => (
-                <div key={step.title} className="flex gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#7C3AED] text-sm font-semibold text-white">
-                    {index + 1}
+          <div className="space-y-12">
+            {sections.map((section, index) => {
+              const Icon = sectionIcons[index % sectionIcons.length];
+
+              return (
+                <section
+                  key={section.title}
+                  className="min-w-0 max-w-[calc(100vw-2rem)] border-b border-white/10 pb-10 last:border-b-0 sm:max-w-full"
+                >
+                  <div className="mb-5 flex items-start gap-4">
+                    <div className="mt-1 rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h2
+                      id={slugify(section.title)}
+                      className="text-2xl font-semibold leading-snug"
+                    >
+                      {section.title}
+                    </h2>
                   </div>
-                  <div>
-                    <h3 className="mb-1 text-base font-semibold">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm leading-7 text-white/70">
-                      {step.description}
-                    </p>
+                  <div className="space-y-5 pl-0 sm:pl-[3.75rem]">
+                    {section.paragraphs.map((paragraph) => (
+                      <p
+                        key={paragraph}
+                        className="min-w-0 break-words text-[1.03rem] leading-8 text-white/76"
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
                   </div>
+                </section>
+              );
+            })}
+          </div>
+
+          <section className="mt-12 rounded-2xl border border-white/10 bg-white/[0.035] p-6 sm:p-8">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="rounded-xl bg-[#7C3AED]/15 p-2.5 text-[#A78BFA] ring-1 ring-[#A78BFA]/20">
+                <HelpCircle className="h-5 w-5" />
+              </div>
+              <h2 className="text-2xl font-semibold">Preguntas frecuentes</h2>
+            </div>
+            <div className="divide-y divide-white/10">
+              {faqs.map((faq) => (
+                <div key={faq.question} className="py-5 first:pt-0 last:pb-0">
+                  <h3 className="mb-2 text-base font-semibold text-white/95">
+                    {faq.question}
+                  </h3>
+                  <p className="text-sm leading-7 text-white/68">
+                    {faq.answer}
+                  </p>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        </article>
 
-      <section className="border-y border-white/10 bg-white/[0.03]">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-2">
-            {sections.map((section) => (
-              <article
-                key={section.title}
-                className="rounded-3xl border border-white/10 bg-[#121217] p-8"
-              >
-                <h2
-                  id={slugify(section.title)}
-                  className="mb-4 text-2xl font-semibold"
-                >
-                  {section.title}
-                </h2>
-                <div className="space-y-4">
-                  {section.paragraphs.map((paragraph) => (
-                    <p
-                      key={paragraph}
-                      className="text-base leading-8 text-white/75"
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="rounded-3xl border border-white/10 bg-[#121217] p-8">
-            <h2 className="mb-6 text-2xl font-semibold">
-              Preguntas frecuentes
-            </h2>
+        <aside className="min-w-0 space-y-10 lg:sticky lg:top-24 lg:self-start">
+          <div className="border-l border-[#7C3AED]/30 pl-6">
+            <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#A78BFA]">
+              <Route className="h-4 w-4" />
+              Como funciona
+            </div>
             <div className="space-y-5">
-              {faqs.map((faq) => (
-                <div key={faq.question} className="border-b border-white/10 pb-5">
-                  <h3 className="mb-2 text-base font-semibold">
-                    {faq.question}
-                  </h3>
-                  <p className="text-sm leading-7 text-white/70">
-                    {faq.answer}
+              {steps.map((step, index) => (
+                <div
+                  key={step.title}
+                  className="border-b border-white/10 pb-5 last:border-b-0"
+                >
+                  <div className="mb-2 flex items-center gap-3">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#7C3AED]/20 text-xs font-semibold text-[#C4B5FD]">
+                      {index + 1}
+                    </span>
+                    <h3 className="text-sm font-semibold text-white">
+                      {step.title}
+                    </h3>
+                  </div>
+                  <p className="min-w-0 break-words text-sm leading-7 text-white/62">
+                    {step.description}
                   </p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-3xl border border-[#38BDF8]/20 bg-[linear-gradient(180deg,rgba(56,189,248,0.08),rgba(124,58,237,0.08))] p-8">
-            <h2 className="mb-6 text-2xl font-semibold">
-              Recursos relacionados
-            </h2>
-            <div className="grid gap-4">
+          <div className="border-l border-[#38BDF8]/30 pl-6">
+            <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">
+              <Link2 className="h-4 w-4" />
+              Tambien te puede servir
+            </div>
+            <div className="grid gap-5">
               {relatedLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="rounded-2xl border border-white/10 bg-black/20 p-5 transition hover:border-[#38BDF8]/40 hover:bg-black/30"
+                  className="group block border-b border-white/10 pb-5 transition last:border-b-0 hover:border-[#38BDF8]/40"
                 >
-                  <h3 className="mb-2 text-lg font-semibold">{link.title}</h3>
-                  <p className="text-sm leading-7 text-white/70">
+                  <h3 className="mb-2 flex items-center justify-between gap-3 text-base font-semibold">
+                    {link.title}
+                    <ArrowRight className="h-4 w-4 shrink-0 text-white/35 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
+                  </h3>
+                  <p className="min-w-0 break-words text-sm leading-7 text-white/62">
                     {link.description}
                   </p>
                 </Link>
               ))}
             </div>
           </div>
-        </div>
+        </aside>
       </section>
     </div>
   );
