@@ -1,9 +1,9 @@
 import {
   ArrowRight,
-  Bot,
   CheckCircle2,
   FileText,
-  Search,
+  PenLine,
+  ScanSearch,
   Sparkles,
   Wand2,
 } from "lucide-react";
@@ -11,66 +11,58 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-const trustItems = [
-  "Optimizado para ATS",
-  "Redacción con IA",
-  "PDF profesional",
+const benefits = [
+  "Redacción profesional",
+  "Estructura compatible con ATS",
+  "Descarga en PDF",
 ];
 
 const steps = [
   {
     icon: <FileText className="h-4 w-4" />,
-    title: "Cargás tus datos",
-    description: "Experiencia, estudios, habilidades y el puesto que buscás.",
+    title: "Cargas tus datos",
+    description: "Experiencia, estudios, habilidades y links.",
   },
   {
     icon: <Wand2 className="h-4 w-4" />,
-    title: "La IA lo mejora",
-    description: "Ordena la información y vuelve el texto más claro.",
+    title: "La IA ordena",
+    description: "Convierte frases sueltas en contenido claro.",
   },
   {
-    icon: <Search className="h-4 w-4" />,
-    title: "Queda listo en PDF",
-    description: "Con estructura limpia para postularte con más confianza.",
+    icon: <ScanSearch className="h-4 w-4" />,
+    title: "Postulas mejor",
+    description: "Te llevas un CV listo para enviar.",
   },
 ];
 
 export default function WelcomeHero() {
   return (
-    <section className="relative isolate overflow-hidden bg-[#0F0F10] px-4 pb-16 pt-12 sm:px-6 md:pb-24 md:pt-20">
+    <section className="relative isolate overflow-x-hidden bg-[#0F0F10] px-4 pb-14 pt-8 sm:px-6 sm:pt-10 lg:pb-20 lg:pt-16">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-[#7C3AED]/25 blur-[130px]" />
-        <div className="absolute right-0 top-40 h-[360px] w-[360px] rounded-full bg-[#38BDF8]/15 blur-[120px]" />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(124,58,237,0.18)_0%,rgba(15,15,16,0.9)_38%,rgba(15,15,16,1)_64%,rgba(56,189,248,0.14)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:84px_84px] opacity-[0.11]" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0F0F10] to-transparent" />
       </div>
 
-      <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[minmax(0,1.02fr)_minmax(420px,0.98fr)] lg:gap-14">
-        <div className="relative max-w-3xl">
-          <div className="pointer-events-none absolute -right-2 -top-4 z-0 flex h-20 w-20 items-center justify-center rounded-[1.6rem] border border-white/10 bg-white/[0.045] shadow-2xl shadow-[#7C3AED]/20 backdrop-blur-md sm:hidden">
-            <div className="absolute inset-2 rounded-2xl bg-gradient-to-br from-[#7C3AED]/30 to-[#38BDF8]/20 blur-md" />
-            <Bot className="relative h-9 w-9 text-[#A78BFA]" />
-          </div>
-
-          <div className="relative z-10 mb-6 inline-flex max-w-[78%] items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-[#F4F4F5]/75 shadow-2xl shadow-[#7C3AED]/10 backdrop-blur sm:max-w-none">
+      <div className="mx-auto grid max-w-7xl min-w-0 items-center gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(500px,1.08fr)] lg:gap-12">
+        <div className="min-w-0 max-w-[358px] sm:max-w-3xl">
+          <div className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-sm text-[#F4F4F5]/76 shadow-2xl shadow-black/20 backdrop-blur">
             <Sparkles className="h-4 w-4 shrink-0 text-[#38BDF8]" />
-            <span className="truncate">CV inteligente para buscar trabajo mejor</span>
+            <span className="truncate">CV con IA para postulaciones reales</span>
           </div>
 
-          <h1 className="text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-            Creá tu CV con{" "}
-            <span className="bg-gradient-to-t from-white via-[#C4B5FD] to-[#38BDF8]/80 bg-clip-text text-transparent">
-              IA
-            </span>{" "}
-            y pasá mejor los filtros ATS
+          <h1 className="max-w-full text-pretty text-[2.45rem] font-bold leading-[1.02] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-[4.8rem] lg:leading-[0.96]">
+            Convertí tu historia en un CV listo para entrevistas
           </h1>
 
-          <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-[#F4F4F5]/75 md:text-xl">
-            VitaeSpark convierte tus datos en un curriculum claro, profesional y
-            listo para descargar en PDF. Ideal para postularte a empleos reales
-            sin perder horas editando.
+          <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-[#F4F4F5]/74 sm:mt-6 sm:text-lg md:text-xl md:leading-8">
+            VitaeSpark transforma tus datos en un currículum claro, profesional
+            y listo para descargar. Ideal para presentar tu experiencia sin
+            sonar genérico ni perder horas editando.
           </p>
 
-          <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+          <div className="mt-6 flex max-w-[358px] flex-col items-stretch gap-3 sm:mt-8 sm:max-w-none sm:flex-row sm:items-center">
             <Link href="/crear" className="w-full sm:w-auto">
               <Button
                 size="lg"
@@ -81,18 +73,18 @@ export default function WelcomeHero() {
               </Button>
             </Link>
             <Link
-              href="/cv-para-cajero"
-              className="inline-flex h-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.025] px-5 text-sm font-semibold text-white/75 transition hover:border-[#38BDF8]/30 hover:bg-white/[0.06] sm:h-14 sm:px-7 sm:text-base"
+              href="/plantillas-curriculum"
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.035] px-5 text-sm font-semibold text-white/78 transition hover:border-[#38BDF8]/30 hover:bg-white/[0.07] sm:h-14 sm:px-7 sm:text-base"
             >
-              Ver ejemplo de CV
+              Ver plantillas
             </Link>
           </div>
 
-          <div className="mt-7 flex flex-wrap gap-3 text-sm text-[#F4F4F5]/70">
-            {trustItems.map((item) => (
+          <div className="mt-7 hidden max-w-[358px] flex-wrap gap-3 text-sm text-[#F4F4F5]/72 sm:flex sm:max-w-full">
+            {benefits.map((item) => (
               <span
                 key={item}
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5"
+                className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5"
               >
                 <CheckCircle2 className="h-4 w-4 text-[#38BDF8]" />
                 {item}
@@ -100,133 +92,121 @@ export default function WelcomeHero() {
             ))}
           </div>
 
-          <div className="mt-7 grid grid-cols-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] text-center shadow-2xl shadow-[#7C3AED]/10 lg:hidden">
-            <div className="border-r border-white/10 p-3">
-              <p className="text-lg font-bold text-white">1</p>
-              <p className="text-[11px] uppercase tracking-wide text-white/55">
-                Datos
+          <div className="mt-7 hidden max-w-[358px] grid-cols-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] text-center shadow-xl shadow-black/15 backdrop-blur sm:max-w-full lg:hidden">
+            <div className="border-r border-white/10 px-3 py-3">
+              <p className="text-sm font-bold text-white">IA</p>
+              <p className="mt-1 text-[10px] uppercase tracking-wide text-white/50">
+                Redacción
               </p>
             </div>
-            <div className="border-r border-white/10 p-3">
-              <p className="text-lg font-bold text-[#38BDF8]">IA</p>
-              <p className="text-[11px] uppercase tracking-wide text-white/55">
-                Mejora
+            <div className="border-r border-white/10 px-3 py-3">
+              <p className="text-sm font-bold text-[#38BDF8]">ATS</p>
+              <p className="mt-1 text-[10px] uppercase tracking-wide text-white/50">
+                Lectura
               </p>
             </div>
-            <div className="p-3">
-              <p className="text-lg font-bold text-white">PDF</p>
-              <p className="text-[11px] uppercase tracking-wide text-white/55">
-                Listo
+            <div className="px-3 py-3">
+              <p className="text-sm font-bold text-white">PDF</p>
+              <p className="mt-1 text-[10px] uppercase tracking-wide text-white/50">
+                Descarga
               </p>
             </div>
-          </div>
-
-          <div className="mt-8 hidden overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] shadow-2xl shadow-black/10 backdrop-blur lg:grid lg:grid-cols-3">
-            {steps.map((step, index) => (
-              <div
-                key={step.title}
-                className="group relative min-h-[132px] border-r border-white/10 p-4 transition last:border-r-0 hover:bg-white/[0.035]"
-              >
-                <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[#7C3AED]/10 blur-2xl transition group-hover:bg-[#38BDF8]/10" />
-                <div className="relative mb-3 flex items-center justify-between">
-                  <div className="inline-flex rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
-                    {step.icon}
-                  </div>
-                  <span className="text-xs font-semibold text-white/35">
-                    0{index + 1}
-                  </span>
-                </div>
-                <h2 className="relative text-sm font-semibold text-white">
-                  {step.title}
-                </h2>
-                <p className="relative mt-1 text-sm leading-6 text-[#F4F4F5]/60">
-                  {step.description}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-lg lg:mx-0 lg:max-w-xl lg:translate-y-6">
-          <div className="absolute -inset-6 rounded-[2.2rem] bg-gradient-to-br from-[#7C3AED]/28 via-transparent to-[#38BDF8]/22 blur-2xl" />
-          <div className="absolute -left-2 top-20 z-10 hidden rounded-2xl border border-[#38BDF8]/20 bg-[#0F0F10]/85 px-3 py-2 text-xs text-white shadow-xl shadow-[#38BDF8]/10 backdrop-blur sm:block lg:hidden">
-            <span className="mr-1 text-[#38BDF8]">✦</span> ATS friendly
+        <div className="relative mx-0 mt-1 w-full min-w-0 max-w-[358px] px-0 sm:mx-auto sm:mt-2 sm:max-w-xl sm:px-8 lg:mx-0 lg:mt-0 lg:max-w-none lg:px-0">
+          <div className="absolute -left-3 top-10 z-0 w-[88px] rotate-[-6deg] overflow-hidden rounded-2xl border border-black/60 bg-[#0F0F10] shadow-2xl shadow-black/35 sm:left-0 sm:w-[120px] md:w-[140px] lg:-left-12 lg:w-[155px]">
+            <Image
+              src="/blue.webp"
+              alt="Plantilla azul de curriculum"
+              width={320}
+              height={450}
+              className="aspect-[0.48] w-full object-cover object-left-top opacity-95"
+            />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-gradient-to-r from-transparent via-[#0F0F10]/35 to-[#0F0F10]/82" />
+            <div className="pointer-events-none absolute inset-0 ring-1 ring-black/55" />
           </div>
-          <div className="absolute -right-2 bottom-24 z-10 hidden rounded-2xl border border-[#7C3AED]/25 bg-[#0F0F10]/85 px-3 py-2 text-xs text-white shadow-xl shadow-[#7C3AED]/10 backdrop-blur sm:block lg:hidden">
-            <span className="mr-1 text-[#A78BFA]">✦</span> IA incluida
+
+          <div className="absolute -right-3 bottom-24 z-0 w-[108px] rotate-[6deg] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-black/35 sm:right-0 sm:w-[164px] md:w-[205px] lg:-right-5 lg:bottom-12 lg:w-[220px]">
+            <Image
+              src="/green.webp"
+              alt="Plantilla verde de curriculum"
+              width={320}
+              height={450}
+              className="aspect-[0.72] w-full object-cover object-top opacity-95"
+            />
           </div>
-          <div className="relative overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#17171B]/90 p-2 shadow-2xl shadow-black/35 ring-1 ring-white/[0.03] sm:rounded-[2rem] sm:p-3">
-            <div className="mb-2 flex items-center justify-between rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5 sm:mb-3 sm:px-4 sm:py-3">
-              <div className="flex items-center gap-3">
-                <div className="hidden h-10 w-10 items-center justify-center rounded-xl bg-[#7C3AED]/15 text-[#A78BFA] ring-1 ring-[#A78BFA]/20 sm:flex">
-                  <Bot className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-[0.24em] text-[#38BDF8]">
-                    Vista previa
-                  </p>
-                  <p className="text-sm font-semibold text-white">
-                    CV generado por VitaeSpark
-                  </p>
-                </div>
+
+          <div className="relative z-10 mx-auto w-full max-w-[560px] rounded-[1.35rem] border border-white/12 bg-[#17171C]/88 p-2.5 shadow-2xl shadow-black/45 backdrop-blur sm:rounded-[1.7rem] sm:p-3">
+            <div className="mb-2.5 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-3 py-3 sm:mb-3 sm:px-4">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-[#38BDF8]">
+                  Vista previa
+                </p>
+                <p className="mt-1 text-xs font-semibold text-white sm:text-sm">
+                  Currículum generado por VitaeSpark
+                </p>
               </div>
               <span className="rounded-full bg-[#38BDF8] px-3 py-1 text-xs font-bold text-[#0F0F10]">
                 ATS
               </span>
             </div>
 
-            <div className="relative overflow-hidden rounded-2xl bg-white shadow-inner shadow-black/10">
-              <img
+            <div className="relative overflow-hidden rounded-2xl bg-white">
+              <Image
                 src="/purple-hero.webp"
-                alt="Ejemplo de curriculum vitae online creado con VitaeSpark"
-                sizes="(min-width: 1024px) 44vw, 92vw"
-                className="aspect-[4/4.35] w-full object-cover object-top sm:aspect-[5/5]"
+                alt="Ejemplo de curriculum vitae creado con VitaeSpark"
+                width={760}
+                height={900}
+                priority
+                sizes="(min-width: 1024px) 42vw, 92vw"
+                className="aspect-[0.82] w-full object-cover object-top"
               />
-              <div className="absolute bottom-3 left-3 right-3 rounded-2xl border border-white/15 bg-[#0F0F10]/82 p-3 text-white shadow-xl backdrop-blur-md sm:bottom-5 sm:left-5 sm:right-5 sm:p-4">
+
+              <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/20 bg-[#111113]/88 p-4 text-white shadow-xl backdrop-blur-md">
                 <div className="flex items-start gap-3">
                   <div className="rounded-xl bg-[#7C3AED] p-2">
-                    <Sparkles className="h-5 w-5" />
+                    <PenLine className="h-5 w-5" />
                   </div>
                   <div>
                     <p className="text-sm font-semibold sm:text-base">
-                      Redacción mejorada por IA
+                      Perfil y logros mejor redactados
                     </p>
-                    <p className="mt-1 text-xs text-white/70 sm:text-sm">
-                      Textos más claros, ordenados y orientados a entrevistas.
+                    <p className="mt-1 text-xs leading-5 text-white/70 sm:text-sm">
+                      El resultado mantiene tu información, pero la presenta
+                      con orden y criterio profesional.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div className="relative z-20 -mt-4 mx-auto flex max-w-[92%] items-center justify-between rounded-2xl border border-[#7C3AED]/25 bg-[#111113]/90 px-4 py-3 text-xs text-white shadow-2xl shadow-black/40 backdrop-blur sm:hidden">
+            <span className="inline-flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-[#A78BFA]" />
+              Texto mejorado
+            </span>
+            <span className="text-[#38BDF8]">Listo para enviar</span>
+          </div>
         </div>
 
-        <div className="grid gap-3 lg:hidden">
+        <div className="grid gap-3 lg:col-span-2 lg:grid-cols-3">
           {steps.map((step, index) => (
             <div
               key={step.title}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#15151A]/85 p-4 shadow-xl shadow-black/10"
+              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-4 shadow-xl shadow-black/10 backdrop-blur"
             >
-              <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#7C3AED]/10 blur-2xl" />
-              <div className="absolute right-3 top-2 text-5xl font-black text-white/[0.035]">
+              <span className="absolute right-4 top-3 text-xs font-semibold text-white/35">
                 0{index + 1}
+              </span>
+              <div className="mb-4 inline-flex rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+                {step.icon}
               </div>
-              <div className="relative flex items-start gap-3">
-                <div className="rounded-2xl bg-[#38BDF8]/10 p-3 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
-                  {step.icon}
-                </div>
-                <div>
-                  <div className="mb-1 flex items-center gap-2">
-                    <h2 className="text-sm font-semibold text-white">
-                      {step.title}
-                    </h2>
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#38BDF8]" />
-                  </div>
-                  <p className="mt-1 text-sm leading-6 text-[#F4F4F5]/60">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
+              <h2 className="text-sm font-semibold text-white">{step.title}</h2>
+              <p className="mt-1 text-sm leading-6 text-[#F4F4F5]/62">
+                {step.description}
+              </p>
             </div>
           ))}
         </div>

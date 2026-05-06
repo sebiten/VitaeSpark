@@ -92,6 +92,9 @@ importers:
       openai:
         specifier: ^4.95.1
         version: 4.104.0(ws@8.20.0)(zod@3.25.76)
+      pako:
+        specifier: 1.0.11
+        version: 1.0.11
       react:
         specifier: ^19.0.0
         version: 19.2.5
