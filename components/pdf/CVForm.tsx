@@ -68,12 +68,12 @@ const CVForm: NextPage = () => {
           onValueChange={handleTabChange}
           className="min-w-0 space-y-5"
         >
-          <div className="mx-4 rounded-2xl border border-white/10 bg-[#15151A]/75 p-2 shadow-xl shadow-black/10 sm:mx-auto sm:max-w-3xl">
+          <div className="mx-0 rounded-2xl border border-white/10 bg-[#15151A]/75 p-2 shadow-xl shadow-black/10 sm:mx-auto sm:max-w-3xl">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-              <TabsList className="grid h-auto flex-1 grid-cols-3 rounded-xl border border-white/10 bg-[#0F0F10]/70 p-1">
+              <TabsList className="grid h-auto w-full grid-cols-3 rounded-xl border border-white/10 bg-[#0F0F10]/70 p-1 sm:flex-1">
                 <TabsTrigger
                   value="template"
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
                 >
                   <Palette className="h-4 w-4" />
                   <span className="hidden sm:inline">Plantilla</span>
@@ -81,7 +81,7 @@ const CVForm: NextPage = () => {
                 </TabsTrigger>
                 <TabsTrigger
                   value="form"
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
                   disabled={!selectedTemplate}
                 >
                   <FileText className="h-4 w-4" />
@@ -90,7 +90,7 @@ const CVForm: NextPage = () => {
                 </TabsTrigger>
                 <TabsTrigger
                   value="preview"
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
                   disabled={!cvData}
                 >
                   <Eye className="h-4 w-4" />

@@ -289,12 +289,12 @@ export default function CVPreviewStepPurple({
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 overflow-x-hidden">
       {/* Header */}
-      <div className="text-center space-y-2">
-        <h2 className="text-3xl font-bold text-white">
-          ¡Tu CV Profesional está listo!
+      <div className="mx-auto max-w-[340px] space-y-2 text-left sm:max-w-none sm:text-center">
+        <h2 className="text-[1.65rem] font-bold leading-tight text-white sm:text-3xl">
+          Tu CV profesional esta listo
         </h2>
-        <p className="text-slate-400 text-sm sm:text-base">
-          Desbloquea ahora y aumenta tus posibilidades de conseguir entrevistas
+        <p className="max-w-[320px] text-sm leading-6 text-slate-400 sm:mx-auto sm:max-w-none sm:text-base">
+          Desbloquea la version final y descargala en PDF sin marca de agua.
         </p>
       </div>
 
@@ -320,31 +320,32 @@ export default function CVPreviewStepPurple({
         >
           {renderTemplate}
         </div>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/55 to-transparent px-4 pb-4 pt-12 text-center">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/55 to-transparent px-4 pb-4 pt-12 text-center sm:block">
           <p className="hidden text-sm font-medium text-white sm:block">
             Desliza con el dedo para ver todo el CV
           </p>
           <p className="hidden text-xs text-white/80 sm:mt-1 sm:block">
             Vista protegida con marca de agua
           </p>
-          <div className="grid grid-cols-[0.9fr_1.1fr] gap-2 sm:hidden">
-            <button
-              type="button"
-              onClick={() => setMobilePreviewOpen(true)}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-[#111113] px-3 text-sm font-bold text-white shadow-lg shadow-black/25 transition hover:bg-[#1C1C22]"
-            >
-              <Maximize2 className="h-4 w-4" />
-              Ver CV
-            </button>
-            <button
-              type="button"
-              onClick={scrollToCheckout}
-              className="inline-flex h-12 items-center justify-center rounded-xl bg-[#7C3AED] px-3 text-sm font-bold text-white shadow-lg shadow-[#7C3AED]/25 transition hover:bg-[#6D28D9]"
-            >
-              Desbloquear CV
-            </button>
-          </div>
         </div>
+      </div>
+
+      <div className="-mt-3 grid grid-cols-[0.9fr_1.1fr] gap-2 sm:hidden">
+        <button
+          type="button"
+          onClick={() => setMobilePreviewOpen(true)}
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/15 bg-[#111113] px-3 text-sm font-bold text-white shadow-lg shadow-black/25 transition hover:bg-[#1C1C22]"
+        >
+          <Maximize2 className="h-4 w-4" />
+          Ver CV
+        </button>
+        <button
+          type="button"
+          onClick={scrollToCheckout}
+          className="inline-flex h-12 items-center justify-center rounded-xl bg-[#7C3AED] px-3 text-sm font-bold text-white shadow-lg shadow-[#7C3AED]/25 transition hover:bg-[#6D28D9]"
+        >
+          Desbloquear CV
+        </button>
       </div>
 
       <Dialog open={mobilePreviewOpen} onOpenChange={setMobilePreviewOpen}>
