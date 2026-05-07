@@ -110,6 +110,30 @@ export function Footer() {
                   Instagram
                 </Link>
               </li>
+              <li className="pt-3">
+                <Link
+                  href="/terms"
+                  className="text-sm text-[#F4F4F5]/70 hover:text-[#F4F4F5]"
+                >
+                  Terminos de servicio
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/privacy"
+                  className="text-sm text-[#F4F4F5]/70 hover:text-[#F4F4F5]"
+                >
+                  Politica de privacidad
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/refund"
+                  className="text-sm text-[#F4F4F5]/70 hover:text-[#F4F4F5]"
+                >
+                  Politica de reembolsos
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
