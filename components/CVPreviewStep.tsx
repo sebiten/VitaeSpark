@@ -21,8 +21,6 @@ import {
   Send,
   LockKeyhole,
   Maximize2,
-  Minus,
-  Plus,
   X,
 } from "lucide-react";
 import {
@@ -187,7 +185,6 @@ export default function CVPreviewStepPurple({
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
-  const [mobilePreviewZoom, setMobilePreviewZoom] = useState(1);
 
   // Función para manejar el pago
   const handlePay = async () => {
@@ -284,14 +281,6 @@ export default function CVPreviewStepPurple({
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const decreaseZoom = () => {
-    setMobilePreviewZoom((value) => Math.max(0.8, Number((value - 0.1).toFixed(1))));
-  };
-
-  const increaseZoom = () => {
-    setMobilePreviewZoom((value) => Math.min(1.6, Number((value + 0.1).toFixed(1))));
-  };
-
   const precioOriginal = 2500;
   const precioOferta = 1500;
   const ahorro = precioOriginal - precioOferta;
@@ -314,9 +303,9 @@ export default function CVPreviewStepPurple({
       <div className="relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-[#2A2A2D] shadow-2xl shadow-black/30 sm:bg-white">
         <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#15151A] px-4 py-3 text-white sm:hidden">
           <div className="min-w-0">
-            <p className="text-sm font-semibold">Vista previa protegida</p>
+            <p className="text-sm font-semibold">Muestra protegida del CV</p>
             <p className="mt-0.5 text-xs text-white/55">
-              Desbloquea para descargar sin marca de agua.
+              Desbloquea para ver y descargar el documento completo.
             </p>
           </div>
           <LockKeyhole className="h-5 w-5 flex-shrink-0 text-[#38BDF8]" />
@@ -360,17 +349,17 @@ export default function CVPreviewStepPurple({
 
       <Dialog open={mobilePreviewOpen} onOpenChange={setMobilePreviewOpen}>
         <DialogContent className="fixed inset-0 left-0 top-0 z-50 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 bg-[#0F0F10] p-0 text-white shadow-none sm:hidden [&>button]:hidden">
-          <DialogTitle className="sr-only">Vista detallada del CV</DialogTitle>
+          <DialogTitle className="sr-only">Muestra protegida del CV</DialogTitle>
           <DialogDescription className="sr-only">
-            Vista previa ampliada del curriculum con controles de zoom.
+            Muestra parcial del curriculum con marca de agua antes del desbloqueo.
           </DialogDescription>
 
           <div className="sticky top-0 z-20 border-b border-white/10 bg-[#111113]/95 px-4 py-3 backdrop-blur">
             <div className="mb-3 flex items-center justify-between gap-3">
               <div>
-                <p className="text-sm font-semibold">Vista detallada del CV</p>
+                <p className="text-sm font-semibold">Muestra protegida del CV</p>
                 <p className="mt-0.5 text-xs text-white/55">
-                  Pellizca la pantalla o usa el zoom.
+                  Desbloquea para acceder al CV completo sin marca de agua.
                 </p>
               </div>
               <DialogClose asChild>
@@ -381,38 +370,11 @@ export default function CVPreviewStepPurple({
               </DialogClose>
             </div>
 
-            <div className="grid grid-cols-[44px_1fr_44px] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-2">
-              <button
-                type="button"
-                onClick={decreaseZoom}
-                className="flex h-10 items-center justify-center rounded-xl bg-white/5 text-white disabled:opacity-40"
-                disabled={mobilePreviewZoom <= 0.8}
-              >
-                <Minus className="h-4 w-4" />
-              </button>
-              <div className="text-center text-xs font-semibold text-white/70">
-                Zoom {Math.round(mobilePreviewZoom * 100)}%
-              </div>
-              <button
-                type="button"
-                onClick={increaseZoom}
-                className="flex h-10 items-center justify-center rounded-xl bg-white/5 text-white disabled:opacity-40"
-                disabled={mobilePreviewZoom >= 1.6}
-              >
-                <Plus className="h-4 w-4" />
-              </button>
-            </div>
           </div>
 
-          <div className="h-[calc(100dvh-152px)] overflow-auto bg-[#2A2A2D] px-3 py-4">
+          <div className="h-[calc(100dvh-96px)] touch-pan-x touch-pan-y overflow-auto bg-[#2A2A2D] px-3 py-4">
             <div
-              className="mx-auto h-[82vh] min-h-[620px] origin-top overflow-hidden rounded-xl bg-white shadow-2xl shadow-black/40"
-              style={{
-                width: `${Math.round(92 * mobilePreviewZoom)}vw`,
-                transform: `scale(${mobilePreviewZoom})`,
-                transformOrigin: "top center",
-                marginBottom: `${Math.round((mobilePreviewZoom - 1) * 620)}px`,
-              }}
+              className="mx-auto h-[82vh] min-h-[620px] w-[94vw] overflow-hidden rounded-xl bg-white shadow-2xl shadow-black/40"
             >
               {renderTemplate}
             </div>
