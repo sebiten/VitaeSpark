@@ -311,7 +311,7 @@ export default function CVPreviewStepPurple({
           <LockKeyhole className="h-5 w-5 flex-shrink-0 text-[#38BDF8]" />
         </div>
         <div
-          className="pointer-events-none relative mx-auto h-[48vh] min-h-[300px] w-full max-w-full overflow-hidden sm:pointer-events-auto sm:aspect-[1/1.414] sm:h-auto sm:min-h-0"
+          className="pointer-events-none relative mx-auto h-[360px] w-full max-w-full overflow-hidden sm:pointer-events-auto sm:aspect-[1/1.414] sm:h-auto sm:min-h-0"
           style={{
             display: "flex",
             alignItems: "center",
