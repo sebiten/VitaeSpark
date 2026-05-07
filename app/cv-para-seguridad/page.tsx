@@ -2,14 +2,16 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Seguridad: Ejemplo, Habilidades y Formato ATS",
+  title: "CV para Seguridad y Vigilador: Ejemplo y Habilidades",
   description:
-    "Crea un CV para seguridad o vigilador con ejemplo de perfil, experiencia, habilidades clave, control de accesos y formato ATS.",
+    "Crea un CV para seguridad o vigilador con ejemplo de perfil, experiencia, control de accesos, rondas, camaras, protocolos y formato ATS.",
   path: "/cv-para-seguridad",
   keywords: [
     "cv para seguridad",
     "curriculum seguridad",
     "cv vigilador",
+    "cv para vigilador",
+    "curriculum vigilador",
     "ejemplo cv seguridad",
     "habilidades seguridad curriculum",
   ],
@@ -20,8 +22,8 @@ export default function CvParaSeguridadPage() {
     <MarketingPage
       path="/cv-para-seguridad"
       eyebrow="CV por profesion"
-      title="CV para seguridad: ejemplo, habilidades y formato ATS"
-      description="Arma un curriculum para seguridad o vigilador destacando control de accesos, recorridas, prevencion, registro de novedades y responsabilidad."
+      title="CV para seguridad y vigilador: ejemplo, habilidades y formato ATS"
+      description="Arma un curriculum para seguridad o vigilador destacando control de accesos, recorridas, prevencion, camaras, registro de novedades y responsabilidad."
       intro={[
         "Un CV para seguridad debe transmitir confianza, atencion al detalle y criterio para actuar ante situaciones sensibles. Conviene mostrar experiencia en control de accesos, monitoreo, recorridas, registro de novedades y trato con personas.",
         "VitaeSpark te ayuda a ordenar esa experiencia en un CV profesional, claro y enfocado en puestos de vigilador, seguridad privada, control de ingreso o prevencion.",
@@ -74,6 +76,13 @@ export default function CvParaSeguridadPage() {
           paragraphs: [
             "Para control de accesos, puedes escribir: 'Realice control de ingreso y egreso de personas, registro de visitantes, verificacion de novedades y comunicacion con responsables del establecimiento segun protocolo'.",
             "Para recorridas preventivas, una frase util seria: 'Efectue rondas internas y externas, monitoreo visual de sectores, deteccion de incidencias y reporte de novedades para mantener condiciones de seguridad'.",
+          ],
+        },
+        {
+          title: "CV para vigilador privado",
+          paragraphs: [
+            "Para vigilador privado conviene usar terminos concretos: control de accesos, rondas, registro de visitantes, monitoreo de camaras, parte diario, prevencion, custodia de instalaciones y cumplimiento de protocolos.",
+            "Si trabajaste en consorcios, comercios, eventos, empresas o depositos, mencionalo. El contexto ayuda al reclutador a entender el nivel de exposicion, trato con personas y responsabilidad del puesto.",
           ],
         },
         {

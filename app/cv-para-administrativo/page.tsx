@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Administrativo: Ejemplo, Habilidades y Formato ATS",
+  title: "CV Administrativo: Ejemplo para Auxiliar y Perfil Profesional",
   description:
-    "Crea un CV para administrativo con ejemplo de perfil, habilidades de oficina, tareas administrativas y formato ATS.",
+    "Crea un CV administrativo o auxiliar administrativo con perfil profesional, experiencia, habilidades de oficina, ejemplos y formato ATS.",
   path: "/cv-para-administrativo",
   keywords: [
     "cv para administrativo",
@@ -12,6 +12,9 @@ export const metadata = buildMetadata({
     "ejemplo cv administrativo",
     "habilidades administrativo curriculum",
     "perfil administrativo cv",
+    "cv administrativa",
+    "curriculum auxiliar administrativo",
+    "perfil profesional administrativo ejemplo",
   ],
 });
 
@@ -20,8 +23,8 @@ export default function CvParaAdministrativoPage() {
     <MarketingPage
       path="/cv-para-administrativo"
       eyebrow="CV por profesion"
-      title="CV para administrativo: ejemplo, habilidades y formato ATS"
-      description="Arma un curriculum administrativo claro, con tareas de oficina, manejo de documentacion, sistemas, organizacion y soporte operativo."
+      title="CV administrativo: ejemplo para auxiliar, oficina y soporte"
+      description="Arma un curriculum administrativo claro, con tareas de oficina, documentacion, sistemas, organizacion, reportes y soporte operativo."
       intro={[
         "Un CV para administrativo tiene que mostrar orden, criterio y capacidad para sostener procesos del dia a dia. Conviene explicar si trabajaste con documentacion, facturacion, atencion, carga de datos, reportes, agenda o soporte a distintas areas.",
         "VitaeSpark te ayuda a convertir esas tareas en un perfil profesional mas claro, con palabras clave utiles para reclutadores y una estructura compatible con filtros ATS.",
@@ -70,6 +73,20 @@ export default function CvParaAdministrativoPage() {
           ],
         },
         {
+          title: "Ejemplos de experiencia administrativa",
+          paragraphs: [
+            "Para auxiliar administrativo, puedes escribir: 'Realice carga y actualizacion de datos, archivo de documentacion, seguimiento de solicitudes internas, atencion telefonica y soporte a tareas operativas de oficina'.",
+            "Para facturacion o comercio, una frase util seria: 'Colabore en emision y control de comprobantes, organizacion de planillas, contacto con clientes o proveedores y registro de informacion en sistema de gestion'.",
+          ],
+        },
+        {
+          title: "Curriculum auxiliar administrativo",
+          paragraphs: [
+            "Si apuntas a auxiliar administrativo, conviene que el CV muestre herramientas concretas: Excel, planillas, correo, agenda, documentacion, carga de datos, archivo, facturacion, CRM o sistemas internos.",
+            "Tambien suma aclarar si diste soporte a compras, ventas, recursos humanos, logistica, recepcion o contabilidad, porque cada area usa palabras clave distintas.",
+          ],
+        },
+        {
           title: "CV administrativo sin experiencia",
           paragraphs: [
             "Si buscas tu primer trabajo administrativo, puedes destacar estudios, cursos, manejo de Excel, organizacion, atencion al publico, proyectos academicos o experiencias donde hayas trabajado con informacion y seguimiento de tareas.",
@@ -87,6 +104,11 @@ export default function CvParaAdministrativoPage() {
           question: "Sirve para auxiliar administrativo?",
           answer:
             "Si. Puedes adaptar el contenido a puestos de auxiliar, asistente, recepcion o soporte administrativo.",
+        },
+        {
+          question: "Que poner en experiencia administrativa?",
+          answer:
+            "Carga de datos, archivo, facturacion, atencion telefonica, agenda, reportes, seguimiento de solicitudes, correo, planillas, documentacion y soporte a otras areas.",
         },
         {
           question: "Puedo usarlo si no tengo experiencia?",

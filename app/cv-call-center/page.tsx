@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Call Center: Perfil, Habilidades y Ejemplos",
+  title: "CV Call Center: Perfil Profesional, Habilidades y Ejemplos",
   description:
-    "Crea un CV para call center con perfil profesional, experiencia, habilidades, ejemplos para soporte, ventas, chat y formato ATS.",
+    "Crea un CV para call center con perfil profesional, experiencia, habilidades y ejemplos para soporte, ventas, chat, cobranzas y formato ATS.",
   path: "/cv-call-center",
   keywords: [
     "cv para call center",
@@ -22,7 +22,7 @@ export default function CvCallCenterPage() {
     <MarketingPage
       path="/cv-call-center"
       eyebrow="CV por profesion"
-      title="CV para call center: perfil profesional, habilidades y ejemplo"
+      title="CV call center: perfil profesional, habilidades y ejemplos"
       description="Prepara un curriculum para call center orientado a atencion telefonica, soporte, ventas, cobranzas, chat, CRM y procesos ATS."
       intro={[
         "Un CV para call center necesita mostrar mucho mas que buena diccion. Las empresas suelen buscar capacidad para atender volumen, seguir guiones, resolver consultas, registrar informacion y sostener una conversacion clara aun bajo presion.",
@@ -77,6 +77,13 @@ export default function CvCallCenterPage() {
           paragraphs: [
             "Si todavia no trabajaste en call center, puedes enfocar el perfil en comunicacion clara, escucha activa, aprendizaje rapido, manejo basico de computadora y disponibilidad para trabajar con objetivos.",
             "Tambien suma cualquier experiencia en atencion al publico, ventas, recepcion, chat, redes sociales o tareas donde hayas respondido consultas y registrado informacion.",
+          ],
+        },
+        {
+          title: "Ejemplo de perfil profesional call center",
+          paragraphs: [
+            "Una version concreta para atencion puede ser: 'Perfil orientado a call center y atencion al cliente, con experiencia en gestion de consultas, registro de datos, seguimiento de casos y comunicacion clara por telefono o canales digitales'.",
+            "Para ventas telefonicas, puedes ajustar el enfoque hacia contacto con clientes, manejo de objeciones, explicacion de servicios y carga de resultados en CRM o sistema interno.",
           ],
         },
         {

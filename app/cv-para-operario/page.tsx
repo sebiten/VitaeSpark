@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Operario: Ejemplo, Habilidades y Formato ATS",
+  title: "CV para Operario de Produccion: Ejemplo y Habilidades",
   description:
-    "Crea un CV para operario con ejemplo de perfil, experiencia, habilidades de produccion, deposito, mantenimiento y formato ATS.",
+    "Crea un CV para operario de produccion con ejemplo de perfil, experiencia, habilidades de fabrica, deposito, mantenimiento y formato ATS.",
   path: "/cv-para-operario",
   keywords: [
     "cv para operario",
@@ -12,6 +12,7 @@ export const metadata = buildMetadata({
     "ejemplo cv operario",
     "habilidades operario curriculum",
     "cv operario produccion",
+    "cv operario de produccion",
   ],
 });
 
@@ -20,8 +21,8 @@ export default function CvParaOperarioPage() {
     <MarketingPage
       path="/cv-para-operario"
       eyebrow="CV por profesion"
-      title="CV para operario: ejemplo, habilidades y formato ATS"
-      description="Arma un curriculum para operario destacando produccion, deposito, mantenimiento, herramientas, seguridad y trabajo por procesos."
+      title="CV para operario de produccion: ejemplo, habilidades y formato ATS"
+      description="Arma un curriculum para operario destacando produccion, fabrica, deposito, mantenimiento, herramientas, seguridad y trabajo por procesos."
       intro={[
         "Un CV para operario debe mostrar experiencia practica, responsabilidad y capacidad para seguir procedimientos. Conviene aclarar si trabajaste en produccion, deposito, mantenimiento, logistica, embalaje, control de calidad o tareas generales.",
         "VitaeSpark te ayuda a ordenar esas tareas y convertirlas en un perfil mas claro para empresas industriales, depositos, comercios y servicios.",
@@ -74,6 +75,13 @@ export default function CvParaOperarioPage() {
           paragraphs: [
             "Para produccion, puedes escribir: 'Realice tareas de armado, control visual, embalaje y apoyo en linea de produccion, cumpliendo procedimientos de seguridad, orden del sector y objetivos diarios'.",
             "Para deposito, una frase util seria: 'Colabore en carga y descarga, preparacion de pedidos, orden de mercaderia, control basico de stock y mantenimiento de espacios operativos limpios y seguros'.",
+          ],
+        },
+        {
+          title: "CV operario de produccion",
+          paragraphs: [
+            "Para operario de produccion conviene mencionar linea de produccion, armado, empaque, control visual, control de calidad, limpieza del puesto, cumplimiento de normas, uso de herramientas y apoyo a procesos de fabrica.",
+            "Si trabajaste con maquinas, turnos rotativos o objetivos diarios, agregalo de forma concreta. Esos datos ayudan a diferenciar un CV generico de uno orientado a produccion real.",
           ],
         },
         {

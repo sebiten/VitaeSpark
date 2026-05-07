@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Mineria: Ejemplo, Habilidades y Formato ATS",
+  title: "CV para Mineria: Ejemplo para Minera y Ayudante de Mina",
   description:
-    "Crea un CV para mineria o minera con ejemplo de perfil, experiencia, habilidades operativas, seguridad, turnos, maquinaria y formato ATS.",
+    "Crea un CV para mineria, minera o ayudante de mina con perfil, experiencia, seguridad, turnos, campamento, maquinaria y formato ATS.",
   path: "/cv-para-mineria",
   keywords: [
     "cv para mineria",
@@ -13,6 +13,7 @@ export const metadata = buildMetadata({
     "curriculum para minera",
     "cv minero",
     "cv operario minero",
+    "cv para ayudante de mina",
     "ejemplo cv mineria",
   ],
 });
@@ -22,8 +23,8 @@ export default function CvParaMineriaPage() {
     <MarketingPage
       path="/cv-para-mineria"
       eyebrow="CV por profesion"
-      title="CV para mineria: ejemplo, habilidades y formato ATS"
-      description="Arma un curriculum para minera destacando seguridad, experiencia operativa, turnos, maquinaria, mantenimiento, campamento y disponibilidad."
+      title="CV para mineria: ejemplo para minera, ayudante y operario"
+      description="Arma un curriculum para minera destacando seguridad, experiencia operativa, turnos, maquinaria, mantenimiento, campamento y disponibilidad real."
       intro={[
         "Un CV para mineria tiene que transmitir responsabilidad, resistencia al ritmo de trabajo y respeto por los procedimientos de seguridad. Conviene aclarar si tienes experiencia en yacimientos, plantas, mantenimiento, transporte, laboratorio, deposito, campamento o tareas operativas.",
         "VitaeSpark te ayuda a convertir esa experiencia en un CV claro para postularte a mineras, contratistas, servicios industriales y puestos vinculados al sector.",
@@ -83,6 +84,13 @@ export default function CvParaMineriaPage() {
           paragraphs: [
             "Si estas buscando entrar al sector, puedes destacar disponibilidad horaria, responsabilidad, condicion fisica, estudios tecnicos, cursos de seguridad e higiene, manejo de herramientas, licencia de conducir o experiencia en industria, deposito, construccion, transporte o mantenimiento.",
             "Para puestos iniciales, ayuda mostrar que entiendes la importancia de seguir procedimientos, usar EPP y trabajar con orden en entornos exigentes.",
+          ],
+        },
+        {
+          title: "CV para ayudante de mina",
+          paragraphs: [
+            "Para ayudante de mina conviene enfocar el CV en apoyo operativo, orden de herramientas, asistencia a tecnicos, carga y descarga, limpieza de sector, cumplimiento de indicaciones y disponibilidad para turnos o campamento.",
+            "Si no tienes experiencia directa, usa antecedentes cercanos: construccion, deposito, mantenimiento, transporte, industria o cursos de seguridad. La clave es mostrar que puedes integrarte a una operacion con disciplina y cuidado.",
           ],
         },
         {
