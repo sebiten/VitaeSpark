@@ -96,15 +96,22 @@ export async function POST(req: Request): Promise<NextResponse> {
 Reglas:
 - No copies literal el texto del usuario: reescribe responsabilidades como logros claros.
 - No inventes cifras, empresas, seniority, fechas, ubicaciones ni tecnologías.
-- Perfil profesional: un único párrafo de 55 a 70 palabras, con perfil, stack/habilidades clave, tipo de proyectos y valor profesional.
+- Perfil profesional: un único párrafo de 45 a 60 palabras, con perfil, stack/habilidades clave, tipo de proyectos y valor profesional concreto.
+- Evita clichés y adjetivos vacíos: no uses "apasionado", "innovador", "eficiente", "proactivo", "responsable", "dinámico", "excelente", "gran capacidad" ni frases similares salvo que el usuario lo haya escrito explícitamente.
+- El perfil debe sonar como resumen profesional real: qué hace, con qué herramientas, en qué tipo de productos y qué problema ayuda a resolver.
 - Experiencia: 2 logros por experiencia. Usa 3 solo si la entrada tiene mucha información real. Cada logro debe ser una sola oración de 20 a 36 palabras.
+- Cada logro debe mostrar impacto evidente sin inventar métricas: producto entregado, flujo resuelto, integración realizada, proceso ordenado, mejora de experiencia, gestión de datos, automatización o funcionalidad concreta.
+- Prioriza frases con estructura "acción + alcance + resultado": qué hizo, dónde se aplicó y qué permitió mejorar, ordenar, integrar o resolver.
 - Los logros deben empezar con verbos en pasado correcto: Desarrollé, Implementé, Integré, Construí, Optimicé, Diseñé, Gestioné, Automaticé o Mantengo.
 - No uses "Automatizé", "Cree", "Implemente" ni verbos sin tilde cuando correspondan.
 - Evita repetir el stack completo en cada experiencia; si ya aparece en perfil o habilidades, menciona solo tecnologías necesarias.
+- Varía los verbos y la estructura entre logros. No empieces todos con "Desarrollé" ni repitas la misma idea con otras palabras.
+- No uses "soluciones innovadoras", "aportando valor", "mejorando significativamente" ni expresiones vagas. Reemplázalas por resultados observables y específicos.
 - Si un proyecto es propio, freelance o institucional, dilo así. No lo presentes como empleo corporativo.
 - Formación: concisa. Sin descripciones largas salvo que el usuario las haya escrito.
 - Habilidades e idiomas: usa solo datos provistos, normaliza nombres técnicos y elimina duplicados.
-- Información adicional: máximo 4 items breves. Mantén links importantes, disponibilidad, certificaciones o datos útiles.
+- Información adicional: máximo 4 items breves. Conserva links clave provistos por el usuario, especialmente Portfolio, GitHub y LinkedIn. También puedes incluir disponibilidad, certificaciones o datos útiles sin repetir habilidades.
+- Si la información del usuario es breve, mejora la redacción sin inflar artificialmente el contenido.
 - Si faltan fechas o ubicación, deja el campo como string vacío.
 - Compatible con ATS: sin markdown, emojis, tablas ni adornos.
 

@@ -97,6 +97,65 @@ export const testimonials = [
   },
 ];
 
+const seoTestimonials = [
+  {
+    text: "Yo lo use para atencion al cliente porque tenia todo medio mezclado, trabajos, horarios y tareas. Me lo dejo bastante mas prolijo para mandar.",
+    author: "Perfil atencion al cliente",
+  },
+  {
+    text: "No tenia experiencia y no sabia que poner en el cv. Me sirvio para ordenar estudios, cursos y habilidades sin quedar como que estaba inventando.",
+    author: "Primer empleo",
+  },
+  {
+    text: "Lo arme para cajero y quedo claro lo de caja, atencion, horarios y responsabilidad con plata. Antes lo tenia escrito muy asi nomas.",
+    author: "Cajero",
+  },
+  {
+    text: "Para call center me ayudo bastante, porque yo habia puesto solo tareas sueltas. Ahora se entiende mejor llamadas, reclamos y carga de datos.",
+    author: "Call center",
+  },
+  {
+    text: "Soy programador junior y tenia una lista enorme de tecnologias. Me lo acomodo con proyectos, github y stack sin que parezca un copy paste.",
+    author: "Programador",
+  },
+  {
+    text: "En administrativo me costo explicar lo que hacia. Aca quedo mas claro carga de datos, planillas, documentos y atencion interna.",
+    author: "Administrativo",
+  },
+  {
+    text: "Para vendedor me gusto porque no quedo exagerado. Puso atencion, reposicion y trato con clientes de una forma mas profesional.",
+    author: "Vendedor",
+  },
+  {
+    text: "Lo hice para limpieza y mantenimiento. Quedo simple pero bien, con puntualidad, cuidado de espacios y experiencia en distintos lugares.",
+    author: "Limpieza",
+  },
+  {
+    text: "Para operario me sirvio porque ordeno produccion, control de tareas y disponibilidad para turnos. Antes el cv se veia muy pobre.",
+    author: "Operario",
+  },
+  {
+    text: "Queria postular a mineria y no sabia como poner cursos, seguridad y disponibilidad. Me lo dejo mas directo para ese tipo de trabajo.",
+    author: "Mineria",
+  },
+  {
+    text: "Para recepcionista quedo bien, con agenda, llamados, turnos y atencion al publico. No quedo largo ni lleno de cosas repetidas.",
+    author: "Recepcionista",
+  },
+  {
+    text: "Soy estudiante y queria algo para pasantias. Me ayudo a poner materias, proyectos y cursos sin que el cv quede vacio.",
+    author: "Estudiantes",
+  },
+  {
+    text: "Tenia experiencia de ventas, deposito y atencion todo junto. Lo bueno es que lo separo mejor y ahora se lee mas facil.",
+    author: "Perfil mixto",
+  },
+  {
+    text: "Me gusto que no tuve que escribir perfecto. Puse mis datos como pude y lo dejo con mejor tono para descargar en pdf.",
+    author: "CV profesional",
+  },
+];
+
 type Props = {
   cvData: RespuestaCV["cv"];
   template: string;
@@ -236,8 +295,86 @@ export default function CVPreviewStepPurple({
             Volver y editar datos
           </Button>
 
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.025]">
+            <div className="border-b border-white/10 p-5 text-center">
+              <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-[#7C3AED]/18 text-[#C4B5FD] ring-1 ring-[#7C3AED]/25">
+                <CheckCircle className="h-5 w-5" />
+              </div>
+              <h3 className="text-2xl font-bold text-white">
+                Tu CV final esta listo
+              </h3>
+              <p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-white/68">
+                Desbloquea la version profesional sin marca de agua y descargala
+                en PDF cuando quieras.
+              </p>
+            </div>
+
+            <div className="p-5 text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#38BDF8]">
+                Pago unico
+              </p>
+              <div className="mt-2 flex items-end justify-center gap-2">
+                <span className="text-5xl font-black leading-none text-white">
+                  $2.500
+                </span>
+                <span className="pb-1 text-sm font-semibold text-white/52">
+                  ARS
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center gap-2 rounded-2xl border border-green-500/20 bg-green-500/10 px-4 py-3">
+            <ShieldCheck className="h-5 w-5 text-green-400" />
+            <span className="font-semibold text-green-400">
+              Pago seguro con Mercado Pago
+            </span>
+          </div>
+
+          <div className="space-y-2.5">
+            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3.5">
+              <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#A78BFA]" />
+              <div>
+                <p className="text-sm font-semibold text-white">
+                  CV limpio, sin marca de agua
+                </p>
+                <p className="mt-1 text-xs leading-5 text-white/58">
+                  Listo para enviar a empresas, portales de empleo y reclutadores.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3.5">
+              <Download className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
+              <div>
+                <p className="text-sm font-semibold text-white">
+                  Descargas ilimitadas
+                </p>
+                <p className="mt-1 text-xs leading-5 text-white/58">
+                  Queda guardado en tu{" "}
+                  <Link href="/perfil" className="text-[#38BDF8] hover:underline">
+                    perfil
+                  </Link>{" "}
+                  para volver a descargarlo.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3.5">
+              <CreditCard className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
+              <div>
+                <p className="text-sm font-semibold text-white">
+                  Tarjeta, debito y mas opciones
+                </p>
+                <p className="mt-1 text-xs leading-5 text-white/58">
+                  El checkout se abre en Mercado Pago con los medios disponibles.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Price Section */}
-          <div className="text-center space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+          <div className="hidden text-center space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
             <h3 className="text-xl font-bold text-white font-sans">
               Accede a tu CV Profesional
               <p className="text-sm text-slate-400 font-normal mt-1">
@@ -252,12 +389,12 @@ export default function CVPreviewStepPurple({
           </div>
 
           {/* Security Badge */}
-          <div className="flex items-center justify-center gap-2 py-3 px-4 bg-green-500/10 rounded-lg border border-green-500/20">
+          <div className="hidden items-center justify-center gap-2 py-3 px-4 bg-green-500/10 rounded-lg border border-green-500/20">
             <ShieldCheck className="h-5 w-5 text-green-400" />
             <span className="text-green-400 font-medium">Pago 100% Seguro</span>
           </div>
 
-          <div className="flex items-start gap-3 p-3 rounded-lg bg-purple-500/10 border border-purple-500/20">
+          <div className="hidden items-start gap-3 p-3 rounded-lg bg-purple-500/10 border border-purple-500/20">
             <CheckCircle className="h-4 w-4 flex-shrink-0 text-purple-300" />
             <p className="text-sm leading-6 text-purple-100">
               Al pagar se desbloquea la version final de tu CV sin marcas de
@@ -265,7 +402,7 @@ export default function CVPreviewStepPurple({
             </p>
           </div>
 
-          <div className="flex items-start gap-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
+          <div className="hidden items-start gap-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
             <Globe2 className="h-4 w-4 flex-shrink-0 text-blue-300" />
             <p className="text-sm leading-6 text-blue-100">
               El pago se procesa con MercadoPago y depende de los medios
@@ -275,7 +412,7 @@ export default function CVPreviewStepPurple({
           </div>
 
           {/* Features */}
-          <div className="space-y-3">
+          <div className="hidden space-y-3">
             <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-700/30">
               <Handshake className="h-4 w-4 flex-shrink-0 text-blue-400 " />
               <p className="text-sm text-slate-300">
@@ -313,7 +450,7 @@ export default function CVPreviewStepPurple({
             <Button
               disabled={loading}
               onClick={handlePay}
-              className="w-full h-14 rounded-xl bg-gradient-to-r from-[#009ee3] to-[#00c6ff] hover:brightness-110 text-white font-semibold text-base shadow-xl shadow-[#009ee3]/20 transition-all duration-200 hover:scale-[1.01] active:scale-[0.98]"
+              className="w-full h-14 rounded-2xl bg-gradient-to-r from-[#009ee3] to-[#00c6ff] hover:brightness-110 text-white font-semibold text-base shadow-xl shadow-[#009ee3]/25 transition-all duration-200 hover:scale-[1.01] active:scale-[0.98]"
             >
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
@@ -329,7 +466,7 @@ export default function CVPreviewStepPurple({
                       alt="MercadoPago"
                     />
                     <span className="text-base font-semibold">
-                      Desbloquear por $2.500 ARS
+                      Desbloquear mi CV por $2.500 ARS
                     </span>
                   </div>
                 </div>
@@ -358,13 +495,14 @@ export default function CVPreviewStepPurple({
                 </Button>
               )}
             </PDFDownloadLink> */}
+     
             <Carousel
               plugins={[Autoplay({ delay: 5000 })]}
               opts={{ align: "start", loop: true, dragFree: true }}
               className="w-full"
             >
               <CarouselContent className="-ml-1">
-                {testimonials.map((testimonial, index) => (
+                {seoTestimonials.map((testimonial, index) => (
                   <CarouselItem key={index} className="pl-2 pr-2 basis-full">
                     <div className="p-3 rounded-md ">
                       <p className="text-gray-300 text-sm italic">
