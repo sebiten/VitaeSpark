@@ -1,5 +1,5 @@
 "use client";
-import { DocumentoCV } from "@/components/pdf/CVDocument";
+import dynamic from "next/dynamic";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -10,9 +10,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { PDFViewer } from "@react-pdf/renderer";
 import { Calendar, Download, Eye, User } from "lucide-react";
 import { useState, useCallback, useMemo, memo } from "react";
+
+const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full w-full items-center justify-center bg-white text-xs text-slate-500">
+      Cargando preview...
+    </div>
+  ),
+});
 export interface CVprofile {
   id: string;
   cv_data: any;
@@ -80,17 +88,11 @@ export const CVCard = memo(({ cv }: { cv: CVprofile }) => {
       <CardContent className="p-0">
         <div className="relative aspect-[3/4]">
           <div className="absolute inset-0 ">
-            <PDFViewer
-              showToolbar={false}
-              style={{
-                width: "100%",
-                height: "100%",
-                overflow: "hidden",
-              }}
-              className=" origin-top-left w-[400%] h-[400%]"
-            >
-              <DocumentoCV cv={cv.cv_data} template={cv.template} />
-            </PDFViewer>
+            {isPreviewOpen ? null : (
+              <div className="flex h-full w-full items-center justify-center bg-white text-xs text-slate-500">
+                Preview disponible al abrir
+              </div>
+            )}
           </div>
           <div className="absolute inset-0 bg-black/55 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
             <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
@@ -108,9 +110,11 @@ export const CVCard = memo(({ cv }: { cv: CVprofile }) => {
                     CV de {cv.user_name} - {cv.template || "Estándar"}
                   </DialogTitle>
                 </DialogHeader>
-                <PDFViewer className="bg-white rounded w-full h-[80vh]">
-                  <DocumentoCV cv={cv.cv_data} template={cv.template} />
-                </PDFViewer>
+                <PDFViewerPane
+                  cv={cv.cv_data}
+                  template={cv.template}
+                  className="h-[80vh] w-full rounded bg-white"
+                />
               </DialogContent>
             </Dialog>
 

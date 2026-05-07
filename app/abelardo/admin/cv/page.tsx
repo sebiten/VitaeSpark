@@ -1,20 +1,14 @@
 "use client";
-import { useState, useEffect, useMemo, useCallback, memo } from "react";
+import { useState, useEffect, useMemo, useCallback, memo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   FileText,
-  User,
   Filter,
-  Download,
   Search,
-  Eye,
-  Calendar,
   AlertCircle,
 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
-import { DocumentoCV } from "@/components/pdf/CVDocument";
 
-import { PDFViewer } from "@react-pdf/renderer";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import {
@@ -25,15 +19,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   Pagination,
   PaginationContent,
@@ -52,12 +37,14 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
   const [cvs, setCvs] = useState<CVprofile[]>([]);
+  const [totalCvs, setTotalCvs] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState<string>("all");
   const [error, setError] = useState<string | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(12); // 12 CVs per page for a nice grid layout
+  const [itemsPerPage] = useState(12);
+  const skipNextCvLoad = useRef(false);
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -85,7 +72,8 @@ export default function Page() {
           return setTimeout(() => router.push("/"), 3000);
         }
 
-        await loadCVs();
+        skipNextCvLoad.current = true;
+        await loadCVs(1, selectedTemplate, searchTerm);
       } catch (err) {
         console.error("Error al cargar datos de usuario:", err);
         setError("Error al cargar los datos del usuario");
@@ -97,16 +85,40 @@ export default function Page() {
     loadUserData();
   }, [router, supabase]);
 
-  const loadCVs = async () => {
+  useEffect(() => {
+    if (!user) return;
+    if (skipNextCvLoad.current) {
+      skipNextCvLoad.current = false;
+      return;
+    }
+    loadCVs(currentPage, selectedTemplate, searchTerm);
+  }, [currentPage, selectedTemplate, searchTerm, user]);
+
+  const loadCVs = async (
+    page = currentPage,
+    template = selectedTemplate,
+    search = searchTerm
+  ) => {
     try {
-      const res = await fetch("/api/admin/cvs", {
+      const params = new URLSearchParams({
+        page: String(page),
+        pageSize: String(itemsPerPage),
+        template,
+      });
+
+      if (search.trim()) params.set("search", search.trim());
+
+      const res = await fetch(`/api/admin/cvs?${params.toString()}`, {
         method: "GET",
         credentials: "same-origin",
       });
 
       if (!res.ok) throw new Error("No se pudieron cargar los CVs");
 
-      const { cvs } = (await res.json()) as { cvs: CVprofile[] };
+      const { cvs, total } = (await res.json()) as {
+        cvs: CVprofile[];
+        total: number;
+      };
       const enriched = cvs.map((cv: any) => ({
         ...cv,
         user_name: cv.profiles?.name || "Usuario desconocido",
@@ -114,48 +126,21 @@ export default function Page() {
       }));
 
       setCvs(enriched);
+      setTotalCvs(total ?? enriched.length);
     } catch (err) {
       console.error("Error al cargar CVs:", err);
       setError("Error al cargar los CVs");
     }
   };
 
-  const filteredCvs = useMemo(() => {
-    return cvs.filter((cv) => {
-      const matchesTemplate =
-        selectedTemplate === "all" || cv.template === selectedTemplate;
-      const matchesSearch = [
-        cv.user_name,
-        cv.user_email,
-        cv.cv_data?.nombre,
-        cv.cv_data?.titulo,
-      ]
-        .filter(Boolean)
-        .some((field) =>
-          field.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-      return matchesTemplate && matchesSearch;
-    });
-  }, [cvs, selectedTemplate, searchTerm]);
-
   useEffect(() => {
-    setCurrentPage(1); // Reset to first page when filters change
-  }, [filteredCvs.length]);
+    setCurrentPage(1);
+  }, [selectedTemplate, searchTerm]);
 
-  const paginationData = useMemo(() => {
-    const totalPages = Math.ceil(filteredCvs.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedCvs = filteredCvs.slice(startIndex, endIndex);
-
-    return { totalPages, paginatedCvs };
-  }, [filteredCvs, currentPage, itemsPerPage]);
-
-  const { totalPages, paginatedCvs } = paginationData;
-
+  const totalPages = Math.max(1, Math.ceil(totalCvs / itemsPerPage));
   const uniqueTemplates = useMemo(
-    () => Array.from(new Set(cvs.map((cv) => cv.template).filter(Boolean))),
-    [cvs]
+    () => ["elegance", "purple", "blue", "green", "harvard"],
+    []
   );
 
   const handleSearchChange = useCallback((e: any) => {
@@ -213,11 +198,11 @@ export default function Page() {
           </p>
           <div className="mt-4 flex flex-wrap gap-2 text-sm text-[#F4F4F5]/70">
             <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
-              Total: {cvs.length}
+              Total: {totalCvs}
             </span>
             <span>•</span>
             <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
-              Filtrados: {filteredCvs.length}
+              En esta pagina: {cvs.length}
             </span>
             <span>•</span>
             <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
@@ -262,10 +247,10 @@ export default function Page() {
           </Button>
         </div>
 
-        {filteredCvs.length > 0 ? (
+        {cvs.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {paginatedCvs.map((cv) => (
+              {cvs.map((cv) => (
                 <CVCard key={cv.id} cv={cv} />
               ))}
             </div>

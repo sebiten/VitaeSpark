@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { createClient } from "@/utils/supabase/client";
-import { DocumentoCV } from "@/components/pdf/CVDocument";
 import type { CVRecord } from "@/lib/types/cv";
 
 import {
@@ -30,6 +29,30 @@ import { CVThumbnail } from "./CvThumbnail";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Componente para generar una miniatura del CV
+
+const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full w-full items-center justify-center rounded-md bg-white text-sm text-slate-500">
+      Preparando vista previa...
+    </div>
+  ),
+});
+
+const PDFDownloadButton = dynamic(
+  () => import("@/components/pdf/PDFDownloadButton"),
+  {
+    ssr: false,
+    loading: () => (
+      <Button
+        className="w-full bg-[#1A1A1D] border border-[#2A2A2D] text-[#F4F4F5]"
+        disabled
+      >
+        Preparando...
+      </Button>
+    ),
+  }
+);
 
 export default function PerfilCVs() {
   const [cvs, setCvs] = useState<CVRecord[]>([]);
@@ -306,50 +329,22 @@ export default function PerfilCVs() {
                           </DialogHeader>
                           <div className="p-4 h-[calc(90vh-70px)]">
                             {selectedCV && (
-                              <PDFViewer
-                                style={{ width: "100%", height: "100%" }}
+                              <PDFViewerPane
+                                cv={selectedCV.cv_data}
+                                template={selectedCV.template || undefined}
                                 className="rounded-md border border-[#2A2A2D]"
-                                showToolbar={false}
-                              >
-                                <DocumentoCV
-                                  cv={selectedCV.cv_data}
-                                  template={selectedCV.template || undefined}
-                                />
-                              </PDFViewer>
+                                style={{ width: "100%", height: "100%" }}
+                              />
                             )}
                           </div>
                         </DialogContent>
                       </Dialog>
 
-                      <PDFDownloadLink
-                        document={
-                          <DocumentoCV
-                            cv={cv.cv_data}
-                            template={cv.template || undefined}
-                          />
-                        }
-                        fileName={`CV-${cv.cv_data.nombre.replace(
-                          /\s+/g,
-                          "-"
-                        )}.pdf`}
+                      <PDFDownloadButton
+                        cv={cv.cv_data}
+                        template={cv.template || undefined}
                         className="flex-1"
-                      >
-                        {({ loading: dlLoading }) => (
-                          <Button
-                            className="w-full bg-[#1A1A1D] hover:bg-[#2A2A2D] border border-[#2A2A2D] text-[#F4F4F5]"
-                            disabled={dlLoading}
-                          >
-                            {dlLoading ? (
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                              <Download className="w-4 h-4" />
-                            )}
-                            <span className="ml-2">
-                              {dlLoading ? "Preparando..." : "Descargar"}
-                            </span>
-                          </Button>
-                        )}
-                      </PDFDownloadLink>
+                      />
                     </div>
                   </CardFooter>
                 </Card>
@@ -438,54 +433,23 @@ export default function PerfilCVs() {
                               </DialogHeader>
                               <div className="p-4 h-[calc(90vh-70px)]">
                                 {selectedCV && (
-                                  <PDFViewer
-                                    style={{ width: "100%", height: "100%" }}
+                                  <PDFViewerPane
+                                    cv={selectedCV.cv_data}
+                                    template={
+                                      selectedCV.template || undefined
+                                    }
                                     className="rounded-md border border-[#2A2A2D]"
-                                    showToolbar={false}
-                                  >
-                                    <DocumentoCV
-                                      cv={selectedCV.cv_data}
-                                      template={
-                                        selectedCV.template || undefined
-                                      }
-                                    />
-                                  </PDFViewer>
+                                    style={{ width: "100%", height: "100%" }}
+                                  />
                                 )}
                               </div>
                             </DialogContent>
                           </Dialog>
 
-                          <PDFDownloadLink
-                            document={
-                              <DocumentoCV
-                                cv={cv.cv_data}
-                                template={cv.template || undefined}
-                              />
-                            }
-                            fileName={`CV-${cv.cv_data.nombre.replace(
-                              /\s+/g,
-                              "-"
-                            )}.pdf`}
-                          >
-                            {({ loading: dlLoading }) => (
-                              <Button
-                                className="bg-[#1A1A1D] hover:bg-[#2A2A2D] border border-[#2A2A2D] text-[#F4F4F5]"
-                                disabled={dlLoading}
-                              >
-                                {dlLoading ? (
-                                  <>
-                                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                                    Preparando...
-                                  </>
-                                ) : (
-                                  <>
-                                    <Download className="w-4 h-4 mr-2" />{" "}
-                                    Descargar
-                                  </>
-                                )}
-                              </Button>
-                            )}
-                          </PDFDownloadLink>
+                          <PDFDownloadButton
+                            cv={cv.cv_data}
+                            template={cv.template || undefined}
+                          />
                         </div>
                       </CardContent>
                     </div>

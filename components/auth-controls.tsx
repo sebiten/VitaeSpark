@@ -19,33 +19,105 @@ type AuthControlsProps = {
   onNavigate?: () => void;
 };
 
+type CachedDisplay = {
+  name: string;
+  avatarUrl?: string;
+};
+
+const AUTH_DISPLAY_CACHE_KEY = "vitaespark-auth-display";
+
+function getUserDisplay(user: User): CachedDisplay {
+  const metadata = user.user_metadata || {};
+  const name =
+    metadata.full_name ||
+    metadata.name ||
+    user.email?.split("@")[0] ||
+    "Usuario";
+
+  return {
+    name,
+    avatarUrl: metadata.avatar_url || metadata.picture,
+  };
+}
+
+function readCachedDisplay(): CachedDisplay | null {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const raw = window.localStorage.getItem(AUTH_DISPLAY_CACHE_KEY);
+    return raw ? (JSON.parse(raw) as CachedDisplay) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCachedDisplay(display: CachedDisplay | null) {
+  if (typeof window === "undefined") return;
+
+  if (!display) {
+    window.localStorage.removeItem(AUTH_DISPLAY_CACHE_KEY);
+    return;
+  }
+
+  window.localStorage.setItem(AUTH_DISPLAY_CACHE_KEY, JSON.stringify(display));
+}
+
 function useAuthUser() {
   const [user, setUser] = useState<User | null | undefined>(undefined);
+  const [cachedDisplay, setCachedDisplay] = useState<CachedDisplay | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
+    const cached = readCachedDisplay();
 
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user);
+    if (cached) {
+      setCachedDisplay(cached);
+    }
+
+    supabase.auth.getSession().then(({ data }) => {
+      const sessionUser = data.session?.user ?? null;
+      setUser(sessionUser);
+
+      if (sessionUser) {
+        const display = getUserDisplay(sessionUser);
+        setCachedDisplay(display);
+        writeCachedDisplay(display);
+      } else {
+        setCachedDisplay(null);
+        writeCachedDisplay(null);
+      }
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      const sessionUser = session?.user ?? null;
+      setUser(sessionUser);
+
+      if (sessionUser) {
+        const display = getUserDisplay(sessionUser);
+        setCachedDisplay(display);
+        writeCachedDisplay(display);
+      } else {
+        setCachedDisplay(null);
+        writeCachedDisplay(null);
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  return user;
+  return { user, cachedDisplay };
 }
 
 export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) {
-  const user = useAuthUser();
+  const { user, cachedDisplay } = useAuthUser();
+  const display = user ? getUserDisplay(user) : cachedDisplay;
 
   if (user === undefined) {
-    return (
+    return display ? (
+      <UserButton display={display} isPending />
+    ) : (
       <div
         className={
           mobile
@@ -100,17 +172,9 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
       </Link>
       <DropdownMenu>
         <DropdownMenuTrigger className="flex cursor-pointer items-center gap-2 rounded-lg p-2 transition-opacity hover:bg-[#1F1F22]/50 hover:opacity-80">
-          <Avatar className="h-7 w-7 border border-[#1F1F22]">
-            <AvatarImage
-              src={user.user_metadata?.avatar_url}
-              alt={user.user_metadata?.full_name || "Usuario"}
-            />
-            <AvatarFallback className="bg-[#1F1F22] text-xs text-[#F4F4F5]">
-              {user.user_metadata?.full_name?.charAt(0) ?? "U"}
-            </AvatarFallback>
-          </Avatar>
-          <span className="hidden text-sm text-[#F4F4F5]/70 lg:block">
-            {user.user_metadata?.full_name ?? "Usuario"}
+          <UserAvatar display={display || getUserDisplay(user)} />
+          <span className="hidden max-w-28 truncate text-sm text-[#F4F4F5]/70 lg:block">
+            {(display || getUserDisplay(user)).name}
           </span>
           <MenuIcon className="h-4 w-4 text-[#F4F4F5]/50" />
         </DropdownMenuTrigger>
@@ -138,5 +202,37 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
       <LogIn className="h-4 w-4" />
       Iniciar sesión
     </Link>
+  );
+}
+
+function UserButton({
+  display,
+  isPending = false,
+}: {
+  display: CachedDisplay;
+  isPending?: boolean;
+}) {
+  return (
+    <Link
+      href="/perfil"
+      className={`inline-flex items-center justify-center gap-2 rounded-lg p-2 text-sm font-medium text-[#F4F4F5]/70 transition hover:bg-[#1F1F22]/50 hover:text-[#F4F4F5] ${
+        isPending ? "opacity-80" : ""
+      }`}
+    >
+      <UserAvatar display={display} />
+      <span className="hidden max-w-28 truncate lg:block">{display.name}</span>
+      <MenuIcon className="h-4 w-4 text-[#F4F4F5]/50" />
+    </Link>
+  );
+}
+
+function UserAvatar({ display }: { display: CachedDisplay }) {
+  return (
+    <Avatar className="h-7 w-7 border border-[#1F1F22]">
+      <AvatarImage src={display.avatarUrl} alt={display.name} />
+      <AvatarFallback className="bg-[#1F1F22] text-xs text-[#F4F4F5]">
+        {display.name.charAt(0).toUpperCase()}
+      </AvatarFallback>
+    </Avatar>
   );
 }

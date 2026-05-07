@@ -57,7 +57,7 @@ export default function ForgotPasswordForm() {
       <CardHeader className="space-y-1">
         <div className="flex items-center">
           <img
-            src="/logochispa.png"
+            src="/logotab.webp"
             alt="VitaeSpark Logo"
             className="mr-2 h-10 w-10"
           />

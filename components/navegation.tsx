@@ -1,19 +1,11 @@
 "use client";
 
 import type React from "react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FileText, HomeIcon, Menu, Paperclip, User2, X } from "lucide-react";
-
-const AuthControls = dynamic(
-  () => import("@/components/auth-controls").then((mod) => mod.AuthControls),
-  {
-    ssr: false,
-    loading: () => <div className="h-8 w-28 rounded-lg bg-[#1F1F22]/50" />,
-  }
-);
+import { AuthControls } from "@/components/auth-controls";
 
 interface CustomButtonProps {
   children: React.ReactNode;

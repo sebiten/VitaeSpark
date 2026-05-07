@@ -1,45 +1,44 @@
 "use client";
 
 import { useState } from "react";
+import { unstable_batchedUpdates } from "react-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { track } from "@vercel/analytics";
+import type { Session } from "@supabase/supabase-js";
+import { toast } from "sonner";
 import {
-  Loader2,
-  Sparkles,
   AlertCircle,
-  User,
-  Briefcase,
-  Mail,
-  GraduationCap,
-  Code,
-  Globe,
-  PlusCircle,
   BookOpen,
+  Briefcase,
   CheckCircle2,
-  Star,
-  Award,
+  GraduationCap,
   Hammer,
   Languages,
+  Loader2,
+  Mail,
+  PlusCircle,
+  Sparkles,
   Trash2,
+  Upload,
+  User,
+  Wand2,
+  Palette,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
-import { unstable_batchedUpdates } from "react-dom";
-import { Label } from "./ui/label";
-import { motion } from "framer-motion";
-import { track } from "@vercel/analytics";
 import { createClient } from "@/utils/supabase/client";
-import { Session } from "@supabase/supabase-js";
-import { toast } from "sonner";
+import { Label } from "./ui/label";
+
 const schema = z.object({
   foto_url: z.string().url().optional(),
   nombre: z.string().min(1, "El nombre es obligatorio"),
   puesto: z.string().min(1, "El puesto es obligatorio"),
-  contacto: z.string().min(1, "La información de contacto es obligatoria"),
+  contacto: z.string().min(1, "La informacion de contacto es obligatoria"),
   sobreMi: z.string().min(10, "Describe un poco sobre ti"),
   experiencia: z.string().min(20, "Describe tu experiencia profesional"),
-  formacion: z.string().min(10, "Describe tu formación académica"),
+  formacion: z.string().min(10, "Describe tu formacion academica"),
   habilidades: z.string().min(1, "Incluye al menos una habilidad"),
   idiomas: z.string().min(1, "Incluye al menos un idioma"),
   informacionAdicional: z.string().optional(),
@@ -70,7 +69,9 @@ export default function CVFormStep({
   } = useForm<DatosCVFormulario>({
     resolver: zodResolver(schema),
   });
+
   const supabase = createClient();
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -79,12 +80,12 @@ export default function CVFormStep({
     const fileName = `${Date.now()}.${fileExt}`;
     const filePath = `fotos/user-${userSession?.user.id}/${fileName}`;
 
-    const { data, error } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from("fotos-perfil")
       .upload(filePath, file);
 
-    if (error) {
-      console.error("Error al subir la imagen", error);
+    if (uploadError) {
+      console.error("Error al subir la imagen", uploadError);
       toast.error("No se pudo subir la foto. Intenta con otra imagen.");
       return;
     }
@@ -95,11 +96,6 @@ export default function CVFormStep({
 
     setFotoUrl(publicUrl.publicUrl);
     toast.success("Foto cargada correctamente.");
-  };
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    // Scroll to top when changing tabs
-    window.scrollTo(0, 0);
   };
 
   const onSubmit = async (data: DatosCVFormulario) => {
@@ -125,13 +121,12 @@ export default function CVFormStep({
         failureTracked = true;
         throw new Error(
           isTimeout
-            ? "La generación está tardando demasiado. Intenta de nuevo."
+            ? "La generacion esta tardando demasiado. Intenta de nuevo."
             : "Error al generar el CV. Intenta nuevamente."
         );
       }
 
       const json = (await res.json()) as RespuestaCV;
-      // Agrupar actualizaciones de estado
       unstable_batchedUpdates(() => {
         setCvData(json.cv);
         setActiveTab("preview");
@@ -150,18 +145,18 @@ export default function CVFormStep({
   const rellenarDatosPrueba = () => {
     reset({
       nombre: "Sebastian",
-      puesto: "Desarrollador Full Stack Junior",
+      puesto: "Desarrollador Full Stack",
       contacto:
         "Salta, Argentina\nsebdevspace@gmail.com\nGitHub: https://github.com/sebiten\nPortfolio: https://sebdevspace.me\nLinkedIn: https://www.linkedin.com/in/sebdevspace",
       sobreMi:
-        "Soy de Salta, Argentina. Me dedico al desarrollo web y estoy creando proyectos propios con Next.js, React, TypeScript, Supabase y Tailwind. Me gusta hacer productos completos, no solo pantallas: login, base de datos, pagos, panel admin, SEO, generacion de PDF e integraciones con IA.",
+        "Soy de Salta, Argentina. Me dedico al desarrollo web y estoy creando proyectos propios con Next.js, React, TypeScript, Supabase y Tailwind. Me gusta hacer productos completos: login, base de datos, pagos, panel admin, SEO, generacion de PDF e integraciones con IA.",
       experiencia:
         "Desarrollador web, 2024-Actualidad, proyectos propios / freelance, Salta, Argentina\n" +
         "Hice varios proyectos web completos usando Next.js, React, TypeScript, Supabase, Tailwind y Vercel. Los mas importantes son VitaeSpark, Romi Tienda y Lumi People. En esos proyectos trabaje con login, bases de datos, paneles de administracion, pagos, webhooks, SEO, blogs, generacion de PDF e integracion con OpenAI.\n\n" +
         "Desarrollador de VitaeSpark, 2026-Actualidad, proyecto propio, Salta, Argentina\n" +
         "Cree VitaeSpark, una app para generar curriculums con inteligencia artificial. La app permite registrarse, completar un formulario, generar contenido con OpenAI, elegir plantilla, ver preview, pagar con Mercado Pago y descargar el CV en PDF. Tambien tiene perfil de usuario, CVs guardados, webhook de pago y panel interno.\n\n" +
         "Desarrollador de Romi Tienda, 2026, proyecto ecommerce, Salta, Argentina\n" +
-        "Desarrolle una tienda online de indumentaria con Next.js, Supabase y Mercado Pago. Tiene catalogo, producto individual, carrito, perfil, login, panel admin para productos e imagenes, pedidos, stock, calculo de envio y checkout. Tambien trabaje en el webhook para actualizar pagos y no descontar stock dos veces.\n\n" +
+        "Desarrolle una tienda online de indumentaria con Next.js, Supabase y Mercado Pago. Tiene catalogo, producto individual, carrito, perfil, login, panel admin para productos e imagenes, pedidos, stock, calculo de envio y checkout.\n\n" +
         "Desarrollador de Lumi People, 2024-2026, proyecto institucional, Salta, Argentina\n" +
         "Trabaje en el sitio web de Lumi People, una consultora de recursos humanos de Salta. Hice landing, servicios, equipo, vacantes, noticias y blog. Use Next.js, TypeScript, Tailwind, MDX, sitemap, metadata, Open Graph y Schema.org para SEO.",
       formacion:
@@ -193,354 +188,362 @@ export default function CVFormStep({
     setError(null);
   };
 
+  const fieldClass =
+    "w-full rounded-xl border border-white/10 bg-[#101014] px-4 py-3 text-sm text-white outline-none transition focus:border-[#7C3AED] focus:ring-2 focus:ring-[#7C3AED]/20 placeholder:text-white/32";
+  const textareaClass =
+    "w-full resize-y rounded-xl border border-white/10 bg-[#101014] px-4 py-3 text-sm leading-7 text-white outline-none transition focus:border-[#7C3AED] focus:ring-2 focus:ring-[#7C3AED]/20 placeholder:text-white/32";
+  const templateName =
+    {
+      elegance: "Elegante",
+      purple: "Morado",
+      blue: "Azul",
+      green: "Verde",
+      harvard: "Harvard",
+    }[template] || template;
+
   return (
-    <div className="relative">
-      {/* Fondo decorativo */}
-      {/* <div className="absolute inset-0  rounded-xl -z-10 opacity-50"></div>
-      <div className="absolute inset-0 bg-[url('/placeholder.svg?height=100&width=100')] bg-repeat opacity-5 rounded-xl -z-10"></div> */}
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 rounded-2xl"
-      >
-        {/* Consejos para completar tu CV */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 via-transparent to-[#06B6D4]/10 rounded-3xl" />
-          <div className="relative rounded-2xl border border-white/10 bg-[#15151A]/90 p-5 shadow-2xl shadow-black/20 backdrop-blur-xl">
-            {/* <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#7C3AED]/20 to-transparent rounded-full -translate-y-20 translate-x-20" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-[#06B6D4]/20 to-transparent rounded-full translate-y-16 -translate-x-16" /> */}
-
-            <div className="relative">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="relative">
-                  <div className="w-14 h-14 bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] rounded-2xl flex items-center justify-center shadow-2xl shadow-[#7C3AED]/25">
-                    <Sparkles className="w-7 h-7 text-white" />
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-[#F59E0B] to-[#D97706] rounded-full flex items-center justify-center">
-                    <Star className="w-2.5 h-2.5 text-white" />
-                  </div>
-                </div>
-                <div>
-                  <h3 className="font-bold text-[#F4F4F5] text-xl">
-                    Tips para tu CV
-                  </h3>
-                  <p className="text-[#A1A1AA] text-sm">
-                    Consejos simples para hacerlo mejor
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-4 mb-2">
-                {[
-                  "Usá un lenguaje claro y directo",
-                  "Incluí solo lo más relevante",
-                  "Agregá fechas y lugares de cada trabajo o estudio",
-                  "No uses emojis ni símbolos raros",
-                ].map((tip, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="flex items-start gap-3 rounded-xl backdrop-blur-sm"
-                  >
-                    <div className="w-2 h-2 bg-gradient-to-br from-[#7C3AED]  rounded-full mt-2 flex-shrink-0" />
-                    <div className="flex items-center justify-center">
-                      <span className="text-[#D4D4D8] text-sm leading-relaxed">
-                        {tip}
-                      </span>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-[#7C3AED]/10 to-[#06B6D4]/10 border border-[#7C3AED]/20">
-                <Award className="w-5 h-5 text-[#7C3AED]" />
-                <p className="text-[#A1A1AA] text-sm">
-                  Estos consejos ayudan a que tu CV sea más claro y fácil de
-                  leer
-                </p>
-              </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-6xl">
+      <div className="mb-6 rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-2xl shadow-black/10 sm:p-6">
+        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+          <div className="max-w-2xl">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#38BDF8]/20 bg-[#38BDF8]/10 px-3 py-1.5 text-sm text-[#38BDF8]">
+              <Wand2 className="h-4 w-4" />
+              Datos para tu CV
+            </div>
+            <h2 className="text-2xl font-bold text-white sm:text-3xl">
+              Completalo simple. La IA lo ordena despues.
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-white/60">
+              Escribi con tus palabras: trabajos, estudios, herramientas y
+              contacto. No hace falta que suene perfecto en esta etapa.
+            </p>
+            <div className="mt-4 flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-white/65">
+              <Palette className="h-3.5 w-3.5 text-[#38BDF8]" />
+              Plantilla actual:{" "}
+              <span className="font-semibold text-white">{templateName}</span>
             </div>
           </div>
-        </motion.div>
-        <div className="w-full flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button
-            type="button"
-            onClick={rellenarDatosPrueba}
-            variant="outline"
-            className="mb-4 border-[#7C3AED]/40 bg-[#7C3AED]/10 text-white hover:bg-[#7C3AED]/20"
-          >
-            <CheckCircle2 className="w-4 h-4 mr-1.5 text-[#7C3AED]" />
-            Rellenar con datos de prueba
-          </Button>
-          <Button
-            type="button"
-            onClick={limpiarCampos}
-            variant="outline"
-            className="mb-4 border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
-          >
-            <Trash2 className="w-4 h-4 mr-1.5 text-white/60" />
-            Limpiar todos los campos
-          </Button>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button
+              type="button"
+              onClick={() => setActiveTab("template")}
+              variant="outline"
+              className="border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
+            >
+              <Palette className="mr-2 h-4 w-4 text-[#38BDF8]" />
+              Cambiar plantilla
+            </Button>
+            <Button
+              type="button"
+              onClick={rellenarDatosPrueba}
+              variant="outline"
+              className="border-[#7C3AED]/40 bg-[#7C3AED]/10 text-white hover:bg-[#7C3AED]/20"
+            >
+              <CheckCircle2 className="mr-2 h-4 w-4 text-[#A78BFA]" />
+              Rellenar prueba
+            </Button>
+            <Button
+              type="button"
+              onClick={limpiarCampos}
+              variant="outline"
+              className="border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
+            >
+              <Trash2 className="mr-2 h-4 w-4 text-white/55" />
+              Limpiar
+            </Button>
+          </div>
         </div>
+      </div>
 
-        {/* Datos personales */}
-        <div className="rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
-          {/* Nombre y puesto */}
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+        <div className="space-y-5">
+          <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
+            <SectionTitle
+              icon={<User className="h-5 w-5" />}
+              title="Datos basicos"
+              description="Lo primero que va a leer una empresa."
+            />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
-                <User className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
-                Nombre completo
-              </Label>
-              <div className="relative">
+            <div className="grid gap-4 md:grid-cols-2">
+              <FieldError message={errors.nombre?.message}>
+                <Label className="mb-2 block text-sm font-medium text-white/85">
+                  Nombre completo
+                </Label>
                 <input
                   {...register("nombre")}
-                  className="w-full bg-[#2A2A2D] text-white p-3 pr-3 py-3 rounded-lg border border-[#3F3F46] focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all duration-200 outline-none"
-                  placeholder="Ej: Ana Gómez"
+                  className={fieldClass}
+                  placeholder="Ej: Sebastian Lopez"
                 />
-              </div>
-              {errors.nombre && (
-                <p className="text-red-400 text-xs mt-1.5 flex items-center">
-                  <AlertCircle className="w-3 h-3 mr-1.5 flex-shrink-0" />
-                  {errors.nombre.message}
-                </p>
-              )}
-            </div>
-            <div className="mb-4">
-              <Label className="text-white">Foto de perfil (opcional)</Label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="mt-1 block w-full text-sm text-gray-300 file:bg-[#7C3AED] file:border-0 file:text-white file:py-1 file:px-3 file:rounded"
-              />
-              {foto_url && (
-                <div className="mt-2">
-                  <img
-                    src={foto_url}
-                    alt="Foto de perfil"
-                    className="w-24 h-24 object-cover rounded-lg border border-[#3F3F46]"
-                  />
-                </div> // YA TENGO LA FOTO URL DE LA PERSONA, AHORA SOLO QUEDARIA IDENTIFICARLA EN EL CV
-              )}
-            </div>
+              </FieldError>
 
-            <div>
-              <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
-                <Briefcase className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
-                ¿A qué te dedicás?
-              </Label>
-              <div className="relative">
+              <FieldError message={errors.puesto?.message}>
+                <Label className="mb-2 block text-sm font-medium text-white/85">
+                  Puesto o perfil
+                </Label>
                 <input
                   {...register("puesto")}
-                  className="w-full bg-[#2A2A2D] text-white p-3 pr-3 py-3 rounded-lg border border-[#3F3F46] focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all duration-200 outline-none"
-                  placeholder="Ej: Mecánico, Docente, Programador..."
+                  className={fieldClass}
+                  placeholder="Ej: Desarrollador web junior"
                 />
+              </FieldError>
+            </div>
+
+            <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_260px]">
+              <FieldError message={errors.contacto?.message}>
+                <Label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/85">
+                  <Mail className="h-4 w-4 text-[#38BDF8]" />
+                  Contacto
+                </Label>
+                <textarea
+                  {...register("contacto")}
+                  rows={4}
+                  className={textareaClass}
+                  placeholder={
+                    "Salta, Argentina\nsebastian@email.com\n+54 9 ...\nLinkedIn o GitHub si corresponde"
+                  }
+                />
+              </FieldError>
+
+              <div>
+                <Label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/85">
+                  <Upload className="h-4 w-4 text-[#38BDF8]" />
+                  Foto opcional
+                </Label>
+                <label className="flex min-h-[118px] cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-[#101014] px-4 py-5 text-center transition hover:border-[#7C3AED]/45 hover:bg-[#7C3AED]/5">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="sr-only"
+                  />
+                  {foto_url ? (
+                    <img
+                      src={foto_url}
+                      alt="Foto de perfil"
+                      className="h-20 w-20 rounded-2xl border border-white/10 object-cover"
+                    />
+                  ) : (
+                    <>
+                      <Upload className="mb-2 h-5 w-5 text-white/45" />
+                      <span className="text-sm text-white/70">Subir imagen</span>
+                      <span className="mt-1 text-xs text-white/35">
+                        JPG, PNG o WebP
+                      </span>
+                    </>
+                  )}
+                </label>
               </div>
-              {errors.puesto && (
-                <p className="text-red-400 text-xs mt-1.5 flex items-center">
-                  <AlertCircle className="w-3 h-3 mr-1.5 flex-shrink-0" />
-                  {errors.puesto.message}
-                </p>
-              )}
             </div>
-          </div>
+          </section>
 
-          {/* Contacto */}
-          <div className="mt-5">
-            <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
-              <Mail className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
-              ¿Cómo te contactamos?
-            </Label>
-            <div className="relative">
-              <input
-                {...register("contacto")}
-                className="w-full bg-[#2A2A2D] text-white p-3 pr-3 py-3 rounded-lg border border-[#3F3F46] focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all duration-200 outline-none"
-                placeholder="Email, teléfono o redes (ej: juan@email.com)"
-              />
-            </div>
-            {errors.contacto && (
-              <p className="text-red-400 text-xs mt-1.5 flex items-center">
-                <AlertCircle className="w-3 h-3 mr-1.5 flex-shrink-0" />
-                {errors.contacto.message}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Sobre mí */}
-        <div className="rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
-          <div>
-            <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
-              <BookOpen className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
-              Sobre vos
-            </Label>
-            <div className="relative">
+          <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
+            <SectionTitle
+              icon={<BookOpen className="h-5 w-5" />}
+              title="Perfil profesional"
+              description="Una base corta para que la IA construya un perfil claro."
+            />
+            <FieldError message={errors.sobreMi?.message}>
               <textarea
                 {...register("sobreMi")}
-                rows={3}
-                className="w-full bg-[#2A2A2D] text-white p-3 rounded-lg border border-[#3F3F46] focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all duration-200 outline-none"
-                placeholder="Contá quién sos y qué sabés hacer"
+                rows={4}
+                className={textareaClass}
+                placeholder="Ej: Soy estudiante de programacion, trabajo con proyectos web propios y busco mi primera experiencia como desarrollador junior."
               />
-            </div>
-            {errors.sobreMi && (
-              <p className="text-red-400 text-xs mt-1.5 flex items-center">
-                <AlertCircle className="w-3 h-3 mr-1.5 flex-shrink-0" />
-                {errors.sobreMi.message}
-              </p>
-            )}
-          </div>
-        </div>
+            </FieldError>
+          </section>
 
-        {/* Experiencia y formación */}
-        <div className="rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
-          {/* Experiencia */}
-          <div className="mb-5">
-            <Label className="text-sm font-medium text-white/90 flex items-center">
-              <Briefcase className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
-              Experiencia
-            </Label>
-            <div className="text-sm ml-1 italic my-2 text-white bg-transparent border-0">
-              <p>
-                Escribí cada trabajo con:{" "}
-                <strong>puesto, fechas, empresa, lugar y tareas</strong>.
-              </p>
-            </div>
-            <div className="relative">
+          <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
+            <SectionTitle
+              icon={<Briefcase className="h-5 w-5" />}
+              title="Experiencia"
+              description="Separa cada trabajo o proyecto con una linea en blanco."
+            />
+            <FieldError message={errors.experiencia?.message}>
               <textarea
                 {...register("experiencia")}
-                rows={7}
-                className="w-full bg-[#2A2A2D] text-white p-3 rounded-lg border border-[#3F3F46] focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all duration-200 outline-none"
-                placeholder="Ej: Vendedor, 2019-2022, Tienda XYZ, Salta, atención al cliente y caja"
+                rows={8}
+                className={textareaClass}
+                placeholder={
+                  "Desarrollador web, 2024-Actualidad, proyectos propios, Salta\nCree apps con login, base de datos, pagos, panel admin y generacion de PDF.\n\nVendedor, 2021-2023, Tienda XYZ, Salta\nAtencion al cliente, caja, reposicion y control de stock."
+                }
               />
-            </div>
-            {errors.experiencia && (
-              <p className="text-red-400 text-xs mt-1.5 flex items-center">
-                <AlertCircle className="w-3 h-3 mr-1.5 flex-shrink-0" />
-                {errors.experiencia.message}
-              </p>
-            )}
-          </div>
+            </FieldError>
+          </section>
 
-          {/* Formación */}
-          <div>
-            <Label className="text-sm font-medium text-white/90 flex items-center">
-              <GraduationCap className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
-              Estudios
-            </Label>
-            <div className="text-sm ml-1 italic my-2 text-white bg-transparent border-0">
-              <p>
-                Escribí cada estudio con:{" "}
-                <strong>nombre, fechas, institución y lugar</strong>.
-              </p>
-            </div>
-            <div className="relative">
+          <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
+            <SectionTitle
+              icon={<GraduationCap className="h-5 w-5" />}
+              title="Estudios"
+              description="Inclui carrera, institucion, fechas y ciudad si las tenes."
+            />
+            <FieldError message={errors.formacion?.message}>
               <textarea
                 {...register("formacion")}
-                rows={6}
-                className="w-full bg-[#2A2A2D] text-white p-3 rounded-lg border border-[#3F3F46] focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all duration-200 outline-none"
-                placeholder="Ej: Secundario completo, 2015-2019, Escuela N°123, Jujuy"
+                rows={5}
+                className={textareaClass}
+                placeholder={
+                  "Programacion / Desarrollo de Software, 2025-Actualidad, Universidad Nacional de Salta\n\nDesarrollo Web Full Stack, 2023-Actualidad, formacion autodidacta, online"
+                }
               />
-            </div>
-            {errors.formacion && (
-              <p className="text-red-400 text-xs mt-1.5 flex items-center">
-                <AlertCircle className="w-3 h-3 mr-1.5 flex-shrink-0" />
-                {errors.formacion.message}
-              </p>
-            )}
-          </div>
-        </div>
+            </FieldError>
+          </section>
 
-        {/* Idiomas y habilidades */}
-        <div className="rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
-          {/* Idiomas */}
-          <div className="mb-5">
-            <Label className="text-sm font-medium text-white/90 flex items-center">
-              <Languages className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
-              Idiomas que sabés
-            </Label>
-            <div className="text-sm ml-1 italic my-2 text-white bg-transparent border-0">
-              <p>Ej: Español nativo, Inglés básico</p>
-            </div>
-            <div className="relative">
-              <textarea
-                {...register("idiomas")}
-                rows={2}
-                className="w-full bg-[#2A2A2D] text-white p-3 rounded-lg border border-[#3F3F46] focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all duration-200 outline-none"
-                placeholder="Español nativo, Inglés básico"
-              />
-            </div>
-            {errors.idiomas && (
-              <p className="text-red-400 text-xs mt-1.5 flex items-center">
-                <AlertCircle className="w-3 h-3 mr-1.5 flex-shrink-0" />
-                {errors.idiomas.message}
-              </p>
-            )}
-          </div>
+          <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
+            <SectionTitle
+              icon={<Hammer className="h-5 w-5" />}
+              title="Habilidades, idiomas y extras"
+              description="Listas simples. La IA se encarga de normalizar y ordenar."
+            />
+            <div className="grid gap-4 md:grid-cols-2">
+              <FieldError message={errors.habilidades?.message}>
+                <Label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/85">
+                  <Hammer className="h-4 w-4 text-[#38BDF8]" />
+                  Habilidades
+                </Label>
+                <textarea
+                  {...register("habilidades")}
+                  rows={4}
+                  className={textareaClass}
+                  placeholder="Ej: Excel, ventas, atencion al cliente, Next.js, Supabase"
+                />
+              </FieldError>
 
-          {/* Habilidades */}
-          <div>
-            <Label className="text-sm font-medium text-white/90 flex items-center">
-              <Hammer className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
-              Habilidades o herramientas que usás
-            </Label>
-            <div className="text-sm ml-1 italic my-2 text-white bg-transparent border-0">
-              <p>Ej: Excel, Mecánica, Costura, Ventas, Redes sociales</p>
+              <FieldError message={errors.idiomas?.message}>
+                <Label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/85">
+                  <Languages className="h-4 w-4 text-[#38BDF8]" />
+                  Idiomas
+                </Label>
+                <textarea
+                  {...register("idiomas")}
+                  rows={4}
+                  className={textareaClass}
+                  placeholder={"Espanol nativo\nIngles B2"}
+                />
+              </FieldError>
             </div>
-            <div className="relative">
-              <textarea
-                {...register("habilidades")}
-                rows={3}
-                className="w-full bg-[#2A2A2D] text-white p-3 rounded-lg border border-[#3F3F46] focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all duration-200 outline-none"
-                placeholder="Ej: Excel, Mecánica, Costura, Ventas, Redes sociales"
-              />
-            </div>
-            {errors.habilidades && (
-              <p className="text-red-400 text-xs mt-1.5 flex items-center">
-                <AlertCircle className="w-3 h-3 mr-1.5 flex-shrink-0" />
-                {errors.habilidades.message}
-              </p>
-            )}
-          </div>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
-          <div>
-            <Label className="text-sm font-medium text-white/90 block mb-1.5 flex items-center">
-              <PlusCircle className="w-3.5 h-3.5 mr-1.5 text-[#7C3AED]" />
-              Información adicional
-            </Label>
-            <div className="relative">
+
+            <div className="mt-4">
+              <Label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/85">
+                <PlusCircle className="h-4 w-4 text-[#38BDF8]" />
+                Informacion adicional
+              </Label>
               <textarea
                 {...register("informacionAdicional")}
-                rows={2}
-                className="w-full bg-[#2A2A2D] text-white p-3  rounded-lg border border-[#3F3F46] focus:border-[#7C3AED] focus:ring-1 focus:ring-[#7C3AED] transition-all duration-200 outline-none"
-                placeholder="Ej: Certificaciones, cursos, premios, etc."
+                rows={3}
+                className={textareaClass}
+                placeholder="Ej: portfolio, certificaciones, disponibilidad, licencia de conducir o enlaces importantes."
+              />
+            </div>
+          </section>
+        </div>
+
+        <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+          <div className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
+            <h3 className="mb-4 flex items-center gap-2 font-semibold text-white">
+              <Sparkles className="h-4 w-4 text-[#A78BFA]" />
+              Guia rapida
+            </h3>
+            <div className="space-y-4 text-sm leading-6 text-white/62">
+              <GuideItem
+                title="Escribi datos reales"
+                text="No hace falta redactar perfecto. Prioriza claridad y ejemplos concretos."
+              />
+              <GuideItem
+                title="Fechas y lugares ayudan"
+                text="Si no los recordas, podes dejar el campo aproximado o sin fecha."
+              />
+              <GuideItem
+                title="Una idea por linea"
+                text="Separar la informacion ayuda a que la IA arme mejor el CV final."
               />
             </div>
           </div>
-        </div>
-        {/* Botón continuar */}
-        <div className="w-full flex justify-end">
-          <Button
-            variant="default"
-            type="submit"
-            className="h-14 w-full rounded-xl bg-[#7C3AED] px-6 text-white shadow-lg shadow-[#7C3AED]/25 transition duration-200 hover:opacity-90 font-semibold"
-          >
-            <Sparkles className="w-4 h-4 mr-2" />
-            {isSubmitting ? "Generando..." : "Generar CV"}
 
-            {isGenerating && <Loader2 className="animate-spin ml-2 w-4 h-4" />}
-          </Button>
+          <div className="rounded-3xl border border-[#7C3AED]/20 bg-[#7C3AED]/10 p-5">
+            <p className="text-sm font-medium text-white">Formato ideal</p>
+            <p className="mt-2 text-sm leading-6 text-white/62">
+              Puesto, fechas, empresa, lugar y tareas principales. Con eso ya
+              alcanza para generar una version profesional.
+            </p>
+          </div>
+        </aside>
+      </div>
+
+      {error ? (
+        <div className="mt-5 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-200">
+          <div className="flex items-start gap-2">
+            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+            <span>{error}</span>
+          </div>
         </div>
-      </form>
+      ) : null}
+
+      <div className="mt-6 flex justify-center rounded-3xl border border-white/10 bg-[#15151A]/70 p-4 shadow-xl shadow-black/10">
+        <Button
+          variant="default"
+          type="submit"
+          disabled={isGenerating || isSubmitting}
+          className="h-12 w-full max-w-sm rounded-xl bg-[#7C3AED] px-6 font-semibold text-white shadow-lg shadow-[#7C3AED]/20 transition hover:bg-[#6D28D9] sm:w-auto sm:min-w-64"
+        >
+          <Sparkles className="mr-2 h-4 w-4" />
+          {isGenerating || isSubmitting ? "Generando CV..." : "Generar CV"}
+          {isGenerating ? <Loader2 className="ml-2 h-4 w-4 animate-spin" /> : null}
+        </Button>
+      </div>
+    </form>
+  );
+}
+
+function SectionTitle({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="mb-5 flex gap-3">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#7C3AED]/15 text-[#A78BFA] ring-1 ring-[#A78BFA]/15">
+        {icon}
+      </div>
+      <div>
+        <h3 className="font-semibold text-white">{title}</h3>
+        <p className="mt-1 text-sm leading-6 text-white/50">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+function FieldError({
+  children,
+  message,
+}: {
+  children: React.ReactNode;
+  message?: string;
+}) {
+  return (
+    <div>
+      {children}
+      {message ? (
+        <p className="mt-2 flex items-center text-xs text-red-300">
+          <AlertCircle className="mr-1.5 h-3.5 w-3.5 shrink-0" />
+          {message}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function GuideItem({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="border-b border-white/10 pb-4 last:border-b-0 last:pb-0">
+      <p className="flex items-center gap-2 font-medium text-white/88">
+        <CheckCircle2 className="h-4 w-4 text-[#38BDF8]" />
+        {title}
+      </p>
+      <p className="mt-1 pl-6 text-white/55">{text}</p>
     </div>
   );
 }

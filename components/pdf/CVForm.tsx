@@ -1,13 +1,12 @@
 "use client";
 
 import type { NextPage } from "next";
-import { motion } from "framer-motion";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { track } from "@vercel/analytics";
-import { createClient } from "@/utils/supabase/client";
 import type { Session } from "@supabase/supabase-js";
-import { ShieldCheck, Palette, FileText, Eye } from "lucide-react";
+import { Eye, FileText, Palette } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { createClient } from "@/utils/supabase/client";
 import type { RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
 import CVFormStep from "../CVFormStep";
@@ -22,14 +21,12 @@ const CVForm: NextPage = () => {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     track("CV Funnel Step Viewed", { step: tab });
-    // Scroll to top when changing tabs
     window.scrollTo(0, 0);
   };
 
   const handleTemplateSelected = (templateId: string) => {
     setSelectedTemplate(templateId);
     track("CV Template Selected", { template: templateId });
-    // Auto-advance to form step after template selection
     setTimeout(() => {
       setActiveTab("form");
       track("CV Funnel Step Viewed", { step: "form" });
@@ -39,14 +36,12 @@ const CVForm: NextPage = () => {
   const handleFormCompleted = (data: RespuestaCV["cv"]) => {
     setCvData(data);
     track("CV Generated", { template: selectedTemplate });
-    // Auto-advance to preview step after form completion
     setTimeout(() => {
       setActiveTab("preview");
       track("CV Funnel Step Viewed", { step: "preview" });
     }, 500);
   };
 
-  // Obtener la sesión del usuario autenticado (usando Supabase)
   useEffect(() => {
     const getUser = async () => {
       const supabase = createClient();
@@ -58,7 +53,6 @@ const CVForm: NextPage = () => {
     getUser();
   }, []);
 
-  // Progress calculation
   const getProgress = () => {
     if (activeTab === "template") return 33;
     if (activeTab === "form") return 66;
@@ -67,162 +61,69 @@ const CVForm: NextPage = () => {
   };
 
   return (
-    <div className="mx-auto w-full overflow-x-hidden py-2 sm:py-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mx-auto w-full max-w-6xl min-w-0"
-      >
-        <div className="mb-4 rounded-2xl border border-white/10 bg-[#15151A]/70 p-3 shadow-xl shadow-black/10 sm:mb-8 sm:p-5 sm:shadow-2xl">
-          <div className="mb-2 flex items-center justify-between">
-            <span className="text-xs text-[#D4D4D8]/60 sm:text-sm">
-              Progreso en la creación del CV
-            </span>
-            <span className="text-xs font-semibold text-[#A78BFA] sm:text-sm">
-              {getProgress()}%
-            </span>
-          </div>
-          <div className="h-1.5 w-full rounded-full bg-white/10 sm:h-2">
-            <motion.div
-              className="h-1.5 rounded-full bg-gradient-to-r from-[#7C3AED] via-[#8B5CF6] to-[#38BDF8] sm:h-2"
-              initial={{ width: 0 }}
-              animate={{ width: `${getProgress()}%` }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-            />
-          </div>
-        </div>
-
-        {/* Tabs para Plantilla, Formulario y Vista Previa */}
+    <div className="mx-auto w-full overflow-x-hidden py-1 sm:py-2">
+      <div className="mx-auto w-full max-w-6xl min-w-0">
         <Tabs
           value={activeTab}
           onValueChange={handleTabChange}
-          className="min-w-0 space-y-4 sm:space-y-8"
+          className="min-w-0 space-y-5"
         >
-          <div className="flex justify-center">
-            <TabsList className="grid w-full max-w-lg grid-cols-3 rounded-2xl border border-white/10 bg-[#15151A] p-1">
-              <TabsTrigger
-                value="template"
-                className="flex items-center gap-2 rounded-xl text-xs text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
-              >
-                <Palette className="w-4 h-4" />
-                <span className="hidden sm:inline">Plantilla</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="form"
-                className="flex items-center gap-2 rounded-xl text-xs text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
-                disabled={!selectedTemplate}
-              >
-                <FileText className="w-4 h-4" />
-                <span className="hidden sm:inline">Formulario</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="preview"
-                className="flex items-center gap-2 rounded-xl text-xs text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
-                disabled={!cvData}
-              >
-                <Eye className="w-4 h-4" />
-                <span className="hidden sm:inline">Vista Previa</span>
-              </TabsTrigger>
-            </TabsList>
-          </div>
-
-          {/* Step Indicators */}
-          <div className="mb-6 hidden justify-center sm:flex">
-            <div className="flex w-full max-w-2xl items-center justify-center gap-2 overflow-hidden rounded-2xl border border-white/10 bg-[#15151A]/70 px-3 py-3 sm:gap-3 sm:px-4">
-              {/* Step 1 */}
-              <div className="flex items-center">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
-                    activeTab === "template"
-                      ? "bg-[#7C3AED] text-white"
-                      : selectedTemplate
-                      ? "bg-[#22C55E] text-white"
-                      : "bg-[#3F3F46] text-[#D4D4D8]"
-                  }`}
+          <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-[#15151A]/75 p-2 shadow-xl shadow-black/10">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+              <TabsList className="grid h-auto flex-1 grid-cols-3 rounded-xl border border-white/10 bg-[#0F0F10]/70 p-1">
+                <TabsTrigger
+                  value="template"
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
                 >
-                  {selectedTemplate ? <ShieldCheck className="w-4 h-4" /> : "1"}
-                </div>
-                <span className="ml-2 hidden text-sm text-[#D4D4D8] sm:inline">
-                  Elegir Plantilla
-                </span>
-              </div>
-
-              {/* Connector */}
-              <div
-                className={`w-7 h-0.5 ${
-                  selectedTemplate ? "bg-[#22C55E]" : "bg-[#3F3F46]"
-                } transition-colors`}
-              />
-
-              {/* Step 2 */}
-              <div className="flex items-center">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
-                    activeTab === "form"
-                      ? "bg-[#7C3AED] text-white"
-                      : cvData
-                      ? "bg-[#22C55E] text-white"
-                      : selectedTemplate
-                      ? "bg-[#3F3F46] text-[#D4D4D8]"
-                      : "bg-[#2A2A2D] text-[#71717A]"
-                  }`}
+                  <Palette className="h-4 w-4" />
+                  <span className="hidden sm:inline">Plantilla</span>
+                  <span className="sm:hidden">1</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="form"
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  disabled={!selectedTemplate}
                 >
-                  {cvData ? <ShieldCheck className="w-4 h-4" /> : "2"}
-                </div>
-                <span className="ml-2 hidden text-sm text-[#D4D4D8] sm:inline">
-                  Completar Datos
-                </span>
-              </div>
-
-              {/* Connector */}
-              <div
-                className={`w-7 h-0.5 ${
-                  cvData ? "bg-[#22C55E]" : "bg-[#3F3F46]"
-                } transition-colors`}
-              />
-
-              {/* Step 3 */}
-              <div className="flex items-center">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
-                    activeTab === "preview"
-                      ? "bg-[#7C3AED] text-white"
-                      : cvData
-                      ? "bg-[#3F3F46] text-[#D4D4D8]"
-                      : "bg-[#2A2A2D] text-[#71717A]"
-                  }`}
+                  <FileText className="h-4 w-4" />
+                  <span className="hidden sm:inline">Datos</span>
+                  <span className="sm:hidden">2</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="preview"
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  disabled={!cvData}
                 >
-                  3
+                  <Eye className="h-4 w-4" />
+                  <span className="hidden sm:inline">Vista previa</span>
+                  <span className="sm:hidden">3</span>
+                </TabsTrigger>
+              </TabsList>
+
+              <div className="flex items-center gap-3 px-1 sm:w-32">
+                <div className="h-1.5 flex-1 rounded-full bg-white/10">
+                  <div
+                    className="h-1.5 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#38BDF8]"
+                    style={{ width: `${getProgress()}%` }}
+                  />
                 </div>
-                <span className="ml-2 hidden text-sm text-[#D4D4D8] sm:inline">
-                  Vista Previa
+                <span className="w-8 text-right text-xs font-semibold text-[#A78BFA]">
+                  {getProgress()}%
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Paso 1: Selección de plantilla */}
           <TabsContent value="template" className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
+            <div>
               <TemplateSelector
                 selectedTemplate={selectedTemplate}
                 onSelectTemplate={handleTemplateSelected}
               />
-            </motion.div>
+            </div>
           </TabsContent>
 
-          {/* Paso 2: Formulario */}
           <TabsContent value="form" className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
+            <div>
               {selectedTemplate && (
                 <CVFormStep
                   setCvData={handleFormCompleted}
@@ -231,16 +132,11 @@ const CVForm: NextPage = () => {
                   userSession={userSession}
                 />
               )}
-            </motion.div>
+            </div>
           </TabsContent>
 
-          {/* Paso 3: Vista previa */}
           <TabsContent value="preview" className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
+            <div>
               {cvData && (
                 <CVPreviewStep
                   cvData={cvData}
@@ -249,10 +145,10 @@ const CVForm: NextPage = () => {
                   userSession={userSession}
                 />
               )}
-            </motion.div>
+            </div>
           </TabsContent>
         </Tabs>
-      </motion.div>
+      </div>
     </div>
   );
 };

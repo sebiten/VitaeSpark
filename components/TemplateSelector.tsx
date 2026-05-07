@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -10,32 +11,19 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  CheckIcon,
-  FileText,
-  Star,
-  Eye,
-  Sparkles,
-  Crown,
-  Zap,
-  Award,
-  Cross,
-  X,
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { CheckIcon, Crown, Eye, FileText, Star, X } from "lucide-react";
 
 const templates = [
   {
     id: "elegance",
     name: "Elegante",
-    color: "#0A2C7C", // algo asi pero mas claro
+    color: "#0A2C7C",
     image: "/elegance-good.webp",
-    description: "Sofisticado y único",
+    description: "Sofisticado y unico",
     category: "Moderno",
-    features: ["Diseño moderno", "Elegante", "Con Foto"],
+    features: ["Diseno moderno", "Elegante", "Con foto"],
     popularity: 96,
   },
-
   {
     id: "purple",
     name: "Morado",
@@ -43,7 +31,7 @@ const templates = [
     image: "/purple-hero.webp",
     description: "Creativo y moderno",
     category: "Creativo",
-    features: ["Diseño Moderno", "Colores Vibrantes", "Con Foto"],
+    features: ["Diseno moderno", "Colores vibrantes", "Con foto"],
     popularity: 95,
   },
   {
@@ -53,8 +41,7 @@ const templates = [
     image: "/blue.webp",
     description: "Corporativo y confiable",
     category: "Creativo",
-    features: ["Diseño Moderno", "Colores Vibrantes", "Con Foto"],
-
+    features: ["Diseno moderno", "Colores vibrantes", "Con foto"],
     popularity: 92,
   },
   {
@@ -62,20 +49,19 @@ const templates = [
     name: "Verde",
     color: "#15803D",
     image: "/green.webp",
-    description: "Fresco y dinámico",
+    description: "Fresco y dinamico",
     category: "Creativo",
-    features: ["Diseño Moderno", "Colores Vibrantes", "Con Foto"],
-
+    features: ["Diseno moderno", "Colores vibrantes", "Con foto"],
     popularity: 78,
   },
   {
     id: "harvard",
     name: "Harvard",
-    color: "#fff",
+    color: "#F4F4F5",
     image: "/harvard.webp",
-    description: "Clásico y profesional",
+    description: "Clasico y profesional",
     category: "Tradicional",
-    features: ["Diseño Clásico", "Muy Legible", "Destacado"],
+    features: ["Diseno clasico", "Muy legible", "Destacado"],
     popularity: 95,
   },
 ];
@@ -90,17 +76,10 @@ export default function TemplateSelector({
   onSelectTemplate,
 }: Props) {
   const [openDialogId, setOpenDialogId] = useState<string | null>(null);
-  const [hoveredTemplate, setHoveredTemplate] = useState<string | null>(null);
 
   return (
     <div className="space-y-5 sm:space-y-8">
-      {/* Header Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="space-y-3 text-center sm:space-y-6"
-      >
+      <div className="space-y-3 text-center sm:space-y-6">
         <div className="relative inline-block">
           <div className="relative mx-auto flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] shadow-xl shadow-[#7C3AED]/20 sm:h-24 sm:w-24 sm:rounded-3xl sm:shadow-2xl">
             <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
@@ -116,149 +95,101 @@ export default function TemplateSelector({
             Elige tu plantilla perfecta
           </h2>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#A1A1AA] sm:text-lg">
-            Selecciona el diseño que mejor represente tu estilo profesional y
+            Selecciona el diseno que mejor represente tu estilo profesional y
             destaque tus fortalezas
           </p>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Template Grid */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3"
-      >
-        {templates.map((tpl, index) => (
-          <motion.div
-            key={tpl.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="relative group"
-            onMouseEnter={() => setHoveredTemplate(tpl.id)}
-            onMouseLeave={() => setHoveredTemplate(null)}
-          >
-            <div
-              className={`relative cursor-pointer overflow-hidden rounded-2xl border-2 transition-all duration-500 hover:scale-[1.02] ${
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+        {templates.map((tpl) => (
+          <div key={tpl.id} className="relative group">
+            <button
+              type="button"
+              className={`relative w-full cursor-pointer overflow-hidden rounded-2xl border-2 text-left transition-all duration-300 hover:-translate-y-0.5 ${
                 selectedTemplate === tpl.id
-                  ? "border-[#7C3AED] shadow-2xl shadow-[#7C3AED]/25 bg-gradient-to-br from-[#7C3AED]/5 to-[#06B6D4]/5"
-                  : "border-[#3A3A3D] hover:border-[#7C3AED]/50 bg-gradient-to-br from-[#1C1C1E] to-[#2A2A2D]"
+                  ? "border-[#7C3AED] bg-gradient-to-br from-[#7C3AED]/5 to-[#06B6D4]/5 shadow-2xl shadow-[#7C3AED]/25"
+                  : "border-[#3A3A3D] bg-gradient-to-br from-[#1C1C1E] to-[#2A2A2D] hover:border-[#7C3AED]/50"
               }`}
               onClick={() => onSelectTemplate(tpl.id)}
             >
-              {/* Background Effects */}
               <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20" />
-              <AnimatePresence>
-                {hoveredTemplate === tpl.id && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 via-transparent to-[#06B6D4]/10"
-                  />
-                )}
-              </AnimatePresence>
+              <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 via-transparent to-[#06B6D4]/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-              {/* CV Preview Image */}
               <div className="relative h-44 overflow-hidden rounded-t-xl sm:h-48">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
-                <img
+                <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/50 to-transparent" />
+                <Image
                   src={tpl.image}
                   alt={`Vista previa ${tpl.name}`}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 />
 
-                {/* Overlay Info */}
-                <div className="absolute top-3 left-3 z-20">
-                  <Badge className="bg-black/50 backdrop-blur-sm text-white border-white/20">
+                <div className="absolute left-3 top-3 z-20">
+                  <Badge className="border-white/20 bg-black/50 text-white backdrop-blur-sm">
                     {tpl.category}
                   </Badge>
                 </div>
 
-                <div className="absolute top-3 right-3 z-20">
-                  <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm rounded-full px-2 py-1">
-                    <Star className="w-3 h-3 text-yellow-400" />
-                    <span className="text-white text-xs font-medium">
+                <div className="absolute right-3 top-3 z-20">
+                  <div className="flex items-center gap-1 rounded-full bg-black/50 px-2 py-1 backdrop-blur-sm">
+                    <Star className="h-3 w-3 text-yellow-400" />
+                    <span className="text-xs font-medium text-white">
                       {tpl.popularity}%
                     </span>
                   </div>
                 </div>
-
-                {/* {tpl.recommended && (
-                  <div className="absolute top-3 left-1/2 transform -translate-x-1/2 z-20">
-                    <Badge className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white border-0 shadow-lg">
-                      <Crown className="w-3 h-3 mr-1" />
-                      Recomendado
-                    </Badge>
-                  </div>
-                )} */}
               </div>
 
-              {/* Content */}
               <div className="relative space-y-3 p-4 sm:space-y-4 sm:p-6">
-                {/* Header */}
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-4 h-4 rounded-full shadow-lg"
+                      className="h-4 w-4 rounded-full shadow-lg"
                       style={{
                         backgroundColor: tpl.color,
                         boxShadow: `0 4px 15px ${tpl.color}40`,
                       }}
                     />
                     <div>
-                      <h4 className="font-bold text-[#F4F4F5] text-lg">
+                      <h4 className="text-lg font-bold text-[#F4F4F5]">
                         {tpl.name}
                       </h4>
-                      <p className="text-[#A1A1AA] text-sm">
+                      <p className="text-sm text-[#A1A1AA]">
                         {tpl.description}
                       </p>
                     </div>
                   </div>
 
                   {selectedTemplate === tpl.id && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="w-8 h-8 bg-[#7C3AED] rounded-full flex items-center justify-center shadow-lg"
-                    >
-                      <CheckIcon className="w-4 h-4 text-white" />
-                    </motion.div>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#7C3AED] shadow-lg">
+                      <CheckIcon className="h-4 w-4 text-white" />
+                    </div>
                   )}
                 </div>
 
-                {/* Features */}
-                <div className="flex gap-1  flex-wrap">
-                  {tpl.features.map((feature, idx) => (
+                <div className="flex flex-wrap gap-1">
+                  {tpl.features.map((feature) => (
                     <span
-                      key={idx}
-                      className="px-1 py-1 bg-[#3A3A3D]/50 text-[#D4D4D8] text-xs rounded-md border border-[#4A4A4D]/30"
+                      key={feature}
+                      className="rounded-md border border-[#4A4A4D]/30 bg-[#3A3A3D]/50 px-2 py-1 text-xs text-[#D4D4D8]"
                     >
                       {feature}
                     </span>
                   ))}
                 </div>
-
-                {/* Preview Button */}
               </div>
 
-              {/* Hover Glow Effect */}
-              <AnimatePresence>
-                {hoveredTemplate === tpl.id && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    className="absolute inset-0 rounded-2xl"
-                    style={{
-                      background: `linear-gradient(135deg, ${tpl.color}10, transparent)`,
-                      boxShadow: `0 0 30px ${tpl.color}20`,
-                    }}
-                  />
-                )}
-              </AnimatePresence>
-            </div>
+              <div
+                className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                style={{
+                  background: `linear-gradient(135deg, ${tpl.color}10, transparent)`,
+                  boxShadow: `0 0 30px ${tpl.color}20`,
+                }}
+              />
+            </button>
+
             <Dialog
               open={openDialogId === tpl.id}
               onOpenChange={(open) => setOpenDialogId(open ? tpl.id : null)}
@@ -266,27 +197,32 @@ export default function TemplateSelector({
               <DialogTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="w-full   text-[#D4D4D8]   transition-all duration-300"
+                  className="w-full text-[#D4D4D8] transition-all duration-300"
                   onClick={(e) => {
                     e.stopPropagation();
                     setOpenDialogId(tpl.id);
                   }}
                 >
-                  <Eye className="w-4 h-4 mr-2" />
+                  <Eye className="mr-2 h-4 w-4" />
                   Vista previa completa
                 </Button>
               </DialogTrigger>
 
-              <DialogContent className="max-w-5xl p-2 overflow-hidden bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5]">
+              <DialogContent className="max-w-5xl overflow-hidden border border-[#2A2A2D] bg-[#0F0F10] p-2 text-[#F4F4F5]">
                 <DialogHeader>
-                  <DialogTitle className="text-lg font-bold flex items-center"></DialogTitle>
+                  <DialogTitle className="text-lg font-bold">
+                    {tpl.name}
+                  </DialogTitle>
                 </DialogHeader>
                 <div className="relative p-2">
-                  <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white">
-                    <img
+                  <div className="relative overflow-hidden rounded-2xl bg-white shadow-2xl">
+                    <Image
                       src={tpl.image}
                       alt={`Vista previa completa ${tpl.name}`}
-                      className="w-full"
+                      width={980}
+                      height={1280}
+                      sizes="(min-width: 1024px) 980px, 92vw"
+                      className="h-auto w-full"
                     />
                   </div>
                   <div className="flex flex-col items-center justify-center">
@@ -295,26 +231,26 @@ export default function TemplateSelector({
                         onSelectTemplate(tpl.id);
                         setOpenDialogId(null);
                       }}
-                      className="flex-1 mt-4 gap-2 w-full  text-white bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] transition-all duration-300 shadow-lg shadow-[#7C3AED]/25 h-12"
+                      className="mt-4 h-12 w-full flex-1 gap-2 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 hover:from-[#6D28D9] hover:to-[#5B21B6]"
                     >
-                      <CheckIcon className="w-5 h-5 mr-2" />
+                      <CheckIcon className="mr-2 h-5 w-5" />
                       Seleccionar esta plantilla
                     </Button>
                     <Button
                       variant="default"
                       onClick={() => setOpenDialogId(null)}
-                      className="flex-1 w-full mt-4 gap-2  text-white bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] hover:from-[#6D28D9] hover:to-[#5B21B6] transition-all duration-300 shadow-lg shadow-[#7C3AED]/25 h-12"
+                      className="mt-4 h-12 w-full flex-1 gap-2 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 hover:from-[#6D28D9] hover:to-[#5B21B6]"
                     >
-                      <X />
+                      <X className="h-4 w-4" />
                       Cerrar
                     </Button>
                   </div>
                 </div>
               </DialogContent>
             </Dialog>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -226,3 +226,68 @@ iframe {
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-grid-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 84px 84px;
+  }
+}
+
+@keyframes hero-ambient-pulse {
+  0%,
+  100% {
+    opacity: 0.88;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+.hero-fade-up {
+  animation: hero-fade-up 0.7s ease-out both;
+}
+
+.hero-fade-up-2 {
+  animation-delay: 0.08s;
+}
+
+.hero-fade-up-3 {
+  animation-delay: 0.16s;
+}
+
+.hero-fade-up-4 {
+  animation-delay: 0.24s;
+}
+
+.hero-grid {
+  animation: hero-grid-drift 24s linear infinite;
+}
+
+.hero-ambient {
+  animation: hero-ambient-pulse 12s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade-up,
+  .hero-grid,
+  .hero-ambient {
+    animation: none;
+  }
+}

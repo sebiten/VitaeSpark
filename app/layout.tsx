@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Toaster } from "sonner";
 import { getBaseUrl } from "@/lib/seo";
+
 import "./globals.css";
 
 const geistSans = Geist({

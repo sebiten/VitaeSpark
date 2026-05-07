@@ -2,10 +2,9 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import type React from "react";
+import dynamic from "next/dynamic";
 import { track } from "@vercel/analytics";
 import { Button } from "@/components/ui/button";
-import { PDFViewer } from "@react-pdf/renderer";
-import { DocumentoCVW } from "./pdf/CVDocument";
 import type { RespuestaCV } from "@/lib/types/cv";
 import type { Session } from "@supabase/supabase-js";
 import {
@@ -28,6 +27,15 @@ import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "./ui/card";
 import Link from "next/link";
 import { toast } from "sonner";
+
+const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full w-full items-center justify-center bg-white text-sm text-slate-500">
+      Preparando vista previa...
+    </div>
+  ),
+});
 
 // Array de testimonios
 export const testimonials = [
@@ -162,9 +170,12 @@ export default function CVPreviewStepPurple({
 
   const renderTemplate = useMemo(() => {
     return (
-      <PDFViewer showToolbar={false} className="h-full w-full border-0">
-        <DocumentoCVW cv={cvData} template={template} />
-      </PDFViewer>
+      <PDFViewerPane
+        cv={cvData}
+        template={template}
+        watermark
+        className="h-full w-full border-0"
+      />
     );
   }, [cvData, template]);
 
