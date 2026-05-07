@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  Bot,
   CheckCircle2,
   FileText,
   ScanSearch,
@@ -42,11 +43,15 @@ export default function WelcomeHero() {
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
         <div className="hero-ambient absolute inset-0 bg-[linear-gradient(120deg,rgba(124,58,237,0.18)_0%,rgba(15,15,16,0.9)_38%,rgba(15,15,16,1)_64%,rgba(56,189,248,0.14)_100%)]" />
         <div className="hero-grid absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:84px_84px] opacity-[0.11]" />
+        <div className="hero-robot absolute right-5 top-[430px] flex h-28 w-28 items-center justify-center rounded-full border border-[#38BDF8]/15 bg-[#38BDF8]/[0.045] text-[#38BDF8]/45 blur-0 sm:right-[46%] sm:top-[260px] sm:h-40 sm:w-40 sm:text-[#38BDF8]/28 lg:right-[52%] lg:top-[300px] lg:h-48 lg:w-48 xl:right-[55%] xl:top-[330px]">
+          <div className="absolute inset-3 rounded-full border border-[#7C3AED]/15" />
+          <Bot className="h-14 w-14 sm:h-20 sm:w-20 lg:h-24 lg:w-24" strokeWidth={1.5} />
+        </div>
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0F0F10] to-transparent" />
       </div>
 
       <div className="mx-auto grid max-w-7xl min-w-0 items-center gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(500px,1.08fr)] lg:gap-12">
-        <div className="min-w-0 max-w-[358px] sm:max-w-3xl">
+        <div className="mx-auto min-w-0 max-w-[358px] text-left sm:mx-0 sm:max-w-3xl">
           <div className="hero-fade-up mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-sm text-[#F4F4F5]/76 shadow-2xl shadow-black/20 backdrop-blur">
             <Sparkles className="h-4 w-4 shrink-0 text-[#38BDF8]" />
             <span className="truncate">CV con IA para postulaciones reales</span>
@@ -54,13 +59,13 @@ export default function WelcomeHero() {
 
           <AnimatedHeroTitle />
 
-          <p className="hero-fade-up hero-fade-up-3 mt-5 max-w-2xl text-pretty text-base leading-7 text-[#F4F4F5]/74 sm:mt-6 sm:text-lg md:text-xl md:leading-8">
+          <p className="hero-fade-up hero-fade-up-3 mx-auto mt-5 max-w-2xl text-pretty text-base leading-7 text-[#F4F4F5]/74 sm:mx-0 sm:mt-6 sm:text-lg md:text-xl md:leading-8">
             VitaeSpark transforma tus datos en un curriculum claro, profesional
             y listo para descargar. Ideal para presentar tu experiencia sin
             sonar generico ni perder horas editando.
           </p>
 
-          <div className="hero-fade-up hero-fade-up-4 mt-6 flex max-w-[358px] flex-col items-stretch gap-3 sm:mt-8 sm:max-w-none sm:flex-row sm:items-center">
+          <div className="hero-fade-up hero-fade-up-4 mx-auto mt-6 flex max-w-[358px] flex-col items-stretch gap-3 sm:mx-0 sm:mt-8 sm:max-w-none sm:flex-row sm:items-center">
             <Link href="/crear" className="w-full sm:w-auto">
               <Button
                 size="lg"
@@ -88,6 +93,29 @@ export default function WelcomeHero() {
                 {item}
               </span>
             ))}
+          </div>
+
+          <div className="hero-fade-up hero-fade-up-4 mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-3 shadow-xl shadow-black/10 backdrop-blur sm:hidden">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#7C3AED]/15 ring-1 ring-[#7C3AED]/25">
+                <Sparkles className="h-5 w-5 text-[#38BDF8]" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-white">
+                  VitaeSpark ordena tu historia
+                </p>
+                <p className="mt-0.5 text-xs leading-5 text-white/58">
+                  Texto claro, estructura ATS y PDF listo para postular.
+                </p>
+              </div>
+            </div>
+            <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[10px] font-semibold uppercase tracking-[0.08em] text-white/55">
+              <span className="rounded-xl bg-black/20 px-2 py-2">IA</span>
+              <span className="rounded-xl bg-black/20 px-2 py-2 text-[#38BDF8]">
+                ATS
+              </span>
+              <span className="rounded-xl bg-black/20 px-2 py-2">PDF</span>
+            </div>
           </div>
 
           <div className="mt-7 hidden max-w-[358px] grid-cols-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] text-center shadow-xl shadow-black/15 backdrop-blur sm:max-w-full lg:hidden">

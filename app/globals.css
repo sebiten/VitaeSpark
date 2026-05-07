@@ -322,6 +322,22 @@ iframe {
   }
 }
 
+@keyframes hero-robot-drift {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: translate3d(0, 0, 0) rotate(-7deg);
+  }
+  45% {
+    opacity: 0.7;
+    transform: translate3d(-14px, 10px, 0) rotate(5deg);
+  }
+  70% {
+    opacity: 0.52;
+    transform: translate3d(8px, 18px, 0) rotate(1deg);
+  }
+}
+
 .hero-fade-up {
   animation: hero-fade-up 0.7s ease-out both;
 }
@@ -386,6 +402,11 @@ iframe {
 
 .hero-scan-line {
   animation: hero-scan-line 5.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.hero-robot {
+  animation: hero-robot-drift 9s ease-in-out infinite;
   will-change: transform, opacity;
 }
 

@@ -24,8 +24,8 @@ const floatingCards = [
 
 export default function HeroShowcase() {
   return (
-    <div className="hero-showcase relative mx-auto mt-1 w-full min-w-0 max-w-[358px] select-none px-0 sm:mt-2 sm:max-w-xl sm:px-8 lg:mx-0 lg:mt-0 lg:max-w-none lg:px-0">
-      <div className="hero-showcase-piece hero-showcase-side-left absolute -left-3 top-10 z-0 w-[88px] overflow-hidden rounded-2xl border border-black/60 bg-[#0F0F10] shadow-2xl shadow-black/35 sm:left-0 sm:w-[120px] md:w-[140px] lg:-left-12 lg:w-[155px]">
+    <div className="hero-showcase relative mx-auto mt-5 w-full min-w-0 max-w-[340px] select-none px-0 sm:mt-2 sm:max-w-xl sm:px-8 lg:mx-0 lg:mt-0 lg:max-w-none lg:px-0">
+      <div className="hero-showcase-piece hero-showcase-side-left absolute -left-2 top-12 z-0 hidden w-[82px] overflow-hidden rounded-2xl border border-black/60 bg-[#0F0F10] shadow-2xl shadow-black/35 min-[390px]:block sm:left-0 sm:w-[120px] md:w-[140px] lg:-left-12 lg:w-[155px]">
         <Image
           src="/blue.webp"
           alt="Plantilla azul de curriculum"
@@ -38,7 +38,7 @@ export default function HeroShowcase() {
         <div className="pointer-events-none absolute inset-0 ring-1 ring-black/55" />
       </div>
 
-      <div className="hero-showcase-piece hero-showcase-side-right absolute -right-3 bottom-24 z-0 w-[108px] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-black/35 sm:right-0 sm:w-[164px] md:w-[205px] lg:-right-5 lg:bottom-12 lg:w-[220px]">
+      <div className="hero-showcase-piece hero-showcase-side-right absolute -right-2 bottom-12 z-0 hidden w-[96px] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-black/35 min-[390px]:block sm:right-0 sm:w-[164px] md:w-[205px] lg:-right-5 lg:bottom-12 lg:w-[220px]">
         <Image
           src="/green.webp"
           alt="Plantilla verde de curriculum"
@@ -49,13 +49,13 @@ export default function HeroShowcase() {
         />
       </div>
 
-      <div className="hero-showcase-card relative z-10 mx-auto w-full max-w-[560px] rounded-[1.35rem] border border-white/12 bg-[#17171C]/88 p-2.5 shadow-2xl shadow-black/45 backdrop-blur sm:rounded-[1.7rem] sm:p-3">
-        <div className="mb-2.5 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-3 py-3 sm:mb-3 sm:px-4">
+      <div className="hero-showcase-card relative z-10 mx-auto w-full max-w-[560px] overflow-hidden rounded-[1.35rem] border border-white/12 bg-[#17171C]/88 p-2 shadow-2xl shadow-black/45 backdrop-blur sm:overflow-visible sm:rounded-[1.7rem] sm:p-3">
+        <div className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5 sm:mb-3 sm:px-4 sm:py-3">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-[#38BDF8]">
               Vista previa
             </p>
-            <p className="mt-1 text-xs font-semibold text-white sm:text-sm">
+            <p className="mt-1 text-[11px] font-semibold text-white sm:text-sm">
               Curriculum generado por VitaeSpark
             </p>
           </div>
@@ -64,7 +64,7 @@ export default function HeroShowcase() {
           </span>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl bg-white">
+        <div className="relative max-h-[330px] overflow-hidden rounded-2xl bg-white sm:max-h-none">
           <div className="hero-scan-line pointer-events-none absolute inset-x-0 top-0 z-20 h-16 bg-gradient-to-b from-[#38BDF8]/16 to-transparent" />
           <Image
             src="/purple-hero.webp"
@@ -77,16 +77,16 @@ export default function HeroShowcase() {
             className="aspect-[0.82] w-full object-cover object-top"
           />
 
-          <div className="hero-showcase-note absolute bottom-4 left-4 right-4 rounded-2xl border border-white/20 bg-[#111113]/88 p-4 text-white shadow-xl backdrop-blur-md">
+          <div className="hero-showcase-note absolute bottom-3 left-3 right-3 rounded-2xl border border-white/20 bg-[#111113]/88 p-3 text-white shadow-xl backdrop-blur-md sm:bottom-4 sm:left-4 sm:right-4 sm:p-4">
             <div className="flex items-start gap-3">
-              <div className="rounded-xl bg-[#7C3AED] p-2">
+              <div className="rounded-xl bg-[#7C3AED] p-2 max-[389px]:hidden">
                 <PenLine className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-sm font-semibold sm:text-base">
+                <p className="text-xs font-semibold sm:text-base">
                   Perfil y logros mejor redactados
                 </p>
-                <p className="mt-1 text-xs leading-5 text-white/70 sm:text-sm">
+                <p className="mt-1 line-clamp-2 text-[11px] leading-4 text-white/70 sm:text-sm sm:leading-5">
                   El resultado mantiene tu informacion, pero la presenta con
                   orden y criterio profesional.
                 </p>
@@ -120,7 +120,7 @@ export default function HeroShowcase() {
         ))}
       </div>
 
-      <div className="relative z-20 -mt-4 mx-auto flex max-w-[92%] items-center justify-between rounded-2xl border border-[#7C3AED]/25 bg-[#111113]/90 px-4 py-3 text-xs text-white shadow-2xl shadow-black/40 backdrop-blur sm:hidden">
+      <div className="relative z-20 -mt-2 mx-auto flex max-w-[92%] items-center justify-between rounded-2xl border border-[#7C3AED]/25 bg-[#111113]/90 px-4 py-2.5 text-xs text-white shadow-2xl shadow-black/40 backdrop-blur sm:hidden">
         <span className="inline-flex items-center gap-2">
           <BadgeCheck className="h-4 w-4 text-[#A78BFA]" />
           Texto mejorado
