@@ -68,7 +68,7 @@ const CVForm: NextPage = () => {
           onValueChange={handleTabChange}
           className="min-w-0 space-y-5"
         >
-          <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-[#15151A]/75 p-2 shadow-xl shadow-black/10">
+          <div className="mx-4 rounded-2xl border border-white/10 bg-[#15151A]/75 p-2 shadow-xl shadow-black/10 sm:mx-auto sm:max-w-3xl">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               <TabsList className="grid h-auto flex-1 grid-cols-3 rounded-xl border border-white/10 bg-[#0F0F10]/70 p-1">
                 <TabsTrigger

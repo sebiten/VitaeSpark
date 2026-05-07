@@ -19,6 +19,11 @@ import {
   ArrowLeft,
   MessageSquare,
   Send,
+  LockKeyhole,
+  Maximize2,
+  Minus,
+  Plus,
+  X,
 } from "lucide-react";
 import {
   Carousel,
@@ -29,6 +34,13 @@ import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "./ui/card";
 import Link from "next/link";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ssr: false,
@@ -174,6 +186,8 @@ export default function CVPreviewStepPurple({
   const [loading, setLoading] = useState(false);
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false);
+  const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
+  const [mobilePreviewZoom, setMobilePreviewZoom] = useState(1);
 
   // Función para manejar el pago
   const handlePay = async () => {
@@ -264,6 +278,20 @@ export default function CVPreviewStepPurple({
     setFeedbackSent(true);
   };
 
+  const scrollToCheckout = () => {
+    document
+      .getElementById("checkout-panel")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const decreaseZoom = () => {
+    setMobilePreviewZoom((value) => Math.max(0.8, Number((value - 0.1).toFixed(1))));
+  };
+
+  const increaseZoom = () => {
+    setMobilePreviewZoom((value) => Math.min(1.6, Number((value + 0.1).toFixed(1))));
+  };
+
   const precioOriginal = 2500;
   const precioOferta = 1500;
   const ahorro = precioOriginal - precioOferta;
@@ -283,9 +311,18 @@ export default function CVPreviewStepPurple({
 
       <div className="grid min-w-0 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
       {/* CV Preview */}
-      <div className="relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-black/30">
+      <div className="relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-[#2A2A2D] shadow-2xl shadow-black/30 sm:bg-white">
+        <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#15151A] px-4 py-3 text-white sm:hidden">
+          <div className="min-w-0">
+            <p className="text-sm font-semibold">Vista previa protegida</p>
+            <p className="mt-0.5 text-xs text-white/55">
+              Desbloquea para descargar sin marca de agua.
+            </p>
+          </div>
+          <LockKeyhole className="h-5 w-5 flex-shrink-0 text-[#38BDF8]" />
+        </div>
         <div
-          className="relative mx-auto h-[72vh] min-h-[430px] w-full max-w-full overflow-hidden sm:aspect-[1/1.414] sm:h-auto sm:min-h-0"
+          className="pointer-events-none relative mx-auto h-[48vh] min-h-[300px] w-full max-w-full overflow-hidden sm:pointer-events-auto sm:aspect-[1/1.414] sm:h-auto sm:min-h-0"
           style={{
             display: "flex",
             alignItems: "center",
@@ -294,49 +331,141 @@ export default function CVPreviewStepPurple({
         >
           {renderTemplate}
         </div>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent py-4 px-4 text-center">
-          <p className="text-white text-sm font-medium">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/55 to-transparent px-4 pb-4 pt-12 text-center">
+          <p className="hidden text-sm font-medium text-white sm:block">
             Desliza con el dedo para ver todo el CV
           </p>
-          <p className="text-white/80 text-xs mt-1">
+          <p className="hidden text-xs text-white/80 sm:mt-1 sm:block">
             Vista protegida con marca de agua
           </p>
+          <div className="grid grid-cols-[0.9fr_1.1fr] gap-2 sm:hidden">
+            <button
+              type="button"
+              onClick={() => setMobilePreviewOpen(true)}
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-[#111113] px-3 text-sm font-bold text-white shadow-lg shadow-black/25 transition hover:bg-[#1C1C22]"
+            >
+              <Maximize2 className="h-4 w-4" />
+              Ver CV
+            </button>
+            <button
+              type="button"
+              onClick={scrollToCheckout}
+              className="inline-flex h-12 items-center justify-center rounded-xl bg-[#7C3AED] px-3 text-sm font-bold text-white shadow-lg shadow-[#7C3AED]/25 transition hover:bg-[#6D28D9]"
+            >
+              Desbloquear CV
+            </button>
+          </div>
         </div>
       </div>
 
+      <Dialog open={mobilePreviewOpen} onOpenChange={setMobilePreviewOpen}>
+        <DialogContent className="fixed inset-0 left-0 top-0 z-50 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 bg-[#0F0F10] p-0 text-white shadow-none sm:hidden [&>button]:hidden">
+          <DialogTitle className="sr-only">Vista detallada del CV</DialogTitle>
+          <DialogDescription className="sr-only">
+            Vista previa ampliada del curriculum con controles de zoom.
+          </DialogDescription>
+
+          <div className="sticky top-0 z-20 border-b border-white/10 bg-[#111113]/95 px-4 py-3 backdrop-blur">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold">Vista detallada del CV</p>
+                <p className="mt-0.5 text-xs text-white/55">
+                  Pellizca la pantalla o usa el zoom.
+                </p>
+              </div>
+              <DialogClose asChild>
+                <button className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#7C3AED] px-4 text-sm font-semibold text-white">
+                  <X className="h-4 w-4" />
+                  Cerrar
+                </button>
+              </DialogClose>
+            </div>
+
+            <div className="grid grid-cols-[44px_1fr_44px] items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-2">
+              <button
+                type="button"
+                onClick={decreaseZoom}
+                className="flex h-10 items-center justify-center rounded-xl bg-white/5 text-white disabled:opacity-40"
+                disabled={mobilePreviewZoom <= 0.8}
+              >
+                <Minus className="h-4 w-4" />
+              </button>
+              <div className="text-center text-xs font-semibold text-white/70">
+                Zoom {Math.round(mobilePreviewZoom * 100)}%
+              </div>
+              <button
+                type="button"
+                onClick={increaseZoom}
+                className="flex h-10 items-center justify-center rounded-xl bg-white/5 text-white disabled:opacity-40"
+                disabled={mobilePreviewZoom >= 1.6}
+              >
+                <Plus className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="h-[calc(100dvh-152px)] overflow-auto bg-[#2A2A2D] px-3 py-4">
+            <div
+              className="mx-auto h-[82vh] min-h-[620px] origin-top overflow-hidden rounded-xl bg-white shadow-2xl shadow-black/40"
+              style={{
+                width: `${Math.round(92 * mobilePreviewZoom)}vw`,
+                transform: `scale(${mobilePreviewZoom})`,
+                transformOrigin: "top center",
+                marginBottom: `${Math.round((mobilePreviewZoom - 1) * 620)}px`,
+              }}
+            >
+              {renderTemplate}
+            </div>
+          </div>
+
+          <div className="sticky bottom-0 z-20 border-t border-white/10 bg-[#111113]/95 px-4 py-3 backdrop-blur">
+            <DialogClose asChild>
+              <button className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#7C3AED] text-sm font-semibold text-white shadow-lg shadow-[#7C3AED]/20">
+                <X className="h-4 w-4" />
+                Cerrar vista del CV
+              </button>
+            </DialogClose>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Pricing Card */}
-      <Card className="min-w-0 border-white/10 bg-[#15151A] text-white shadow-2xl shadow-black/30">
-        <CardContent className="p-6 space-y-4">
-          <Button
+      <Card
+        id="checkout-panel"
+        className="scroll-mt-24 min-w-0 border-white/10 bg-[#15151A] text-white shadow-2xl shadow-black/30"
+      >
+        <CardContent className="space-y-3 p-4 sm:space-y-4 sm:p-6">
+          <button
             type="button"
             onClick={onBack}
-            variant="outline"
-            className="w-full rounded-xl border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white/62 transition hover:text-white"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className="h-4 w-4" />
             Volver y editar datos
-          </Button>
+          </button>
 
-          <div className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.025]">
-            <div className="border-b border-white/10 p-5 text-center">
-              <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-[#7C3AED]/18 text-[#C4B5FD] ring-1 ring-[#7C3AED]/25">
-                <CheckCircle className="h-5 w-5" />
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.025] sm:rounded-3xl">
+            <div className="border-b border-white/10 p-4 text-left sm:p-5">
+              <div className="flex items-center gap-3 sm:justify-center">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-[#7C3AED]/18 text-[#C4B5FD] ring-1 ring-[#7C3AED]/25 sm:h-11 sm:w-11">
+                  <CheckCircle className="h-5 w-5" />
+                </div>
+                <h3 className="text-xl font-bold text-white sm:text-2xl">
+                  Tu CV final esta listo
+                </h3>
               </div>
-              <h3 className="text-2xl font-bold text-white">
-                Tu CV final esta listo
-              </h3>
-              <p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-white/68">
+              <p className="mt-3 max-w-xs text-xs leading-5 text-white/68 sm:mx-auto sm:mt-4 sm:text-center sm:text-sm sm:leading-6">
                 Desbloquea la version profesional sin marca de agua y descargala
                 en PDF cuando quieras.
               </p>
             </div>
 
-            <div className="p-5 text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#38BDF8]">
+            <div className="flex items-center justify-between gap-4 p-4 sm:block sm:p-5 sm:text-center">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#38BDF8] sm:text-xs">
                 Pago unico
               </p>
-              <div className="mt-2 flex items-end justify-center gap-2">
-                <span className="text-5xl font-black leading-none text-white">
+              <div className="flex items-end justify-center gap-2 sm:mt-2">
+                <span className="text-4xl font-black leading-none text-white sm:text-5xl">
                   $2.500
                 </span>
                 <span className="pb-1 text-sm font-semibold text-white/52">
@@ -346,33 +475,33 @@ export default function CVPreviewStepPurple({
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-2 rounded-2xl border border-green-500/20 bg-green-500/10 px-4 py-3">
+          <div className="flex items-center justify-center gap-2 rounded-2xl border border-green-500/20 bg-green-500/10 px-4 py-2.5 sm:py-3">
             <ShieldCheck className="h-5 w-5 text-green-400" />
-            <span className="font-semibold text-green-400">
+            <span className="text-sm font-semibold text-green-400 sm:text-base">
               Pago seguro con Mercado Pago
             </span>
           </div>
 
-          <div className="space-y-2.5">
-            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3.5">
+          <div className="space-y-2 sm:space-y-2.5">
+            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3 sm:p-3.5">
               <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#A78BFA]" />
               <div>
                 <p className="text-sm font-semibold text-white">
                   CV limpio, sin marca de agua
                 </p>
-                <p className="mt-1 text-xs leading-5 text-white/58">
+                <p className="mt-1 hidden text-xs leading-5 text-white/58 sm:block">
                   Listo para enviar a empresas, portales de empleo y reclutadores.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3.5">
+            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3 sm:p-3.5">
               <Download className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
               <div>
                 <p className="text-sm font-semibold text-white">
-                  Descargas ilimitadas
+                  Descargas ilimitadas en tu perfil
                 </p>
-                <p className="mt-1 text-xs leading-5 text-white/58">
+                <p className="mt-1 hidden text-xs leading-5 text-white/58 sm:block">
                   Queda guardado en tu{" "}
                   <Link href="/perfil" className="text-[#38BDF8] hover:underline">
                     perfil
@@ -382,13 +511,13 @@ export default function CVPreviewStepPurple({
               </div>
             </div>
 
-            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3.5">
+            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3 sm:p-3.5">
               <CreditCard className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
               <div>
                 <p className="text-sm font-semibold text-white">
                   Tarjeta, debito y mas opciones
                 </p>
-                <p className="mt-1 text-xs leading-5 text-white/58">
+                <p className="mt-1 hidden text-xs leading-5 text-white/58 sm:block">
                   El checkout se abre en Mercado Pago con los medios disponibles.
                 </p>
               </div>
@@ -472,7 +601,7 @@ export default function CVPreviewStepPurple({
             <Button
               disabled={loading}
               onClick={handlePay}
-              className="w-full h-14 rounded-2xl bg-gradient-to-r from-[#009ee3] to-[#00c6ff] hover:brightness-110 text-white font-semibold text-base shadow-xl shadow-[#009ee3]/25 transition-all duration-200 hover:scale-[1.01] active:scale-[0.98]"
+              className="h-12 w-full rounded-2xl bg-gradient-to-r from-[#009ee3] to-[#00c6ff] text-sm font-semibold text-white shadow-xl shadow-[#009ee3]/25 transition-all duration-200 hover:scale-[1.01] hover:brightness-110 active:scale-[0.98] sm:h-14 sm:text-base"
             >
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
@@ -484,10 +613,10 @@ export default function CVPreviewStepPurple({
                   <div className="flex items-center justify-center gap-1  ">
                     <img
                       src="/logompsolomano.png"
-                      className="h-7 w-7"
+                      className="h-6 w-6 sm:h-7 sm:w-7"
                       alt="MercadoPago"
                     />
-                    <span className="text-base font-semibold">
+                    <span className="text-sm font-semibold sm:text-base">
                       Desbloquear mi CV por $2.500 ARS
                     </span>
                   </div>
@@ -495,7 +624,7 @@ export default function CVPreviewStepPurple({
               )}
             </Button>
 
-            <form
+            {/* <form
               onSubmit={handleFeedbackSubmit}
               className="rounded-2xl border border-white/10 bg-white/[0.035] p-4"
             >
@@ -537,7 +666,7 @@ export default function CVPreviewStepPurple({
                   Enviar
                 </button>
               </div>
-            </form>
+            </form> */}
 
             {/* <PDFDownloadLink
               document={<DocumentoCVW cv={cvData} template={template} />}
