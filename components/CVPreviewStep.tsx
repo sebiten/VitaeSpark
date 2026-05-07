@@ -17,6 +17,8 @@ import {
   CheckCircle,
   Globe2,
   ArrowLeft,
+  MessageSquare,
+  Send,
 } from "lucide-react";
 import {
   Carousel,
@@ -170,6 +172,8 @@ export default function CVPreviewStepPurple({
   userSession,
 }: Props) {
   const [loading, setLoading] = useState(false);
+  const [feedbackText, setFeedbackText] = useState("");
+  const [feedbackSent, setFeedbackSent] = useState(false);
 
   // Función para manejar el pago
   const handlePay = async () => {
@@ -241,6 +245,24 @@ export default function CVPreviewStepPurple({
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (!feedbackSent) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setFeedbackSent(false);
+    }, 3800);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [feedbackSent]);
+
+  const handleFeedbackSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!feedbackText.trim()) return;
+
+    setFeedbackText("");
+    setFeedbackSent(true);
+  };
 
   const precioOriginal = 2500;
   const precioOferta = 1500;
@@ -472,6 +494,51 @@ export default function CVPreviewStepPurple({
                 </div>
               )}
             </Button>
+
+            <form
+              onSubmit={handleFeedbackSubmit}
+              className="rounded-2xl border border-white/10 bg-white/[0.035] p-4"
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#38BDF8]/10 text-[#38BDF8] ring-1 ring-[#38BDF8]/20">
+                  <MessageSquare className="h-4 w-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-white">
+                    Dejanos tu comentario
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-white/55">
+                    Tu opinion ayuda a mejorar la experiencia antes de descargar.
+                  </p>
+                </div>
+              </div>
+
+              <textarea
+                value={feedbackText}
+                onChange={(event) => setFeedbackText(event.target.value)}
+                rows={3}
+                maxLength={180}
+                placeholder="Ej: Me gusto la plantilla, agregaria mas opciones de color..."
+                className="mt-3 min-h-[82px] w-full resize-none rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-[#38BDF8]/45 focus:ring-2 focus:ring-[#38BDF8]/10"
+              />
+
+              <div className="mt-3 flex items-center justify-between gap-3">
+                <p className="text-xs text-white/45">
+                  {feedbackSent
+                    ? "Comentario recibido en esta vista."
+                    : "Maximo 180 caracteres."}
+                </p>
+                <button
+                  type="submit"
+                  disabled={!feedbackText.trim()}
+                  className="inline-flex items-center gap-2 rounded-xl border border-[#38BDF8]/25 bg-[#38BDF8]/10 px-3 py-2 text-xs font-semibold text-[#7DD3FC] transition hover:bg-[#38BDF8]/15 disabled:cursor-not-allowed disabled:opacity-45"
+                >
+                  <Send className="h-3.5 w-3.5" />
+                  Enviar
+                </button>
+              </div>
+            </form>
+
             {/* <PDFDownloadLink
               document={<DocumentoCVW cv={cvData} template={template} />}
               fileName={`CV-${cvData.nombre.replace(/\s+/g, "-")}.pdf`}

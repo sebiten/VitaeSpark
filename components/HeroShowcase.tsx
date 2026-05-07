@@ -31,7 +31,8 @@ export default function HeroShowcase() {
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-      className="relative mx-0 mt-1 w-full min-w-0 max-w-[358px] px-0 sm:mx-auto sm:mt-2 sm:max-w-xl sm:px-8 lg:mx-0 lg:mt-0 lg:max-w-none lg:px-0"
+      style={{ touchAction: "pan-y" }}
+      className="pointer-events-none relative mx-0 mt-1 w-full min-w-0 max-w-[358px] select-none px-0 sm:mx-auto sm:mt-2 sm:max-w-xl sm:px-8 lg:mx-0 lg:mt-0 lg:max-w-none lg:px-0"
     >
       <motion.div
         initial={{ opacity: 0, x: 20, rotate: -9 }}
@@ -44,6 +45,7 @@ export default function HeroShowcase() {
           alt="Plantilla azul de curriculum"
           width={320}
           height={450}
+          draggable={false}
           className="aspect-[0.48] w-full object-cover object-left-top opacity-95"
         />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-gradient-to-r from-transparent via-[#0F0F10]/35 to-[#0F0F10]/82" />
@@ -61,6 +63,7 @@ export default function HeroShowcase() {
           alt="Plantilla verde de curriculum"
           width={320}
           height={450}
+          draggable={false}
           className="aspect-[0.72] w-full object-cover object-top opacity-95"
         />
       </motion.div>
@@ -103,6 +106,7 @@ export default function HeroShowcase() {
             width={760}
             height={900}
             priority
+            draggable={false}
             sizes="(min-width: 1024px) 42vw, 92vw"
             className="aspect-[0.82] w-full object-cover object-top"
           />
