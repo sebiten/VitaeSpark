@@ -52,6 +52,17 @@ const publicRoutes = [
   "/terminos",
   "/privacidad",
   "/reembolsos",
+  "/comparar/cv-harvard-vs-cv-tradicional",
+  "/comparar/cv-ats-vs-cv-convencional",
+  "/comparar/plantilla-harvard-vs-moderna",
+  "/glosario/que-es-ats-curriculum",
+  "/glosario/que-es-currriculum-vitae",
+  "/glosario/como-escribir-perfil-profesional",
+  "/cv-para-vendedor-sin-experiencia",
+  "/cv-para-recepcionista-sin-experiencia",
+  "/cv-para-administrativo-sin-experiencia",
+  "/cv-para-operario-sin-experiencia",
+  "/cv-para-seguridad-sin-experiencia",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

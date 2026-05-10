@@ -1,6 +1,7 @@
 ================================================================================
   REPORTE COMPLETO DE OPTIMIZACION - VITAE SPARK (vitaespark.com)
   Fecha: 2026-05-10
+  Ultima actualizacion: 2026-05-10 (sesion completa completada)
   Skills utilizados: seo-audit, ai-seo, programmatic-seo, accessibility
 ================================================================================
 
@@ -47,11 +48,11 @@
   [HECHO] Fecha visible: <time> element en BlogArticlePage.tsx, formateado
           en es_AR (ej: "12 de abril de 2025")
   [HECHO] Acentos: corregidos en titles y descriptions de ~40 paginas
-          (curriculum->curriculum, como->como, mas->mas, guia->guia, etc.)
+          (curriculum->currículum, como->cómo, mas->más, guia->guía, etc.)
   [HECHO] Acentos: corregidos en root layout (default title, description,
           OG images alt, JSON-LD schemas)
   [HECHO] Titles cortos: 26 paginas expandidas a 35+ caracteres
-          (ej: "CV Profesional" -> "CV Profesional: Como Crearlo paso a Paso")
+          (ej: "CV Profesional" -> "CV Profesional: Cómo Crearlo paso a Paso")
   [HECHO] H1 max-width: eliminado max-w-[358px] de h1 y descripciones en
           BlogArticlePage.tsx y MarketingPage.tsx
 
@@ -66,45 +67,104 @@
   [HECHO] Sitemap: removidas rutas redirecteadas, agregadas /terminos,
           /privacidad, /reembolsos
 
-  PROGRAMMATIC SEO (Fase 1 completada)
+  PROGRAMMATIC SEO (Fase 1 - completada)
   ---------------------------------------------------------------
   [HECHO] /plantillas-curriculum reconstruido como curation hub:
           - 5 plantillas con previews (next/image) y descripciones detalladas
           - Tags de industria ideal para cada plantilla
           - Badge "ATS" en cada template card
-          - Seccion "Como elegir la mejor plantilla" con 4 recomendaciones
-          - Seccion "Que hace que una plantilla sea buena para ATS"
+          - Seccion "Cómo elegir la mejor plantilla" con 4 recomendaciones
+          - Seccion "Qué hace que una plantilla sea buena para ATS"
           - FAQ schema (5 preguntas) + HowTo schema (3 pasos) + Breadcrumbs
           - Sidebar con pasos + 4 related links internos
   [HECHO] /curriculum-vitae-pdf expandido: de 2 a 4 secciones, de 3 a 4 FAQs,
           4 beneficios, 4 related links, nuevas keywords PDF-ATS
 
+  PROGRAMMATIC SEO (Fase 2 - completada 2026-05-10)
+  ---------------------------------------------------------------
+  Comparison pages (HIGH):
+  [HECHO] /comparar/cv-harvard-vs-cv-tradicional
+          - Title: "CV Harvard vs CV Tradicional: Cuál Conviene en 2025"
+          - Cómo Harvard transmite orden y formalidad vs tradicional con flexibilidad
+          - Cuándo elegir Harvard (industrias formales) vs moderno (industrias creativas)
+          - 4 FAQs + 4 related links + HowTo schema
+  [HECHO] /comparar/cv-ats-vs-cv-convencional
+          - Title: "CV ATS vs CV Convencional: Guía para Elegir el Mejor Formato"
+          - Diferencias: estructura, palabras clave, formato visual, compatibilidad
+          - Stats: 98% Fortune 500 usan ATS (Jobscan), 75% descartados (TopResume)
+          - 4 FAQs + 4 related links + HowTo schema
+  [HECHO] /comparar/plantilla-harvard-vs-moderna
+          - Title: "Plantilla Harvard vs Moderna: Cuál Hace que tu CV Destaque"
+          - Caracteristicas de cada plantilla, comparacion visual
+          - Recomendacion por industria y nivel de experiencia
+          - 4 FAQs + 4 related links + HowTo schema
+
+  Glossary pages (MEDIUM):
+  [HECHO] /glosario/que-es-ats-curriculum
+          - Title: "Qué es ATS en un Currículum y Cómo Adaptar tu CV al Sistema"
+          - Definicion, como funciona el analisis, factores que evalua
+          - Estrategias para pasar filtros, errores comunes
+          - 4 FAQs + 4 related links + Article schema (usa BlogArticlePage)
+  [HECHO] /glosario/que-es-currriculum-vitae
+          - Title: "Qué es un Currículum Vitae y Cómo Hacer uno Profesional"
+          - Definicion y proposito, diferencia entre CV/vitae/resume
+          - Secciones fundamentales, errores comunes, como hacer uno que destaque
+          - 4 FAQs + 4 related links + Article schema
+  [HECHO] /glosario/como-escribir-perfil-profesional
+          - Title: "Perfil Profesional para CV: Qué Es y Cómo Escribirlo Bien"
+          - Estructura ideal, ejemplos por nivel (sin exp/medio/senior)
+          - Errores comunes, como adaptar a cada oferta
+          - 4 FAQs + 4 related links + Article schema
+
+  Sin-experiencia variants (MEDIUM):
+  [HECHO] /cv-para-vendedor-sin-experiencia
+          - Perfil orientado a ventas sin experiencia, habilidades transferibles
+          - Para retail, call center, e-commerce, ventas presenciales
+  [HECHO] /cv-para-recepcionista-sin-experiencia
+          - Perfil para hotels, clinicas, oficinas, consultorios
+          - Habilidades: atencion, organizacion, trato cordial
+  [HECHO] /cv-para-administrativo-sin-experiencia
+          - Perfil organizativo para empresas, oficinas, estudios
+          - Habilidades: manejo de datos, precision, herramientas digitales
+  [HECHO] /cv-para-operario-sin-experiencia
+          - Perfil para fabricas, almacenes, produccion, logistica
+          - Habilidades: responsabilidad, disposicion fisica, aprendizaje
+  [HECHO] /cv-para-seguridad-sin-experiencia
+          - Perfil para empresas de seguridad, edificios, eventos
+          - Habilidades: vigilancia, atencion, capacidad de reaccion
+
   ESTADISTICAS CON FUENTES (HIGH - AI SEO)
   ---------------------------------------------------------------
-  [HECHO] curriculum-ats: "Segun Jobscan (2023), mas del 98% de las empresas
+  [HECHO] curriculum-ats: "Según Jobscan (2023), más del 98% de las empresas
           Fortune 500 utilizan sistemas ATS y el 75% de los CVs son
           descartados antes de que una persona los vea (TopResume)"
-  [HECHO] cv-profesional: "Un estudio de The Ladders encontro que los
+  [HECHO] cv-profesional: "Un estudio de The Ladders encontró que los
           reclutadores dedican entre 6 y 7 segundos a la primera lectura de un CV"
-  [HECHO] creador-cv-online: "Segun CareerBuilder, el 40% de los gerentes
+  [HECHO] crear-cv-online: "Según CareerBuilder, el 40% de los gerentes
           dedica menos de un minuto a revisar un curriculum"
-  [HECHO] blog/errores-en-el-curriculum: "Segun CareerBuilder, errores
-          ortograficos reducen un 59% las posibilidades de entrevista"
-  [HECHO] blog/como-hacer-un-cv-ats: "Segun Jobscan (2023), el 75% de los
-          curriculums nunca llega a ser visto por un reclutador"
-  [HECHO] generador-de-cv-con-ia: "Segun LinkedIn Talent Solutions (2024),
-          el 67% de los profesionales de seleccion ya usa IA"
-  [HECHO] hacer-cv-con-ia: "Segun LinkedIn Talent Solutions (2024),
-          el 67% de los profesionales de seleccion ya usa IA"
+  [HECHO] blog/errores-en-el-curriculum: "Según CareerBuilder, errores
+          ortográficos reducen un 59% las posibilidades de entrevista"
+  [HECHO] blog/como-hacer-un-cv-ats: "Según Jobscan (2023), el 75% de los
+          currículums nunca llega a ser visto por un reclutador"
+  [HECHO] generador-de-cv-con-ia: "Según LinkedIn Talent Solutions (2024),
+          el 67% de los profesionales de selección ya usa IA"
+  [HECHO] hacer-cv-con-ia: "Según LinkedIn Talent Solutions (2024),
+          el 67% de los profesionales de selección ya usa IA"
 
   ACCESIBILIDAD
   ---------------------------------------------------------------
   [HECHO] Skip link: "Saltar al contenido" como primer hijo de <body>
           con id="main-content" en <main>
-  [HECHO] Hamburger menu: aria-label dinamico ("Abrir menu"/"Cerrar menu")
+  [HECHO] Hamburger menu: aria-label dinámico ("Abrir menu"/"Cerrar menu")
   [HECHO] Nav: aria-label="Navegacion principal"
   [HECHO] Iconos decorativos: aria-hidden="true" en MarketingPage.tsx
           y BlogArticlePage.tsx
+  [HECHO] Contraste: text-white/50-68 -> text-white/60-75 en 30+ lugares
+          en 10 archivos (WCAG AA 4.5:1)
+  [HECHO] scroll-margin-top: 5rem en globals.css para todos los heading
+          (h1-h6) compensar sticky header en navegacion con anchor links
+  [HECHO] Target size: button icon size de size-9 (36px) a size-11 (44px)
+          en components/ui/button.tsx (icon buttons ahora 44x44px minimos)
 
   OTROS
   ---------------------------------------------------------------
@@ -118,79 +178,121 @@
   PENDIENTES
 ================================================================================
 
-  ACCESIBILIDAD (prioridad MEDIUM)
-  ---------------------------------------------------------------
-  1. Contraste de color: text-white/62, text-white/68 tienen bajo contraste
-     en algunos contextos (#6)
-  2. scroll-margin-top: headings no tienen offset para compensar header
-     sticky al navegar con anchor links (#8)
-  3. Target size: algunos botones/links son menores a 44px (#10)
-  4. FAQ expanded state: no hay indicador visual de que FAQ esta
-     expandida/colapsada (#11)
-
-  PROGRAMMATIC SEO Fase 2 (prioridad HIGH/MEDIUM)
-  ---------------------------------------------------------------
-  5. Comparison pages: 3 paginas (Harvard vs Tradicional, ATS vs Convencional,
-     Plantilla Harvard vs Moderna) - capturan queries de alta intencion
-  6. Glossary pages: 3 paginas (que es ATS, que es CV, como escribir perfil
-     profesional) - capturan queries informativas
-  7. Sin-experiencia variants: 5 paginas (vendedor, recepcionista,
-     administrativo, operario, seguridad) - expanden playbook Personas existente
-
   CONTENIDO Y AUTORIDAD (prioridad MEDIUM)
   ---------------------------------------------------------------
-  8. Author attribution: autor generico "Vitae Spark" sin credenciales
+  1. Author attribution: autor generico "Vitae Spark" sin credenciales
      individuales ni bio. ChatGPT prioriza contenido con autor verificable
-  9. dateModified: prop existe en BlogArticlePage pero no se pasa en
-     ningun blog post. No hay "Ultima actualizacion" visible en paginas
-  10. Wikipedia: sin pagina de Wikipedia (7.8% de citas de ChatGPT vienen
-      de Wikipedia)
-  11. Reddit/foros: sin presencia verificada en comunidades de empleo
+  2. dateModified: prop existe en BlogArticlePage pero no se pasa en
+     ningun blog post. No hay "Última actualizacion" visible en paginas
+  3. Wikipedia: sin pagina de Wikipedia (7.8% de citas de ChatGPT vienen
+     de Wikipedia)
+  4. Reddit/foros: sin presencia verificada en comunidades de empleo
 
   PROGRAMMATIC SEO Fase 3 (diferir - prioridad BAJA)
   ---------------------------------------------------------------
-  12. Location pages: 14 ciudades x 9 industrias = 126 paginas potenciales.
+  5. Location pages: 14 ciudades x 9 industrias = 126 paginas potenciales.
       Diferir hasta tener mayor domain authority
 
 ================================================================================
   ARCHIVOS CREADOS/MODIFICADOS
 ================================================================================
 
-  Creados:
+  Creados esta sesion:
+  - app/comparar/cv-harvard-vs-cv-tradicional/page.tsx
+  - app/comparar/cv-ats-vs-cv-convencional/page.tsx
+  - app/comparar/plantilla-harvard-vs-moderna/page.tsx
+  - app/glosario/que-es-ats-curriculum/page.tsx
+  - app/glosario/que-es-currriculum-vitae/page.tsx
+  - app/glosario/como-escribir-perfil-profesional/page.tsx
+  - app/cv-para-vendedor-sin-experiencia/page.tsx
+  - app/cv-para-recepcionista-sin-experiencia/page.tsx
+  - app/cv-para-administrativo-sin-experiencia/page.tsx
+  - app/cv-para-operario-sin-experiencia/page.tsx
+  - app/cv-para-seguridad-sin-experiencia/page.tsx
+
+  Creados sesiones anteriores:
   - public/llms.txt
   - public/pricing.md
   - pseo-strategy.md
 
   Modificados (mas relevantes):
   - app/robots.ts
-  - app/sitemap.ts
+  - app/sitemap.ts (ahora 67 rutas, antes 54)
   - app/layout.tsx
   - app/page.tsx
   - middleware.ts
   - components/seo/MarketingPage.tsx
   - components/seo/BlogArticlePage.tsx
   - components/seo/Breadcrumbs.tsx
+  - components/seo/TrackedCtaLink.tsx
+  - components/navegation.tsx
+  - components/ui/button.tsx
   - app/plantillas-curriculum/page.tsx (reconstruido)
   - app/curriculum-vitae-pdf/page.tsx (expandido)
+  - app/globals.css (scroll-margin-top)
   - ~40 page.tsx files (acentos + titles)
   - ~15 blog page.tsx files (datePublished + stats)
 
 ================================================================================
-  ESTADISTICAS DEL CAMBIO
+  ESTADISTICAS DEL CAMBIO (acumulado total)
 ================================================================================
 
   Paginas con titulos expandidos: 26
   Paginas con acentos corregidos: ~40
   Paginas de blog con datePublished: 15
-  Paginas con estadisticas citadas: 6 (curriculum-ats, cv-profesional,
-    crear-cv-online, generador-de-cv-con-ia, hacer-cv-con-ia,
-    blog/errores-en-el-curriculum, blog/como-hacer-un-cv-ats)
+  Paginas nuevas programatic SEO: 11 (3 comparison + 3 glossary + 5 sin-exp)
+  Paginas con estadisticas citadas: 7
   Schemas mejorados: Organization, Article, FAQPage, HowTo, BreadcrumbList,
     SoftwareApplication
   Archivos AI SEO criticos creados: 2 (llms.txt, pricing.md)
   Bots de IA autorizados explicitamente: 6
   Redirects 301 agregados: 5 (herramientas duplicadas + legales)
-  Rutas en sitemap: 54 -> 55 (3 agregadas legales, 2 removidas duplicadas)
+  Rutas en sitemap: 54 -> 67 (+13 nuevas paginas)
+  Botones con target size >= 44px: todos los icon buttons (button.tsx size-11)
+
+================================================================================
+  CONTEXTO TECNICO CLAVE PARA SIGUIENTE IA
+================================================================================
+
+  Stack: Next.js 15 App Router, pnpm, TypeScript, Tailwind, shadcn/ui
+  Deploy: Vercel
+  Idioma: Spanish (es_AR)
+
+  buildMetadata() en lib/seo.ts: funcion central de metadata - todas las
+  paginas la usan. Params: title, description, path, keywords, type
+  getBaseUrl(): retorna URL base desde env vars (NEXT_PUBLIC_BASE_URL o
+  NEXT_PUBLIC_SITE_URL o fallback "https://vitaespark.com")
+
+  Organization schema en app/layout.tsx: name, url, logo, email,
+  sameAs (FB, IG, TikTok), contactPoint
+
+  MarketingPage.tsx: template para landing pages. Props: path, eyebrow,
+  title, description, intro[], benefits[], steps[], sections[],
+  faqs[], relatedLinks[], exampleImage?, ctaLabel?
+  - Genera automaticamente FAQPage + HowTo schemas
+  - Usa slugify() para IDs de secciones (h2 con id)
+
+  BlogArticlePage.tsx: template para blog posts. Props: path, title,
+  description, intro, sections[], faqs[], relatedLinks[], datePublished?,
+  dateModified?
+  - Genera Article + FAQPage schemas
+  - datePublished visible en page (time element)
+
+  Breadcrumbs.tsx: usa getBaseUrl() para URLs absolutas en schema
+  (new URL(item.href, baseUrl).toString())
+
+  TrackedCtaLink.tsx: componente client que trackea clicks con
+  @vercel/analytics. Params: href, label, sourcePath, sourceType
+
+  sitemap.ts: publicRoutes array - agregar nuevas rutas aqui manualmente.
+  changeFrequency: blog=weekly, others=daily. priority: /=1, blog=0.7, other=0.8
+
+  middleware.ts: redirects. 301 para legales y herramientas duplicadas.
+  308 para redirect www. Manage also supabase session cookie.
+
+  Las 3 comparacion pages usan MarketingPage
+  Las 3 glossary pages usan BlogArticlePage
+  Las 5 sin-experiencia pages usan MarketingPage
 
 ================================================================================
   FIN DEL REPORTE

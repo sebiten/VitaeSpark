@@ -304,7 +304,7 @@ export default function CVPreviewStepPurple({
         <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#15151A] px-4 py-3 text-white sm:hidden">
           <div className="min-w-0">
             <p className="text-sm font-semibold">Muestra protegida del CV</p>
-            <p className="mt-0.5 text-xs text-white/55">
+            <p className="mt-0.5 text-xs text-white/65">
               Desbloquea para ver y descargar el documento completo.
             </p>
           </div>
@@ -359,7 +359,7 @@ export default function CVPreviewStepPurple({
             <div className="mb-3 flex items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-semibold">Muestra protegida del CV</p>
-                <p className="mt-0.5 text-xs text-white/55">
+                <p className="mt-0.5 text-xs text-white/65">
                   Desbloquea para acceder al CV completo sin marca de agua.
                 </p>
               </div>
@@ -401,7 +401,7 @@ export default function CVPreviewStepPurple({
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-white/62 transition hover:text-white"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white/70 transition hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />
             Volver y editar datos
@@ -417,7 +417,7 @@ export default function CVPreviewStepPurple({
                   Tu CV final esta listo
                 </h3>
               </div>
-              <p className="mt-3 max-w-xs text-xs leading-5 text-white/68 sm:mx-auto sm:mt-4 sm:text-center sm:text-sm sm:leading-6">
+              <p className="mt-3 max-w-xs text-xs leading-5 text-white/75 sm:mx-auto sm:mt-4 sm:text-center sm:text-sm sm:leading-6">
                 Desbloquea la version profesional sin marca de agua y descargala
                 en PDF cuando quieras.
               </p>
@@ -431,7 +431,7 @@ export default function CVPreviewStepPurple({
                 <span className="text-4xl font-black leading-none text-white sm:text-5xl">
                   $2.500
                 </span>
-                <span className="pb-1 text-sm font-semibold text-white/52">
+                <span className="pb-1 text-sm font-semibold text-white/62">
                   ARS
                 </span>
               </div>
@@ -452,7 +452,7 @@ export default function CVPreviewStepPurple({
                 <p className="text-sm font-semibold text-white">
                   CV limpio, sin marca de agua
                 </p>
-                <p className="mt-1 hidden text-xs leading-5 text-white/58 sm:block">
+                <p className="mt-1 hidden text-xs leading-5 text-white/68 sm:block">
                   Listo para enviar a empresas, portales de empleo y reclutadores.
                 </p>
               </div>
@@ -464,7 +464,7 @@ export default function CVPreviewStepPurple({
                 <p className="text-sm font-semibold text-white">
                   Descargas ilimitadas en tu perfil
                 </p>
-                <p className="mt-1 hidden text-xs leading-5 text-white/58 sm:block">
+                <p className="mt-1 hidden text-xs leading-5 text-white/68 sm:block">
                   Queda guardado en tu{" "}
                   <Link href="/perfil" className="text-[#38BDF8] hover:underline">
                     perfil
@@ -480,7 +480,7 @@ export default function CVPreviewStepPurple({
                 <p className="text-sm font-semibold text-white">
                   Tarjeta, debito y mas opciones
                 </p>
-                <p className="mt-1 hidden text-xs leading-5 text-white/58 sm:block">
+                <p className="mt-1 hidden text-xs leading-5 text-white/68 sm:block">
                   El checkout se abre en Mercado Pago con los medios disponibles.
                 </p>
               </div>
@@ -599,7 +599,7 @@ export default function CVPreviewStepPurple({
                   <p className="text-sm font-semibold text-white">
                     Dejanos tu comentario
                   </p>
-                  <p className="mt-1 text-xs leading-5 text-white/55">
+                  <p className="mt-1 text-xs leading-5 text-white/65">
                     Tu opinion ayuda a mejorar la experiencia antes de descargar.
                   </p>
                 </div>

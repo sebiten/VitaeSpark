@@ -217,7 +217,7 @@ export default function CVFormStep({
               Escribi con tus palabras: trabajos, estudios, herramientas y
               contacto. No hace falta que suene perfecto en esta etapa.
             </p>
-            <div className="mt-4 flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-white/65">
+            <div className="mt-4 flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-white/72">
               <Palette className="h-3.5 w-3.5 text-[#38BDF8]" />
               Plantilla actual:{" "}
               <span className="font-semibold text-white">{templateName}</span>
@@ -248,7 +248,7 @@ export default function CVFormStep({
               variant="outline"
               className="border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
             >
-              <Trash2 className="mr-2 h-4 w-4 text-white/55" />
+              <Trash2 className="mr-2 h-4 w-4 text-white/65" />
               Limpiar
             </Button>
           </div>
@@ -443,7 +443,7 @@ export default function CVFormStep({
               <Sparkles className="h-4 w-4 text-[#A78BFA]" />
               Guia rapida
             </h3>
-            <div className="space-y-4 text-sm leading-6 text-white/62">
+            <div className="space-y-4 text-sm leading-6 text-white/70">
               <GuideItem
                 title="Escribi datos reales"
                 text="No hace falta redactar perfecto. Prioriza claridad y ejemplos concretos."
@@ -461,7 +461,7 @@ export default function CVFormStep({
 
           <div className="rounded-3xl border border-[#7C3AED]/20 bg-[#7C3AED]/10 p-5">
             <p className="text-sm font-medium text-white">Formato ideal</p>
-            <p className="mt-2 text-sm leading-6 text-white/62">
+            <p className="mt-2 text-sm leading-6 text-white/70">
               Puesto, fechas, empresa, lugar y tareas principales. Con eso ya
               alcanza para generar una version profesional.
             </p>
@@ -510,7 +510,7 @@ function SectionTitle({
       </div>
       <div>
         <h3 className="font-semibold text-white">{title}</h3>
-        <p className="mt-1 text-sm leading-6 text-white/50">{description}</p>
+        <p className="mt-1 text-sm leading-6 text-white/60">{description}</p>
       </div>
     </div>
   );
@@ -543,7 +543,7 @@ function GuideItem({ title, text }: { title: string; text: string }) {
         <CheckCircle2 className="h-4 w-4 text-[#38BDF8]" />
         {title}
       </p>
-      <p className="mt-1 pl-6 text-white/55">{text}</p>
+      <p className="mt-1 pl-6 text-white/65">{text}</p>
     </div>
   );
 }

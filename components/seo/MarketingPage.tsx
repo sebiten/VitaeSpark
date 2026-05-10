@@ -216,7 +216,7 @@ export function MarketingPage({
                   sizes="(min-width: 1024px) 280px, 92vw"
                   className="block h-48 w-full max-w-full object-cover object-top"
                 />
-                <figcaption className="border-t border-white/10 px-4 py-3 text-xs leading-5 text-white/58">
+                <figcaption className="border-t border-white/10 px-4 py-3 text-xs leading-5 text-white/68">
                   {visual.caption}
                 </figcaption>
               </figure>
@@ -271,7 +271,7 @@ export function MarketingPage({
                   <h3 className="mb-2 text-base font-semibold text-white/95">
                     {faq.question}
                   </h3>
-                  <p className="text-sm leading-7 text-white/68">
+                  <p className="text-sm leading-7 text-white/75">
                     {faq.answer}
                   </p>
                 </div>
@@ -300,7 +300,7 @@ export function MarketingPage({
                       {step.title}
                     </h3>
                   </div>
-                  <p className="min-w-0 break-words text-sm leading-7 text-white/62">
+                  <p className="min-w-0 break-words text-sm leading-7 text-white/70">
                     {step.description}
                   </p>
                 </div>
@@ -324,7 +324,7 @@ export function MarketingPage({
                     {link.title}
                     <ArrowRight className="h-4 w-4 shrink-0 text-white/35 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
                   </h3>
-                  <p className="min-w-0 break-words text-sm leading-7 text-white/62">
+                  <p className="min-w-0 break-words text-sm leading-7 text-white/70">
                     {link.description}
                   </p>
                 </Link>

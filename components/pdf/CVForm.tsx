@@ -73,7 +73,7 @@ const CVForm: NextPage = () => {
               <TabsList className="grid h-auto w-full grid-cols-3 rounded-xl border border-white/10 bg-[#0F0F10]/70 p-1 sm:flex-1">
                 <TabsTrigger
                   value="template"
-                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/72 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
                 >
                   <Palette className="h-4 w-4" />
                   <span className="hidden sm:inline">Plantilla</span>
@@ -81,7 +81,7 @@ const CVForm: NextPage = () => {
                 </TabsTrigger>
                 <TabsTrigger
                   value="form"
-                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/72 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
                   disabled={!selectedTemplate}
                 >
                   <FileText className="h-4 w-4" />
@@ -90,7 +90,7 @@ const CVForm: NextPage = () => {
                 </TabsTrigger>
                 <TabsTrigger
                   value="preview"
-                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/65 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/72 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
                   disabled={!cvData}
                 >
                   <Eye className="h-4 w-4" />

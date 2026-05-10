@@ -194,7 +194,7 @@ export default function BlogIndexPage() {
               sizes="(min-width: 768px) 50vw, 100vw"
               className="h-64 w-full object-cover object-top"
             />
-            <figcaption className="border-t border-white/10 px-5 py-4 text-sm text-white/65">
+            <figcaption className="border-t border-white/10 px-5 py-4 text-sm text-white/72">
               Ejemplo de CV moderno optimizado para ATS.
             </figcaption>
           </figure>
@@ -207,7 +207,7 @@ export default function BlogIndexPage() {
               sizes="(min-width: 768px) 50vw, 100vw"
               className="h-64 w-full object-cover object-top"
             />
-            <figcaption className="border-t border-white/10 px-5 py-4 text-sm text-white/65">
+            <figcaption className="border-t border-white/10 px-5 py-4 text-sm text-white/72">
               Ejemplo de CV profesional con diseño elegante.
             </figcaption>
           </figure>
@@ -243,7 +243,7 @@ export default function BlogIndexPage() {
                 <h2 className="relative text-xl font-semibold leading-snug text-white sm:text-2xl">
                   {post.title}
                 </h2>
-                <p className="relative mt-3 text-sm leading-7 text-white/68 sm:text-base">
+                <p className="relative mt-3 text-sm leading-7 text-white/75 sm:text-base">
                   {post.description}
                 </p>
                 <span className="relative mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#38BDF8]">

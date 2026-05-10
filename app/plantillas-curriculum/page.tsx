@@ -260,7 +260,7 @@ export default function PlantillasCurriculumPage() {
                     {template.bestFor.map((industry) => (
                       <span
                         key={industry}
-                        className="rounded-lg border border-white/10 bg-white/[0.045] px-2.5 py-1 text-xs text-white/65"
+                        className="rounded-lg border border-white/10 bg-white/[0.045] px-2.5 py-1 text-xs text-white/72"
                       >
                         {industry}
                       </span>
@@ -396,7 +396,7 @@ export default function PlantillasCurriculumPage() {
                           {step.title}
                         </h3>
                       </div>
-                      <p className="text-sm leading-7 text-white/62">
+                      <p className="text-sm leading-7 text-white/70">
                         {step.desc}
                       </p>
                     </div>
@@ -418,7 +418,7 @@ export default function PlantillasCurriculumPage() {
                       Plantilla Harvard en detalle
                       <ArrowRight className="h-4 w-4 shrink-0 text-white/35 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
                     </h3>
-                    <p className="text-sm leading-7 text-white/62">
+                    <p className="text-sm leading-7 text-white/70">
                       Cuándo conviene usarla y cómo aprovechar su estructura.
                     </p>
                   </Link>
@@ -430,7 +430,7 @@ export default function PlantillasCurriculumPage() {
                       Currículum ATS
                       <ArrowRight className="h-4 w-4 shrink-0 text-white/35 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
                     </h3>
-                    <p className="text-sm leading-7 text-white/62">
+                    <p className="text-sm leading-7 text-white/70">
                       Cómo optimizar tu CV para pasar filtros automáticos.
                     </p>
                   </Link>
@@ -442,7 +442,7 @@ export default function PlantillasCurriculumPage() {
                       CV Profesional
                       <ArrowRight className="h-4 w-4 shrink-0 text-white/35 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
                     </h3>
-                    <p className="text-sm leading-7 text-white/62">
+                    <p className="text-sm leading-7 text-white/70">
                       Cómo crear un CV que destaque por su contenido y formato.
                     </p>
                   </Link>
@@ -454,7 +454,7 @@ export default function PlantillasCurriculumPage() {
                       Errores en el currículum
                       <ArrowRight className="h-4 w-4 shrink-0 text-white/35 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
                     </h3>
-                    <p className="text-sm leading-7 text-white/62">
+                    <p className="text-sm leading-7 text-white/70">
                       Los errores más comunes y cómo evitarlos antes de enviar tu CV.
                     </p>
                   </Link>
@@ -481,7 +481,7 @@ export default function PlantillasCurriculumPage() {
               <h3 className="mb-2 text-base font-semibold text-white/95">
                 ¿Cuál es la mejor plantilla de currículum para ATS?
               </h3>
-              <p className="text-sm leading-7 text-white/68">
+              <p className="text-sm leading-7 text-white/75">
                 Todas las plantillas de VitaeSpark están diseñadas para ser
                 compatibles con sistemas ATS. Harvard y Elegante suelen dar
                 mejores resultados en procesos muy formales o corporativos,
@@ -493,7 +493,7 @@ export default function PlantillasCurriculumPage() {
               <h3 className="mb-2 text-base font-semibold text-white/95">
                 ¿Puedo cambiar de plantilla después de crear mi CV?
               </h3>
-              <p className="text-sm leading-7 text-white/68">
+              <p className="text-sm leading-7 text-white/75">
                 Sí, en VitaeSpark podés cambiar de plantilla cuando quieras
                 desde el selector de plantillas. El contenido se adapta
                 automáticamente al nuevo formato sin perder nada.
@@ -503,7 +503,7 @@ export default function PlantillasCurriculumPage() {
               <h3 className="mb-2 text-base font-semibold text-white/95">
                 ¿Las plantillas se descargan en PDF?
               </h3>
-              <p className="text-sm leading-7 text-white/68">
+              <p className="text-sm leading-7 text-white/75">
                 Sí, todas las plantillas se descargan en formato PDF profesional,
                 listo para enviar por email, portales de empleo o imprimir sin
                 perder formato.
@@ -513,7 +513,7 @@ export default function PlantillasCurriculumPage() {
               <h3 className="mb-2 text-base font-semibold text-white/95">
                 ¿Qué plantilla conviene para mi primer empleo?
               </h3>
-              <p className="text-sm leading-7 text-white/68">
+              <p className="text-sm leading-7 text-white/75">
                 Para un primer empleo, Harvard o Azul son buenas opciones porque
                 transmiten seriedad y orden, lo cual es importante cuando
                 todavía no tenés mucha experiencia laboral que mostrar.

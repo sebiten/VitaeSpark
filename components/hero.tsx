@@ -378,15 +378,15 @@ export default function Home() {
           <div className="mt-8 grid gap-3 rounded-3xl border border-white/10 bg-white/[0.03] p-4 text-center sm:grid-cols-3">
             <div className="rounded-2xl bg-black/20 p-4">
               <p className="text-2xl font-bold text-white">ATS</p>
-              <p className="text-sm text-white/55">enfoque en filtros</p>
+              <p className="text-sm text-white/65">enfoque en filtros</p>
             </div>
             <div className="rounded-2xl bg-black/20 p-4">
               <p className="text-2xl font-bold text-[#38BDF8]">PDF</p>
-              <p className="text-sm text-white/55">descarga profesional</p>
+              <p className="text-sm text-white/65">descarga profesional</p>
             </div>
             <div className="rounded-2xl bg-black/20 p-4">
               <p className="text-2xl font-bold text-white">IA</p>
-              <p className="text-sm text-white/55">redacción mejorada</p>
+              <p className="text-sm text-white/65">redacción mejorada</p>
             </div>
           </div>
         </div>

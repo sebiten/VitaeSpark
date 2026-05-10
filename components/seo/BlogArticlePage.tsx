@@ -132,7 +132,7 @@ path,
               Guia VitaeSpark
             </span>
             {datePublished && (
-              <time dateTime={datePublished} className="text-sm text-white/50">
+              <time dateTime={datePublished} className="text-sm text-white/60">
                 {new Date(datePublished).toLocaleDateString("es-AR", { year: "numeric", month: "long", day: "numeric" })}
               </time>
             )}
@@ -184,7 +184,7 @@ path,
                 sizes="(min-width: 1024px) 280px, 92vw"
                 className="h-48 w-full object-cover object-top"
               />
-              <figcaption className="border-t border-white/10 px-4 py-3 text-xs leading-5 text-white/58">
+              <figcaption className="border-t border-white/10 px-4 py-3 text-xs leading-5 text-white/68">
                 Usa cada guia como referencia y adapta el contenido a tu perfil.
               </figcaption>
             </figure>
@@ -235,7 +235,7 @@ path,
                   <h3 className="mb-2 text-base font-semibold text-white/95">
                     {faq.question}
                   </h3>
-                  <p className="text-sm leading-7 text-white/68">
+                  <p className="text-sm leading-7 text-white/75">
                     {faq.answer}
                   </p>
                 </div>
@@ -261,7 +261,7 @@ path,
                     {link.title}
                     <ArrowRight className="h-4 w-4 shrink-0 text-white/35 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
                   </h3>
-                  <p className="text-sm leading-7 text-white/62">
+                  <p className="text-sm leading-7 text-white/70">
                     {link.description}
                   </p>
                 </Link>

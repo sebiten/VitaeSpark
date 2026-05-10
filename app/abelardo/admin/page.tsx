@@ -192,7 +192,7 @@ export default async function AdminDashboardPage() {
                   );
                 })}
               </div>
-              <div className="mt-5 grid gap-3 text-sm text-white/65 sm:grid-cols-3">
+              <div className="mt-5 grid gap-3 text-sm text-white/72 sm:grid-cols-3">
                 <MiniMetric label="Usuarios" value={usersLast7.length} />
                 <MiniMetric label="CVs" value={cvsLast7.length} />
                 <MiniMetric label="Pagos" value={paymentsLast7.length} />

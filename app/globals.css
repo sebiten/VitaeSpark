@@ -9,95 +9,13 @@
     margin-right: 0;
     padding-left: 0;
     padding-right: 0;
-  }
+}
 }
 
-/* Estilos específicos para el visor de PDF */
-.react-pdf__Document {
-  display: block !important;
-  background-color: white !important;
+/* Accessibility: scroll-margin for sticky header offset */
+h1, h2, h3, h4, h5, h6 {
+  scroll-margin-top: 5rem;
 }
-
-.react-pdf__Page {
-  display: block !important;
-  background-color: white !important;
-}
-
-/* Asegurarse de que el iframe del PDF sea visible */
-iframe {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  background-color: white !important;
-}
-
-/* Deshabilitar la selección de texto en el PDF */
-.react-pdf__Page__textContent {
-  user-select: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  pointer-events: none !important;
-}
-
-/* Deshabilitar la interacción con anotaciones */
-.react-pdf__Page__annotations {
-  pointer-events: none !important;
-}
-
-/* Estilos para dispositivos móviles */
-@media (max-width: 768px) {
-  .react-pdf__Page {
-    margin: 0 auto !important;
-    padding: 0 !important;
-  }
-
-  /* Ajustar el tamaño del canvas para mejor visualización */
-  .react-pdf__Page__canvas {
-    width: 100% !important;
-    height: auto !important;
-    margin: 0 auto !important;
-  }
-
-  /* Centrar el contenido del PDF */
-  .react-pdf__Document {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: flex-start !important;
-  }
-
-  /* Ajustar el contenedor para mejor visualización */
-  iframe {
-    overflow: hidden !important;
-  }
-}
-/* Estilos específicos para la vista de CV */
-.cv-container {
-  width: 100%;
-}
-
-/* Estilos para impresión */
-@media print {
-  @page {
-    size: A4;
-    margin: 0;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  .no-print {
-    display: none !important;
-  }
-
-  /* Asegurar que no haya escalado en la impresión */
-  .cv-container {
-    transform: scale(1) !important;
-  }
-}
-
 
 @theme inline {
   --color-background: var(--background);
