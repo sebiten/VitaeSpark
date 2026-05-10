@@ -19,6 +19,7 @@ export default function ComoAdaptarTuCvAUnaVacantePage() {
   return (
     <BlogArticlePage
       path="/blog/como-adaptar-tu-cv-a-una-vacante"
+      datePublished="2025-04-12"
       title="Como adaptar tu CV a una vacante sin rehacerlo por completo"
       description="Aprende como adaptar tu CV a una vacante para mejorar relevancia, claridad y posibilidades de conseguir entrevistas."
       intro="Adaptar el CV a una vacante es una de las practicas que mas impacto puede tener en tus postulaciones. No se trata de inventar una version nueva cada vez, sino de hacer ajustes inteligentes."

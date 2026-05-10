@@ -19,6 +19,7 @@ export default function ComoHacerUnCurriculumSinExperienciaPage() {
   return (
     <BlogArticlePage
       path="/blog/como-hacer-un-curriculum-sin-experiencia"
+      datePublished="2025-04-12"
       title="Como hacer un curriculum sin experiencia y aun asi mostrar potencial"
       description="Guia para hacer un curriculum sin experiencia laboral destacando estudios, proyectos, cursos y habilidades."
       intro="No tener experiencia laboral formal no significa no tener nada para mostrar. Un buen CV sin experiencia puede transmitir potencial, direccion profesional y capacidades reales si esta bien construido."

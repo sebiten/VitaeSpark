@@ -19,6 +19,7 @@ export default function ComoHacerUnCvParaProgramadorPage() {
   return (
     <BlogArticlePage
       path="/blog/como-hacer-un-cv-para-programador"
+      datePublished="2025-04-12"
       title="Como hacer un CV para programador sin caer en listas vacias de tecnologia"
       description="Guia para hacer un CV para programador destacando stack, proyectos, experiencia y criterio tecnico."
       intro="Un CV para programador mejora mucho cuando deja de ser una lista de tecnologias y pasa a explicar que construiste, con que herramientas y en que contexto trabajaste."

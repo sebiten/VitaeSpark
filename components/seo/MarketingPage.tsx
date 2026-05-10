@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { TrackedCtaLink } from "./TrackedCtaLink";
+import { getBaseUrl } from "@/lib/seo";
 
 type Faq = {
   question: string;

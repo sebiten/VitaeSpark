@@ -19,6 +19,7 @@ export default function ComoHacerUnCvProfesionalPage() {
   return (
     <BlogArticlePage
       path="/blog/como-hacer-un-cv-profesional"
+      datePublished="2025-04-15"
       title="Como hacer un CV profesional sin complicarlo de mas"
       description="Descubre como hacer un CV profesional con mejor estructura, contenido mas claro y una presentacion lista para postularte mejor."
       intro="Hacer un CV profesional no significa escribir dificil ni usar una plantilla recargada. Significa presentar tu perfil con claridad, criterio y una estructura que haga facil entender por que encajas en una oportunidad laboral."

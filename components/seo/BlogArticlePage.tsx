@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { TrackedCtaLink } from "./TrackedCtaLink";
+import { getBaseUrl } from "@/lib/seo";
 
 type ArticleSection = {
   title: string;
@@ -38,20 +39,26 @@ type BlogArticlePageProps = {
   sections: ArticleSection[];
   faqs: ArticleFaq[];
   relatedLinks: ArticleRelatedLink[];
+  datePublished?: string;
+  dateModified?: string;
 };
 
 export function BlogArticlePage({
-  path,
+path,
   title,
   description,
   intro,
   sections,
   faqs,
   relatedLinks,
+  datePublished,
+  dateModified,
 }: BlogArticlePageProps) {
   const sectionIcons = [FileText, PenLine, Lightbulb, CheckCircle2];
 
-  const articleSchema = {
+  const baseUrl = getBaseUrl();
+
+  const articleSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: title,
@@ -60,19 +67,55 @@ export function BlogArticlePage({
     author: {
       "@type": "Organization",
       name: "Vitae Spark",
+      url: baseUrl.href,
     },
     publisher: {
       "@type": "Organization",
       name: "Vitae Spark",
+      url: baseUrl.href,
+      logo: {
+        "@type": "ImageObject",
+        url: new URL("/logoreal.webp", baseUrl).toString(),
+      },
     },
   };
 
+  if (datePublished) {
+    articleSchema.datePublished = datePublished;
+  }
+
+  if (dateModified) {
+    articleSchema.dateModified = dateModified;
+  }
+
+  const faqSchema =
+    faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
+
   return (
-    <div className="overflow-x-hidden bg-[#0F0F10] text-[#F4F4F5]">
+<div className="overflow-x-hidden bg-[#0F0F10] text-[#F4F4F5]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
 
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.20),_transparent_35%),#0F0F10]">
         <div className="mx-auto max-w-4xl min-w-0 px-4 py-20 sm:px-6 lg:px-8">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { LucideIcon } from "lucide-react";
 import {
   AlertTriangle,
@@ -185,22 +186,26 @@ export default function BlogIndexPage() {
       <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mb-10 grid gap-5 md:grid-cols-2">
           <figure className="overflow-hidden rounded-3xl border border-white/10 bg-[#121217]">
-            <img
+<Image
               src="/purple-hero.webp"
               alt="Ejemplo visual de CV moderno creado con VitaeSpark"
+              width={1200}
+              height={630}
+              sizes="(min-width: 768px) 50vw, 100vw"
               className="h-64 w-full object-cover object-top"
-              loading="lazy"
             />
             <figcaption className="border-t border-white/10 px-5 py-4 text-sm text-white/65">
               Ejemplo de CV moderno optimizado para ATS.
             </figcaption>
           </figure>
           <figure className="overflow-hidden rounded-3xl border border-white/10 bg-[#121217]">
-            <img
+<Image
               src="/elegance-good.webp"
               alt="Ejemplo visual de CV elegante creado con VitaeSpark"
+              width={1200}
+              height={630}
+              sizes="(min-width: 768px) 50vw, 100vw"
               className="h-64 w-full object-cover object-top"
-              loading="lazy"
             />
             <figcaption className="border-t border-white/10 px-5 py-4 text-sm text-white/65">
               Ejemplo de CV profesional con diseño elegante.

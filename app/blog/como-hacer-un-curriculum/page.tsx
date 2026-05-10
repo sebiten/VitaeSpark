@@ -19,6 +19,7 @@ export default function ComoHacerUnCurriculumPage() {
   return (
     <BlogArticlePage
       path="/blog/como-hacer-un-curriculum"
+      datePublished="2025-04-12"
       title="Como hacer un curriculum paso a paso y sin perder tiempo"
       description="Guia practica para hacer un curriculum vitae desde cero, con estructura, secciones recomendadas y consejos para mejorar tus postulaciones."
       intro="Si estas buscando trabajo, aprender como hacer un curriculum bien armado puede ahorrarte semanas de postulaciones mal enfocadas. Un CV no solo resume tu experiencia: tambien comunica que tipo de perfil eres, que valor aportas y que tan facil es entender tu propuesta profesional."

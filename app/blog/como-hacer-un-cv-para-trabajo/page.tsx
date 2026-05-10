@@ -19,6 +19,7 @@ export default function ComoHacerUnCvParaTrabajoPage() {
   return (
     <BlogArticlePage
       path="/blog/como-hacer-un-cv-para-trabajo"
+      datePublished="2025-04-12"
       title="Como hacer un CV para trabajo y postularte con mas seguridad"
       description="Aprende como hacer un CV para trabajo con una estructura clara, contenido relevante y mejor enfoque para postulaciones reales."
       intro="Cuando alguien busca como hacer un CV para trabajo, casi siempre necesita resolver algo practico: presentar mejor su perfil para una vacante concreta. Por eso, lo mas importante es que el documento sea claro, util y facil de leer."

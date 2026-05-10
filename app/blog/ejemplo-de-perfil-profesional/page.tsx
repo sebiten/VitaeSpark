@@ -19,6 +19,7 @@ export default function EjemploDePerfilProfesionalPage() {
   return (
     <BlogArticlePage
       path="/blog/ejemplo-de-perfil-profesional"
+      datePublished="2025-04-12"
       title="Ejemplo de perfil profesional para CV y como adaptarlo a tu caso"
       description="Mira un ejemplo de perfil profesional para CV y aprende como adaptarlo a tu experiencia, puesto y objetivo laboral."
       intro="Muchas personas entienden que el perfil profesional es importante, pero se traban al momento de escribirlo. Ver un buen ejemplo ayuda, siempre que luego lo adaptes a tu perfil real."

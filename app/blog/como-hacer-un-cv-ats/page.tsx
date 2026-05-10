@@ -19,6 +19,7 @@ export default function ComoHacerUnCvAtsPage() {
   return (
     <BlogArticlePage
       path="/blog/como-hacer-un-cv-ats"
+      datePublished="2025-04-12"
       title="Como hacer un CV ATS que tenga mas posibilidades de pasar filtros"
       description="Consejos practicos para crear un CV ATS con buena estructura, mejor uso de palabras clave y contenido orientado a procesos de seleccion actuales."
       intro="Un CV ATS no se trata de enganar al sistema, sino de facilitar que tu perfil sea interpretado correctamente. La mejor forma de lograrlo es combinar estructura simple, contenido relevante y una redaccion alineada al puesto que buscas."

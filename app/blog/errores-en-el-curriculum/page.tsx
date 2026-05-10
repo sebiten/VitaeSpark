@@ -19,6 +19,7 @@ export default function ErroresEnElCurriculumPage() {
   return (
     <BlogArticlePage
       path="/blog/errores-en-el-curriculum"
+      datePublished="2025-04-12"
       title="Errores en el curriculum que pueden frenarte antes de una entrevista"
       description="Descubre los errores mas comunes en un curriculum vitae y como corregirlos para mejorar tus postulaciones."
       intro="Muchos CVs no fallan porque la persona no tenga perfil, sino porque el documento comunica mal. Un curriculum desordenado, generico o poco claro puede hacerte perder oportunidades incluso si encajas en el puesto."

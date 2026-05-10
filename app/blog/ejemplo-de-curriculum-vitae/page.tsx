@@ -19,6 +19,7 @@ export default function EjemploDeCurriculumVitaePage() {
   return (
     <BlogArticlePage
       path="/blog/ejemplo-de-curriculum-vitae"
+      datePublished="2025-04-15"
       title="Ejemplo de curriculum vitae: que mirar para armar uno mejor"
       description="Aprende a leer un ejemplo de curriculum vitae y descubre que estructura, tono y secciones hacen que un CV se vea profesional."
       intro="Ver un ejemplo de curriculum vitae puede ayudarte mucho si lo usas bien. El punto no es copiarlo tal cual, sino entender por que una estructura se ve mas profesional, que orden facilita la lectura y como se adapta el contenido a un objetivo laboral real."

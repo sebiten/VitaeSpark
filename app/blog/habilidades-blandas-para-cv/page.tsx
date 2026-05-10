@@ -19,6 +19,7 @@ export default function HabilidadesBlandasParaCvPage() {
   return (
     <BlogArticlePage
       path="/blog/habilidades-blandas-para-cv"
+      datePublished="2025-04-12"
       title="Habilidades blandas para CV: como incluirlas sin sonar generico"
       description="Aprende como elegir habilidades blandas para CV sin caer en frases genericas y reforzando mejor tu perfil profesional."
       intro="Las habilidades blandas pueden sumar mucho en un curriculum, pero solo cuando estan bien elegidas y tienen coherencia con tu experiencia. Si no, terminan pareciendo relleno."

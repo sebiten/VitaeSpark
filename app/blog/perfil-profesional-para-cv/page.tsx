@@ -19,6 +19,7 @@ export default function PerfilProfesionalParaCvPage() {
   return (
     <BlogArticlePage
       path="/blog/perfil-profesional-para-cv"
+      datePublished="2025-04-12"
       title="Perfil profesional para CV: como escribir uno que si aporte valor"
       description="Aprende como escribir un perfil profesional para CV que sea claro, breve y convincente para reclutadores."
       intro="El perfil profesional suele ser una de las primeras cosas que se leen en un curriculum. Cuando esta bien escrito, ordena toda la lectura. Cuando es generico, hace que el CV pierda fuerza desde el inicio."

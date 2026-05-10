@@ -19,6 +19,7 @@ export default function ComoMejorarMiCurriculumPage() {
   return (
     <BlogArticlePage
       path="/blog/como-mejorar-mi-curriculum"
+      datePublished="2025-04-12"
       title="Como mejorar mi curriculum para postularme con mas confianza"
       description="Ideas practicas para mejorar tu curriculum vitae y hacerlo mas claro, mas fuerte y mas util para tus postulaciones."
       intro="Mejorar un curriculum no siempre implica rehacerlo por completo. Muchas veces los cambios que mas impactan son perfil mas claro, experiencia mejor explicada y una estructura mas facil de leer."

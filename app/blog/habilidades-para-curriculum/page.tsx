@@ -19,6 +19,7 @@ export default function HabilidadesParaCurriculumPage() {
   return (
     <BlogArticlePage
       path="/blog/habilidades-para-curriculum"
+      datePublished="2025-04-12"
       title="Habilidades para curriculum: como elegir las que si suman"
       description="Aprende como elegir habilidades para tu curriculum segun el puesto, evitando listas genericas y reforzando tu perfil con informacion mas util."
       intro="La seccion de habilidades suele parecer facil, pero muchas veces termina llena de frases demasiado amplias o poco utiles. Elegir bien que habilidades poner en un curriculum puede ayudarte a alinear mejor tu perfil con la busqueda laboral y a mostrar de forma rapida que sabes hacer."

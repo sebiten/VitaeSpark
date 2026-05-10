@@ -19,6 +19,7 @@ export default function QuePonerEnUnCurriculumPage() {
   return (
     <BlogArticlePage
       path="/blog/que-poner-en-un-curriculum"
+      datePublished="2025-04-12"
       title="Que poner en un curriculum para que se vea profesional y util"
       description="Guia clara sobre que poner en un curriculum vitae para que se vea profesional, completo y util para buscar trabajo."
       intro="Saber que poner en un curriculum es una de las dudas mas comunes al buscar trabajo. La clave no es llenar espacio, sino elegir la informacion correcta y presentarla con orden."

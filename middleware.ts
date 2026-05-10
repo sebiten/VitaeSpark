@@ -5,6 +5,18 @@ export async function middleware(request: NextRequest) {
   const hostname = request.nextUrl.hostname;
   const { pathname } = request.nextUrl;
 
+  const canonicalRedirects: Record<string, string> = {
+    "/terms": "/terminos",
+    "/privacy": "/privacidad",
+    "/refund": "/reembolsos",
+  };
+
+  if (canonicalRedirects[pathname]) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = canonicalRedirects[pathname];
+    return NextResponse.redirect(redirectUrl, 301);
+  }
+
   if (hostname === "www.vitaespark.com") {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.hostname = "vitaespark.com";

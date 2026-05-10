@@ -124,6 +124,32 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Vitae Spark",
+              url: baseUrl.href,
+              logo: `${baseUrl.href}/logoreal.webp`,
+              description:
+                "Herramienta web para crear curriculum vitae online con IA, plantillas profesionales y enfoque ATS.",
+              email: "soporte@vitaespark.com",
+              sameAs: [
+                "https://www.instagram.com/vitae.spark/",
+                "https://www.facebook.com/profile.php?id=61572162699853",
+                "https://www.tiktok.com/@vitaesapark",
+              ],
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "soporte",
+                email: "soporte@vitaespark.com",
+                availableLanguage: "Spanish",
+              },
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
               "@type": "WebSite",
               url: baseUrl.href,
               name: "Vitae Spark",
@@ -145,6 +171,15 @@ export default function RootLayout({
               url: baseUrl.href,
               description:
                 "Herramienta web para crear curriculum vitae online con IA, plantillas profesionales y enfoque ATS.",
+              publisher: {
+                "@type": "Organization",
+                name: "Vitae Spark",
+                url: baseUrl.href,
+                logo: {
+                  "@type": "ImageObject",
+                  url: `${baseUrl.href}/logoreal.webp`,
+                },
+              },
             }),
           }}
         />

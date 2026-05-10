@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getBaseUrl } from "@/lib/seo";
 
 type BreadcrumbItem = {
   label: string;
@@ -10,6 +11,8 @@ type BreadcrumbsProps = {
 };
 
 export function Breadcrumbs({ items }: BreadcrumbsProps) {
+  const baseUrl = getBaseUrl();
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -17,7 +20,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
       "@type": "ListItem",
       position: index + 1,
       name: item.label,
-      item: item.href,
+      ...(item.href ? { item: new URL(item.href, baseUrl).toString() } : {}),
     })),
   };
 
