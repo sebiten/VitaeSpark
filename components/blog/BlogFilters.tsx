@@ -1,0 +1,127 @@
+"use client";
+
+import { useState, useMemo, useCallback } from "react";
+import { Search, X } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+export type BlogPost = {
+  href: string;
+  title: string;
+  description: string;
+  category: string;
+  icon: LucideIcon;
+};
+
+type Props = {
+  posts: BlogPost[];
+  onFilter: (filtered: BlogPost[]) => void;
+};
+
+const DEBOUNCE_MS = 300;
+
+export function BlogFilters({ posts, onFilter }: Props) {
+  const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
+
+  const categories = useMemo(() => {
+    const cats = new Set(posts.map((p) => p.category));
+    return Array.from(cats).sort();
+  }, [posts]);
+
+  const filterPosts = useCallback(
+    (searchTerm: string, category: string | null) => {
+      let filtered = posts;
+
+      if (category) {
+        filtered = filtered.filter((p) => p.category === category);
+      }
+
+      if (searchTerm.trim()) {
+        const term = searchTerm.toLowerCase();
+        filtered = filtered.filter(
+          (p) =>
+            p.title.toLowerCase().includes(term) ||
+            p.description.toLowerCase().includes(term)
+        );
+      }
+
+      onFilter(filtered);
+    },
+    [posts, onFilter]
+  );
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+
+    if (debounceTimer) clearTimeout(debounceTimer);
+
+    const timer = setTimeout(() => {
+      filterPosts(value, activeCategory);
+    }, DEBOUNCE_MS);
+
+    setDebounceTimer(timer);
+  };
+
+  const handleCategoryClick = (category: string | null) => {
+    const newCategory = category === activeCategory ? null : category;
+    setActiveCategory(newCategory);
+    filterPosts(search, newCategory);
+  };
+
+  const clearSearch = () => {
+    setSearch("");
+    filterPosts("", activeCategory);
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="relative flex-1">
+          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
+          <input
+            type="text"
+            placeholder="Buscar en las guias..."
+            value={search}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="w-full rounded-xl border border-white/10 bg-[#121217] py-3 pl-11 pr-10 text-sm text-white placeholder:text-white/40 focus:border-[#38BDF8]/40 focus:outline-none focus:ring-1 focus:ring-[#38BDF8]/20"
+          />
+          {search && (
+            <button
+              onClick={clearSearch}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <button
+          onClick={() => handleCategoryClick(null)}
+          className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
+            activeCategory === null
+              ? "bg-[#38BDF8] text-black"
+              : "border border-white/10 bg-white/[0.04] text-white/60 hover:border-[#38BDF8]/40 hover:text-white/80"
+          }`}
+        >
+          Todos
+        </button>
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => handleCategoryClick(cat)}
+            className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
+              activeCategory === cat
+                ? "bg-[#38BDF8] text-black"
+                : "border border-white/10 bg-white/[0.04] text-white/60 hover:border-[#38BDF8]/40 hover:text-white/80"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
