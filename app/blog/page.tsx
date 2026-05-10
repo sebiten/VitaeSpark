@@ -20,8 +20,8 @@ export const metadata = buildMetadata({
 
 export default function BlogIndexPage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#0F0F10] text-[#F4F4F5]">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.20),_transparent_35%),#0F0F10]">
+    <div className="min-h-screen overflow-x-hidden bg-[#111113] text-[#F4F4F5]">
+      <section className="border-b border-white/10 bg-gradient-to-b from-[#1C1C22] to-[#111113]">
         <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8">
           <span className="inline-flex rounded-full border border-[#7C3AED]/30 bg-[#7C3AED]/10 px-4 py-1 text-sm font-medium text-[#A78BFA]">
             Blog VitaeSpark
@@ -39,7 +39,7 @@ export default function BlogIndexPage() {
 
       <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mb-10 grid gap-5 md:grid-cols-2">
-          <figure className="overflow-hidden rounded-3xl border border-white/10 bg-[#121217]">
+          <figure className="overflow-hidden rounded-3xl border border-white/10 bg-[#1C1C22]">
             <Image
               src="/purple-hero.webp"
               alt="Ejemplo visual de CV moderno creado con VitaeSpark"
@@ -52,7 +52,7 @@ export default function BlogIndexPage() {
               Ejemplo de CV moderno optimizado para ATS.
             </figcaption>
           </figure>
-          <figure className="overflow-hidden rounded-3xl border border-white/10 bg-[#121217]">
+          <figure className="overflow-hidden rounded-3xl border border-white/10 bg-[#1C1C22]">
             <Image
               src="/elegance-good.webp"
               alt="Ejemplo visual de CV elegante creado con VitaeSpark"
@@ -69,7 +69,7 @@ export default function BlogIndexPage() {
 
         <BlogGrid posts={blogPosts} />
 
-        <div className="mt-12 rounded-3xl border border-white/10 bg-[#121217] p-8">
+        <div className="mt-12 rounded-3xl border border-white/10 bg-[#1C1C22] p-8">
           <h2 className="text-2xl font-semibold">
             Recursos recomendados para seguir creciendo
           </h2>

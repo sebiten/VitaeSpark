@@ -24,32 +24,42 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#7C3AED", // Violeta brillante
-          foreground: "#F4F4F5", // Texto claro
+          DEFAULT: "#8B5CF6",
+          foreground: "#FFFFFF",
+          muted: "#7C3AED",
         },
         secondary: {
-          DEFAULT: "#38BDF8", // Celeste vibrante
-          foreground: "#0F0F10", // Fondo oscuro
+          DEFAULT: "#38BDF8",
+          foreground: "#0F0F10",
+          light: "#7DD3FC",
         },
         destructive: {
-          DEFAULT: "#EF4444", // Rojo coral suave
-          foreground: "#F4F4F5", // Texto claro
+          DEFAULT: "#EF4444",
+          foreground: "#FFFFFF",
         },
         muted: {
-          DEFAULT: "#1F1F22", // Gris oscuro
-          foreground: "#F4F4F5", // Texto claro
+          DEFAULT: "#27272A",
+          foreground: "#A1A1AA",
         },
         accent: {
-          default: "#A78BFA", // Lavanda claro
-          foreground: "#0F0F10", // Fondo oscuro
+          default: "#A78BFA",
+          foreground: "#0F0F10",
+          light: "#C4B5FD",
         },
         popover: {
-          DEFAULT: "#0F0F10", // Fondo oscuro
-          foreground: "#F4F4F5", // Texto claro
+          DEFAULT: "#1C1C22",
+          foreground: "#F4F4F5",
         },
         card: {
-          DEFAULT: "#0F0F10", // Fondo oscuro
-          foreground: "#F4F4F5", // Texto claro
+          DEFAULT: "#1C1C22",
+          foreground: "#F4F4F5",
+          elevated: "#252528",
+        },
+        surface: {
+          base: "#111113",
+          raised: "#1C1C22",
+          overlay: "#27272A",
+          subtle: "#323238",
         },
       },
       borderRadius: {

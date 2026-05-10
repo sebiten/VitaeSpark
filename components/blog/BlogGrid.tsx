@@ -29,9 +29,9 @@ export function BlogGrid({ posts }: Props) {
               <Link
                 key={post.href}
                 href={post.href}
-                className="group relative min-h-[206px] overflow-hidden rounded-3xl border border-white/10 bg-[#121217] p-6 shadow-xl shadow-black/10 transition hover:-translate-y-0.5 hover:border-[#38BDF8]/40 hover:bg-[#15151B]"
+                className="group relative min-h-[206px] overflow-hidden rounded-3xl border border-white/10 bg-[#1C1C22] p-6 shadow-xl shadow-black/10 transition hover:-translate-y-0.5 hover:border-[#8B5CF6]/40 hover:bg-[#252528] hover:shadow-2xl hover:shadow-[#8B5CF6]/5"
               >
-                <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#7C3AED]/10 blur-2xl transition group-hover:bg-[#38BDF8]/10" />
+                <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#8B5CF6]/10 blur-xl transition group-hover:bg-[#38BDF8]/10" />
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#38BDF8]/30 to-transparent opacity-0 transition group-hover:opacity-100" />
 
                 <div className="relative mb-5 flex items-start justify-between gap-4">

@@ -38,7 +38,7 @@ const steps = [
 
 export default function WelcomeHero() {
   return (
-    <section className="relative isolate overflow-x-hidden bg-[#0F0F10] px-4 pb-14 pt-8 sm:px-6 sm:pt-10 lg:pb-20 lg:pt-16">
+    <section className="relative isolate overflow-x-hidden bg-[#111113] px-4 pb-14 pt-8 sm:px-6 sm:pt-10 lg:pb-20 lg:pt-16">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
         <div className="hero-ambient absolute inset-0 bg-[linear-gradient(120deg,rgba(124,58,237,0.18)_0%,rgba(15,15,16,0.9)_38%,rgba(15,15,16,1)_64%,rgba(56,189,248,0.14)_100%)]" />
@@ -47,7 +47,7 @@ export default function WelcomeHero() {
           <div className="absolute inset-3 rounded-full border border-[#7C3AED]/15" />
           <Bot className="h-14 w-14 sm:h-20 sm:w-20 lg:h-24 lg:w-24" strokeWidth={1.5} />
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0F0F10] to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#111113] to-transparent" />
       </div>
 
       <div className="mx-auto grid max-w-7xl min-w-0 items-center gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(500px,1.08fr)] lg:gap-12">

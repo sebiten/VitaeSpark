@@ -117,7 +117,7 @@ export function MarketingPage({
   };
 
   return (
-    <div className="overflow-x-hidden bg-[#0F0F10] text-[#F4F4F5]">
+    <div className="overflow-x-hidden bg-[#111113] text-[#F4F4F5]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -127,7 +127,7 @@ export function MarketingPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howtoSchema) }}
       />
 
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),_transparent_35%),radial-gradient(circle_at_right,_rgba(124,58,237,0.22),_transparent_40%),#0F0F10]">
+      <section className="border-b border-white/10 bg-gradient-to-b from-[#1C1C22] via-[#111113] to-[#111113]">
         <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-20 sm:px-6 lg:px-8">
           <Breadcrumbs
             items={[
@@ -207,7 +207,7 @@ export function MarketingPage({
             </div>
 
             {visual ? (
-              <figure className="min-w-0 max-w-full overflow-hidden rounded-2xl border border-white/10 bg-[#121217]">
+              <figure className="min-w-0 max-w-full overflow-hidden rounded-2xl border border-white/10 bg-[#1C1C22]">
                 <Image
                   src={visual.src}
                   alt={visual.alt}

@@ -5,7 +5,6 @@ import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Toaster } from "sonner";
 import { getBaseUrl } from "@/lib/seo";
-
 import "./globals.css";
 
 const geistSans = Geist({
@@ -185,7 +184,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-popover-foreground antialiased flex min-h-screen flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-primary/96 antialiased flex min-h-screen flex-col`}
       >
         <a
           href="#main-content"

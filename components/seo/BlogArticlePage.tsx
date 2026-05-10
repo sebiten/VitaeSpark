@@ -106,7 +106,7 @@ path,
       : null;
 
   return (
-<div className="overflow-x-hidden bg-[#0F0F10] text-[#F4F4F5]">
+<div className="overflow-x-hidden bg-[#111113] text-[#F4F4F5]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -118,7 +118,7 @@ path,
         />
       )}
 
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.20),_transparent_35%),#0F0F10]">
+      <section className="border-b border-white/10 bg-gradient-to-b from-[#1C1C22] to-[#111113]">
         <div className="mx-auto max-w-4xl min-w-0 px-4 py-20 sm:px-6 lg:px-8">
           <Breadcrumbs
             items={[
@@ -175,7 +175,7 @@ path,
                 {intro}
               </p>
             </div>
-            <figure className="overflow-hidden rounded-2xl border border-white/10 bg-[#121217]">
+            <figure className="overflow-hidden rounded-2xl border border-white/10 bg-[#1C1C22]">
               <Image
                 src="/elegance-good.webp"
                 alt="Ejemplo de curriculum profesional creado con VitaeSpark"

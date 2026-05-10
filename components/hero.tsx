@@ -23,13 +23,13 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#0F0F10] text-[#F4F4F5]">
+    <div className="flex min-h-screen flex-col bg-[#111113] text-[#F4F4F5]">
       {/* Hero Section */}
 
       <WelcomeHero />
 
       {/* Features Section */}
-      <section className="relative overflow-hidden py-20 px-4 bg-[#0F0F10]">
+      <section className="relative overflow-hidden py-20 px-4 bg-[#111113]">
         <div className="pointer-events-none absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-[#38BDF8]/10 blur-[110px]" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -81,7 +81,7 @@ export default function Home() {
       </section>
 
       {/* How it Works Section */}
-      <section className="relative overflow-hidden py-20 px-4 bg-[#0F0F10]/50">
+      <section className="relative overflow-hidden py-20 px-4 bg-[#111113]/50">
         <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-[#38BDF8]/15 to-transparent" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -123,7 +123,7 @@ export default function Home() {
             ].map((step) => (
               <div
                 key={step.number}
-                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-[#15151A] p-6 shadow-2xl shadow-black/10 transition hover:-translate-y-1 hover:border-[#38BDF8]/25"
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-[#1C1C22] p-6 shadow-2xl shadow-black/10 transition hover:-translate-y-1 hover:border-[#38BDF8]/25"
               >
                 <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#7C3AED]/10 blur-2xl transition group-hover:bg-[#38BDF8]/10" />
                 <div className="relative mb-8 flex items-center justify-between">
@@ -150,7 +150,7 @@ export default function Home() {
       </section>
 
       {/* Comparison Section */}
-      <section className="py-20 px-4 bg-[#0F0F10]">
+      <section className="py-20 px-4 bg-[#111113]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
@@ -167,14 +167,14 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* CV Tradicional */}
-            <div className="bg-[#1F1F22] rounded-lg p-6 border border-[#F4F4F5]/10 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#1F1F22] px-4 py-1 rounded-full border border-[#F4F4F5]/10">
+            <div className="bg-[#27272A] rounded-lg p-6 border border-[#F4F4F5]/10 relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#27272A] px-4 py-1 rounded-full border border-[#F4F4F5]/10">
                 <span className="text-sm font-medium text-[#F4F4F5]/70">
                   CV Tradicional
                 </span>
               </div>
 
-              <div className="relative mb-6 bg-[#0F0F10] rounded-lg p-2 shadow-md">
+              <div className="relative mb-6 bg-[#111113] rounded-lg p-2 shadow-md">
                 <div className=" overflow-hidden">
                   <Image
                     src="/hamdu.webp"
@@ -239,7 +239,7 @@ export default function Home() {
                 </span>
               </div>
 
-              <div className="relative mb-6 bg-[#0F0F10] rounded-lg p-2 shadow-xl">
+              <div className="relative mb-6 bg-[#111113] rounded-lg p-2 shadow-xl">
                 <div className=" overflow-hidden">
                   <Image
                     width={500}
@@ -345,7 +345,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 px-4 bg-[#0F0F10]">
+      <section className="py-20 px-4 bg-[#111113]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
@@ -431,7 +431,7 @@ export default function Home() {
       />
 
       {/* FAQ Section */}
-      <section className="relative overflow-hidden py-20 px-4 bg-[#0F0F10]">
+      <section className="relative overflow-hidden py-20 px-4 bg-[#111113]">
         <div className="pointer-events-none absolute right-0 top-10 h-72 w-72 rounded-full bg-[#7C3AED]/10 blur-[120px]" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -446,7 +446,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="relative w-full rounded-3xl border border-white/10 bg-[#15151A]/80 p-3 shadow-2xl shadow-black/10">
+          <div className="relative w-full rounded-3xl border border-white/10 bg-[#1C1C22]/80 p-3 shadow-2xl shadow-black/10">
             <details className="group border-b border-white/10 px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
               <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium transition hover:text-[#38BDF8]">
                 <HelpCircle className="mr-3 h-5 w-5 text-[#38BDF8]" />
@@ -516,7 +516,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 px-4 bg-[#0F0F10]">
+      <section className="py-20 px-4 bg-[#111113]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
@@ -658,7 +658,7 @@ export default function Home() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#15151A] p-6 transition hover:-translate-y-1 hover:border-[#38BDF8]/40 hover:bg-[#181821]"
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#1C1C22] p-6 transition hover:-translate-y-1 hover:border-[#38BDF8]/40 hover:bg-[#181821]"
               >
                 <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#7C3AED]/10 blur-2xl transition group-hover:bg-[#38BDF8]/10" />
                 <div className="relative mb-5 flex items-center justify-between">
@@ -687,10 +687,10 @@ export default function Home() {
         </div>
       </section>
       {/* CTA Section */}
-      <section className="relative overflow-hidden px-4 py-20 bg-[#0F0F10]">
+      <section className="relative overflow-hidden px-4 py-20 bg-[#111113]">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
         <div className="pointer-events-none absolute right-1/4 top-20 h-72 w-72 rounded-full bg-[#7C3AED]/12 blur-[110px]" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-8 rounded-[2rem] border border-white/10 bg-[#15151A]/85 p-6 shadow-2xl shadow-black/20 md:grid-cols-[1fr_360px] md:p-8">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 rounded-[2rem] border border-white/10 bg-[#1C1C22]/85 p-6 shadow-2xl shadow-black/20 md:grid-cols-[1fr_360px] md:p-8">
           <div>
             <Badge className="mb-5 bg-[#7C3AED]/20 text-[#C4B5FD] hover:bg-[#7C3AED]/30">
               Listo para postularte
@@ -734,7 +734,7 @@ export default function Home() {
 
           <div className="relative hidden md:block">
             <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-[#7C3AED]/25 to-[#38BDF8]/10 blur-2xl" />
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0F0F10] p-3">
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#111113] p-3">
               <div className="mb-3 flex items-center justify-between rounded-2xl bg-white/[0.04] px-4 py-3">
                 <span className="text-xs uppercase tracking-[0.22em] text-[#38BDF8]">
                   Preview

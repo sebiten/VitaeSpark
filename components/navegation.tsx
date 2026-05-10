@@ -25,7 +25,7 @@ function CustomButton({
   type = "button",
 }: CustomButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0F0F10]";
+    "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#111113]";
   const variants = {
     primary:
       "bg-[#7C3AED] text-[#F4F4F5] hover:bg-[#7C3AED]/90 focus:ring-[#7C3AED]/20 shadow-sm",
@@ -66,7 +66,7 @@ function CustomLinkButton({
   onClick,
 }: CustomLinkButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0F0F10] no-underline";
+    "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#111113] no-underline";
   const variants = {
     primary:
       "bg-[#7C3AED] text-[#F4F4F5] hover:bg-[#7C3AED]/90 focus:ring-[#7C3AED]/20 shadow-sm",
@@ -93,7 +93,7 @@ export function Navegation() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[#1F1F22]/50 bg-[#0F0F10]/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-[#27272A]/50 bg-[#111113]/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-0">
         <Link
           href="/"
@@ -155,7 +155,7 @@ export function Navegation() {
       </div>
 
       {menuOpen && (
-        <div className="space-y-3 border-t border-[#1F1F22]/50 bg-[#0F0F10] px-4 py-4 md:hidden">
+        <div className="space-y-3 border-t border-[#27272A]/50 bg-[#0F0F10] px-4 py-4 md:hidden">
           <AuthControls mobile onNavigate={() => setMenuOpen(false)} />
         </div>
       )}
