@@ -394,6 +394,42 @@ export default function Home() {
         </div>
       </section>
 
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "¿Qué es un sistema ATS y por qué es importante?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Un ATS (Applicant Tracking System) es un software que utilizan las empresas para filtrar automáticamente los CVs. Es importante que tu CV esté optimizado para estos sistemas, ya que aproximadamente el 75% de los currículums son rechazados antes de que un reclutador los vea. VitaeSpark asegura que tu CV pase estos filtros.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "¿Cómo mejora la IA mi currículum?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Nuestra IA analiza tu información y mejora la redacción para hacerla más impactante y profesional. También identifica palabras clave relevantes para tu industria y las incorpora estratégicamente, aumentando tus posibilidades de superar los filtros ATS.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "¿En qué formatos puedo descargar mi CV?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Con la generación de tu CV puedes descargarlo en formato PDF las veces que sean necesarias desde tu perfil.",
+                },
+              },
+            ],
+          }),
+        }}
+      />
+
       {/* FAQ Section */}
       <section className="relative overflow-hidden py-20 px-4 bg-[#0F0F10]">
         <div className="pointer-events-none absolute right-0 top-10 h-72 w-72 rounded-full bg-[#7C3AED]/10 blur-[120px]" />

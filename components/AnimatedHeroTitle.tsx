@@ -1,12 +1,13 @@
 const words = [
-  "Converti",
+  "Crea",
   "tu",
-  "historia",
-  "en",
-  "un",
   "CV",
-  "listo",
-  "para",
+  "con",
+  "IA",
+  "y",
+  "destaca",
+  "en",
+  "tus",
   "entrevistas",
 ];
 

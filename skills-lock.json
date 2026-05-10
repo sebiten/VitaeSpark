@@ -13,6 +13,12 @@
       "skillPath": "skills/ai-seo/SKILL.md",
       "computedHash": "ede5108491794bd39caf5f673ecfd2349e5a398e7034d1beedc615ef59c74958"
     },
+    "competitor-analysis": {
+      "source": "aaron-he-zhu/seo-geo-claude-skills",
+      "sourceType": "github",
+      "skillPath": "research/competitor-analysis/SKILL.md",
+      "computedHash": "dd86431602fd7d2329946343ee1aab9e8b1d91fce8f86eaad3e87640185c0b3b"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
