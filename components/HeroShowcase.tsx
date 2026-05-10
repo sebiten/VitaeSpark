@@ -76,7 +76,7 @@ export default function HeroShowcase() {
             priority
             draggable={false}
             sizes="(min-width: 1024px) 42vw, 92vw"
-            className="aspect-[0.82] w-full object-cover object-top"
+            className="w-full object-cover object-top"
           />
 
           <div className="hero-showcase-note absolute bottom-3 left-3 right-3 rounded-2xl border border-white/20 bg-[#111113]/88 p-3 text-white shadow-xl backdrop-blur-md sm:bottom-4 sm:left-4 sm:right-4 sm:p-4">
