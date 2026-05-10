@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Como Hacer un CV ATS",
+  title: "Cómo Hacer un CV ATS que Pase Filtros Automáticos",
   description:
-    "Consejos practicos para crear un CV ATS con buena estructura, mejor uso de palabras clave y contenido orientado a procesos de seleccion actuales.",
+    "Consejos prácticos para crear un CV ATS con buena estructura, mejor uso de palabras clave y contenido orientado a procesos de selección actuales.",
   path: "/blog/como-hacer-un-cv-ats",
   keywords: [
     "como hacer un cv ats",
@@ -22,7 +22,7 @@ export default function ComoHacerUnCvAtsPage() {
       datePublished="2025-04-12"
       title="Como hacer un CV ATS que tenga mas posibilidades de pasar filtros"
       description="Consejos practicos para crear un CV ATS con buena estructura, mejor uso de palabras clave y contenido orientado a procesos de seleccion actuales."
-      intro="Un CV ATS no se trata de enganar al sistema, sino de facilitar que tu perfil sea interpretado correctamente. La mejor forma de lograrlo es combinar estructura simple, contenido relevante y una redaccion alineada al puesto que buscas."
+      intro="Un CV ATS no se trata de engañar al sistema, sino de facilitar que tu perfil sea interpretado correctamente. Según Jobscan (2023), el 75% de los currículums nunca llega a ser visto por un reclutador porque los sistemas ATS los descartan primero. La mejor forma de evitarlo es combinar estructura simple, contenido relevante y una redacción alineada al puesto que buscás."
       sections={[
         {
           title: "Usa secciones claras y faciles de leer",

@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Como Hacer un Curriculum Paso a Paso",
+  title: "Cómo Hacer un Currículum Paso a Paso",
   description:
-    "Guia practica para hacer un curriculum vitae desde cero, con estructura, secciones recomendadas y consejos para mejorar tus postulaciones.",
+    "Guía práctica para hacer un currículum vitae desde cero, con estructura, secciones recomendadas y consejos para mejorar tus postulaciones.",
   path: "/blog/como-hacer-un-curriculum",
   keywords: [
     "como hacer un curriculum",

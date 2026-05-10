@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Primer Empleo",
+  title: "CV para Primer Empleo: Cómo Armarlo sin Experiencia",
   description:
-    "Aprende como armar un CV para primer empleo destacando estudios, cursos, proyectos y habilidades de forma clara y profesional.",
+    "Aprende cómo armar un CV para primer empleo destacando estudios, cursos, proyectos y habilidades de forma clara y profesional.",
   path: "/cv-para-primer-empleo",
   keywords: [
     "cv para primer empleo",

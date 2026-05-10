@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Repositor: Ejemplo para Supermercado y Stock",
   description:
-    "Arma un CV para repositor con ejemplo de perfil, experiencia, habilidades de stock, gondola, supermercado, deposito y formato ATS.",
+    "Arma un CV para repositor con ejemplo de perfil, experiencia, habilidades de stock, góndola, supermercado, depósito y formato ATS.",
   path: "/cv-para-repositor",
   keywords: [
     "cv para repositor",

@@ -1,0 +1,45 @@
+# Vitae Spark
+
+> Generador de curriculum vitae online con inteligencia artificial, plantillas profesionales y enfoque ATS.
+
+## Que es Vitae Spark
+
+Vitae Spark es una herramienta web para crear curriculum vitae online. Usa inteligencia artificial para mejorar la redaccion del contenido, ofrece plantillas profesionales optimizadas para sistemas ATS (Applicant Tracking Systems), y permite descargar el resultado en PDF. Esta pensada para personas que buscan trabajo en mercados hispanohablantes, especialmente Argentina y Latinoamerica.
+
+## Para quien es
+
+- Personas que buscan primer empleo o tienen poca experiencia laboral
+- Profesionales que quieren optimizar su CV para procesos de seleccion con ATS
+- Candidatos que necesitan adaptar su curriculum a vacantes especificas
+- Usuarios que quieren crear un CV rapido sin experiencia en diseno
+
+## Que ofrece
+
+- Generador de CV con IA: mejora redaccion, estructura y claridad del contenido
+- Plantillas profesionales: Harvard, elegante y otras opciones optimizadas para ATS
+- Enfoque ATS: estructura y formato pensados para pasar filtros automaticos
+- Descarga en PDF: curriculum listo para enviar en formato profesional
+- Landing pages especializadas: CV para atencion al cliente, programadores, medicos, estudiantes, administrativos, vendedores, recepcionistas, cajeros, seguridad, mineria, limpieza, operarios y mas
+- Blog con guias sobre como hacer un curriculum, CV ATS, perfil profesional, habilidades blandas, errores comunes y mas
+
+## Precios
+
+- Plan gratuito: crear y descargar un CV basico
+- Plan premium: funcionalidades completas incluyendo IA avanzada, plantillas premium y descargas ilimitadas
+- Detalles de precios disponibles en https://vitaespark.com/crear
+
+## Paginas principales
+
+- Inicio: https://vitaespark.com/
+- Crear CV: https://vitaespark.com/crear
+- Blog: https://vitaespark.com/blog
+- Curriculum ATS: https://vitaespark.com/curriculum-ats
+- Generador de CV con IA: https://vitaespark.com/generador-de-cv-con-ia
+- Plantillas: https://vitaespark.com/plantillas-curriculum
+
+## Contacto
+
+- Email: soporte@vitaespark.com
+- Instagram: https://www.instagram.com/vitae.spark/
+- Facebook: https://www.facebook.com/profile.php?id=61572162699853
+- TikTok: https://www.tiktok.com/@vitaesapark

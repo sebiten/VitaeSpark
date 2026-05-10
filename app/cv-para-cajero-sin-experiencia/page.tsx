@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Cajero sin Experiencia: Ejemplo y Habilidades",
   description:
-    "Crea un CV para cajero sin experiencia con ejemplo de perfil, habilidades de caja, atencion al cliente y formato ATS.",
+    "Crea un CV para cajero sin experiencia con ejemplo de perfil, habilidades de caja, atención al cliente y formato ATS.",
   path: "/cv-para-cajero-sin-experiencia",
   keywords: [
     "cv para cajero sin experiencia",

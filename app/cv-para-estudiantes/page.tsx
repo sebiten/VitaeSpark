@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Estudiantes",
+  title: "CV para Estudiantes: Cómo Armarlo sin Experiencia",
   description:
-    "Crea un curriculum para estudiantes destacando estudios, proyectos, practicas, cursos y habilidades aunque tengas poca experiencia.",
+    "Crea un currículum para estudiantes destacando estudios, proyectos, prácticas, cursos y habilidades aunque tengas poca experiencia.",
   path: "/cv-para-estudiantes",
   keywords: [
     "cv para estudiantes",

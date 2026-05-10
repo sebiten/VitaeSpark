@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Hacer un CV con IA",
+  title: "Hacer un CV con IA: Mejora tu Currículum Automáticamente",
   description:
-    "Usa inteligencia artificial para mejorar textos, ordenar tu experiencia y crear un curriculum mas claro, profesional y listo para enviar.",
+    "Usa inteligencia artificial para mejorar textos, ordenar tu experiencia y crear un currículum más claro, profesional y listo para enviar.",
   path: "/hacer-cv-con-ia",
   keywords: [
     "hacer cv con ia",
@@ -50,10 +50,10 @@ export default function HacerCvConIaPage() {
       ]}
       sections={[
         {
-          title: "Cuando conviene usar IA para un curriculum",
+          title: "Cuándo conviene usar IA para un currículum",
           paragraphs: [
-            "La inteligencia artificial es especialmente util cuando sabes lo que has hecho, pero te cuesta expresarlo con claridad. Tambien ayuda mucho si llevas tiempo sin actualizar el CV o si quieres adaptar el perfil a un nuevo tipo de puesto.",
-            "Lo importante es que la herramienta no reemplace tu experiencia real, sino que la traduzca a un lenguaje mas profesional, concreto y entendible. Esa es la diferencia entre usar IA como atajo y usarla como apoyo de verdad.",
+            "La inteligencia artificial es especialmente útil cuando sabés lo que has hecho, pero te cuesta expresarlo con claridad. Según LinkedIn Talent Solutions (2024), el 67% de los profesionales de selección ya usa IA para agilizar procesos, lo que muestra que esta tecnología no es una moda pasajera: es parte del presente de la contratación.",
+            "Lo importante es que la herramienta no reemplace tu experiencia real, sino que la traduzca a un lenguaje más profesional, concreto y entendible. Esa es la diferencia entre usar IA como atajo y usarla como apoyo de verdad.",
           ],
         },
         {

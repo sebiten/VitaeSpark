@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Modelo de Curriculum Vitae",
+  title: "Modelo de Currículum Vitae para Usar como Referencia",
   description:
-    "Encuentra un modelo de curriculum vitae profesional y claro para usar como referencia antes de crear tu CV final.",
+    "Encuentra un modelo de currículum vitae profesional y claro para usar como referencia antes de crear tu CV final.",
   path: "/modelo-de-curriculum-vitae",
   keywords: [
     "modelo de curriculum vitae",
@@ -87,7 +87,7 @@ export default function ModeloDeCurriculumVitaePage() {
           description: "Pasa del modelo de referencia a una estructura lista para usar.",
         },
         {
-          href: "/crear-curriculum-vitae",
+          href: "/crear-cv-online",
           title: "Crear curriculum vitae",
           description: "Transforma la referencia en un CV propio y profesional.",
         },

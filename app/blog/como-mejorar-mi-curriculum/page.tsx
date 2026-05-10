@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Como Mejorar mi Curriculum",
+  title: "Cómo Mejorar mi Currículum: Ideas Prácticas",
   description:
-    "Ideas practicas para mejorar tu curriculum vitae y hacerlo mas claro, mas fuerte y mas util para tus postulaciones.",
+    "Ideas prácticas para mejorar tu currículum vitae y hacerlo más claro, más fuerte y más útil para tus postulaciones.",
   path: "/blog/como-mejorar-mi-curriculum",
   keywords: [
     "como mejorar mi curriculum",

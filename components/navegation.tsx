@@ -109,7 +109,7 @@ export function Navegation() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-3 md:flex">
+        <nav aria-label="Navegacion principal" className="hidden items-center gap-3 md:flex">
           <CustomLinkButton href="/crear" variant="primary" size="sm">
             <Paperclip className="h-4 w-4" />
             Crear CV
@@ -146,6 +146,7 @@ export function Navegation() {
             variant="ghost"
             size="sm"
             onClick={() => setMenuOpen((current) => !current)}
+            aria-label={menuOpen ? "Cerrar menu" : "Abrir menu"}
             className="p-2"
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

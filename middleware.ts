@@ -9,6 +9,8 @@ export async function middleware(request: NextRequest) {
     "/terms": "/terminos",
     "/privacy": "/privacidad",
     "/refund": "/reembolsos",
+    "/hacer-cv-online": "/crear-cv-online",
+    "/crear-curriculum-vitae": "/crear-cv-online",
   };
 
   if (canonicalRedirects[pathname]) {

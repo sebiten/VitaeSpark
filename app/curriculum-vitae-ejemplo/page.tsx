@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Curriculum Vitae Ejemplo",
+  title: "Currículum Vitae Ejemplo: Cómo Leerlo y Aplicarlo",
   description:
-    "Mira un ejemplo de curriculum vitae profesional y aprende que estructura, secciones y tono conviene usar para postularte mejor.",
+    "Mira un ejemplo de currículum vitae profesional y aprende qué estructura, secciones y tono conviene usar para postularte mejor.",
   path: "/curriculum-vitae-ejemplo",
   keywords: [
     "curriculum vitae ejemplo",
@@ -83,7 +83,7 @@ export default function CurriculumVitaeEjemploPage() {
       ]}
       relatedLinks={[
         {
-          href: "/crear-curriculum-vitae",
+          href: "/crear-cv-online",
           title: "Crear curriculum vitae",
           description: "Pasa del ejemplo a un CV propio listo para postularte.",
         },

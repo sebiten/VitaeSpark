@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Mineria: Ejemplo para Minera y Ayudante de Mina",
+  title: "CV para Minería: Ejemplo para Minera y Ayudante de Mina",
   description:
-    "Crea un CV para mineria, minera o ayudante de mina con perfil, experiencia, seguridad, turnos, campamento, maquinaria y formato ATS.",
+    "Crea un CV para minería, minera o ayudante de mina con perfil, experiencia, seguridad, turnos, campamento, maquinaria y formato ATS.",
   path: "/cv-para-mineria",
   keywords: [
     "cv para mineria",

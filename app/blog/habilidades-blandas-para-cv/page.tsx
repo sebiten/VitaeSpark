@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Habilidades Blandas para CV",
+  title: "Habilidades Blandas para CV: Cuáles Poner y Cómo",
   description:
-    "Aprende como elegir habilidades blandas para CV sin caer en frases genericas y reforzando mejor tu perfil profesional.",
+    "Aprende cómo elegir habilidades blandas para CV sin caer en frases genéricas y reforzando mejor tu perfil profesional.",
   path: "/blog/habilidades-blandas-para-cv",
   keywords: [
     "habilidades blandas para cv",

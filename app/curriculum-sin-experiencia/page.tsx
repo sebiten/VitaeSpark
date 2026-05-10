@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Curriculum sin Experiencia para Primer Empleo",
+  title: "Currículum sin Experiencia para Primer Empleo",
   description:
-    "Aprende como armar un curriculum sin experiencia laboral destacando estudios, habilidades, proyectos y potencial profesional.",
+    "Aprende cómo armar un currículum sin experiencia laboral destacando estudios, habilidades, proyectos y potencial profesional.",
   path: "/curriculum-sin-experiencia",
   keywords: [
     "curriculum sin experiencia",

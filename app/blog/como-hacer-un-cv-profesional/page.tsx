@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Como Hacer un CV Profesional",
+  title: "Cómo Hacer un CV Profesional: Guía con Pasos Claros",
   description:
-    "Descubre como hacer un CV profesional con mejor estructura, contenido mas claro y una presentacion lista para postularte mejor.",
+    "Descubre cómo hacer un CV profesional con mejor estructura, contenido más claro y una presentación lista para postularte mejor.",
   path: "/blog/como-hacer-un-cv-profesional",
   keywords: [
     "como hacer un cv profesional",

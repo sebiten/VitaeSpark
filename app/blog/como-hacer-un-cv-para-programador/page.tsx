@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Como Hacer un CV para Programador",
+  title: "Cómo Hacer un CV para Programador",
   description:
-    "Guia para hacer un CV para programador destacando stack, proyectos, experiencia y criterio tecnico.",
+    "Guía para hacer un CV para programador destacando stack, proyectos, experiencia y criterio técnico.",
   path: "/blog/como-hacer-un-cv-para-programador",
   keywords: [
     "como hacer un cv para programador",

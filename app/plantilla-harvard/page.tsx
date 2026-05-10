@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Plantilla Harvard para Curriculum",
+  title: "Plantilla Harvard para Currículum: Cuándo y Cómo Usarla",
   description:
-    "Descubre cuando conviene usar una plantilla Harvard y como aprovechar su estructura para un curriculum claro, serio y profesional.",
+    "Descubre cuándo conviene usar una plantilla Harvard y cómo aprovechar su estructura para un currículum claro, serio y profesional.",
   path: "/plantilla-harvard",
   keywords: [
     "plantilla harvard curriculum",

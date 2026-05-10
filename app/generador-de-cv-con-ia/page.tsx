@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Generador de CV con IA",
+  title: "Generador de CV con IA: Crea tu Currículum Online",
   description:
-    "Usa un generador de CV con IA para ordenar tu experiencia, mejorar la redaccion y descargar un curriculum profesional en PDF.",
+    "Usa un generador de CV con IA para ordenar tu experiencia, mejorar la redacción y descargar un currículum profesional en PDF.",
   path: "/generador-de-cv-con-ia",
   keywords: [
     "generador de cv con ia",
@@ -49,10 +49,10 @@ export default function GeneradorDeCvConIaPage() {
       ]}
       sections={[
         {
-          title: "Que debe hacer bien un generador de CV con IA",
+          title: "Qué debe hacer bien un generador de CV con IA",
           paragraphs: [
-            "Lo importante no es solo que escriba por ti, sino que te ayude a presentar mejor tu perfil. Eso implica estructura clara, enfoque en el puesto objetivo y textos que expliquen tu experiencia con mas fuerza.",
-            "Una buena herramienta de IA para CV no inventa, no rellena sin sentido y no te deja con un resultado plano. Te ayuda a convertir informacion real en una propuesta mas competitiva.",
+            "Lo importante no es solo que escriba por vos, sino que te ayude a presentar mejor tu perfil. Eso implica estructura clara, enfoque en el puesto objetivo y textos que expliquen tu experiencia con más fuerza.",
+            "Según LinkedIn Talent Solutions (2024), el 67% de los profesionales de selección afirma que la IA les ayuda a ahorrar tiempo en el proceso de contratación. Del lado del candidato, una buena herramienta de IA para CV no inventa, no rellena sin sentido y no te deja con un resultado plano: te ayuda a convertir información real en una propuesta más competitiva.",
           ],
         },
         {

@@ -64,6 +64,7 @@ path,
     headline: title,
     description,
     inLanguage: "es",
+    image: new URL("/og-image.png", baseUrl).toString(),
     author: {
       "@type": "Organization",
       name: "Vitae Spark",
@@ -126,13 +127,20 @@ path,
               { label: title, href: path },
             ]}
           />
-          <span className="inline-flex rounded-full border border-[#7C3AED]/30 bg-[#7C3AED]/10 px-4 py-1 text-sm font-medium text-[#A78BFA]">
-            Guia VitaeSpark
-          </span>
-          <h1 className="mt-6 max-w-[358px] text-[2.45rem] font-bold leading-tight sm:max-w-4xl sm:text-5xl">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="inline-flex rounded-full border border-[#7C3AED]/30 bg-[#7C3AED]/10 px-4 py-1 text-sm font-medium text-[#A78BFA]">
+              Guia VitaeSpark
+            </span>
+            {datePublished && (
+              <time dateTime={datePublished} className="text-sm text-white/50">
+                {new Date(datePublished).toLocaleDateString("es-AR", { year: "numeric", month: "long", day: "numeric" })}
+              </time>
+            )}
+          </div>
+          <h1 className="mt-6 text-[2.45rem] font-bold leading-tight sm:text-5xl">
             {title}
           </h1>
-          <p className="mt-6 max-w-[358px] text-base leading-8 text-white/75 sm:max-w-4xl sm:text-lg">
+          <p className="mt-6 text-base leading-8 text-white/75 sm:text-lg">
             {description}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -159,8 +167,8 @@ path,
         <article className="min-w-0 max-w-full">
           <div className="mb-12 grid gap-6 border-b border-white/10 pb-10 lg:grid-cols-[1fr_280px]">
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-[#38BDF8]">
-                <BookOpenCheck className="h-4 w-4" />
+<div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-[#38BDF8]">
+                <BookOpenCheck className="h-4 w-4" aria-hidden="true" />
                 Lectura recomendada
               </div>
               <p className="text-lg leading-9 text-white/82 sm:text-xl">
@@ -192,7 +200,7 @@ path,
               className="border-b border-white/10 pb-10 last:border-b-0"
             >
               <div className="mb-5 flex items-start gap-4">
-                <div className="mt-1 rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+<div className="mt-1 rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15" aria-hidden="true">
                   <Icon className="h-5 w-5" />
                 </div>
                 <h2 className="text-2xl font-semibold leading-snug">
@@ -216,9 +224,9 @@ path,
 
           <section className="mt-12 rounded-2xl border border-white/10 bg-white/[0.035] p-6 sm:p-8">
             <div className="mb-6 flex items-center gap-3">
-              <div className="rounded-xl bg-[#7C3AED]/15 p-2.5 text-[#A78BFA] ring-1 ring-[#A78BFA]/20">
-                <HelpCircle className="h-5 w-5" />
-              </div>
+<div className="rounded-xl bg-[#7C3AED]/15 p-2.5 text-[#A78BFA] ring-1 ring-[#A78BFA]/20" aria-hidden="true">
+              <HelpCircle className="h-5 w-5" />
+            </div>
               <h2 className="text-2xl font-semibold">Preguntas frecuentes</h2>
             </div>
             <div className="divide-y divide-white/10">
@@ -238,8 +246,8 @@ path,
 
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <div className="border-l border-[#38BDF8]/30 pl-6">
-            <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">
-              <Link2 className="h-4 w-4" />
+<div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">
+              <Link2 className="h-4 w-4" aria-hidden="true" />
               Tambien te puede servir
             </div>
             <div className="grid gap-5">

@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Errores en el Curriculum",
+  title: "Errores en el Currículum: Los Más Comunes y Cómo Evitarlos",
   description:
-    "Descubre los errores mas comunes en un curriculum vitae y como corregirlos para mejorar tus postulaciones.",
+    "Descubre los errores más comunes en un currículum vitae y cómo corregirlos para mejorar tus postulaciones.",
   path: "/blog/errores-en-el-curriculum",
   keywords: [
     "errores en el curriculum",
@@ -22,7 +22,7 @@ export default function ErroresEnElCurriculumPage() {
       datePublished="2025-04-12"
       title="Errores en el curriculum que pueden frenarte antes de una entrevista"
       description="Descubre los errores mas comunes en un curriculum vitae y como corregirlos para mejorar tus postulaciones."
-      intro="Muchos CVs no fallan porque la persona no tenga perfil, sino porque el documento comunica mal. Un curriculum desordenado, generico o poco claro puede hacerte perder oportunidades incluso si encajas en el puesto."
+      intro="Muchos CVs no fallan porque la persona no tenga perfil, sino porque el documento comunica mal. Según encuestas de CareerBuilder, un CV con errores ortográficos reduce un 59% las posibilidades de conseguir una entrevista. Un currículum desordenado, genérico o poco claro puede hacerte perder oportunidades incluso si encajás en el puesto."
       sections={[
         {
           title: "Tener un perfil demasiado generico",

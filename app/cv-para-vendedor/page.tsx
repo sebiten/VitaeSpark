@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Vendedor: Ejemplo, Habilidades y Formato ATS",
   description:
-    "Crea un CV para vendedor con ejemplo de perfil, habilidades comerciales y formato ATS para retail, ventas y atencion al cliente.",
+    "Crea un CV para vendedor con ejemplo de perfil, habilidades comerciales y formato ATS para retail, ventas y atención al cliente.",
   path: "/cv-para-vendedor",
   keywords: [
     "cv para vendedor",

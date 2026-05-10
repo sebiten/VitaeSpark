@@ -7,7 +7,6 @@ const publicRoutes = [
   "/",
   "/blog",
   "/crear-cv-online",
-  "/crear-curriculum-vitae",
   "/curriculum-ats",
   "/curriculum-sin-experiencia",
   "/curriculum-vitae-ejemplo",
@@ -15,7 +14,6 @@ const publicRoutes = [
   "/cv-para-primer-empleo",
   "/generador-de-cv-con-ia",
   "/hacer-cv-con-ia",
-  "/hacer-cv-online",
   "/modelo-de-curriculum-vitae",
   "/plantilla-harvard",
   "/plantillas-curriculum",
@@ -51,6 +49,9 @@ const publicRoutes = [
   "/blog/habilidades-para-curriculum",
   "/blog/perfil-profesional-para-cv",
   "/blog/que-poner-en-un-curriculum",
+  "/terminos",
+  "/privacidad",
+  "/reembolsos",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

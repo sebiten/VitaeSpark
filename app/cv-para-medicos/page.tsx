@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Medicos",
+  title: "CV para Médicos: Estructura, Formación y Experiencia",
   description:
-    "Aprende como estructurar un curriculum para medicos destacando formacion, experiencia clinica y especialidades.",
+    "Aprende cómo estructurar un currículum para médicos destacando formación, experiencia clínica y especialidades.",
   path: "/cv-para-medicos",
   keywords: [
     "cv para medicos",

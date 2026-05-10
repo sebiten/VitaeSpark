@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Ejemplo de Curriculum Vitae",
+  title: "Ejemplo de Currículum Vitae: Cómo Leerlo y Qué Aprender",
   description:
-    "Aprende a leer un ejemplo de curriculum vitae y descubre que estructura, tono y secciones hacen que un CV se vea profesional.",
+    "Aprende a leer un ejemplo de currículum vitae y descubre qué estructura, tono y secciones hacen que un CV se vea profesional.",
   path: "/blog/ejemplo-de-curriculum-vitae",
   keywords: [
     "ejemplo de curriculum vitae",
@@ -76,7 +76,7 @@ export default function EjemploDeCurriculumVitaePage() {
           description: "Explora otra pagina cercana para seguir comparando enfoques.",
         },
         {
-          href: "/crear-curriculum-vitae",
+          href: "/crear-cv-online",
           title: "Crear curriculum vitae",
           description:
             "Convierte la referencia en una version propia lista para descargar.",

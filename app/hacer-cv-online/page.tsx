@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Hacer CV Online",
+  title: "Hacer CV Online: Crea tu Currículum en Minutos",
   description:
-    "Haz tu CV online con una herramienta pensada para ordenar tu perfil, mejorar la redaccion y descargar un PDF profesional.",
+    "Haz tu CV online con una herramienta pensada para ordenar tu perfil, mejorar la redacción y descargar un PDF profesional.",
   path: "/hacer-cv-online",
   keywords: [
     "hacer cv online",

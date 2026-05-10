@@ -22,9 +22,9 @@ import {
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Blog de CV y Empleo",
+  title: "Blog de CV y Empleo: Guías para Mejorar tu Currículum",
   description:
-    "Guias practicas sobre curriculum vitae, ATS, habilidades, primer empleo y como mejorar tus postulaciones con VitaeSpark.",
+    "Guías prácticas sobre currículum vitae, ATS, habilidades, primer empleo y cómo mejorar tus postulaciones con VitaeSpark.",
   path: "/blog",
   keywords: [
     "blog curriculum vitae",

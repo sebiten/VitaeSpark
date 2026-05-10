@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Curriculum ATS para Pasar Filtros",
+  title: "Currículum ATS para Pasar Filtros Automáticos",
   description:
-    "Mejora tu curriculum para ATS con estructura clara, palabras clave relevantes y contenido pensado para procesos de seleccion actuales.",
+    "Mejora tu currículum para ATS con estructura clara, palabras clave relevantes y contenido pensado para procesos de selección actuales.",
   path: "/curriculum-ats",
   keywords: [
     "curriculum ats",
@@ -50,10 +50,11 @@ export default function CurriculumAtsPage() {
       ]}
       sections={[
         {
-          title: "Que es un curriculum ATS",
+          title: "Qué es un currículum ATS y por qué importa",
           paragraphs: [
-            "Un curriculum ATS es un CV preparado para que los sistemas de seguimiento de candidatos puedan interpretar correctamente tu informacion. Eso implica estructura ordenada, secciones claras, titulos entendibles y contenido alineado a la busqueda laboral.",
-            "No significa llenar el documento con palabras clave sin sentido. Significa describir experiencia y habilidades de forma natural, pero usando el lenguaje profesional que tambien aparece en ofertas reales de empleo.",
+            "Un currículum ATS es un CV preparado para que los sistemas de seguimiento de candidatos puedan interpretar correctamente tu información. Eso implica estructura ordenada, secciones claras, títulos entendibles y contenido alineado a la búsqueda laboral.",
+            "La razón es simple y está respaldada por datos: según Jobscan (2023), más del 98% de las empresas Fortune 500 utilizan sistemas ATS para gestionar candidatos, y aproximadamente 3 de cada 4 currículums (75%) son descartados antes de que una persona los vea, según investigaciones de TopResume.",
+            "No significa llenar el documento con palabras clave sin sentido. Significa describir experiencia y habilidades de forma natural, pero usando el lenguaje profesional que también aparece en ofertas reales de empleo.",
           ],
         },
         {

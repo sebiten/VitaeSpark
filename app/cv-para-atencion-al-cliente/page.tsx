@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Atencion al Cliente: Ejemplo y Habilidades",
+title: "CV para Atención al Cliente: Ejemplo y Habilidades",
   description:
-    "Crea un curriculum de atencion al cliente con ejemplo de perfil, habilidades, experiencia, reclamos, CRM y formato ATS.",
+    "Crea un currículum de atención al cliente con ejemplo de perfil, habilidades, experiencia, reclamos, CRM y formato ATS.",
   path: "/cv-para-atencion-al-cliente",
   keywords: [
     "cv para atencion al cliente",

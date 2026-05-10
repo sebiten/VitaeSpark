@@ -2,9 +2,9 @@ import Hero from "@/components/hero";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Crear Curriculum Online con IA",
+  title: "Crear Currículum Online con IA",
   description:
-    "Crea tu curriculum vitae online con IA, plantillas profesionales, enfoque ATS y descarga en PDF con Vitae Spark.",
+    "Crea tu currículum vitae online con IA, plantillas profesionales, enfoque ATS y descarga en PDF con Vitae Spark.",
   path: "/",
   keywords: [
     "crear curriculum online",

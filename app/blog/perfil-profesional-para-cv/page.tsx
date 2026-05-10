@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Perfil Profesional para CV",
+  title: "Perfil Profesional para CV: Cómo Escribirlo Bien",
   description:
-    "Aprende como escribir un perfil profesional para CV que sea claro, breve y convincente para reclutadores.",
+    "Aprende cómo escribir un perfil profesional para CV que sea claro, breve y convincente para reclutadores.",
   path: "/blog/perfil-profesional-para-cv",
   keywords: [
     "perfil profesional para cv",

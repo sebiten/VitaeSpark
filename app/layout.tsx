@@ -25,11 +25,11 @@ const baseUrl = getBaseUrl();
 export const metadata: Metadata = {
   metadataBase: baseUrl,
   title: {
-    default: "Vitae Spark | Crear curriculum online con IA",
+    default: "Vitae Spark | Crear currículum online con IA",
     template: "%s | Vitae Spark",
   },
   description:
-    "Crea tu curriculum vitae online con inteligencia artificial, plantillas profesionales y enfoque ATS para conseguir mas entrevistas.",
+    "Crea tu currículum vitae online con inteligencia artificial, plantillas profesionales y enfoque ATS para conseguir más entrevistas.",
   applicationName: "Vitae Spark",
   generator: "Next.js 15 - App Router",
   keywords: [
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: baseUrl,
-    title: "Vitae Spark | Crea curriculum online optimizado para ATS",
+    title: "Vitae Spark | Crea currículum online optimizado para ATS",
     description:
       "Usa inteligencia artificial para crear CVs atractivos y optimizados para superar filtros ATS y destacar ante reclutadores.",
     siteName: "Vitae Spark",
@@ -71,19 +71,19 @@ export const metadata: Metadata = {
         url: `${baseUrl.href}/logotab.webp`,
         width: 1200,
         height: 630,
-        alt: "Vitae Spark - Generador inteligente de curriculum con IA",
+        alt: "Vitae Spark - Generador inteligente de currículum con IA",
       },
       {
         url: `${baseUrl.href}/purple-hero.webp`,
         width: 1200,
         height: 630,
-        alt: "Vitae Spark - Ejemplo de curriculum con plantilla moderna",
+        alt: "Vitae Spark - Ejemplo de currículum con plantilla moderna",
       },
       {
         url: `${baseUrl.href}/elegance-good.webp`,
         width: 1200,
         height: 630,
-        alt: "Vitae Spark - Ejemplo de curriculum profesional elegante",
+        alt: "Vitae Spark - Ejemplo de currículum profesional elegante",
       },
     ],
   },
@@ -91,7 +91,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Vitae Spark | Crea CVs efectivos con IA",
     description:
-      "Genera tu curriculum profesional optimizado para filtros ATS con inteligencia artificial.",
+      "Genera tu currículum profesional optimizado para filtros ATS con inteligencia artificial.",
     images: [`${baseUrl.href}/logotab.webp`],
     creator: "@vitae.spark",
   },
@@ -129,7 +129,7 @@ export default function RootLayout({
               url: baseUrl.href,
               logo: `${baseUrl.href}/logoreal.webp`,
               description:
-                "Herramienta web para crear curriculum vitae online con IA, plantillas profesionales y enfoque ATS.",
+                "Herramienta web para crear currículum vitae online con IA, plantillas profesionales y enfoque ATS.",
               email: "soporte@vitaespark.com",
               sameAs: [
                 "https://www.instagram.com/vitae.spark/",
@@ -153,9 +153,9 @@ export default function RootLayout({
               "@type": "WebSite",
               url: baseUrl.href,
               name: "Vitae Spark",
-              alternateName: "Creador de curriculum online",
+              alternateName: "Creador de currículum online",
               description:
-                "Genera curriculum vitae online con IA, optimizado para ATS y reclutadores.",
+                "Genera currículum vitae online con IA, optimizado para ATS y reclutadores.",
             }),
           }}
         />
@@ -170,7 +170,7 @@ export default function RootLayout({
               operatingSystem: "Web",
               url: baseUrl.href,
               description:
-                "Herramienta web para crear curriculum vitae online con IA, plantillas profesionales y enfoque ATS.",
+                "Herramienta web para crear currículum vitae online con IA, plantillas profesionales y enfoque ATS.",
               publisher: {
                 "@type": "Organization",
                 name: "Vitae Spark",
@@ -187,8 +187,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-popover-foreground antialiased flex min-h-screen flex-col`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-black focus:shadow-lg"
+        >
+          Saltar al contenido
+        </a>
         <Navbar />
-        <main className="h-full flex-grow">{children}</main>
+        <main id="main-content" className="h-full flex-grow">{children}</main>
         <Toaster />
         <Footer />
         <Analytics />

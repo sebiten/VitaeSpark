@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Operario de Produccion: Ejemplo y Habilidades",
+  title: "CV para Operario de Producción: Ejemplo y Habilidades",
   description:
-    "Crea un CV para operario de produccion con ejemplo de perfil, experiencia, habilidades de fabrica, deposito, mantenimiento y formato ATS.",
+    "Crea un CV para operario de producción con ejemplo de perfil, experiencia, habilidades de fábrica, depósito, mantenimiento y formato ATS.",
   path: "/cv-para-operario",
   keywords: [
     "cv para operario",

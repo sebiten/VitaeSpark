@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Seguridad y Vigilador: Ejemplo y Habilidades",
   description:
-    "Crea un CV para seguridad o vigilador con ejemplo de perfil, experiencia, control de accesos, rondas, camaras, protocolos y formato ATS.",
+    "Crea un CV para seguridad o vigilador con ejemplo de perfil, experiencia, control de accesos, rondas, cámaras, protocolos y formato ATS.",
   path: "/cv-para-seguridad",
   keywords: [
     "cv para seguridad",

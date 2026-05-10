@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Como Adaptar tu CV a una Vacante",
+  title: "Cómo Adaptar tu CV a una Vacante Específica",
   description:
-    "Aprende como adaptar tu CV a una vacante para mejorar relevancia, claridad y posibilidades de conseguir entrevistas.",
+    "Aprende cómo adaptar tu CV a una vacante para mejorar relevancia, claridad y posibilidades de conseguir entrevistas.",
   path: "/blog/como-adaptar-tu-cv-a-una-vacante",
   keywords: [
     "como adaptar tu cv a una vacante",

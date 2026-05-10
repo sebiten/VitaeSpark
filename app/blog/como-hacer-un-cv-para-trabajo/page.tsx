@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Como Hacer un CV para Trabajo",
+  title: "Cómo Hacer un CV para Trabajo: Guía Paso a Paso",
   description:
-    "Aprende como hacer un CV para trabajo con una estructura clara, contenido relevante y mejor enfoque para postulaciones reales.",
+    "Aprende cómo hacer un CV para trabajo con una estructura clara, contenido relevante y mejor enfoque para postulaciones reales.",
   path: "/blog/como-hacer-un-cv-para-trabajo",
   keywords: [
     "como hacer un cv para trabajo",

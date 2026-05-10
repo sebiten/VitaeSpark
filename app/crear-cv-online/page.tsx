@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Crear CV Online en Minutos",
+  title: "Crear CV Online en Minutos con IA y Plantillas",
   description:
-    "Crea tu curriculum online con IA, plantillas profesionales y enfoque ATS para postularte mejor a trabajos reales.",
+    "Crea tu currículum online con IA, plantillas profesionales y enfoque ATS para postularte mejor a trabajos reales.",
   path: "/crear-cv-online",
   keywords: [
     "crear cv online",
@@ -50,10 +50,10 @@ export default function CrearCvOnlinePage() {
       ]}
       sections={[
         {
-          title: "Por que hacer tu curriculum online",
+          title: "Por qué hacer tu currículum online",
           paragraphs: [
-            "Un editor online te permite ajustar rapidamente tu CV cada vez que cambias de puesto objetivo, agregas una experiencia o quieres adaptar tu perfil a una vacante especifica. Eso es mucho mas practico que depender de archivos dispersos o plantillas viejas.",
-            "Ademas, cuando el flujo esta bien resuelto, tambien te ayuda a pensar mejor el contenido. No se trata solo del formato: un buen constructor de CV online ordena la informacion, prioriza lo relevante y facilita que tu propuesta profesional se entienda en segundos.",
+            "Un editor online te permite ajustar rápidamente tu CV cada vez que cambias de puesto objetivo, agregás una experiencia o querés adaptar tu perfil a una vacante específica. Según CareerBuilder, el 40% de los gerentes de contratación dedica menos de un minuto a revisar un currículum. En ese contexto, tener un CV siempre actualizado y bien estructurado no es un lujo, es una necesidad.",
+            "Además, cuando el flujo está bien resuelto, también te ayuda a pensar mejor el contenido. No se trata solo del formato: un buen constructor de CV online ordena la información, prioriza lo relevante y facilita que tu propuesta profesional se entienda en segundos.",
           ],
         },
         {

@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Que Poner en un Curriculum",
+  title: "Qué Poner en un Currículum: Secciones y Contenido",
   description:
-    "Guia clara sobre que poner en un curriculum vitae para que se vea profesional, completo y util para buscar trabajo.",
+    "Guía clara sobre qué poner en un currículum vitae para que se vea profesional, completo y útil para buscar trabajo.",
   path: "/blog/que-poner-en-un-curriculum",
   keywords: [
     "que poner en un curriculum",

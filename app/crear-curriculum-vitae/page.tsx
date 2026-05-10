@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Crear Curriculum Vitae Online",
+  title: "Crear Currículum Vitae Online con IA y Plantillas",
   description:
-    "Crea tu curriculum vitae online con IA, plantillas profesionales y estructura clara para buscar trabajo mejor.",
+    "Crea tu currículum vitae online con IA, plantillas profesionales y estructura clara para buscar trabajo mejor.",
   path: "/crear-curriculum-vitae",
   keywords: [
     "crear curriculum vitae",

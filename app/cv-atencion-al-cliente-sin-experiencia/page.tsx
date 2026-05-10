@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Atencion al Cliente sin Experiencia: Ejemplo y Habilidades",
+  title: "CV Atención al Cliente sin Experiencia: Ejemplo y Habilidades",
   description:
-    "Crea un CV para atencion al cliente sin experiencia con perfil profesional, habilidades, ejemplos y formato ATS.",
+    "Crea un CV para atención al cliente sin experiencia con perfil profesional, habilidades, ejemplos y formato ATS.",
   path: "/cv-atencion-al-cliente-sin-experiencia",
   keywords: [
     "cv atencion al cliente sin experiencia",

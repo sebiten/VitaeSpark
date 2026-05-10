@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Ejemplo de Perfil Profesional para CV",
   description:
-    "Mira un ejemplo de perfil profesional para CV y aprende como adaptarlo a tu experiencia, puesto y objetivo laboral.",
+    "Mira un ejemplo de perfil profesional para CV y aprende cómo adaptarlo a tu experiencia, puesto y objetivo laboral.",
   path: "/blog/ejemplo-de-perfil-profesional",
   keywords: [
     "ejemplo de perfil profesional",

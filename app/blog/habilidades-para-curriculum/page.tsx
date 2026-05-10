@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Habilidades para Curriculum",
+  title: "Habilidades para tu Currículum: Cómo Elegirlas Bien",
   description:
-    "Aprende como elegir habilidades para tu curriculum segun el puesto, evitando listas genericas y reforzando tu perfil con informacion mas util.",
+    "Aprende cómo elegir habilidades para tu currículum según el puesto, evitando listas genéricas y reforzando tu perfil con información más útil.",
   path: "/blog/habilidades-para-curriculum",
   keywords: [
     "habilidades para curriculum",

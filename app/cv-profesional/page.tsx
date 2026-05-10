@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Profesional",
+  title: "CV Profesional: Cómo Crearlo paso a Paso",
   description:
-    "Crea un CV profesional con mejor estructura, redaccion mas clara y una presentacion pensada para reclutadores y procesos actuales.",
+    "Crea un CV profesional con mejor estructura, redacción más clara y una presentación pensada para reclutadores y procesos actuales.",
   path: "/cv-profesional",
   keywords: [
     "cv profesional",
@@ -50,10 +50,11 @@ export default function CvProfesionalPage() {
       ]}
       sections={[
         {
-          title: "Que hace que un CV se vea profesional",
+          title: "Qué hace que un CV se vea profesional",
           paragraphs: [
-            "No depende solo de colores o diseño. Un CV profesional se nota cuando tiene foco, usa un lenguaje claro, evita exageraciones y hace facil entender el recorrido laboral del candidato.",
-            "Tambien importa que cada bloque tenga peso real. Perfil, experiencia, estudios y habilidades deben colaborar para contar una historia coherente.",
+            "No depende solo de colores o diseño. Un CV profesional se nota cuando tiene foco, usa un lenguaje claro, evita exageraciones y hace fácil entender el recorrido laboral del candidato.",
+            "Un estudio de The Ladders con tecnología de eye-tracking encontró que los reclutadores dedican en promedio entre 6 y 7 segundos a decidir si un CV merece más atención. Por eso la claridad visual y la calidad del contenido no son opcionales: son lo que determina si pasás o no a la siguiente etapa.",
+            "También importa que cada bloque tenga peso real. Perfil, experiencia, estudios y habilidades deben colaborar para contar una historia coherente, porque en esos pocos segundos iniciales lo que se busca es entender rápido quién sos y para qué puesto encajás.",
           ],
         },
         {

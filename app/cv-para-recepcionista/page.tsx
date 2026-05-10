@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Recepcionista: Ejemplo, Habilidades y Sin Experiencia",
   description:
-    "Arma un CV para recepcionista con ejemplo de perfil, habilidades administrativas, atencion al cliente, agenda y opciones sin experiencia.",
+    "Arma un CV para recepcionista con ejemplo de perfil, habilidades administrativas, atención al cliente, agenda y opciones sin experiencia.",
   path: "/cv-para-recepcionista",
   keywords: [
     "cv para recepcionista",

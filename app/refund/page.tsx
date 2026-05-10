@@ -3,9 +3,9 @@ import { legalUpdatedAt, refundContent } from "@/lib/legal-pages";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Politica de reembolsos",
+  title: "Política de Reembolsos de VitaeSpark",
   description:
-    "Politica de reembolsos de VitaeSpark para compras digitales y desbloqueo de CVs profesionales.",
+    "Política de reembolsos de VitaeSpark para compras digitales y desbloqueo de CVs profesionales.",
   path: "/refund",
   keywords: ["reembolsos vitae spark", "politica de reembolsos vitae spark"],
 });

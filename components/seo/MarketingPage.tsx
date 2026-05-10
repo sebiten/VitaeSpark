@@ -87,6 +87,8 @@ export function MarketingPage({
     caption: "Referencia visual de CV profesional creado con VitaeSpark.",
   };
 
+  const baseUrl = getBaseUrl();
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -100,11 +102,29 @@ export function MarketingPage({
     })),
   };
 
+  const howtoSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: title,
+    description,
+    step: steps.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: step.title,
+      text: step.description,
+      url: new URL(path, baseUrl).toString(),
+    })),
+  };
+
   return (
     <div className="overflow-x-hidden bg-[#0F0F10] text-[#F4F4F5]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howtoSchema) }}
       />
 
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),_transparent_35%),radial-gradient(circle_at_right,_rgba(124,58,237,0.22),_transparent_40%),#0F0F10]">
@@ -122,10 +142,10 @@ export function MarketingPage({
               {eyebrow}
             </span>
             <div className="space-y-4">
-              <h1 className="max-w-[358px] text-[2.45rem] font-bold leading-tight sm:max-w-4xl sm:text-5xl">
+              <h1 className="text-[2.45rem] font-bold leading-tight sm:text-5xl">
                 {title}
               </h1>
-              <p className="max-w-[358px] break-words text-base leading-8 text-white/75 sm:max-w-3xl sm:text-lg">
+              <p className="break-words text-base leading-8 text-white/75 sm:text-lg">
                 {description}
               </p>
             </div>
@@ -154,7 +174,7 @@ export function MarketingPage({
                 key={benefit}
                 className="min-w-0 w-full max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-4 sm:max-w-full sm:flex sm:gap-3"
               >
-                <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#38BDF8]/10 text-[#38BDF8]">
+                <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#38BDF8]/10 text-[#38BDF8]" aria-hidden="true">
                   <CheckCircle2 className="h-4 w-4" />
                 </div>
                 <p className="mt-3 min-w-0 break-words text-sm leading-7 text-white/76 sm:mt-0">
@@ -213,7 +233,7 @@ export function MarketingPage({
                   className="min-w-0 max-w-[calc(100vw-2rem)] border-b border-white/10 pb-10 last:border-b-0 sm:max-w-full"
                 >
                   <div className="mb-5 flex items-start gap-4">
-                    <div className="mt-1 rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+                    <div className="mt-1 rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15" aria-hidden="true">
                       <Icon className="h-5 w-5" />
                     </div>
                     <h2
@@ -240,7 +260,7 @@ export function MarketingPage({
 
           <section className="mt-12 rounded-2xl border border-white/10 bg-white/[0.035] p-6 sm:p-8">
             <div className="mb-6 flex items-center gap-3">
-              <div className="rounded-xl bg-[#7C3AED]/15 p-2.5 text-[#A78BFA] ring-1 ring-[#A78BFA]/20">
+              <div className="rounded-xl bg-[#7C3AED]/15 p-2.5 text-[#A78BFA] ring-1 ring-[#A78BFA]/20" aria-hidden="true">
                 <HelpCircle className="h-5 w-5" />
               </div>
               <h2 className="text-2xl font-semibold">Preguntas frecuentes</h2>
@@ -263,7 +283,7 @@ export function MarketingPage({
         <aside className="min-w-0 space-y-10 lg:sticky lg:top-24 lg:self-start">
           <div className="border-l border-[#7C3AED]/30 pl-6">
             <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#A78BFA]">
-              <Route className="h-4 w-4" />
+              <Route className="h-4 w-4" aria-hidden="true" />
               Como funciona
             </div>
             <div className="space-y-5">
@@ -290,7 +310,7 @@ export function MarketingPage({
 
           <div className="border-l border-[#38BDF8]/30 pl-6">
             <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">
-              <Link2 className="h-4 w-4" />
+              <Link2 className="h-4 w-4" aria-hidden="true" />
               Tambien te puede servir
             </div>
             <div className="grid gap-5">

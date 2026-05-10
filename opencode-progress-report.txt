@@ -1,0 +1,197 @@
+================================================================================
+  REPORTE COMPLETO DE OPTIMIZACION - VITAE SPARK (vitaespark.com)
+  Fecha: 2026-05-10
+  Skills utilizados: seo-audit, ai-seo, programmatic-seo, accessibility
+================================================================================
+
+================================================================================
+  SKILLS UTILIZADOS
+================================================================================
+
+  1. seo-audit       - Auditoria SEO tecnica, on-page, y de contenido
+  2. ai-seo          - Optimizacion para ser citado por IA (ChatGPT, Perplexity, etc.)
+  3. programmatic-seo - Estrategia de paginas a escala con templates y datos
+  4. accessibility   - Auditoria de accesibilidad (contraste, aria, skip links)
+
+================================================================================
+  RESUMEN DE CAMBIOS POR CATEGORIA
+================================================================================
+
+  CRITICAL (AI SEO) - Acceso de bots de IA y contexto para agentes
+  ---------------------------------------------------------------
+  [HECHO] robots.ts: reglas explicitas para GPTBot, ChatGPT-User, PerplexityBot,
+          ClaudeBot, anthropic-ai, Google-Extended (todos allow: "/")
+  [HECHO] robots.ts: CCBot bloqueado (solo entrenamiento, no busqueda)
+  [HECHO] public/llms.txt: archivo de contexto para AI agents con descripcion
+          del producto, publico objetivo, precios y links clave
+  [HECHO] public/pricing.md: planes y precios en markdown estructurado
+          (gratuito + premium $2.500 ARS pago unico, Mercado Pago)
+
+  SCHEMA MARKUP
+  ---------------------------------------------------------------
+  [HECHO] Organization: agregado en root layout con name, url, logo, email,
+          sameAs (Instagram, Facebook, TikTok), contactPoint
+  [HECHO] Article: agregado image, datePublished (opcional), dateModified
+          (opcional), publisher con url+logo, author con url
+  [HECHO] FAQPage: agregado en blog posts (antes no tenian)
+  [HECHO] HowTo: agregado automatico en MarketingPage.tsx desde steps prop
+          (antes solo tenian FAQPage)
+  [HECHO] BreadcrumbList: URLs absolutas (new URL(item.href, baseUrl).toString())
+          en vez de relativas (antes: "/blog", ahora: "https://vitaespark.com/blog")
+  [HECHO] SoftwareApplication: agregado publisher con Organization, url y logo
+
+  CONTENIDO Y SEO ON-PAGE
+  ---------------------------------------------------------------
+  [HECHO] datePublished: agregado a los 15 blog posts con fechas de creacion
+          obtenidas de git history (12 posts del 2025-04-12, 3 del 2025-04-15)
+  [HECHO] Fecha visible: <time> element en BlogArticlePage.tsx, formateado
+          en es_AR (ej: "12 de abril de 2025")
+  [HECHO] Acentos: corregidos en titles y descriptions de ~40 paginas
+          (curriculum->curriculum, como->como, mas->mas, guia->guia, etc.)
+  [HECHO] Acentos: corregidos en root layout (default title, description,
+          OG images alt, JSON-LD schemas)
+  [HECHO] Titles cortos: 26 paginas expandidas a 35+ caracteres
+          (ej: "CV Profesional" -> "CV Profesional: Como Crearlo paso a Paso")
+  [HECHO] H1 max-width: eliminado max-w-[358px] de h1 y descripciones en
+          BlogArticlePage.tsx y MarketingPage.tsx
+
+  REDIRECCIONES Y CONSOLIDACION
+  ---------------------------------------------------------------
+  [HECHO] Legal pages: redirects 301 /terms->/terminos, /privacy->/privacidad,
+          /refund->/reembolsos en middleware.ts
+  [HECHO] Tool pages: redirect 301 /hacer-cv-online->/crear-cv-online y
+          /crear-curriculum-vitae->/crear-cv-online
+  [HECHO] Links internos corregidos: modelo-de-curriculum-vitae,
+          curriculum-vitae-ejemplo, blog/ejemplo-de-curriculum-vitae
+  [HECHO] Sitemap: removidas rutas redirecteadas, agregadas /terminos,
+          /privacidad, /reembolsos
+
+  PROGRAMMATIC SEO (Fase 1 completada)
+  ---------------------------------------------------------------
+  [HECHO] /plantillas-curriculum reconstruido como curation hub:
+          - 5 plantillas con previews (next/image) y descripciones detalladas
+          - Tags de industria ideal para cada plantilla
+          - Badge "ATS" en cada template card
+          - Seccion "Como elegir la mejor plantilla" con 4 recomendaciones
+          - Seccion "Que hace que una plantilla sea buena para ATS"
+          - FAQ schema (5 preguntas) + HowTo schema (3 pasos) + Breadcrumbs
+          - Sidebar con pasos + 4 related links internos
+  [HECHO] /curriculum-vitae-pdf expandido: de 2 a 4 secciones, de 3 a 4 FAQs,
+          4 beneficios, 4 related links, nuevas keywords PDF-ATS
+
+  ESTADISTICAS CON FUENTES (HIGH - AI SEO)
+  ---------------------------------------------------------------
+  [HECHO] curriculum-ats: "Segun Jobscan (2023), mas del 98% de las empresas
+          Fortune 500 utilizan sistemas ATS y el 75% de los CVs son
+          descartados antes de que una persona los vea (TopResume)"
+  [HECHO] cv-profesional: "Un estudio de The Ladders encontro que los
+          reclutadores dedican entre 6 y 7 segundos a la primera lectura de un CV"
+  [HECHO] creador-cv-online: "Segun CareerBuilder, el 40% de los gerentes
+          dedica menos de un minuto a revisar un curriculum"
+  [HECHO] blog/errores-en-el-curriculum: "Segun CareerBuilder, errores
+          ortograficos reducen un 59% las posibilidades de entrevista"
+  [HECHO] blog/como-hacer-un-cv-ats: "Segun Jobscan (2023), el 75% de los
+          curriculums nunca llega a ser visto por un reclutador"
+  [HECHO] generador-de-cv-con-ia: "Segun LinkedIn Talent Solutions (2024),
+          el 67% de los profesionales de seleccion ya usa IA"
+  [HECHO] hacer-cv-con-ia: "Segun LinkedIn Talent Solutions (2024),
+          el 67% de los profesionales de seleccion ya usa IA"
+
+  ACCESIBILIDAD
+  ---------------------------------------------------------------
+  [HECHO] Skip link: "Saltar al contenido" como primer hijo de <body>
+          con id="main-content" en <main>
+  [HECHO] Hamburger menu: aria-label dinamico ("Abrir menu"/"Cerrar menu")
+  [HECHO] Nav: aria-label="Navegacion principal"
+  [HECHO] Iconos decorativos: aria-hidden="true" en MarketingPage.tsx
+          y BlogArticlePage.tsx
+
+  OTROS
+  ---------------------------------------------------------------
+  [HECHO] Blog index: <img> reemplazados por next/image (2 imagenes)
+  [HECHO] next-sitemap: eliminado next-sitemap.config.js y dependencia
+  [HECHO] paginas legales en /reembolsos, /terminos, /privacidad: re-exportan
+          de /refund, /terms, /privacy (usan los mismos metadata ya corregidos)
+  [HECHO] pseo-strategy.md: documento de estrategia programmatica SEO completo
+
+================================================================================
+  PENDIENTES
+================================================================================
+
+  ACCESIBILIDAD (prioridad MEDIUM)
+  ---------------------------------------------------------------
+  1. Contraste de color: text-white/62, text-white/68 tienen bajo contraste
+     en algunos contextos (#6)
+  2. scroll-margin-top: headings no tienen offset para compensar header
+     sticky al navegar con anchor links (#8)
+  3. Target size: algunos botones/links son menores a 44px (#10)
+  4. FAQ expanded state: no hay indicador visual de que FAQ esta
+     expandida/colapsada (#11)
+
+  PROGRAMMATIC SEO Fase 2 (prioridad HIGH/MEDIUM)
+  ---------------------------------------------------------------
+  5. Comparison pages: 3 paginas (Harvard vs Tradicional, ATS vs Convencional,
+     Plantilla Harvard vs Moderna) - capturan queries de alta intencion
+  6. Glossary pages: 3 paginas (que es ATS, que es CV, como escribir perfil
+     profesional) - capturan queries informativas
+  7. Sin-experiencia variants: 5 paginas (vendedor, recepcionista,
+     administrativo, operario, seguridad) - expanden playbook Personas existente
+
+  CONTENIDO Y AUTORIDAD (prioridad MEDIUM)
+  ---------------------------------------------------------------
+  8. Author attribution: autor generico "Vitae Spark" sin credenciales
+     individuales ni bio. ChatGPT prioriza contenido con autor verificable
+  9. dateModified: prop existe en BlogArticlePage pero no se pasa en
+     ningun blog post. No hay "Ultima actualizacion" visible en paginas
+  10. Wikipedia: sin pagina de Wikipedia (7.8% de citas de ChatGPT vienen
+      de Wikipedia)
+  11. Reddit/foros: sin presencia verificada en comunidades de empleo
+
+  PROGRAMMATIC SEO Fase 3 (diferir - prioridad BAJA)
+  ---------------------------------------------------------------
+  12. Location pages: 14 ciudades x 9 industrias = 126 paginas potenciales.
+      Diferir hasta tener mayor domain authority
+
+================================================================================
+  ARCHIVOS CREADOS/MODIFICADOS
+================================================================================
+
+  Creados:
+  - public/llms.txt
+  - public/pricing.md
+  - pseo-strategy.md
+
+  Modificados (mas relevantes):
+  - app/robots.ts
+  - app/sitemap.ts
+  - app/layout.tsx
+  - app/page.tsx
+  - middleware.ts
+  - components/seo/MarketingPage.tsx
+  - components/seo/BlogArticlePage.tsx
+  - components/seo/Breadcrumbs.tsx
+  - app/plantillas-curriculum/page.tsx (reconstruido)
+  - app/curriculum-vitae-pdf/page.tsx (expandido)
+  - ~40 page.tsx files (acentos + titles)
+  - ~15 blog page.tsx files (datePublished + stats)
+
+================================================================================
+  ESTADISTICAS DEL CAMBIO
+================================================================================
+
+  Paginas con titulos expandidos: 26
+  Paginas con acentos corregidos: ~40
+  Paginas de blog con datePublished: 15
+  Paginas con estadisticas citadas: 6 (curriculum-ats, cv-profesional,
+    crear-cv-online, generador-de-cv-con-ia, hacer-cv-con-ia,
+    blog/errores-en-el-curriculum, blog/como-hacer-un-cv-ats)
+  Schemas mejorados: Organization, Article, FAQPage, HowTo, BreadcrumbList,
+    SoftwareApplication
+  Archivos AI SEO criticos creados: 2 (llms.txt, pricing.md)
+  Bots de IA autorizados explicitamente: 6
+  Redirects 301 agregados: 5 (herramientas duplicadas + legales)
+  Rutas en sitemap: 54 -> 55 (3 agregadas legales, 2 removidas duplicadas)
+
+================================================================================
+  FIN DEL REPORTE
+================================================================================

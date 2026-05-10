@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Programadores",
+  title: "CV para Programadores: Stack, Proyectos y Experiencia",
   description:
-    "Crea un curriculum para programadores destacando stack, proyectos, logros y experiencia de forma clara y profesional.",
+    "Crea un currículum para programadores destacando stack, proyectos, logros y experiencia de forma clara y profesional.",
   path: "/cv-para-programadores",
   keywords: [
     "cv para programadores",

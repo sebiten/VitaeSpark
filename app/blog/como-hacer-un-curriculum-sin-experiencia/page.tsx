@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Como Hacer un Curriculum sin Experiencia",
+  title: "Cómo Hacer un Currículum sin Experiencia Laboral",
   description:
-    "Guia para hacer un curriculum sin experiencia laboral destacando estudios, proyectos, cursos y habilidades.",
+    "Guía para hacer un currículum sin experiencia laboral destacando estudios, proyectos, cursos y habilidades.",
   path: "/blog/como-hacer-un-curriculum-sin-experiencia",
   keywords: [
     "como hacer un curriculum sin experiencia",
