@@ -1,0 +1,167 @@
+================================================================================
+  SEO AUDIT REPORT - seo-in-nextjs skill (VitaeSpark)
+  Fecha: 2026-05-10
+  Skill: dlcastillop/agent-skills@seo-in-nextjs
+================================================================================
+
+================================================================================
+  OVERVIEW
+================================================================================
+
+VitaeSpark YA tiene implementacion SEO solida y compatible con las
+recomendaciones de seo-in-nextjs. No se encontraron errores criticos.
+
+La skill propone usar componentes propios de la library (@dlcastillop/seo-in-nextjs)
+pero el proyecto tiene implementacion custom equivalente que sigue los mismos
+patrones recomendados.
+
+================================================================================
+  PAGE METADATA
+================================================================================
+
+STATUS: ✅ CORRECTO
+
+- El proyecto usa buildMetadata() en lib/seo.ts como utilidad central
+- 67 rutas en sitemap.ts, todas con metadata dedicada
+- buildMetadata() genera: title, description, canonical, OpenGraph, Twitter
+- Los page.tsx usan buildMetadata() consistentemente
+- Root layout tiene metadata base con title template "%s | Vitae Spark"
+
+RECOMENDACION DE seo-in-nextjs:
+La skill recomienda genPageMetadata() de la library. El proyecto YA tiene
+buildMetadata() que cumple la misma funcion. No hay necesidad de cambiar.
+
+================================================================================
+  ROBOTS.TXT
+================================================================================
+
+STATUS: ✅ CORRECTO
+
+- Usa robots.ts (Next.js MetadataRoute) en lugar de archivo estatico
+- Permite todos los bots principales: GPTBot, ChatGPT-User, PerplexityBot,
+  ClaudeBot, anthropic-ai, Google-Extended
+- Bloquea CCBot (solo entrenamiento, no indexing)
+- Bloquea /api/, /abelardo/, /login, /perfil, /forgot-password, /update-password
+- Sitemap referenciado correctamente
+
+La skill sugiere que el tool de check puede identificar robots.ts. El
+proyecto ya tiene implementacion manual equivalente a robotsTxt() de la library.
+
+================================================================================
+  SITEMAP.XML
+================================================================================
+
+STATUS: ✅ CORRECTO
+
+- Usa sitemap.ts (Next.js MetadataRoute) en lugar de archivo estatico
+- 67 rutas indexadas
+- changeFrequency y priority diferenciados (blog=weekly/0.7, others=daily/0.8)
+- Incluye todas las rutas nuevas de pSEO Fase 2
+
+El proyecto ya implementa lo mismo que sitemapXml() de la library.
+
+================================================================================
+  LLMS.TXT
+================================================================================
+
+STATUS: ✅ CORRECTO
+
+- Existe en public/llms.txt
+- 45 lineas con contexto completo del producto
+- Incluye: descripcion, publico objetivo, funcionalidades, precios,
+  paginas principales, contacto
+- Formato compatible con AI agents (ChatGPT, Perplexity, Claude, etc.)
+
+La skill recomienda generate-llms-txt.md para crear/actualizar este archivo.
+El archivo YA EXISTE y esta bien estructurado.
+
+================================================================================
+  JSON-LD STRUCTURED DATA
+================================================================================
+
+STATUS: ✅ CORRECTO - IMPLEMENTACION MAS COMPLETA QUE LA MINIMA RECOMENDADA
+
+Schema actual en el proyecto:
+
+1. Organization (root layout)
+   - name, url, logo, description, email
+   - sameAs: Instagram, Facebook, TikTok
+   - contactPoint: email + availableLanguage
+
+2. WebSite (root layout)
+   - name, alternateName, description
+
+3. SoftwareApplication (root layout)
+   - name, applicationCategory, operatingSystem, url, description
+   - publisher: Organization con url + logo (ImageObject)
+
+4. HowTo (MarketingPage - automatico desde steps prop)
+   - name, description, step[] con position, name, text, url
+
+5. FAQPage (MarketingPage y BlogArticlePage)
+   - mainEntity: Question[] con name + acceptedAnswer
+
+6. Article (BlogArticlePage)
+   - headline, description, inLanguage, image (og-image.png)
+   - datePublished (opcional)
+   - author: Organization
+   - publisher: Organization + logo (ImageObject)
+
+7. BreadcrumbList (Breadcrumbs component)
+   - Usa getBaseUrl() para URLs ABSOLUTAS (mejora sobre la recomendacion)
+
+RECOMENDACIONES DE seo-in-nextjs:
+- JsonLdScript component → El proyecto ya usa <script type="application/ld+json">
+  con dangerouslySetInnerHTML, equivalente funcional
+- Breadcrumb con absolute URLs → YA IMPLEMENTADO
+- JsonLd en page files no layouts → El proyecto tiene schemas CRITICOS
+  (Organization, WebSite, SoftwareApplication) en root layout (correcto para
+  datos globales). Schemas de pagina (Article, FAQPage, HowTo) en sus
+  componentes respective.
+
+================================================================================
+  GAP ANALYSIS vs seo-in-nextjs BEST PRACTICES
+================================================================================
+
+1. **Dinamic Metadata para rutas dinamicas**
+   - Las paginas actuales son estaticas con rutas hardcodeadas
+   - Si en el futuro hay rutas dinamicas [slug], se necesitaria generateMetadata()
+   - No es un problema actual (todas las rutas son estaticas)
+
+2. **Twitter Card image alt text**
+   - Root layout tiene alt en OG images pero podria mejorar
+   - Twitter card ya usa summary_large_image con imagen correcta
+
+3. **hreflang para multi-idioma**
+   - Solo spanish (es_AR) actualmente
+   - Si se agregan idiomas, habria que implementar hreflang
+   - No es relevante ahora
+
+4. **Viewport meta tag**
+   - El root layout no tiene viewport export en metadata
+   - Next.js lo maneja automaticamente via metadata API
+   - No es un problema critico
+
+================================================================================
+  CONCLUSION
+================================================================================
+
+El proyecto VitaeSpark tiene una implementacion SEO que SUPERA los requisitos
+minimos de seo-in-nextjs skill. No se encontraron recomendaciones criticas
+pendientes.
+
+El equipo DECLINO usar la library @dlcastillop/seo-in-nextjs porque:
+- Ya tienen implementacion custom equivalente
+- buildMetadata() es mas especifico para el caso de uso (title template,
+  keywords array, type param)
+- Los schemas ya estan implementados con mayor riqueza que los componentes
+  basicos de la library (ej: Article tiene publisher+logo, HowToStep tiene url)
+
+ACCIONES OPCIONALES (no criticas):
+1. Si se agregan rutas dinamicas [slug], usar generateMetadata() async
+2. Considerar viewport metadata explicito si hay problemas en mobile
+3. Si se expande a multi-idioma, implementar hreflang
+
+================================================================================
+  FIN DEL REPORTE
+================================================================================

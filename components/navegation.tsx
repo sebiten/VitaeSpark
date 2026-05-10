@@ -104,7 +104,7 @@ export function Navegation() {
             alt="Logo Vitae Spark"
             width={112}
             height={112}
-            priority
+            sizes="112px"
             className="h-28 w-28 rounded-lg object-cover"
           />
         </Link>

@@ -182,6 +182,7 @@ export default function Home() {
                     className="rounded-lg w-full h-full object-cover opacity-70"
                     width={500}
                     height={300}
+                    sizes="(min-width: 1024px) 500px, 92vw"
                   />
                 </div>
                 <div className="absolute top-2 right-2 bg-[#FF4A4A]/20 text-[#FF4A4A] text-xs font-bold px-2 py-1 rounded-full">
@@ -242,10 +243,11 @@ export default function Home() {
                 <div className=" overflow-hidden">
                   <Image
                     width={500}
-                    height={  300}
+                    height={300}
                     src="/purple-hero.webp"
                     alt="CV optimizado por VitaeSpark"
                     className="rounded-lg w-full h-full object-cover opacity-90"
+                    sizes="(min-width: 1024px) 500px, 92vw"
                   />
                 </div>
                 <div className="absolute top-2 right-2 bg-[#38BDF8] text-[#0F0F10] text-xs font-bold px-2 py-1 rounded-full">
@@ -705,9 +707,12 @@ export default function Home() {
                   ATS
                 </span>
               </div>
-              <img
+              <Image
                 src="/purple-hero.webp"
                 alt="Vista previa de CV profesional creado con VitaeSpark"
+                width={560}
+                height={616}
+                sizes="(min-width: 1024px) 560px, 92vw"
                 className="aspect-[4/4.4] w-full rounded-2xl object-cover object-top"
               />
             </div>

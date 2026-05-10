@@ -32,6 +32,7 @@ export default function HeroShowcase() {
           width={320}
           height={450}
           draggable={false}
+          sizes="155px"
           className="aspect-[0.48] w-full object-cover object-left-top opacity-95"
         />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-gradient-to-r from-transparent via-[#0F0F10]/35 to-[#0F0F10]/82" />
@@ -45,6 +46,7 @@ export default function HeroShowcase() {
           width={320}
           height={450}
           draggable={false}
+          sizes="220px"
           className="aspect-[0.72] w-full object-cover object-top opacity-95"
         />
       </div>
