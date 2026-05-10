@@ -2,15 +2,7 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { Search, X } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-
-export type BlogPost = {
-  href: string;
-  title: string;
-  description: string;
-  category: string;
-  icon: LucideIcon;
-};
+import type { BlogPost } from "@/data/blog-posts";
 
 type Props = {
   posts: BlogPost[];
