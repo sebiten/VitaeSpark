@@ -48,6 +48,7 @@ export default function HeroShowcase() {
             width={560}
             height={680}
             priority
+            fetchPriority="high"
             draggable={false}
             quality={85}
             sizes="(min-width: 1024px) 42vw, 92vw"
