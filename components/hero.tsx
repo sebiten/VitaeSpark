@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  CheckCircle2,
   FileText,
   Zap,
   Sparkles,
@@ -123,8 +122,7 @@ export default function Home() {
           {/* Desktop: horizontal timeline / Mobile: vertical */}
           <div className="relative">
             {/* Connector line — desktop horizontal */}
-            <div className="pointer-events-none absolute left-0 right-0 top-[2.25rem] hidden h-px bg-gradient-to-r from-[#8B5CF6]/40 via-[#38BDF8]/40 to-[#8B5CF6]/40 md:block" />
-
+          
             {/* Connector line — mobile vertical */}
             <div className="pointer-events-none absolute left-[2.25rem] top-0 bottom-0 hidden h-full w-px bg-gradient-to-b from-[#8B5CF6]/40 via-[#38BDF8]/40 to-[#8B5CF6]/40 md:hidden" />
 
@@ -356,29 +354,6 @@ export default function Home() {
               author="Ana García"
               role="Marketing Digital"
             />
-          </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 text-center transition-all duration-300 hover:border-white/[0.12]">
-              <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-3">
-                <Search className="h-5 w-5" />
-              </div>
-              <p className="text-base font-semibold text-[#F0EBFF] mb-1">ATS</p>
-              <p className="text-sm text-white/50">enfoque en filtros</p>
-            </div>
-            <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 text-center transition-all duration-300 hover:border-white/[0.12]">
-              <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-3">
-                <FileText className="h-5 w-5" />
-              </div>
-              <p className="text-base font-semibold text-[#F0EBFF] mb-1">PDF</p>
-              <p className="text-sm text-white/50">descarga profesional</p>
-            </div>
-            <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 text-center transition-all duration-300 hover:border-white/[0.12]">
-              <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-3">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <p className="text-base font-semibold text-[#F0EBFF] mb-1">IA</p>
-              <p className="text-sm text-white/50">redacción mejorada</p>
-            </div>
           </div>
         </div>
       </section>
@@ -679,16 +654,33 @@ export default function Home() {
 
             <div className="mt-7 grid gap-3 sm:grid-cols-3">
               {[
-                "Redacción más clara",
-                "Estructura ATS",
-                "Descarga en PDF",
+                {
+                  icon: <Search className="h-5 w-5 text-[#8B5CF6]" />,
+                  title: "ATS",
+                  desc: "enfoque en filtros",
+                },
+                {
+                  icon: <FileText className="h-5 w-5 text-[#8B5CF6]" />,
+                  title: "PDF",
+                  desc: "descarga profesional",
+                },
+                {
+                  icon: <Sparkles className="h-5 w-5 text-[#8B5CF6]" />,
+                  title: "IA",
+                  desc: "redacción mejorada",
+                },
               ].map((item) => (
                 <div
-                  key={item}
-                  className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-white/60"
+                  key={item.title}
+                  className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm"
                 >
-                  <CheckCircle2 className="h-4 w-4 text-[#8B5CF6]" />
-                  {item}
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#8B5CF6]/10">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#F0EBFF]">{item.title}</p>
+                    <p className="text-xs text-white/45">{item.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
