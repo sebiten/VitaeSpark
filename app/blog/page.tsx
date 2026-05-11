@@ -69,37 +69,39 @@ export default function BlogIndexPage() {
 
         <BlogGrid posts={blogPosts} />
 
-        <div className="mt-12 rounded-3xl border border-white/10 bg-[#1C1C22] p-8">
-          <h2 className="text-2xl font-semibold">
-            Recursos recomendados para seguir creciendo
+        <div className="mt-12 rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 md:p-8">
+          <h2 className="text-xl font-semibold text-white/90 mb-2">
+            Recursos recomendados
           </h2>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <p className="text-sm text-white/50 mb-6">
+            Para seguir creciendo en tu carrera
+          </p>
+          <div className="grid gap-4 md:grid-cols-3">
             <Link
               href="/plantillas-curriculum"
-              className="rounded-2xl border border-white/10 bg-black/20 p-5 transition hover:border-[#38BDF8]/40 hover:bg-black/30"
+              className="group rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]"
             >
-              <h3 className="text-lg font-semibold">Plantillas de curriculum</h3>
-              <p className="mt-2 text-sm leading-7 text-white/70">
-                Explora formatos y estructuras para distintos perfiles y
-                objetivos laborales.
+              <h3 className="text-sm font-semibold text-white/90 mb-1.5">Plantillas de curriculum</h3>
+              <p className="text-xs text-white/50 leading-relaxed">
+                Explora formatos y estructuras para distintos perfiles.
               </p>
             </Link>
             <Link
               href="/generador-de-cv-con-ia"
-              className="rounded-2xl border border-white/10 bg-black/20 p-5 transition hover:border-[#38BDF8]/40 hover:bg-black/30"
+              className="group rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]"
             >
-              <h3 className="text-lg font-semibold">Generador de CV con IA</h3>
-              <p className="mt-2 text-sm leading-7 text-white/70">
-                Lleva estas guias a la practica dentro del flujo de VitaeSpark.
+              <h3 className="text-sm font-semibold text-white/90 mb-1.5">Generador de CV con IA</h3>
+              <p className="text-xs text-white/50 leading-relaxed">
+                Lleva estas guías a la práctica dentro del flujo de VitaeSpark.
               </p>
             </Link>
             <Link
               href="/cv-profesional"
-              className="rounded-2xl border border-white/10 bg-black/20 p-5 transition hover:border-[#38BDF8]/40 hover:bg-black/30"
+              className="group rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]"
             >
-              <h3 className="text-lg font-semibold">CV profesional</h3>
-              <p className="mt-2 text-sm leading-7 text-white/70">
-                Da el siguiente paso si quieres una version mas seria y competitiva.
+              <h3 className="text-sm font-semibold text-white/90 mb-1.5">CV profesional</h3>
+              <p className="text-xs text-white/50 leading-relaxed">
+                Da el siguiente paso si quieres una versión más competitiva.
               </p>
             </Link>
           </div>

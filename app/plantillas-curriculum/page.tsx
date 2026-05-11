@@ -166,7 +166,7 @@ export default function PlantillasCurriculumPage() {
   };
 
   return (
-    <div className="overflow-x-hidden bg-[#0F0F10] text-[#F4F4F5]">
+    <div className="overflow-x-hidden bg-[#111113] text-[#F4F4F5]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

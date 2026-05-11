@@ -153,7 +153,7 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
       <Link
         href="/login"
         onClick={onNavigate}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#A78BFA] px-4 py-2 text-sm font-medium text-[#0F0F10] hover:bg-[#A78BFA]/90"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#8B5CF6] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/15"
       >
         <LogIn className="h-4 w-4" />
         Iniciar sesión
@@ -178,7 +178,7 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
           </span>
           <MenuIcon className="h-4 w-4 text-[#F4F4F5]/50" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="border-[#1F1F22] bg-[#0F0F10] text-[#F4F4F5]">
+        <DropdownMenuContent className="border-white/10 bg-[#1C1C22] text-[#F4F4F5] shadow-xl shadow-black/20 rounded-xl">
           <DropdownMenuItem asChild>
             <Link href="/perfil" className="flex items-center gap-2">
               <FileText className="h-4 w-4" /> Perfil
@@ -197,7 +197,7 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
   ) : (
     <Link
       href="/login"
-      className="inline-flex items-center justify-center gap-2 rounded-md bg-[#38BDF8] px-3 py-1.5 text-sm font-medium text-[#0F0F10] shadow-sm hover:bg-[#38BDF8]/90"
+      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#8B5CF6] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/15"
     >
       <LogIn className="h-4 w-4" />
       Iniciar sesión

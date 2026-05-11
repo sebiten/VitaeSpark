@@ -1,5 +1,5 @@
-import { Card, CardContent } from "@/components/ui/card"
 import type { ReactNode } from "react"
+import { UnifiedCard } from "@/components/unified-card"
 
 interface FeatureCardProps {
   icon: ReactNode
@@ -9,12 +9,12 @@ interface FeatureCardProps {
 
 export function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <Card className="bg-[#1F1F22] border-none">
-      <CardContent className="p-6">
-        <div className="bg-[#38BDF8]/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">{icon}</div>
-      <h3 className="text-lg font-semibold mb-2 text-[#7C3AED]/80">{title}</h3>
-        <p className="text-[#F4F4F5]">{description}</p>
-      </CardContent>
-    </Card>
+    <UnifiedCard variant="feature">
+      <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-4">
+        {icon}
+      </div>
+      <h3 className="text-base font-semibold text-white/90 mb-2">{title}</h3>
+      <p className="text-sm text-white/60 leading-relaxed">{description}</p>
+    </UnifiedCard>
   )
 }

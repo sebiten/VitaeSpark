@@ -63,23 +63,23 @@ export const CVCard = memo(({ cv }: { cv: CVprofile }) => {
   );
 
   return (
-    <Card className="group overflow-hidden rounded-3xl bg-[#15151A]/85 border border-white/10 shadow-xl shadow-black/10 hover:-translate-y-1 hover:border-[#38BDF8]/30 transition-all">
-      <CardHeader className="p-4 border-b border-white/10 bg-white/[0.03]">
+<Card className="group overflow-hidden rounded-xl bg-[#1C1C22] border border-white/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]">
+      <CardHeader className="p-4 border-b border-white/[0.06] bg-white/[0.02]">
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="p-2 rounded-2xl bg-[#7C3AED]/10 ring-1 ring-[#A78BFA]/15">
-              <User className="h-4 w-4 text-[#A78BFA]" />
+            <div className="w-9 h-9 rounded-lg bg-white/[0.06] flex items-center justify-center">
+              <User className="h-4 w-4 text-white/50" />
             </div>
             <div className="min-w-0">
-              <div className="flex items-center gap-1 mt-1">
-                <Calendar className="h-3 w-3 text-[#F4F4F5]/40" />
-                <span className="text-xs text-[#F4F4F5]/40">
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <Calendar className="h-3 w-3 text-white/30" />
+                <span className="text-xs text-white/40">
                   {formattedDate}
                 </span>
               </div>
             </div>
           </div>
-          <Badge className={`text-xs px-2 py-1 ${templateColor}`}>
+          <Badge className={`text-xs px-2.5 py-1 font-medium ${templateColor}`}>
             {cv.template || "Estándar"}
           </Badge>
         </div>
@@ -128,11 +128,11 @@ export const CVCard = memo(({ cv }: { cv: CVprofile }) => {
           </div>
         </div>
 
-        <div className="p-4 text-sm text-[#F4F4F5]/70 bg-[#15151A]">
-          <p className="font-medium truncate">
+<div className="p-4 text-sm text-white/60 bg-[#1C1C22] border-t border-white/[0.06]">
+          <p className="font-medium text-white/80 truncate">
             {cv.cv_data?.nombre || "Sin nombre"}
           </p>
-          <p className="text-xs truncate">
+          <p className="text-xs text-white/40 truncate">
             {cv.cv_data?.titulo || "Sin título profesional"}
           </p>
         </div>

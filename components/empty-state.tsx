@@ -8,7 +8,7 @@ export function EmptyState() {
   const router = useRouter()
 
   return (
-    <div className="text-center py-16 px-6 bg-[#0F0F10] rounded-xl border border-[#2A2A2D] max-w-md mx-auto">
+    <div className="text-center py-16 px-6 bg-[#111113] rounded-xl border border-[#2A2A2D] max-w-md mx-auto">
       <User className="w-12 h-12 text-secondary mx-auto mb-4 opacity-50" />
       <h3 className="text-xl font-semibold text-[#F4F4F5] mb-2">Sin CVs disponibles</h3>
       <p className="text-[#A1A1AA] mb-6">No tienes CVs generados y aprobados aún.</p>

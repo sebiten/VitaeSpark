@@ -45,34 +45,34 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             <FeatureCard
-              icon={<FileText className="h-6 w-6 text-[#38BDF8] " />}
+              icon={<FileText className="h-5 w-5" />}
               title="Plantillas profesionales"
               description="Diseños modernos y efectivos que destacan tu experiencia y habilidades."
             />
             <FeatureCard
-              icon={<Search className="h-6 w-6 text-[#38BDF8] " />}
+              icon={<Search className="h-5 w-5" />}
               title="Optimizado para ATS"
               description="Supera los filtros automáticos de las empresas con palabras clave estratégicas."
             />
             <FeatureCard
-              icon={<Sparkles className="h-6 w-6 text-[#38BDF8] " />}
+              icon={<Sparkles className="h-5 w-5" />}
               title="Redacción inteligente"
               description="La IA mejora tus textos para hacerlos más impactantes y profesionales."
             />
             <FeatureCard
-              icon={<Clock className="h-6 w-6 text-[#38BDF8] " />}
+              icon={<Clock className="h-5 w-5" />}
               title="Rápido y sencillo"
               description="Crea un CV profesional en minutos, sin complicaciones ni conocimientos técnicos."
             />
             <FeatureCard
-              icon={<Zap className="h-6 w-6 text-[#38BDF8] " />}
+              icon={<Zap className="h-5 w-5" />}
               title="Personalización total"
               description="Adapta cada sección a tus necesidades específicas y al puesto que buscas."
             />
             <FeatureCard
-              icon={<Award className="h-6 w-6 text-[#38BDF8] " />}
+              icon={<Award className="h-5 w-5" />}
               title="Resultados comprobados"
               description="Aumenta tus posibilidades de conseguir entrevistas con un CV que realmente funciona."
             />
@@ -97,25 +97,25 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 relative">
+          <div className="grid md:grid-cols-3 gap-6">
             {[
               {
                 number: "01",
-                icon: <PencilLine className="h-6 w-6" />,
+                icon: <PencilLine className="h-5 w-5" />,
                 title: "Ingresa tus datos",
                 description:
                   "Completa un formulario simple con tu experiencia, educación y habilidades.",
               },
               {
                 number: "02",
-                icon: <Bot className="h-6 w-6" />,
+                icon: <Bot className="h-5 w-5" />,
                 title: "La IA optimiza tu CV",
                 description:
                   "Mejora automáticamente la redacción, el orden y la estructura de tu CV.",
               },
               {
                 number: "03",
-                icon: <Download className="h-6 w-6" />,
+                icon: <Download className="h-5 w-5" />,
                 title: "Descarga tu CV listo",
                 description:
                   "Obtén un PDF profesional y preparado para enviar a empresas.",
@@ -123,26 +123,22 @@ export default function Home() {
             ].map((step) => (
               <div
                 key={step.number}
-                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-[#1C1C22] p-6 shadow-2xl shadow-black/10 transition hover:-translate-y-1 hover:border-[#38BDF8]/25"
+                className="relative rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]"
               >
-                <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#7C3AED]/10 blur-2xl transition group-hover:bg-[#38BDF8]/10" />
-                <div className="relative mb-8 flex items-center justify-between">
-                  <div className="rounded-2xl bg-[#38BDF8]/10 p-4 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+                <div className="mb-6 flex items-center justify-between">
+                  <div className="w-11 h-11 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6]">
                     {step.icon}
                   </div>
-                  <span className="text-5xl font-black text-white/[0.06]">
+                  <span className="text-4xl font-black text-white/[0.06]">
                     {step.number}
                   </span>
                 </div>
-                <h3 className="relative text-xl font-bold mb-3">
+                <h3 className="text-base font-semibold text-white/90 mb-2">
                   {step.title}
                 </h3>
-                <p className="relative text-[#F4F4F5]/70 leading-7">
+                <p className="text-sm text-white/50 leading-relaxed">
                   {step.description}
                 </p>
-                <div className="relative mt-6 h-1 rounded-full bg-white/10">
-                  <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#38BDF8]" />
-                </div>
               </div>
             ))}
           </div>
@@ -167,64 +163,59 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* CV Tradicional */}
-            <div className="bg-[#27272A] rounded-lg p-6 border border-[#F4F4F5]/10 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#27272A] px-4 py-1 rounded-full border border-[#F4F4F5]/10">
-                <span className="text-sm font-medium text-[#F4F4F5]/70">
+            <div className="rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#1C1C22] px-4 py-1 rounded-full border border-white/[0.06]">
+                <span className="text-xs font-medium text-white/50">
                   CV Tradicional
                 </span>
               </div>
 
               <div className="relative mb-6 bg-[#111113] rounded-lg p-2 shadow-md">
-                <div className=" overflow-hidden">
+                <div className="overflow-hidden">
                   <Image
                     src="/hamdu.webp"
                     alt="CV tradicional no optimizado"
-                    className="rounded-lg w-full h-full object-cover opacity-70"
+                    className="rounded-lg w-full h-full object-cover opacity-50 grayscale"
                     width={500}
                     height={300}
                     sizes="(min-width: 1024px) 500px, 92vw"
                   />
                 </div>
-                <div className="absolute top-2 right-2 bg-[#FF4A4A]/20 text-[#FF4A4A] text-xs font-bold px-2 py-1 rounded-full">
-                  No optimizado
-                </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <div className="bg-[#FF4A4A]/20 p-2 rounded-full shrink-0">
-                    <Search className="h-4 w-4 text-[#FF4A4A]" />
+                  <div className="w-8 h-8 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center shrink-0">
+                    <Search className="h-4 w-4 text-[#8B5CF6]" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold">Invisible para ATS</h3>
-                    <p className="text-xs text-[#F4F4F5]/60">
-                      Rechazado automáticamente por sistemas de filtrado sin
-                      llegar a reclutadores.
+                    <h3 className="text-sm font-medium text-white/60">Invisible para ATS</h3>
+                    <p className="text-xs text-white/40 mt-0.5">
+                      Rechazado automáticamente.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="bg-[#FF4A4A]/20 p-2 rounded-full shrink-0">
-                    <FileText className="h-4 w-4 text-[#FF4A4A]" />
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.06] flex items-center justify-center shrink-0">
+                    <FileText className="h-4 w-4 text-white/30" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold">Formato genérico</h3>
-                    <p className="text-xs text-[#F4F4F5]/60">
-                      Diseño básico que no destaca entre cientos de candidatos.
+                    <h3 className="text-sm font-medium text-white/60">Formato genérico</h3>
+                    <p className="text-xs text-white/40 mt-0.5">
+                      No destaca entre candidatos.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="bg-[#FF4A4A]/20 p-2 rounded-full shrink-0">
-                    <Clock className="h-4 w-4 text-[#FF4A4A]" />
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.06] flex items-center justify-center shrink-0">
+                    <Clock className="h-4 w-4 text-white/30" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold">Proceso lento</h3>
-                    <p className="text-xs text-[#F4F4F5]/60">
-                      Horas de edición manual sin garantía de resultados
-                      profesionales.
+                    <h3 className="text-sm font-medium text-white/60">Proceso lento</h3>
+                    <p className="text-xs text-white/40 mt-0.5">
+                      Horas de edición manual.
                     </p>
                   </div>
                 </div>
@@ -232,15 +223,15 @@ export default function Home() {
             </div>
 
             {/* CV VitaeSpark */}
-            <div className="bg-gradient-to-br from-[#1F1F22] to-[#141415] rounded-lg p-6 border border-[#7C3AED]/30 relative shadow-lg shadow-[#7C3AED]/5">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-[#7C3AED] to-[#38BDF8] px-4 py-1 rounded-full">
-                <span className="text-sm font-bold text-white">
-                  CV VitaeSpark
+            <div className="rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 relative transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)]">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#8B5CF6] px-4 py-1 rounded-full">
+                <span className="text-xs font-semibold text-white">
+                  VitaeSpark
                 </span>
               </div>
 
-              <div className="relative mb-6 bg-[#111113] rounded-lg p-2 shadow-xl">
-                <div className=" overflow-hidden">
+              <div className="relative mb-6 bg-[#111113] rounded-lg p-2 shadow-md">
+                <div className="overflow-hidden">
                   <Image
                     width={500}
                     height={300}
@@ -250,51 +241,44 @@ export default function Home() {
                     sizes="(min-width: 1024px) 500px, 92vw"
                   />
                 </div>
-                <div className="absolute top-2 right-2 bg-[#38BDF8] text-[#0F0F10] text-xs font-bold px-2 py-1 rounded-full">
-                  Optimizado para ATS
+                <div className="absolute top-2 right-2 bg-white/10 text-white/70 text-xs font-medium px-2 py-1 rounded-full backdrop-blur-sm">
+                  ATS
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <div className="bg-gradient-to-br from-[#7C3AED]/20 to-[#38BDF8]/20 p-2 rounded-full shrink-0">
-                    <Search className="h-4 w-4 text-[#38BDF8]" />
+                  <div className="w-8 h-8 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center shrink-0">
+                    <Search className="h-4 w-4 text-[#8B5CF6]" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold">
-                      Visible para reclutadores
-                    </h3>
-                    <p className="text-xs text-[#F4F4F5]/80">
-                      Optimizado con palabras clave que superan filtros ATS y
-                      llegan a los reclutadores.
+                    <h3 className="text-sm font-medium text-white/80">Visible para reclutadores</h3>
+                    <p className="text-xs text-white/50 mt-0.5">
+                      Supera filtros ATS.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="bg-gradient-to-br from-[#7C3AED]/20 to-[#38BDF8]/20 p-2 rounded-full shrink-0">
-                    <FileText className="h-4 w-4 text-[#7C3AED]" />
+                  <div className="w-8 h-8 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center shrink-0">
+                    <FileText className="h-4 w-4 text-[#8B5CF6]" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold">Diseño profesional</h3>
-                    <p className="text-xs text-[#F4F4F5]/80">
-                      Plantillas modernas y profesionales que captan la atención
-                      inmediatamente.
+                    <h3 className="text-sm font-medium text-white/80">Diseño profesional</h3>
+                    <p className="text-xs text-white/50 mt-0.5">
+                      Moderno y atractivo.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="bg-gradient-to-br from-[#7C3AED]/20 to-[#38BDF8]/20 p-2 rounded-full shrink-0">
-                    <Sparkles className="h-4 w-4 text-[#38BDF8]" />
+                  <div className="w-8 h-8 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center shrink-0">
+                    <Sparkles className="h-4 w-4 text-[#8B5CF6]" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold">
-                      Redacción mejorada por IA
-                    </h3>
-                    <p className="text-xs text-[#F4F4F5]/80">
-                      Textos persuasivos que destacan tus logros y competencias
-                      de forma impactante.
+                    <h3 className="text-sm font-medium text-white/80">Redacción con IA</h3>
+                    <p className="text-xs text-white/50 mt-0.5">
+                      Textos optimizados.
                     </p>
                   </div>
                 </div>
@@ -302,41 +286,39 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-12 p-6 bg-gradient-to-br from-[#1F1F22] to-[#141415] rounded-lg border border-[#7C3AED]/20">
-            <h3 className="text-xl font-bold mb-4 text-center">
+          <div className="mt-12 rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 md:p-8">
+            <h3 className="text-lg font-semibold text-white/90 mb-6 text-center">
               ¿Por qué elegir VitaeSpark?
             </h3>
 
             <div className="grid md:grid-cols-3 gap-6">
               <div className="flex flex-col items-center text-center p-4">
-                <div className="bg-[#7C3AED]/20 p-3 rounded-full mb-4">
-                  <CheckCircle2 className="h-6 w-6 text-[#7C3AED]" />
+                <div className="w-12 h-12 rounded-xl bg-[#8B5CF6]/10 flex items-center justify-center mb-4">
+                  <CheckCircle2 className="h-5 w-5 text-[#8B5CF6]" />
                 </div>
-                <h4 className="font-bold mb-2">300% más entrevistas</h4>
-                <p className="text-sm text-[#F4F4F5]/70">
-                  Nuestros usuarios reciben hasta 3 veces más llamadas para
-                  entrevistas.
+                <h4 className="font-medium text-white/80 mb-1">300% más entrevistas</h4>
+                <p className="text-xs text-white/50">
+                  Nuestros usuarios reciben hasta 3 veces más llamadas.
                 </p>
               </div>
 
               <div className="flex flex-col items-center text-center p-4">
-                <div className="bg-[#38BDF8]/20 p-3 rounded-full mb-4">
-                  <Zap className="h-6 w-6 text-[#38BDF8]" />
+                <div className="w-12 h-12 rounded-xl bg-[#8B5CF6]/10 flex items-center justify-center mb-4">
+                  <Zap className="h-5 w-5 text-[#8B5CF6]" />
                 </div>
-                <h4 className="font-bold mb-2">90% de ahorro de tiempo</h4>
-                <p className="text-sm text-[#F4F4F5]/70">
-                  Crea un CV profesional en minutos, no en horas o días.
+                <h4 className="font-medium text-white/80 mb-1">90% de ahorro de tiempo</h4>
+                <p className="text-xs text-white/50">
+                  Crea un CV profesional en minutos.
                 </p>
               </div>
 
               <div className="flex flex-col items-center text-center p-4">
-                <div className="bg-[#7C3AED]/20 p-3 rounded-full mb-4">
-                  <Award className="h-6 w-6 text-[#7C3AED]" />
+                <div className="w-12 h-12 rounded-xl bg-[#8B5CF6]/10 flex items-center justify-center mb-4">
+                  <Award className="h-5 w-5 text-[#8B5CF6]" />
                 </div>
-                <h4 className="font-bold mb-2">Tecnología de vanguardia</h4>
-                <p className="text-sm text-[#F4F4F5]/70">
-                  Inteligencia artificial que se adapta a las últimas tendencias
-                  del mercado laboral.
+                <h4 className="font-medium text-white/80 mb-1">Tecnología de vanguardia</h4>
+                <p className="text-xs text-white/50">
+                  IA que se adapta a las últimas tendencias.
                 </p>
               </div>
             </div>
@@ -658,19 +640,18 @@ export default function Home() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#1C1C22] p-6 transition hover:-translate-y-1 hover:border-[#38BDF8]/40 hover:bg-[#181821]"
+                className="group relative overflow-hidden rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/[0.12] hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
               >
-                <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#7C3AED]/10 blur-2xl transition group-hover:bg-[#38BDF8]/10" />
-                <div className="relative mb-5 flex items-center justify-between">
-                  <div className="rounded-2xl bg-[#38BDF8]/10 p-3 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
+                <div className="mb-5 flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6]">
                     <BookOpen className="h-5 w-5" />
                   </div>
-                  <ArrowRight className="h-4 w-4 text-white/25 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
+                  <ArrowRight className="h-4 w-4 text-white/25 transition group-hover:translate-x-1 group-hover:text-[#8B5CF6]" />
                 </div>
-                <h3 className="relative text-xl font-semibold mb-3">
+                <h3 className="text-base font-semibold text-white/90 mb-2">
                   {item.title}
                 </h3>
-                <p className="relative text-[#F4F4F5]/70 leading-7">
+                <p className="text-sm text-white/50 leading-relaxed">
                   {item.description}
                 </p>
               </Link>
@@ -711,9 +692,9 @@ export default function Home() {
               ].map((item) => (
                 <div
                   key={item}
-                  className="flex items-center gap-2 rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/75"
+                  className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm text-white/60"
                 >
-                  <CheckCircle2 className="h-4 w-4 text-[#38BDF8]" />
+                  <CheckCircle2 className="h-4 w-4 text-[#8B5CF6]" />
                   {item}
                 </div>
               ))}

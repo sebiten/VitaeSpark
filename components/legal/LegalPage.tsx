@@ -14,8 +14,8 @@ type LegalPageProps = {
 
 export function LegalPage({ title, updatedAt, intro, sections }: LegalPageProps) {
   return (
-    <div className="bg-[#0F0F10] text-[#F4F4F5]">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.16),_transparent_34%),radial-gradient(circle_at_right,_rgba(124,58,237,0.18),_transparent_38%),#0F0F10]">
+    <div className="bg-[#111113] text-[#F4F4F5]">
+      <section className="border-b border-white/10 bg-gradient-to-b from-[#1C1C22] to-[#111113]">
         <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
           <Link
             href="/"

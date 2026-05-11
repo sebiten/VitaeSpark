@@ -91,6 +91,14 @@ h1, h2, h3, h4, h5, h6 {
   --sidebar-accent-foreground: #F4F4F5;
   --sidebar-border: rgba(255, 255, 255, 0.08);
   --sidebar-ring: #8B5CF6;
+
+  /* Unified Card System */
+  --card-base: #1C1C22;
+  --card-hover: #252528;
+  --card-border: rgba(255, 255, 255, 0.06);
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  --card-hover-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --card-radius: 1rem;
 }
 
 .dark {

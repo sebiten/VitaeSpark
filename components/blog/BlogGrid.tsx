@@ -29,34 +29,34 @@ export function BlogGrid({ posts }: Props) {
               <Link
                 key={post.href}
                 href={post.href}
-                className="group relative min-h-[206px] overflow-hidden rounded-3xl border border-white/10 bg-[#1C1C22] p-6 shadow-xl shadow-black/10 transition hover:-translate-y-0.5 hover:border-[#8B5CF6]/40 hover:bg-[#252528] hover:shadow-2xl hover:shadow-[#8B5CF6]/5"
+                className="group relative min-h-[200px] flex flex-col justify-between rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/[0.12] hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
               >
-                <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#8B5CF6]/10 blur-xl transition group-hover:bg-[#38BDF8]/10" />
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#38BDF8]/30 to-transparent opacity-0 transition group-hover:opacity-100" />
-
-                <div className="relative mb-5 flex items-start justify-between gap-4">
+                <div className="mb-5 flex items-start justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="rounded-2xl bg-[#38BDF8]/10 p-3 text-[#38BDF8] ring-1 ring-[#38BDF8]/15 transition group-hover:bg-[#7C3AED]/15 group-hover:text-[#A78BFA]">
+                    <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6]">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium text-white/60">
+                    <span className="text-xs font-medium text-white/40">
                       {post.category}
                     </span>
                   </div>
-                  <span className="text-xs font-semibold text-white/25">
+                  <span className="text-xs font-medium text-white/20">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
 
-                <h2 className="relative text-xl font-semibold leading-snug text-white sm:text-2xl">
-                  {post.title}
-                </h2>
-                <p className="relative mt-3 text-sm leading-7 text-white/75 sm:text-base">
-                  {post.description}
-                </p>
-                <span className="relative mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#38BDF8]">
+                <div>
+                  <h2 className="text-lg font-semibold leading-snug text-white/90 mb-2">
+                    {post.title}
+                  </h2>
+                  <p className="text-sm leading-relaxed text-white/50 line-clamp-2">
+                    {post.description}
+                  </p>
+                </div>
+
+                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-medium text-white/40 transition group-hover:text-white/60">
                   Leer guia
-                  <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="h-3.5 w-3.5" />
                 </span>
               </Link>
             );

@@ -167,7 +167,7 @@ export default function PerfilCVs() {
   }
 
   return (
-    <div className="relative w-full mx-auto overflow-hidden px-4 py-10 space-y-8 bg-[#0F0F10]">
+    <div className="relative w-full mx-auto overflow-hidden px-4 py-10 space-y-8 bg-[#111113]">
       <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-[#7C3AED]/10 blur-[120px]" />
       {/* Profile Information Card */}
       {profileInfo && (
@@ -321,7 +321,7 @@ export default function PerfilCVs() {
                             <Eye className="w-4 h-4 mr-2" /> Ver
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-4xl h-[90vh] p-0 bg-[#0F0F10] border-[#2A2A2D]">
+                        <DialogContent className="max-w-4xl h-[90vh] p-0 bg-[#111113] border-[#2A2A2D]">
                           <DialogHeader className="p-4 border-b border-[#2A2A2D] flex flex-row justify-between items-center text-white">
                             <DialogTitle className="text-lg font-semibold text-[#F4F4F5]">
                               Vista previa: {selectedCV?.cv_data.nombre}
@@ -361,7 +361,7 @@ export default function PerfilCVs() {
                 {cvs.map((cv) => (
                   <Card
                     key={cv.id}
-                    className="bg-[#0F0F10] border border-[#2A2A2D] text-[#F4F4F5] shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:border-primary/50"
+                    className="bg-[#111113] border border-[#2A2A2D] text-[#F4F4F5] shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:border-primary/50"
                   >
                     <div className="flex flex-col md:flex-row">
                       <CardHeader className="bg-[#1A1A1D] md:w-1/3 p-4">
@@ -416,7 +416,7 @@ export default function PerfilCVs() {
                                 <Eye className="w-4 h-4 mr-2" /> Ver
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-4xl h-[90vh] p-0 bg-[#0F0F10] border-[#2A2A2D]">
+                            <DialogContent className="max-w-4xl h-[90vh] p-0 bg-[#111113] border-[#2A2A2D]">
                               <DialogHeader className="p-4 border-b border-[#2A2A2D] flex flex-row justify-between items-center">
                                 <DialogTitle className="text-lg font-semibold text-[#F4F4F5]">
                                   Vista previa: {selectedCV?.cv_data.nombre}

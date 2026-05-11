@@ -184,7 +184,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-primary/96 antialiased flex min-h-screen flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-black/90  flex min-h-screen flex-col`}
       >
         <a
           href="#main-content"
