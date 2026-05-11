@@ -151,9 +151,9 @@ export default function Home() {
                 },
               ].map((step, i) => (
                 <div key={step.number} className="relative flex gap-5 md:block md:text-center">
-                  {/* Circle node */}
-                  <div className="relative z-10 flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-full border border-white/[0.08] bg-[#1C1C22] shadow-lg shadow-black/20 md:mx-auto md:mb-5">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6]">
+                  {/* Icon node */}
+                  <div className="relative z-10 flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#1C1C22] shadow-lg shadow-black/20 md:mx-auto md:mb-5">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#8B5CF6]/10 text-[#8B5CF6]">
                       {step.icon}
                     </div>
                   </div>
