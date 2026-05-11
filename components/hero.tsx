@@ -125,13 +125,13 @@ export default function Home() {
                 key={step.number}
                 className="relative rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]"
               >
-                <div className="mb-6 flex items-center justify-between">
+                <div className="absolute top-4 right-4 text-xs font-mono text-white/20">
+                  {step.number}
+                </div>
+                <div className="mb-5">
                   <div className="w-11 h-11 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6]">
                     {step.icon}
                   </div>
-                  <span className="text-4xl font-black text-white/[0.06]">
-                    {step.number}
-                  </span>
                 </div>
                 <h3 className="text-base font-semibold text-white/90 mb-2">
                   {step.title}
@@ -171,13 +171,13 @@ export default function Home() {
               </div>
 
               <div className="relative mb-6 bg-[#111113] rounded-lg p-2 shadow-md">
-                <div className="overflow-hidden">
+                <div className="overflow-hidden aspect-[4/3]">
                   <Image
                     src="/hamdu.webp"
                     alt="CV tradicional no optimizado"
-                    className="rounded-lg w-full h-full object-cover opacity-50 grayscale"
+                    className="rounded-lg w-full h-full object-cover object-top opacity-50 grayscale"
                     width={500}
-                    height={300}
+                    height={375}
                     sizes="(min-width: 1024px) 500px, 92vw"
                   />
                 </div>
@@ -231,13 +231,13 @@ export default function Home() {
               </div>
 
               <div className="relative mb-6 bg-[#111113] rounded-lg p-2 shadow-md">
-                <div className="overflow-hidden">
+                <div className="overflow-hidden aspect-[4/3]">
                   <Image
                     width={500}
-                    height={300}
+                    height={375}
                     src="/purple-hero.webp"
                     alt="CV optimizado por VitaeSpark"
-                    className="rounded-lg w-full h-full object-cover opacity-90"
+                    className="rounded-lg w-full h-full object-cover object-top opacity-90"
                     sizes="(min-width: 1024px) 500px, 92vw"
                   />
                 </div>
@@ -359,18 +359,27 @@ export default function Home() {
               role="Marketing Digital"
             />
           </div>
-          <div className="mt-8 grid gap-3 rounded-3xl border border-white/10 bg-white/[0.03] p-4 text-center sm:grid-cols-3">
-            <div className="rounded-2xl bg-black/20 p-4">
-              <p className="text-2xl font-bold text-white">ATS</p>
-              <p className="text-sm text-white/65">enfoque en filtros</p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 text-center transition-all duration-300 hover:border-white/[0.12]">
+              <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-3">
+                <Search className="h-5 w-5" />
+              </div>
+              <p className="text-base font-semibold text-white/90 mb-1">ATS</p>
+              <p className="text-sm text-white/50">enfoque en filtros</p>
             </div>
-            <div className="rounded-2xl bg-black/20 p-4">
-              <p className="text-2xl font-bold text-[#38BDF8]">PDF</p>
-              <p className="text-sm text-white/65">descarga profesional</p>
+            <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 text-center transition-all duration-300 hover:border-white/[0.12]">
+              <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-3">
+                <FileText className="h-5 w-5" />
+              </div>
+              <p className="text-base font-semibold text-white/90 mb-1">PDF</p>
+              <p className="text-sm text-white/50">descarga profesional</p>
             </div>
-            <div className="rounded-2xl bg-black/20 p-4">
-              <p className="text-2xl font-bold text-white">IA</p>
-              <p className="text-sm text-white/65">redacción mejorada</p>
+            <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 text-center transition-all duration-300 hover:border-white/[0.12]">
+              <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-3">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <p className="text-base font-semibold text-white/90 mb-1">IA</p>
+              <p className="text-sm text-white/50">redacción mejorada</p>
             </div>
           </div>
         </div>
@@ -428,14 +437,14 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="relative w-full rounded-3xl border border-white/10 bg-[#1C1C22]/80 p-3 shadow-2xl shadow-black/10">
-            <details className="group border-b border-white/10 px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium transition hover:text-[#38BDF8]">
-                <HelpCircle className="mr-3 h-5 w-5 text-[#38BDF8]" />
+          <div className="relative w-full rounded-xl border border-white/[0.06] bg-[#1C1C22] p-4">
+            <details className="group border-b border-white/[0.06] px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium text-white/80 transition hover:text-[#8B5CF6]">
+                <HelpCircle className="mr-3 h-5 w-5 text-[#8B5CF6]" />
                 ¿Qué es un sistema ATS y por qué es importante?
-                <span className="ml-auto text-xl text-white/35 transition group-open:rotate-45">+</span>
+                <span className="ml-auto text-xl text-white/20 transition group-open:rotate-45">+</span>
               </summary>
-              <p className="mt-3 pl-8 leading-7 text-[#F4F4F5]/70">
+              <p className="mt-3 pl-8 leading-7 text-white/50">
                 Un ATS (Applicant Tracking System) es un software que utilizan
                 las empresas para filtrar automáticamente los CVs. Es importante
                 que tu CV esté optimizado para estos sistemas, ya que
@@ -445,13 +454,13 @@ export default function Home() {
               </p>
             </details>
 
-            <details className="group border-b border-white/10 px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium transition hover:text-[#38BDF8]">
-                <Sparkles className="mr-3 h-5 w-5 text-[#A78BFA]" />
+            <details className="group border-b border-white/[0.06] px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium text-white/80 transition hover:text-[#8B5CF6]">
+                <Sparkles className="mr-3 h-5 w-5 text-[#8B5CF6]" />
                 ¿Cómo mejora la IA mi currículum?
-                <span className="ml-auto text-xl text-white/35 transition group-open:rotate-45">+</span>
+                <span className="ml-auto text-xl text-white/20 transition group-open:rotate-45">+</span>
               </summary>
-              <p className="mt-3 pl-8 leading-7 text-[#F4F4F5]/70">
+              <p className="mt-3 pl-8 leading-7 text-white/50">
                 Nuestra IA analiza tu información y mejora la redacción para
                 hacerla más impactante y profesional. También identifica
                 palabras clave relevantes para tu industria y las incorpora
@@ -460,23 +469,11 @@ export default function Home() {
               </p>
             </details>
 
-            {/* <AccordionItem value="item-3" className="border-[#1F1F22]">
-              <AccordionTrigger className="text-left">
-                ¿Puedo personalizar las plantillas?
-              </AccordionTrigger>
-              <AccordionContent className="text-[#F4F4F5]/70">
-                Sí, todas nuestras plantillas son completamente personalizables.
-                Puedes ajustar colores, fuentes, espaciado y otros elementos
-                para que tu CV refleje tu personalidad profesional, manteniendo
-                siempre un aspecto profesional.
-              </AccordionContent>
-            </AccordionItem> */}
-
             <details className="group px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium transition hover:text-[#38BDF8]">
-                <Download className="mr-3 h-5 w-5 text-[#38BDF8]" />
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium text-white/80 transition hover:text-[#8B5CF6]">
+                <Download className="mr-3 h-5 w-5 text-[#8B5CF6]" />
                 ¿En qué formatos puedo descargar mi CV?
-                <span className="ml-auto text-xl text-white/35 transition group-open:rotate-45">+</span>
+                <span className="ml-auto text-xl text-white/20 transition group-open:rotate-45">+</span>
               </summary>
               <p className="mt-3 pl-8 leading-7 text-[#F4F4F5]/70">
                 Con la generación de tu cv puedes descargarlo en formato PDF las
@@ -668,10 +665,8 @@ export default function Home() {
         </div>
       </section>
       {/* CTA Section */}
-      <section className="relative overflow-hidden px-4 py-20 bg-[#111113]">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-        <div className="pointer-events-none absolute right-1/4 top-20 h-72 w-72 rounded-full bg-[#7C3AED]/12 blur-[110px]" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-8 rounded-[2rem] border border-white/10 bg-[#1C1C22]/85 p-6 shadow-2xl shadow-black/20 md:grid-cols-[1fr_360px] md:p-8">
+      <section className="relative px-4 py-20 bg-[#111113]">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 md:grid-cols-[1fr_360px] md:p-8">
           <div>
             <Badge className="mb-5 bg-[#7C3AED]/20 text-[#C4B5FD] hover:bg-[#7C3AED]/30">
               Listo para postularte
@@ -714,7 +709,7 @@ export default function Home() {
           </div>
 
           <div className="relative hidden md:block">
-            <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-[#7C3AED]/25 to-[#38BDF8]/10 blur-2xl" />
+            <div className="absolute -inset-4 rounded-[2rem] " />
             <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#111113] p-3">
               <div className="mb-3 flex items-center justify-between rounded-2xl bg-white/[0.04] px-4 py-3">
                 <span className="text-xs uppercase tracking-[0.22em] text-[#38BDF8]">

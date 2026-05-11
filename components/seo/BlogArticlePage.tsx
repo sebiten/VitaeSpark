@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { TrackedCtaLink } from "./TrackedCtaLink";
 import { getBaseUrl } from "@/lib/seo";
+import { FloatingRobot } from "@/components/floating-robot";
 
 type ArticleSection = {
   title: string;
@@ -245,8 +246,9 @@ path,
         </article>
 
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-          <div className="border-l border-[#38BDF8]/30 pl-6">
-<div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">
+          <div className="relative border-l border-[#8B5CF6]/30 pl-6">
+            <FloatingRobot size="sm" className="-top-6 -left-8 opacity-30" />
+            <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#8B5CF6]">
               <Link2 className="h-4 w-4" aria-hidden="true" />
               Tambien te puede servir
             </div>
@@ -255,13 +257,13 @@ path,
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="group block border-b border-white/10 pb-5 transition last:border-b-0 hover:border-[#38BDF8]/40"
+                  className="group block border-b border-white/[0.06] pb-5 transition last:border-b-0 hover:border-[#8B5CF6]/30"
                 >
-                  <h3 className="mb-2 flex items-center justify-between gap-3 text-base font-semibold">
+                  <h3 className="mb-2 flex items-center justify-between gap-3 text-base font-semibold text-white/80">
                     {link.title}
-                    <ArrowRight className="h-4 w-4 shrink-0 text-white/35 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
+                    <ArrowRight className="h-4 w-4 shrink-0 text-white/25 transition group-hover:translate-x-1 group-hover:text-[#8B5CF6]" />
                   </h3>
-                  <p className="text-sm leading-7 text-white/70">
+                  <p className="text-sm leading-7 text-white/50">
                     {link.description}
                   </p>
                 </Link>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { BlogGrid } from "@/components/blog/BlogGrid";
 import { blogPosts } from "@/data/blog-posts";
+import { FloatingRobot } from "@/components/floating-robot";
 
 export const metadata = buildMetadata({
   title: "Blog de CV y Empleo: Guías para Mejorar tu Currículum",
@@ -69,7 +70,8 @@ export default function BlogIndexPage() {
 
         <BlogGrid posts={blogPosts} />
 
-        <div className="mt-12 rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 md:p-8">
+        <div className="relative mt-12 rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 md:p-8">
+          <FloatingRobot size="sm" className="top-4 right-4 opacity-30" />
           <h2 className="text-xl font-semibold text-white/90 mb-2">
             Recursos recomendados
           </h2>

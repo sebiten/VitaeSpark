@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Sparkles } from "lucide-react";
+import { FloatingRobot } from "@/components/floating-robot";
 
 export function Footer() {
   return (
@@ -162,6 +163,7 @@ export function Footer() {
 
         <div className="relative py-6 border-t border-white/5">
           <div className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#8B5CF6]/40 shadow-[0_0_12px_2px_rgba(139,92,246,0.3)]" />
+          <FloatingRobot size="sm" className="-top-10 right-4 opacity-20" />
           <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <p className="text-xs text-white/40">
               © {new Date().getFullYear()} VitaeSpark

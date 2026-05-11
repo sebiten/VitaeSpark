@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { OAuthButtons } from "@/components/googleButton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { FloatingRobot } from "@/components/floating-robot";
 
 export function SubmitButton({
   children,
@@ -139,6 +140,7 @@ export default function AuthPageClient() {
         <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-[#38BDF8]/8 blur-[120px]" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       </div>
+      <FloatingRobot size="sm" className="top-20 right-8 opacity-40" />
 
       <div className="relative w-full max-w-[420px]">
      
@@ -234,7 +236,7 @@ export default function AuthPageClient() {
                       required
                     />
                   </div>
-                  <SubmitButton className="mt-2">
+                  <SubmitButton >
                     <Sparkles className="mr-2 h-4 w-4" />
                     Iniciar sesión
                   </SubmitButton>
@@ -326,7 +328,7 @@ export default function AuthPageClient() {
                     </button>
                   </div>
 
-                  <SubmitButton className="mt-2">
+                  <SubmitButton>
                     <Sparkles className="mr-2 h-4 w-4" />
                     Crear cuenta
                   </SubmitButton>
