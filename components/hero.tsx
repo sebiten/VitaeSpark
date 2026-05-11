@@ -467,7 +467,92 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* CTA Section */}
+      <section className="relative px-4 py-20 bg-[#111113]">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 md:grid-cols-[1fr_360px] md:p-8">
+          <div>
+            <Badge className="mb-5 bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
+              Listo para postularte
+            </Badge>
+            <h2 className="text-3xl font-bold leading-tight md:text-5xl text-[#F0EBFF]">
+              Tu próximo CV puede estar listo en minutos
+            </h2>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/60">
+              Completá tus datos, dejá que la IA mejore la redacción y descargá
+              un PDF profesional preparado para filtros ATS.
+            </p>
 
+            <div className="mt-7 grid gap-3 sm:grid-cols-3">
+              {[
+                {
+                  icon: <Search className="h-5 w-5 text-[#8B5CF6]" />,
+                  title: "ATS",
+                  desc: "enfoque en filtros",
+                },
+                {
+                  icon: <FileText className="h-5 w-5 text-[#8B5CF6]" />,
+                  title: "PDF",
+                  desc: "descarga profesional",
+                },
+                {
+                  icon: <Sparkles className="h-5 w-5 text-[#8B5CF6]" />,
+                  title: "IA",
+                  desc: "redacción mejorada",
+                },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm"
+                >
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#8B5CF6]/10">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#F0EBFF]">{item.title}</p>
+                    <p className="text-xs text-white/45">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8">
+              <Link href="/crear">
+                <Button
+                  size="lg"
+                  className="h-14 rounded-xl bg-[#7C3AED] px-8 hover:bg-[#6D28D9] text-white shadow-lg shadow-[#7C3AED]/30 transition-all duration-300"
+                  variant="default"
+                >
+                  Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative hidden md:block">
+            <div className="absolute -inset-4 rounded-[2rem] " />
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#111113] p-3">
+              <div className="mb-3 flex items-center justify-between rounded-2xl bg-white/[0.04] px-4 py-3">
+                <span className="text-xs uppercase tracking-[0.22em] text-[#38BDF8]">
+                  Preview
+                </span>
+                <span className="rounded-full bg-[#38BDF8] px-3 py-1 text-xs font-bold text-[#0F0F10]">
+                  ATS
+                </span>
+              </div>
+              <Image
+                src="/purple-hero.webp"
+                alt="Vista previa de CV profesional creado con VitaeSpark"
+                width={560}
+                height={616}
+                sizes="(min-width: 1024px) 560px, 92vw"
+                className="aspect-[4/4.4] w-full rounded-2xl object-cover object-top"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Guías y recursos */}
       <section className="py-20 px-4 bg-[#111113]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
@@ -634,90 +719,6 @@ export default function Home() {
             >
               Ver mas guias en el blog
             </Link>
-          </div>
-        </div>
-      </section>
-      {/* CTA Section */}
-      <section className="relative px-4 py-20 bg-[#111113]">
-        <div className="mx-auto grid max-w-6xl items-center gap-8 rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 md:grid-cols-[1fr_360px] md:p-8">
-          <div>
-            <Badge className="mb-5 bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
-              Listo para postularte
-            </Badge>
-            <h2 className="text-3xl font-bold leading-tight md:text-5xl text-[#F0EBFF]">
-              Tu próximo CV puede estar listo en minutos
-            </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/60">
-              Completá tus datos, dejá que la IA mejore la redacción y descargá
-              un PDF profesional preparado para filtros ATS.
-            </p>
-
-            <div className="mt-7 grid gap-3 sm:grid-cols-3">
-              {[
-                {
-                  icon: <Search className="h-5 w-5 text-[#8B5CF6]" />,
-                  title: "ATS",
-                  desc: "enfoque en filtros",
-                },
-                {
-                  icon: <FileText className="h-5 w-5 text-[#8B5CF6]" />,
-                  title: "PDF",
-                  desc: "descarga profesional",
-                },
-                {
-                  icon: <Sparkles className="h-5 w-5 text-[#8B5CF6]" />,
-                  title: "IA",
-                  desc: "redacción mejorada",
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm"
-                >
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#8B5CF6]/10">
-                    {item.icon}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-[#F0EBFF]">{item.title}</p>
-                    <p className="text-xs text-white/45">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8">
-              <Link href="/crear">
-                <Button
-                  size="lg"
-                  className="h-14 rounded-xl bg-[#7C3AED] px-8 hover:bg-[#6D28D9] text-white shadow-lg shadow-[#7C3AED]/30 transition-all duration-300"
-                  variant="default"
-                >
-                  Crear mi CV ahora <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative hidden md:block">
-            <div className="absolute -inset-4 rounded-[2rem] " />
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#111113] p-3">
-              <div className="mb-3 flex items-center justify-between rounded-2xl bg-white/[0.04] px-4 py-3">
-                <span className="text-xs uppercase tracking-[0.22em] text-[#38BDF8]">
-                  Preview
-                </span>
-                <span className="rounded-full bg-[#38BDF8] px-3 py-1 text-xs font-bold text-[#0F0F10]">
-                  ATS
-                </span>
-              </div>
-              <Image
-                src="/purple-hero.webp"
-                alt="Vista previa de CV profesional creado con VitaeSpark"
-                width={560}
-                height={616}
-                sizes="(min-width: 1024px) 560px, 92vw"
-                className="aspect-[4/4.4] w-full rounded-2xl object-cover object-top"
-              />
-            </div>
           </div>
         </div>
       </section>
