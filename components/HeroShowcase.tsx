@@ -47,7 +47,7 @@ export default function HeroShowcase() {
             alt="Ejemplo de curriculum vitae creado con VitaeSpark"
             width={760}
             height={900}
-            priority
+            fetchPriority="high"
             draggable={false}
             sizes="(min-width: 1024px) 42vw, 92vw"
             className="w-full object-cover object-top"
