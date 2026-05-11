@@ -36,7 +36,7 @@ export default function Home() {
             <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Características
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#F0EBFF]">
               Todo lo que necesitas para un CV perfecto
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
@@ -52,7 +52,7 @@ export default function Home() {
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#8B5CF6]/10 text-[#8B5CF6]">
                 <Search className="h-6 w-6" />
               </div>
-              <h3 className="text-lg font-semibold text-white/90">
+              <h3 className="text-lg font-semibold text-[#F0EBFF]">
                 Optimizado para ATS
               </h3>
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/50">
@@ -66,7 +66,7 @@ export default function Home() {
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#8B5CF6]/10 text-[#8B5CF6]">
                 <Sparkles className="h-6 w-6" />
               </div>
-              <h3 className="text-lg font-semibold text-white/90">
+              <h3 className="text-lg font-semibold text-[#F0EBFF]">
                 Redacción inteligente
               </h3>
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/50">
@@ -111,7 +111,7 @@ export default function Home() {
             <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Proceso
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#F0EBFF]">
               Creá tu CV en tres simples pasos
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
@@ -165,7 +165,7 @@ export default function Home() {
                     <span className="text-[10px] font-mono uppercase tracking-widest text-white/30">
                       Paso {step.number}
                     </span>
-                    <h3 className="mt-1 text-base font-semibold text-white/90">
+                    <h3 className="mt-1 text-base font-semibold text-[#F0EBFF]">
                       {step.title}
                     </h3>
                     <p className="mt-1.5 text-sm leading-relaxed text-white/50">
@@ -186,7 +186,7 @@ export default function Home() {
             <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Comparativa
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#F0EBFF]">
               La diferencia VitaeSpark
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
@@ -321,7 +321,7 @@ export default function Home() {
           </div>
 
           <div className="mt-12 rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 md:p-8">
-            <h3 className="text-lg font-semibold text-white/90 mb-6 text-center">
+            <h3 className="text-lg font-semibold text-[#F0EBFF] mb-6 text-center">
               ¿Por qué elegir VitaeSpark?
             </h3>
 
@@ -371,7 +371,7 @@ export default function Home() {
             <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Testimonios
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#F0EBFF]">
               Lo que dicen nuestros usuarios
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
@@ -402,21 +402,21 @@ export default function Home() {
               <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-3">
                 <Search className="h-5 w-5" />
               </div>
-              <p className="text-base font-semibold text-white/90 mb-1">ATS</p>
+              <p className="text-base font-semibold text-[#F0EBFF] mb-1">ATS</p>
               <p className="text-sm text-white/50">enfoque en filtros</p>
             </div>
             <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 text-center transition-all duration-300 hover:border-white/[0.12]">
               <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-3">
                 <FileText className="h-5 w-5" />
               </div>
-              <p className="text-base font-semibold text-white/90 mb-1">PDF</p>
+              <p className="text-base font-semibold text-[#F0EBFF] mb-1">PDF</p>
               <p className="text-sm text-white/50">descarga profesional</p>
             </div>
             <div className="flex flex-col items-center rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 text-center transition-all duration-300 hover:border-white/[0.12]">
               <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-3">
                 <Sparkles className="h-5 w-5" />
               </div>
-              <p className="text-base font-semibold text-white/90 mb-1">IA</p>
+              <p className="text-base font-semibold text-[#F0EBFF] mb-1">IA</p>
               <p className="text-sm text-white/50">redacción mejorada</p>
             </div>
           </div>
@@ -467,7 +467,7 @@ export default function Home() {
             <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Preguntas Frecuentes
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#F0EBFF]">
               Resolvemos tus dudas
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
@@ -539,7 +539,7 @@ export default function Home() {
             <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Guias y recursos
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#F0EBFF]">
               Encuentra la guia correcta para tu tipo de CV
             </h2>
             <p className="text-white/60 max-w-3xl mx-auto text-lg leading-relaxed">
@@ -683,7 +683,7 @@ export default function Home() {
                   </div>
                   <ArrowRight className="h-4 w-4 text-white/50 transition group-hover:translate-x-1 group-hover:text-[#8B5CF6]" />
                 </div>
-                <h3 className="text-base font-semibold text-white/90 mb-2">
+                <h3 className="text-base font-semibold text-[#F0EBFF] mb-2">
                   {item.title}
                 </h3>
                 <p className="text-sm text-white/50 leading-relaxed">
@@ -709,7 +709,7 @@ export default function Home() {
             <Badge className="mb-5 bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Listo para postularte
             </Badge>
-            <h2 className="text-3xl font-bold leading-tight md:text-5xl text-white/90">
+            <h2 className="text-3xl font-bold leading-tight md:text-5xl text-[#F0EBFF]">
               Tu próximo CV puede estar listo en minutos
             </h2>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-white/60">
