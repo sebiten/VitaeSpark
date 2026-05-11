@@ -28,7 +28,7 @@ export default function Home() {
 
       <WelcomeHero />
 
-      {/* Features Section */}
+      {/* Features Section — Bento Grid */}
       <section className="relative overflow-hidden py-20 px-4 bg-[#111113]">
         <div className="pointer-events-none absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-[#38BDF8]/10 blur-[110px]" />
         <div className="max-w-6xl mx-auto">
@@ -45,51 +45,74 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {/* Bento: 2 grandes arriba + 4 chicas abajo */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Grande 1 — ATS */}
+            <div className="group relative overflow-hidden rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/[0.12] hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] sm:col-span-2">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#8B5CF6]/10 text-[#8B5CF6]">
+                <Search className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-semibold text-white/90">
+                Optimizado para ATS
+              </h3>
+              <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/50">
+                Superá los filtros automáticos de las empresas con palabras clave
+                estratégicas y estructura compatible.
+              </p>
+            </div>
+
+            {/* Grande 2 — IA */}
+            <div className="group relative overflow-hidden rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/[0.12] hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] sm:col-span-2">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#8B5CF6]/10 text-[#8B5CF6]">
+                <Sparkles className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-semibold text-white/90">
+                Redacción inteligente
+              </h3>
+              <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/50">
+                La IA mejora tus textos para hacerlos más impactantes,
+                profesionales y adaptados a tu industria.
+              </p>
+            </div>
+
+            {/* Chica 1 */}
             <FeatureCard
               icon={<FileText className="h-5 w-5" />}
               title="Plantillas profesionales"
-              description="Diseños modernos y efectivos que destacan tu experiencia y habilidades."
+              description="Diseños modernos que destacan tu experiencia."
             />
-            <FeatureCard
-              icon={<Search className="h-5 w-5" />}
-              title="Optimizado para ATS"
-              description="Supera los filtros automáticos de las empresas con palabras clave estratégicas."
-            />
-            <FeatureCard
-              icon={<Sparkles className="h-5 w-5" />}
-              title="Redacción inteligente"
-              description="La IA mejora tus textos para hacerlos más impactantes y profesionales."
-            />
+            {/* Chica 2 */}
             <FeatureCard
               icon={<Clock className="h-5 w-5" />}
               title="Rápido y sencillo"
-              description="Crea un CV profesional en minutos, sin complicaciones ni conocimientos técnicos."
+              description="Creá un CV en minutos, sin complicaciones."
             />
+            {/* Chica 3 */}
             <FeatureCard
               icon={<Zap className="h-5 w-5" />}
               title="Personalización total"
-              description="Adapta cada sección a tus necesidades específicas y al puesto que buscas."
+              description="Adaptá cada sección a tus necesidades."
             />
+            {/* Chica 4 */}
             <FeatureCard
               icon={<Award className="h-5 w-5" />}
               title="Resultados comprobados"
-              description="Aumenta tus posibilidades de conseguir entrevistas con un CV que realmente funciona."
+              description="Aumentá tus chances de entrevistas."
             />
           </div>
         </div>
       </section>
 
-      {/* How it Works Section */}
+      {/* How it Works — Connected Stepper */}
       <section className="relative overflow-hidden py-20 px-4 bg-[#111113]/50">
         <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-[#38BDF8]/15 to-transparent" />
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Proceso
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
-              Crea tu CV en tres simples pasos
+              Creá tu CV en tres simples pasos
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
               Nuestro proceso está diseñado para ser rápido, intuitivo y
@@ -97,50 +120,61 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                number: "01",
-                icon: <PencilLine className="h-5 w-5" />,
-                title: "Ingresa tus datos",
-                description:
-                  "Completa un formulario simple con tu experiencia, educación y habilidades.",
-              },
-              {
-                number: "02",
-                icon: <Bot className="h-5 w-5" />,
-                title: "La IA optimiza tu CV",
-                description:
-                  "Mejora automáticamente la redacción, el orden y la estructura de tu CV.",
-              },
-              {
-                number: "03",
-                icon: <Download className="h-5 w-5" />,
-                title: "Descarga tu CV listo",
-                description:
-                  "Obtén un PDF profesional y preparado para enviar a empresas.",
-              },
-            ].map((step) => (
-              <div
-                key={step.number}
-                className="relative rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]"
-              >
-                <div className="absolute top-4 right-4 text-sm font-mono text-white/50">
-                  {step.number}
-                </div>
-                <div className="mb-5">
-                  <div className="w-11 h-11 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6]">
-                    {step.icon}
+          {/* Desktop: horizontal timeline / Mobile: vertical */}
+          <div className="relative">
+            {/* Connector line — desktop horizontal */}
+            <div className="pointer-events-none absolute left-0 right-0 top-[2.25rem] hidden h-px bg-gradient-to-r from-[#8B5CF6]/40 via-[#38BDF8]/40 to-[#8B5CF6]/40 md:block" />
+
+            {/* Connector line — mobile vertical */}
+            <div className="pointer-events-none absolute left-[2.25rem] top-0 bottom-0 hidden h-full w-px bg-gradient-to-b from-[#8B5CF6]/40 via-[#38BDF8]/40 to-[#8B5CF6]/40 md:hidden" />
+
+            <div className="grid gap-8 md:grid-cols-3">
+              {[
+                {
+                  number: "01",
+                  icon: <PencilLine className="h-5 w-5" />,
+                  title: "Ingresá tus datos",
+                  description:
+                    "Completá un formulario simple con tu experiencia, educación y habilidades.",
+                },
+                {
+                  number: "02",
+                  icon: <Bot className="h-5 w-5" />,
+                  title: "La IA optimiza",
+                  description:
+                    "Mejorá automáticamente la redacción, el orden y la estructura de tu CV.",
+                },
+                {
+                  number: "03",
+                  icon: <Download className="h-5 w-5" />,
+                  title: "Descargá tu CV",
+                  description:
+                    "Obtené un PDF profesional listo para enviar a empresas.",
+                },
+              ].map((step, i) => (
+                <div key={step.number} className="relative flex gap-5 md:block md:text-center">
+                  {/* Circle node */}
+                  <div className="relative z-10 flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-full border border-white/[0.08] bg-[#1C1C22] shadow-lg shadow-black/20 md:mx-auto md:mb-5">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6]">
+                      {step.icon}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="pt-1 md:pt-0">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-white/30">
+                      Paso {step.number}
+                    </span>
+                    <h3 className="mt-1 text-base font-semibold text-white/90">
+                      {step.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-white/50">
+                      {step.description}
+                    </p>
                   </div>
                 </div>
-                <h3 className="text-base font-semibold text-white/90 mb-2">
-                  {step.title}
-                </h3>
-                <p className="text-sm text-white/50 leading-relaxed">
-                  {step.description}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -291,36 +325,40 @@ export default function Home() {
               ¿Por qué elegir VitaeSpark?
             </h3>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="flex flex-col items-center text-center p-4">
-                <div className="w-12 h-12 rounded-xl bg-[#8B5CF6]/10 flex items-center justify-center mb-4">
-                  <CheckCircle2 className="h-5 w-5 text-[#8B5CF6]" />
+            {/* Mobile: horizontal scroll row / Desktop: grid */}
+            <div className="flex gap-4 overflow-x-auto pb-2 -mx-2 px-2 sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible sm:pb-0 sm:mx-0 sm:px-0">
+              {[
+                {
+                  icon: <CheckCircle2 className="h-5 w-5 text-[#8B5CF6]" />,
+                  title: "300% más entrevistas",
+                  desc: "Nuestros usuarios reciben hasta 3 veces más llamadas.",
+                },
+                {
+                  icon: <Zap className="h-5 w-5 text-[#8B5CF6]" />,
+                  title: "90% ahorro de tiempo",
+                  desc: "Creá un CV profesional en minutos.",
+                },
+                {
+                  icon: <Award className="h-5 w-5 text-[#8B5CF6]" />,
+                  title: "IA de vanguardia",
+                  desc: "Se adapta a las últimas tendencias.",
+                },
+              ].map((stat) => (
+                <div
+                  key={stat.title}
+                  className="flex min-w-[200px] shrink-0 flex-col items-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 text-center sm:min-w-0 sm:bg-transparent sm:p-4 sm:border-0"
+                >
+                  <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-[#8B5CF6]/10 sm:h-12 sm:w-12 sm:mb-4">
+                    {stat.icon}
+                  </div>
+                  <h4 className="text-sm font-semibold text-white/80 sm:text-base sm:font-medium sm:mb-1">
+                    {stat.title}
+                  </h4>
+                  <p className="text-xs text-white/45 sm:text-xs sm:text-white/50">
+                    {stat.desc}
+                  </p>
                 </div>
-                <h4 className="font-medium text-white/80 mb-1">300% más entrevistas</h4>
-                <p className="text-xs text-white/50">
-                  Nuestros usuarios reciben hasta 3 veces más llamadas.
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center text-center p-4">
-                <div className="w-12 h-12 rounded-xl bg-[#8B5CF6]/10 flex items-center justify-center mb-4">
-                  <Zap className="h-5 w-5 text-[#8B5CF6]" />
-                </div>
-                <h4 className="font-medium text-white/80 mb-1">90% de ahorro de tiempo</h4>
-                <p className="text-xs text-white/50">
-                  Crea un CV profesional en minutos.
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center text-center p-4">
-                <div className="w-12 h-12 rounded-xl bg-[#8B5CF6]/10 flex items-center justify-center mb-4">
-                  <Award className="h-5 w-5 text-[#8B5CF6]" />
-                </div>
-                <h4 className="font-medium text-white/80 mb-1">Tecnología de vanguardia</h4>
-                <p className="text-xs text-white/50">
-                  IA que se adapta a las últimas tendencias.
-                </p>
-              </div>
+              ))}
             </div>
           </div>
         </div>
