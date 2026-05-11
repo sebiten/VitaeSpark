@@ -180,4 +180,76 @@ export const blogPosts = [
     category: "Tecnologia",
     iconKey: "Code2",
   },
+  {
+    href: "/cv-para-mineria",
+    title: "CV para mineria: ejemplo para minera, ayudante y operario",
+    description:
+      "Arma un curriculum para minera destacando seguridad, turnos, maquinaria y experiencia en terreno.",
+    category: "Mineria",
+    iconKey: "HardHat",
+  },
+  {
+    href: "/cv-para-cajero",
+    title: "CV para cajero: ejemplo para supermercado, retail y comercio",
+    description:
+      "Crea un curriculum para cajero con perfil profesional, habilidades de caja y experiencia en comercio.",
+    category: "Cajero",
+    iconKey: "ShoppingCart",
+  },
+  {
+    href: "/cv-para-seguridad",
+    title: "CV para seguridad: ejemplo, habilidades y formato ATS",
+    description:
+      "Arma un curriculum para vigilador o seguridad destacando control de accesos, prevencion y responsabilidad.",
+    category: "Seguridad",
+    iconKey: "Shield",
+  },
+  {
+    href: "/cv-para-vendedor",
+    title: "CV para vendedor: ejemplo, habilidades y formato ATS",
+    description:
+      "Destaca atencion al cliente, ventas, objetivos comerciales y experiencia en retail o ventas consultivas.",
+    category: "Vendedor",
+    iconKey: "ShoppingCart",
+  },
+  {
+    href: "/cv-para-administrativo",
+    title: "CV administrativo: ejemplo para auxiliar y perfil profesional",
+    description:
+      "Arma un curriculum administrativo con tareas de oficina, documentacion, sistemas y soporte operativo.",
+    category: "Administrativo",
+    iconKey: "Landmark",
+  },
+  {
+    href: "/cv-para-recepcionista",
+    title: "CV para recepcionista: ejemplo, habilidades y sin experiencia",
+    description:
+      "Prepara un curriculum para recepcionista destacando atencion al publico, agenda y organizacion.",
+    category: "Recepcionista",
+    iconKey: "UserRound",
+  },
+  {
+    href: "/cv-call-center",
+    title: "CV call center: perfil profesional, habilidades y ejemplos",
+    description:
+      "Prepara un curriculum para call center orientado a atencion telefonica, soporte, ventas y procesos ATS.",
+    category: "Call center",
+    iconKey: "Headset",
+  },
+  {
+    href: "/cv-para-operario",
+    title: "CV para operario de produccion: ejemplo y habilidades",
+    description:
+      "Arma un curriculum para operario destacando produccion, deposito, mantenimiento y seguridad.",
+    category: "Operario",
+    iconKey: "Target",
+  },
+  {
+    href: "/cv-para-limpieza",
+    title: "CV para limpieza: ejemplo, habilidades y formato ATS",
+    description:
+      "Prepara un curriculum para limpieza destacando mantenimiento de espacios, orden y responsabilidad.",
+    category: "Limpieza",
+    iconKey: "Stethoscope",
+  },
 ] satisfies BlogPost[];

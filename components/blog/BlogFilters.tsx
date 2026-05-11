@@ -16,21 +16,8 @@ export function BlogFilters({ posts, onFilter }: Props) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
 
-  const extraCategories = [
-    "Sin experiencia",
-    "Administrativo",
-    "Recepcionista",
-    "Call center",
-    "Cajero",
-    "Mineria",
-    "Seguridad",
-    "Limpieza",
-    "Vendedor",
-    "Operario",
-  ];
-
   const categories = useMemo(() => {
-    const cats = new Set([...posts.map((p) => p.category), ...extraCategories]);
+    const cats = new Set(posts.map((p) => p.category));
     return Array.from(cats).sort();
   }, [posts]);
 
