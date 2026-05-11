@@ -7,13 +7,21 @@ import {
   Code2,
   FileText,
   GraduationCap,
+  HardHat,
+  Headset,
+  Landmark,
   Layers3,
   ListChecks,
   PenLine,
+  Pickaxe,
   SearchCheck,
+  Shield,
+  ShoppingCart,
   Sparkles,
+  Stethoscope,
   Target,
   UserRound,
+  Users,
   type LucideIcon,
 } from "lucide-react";
 
@@ -33,6 +41,14 @@ export const iconMap: Record<string, LucideIcon> = {
   GraduationCap,
   Target,
   Code2,
+  Pickaxe,
+  Users,
+  Headset,
+  HardHat,
+  ShoppingCart,
+  Shield,
+  Stethoscope,
+  Landmark,
 };
 
 export type BlogPost = {

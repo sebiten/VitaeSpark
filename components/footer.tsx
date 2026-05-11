@@ -30,7 +30,7 @@ export function Footer() {
               href="https://www.instagram.com/vitae.spark/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-[#8B5CF6] transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-[#8B5CF6] transition-colors"
             >
               <Instagram className="h-4 w-4" />
               @vitae.spark
@@ -152,7 +152,7 @@ export function Footer() {
               <div className="mt-5">
                 <a
                   href="mailto:soporte@vitaespark.com"
-                  className="text-xs text-white/35 hover:text-white/50 transition-colors"
+                  className="text-xs text-white/60 hover:text-white/80 transition-colors"
                 >
                   soporte@vitaespark.com
                 </a>
@@ -165,10 +165,10 @@ export function Footer() {
           <div className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#8B5CF6]/40 shadow-[0_0_12px_2px_rgba(139,92,246,0.3)]" />
           <FloatingRobot size="sm" className="-top-10 right-4 opacity-20" />
           <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
-            <p className="text-xs text-white/40">
+            <p className="text-xs text-white/50">
               © {new Date().getFullYear()} VitaeSpark
             </p>
-            <div className="flex items-center gap-1.5 text-xs text-white/30">
+            <div className="flex items-center gap-1.5 text-xs text-white/50">
               <Sparkles className="h-3 w-3" />
               <span>Hecho con IA para tu carrera</span>
             </div>

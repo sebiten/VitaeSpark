@@ -36,11 +36,11 @@ export function BlogGrid({ posts }: Props) {
                     <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6]">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-xs font-medium text-white/40">
+                    <span className="text-sm font-medium text-white/50">
                       {post.category}
                     </span>
                   </div>
-                  <span className="text-xs font-medium text-white/20">
+                  <span className="text-sm font-medium text-white/50">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
@@ -54,7 +54,7 @@ export function BlogGrid({ posts }: Props) {
                   </p>
                 </div>
 
-                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-medium text-white/40 transition group-hover:text-white/60">
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-white/50 transition group-hover:text-white/70">
                   Leer guia
                   <ArrowUpRight className="h-3.5 w-3.5" />
                 </span>

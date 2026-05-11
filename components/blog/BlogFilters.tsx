@@ -16,8 +16,21 @@ export function BlogFilters({ posts, onFilter }: Props) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
 
+  const extraCategories = [
+    "Sin experiencia",
+    "Administrativo",
+    "Recepcionista",
+    "Call center",
+    "Cajero",
+    "Mineria",
+    "Seguridad",
+    "Limpieza",
+    "Vendedor",
+    "Operario",
+  ];
+
   const categories = useMemo(() => {
-    const cats = new Set(posts.map((p) => p.category));
+    const cats = new Set([...posts.map((p) => p.category), ...extraCategories]);
     return Array.from(cats).sort();
   }, [posts]);
 
@@ -76,12 +89,12 @@ export function BlogFilters({ posts, onFilter }: Props) {
             placeholder="Buscar en las guias..."
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-[#121217] py-3 pl-11 pr-10 text-sm text-white placeholder:text-white/40 focus:border-[#38BDF8]/40 focus:outline-none focus:ring-1 focus:ring-[#38BDF8]/20"
+            className="w-full rounded-xl border border-white/[0.08] bg-[#1C1C22] py-3 pl-11 pr-10 text-sm text-white placeholder:text-white/50 focus:border-[#7C3AED]/40 focus:outline-none focus:ring-1 focus:ring-[#7C3AED]/20"
           />
           {search && (
             <button
               onClick={clearSearch}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/80"
             >
               <X className="h-4 w-4" />
             </button>
@@ -92,10 +105,10 @@ export function BlogFilters({ posts, onFilter }: Props) {
       <div className="flex flex-wrap gap-2">
         <button
           onClick={() => handleCategoryClick(null)}
-          className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
+          className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
             activeCategory === null
-              ? "bg-[#38BDF8] text-black"
-              : "border border-white/10 bg-white/[0.04] text-white/60 hover:border-[#38BDF8]/40 hover:text-white/80"
+              ? "bg-[#7C3AED] text-white"
+              : "border border-white/[0.08] bg-white/[0.04] text-white/60 hover:border-[#7C3AED]/40 hover:text-white/80"
           }`}
         >
           Todos
@@ -104,10 +117,10 @@ export function BlogFilters({ posts, onFilter }: Props) {
           <button
             key={cat}
             onClick={() => handleCategoryClick(cat)}
-            className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
               activeCategory === cat
-                ? "bg-[#38BDF8] text-black"
-                : "border border-white/10 bg-white/[0.04] text-white/60 hover:border-[#38BDF8]/40 hover:text-white/80"
+                ? "bg-[#7C3AED] text-white"
+                : "border border-white/[0.08] bg-white/[0.04] text-white/60 hover:border-[#7C3AED]/40 hover:text-white/80"
             }`}
           >
             {cat}

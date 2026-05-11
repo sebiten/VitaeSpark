@@ -261,7 +261,7 @@ path,
                 >
                   <h3 className="mb-2 flex items-center justify-between gap-3 text-base font-semibold text-white/80">
                     {link.title}
-                    <ArrowRight className="h-4 w-4 shrink-0 text-white/25 transition group-hover:translate-x-1 group-hover:text-[#8B5CF6]" />
+                    <ArrowRight className="h-4 w-4 shrink-0 text-white/50 transition group-hover:translate-x-1 group-hover:text-[#8B5CF6]" />
                   </h3>
                   <p className="text-sm leading-7 text-white/50">
                     {link.description}

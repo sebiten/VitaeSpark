@@ -148,14 +148,14 @@ export default function WelcomeHero() {
               key={step.title}
               className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-4 shadow-xl shadow-black/10 backdrop-blur"
             >
-              <span className="absolute right-4 top-3 text-xs font-semibold text-white/35">
+              <span className="absolute right-4 top-3 text-lg font-semibold text-white/50">
                 0{index + 1}
               </span>
               <div className="mb-4 inline-flex rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
                 {step.icon}
               </div>
-              <h2 className="text-sm font-semibold text-white">{step.title}</h2>
-              <p className="mt-1 text-sm leading-6 text-[#F4F4F5]/62">
+              <h2 className="text-lg font-semibold text-white">{step.title}</h2>
+              <p className="mt-1 text-sm leading-6 text-[#F4F4F5]/90">
                 {step.description}
               </p>
             </div>

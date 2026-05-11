@@ -33,13 +33,13 @@ export default function Home() {
         <div className="pointer-events-none absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-[#38BDF8]/10 blur-[110px]" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
+            <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Características
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
               Todo lo que necesitas para un CV perfecto
             </h2>
-            <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">
+            <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
               VitaeSpark combina tecnología avanzada con diseño profesional para
               crear CVs que impresionan a reclutadores y sistemas ATS.
             </p>
@@ -85,13 +85,13 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-[#38BDF8]/15 to-transparent" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
+            <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Proceso
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
               Crea tu CV en tres simples pasos
             </h2>
-            <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">
+            <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
               Nuestro proceso está diseñado para ser rápido, intuitivo y
               efectivo.
             </p>
@@ -125,7 +125,7 @@ export default function Home() {
                 key={step.number}
                 className="relative rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]"
               >
-                <div className="absolute top-4 right-4 text-xs font-mono text-white/20">
+                <div className="absolute top-4 right-4 text-sm font-mono text-white/50">
                   {step.number}
                 </div>
                 <div className="mb-5">
@@ -149,13 +149,13 @@ export default function Home() {
       <section className="py-20 px-4 bg-[#111113]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
+            <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Comparativa
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
               La diferencia VitaeSpark
             </h2>
-            <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">
+            <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
               Descubre por qué un CV optimizado marca la diferencia en tu
               búsqueda de empleo.
             </p>
@@ -198,7 +198,7 @@ export default function Home() {
 
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-white/[0.06] flex items-center justify-center shrink-0">
-                    <FileText className="h-4 w-4 text-white/30" />
+                    <FileText className="h-4 w-4 text-white/50" />
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-white/60">Formato genérico</h3>
@@ -210,7 +210,7 @@ export default function Home() {
 
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-white/[0.06] flex items-center justify-center shrink-0">
-                    <Clock className="h-4 w-4 text-white/30" />
+                    <Clock className="h-4 w-4 text-white/50" />
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-white/60">Proceso lento</h3>
@@ -330,13 +330,13 @@ export default function Home() {
       <section className="py-20 px-4 bg-[#111113]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
+            <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Testimonios
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
               Lo que dicen nuestros usuarios
             </h2>
-            <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">
+            <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
               Miles de profesionales ya han mejorado sus oportunidades laborales
               con VitaeSpark.
             </p>
@@ -426,13 +426,13 @@ export default function Home() {
         <div className="pointer-events-none absolute right-0 top-10 h-72 w-72 rounded-full bg-[#7C3AED]/10 blur-[120px]" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-[#7C3AED]/20 text-[#7C3AED] hover:bg-[#7C3AED]/30 mb-4">
+            <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Preguntas Frecuentes
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
               Resolvemos tus dudas
             </h2>
-            <p className="text-[#F4F4F5]/70 max-w-2xl mx-auto">
+            <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
               Todo lo que necesitas saber sobre VitaeSpark.
             </p>
           </div>
@@ -442,7 +442,7 @@ export default function Home() {
               <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium text-white/80 transition hover:text-[#8B5CF6]">
                 <HelpCircle className="mr-3 h-5 w-5 text-[#8B5CF6]" />
                 ¿Qué es un sistema ATS y por qué es importante?
-                <span className="ml-auto text-xl text-white/20 transition group-open:rotate-45">+</span>
+                <span className="ml-auto text-xl text-white/50 transition group-open:rotate-45">+</span>
               </summary>
               <p className="mt-3 pl-8 leading-7 text-white/50">
                 Un ATS (Applicant Tracking System) es un software que utilizan
@@ -458,7 +458,7 @@ export default function Home() {
               <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium text-white/80 transition hover:text-[#8B5CF6]">
                 <Sparkles className="mr-3 h-5 w-5 text-[#8B5CF6]" />
                 ¿Cómo mejora la IA mi currículum?
-                <span className="ml-auto text-xl text-white/20 transition group-open:rotate-45">+</span>
+                <span className="ml-auto text-xl text-white/50 transition group-open:rotate-45">+</span>
               </summary>
               <p className="mt-3 pl-8 leading-7 text-white/50">
                 Nuestra IA analiza tu información y mejora la redacción para
@@ -473,7 +473,7 @@ export default function Home() {
               <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium text-white/80 transition hover:text-[#8B5CF6]">
                 <Download className="mr-3 h-5 w-5 text-[#8B5CF6]" />
                 ¿En qué formatos puedo descargar mi CV?
-                <span className="ml-auto text-xl text-white/20 transition group-open:rotate-45">+</span>
+                <span className="ml-auto text-xl text-white/50 transition group-open:rotate-45">+</span>
               </summary>
               <p className="mt-3 pl-8 leading-7 text-[#F4F4F5]/70">
                 Con la generación de tu cv puedes descargarlo en formato PDF las
@@ -498,13 +498,13 @@ export default function Home() {
       <section className="py-20 px-4 bg-[#111113]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <Badge className="bg-[#38BDF8]/20 text-[#38BDF8] hover:bg-[#38BDF8]/30 mb-4">
+            <Badge className="bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] mb-4 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Guias y recursos
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white/90">
               Encuentra la guia correcta para tu tipo de CV
             </h2>
-            <p className="text-[#F4F4F5]/70 max-w-3xl mx-auto">
+            <p className="text-white/60 max-w-3xl mx-auto text-lg leading-relaxed">
               Si llegaste buscando como hacer un curriculum, mejorar tu CV para
               ATS o armar un perfil sin experiencia, aqui tienes paginas
               pensadas para esa necesidad concreta.
@@ -643,7 +643,7 @@ export default function Home() {
                   <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6]">
                     <BookOpen className="h-5 w-5" />
                   </div>
-                  <ArrowRight className="h-4 w-4 text-white/25 transition group-hover:translate-x-1 group-hover:text-[#8B5CF6]" />
+                  <ArrowRight className="h-4 w-4 text-white/50 transition group-hover:translate-x-1 group-hover:text-[#8B5CF6]" />
                 </div>
                 <h3 className="text-base font-semibold text-white/90 mb-2">
                   {item.title}
@@ -668,13 +668,13 @@ export default function Home() {
       <section className="relative px-4 py-20 bg-[#111113]">
         <div className="mx-auto grid max-w-6xl items-center gap-8 rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 md:grid-cols-[1fr_360px] md:p-8">
           <div>
-            <Badge className="mb-5 bg-[#7C3AED]/20 text-[#C4B5FD] hover:bg-[#7C3AED]/30">
+            <Badge className="mb-5 bg-white/[0.06] text-white/70 hover:bg-white/[0.08] border border-white/[0.08] px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
               Listo para postularte
             </Badge>
-            <h2 className="text-3xl font-bold leading-tight md:text-5xl">
+            <h2 className="text-3xl font-bold leading-tight md:text-5xl text-white/90">
               Tu próximo CV puede estar listo en minutos
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-[#F4F4F5]/75">
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/60">
               Completá tus datos, dejá que la IA mejore la redacción y descargá
               un PDF profesional preparado para filtros ATS.
             </p>

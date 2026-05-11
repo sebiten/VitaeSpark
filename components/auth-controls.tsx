@@ -153,7 +153,7 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
       <Link
         href="/login"
         onClick={onNavigate}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#8B5CF6] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/15"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#7C3AED] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#6D28D9] transition-colors shadow-lg shadow-[#7C3AED]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#111113]"
       >
         <LogIn className="h-4 w-4" />
         Iniciar sesión
@@ -197,7 +197,7 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
   ) : (
     <Link
       href="/login"
-      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#8B5CF6] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/15"
+      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#7C3AED] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#6D28D9] transition-colors shadow-lg shadow-[#7C3AED]/20"
     >
       <LogIn className="h-4 w-4" />
       Iniciar sesión

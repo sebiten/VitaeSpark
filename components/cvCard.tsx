@@ -72,7 +72,7 @@ export const CVCard = memo(({ cv }: { cv: CVprofile }) => {
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 mt-0.5">
-                <Calendar className="h-3 w-3 text-white/30" />
+                <Calendar className="h-3 w-3 text-white/50" />
                 <span className="text-xs text-white/40">
                   {formattedDate}
                 </span>

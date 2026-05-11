@@ -30,7 +30,7 @@ export function TestimonialCard({ quote, author, role }: TestimonialCardProps) {
         <Badge className="bg-white/[0.04] text-white/60 border-white/[0.08] font-medium text-xs px-3 py-1">
           {author}
         </Badge>
-        <span className="text-xs text-white/40">{role}</span>
+        <span className="text-xs text-white/50">{role}</span>
       </div>
     </UnifiedCard>
   )

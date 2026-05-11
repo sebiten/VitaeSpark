@@ -43,7 +43,7 @@ export function SubmitButton({
   return (
     <Button
       type="submit"
-      className="w-full bg-[#8B5CF6] rounded-xl hover:bg-[#7C3AED] transition-colors shadow-lg shadow-[#8B5CF6]/20"
+      className="w-full bg-[#7C3AED] rounded-xl hover:bg-[#6D28D9] transition-colors shadow-lg shadow-[#7C3AED]/20"
       disabled={pending || disabled}
     >
       {pending ? (
@@ -165,7 +165,7 @@ export default function AuthPageClient() {
                 <div className="w-full border-t border-white/10" />
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="bg-[#1C1C22] px-3 text-white/40">o continua con email</span>
+                <span className="bg-[#1C1C22] px-3 text-white/60">o continua con email</span>
               </div>
             </div>
 
@@ -177,13 +177,13 @@ export default function AuthPageClient() {
               <TabsList className="grid w-full grid-cols-2 mb-5 bg-[#27272A] rounded-xl p-1">
                 <TabsTrigger
                   value="login"
-                  className="rounded-lg text-sm data-[state=active]:bg-[#8B5CF6] data-[state=active]:text-white data-[state=active]:shadow-sm transition-all"
+                  className="rounded-lg text-sm data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white data-[state=active]:shadow-sm transition-all"
                 >
                   Iniciar sesión
                 </TabsTrigger>
                 <TabsTrigger
                   value="register"
-                  className="rounded-lg text-sm data-[state=active]:bg-[#8B5CF6] data-[state=active]:text-white data-[state=active]:shadow-sm transition-all"
+                  className="rounded-lg text-sm data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white data-[state=active]:shadow-sm transition-all"
                 >
                   Registrarse
                 </TabsTrigger>
@@ -293,11 +293,11 @@ export default function AuthPageClient() {
                       className="bg-[#27272A] border-white/10 text-white rounded-xl h-11 pr-10"
                       required
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-[34px] text-white/40 hover:text-white/60 transition-colors"
-                    >
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-[34px] text-white/60 hover:text-white/80 transition-colors"
+                  >
                       {showPassword ? (
                         <EyeClosed className="h-4 w-4" />
                       ) : (
@@ -318,7 +318,7 @@ export default function AuthPageClient() {
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-[34px] text-white/40 hover:text-white/60 transition-colors"
+                      className="absolute right-3 top-[34px] text-white/60 hover:text-white/80 transition-colors"
                     >
                       {showConfirmPassword ? (
                         <EyeClosed className="h-4 w-4" />
@@ -338,7 +338,7 @@ export default function AuthPageClient() {
           </CardContent>
 
           <CardFooter className="flex justify-center pt-2">
-            <p className="text-xs text-white/40 text-center">
+            <p className="text-xs text-white/60 text-center">
               Al continuar, aceptas nuestros{" "}
               <a href="/terms" className="text-[#8B5CF6] hover:underline">
                 Términos
@@ -352,7 +352,7 @@ export default function AuthPageClient() {
           </CardFooter>
         </Card>
 
-        <p className="mt-6 text-center text-sm text-white/40">
+        <p className="mt-6 text-center text-sm text-white/60">
           <Link href="/" className="text-[#8B5CF6] hover:underline">
             ← Volver al inicio
           </Link>

@@ -322,7 +322,7 @@ export function MarketingPage({
                 >
                   <h3 className="mb-2 flex items-center justify-between gap-3 text-base font-semibold">
                     {link.title}
-                    <ArrowRight className="h-4 w-4 shrink-0 text-white/35 transition group-hover:translate-x-1 group-hover:text-[#38BDF8]" />
+                    <ArrowRight className="h-4 w-4 shrink-0 text-white/50 transition group-hover:translate-x-1 group-hover:text-[#8B5CF6]" />
                   </h3>
                   <p className="min-w-0 break-words text-sm leading-7 text-white/70">
                     {link.description}

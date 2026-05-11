@@ -14,7 +14,7 @@ export function FeatureCard({ icon, title, description }: FeatureCardProps) {
         {icon}
       </div>
       <h3 className="text-base font-semibold text-white/90 mb-2">{title}</h3>
-      <p className="text-sm text-white/60 leading-relaxed">{description}</p>
+      <p className="text-sm text-white/90 leading-relaxed">{description}</p>
     </UnifiedCard>
   )
 }
