@@ -25,32 +25,6 @@ const floatingCards = [
 export default function HeroShowcase() {
   return (
     <div className="hero-showcase relative mx-auto mt-5 w-full min-w-0 max-w-[340px] select-none px-0 sm:mt-2 sm:max-w-xl sm:px-8 lg:mx-0 lg:mt-0 lg:max-w-none lg:px-0">
-      <div className="hero-showcase-piece hero-showcase-side-left absolute -left-2 top-12 z-0 hidden w-[82px] overflow-hidden rounded-2xl border border-black/60 bg-[#0F0F10] shadow-2xl shadow-black/35 min-[390px]:block sm:left-0 sm:w-[120px] md:w-[140px] lg:-left-12 lg:w-[155px]">
-        <Image
-          src="/blue.webp"
-          alt="Plantilla azul de curriculum"
-          width={320}
-          height={450}
-          draggable={false}
-          sizes="155px"
-          className="aspect-[0.48] w-full object-cover object-left-top opacity-95"
-        />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-gradient-to-r from-transparent via-[#0F0F10]/35 to-[#0F0F10]/82" />
-        <div className="pointer-events-none absolute inset-0 ring-1 ring-black/55" />
-      </div>
-
-      <div className="hero-showcase-piece hero-showcase-side-right absolute -right-2 bottom-12 z-0 hidden w-[96px] overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-black/35 min-[390px]:block sm:right-0 sm:w-[164px] md:w-[205px] lg:-right-5 lg:bottom-12 lg:w-[220px]">
-        <Image
-          src="/green.webp"
-          alt="Plantilla verde de curriculum"
-          width={320}
-          height={450}
-          draggable={false}
-          sizes="220px"
-          className="aspect-[0.72] w-full object-cover object-top opacity-95"
-        />
-      </div>
-
       <div className="hero-showcase-card relative z-10 mx-auto w-full max-w-[560px] overflow-hidden rounded-[1.35rem] border border-white/12 bg-[#17171C]/88 p-2 shadow-2xl shadow-black/45 backdrop-blur sm:overflow-visible sm:rounded-[1.7rem] sm:p-3">
         <div className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5 sm:mb-3 sm:px-4 sm:py-3">
           <div>
