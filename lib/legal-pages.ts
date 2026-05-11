@@ -1,10 +1,16 @@
-export const legalUpdatedAt = "7 de mayo de 2026";
+export const legalUpdatedAt = "11 de mayo de 2026";
 
 export const termsContent = {
   title: "Terminos de servicio",
   intro:
     "Estos terminos regulan el uso de VitaeSpark, una herramienta online para crear, mejorar y descargar curriculums vitae profesionales.",
   sections: [
+    {
+      title: "Informacion del titular",
+      paragraphs: [
+        "El sitio web VitaeSpark es administrado por Sergio Sebastian Burgos, persona fisica residente en Argentina, identificado con DNI N. 41422966.",
+      ],
+    },
     {
       title: "Uso del servicio",
       paragraphs: [
@@ -55,6 +61,12 @@ export const privacyContent = {
     "Esta politica explica que informacion puede tratar VitaeSpark y como se utiliza para prestar el servicio de generacion y descarga de curriculums.",
   sections: [
     {
+      title: "Informacion del titular",
+      paragraphs: [
+        "El sitio web VitaeSpark es administrado por Sergio Sebastian Burgos, persona fisica residente en Argentina, identificado con DNI N. 41422966.",
+      ],
+    },
+    {
       title: "Informacion que proporcionas",
       paragraphs: [
         "Podemos tratar datos que ingresas en el formulario de CV, como nombre, datos de contacto, experiencia, estudios, habilidades, idiomas, enlaces profesionales y fotografia si decides subirla.",
@@ -103,6 +115,12 @@ export const refundContent = {
   intro:
     "Esta politica describe cuando puede solicitarse un reembolso por compras digitales realizadas en VitaeSpark.",
   sections: [
+    {
+      title: "Informacion del titular",
+      paragraphs: [
+        "El sitio web VitaeSpark es administrado por Sergio Sebastian Burgos, persona fisica residente en Argentina, identificado con DNI N. 41422966.",
+      ],
+    },
     {
       title: "Producto digital",
       paragraphs: [
