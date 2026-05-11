@@ -8,7 +8,7 @@ export const termsContent = {
     {
       title: "Informacion del titular",
       paragraphs: [
-        "El sitio web VitaeSpark es administrado por Sergio Sebastian Burgos, persona fisica residente en Argentina, identificado con DNI N. 41422966.",
+        "El sitio web VitaeSpark es administrado por Sergio Sebastian Burgos, persona fisica residente en Argentina, identificado con CUIL 20-41422966-3.",
       ],
     },
     {
@@ -63,7 +63,7 @@ export const privacyContent = {
     {
       title: "Informacion del titular",
       paragraphs: [
-        "El sitio web VitaeSpark es administrado por Sergio Sebastian Burgos, persona fisica residente en Argentina, identificado con DNI N. 41422966.",
+        "El sitio web VitaeSpark es administrado por Sergio Sebastian Burgos, persona fisica residente en Argentina, identificado con CUIL 20-41422966-3.",
       ],
     },
     {
@@ -118,7 +118,7 @@ export const refundContent = {
     {
       title: "Informacion del titular",
       paragraphs: [
-        "El sitio web VitaeSpark es administrado por Sergio Sebastian Burgos, persona fisica residente en Argentina, identificado con DNI N. 41422966.",
+        "El sitio web VitaeSpark es administrado por Sergio Sebastian Burgos, persona fisica residente en Argentina, identificado con CUIL 20-41422966-3.",
       ],
     },
     {
