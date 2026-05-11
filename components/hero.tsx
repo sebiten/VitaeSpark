@@ -320,47 +320,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-12 rounded-xl border border-white/[0.06] bg-[#1C1C22] p-6 md:p-8">
-            <h3 className="text-lg font-semibold text-[#F0EBFF] mb-6 text-center">
-              ¿Por qué elegir VitaeSpark?
-            </h3>
 
-            {/* Mobile: horizontal scroll row / Desktop: grid */}
-            <div className="flex gap-4 overflow-x-auto pb-2 -mx-2 px-2 sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible sm:pb-0 sm:mx-0 sm:px-0">
-              {[
-                {
-                  icon: <CheckCircle2 className="h-5 w-5 text-[#8B5CF6]" />,
-                  title: "300% más entrevistas",
-                  desc: "Nuestros usuarios reciben hasta 3 veces más llamadas.",
-                },
-                {
-                  icon: <Zap className="h-5 w-5 text-[#8B5CF6]" />,
-                  title: "90% ahorro de tiempo",
-                  desc: "Creá un CV profesional en minutos.",
-                },
-                {
-                  icon: <Award className="h-5 w-5 text-[#8B5CF6]" />,
-                  title: "IA de vanguardia",
-                  desc: "Se adapta a las últimas tendencias.",
-                },
-              ].map((stat) => (
-                <div
-                  key={stat.title}
-                  className="flex min-w-[200px] shrink-0 flex-col items-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 text-center sm:min-w-0 sm:bg-transparent sm:p-4 sm:border-0"
-                >
-                  <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-[#8B5CF6]/10 sm:h-12 sm:w-12 sm:mb-4">
-                    {stat.icon}
-                  </div>
-                  <h4 className="text-sm font-semibold text-white/80 sm:text-base sm:font-medium sm:mb-1">
-                    {stat.title}
-                  </h4>
-                  <p className="text-xs text-white/45 sm:text-xs sm:text-white/50">
-                    {stat.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
