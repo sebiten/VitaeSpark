@@ -45,10 +45,11 @@ export default function HeroShowcase() {
           <Image
             src="/purple-hero.webp"
             alt="Ejemplo de curriculum vitae creado con VitaeSpark"
-            width={760}
-            height={900}
-            fetchPriority="high"
+            width={560}
+            height={680}
+            priority
             draggable={false}
+            quality={85}
             sizes="(min-width: 1024px) 42vw, 92vw"
             className="w-full object-cover object-top"
           />
