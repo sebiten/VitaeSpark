@@ -15,7 +15,7 @@ export async function GET(request: Request) {
 
     // Esto siempre funciona, no depende de ninguna tabla tuya
     const { error } = await supabase
-        .from('feedback')
+        .from('cvs')
         .select('id')
         .limit(1)
 
