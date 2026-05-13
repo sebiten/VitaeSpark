@@ -27,54 +27,56 @@ export default function Home() {
 
       <WelcomeHero />
 
-      <section className="relative overflow-hidden bg-[#111113] px-4 py-16">
+<section className="relative overflow-hidden bg-[#111113] px-4 py-16">
         <div className="pointer-events-none absolute left-1/2 top-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[#7C3AED]/10 blur-[110px]" />
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div>
-            <Badge className="mb-4 border border-white/[0.08] bg-white/[0.06] px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-white/70 hover:bg-white/[0.08]">
-              Creador de CV online
-            </Badge>
-            <h2 className="text-3xl font-bold leading-tight text-[#F0EBFF] md:text-4xl">
-              Un generador de CV que no te deja con una plantilla vacia
-            </h2>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-white/64 md:text-lg">
-              VitaeSpark combina formulario guiado, redaccion con IA,
-              plantillas profesionales y descarga en PDF. El objetivo es simple:
-              pasar de datos sueltos a un curriculum claro para enviar a
-              empresas, portales de empleo o reclutadores.
-            </p>
-          </div>
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+            <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+              <Badge className="mb-4 border border-white/[0.08] bg-white/[0.06] px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-white/70 hover:bg-white/[0.08]">
+                Creador de CV online
+              </Badge>
+              <h2 className="text-3xl font-bold leading-tight text-[#F0EBFF] md:text-4xl">
+                Un generador de CV que no te deja con una plantilla vacia
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-white/64 md:text-lg">
+                VitaeSpark combina formulario guiado, redaccion con IA,
+                plantillas profesionales y descarga en PDF. El objetivo es simple:
+                pasar de datos sueltos a un curriculum claro para enviar a
+                empresas, portales de empleo o reclutadores.
+              </p>
+            </div>
 
-          <div className="grid gap-4 sm:grid-cols-3">
-            {[
-              {
-                title: "Completa tus datos",
-                description:
-                  "Escribe experiencia, estudios, habilidades y links sin preocuparte por sonar perfecto.",
-              },
-              {
-                title: "La IA ordena el contenido",
-                description:
-                  "Convierte frases simples en un perfil mas claro, con logros y estructura profesional.",
-              },
-              {
-                title: "Descarga tu CV en PDF",
-                description:
-                  "Obtienes una version lista para postular y guardar en tu perfil.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5"
-              >
-                <h3 className="text-base font-semibold text-[#F0EBFF]">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm leading-7 text-white/55">
-                  {item.description}
-                </p>
-              </div>
-            ))}
+            <div className="grid gap-4 sm:grid-cols-1">
+              {[
+                {
+                  title: "Completa tus datos",
+                  description:
+                    "Escribe experiencia, estudios, habilidades y links sin preocuparte por sonar perfecto.",
+                },
+                {
+                  title: "La IA ordena el contenido",
+                  description:
+                    "Convierte frases simples en un perfil mas claro, con logros y estructura profesional.",
+                },
+                {
+                  title: "Descarga tu CV en PDF",
+                  description:
+                    "Obtienes una version lista para postular y guardar en tu perfil.",
+                },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5"
+                >
+                  <h3 className="text-base font-semibold text-[#F0EBFF]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-7 text-white/55">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

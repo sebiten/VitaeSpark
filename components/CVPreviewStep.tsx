@@ -553,10 +553,8 @@ export default function CVPreviewStepPurple({
                     </div>
                   ) : (
                     <div className="flex items-center justify-center gap-3">
-                      <div className="flex items-center gap-2">
-                        <Image src="/logompsolomano.png" alt="Mercado Pago" width={28} height={28} className="h-7 w-7" />
-                        <span className="text-base font-bold sm:text-lg">Mercado Pago</span>
-                      </div>
+                      <Image src="/logompsolomano.png" alt="Mercado Pago" width={28} height={28} className="h-7 w-7 object-contain" />
+                      <span className="text-base font-bold sm:text-lg">Mercado Pago</span>
                       <div className="h-6 w-px bg-white/30" />
                       <span className="text-sm font-semibold sm:text-base">
                         $2.500 ARS
@@ -587,11 +585,9 @@ export default function CVPreviewStepPurple({
                       <span>Procesando...</span>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="flex items-center gap-2">
-                        <Image src="/paypal.png" alt="PayPal" width={30} height={30} className="h-9 w-9" />
-                        <span className="text-base font-bold sm:text-lg ">PayPal</span>
-                      </div>
+                    <div className="flex items-center justify-center gap-3">
+                      <Image src="/paypal.png" alt="PayPal" width={28} height={28} className="h-7 w-7 object-contain" />
+                      <span className="text-base font-bold sm:text-lg">PayPal</span>
                       <div className="h-6 w-px bg-white/30" />
                       <span className="text-sm font-semibold sm:text-base">
                         US$4.99
@@ -599,13 +595,6 @@ export default function CVPreviewStepPurple({
                     </div>
                   )}
                 </Button>
-              </div>
-
-              <div className="flex items-center justify-center gap-2 rounded-xl bg-[#0070BA]/10 border border-[#0070BA]/20 px-4 py-2">
-                <Globe2 className="h-4 w-4 text-[#38BDF8]" />
-                <span className="text-xs text-white/70">
-                  Acepta tarjetas de cualquier país
-                </span>
               </div>
 
               <Carousel
