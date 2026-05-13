@@ -368,7 +368,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 px-4 bg-[#15151A]">
+      {/* <section className="py-16 px-4 bg-[#15151A]">
         <div className="max-w-6xl mx-auto">
           <SectionHeader
             badge="Testimonios"
@@ -424,7 +424,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ */}
       <section className="relative overflow-hidden py-16 px-4 bg-[#111113]">
