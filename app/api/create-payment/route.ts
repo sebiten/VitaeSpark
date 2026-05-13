@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
+import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { cvData, template } = parsed.data;
+  const { cvData, template, attribution } = parsed.data;
 
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
@@ -57,6 +58,14 @@ export async function POST(req: Request) {
     console.error("Error insertando CV:", cvError);
     return NextResponse.json({ error: "Error creando CV" }, { status: 500 });
   }
+
+  await recordAnalyticsEventServer({
+    event_name: "payment_started",
+    user_id: profile_id,
+    template,
+    cv_id: cv.id,
+    ...attribution,
+  });
   // creamos preferencia de mp y le pasamos el cv_id y el profile id, importante para verificar via webhook
   const mpRes = await fetch(
     "https://api.mercadopago.com/checkout/preferences",
@@ -93,6 +102,10 @@ export async function POST(req: Request) {
         metadata: {
           cv_id: cv.id,
           profile_id,
+          landing_path: attribution?.landing_path,
+          cta_label: attribution?.cta_label,
+          source_type: attribution?.source_type,
+          template,
         },
         customization: {
           visual: {

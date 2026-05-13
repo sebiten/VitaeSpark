@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 
 const PAYPAL_API_BASE = process.env.NODE_ENV === "production"
   ? "https://api-m.paypal.com"
@@ -126,7 +127,7 @@ export async function POST(req: Request) {
 
   const { data: cv } = await supabase
     .from("cvs")
-    .select("profile_id")
+    .select("profile_id, template")
     .eq("id", cvId)
     .single();
 
@@ -161,6 +162,26 @@ export async function POST(req: Request) {
       .update({ status: "paid" })
       .eq("id", cvId);
   }
+
+  const { data: startedEvent } = await supabase
+    .from("analytics_events")
+    .select("landing_path, cta_label, source_type, template")
+    .eq("event_name", "payment_started")
+    .eq("cv_id", cvId)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  await recordAnalyticsEventServer({
+    event_name: "payment_completed",
+    user_id: userId,
+    cv_id: cvId,
+    payment_id: paypalOrderId,
+    template: startedEvent?.template ?? cv?.template,
+    landing_path: startedEvent?.landing_path,
+    cta_label: startedEvent?.cta_label,
+    source_type: startedEvent?.source_type,
+  });
 
   return NextResponse.json({ received: true });
 }

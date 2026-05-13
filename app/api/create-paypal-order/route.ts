@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
+import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 
 const PAYPAL_API_BASE = process.env.NODE_ENV === "production" 
   ? "https://api-m.paypal.com" 
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { cvData, template } = parsed.data;
+  const { cvData, template, attribution } = parsed.data;
 
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
@@ -90,6 +91,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Error creando CV" }, { status: 500 });
   }
 
+  await recordAnalyticsEventServer({
+    event_name: "payment_started",
+    user_id: profile_id,
+    template,
+    cv_id: cv.id,
+    ...attribution,
+  });
+
   try {
     const accessToken = await getPayPalAccessToken();
 
@@ -98,6 +107,7 @@ export async function POST(req: Request) {
       purchase_units: [
         {
           reference_id: `cv_${cv.id}`,
+          custom_id: cv.id,
           description: "CV optimizado con IA - VitaeSpark",
           amount: {
             currency_code: "USD",

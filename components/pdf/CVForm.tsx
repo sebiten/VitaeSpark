@@ -11,6 +11,8 @@ import type { RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
 import CVFormStep from "../CVFormStep";
 import CVPreviewStep from "../CVPreviewStep";
+import { getLandingAttribution } from "@/lib/analytics-attribution";
+import { recordAnalyticsEvent } from "@/lib/analytics-events";
 
 const CVForm: NextPage = () => {
   const [selectedTemplate, setSelectedTemplate] = useState("elegance");
@@ -20,25 +22,40 @@ const CVForm: NextPage = () => {
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
-    track("CV Funnel Step Viewed", { step: tab });
+    track("CV Funnel Step Viewed", {
+      step: tab,
+      ...getLandingAttribution(),
+    });
     window.scrollTo(0, 0);
   };
 
   const handleTemplateSelected = (templateId: string) => {
     setSelectedTemplate(templateId);
-    track("CV Template Selected", { template: templateId });
+    const attribution = getLandingAttribution();
+    track("CV Template Selected", { template: templateId, ...attribution });
+    recordAnalyticsEvent({
+      event_name: "template_selected",
+      template: templateId,
+      ...attribution,
+    });
     setTimeout(() => {
       setActiveTab("form");
-      track("CV Funnel Step Viewed", { step: "form" });
+      track("CV Funnel Step Viewed", { step: "form", ...attribution });
     }, 500);
   };
 
   const handleFormCompleted = (data: RespuestaCV["cv"]) => {
     setCvData(data);
-    track("CV Generated", { template: selectedTemplate });
+    const attribution = getLandingAttribution();
+    track("CV Generated", { template: selectedTemplate, ...attribution });
+    recordAnalyticsEvent({
+      event_name: "cv_generated",
+      template: selectedTemplate,
+      ...attribution,
+    });
     setTimeout(() => {
       setActiveTab("preview");
-      track("CV Funnel Step Viewed", { step: "preview" });
+      track("CV Funnel Step Viewed", { step: "preview", ...attribution });
     }, 500);
   };
 

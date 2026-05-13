@@ -1,4 +1,4 @@
-export const legalUpdatedAt = "11 de mayo de 2026";
+export const legalUpdatedAt = "13 de mayo de 2026";
 
 export const termsContent = {
   title: "Terminos de servicio",
@@ -28,8 +28,8 @@ export const termsContent = {
     {
       title: "Pagos",
       paragraphs: [
-        "Los pagos pueden procesarse mediante proveedores externos como Mercado Pago, Paddle u otros procesadores disponibles segun el pais del usuario.",
-        "Los precios, moneda, impuestos aplicables y medios de pago disponibles se muestran antes de confirmar la compra. VitaeSpark no almacena datos completos de tarjetas.",
+        "Los pagos se procesan mediante proveedores externos como Mercado Pago y PayPal, segun el medio de pago elegido por el usuario.",
+        "El precio de desbloqueo del CV se muestra antes de confirmar la compra. VitaeSpark no almacena datos completos de tarjetas.",
       ],
     },
     {
@@ -83,7 +83,7 @@ export const privacyContent = {
     {
       title: "Pagos y proveedores externos",
       paragraphs: [
-        "Los pagos se procesan mediante proveedores externos como Mercado Pago, Paddle u otros servicios de pago. Esos proveedores pueden tratar datos necesarios para completar la transaccion, emitir comprobantes y prevenir fraude.",
+        "Los pagos se procesan mediante proveedores externos como Mercado Pago y PayPal. Esos proveedores pueden tratar datos necesarios para completar la transaccion, emitir comprobantes y prevenir fraude.",
         "VitaeSpark no almacena numeros completos de tarjeta ni codigos de seguridad.",
       ],
     },

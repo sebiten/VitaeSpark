@@ -24,6 +24,22 @@ type DailyMetric = {
   payments: number;
 };
 
+type AnalyticsEvent = {
+  event_name: string;
+  landing_path: string | null;
+  created_at: string;
+};
+
+type LandingMetric = {
+  landing: string;
+  clicks: number;
+  templates: number;
+  cvs: number;
+  checkouts: number;
+  paymentStarts: number;
+  payments: number;
+};
+
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
 export default async function AdminDashboardPage() {
@@ -58,6 +74,7 @@ export default async function AdminDashboardPage() {
     { data: recentPayments },
     { data: recentUsers },
     { data: recentCvs },
+    { data: analyticsEvents },
   ] = await Promise.all([
     supabaseAdmin.from("profiles").select("*", { count: "exact", head: true }),
     supabaseAdmin.from("cvs").select("*", { count: "exact", head: true }),
@@ -89,6 +106,12 @@ export default async function AdminDashboardPage() {
       .from("cvs")
       .select("created_at, status")
       .gte("created_at", since7Days.toISOString()),
+    supabaseAdmin
+      .from("analytics_events")
+      .select("event_name, landing_path, created_at")
+      .not("landing_path", "is", null)
+      .order("created_at", { ascending: false })
+      .limit(1000),
   ]);
 
   const payments = approvedPayments ?? [];
@@ -110,6 +133,7 @@ export default async function AdminDashboardPage() {
   const paidCvRate =
     cvsLast7.length > 0 ? (paidCvsLast7.length / cvsLast7.length) * 100 : 0;
   const dailyMetrics = buildDailyMetrics(usersLast7, cvsLast7, paymentsLast7);
+  const landingMetrics = buildLandingMetrics(analyticsEvents ?? []);
   const maxDailyValue = Math.max(
     1,
     ...dailyMetrics.map((day) => day.users + day.cvs + day.payments)
@@ -225,6 +249,64 @@ export default async function AdminDashboardPage() {
             </CardContent>
           </Card>
         </div>
+
+        <section className="mb-12 rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10">
+          <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+            <div>
+              <h2 className="text-2xl font-semibold text-white">
+                Conversión por landing
+              </h2>
+              <p className="text-sm text-white/55">
+                Últimos eventos guardados por origen SEO o blog.
+              </p>
+            </div>
+            <BadgeLike
+              icon={<Target className="h-4 w-4" />}
+              text={`${landingMetrics.length} origenes`}
+            />
+          </div>
+
+          {landingMetrics.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[760px] text-left text-sm">
+                <thead className="text-xs uppercase tracking-[0.16em] text-white/40">
+                  <tr className="border-b border-white/10">
+                    <th className="py-3 pr-4 font-medium">Landing</th>
+                    <th className="py-3 px-3 font-medium">Clicks</th>
+                    <th className="py-3 px-3 font-medium">Plantilla</th>
+                    <th className="py-3 px-3 font-medium">CVs</th>
+                    <th className="py-3 px-3 font-medium">Checkout</th>
+                    <th className="py-3 px-3 font-medium">Pago inicio</th>
+                    <th className="py-3 px-3 font-medium">Pagos</th>
+                    <th className="py-3 pl-3 font-medium">Conv.</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10 text-white/72">
+                  {landingMetrics.map((row) => (
+                    <tr key={row.landing}>
+                      <td className="max-w-[260px] py-4 pr-4 font-medium text-white">
+                        <span className="block truncate">{row.landing}</span>
+                      </td>
+                      <td className="py-4 px-3">{row.clicks}</td>
+                      <td className="py-4 px-3">{row.templates}</td>
+                      <td className="py-4 px-3">{row.cvs}</td>
+                      <td className="py-4 px-3">{row.checkouts}</td>
+                      <td className="py-4 px-3">{row.paymentStarts}</td>
+                      <td className="py-4 px-3">{row.payments}</td>
+                      <td className="py-4 pl-3 text-[#38BDF8]">
+                        {formatPercent(
+                          row.clicks > 0 ? (row.payments / row.clicks) * 100 : 0
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <EmptyPanel text="Todavía no hay eventos con origen guardado." />
+          )}
+        </section>
 
         <Link
           href="/abelardo/admin/cv"
@@ -450,6 +532,39 @@ function buildDailyMetrics(
       ).length,
     };
   });
+}
+
+function buildLandingMetrics(events: AnalyticsEvent[]): LandingMetric[] {
+  const metrics = new Map<string, LandingMetric>();
+
+  events.forEach((event) => {
+    if (!event.landing_path) return;
+
+    const current =
+      metrics.get(event.landing_path) ??
+      {
+        landing: event.landing_path,
+        clicks: 0,
+        templates: 0,
+        cvs: 0,
+        checkouts: 0,
+        paymentStarts: 0,
+        payments: 0,
+      };
+
+    if (event.event_name === "landing_cta_clicked") current.clicks += 1;
+    if (event.event_name === "template_selected") current.templates += 1;
+    if (event.event_name === "cv_generated") current.cvs += 1;
+    if (event.event_name === "checkout_viewed") current.checkouts += 1;
+    if (event.event_name === "payment_started") current.paymentStarts += 1;
+    if (event.event_name === "payment_completed") current.payments += 1;
+
+    metrics.set(event.landing_path, current);
+  });
+
+  return Array.from(metrics.values())
+    .sort((a, b) => b.payments - a.payments || b.cvs - a.cvs || b.clicks - a.clicks)
+    .slice(0, 12);
 }
 
 function toDateKey(date: Date) {

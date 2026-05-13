@@ -1,6 +1,6 @@
 // components/CVPreviewStepPurple.tsx
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import type React from "react";
 import dynamic from "next/dynamic";
 import { track } from "@vercel/analytics";
@@ -40,6 +40,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import Image from "next/image";
+import { getLandingAttribution } from "@/lib/analytics-attribution";
+import { recordAnalyticsEvent } from "@/lib/analytics-events";
 
 const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ssr: false,
@@ -50,66 +52,7 @@ const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ),
 });
 
-export const testimonials = [
-  {
-    text: "Actualicé mi CV con el nuevo formato y en pocos días ya me estaban llamando para entrevistas, la verdad, re útil gracias.",
-    author: "María S.",
-  },
-  {
-    text: "Después de renovar mi currículum, empecé a recibir muchas más respuestas de empresas, se nota la diferencia, buen precio.",
-    author: "Carlos M.",
-  },
-  {
-    text: "Estuve meses buscando sin suerte. Cambie el CV y al toque conseguí laburo, muy buena la herramienta y asequible.",
-    author: "Alejandra P.",
-  },
-  {
-    text: "Pasé de no recibir ni un mail a tener varias propuestas encima, me ayudaron un montón y no es tan caro, muchas gracias.",
-    author: "Laura T.",
-  },
-  {
-    text: "Antes sentia que mi cv no rendia. Con este formato, me empezaron a llegar oportunidades de verdad, vale cada peso.",
-    author: "Daniel R.",
-  },
-  {
-    text: "Fue una inversión chica pero que me sirvió un montón para mover mi carrera, la verdad lo recomiendo podria agregar para colocar fotos tambien.",
-    author: "Sofía V.",
-  },
-  {
-    text: "Gracias al nuevo CV pude mostrar mejor mis logros y eso me sirvió para negociar un mejor sueldo, muchas gracias!.",
-    author: "Javier M.",
-  },
-  {
-    text: "Quería cambiar de rubro y el nuevo CV me ayudó a resaltar mis habilidades, me abrió nuevas puertas se los agradezco.",
-    author: "Miguel Á.",
-  },
-  {
-    text: "Bastante rapido y profesional el curriculum, muy buen precio pero estaria bueno que tenga mas plantillas.",
-    author: "Joaquin B.",
-  },
-  {
-    text: "Me ayudó a destacar mis habilidades y logros de una manera clara y atractiva, muy buena la herramienta.",
-    author: "Lucía G.",
-  },
-  {
-    text: "Nunca pense que pagar 2500 por un cv valiera la pena, pero realmente marcó la diferencia, super recomendable.",
-    author: "Federico L.",
-  },
-  {
-    text: "El diseño es limpio y claro, consegui entrevistas al toque. Lo mejor es que no tenes que saber nada tecnico.",
-    author: "Valeria D.",
-  },
-  {
-    text: "Hice el cv en 10 minutos y al dia siguiente ya me estaban escribiendo, muy practica la herramienta.",
-    author: "Nicolas G.",
-  },
-  {
-    text: "Por ese precio esperaba algo basico, pero salio un cv profesional que me ayudo a conseguir trabajo rapido.",
-    author: "Andrea T.",
-  },
-];
-
-const seoTestimonials = [
+const useCaseExamples = [
   {
     text: "Yo lo use para atencion al cliente porque tenia todo medio mezclado, trabajos, horarios y tareas. Me lo dejo bastante mas prolijo para mandar.",
     author: "Perfil atencion al cliente",
@@ -186,11 +129,13 @@ export default function CVPreviewStepPurple({
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
+  const checkoutViewedTracked = useRef(false);
 
   const handlePayPal = async () => {
     if (!userSession) return;
 
     let failureTracked = false;
+    const attribution = getLandingAttribution();
 
     setLoadingPayPal(true);
     track("Payment Started", {
@@ -198,12 +143,13 @@ export default function CVPreviewStepPurple({
       price: 4.99,
       currency: "USD",
       method: "paypal",
+      ...attribution,
     });
     try {
       const res = await fetch("/api/create-paypal-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvData, template }),
+        body: JSON.stringify({ cvData, template, attribution }),
       });
 
       if (!res.ok) {
@@ -211,6 +157,7 @@ export default function CVPreviewStepPurple({
         track("PayPal Order Failed", {
           status: res.status,
           template,
+          ...attribution,
         });
         failureTracked = true;
         console.error("Error al crear orden PayPal:", errorData);
@@ -226,16 +173,17 @@ export default function CVPreviewStepPurple({
           price: 4.99,
           currency: "USD",
           method: "paypal",
+          ...attribution,
         });
         window.location.href = approveUrl;
       } else {
-        track("PayPal Order Failed", { template });
+        track("PayPal Order Failed", { template, ...attribution });
         failureTracked = true;
         toast.error("No se pudo iniciar el pago con PayPal. Intenta nuevamente.");
       }
     } catch (error) {
       if (!failureTracked) {
-        track("PayPal Order Failed", { template });
+        track("PayPal Order Failed", { template, ...attribution });
       }
       console.error("Error en handlePayPal:", error);
       toast.error("Error al procesar el pago. Intenta nuevamente.");
@@ -248,18 +196,21 @@ export default function CVPreviewStepPurple({
     if (!userSession) return;
 
     let failureTracked = false;
+    const attribution = getLandingAttribution();
 
     setLoading(true);
     track("Payment Started", {
       template,
       price: 2500,
       currency: "ARS",
+      method: "mercado_pago",
+      ...attribution,
     });
     try {
       const res = await fetch("/api/create-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvData, template }),
+        body: JSON.stringify({ cvData, template, attribution }),
       });
 
       if (!res.ok) {
@@ -267,6 +218,7 @@ export default function CVPreviewStepPurple({
         track("Payment Preference Failed", {
           status: res.status,
           template,
+          ...attribution,
         });
         failureTracked = true;
         console.error("Error al crear preferencia:", errorData);
@@ -281,16 +233,21 @@ export default function CVPreviewStepPurple({
           template,
           price: 2500,
           currency: "ARS",
+          method: "mercado_pago",
+          ...attribution,
         });
         window.location.href = init_point;
       } else {
-        track("Payment Preference Failed", { template });
+        track("Payment Preference Failed", { template, ...attribution });
         failureTracked = true;
         toast.error("No se pudo iniciar el pago. Intenta nuevamente.");
       }
     } catch (error) {
       if (!failureTracked) {
-        track("Payment Preference Failed", { template });
+        track("Payment Preference Failed", {
+          template,
+          ...getLandingAttribution(),
+        });
       }
       console.error("Error en handlePay:", error);
       toast.error("Error al procesar el pago. Intenta nuevamente.");
@@ -315,6 +272,21 @@ export default function CVPreviewStepPurple({
   }, []);
 
   useEffect(() => {
+    if (checkoutViewedTracked.current) return;
+    checkoutViewedTracked.current = true;
+    const attribution = getLandingAttribution();
+    track("Checkout Viewed", {
+      template,
+      ...attribution,
+    });
+    recordAnalyticsEvent({
+      event_name: "checkout_viewed",
+      template,
+      ...attribution,
+    });
+  }, [template]);
+
+  useEffect(() => {
     if (!feedbackSent) return;
 
     const timeoutId = window.setTimeout(() => {
@@ -337,11 +309,6 @@ export default function CVPreviewStepPurple({
       .getElementById("checkout-panel")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
-  const precioOriginal = 2500;
-  const precioOferta = 1500;
-  const ahorro = precioOriginal - precioOferta;
-  const descuentoPorcentaje = Math.round((ahorro / precioOriginal) * 100);
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 overflow-x-hidden">
@@ -597,20 +564,29 @@ export default function CVPreviewStepPurple({
                 </Button>
               </div>
 
+              <div className="rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3">
+                <p className="text-sm font-semibold text-white">
+                  Casos comunes de uso
+                </p>
+                <p className="mt-1 text-xs leading-5 text-white/58">
+                  Ejemplos de perfiles que suelen ordenar su CV con VitaeSpark.
+                </p>
+              </div>
+
               <Carousel
                 plugins={[Autoplay({ delay: 5000 })]}
                 opts={{ align: "start", loop: true, dragFree: true }}
                 className="w-full"
               >
                 <CarouselContent className="-ml-1">
-                  {seoTestimonials.map((testimonial, index) => (
+                  {useCaseExamples.map((example, index) => (
                     <CarouselItem key={index} className="pl-2 pr-2 basis-full">
                       <div className="p-3 rounded-md">
-                        <p className="text-gray-300 text-sm italic">
-                          "{testimonial.text}"
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">
+                          Caso comun: {example.author}
                         </p>
-                        <p className="text-right text-purple-400 text-sm font-medium">
-                          - {testimonial.author}
+                        <p className="text-gray-300 text-sm">
+                          {example.text}
                         </p>
                       </div>
                     </CarouselItem>

@@ -30,6 +30,7 @@ import { Button } from "@/components/ui/button";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { createClient } from "@/utils/supabase/client";
 import { Label } from "./ui/label";
+import { getLandingAttribution } from "@/lib/analytics-attribution";
 
 const schema = z.object({
   foto_url: z.string().url().optional(),
@@ -104,7 +105,8 @@ export default function CVFormStep({
     try {
       setIsGenerating(true);
       setError(null);
-      track("CV Generation Started", { template });
+      const attribution = getLandingAttribution();
+      track("CV Generation Started", { template, ...attribution });
 
       const res = await fetch("/api/generate-cv", {
         method: "POST",
@@ -117,6 +119,7 @@ export default function CVFormStep({
         track("CV Generation Failed", {
           status: res.status,
           template,
+          ...attribution,
         });
         failureTracked = true;
         throw new Error(
@@ -134,7 +137,10 @@ export default function CVFormStep({
       toast.success("CV generado correctamente.");
     } catch (err) {
       if (!failureTracked) {
-        track("CV Generation Failed", { template });
+        track("CV Generation Failed", {
+          template,
+          ...getLandingAttribution(),
+        });
       }
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {

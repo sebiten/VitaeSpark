@@ -4,6 +4,8 @@ import Link from "next/link";
 import { track } from "@vercel/analytics";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { setLandingAttribution } from "@/lib/analytics-attribution";
+import { recordAnalyticsEvent } from "@/lib/analytics-events";
 
 type TrackedCtaLinkProps = {
   href: string;
@@ -22,7 +24,18 @@ export function TrackedCtaLink({
     <Link
       href={href}
       onClick={() => {
+        setLandingAttribution({
+          landing_path: sourcePath,
+          cta_label: label,
+          source_type: sourceType,
+        });
         track("Landing CTA Clicked", {
+          landing_path: sourcePath,
+          cta_label: label,
+          source_type: sourceType,
+        });
+        recordAnalyticsEvent({
+          event_name: "landing_cta_clicked",
           landing_path: sourcePath,
           cta_label: label,
           source_type: sourceType,

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 import { z } from "zod";
+import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 
 const MercadoPagoWebhookSchema = z.object({
   type: z.string().optional(),
@@ -118,6 +119,17 @@ export async function POST(req: NextRequest) {
     console.error("❌ Error actualizando CV:", updateError);
     return NextResponse.json({ error: "DB error" }, { status: 500 });
   }
+
+  await recordAnalyticsEventServer({
+    event_name: "payment_completed",
+    user_id: profile_id,
+    cv_id,
+    payment_id: String(payment.id),
+    template: payment.metadata?.template,
+    landing_path: payment.metadata?.landing_path,
+    cta_label: payment.metadata?.cta_label,
+    source_type: payment.metadata?.source_type,
+  });
 
   return NextResponse.json({ message: "ok" }, { status: 200 });
 }

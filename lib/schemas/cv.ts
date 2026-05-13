@@ -24,6 +24,15 @@ export const TemplateSchema = z.enum([
   "elegance",
 ]);
 
+export const LandingAttributionSchema = z
+  .object({
+    landing_path: z.string().trim().max(240).optional(),
+    cta_label: z.string().trim().max(120).optional(),
+    source_type: z.enum(["landing", "blog"]).optional(),
+    landing_ts: z.number().optional(),
+  })
+  .optional();
+
 export const GenerateCVInputSchema = z.object({
   foto_url: optionalPhotoUrl,
   template: TemplateSchema.optional(),
@@ -74,5 +83,5 @@ export const CVSchema = z.object({
 export const CreatePaymentSchema = z.object({
   cvData: CVSchema,
   template: TemplateSchema,
+  attribution: LandingAttributionSchema,
 });
-
