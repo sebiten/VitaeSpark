@@ -2,10 +2,10 @@ import {
   ArrowRight,
   Bot,
   CheckCircle2,
-  FileText,
-  ScanSearch,
   Sparkles,
   Wand2,
+  ScanSearch,
+  FileText,
 } from "lucide-react";
 import Link from "next/link";
 import AnimatedHeroTitle from "./AnimatedHeroTitle";
@@ -16,24 +16,6 @@ const benefits = [
   "Creador de CV online",
   "Estructura compatible con ATS",
   "Descarga en PDF",
-];
-
-const steps = [
-  {
-    icon: <FileText className="h-4 w-4" />,
-    title: "Cargas tus datos",
-    description: "Experiencia, estudios, habilidades y links.",
-  },
-  {
-    icon: <Wand2 className="h-4 w-4" />,
-    title: "La IA ordena",
-    description: "Convierte frases sueltas en contenido claro.",
-  },
-  {
-    icon: <ScanSearch className="h-4 w-4" />,
-    title: "Postulas mejor",
-    description: "Te llevas un CV listo para enviar.",
-  },
 ];
 
 export default function WelcomeHero() {
@@ -142,26 +124,6 @@ export default function WelcomeHero() {
         </div>
 
         <HeroShowcase />
-
-        <div className="hero-fade-up hero-fade-up-4 grid gap-3 lg:col-span-2 lg:grid-cols-3">
-          {steps.map((step, index) => (
-            <div
-              key={step.title}
-              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-4 shadow-xl shadow-black/10 backdrop-blur"
-            >
-              <span className="absolute right-4 top-3 text-lg font-semibold text-white/50">
-                0{index + 1}
-              </span>
-              <div className="mb-4 inline-flex rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
-                {step.icon}
-              </div>
-              <h2 className="text-lg font-semibold text-white">{step.title}</h2>
-              <p className="mt-1 text-sm leading-6 text-[#F4F4F5]/90">
-                {step.description}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
