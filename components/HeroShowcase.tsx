@@ -25,7 +25,7 @@ const floatingCards = [
 export default function HeroShowcase() {
   return (
     <div className="hero-showcase relative mx-auto mt-5 w-full min-w-0 max-w-[340px] select-none px-0 sm:mt-2 sm:max-w-xl sm:px-8 lg:mx-0 lg:mt-0 lg:max-w-none lg:px-0">
-      <div className="hero-showcase-card relative z-10 mx-auto w-full max-w-[560px] overflow-hidden rounded-[1.35rem] border border-white/12 bg-[#17171C]/88 p-2 shadow-2xl shadow-black/45 backdrop-blur sm:overflow-visible sm:rounded-[1.7rem] sm:p-3">
+      <div className="hero-showcase-card relative z-10 mx-auto w-full max-w-[560px] overflow-hidden rounded-[1.35rem] border-white/12  p-0 shadow-2xl shadow-black/45 backdrop-blur sm:overflow-visible sm:rounded-[1.7rem] sm:p-0">
         <div className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5 sm:mb-3 sm:px-4 sm:py-3">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-[#38BDF8]">
@@ -43,8 +43,8 @@ export default function HeroShowcase() {
         <div className="relative max-h-[330px] overflow-hidden rounded-2xl bg-white sm:max-h-none">
           <div className="hero-scan-line pointer-events-none absolute inset-x-0 top-0 z-20 h-16 bg-gradient-to-b from-[#38BDF8]/16 to-transparent" />
           <Image
-            src="/purple-hero.webp"
-            alt="Ejemplo de curriculum vitae creado con VitaeSpark"
+            src="/elegance-good.webp"
+            alt="Cv generado con IA por VitaeSpark"
             width={560}
             height={680}
             priority
@@ -55,7 +55,7 @@ export default function HeroShowcase() {
             className="w-full object-cover object-top"
           />
 
-          <div className="hero-showcase-note absolute bottom-3 left-3 right-3 rounded-2xl border border-white/20 bg-[#111113]/88 p-3 text-white shadow-xl backdrop-blur-md sm:bottom-4 sm:left-4 sm:right-4 sm:p-4">
+          <div className="hero-showcase-note absolute bottom-3 left-3 right-3 rounded-2xl border border-white/20 bg-[#111113]/88 p-2 text-white shadow-xl backdrop-blur-md sm:bottom-4 sm:left-4 sm:right-4 sm:p-4">
             <div className="flex items-start gap-3">
               <div className="rounded-xl bg-[#7C3AED] p-2 max-[389px]:hidden">
                 <PenLine className="h-5 w-5" />

@@ -20,7 +20,7 @@ const benefits = [
 
 export default function WelcomeHero() {
   return (
-    <section className="relative isolate overflow-x-hidden bg-[#111113] px-4 pb-14 pt-8 sm:px-6 sm:pt-10 lg:pb-20 lg:pt-16">
+    <section className="relative isolate overflow-x-hidden bg-[#111113] px-2 pb-14 pt-8 sm:px-6 sm:pt-10 lg:pb-20 lg:pt-16">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
         <div className="hero-ambient absolute inset-0 bg-[linear-gradient(120deg,rgba(124,58,237,0.18)_0%,rgba(15,15,16,0.9)_38%,rgba(15,15,16,1)_64%,rgba(56,189,248,0.14)_100%)]" />
