@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Hacer un CV con IA: Mejora tu Currículum Automáticamente",
+  title: "Hacer CV con IA: Redacta, Ordena y Descarga en PDF",
   description:
-    "Usa inteligencia artificial para mejorar textos, ordenar tu experiencia y crear un currículum más claro, profesional y listo para enviar.",
+    "Haz un CV con IA usando tus datos reales. Mejora perfil, experiencia y habilidades, elige una plantilla y descarga tu curriculum en PDF.",
   path: "/hacer-cv-con-ia",
   keywords: [
     "hacer cv con ia",
@@ -20,11 +20,11 @@ export default function HacerCvConIaPage() {
     <MarketingPage
       path="/hacer-cv-con-ia"
       eyebrow="IA aplicada al CV"
-      title="Hacer un CV con IA para redactar mejor y ahorrar tiempo"
-      description="Usa inteligencia artificial para mejorar textos, ordenar tu experiencia y crear un curriculum mas claro, profesional y listo para enviar."
+      title="Hacer CV con IA para redactar mejor y descargar en PDF"
+      description="Usa inteligencia artificial para ordenar tu experiencia, mejorar el perfil profesional y crear un curriculum mas claro sin partir de una plantilla vacia."
       intro={[
-        "Hacer un CV con IA puede ahorrarte mucho tiempo, pero la diferencia real aparece cuando la herramienta entiende como convertir tu informacion en un perfil profesional mas fuerte. No se trata de rellenar frases bonitas, sino de explicar mejor que sabes hacer y por que deberian entrevistarte.",
-        "VitaeSpark combina un formulario guiado con generacion asistida para ayudarte a redactar el resumen profesional, desarrollar experiencia y presentar mejor tus habilidades sin perder control sobre el contenido.",
+        "Hacer un CV con IA puede ahorrarte tiempo, pero la diferencia real aparece cuando la herramienta trabaja con tus datos reales y los convierte en un perfil mas claro. No se trata de rellenar frases bonitas, sino de explicar mejor que sabes hacer y por que deberian entrevistarte.",
+        "VitaeSpark combina formulario guiado, redaccion asistida, plantillas profesionales y descarga en PDF para que puedas pasar de informacion suelta a un curriculum listo para enviar.",
       ]}
       benefits={[
         "Te ayuda a escribir mejor incluso si no sabes como describir tu experiencia.",
@@ -50,10 +50,17 @@ export default function HacerCvConIaPage() {
       ]}
       sections={[
         {
-          title: "Cuándo conviene usar IA para un currículum",
+          title: "Cuando conviene usar IA para un curriculum",
           paragraphs: [
-            "La inteligencia artificial es especialmente útil cuando sabés lo que has hecho, pero te cuesta expresarlo con claridad. Según LinkedIn Talent Solutions (2024), el 67% de los profesionales de selección ya usa IA para agilizar procesos, lo que muestra que esta tecnología no es una moda pasajera: es parte del presente de la contratación.",
-            "Lo importante es que la herramienta no reemplace tu experiencia real, sino que la traduzca a un lenguaje más profesional, concreto y entendible. Esa es la diferencia entre usar IA como atajo y usarla como apoyo de verdad.",
+            "La inteligencia artificial es especialmente util cuando sabes lo que hiciste, pero te cuesta expresarlo con claridad. Puede ayudarte a ordenar tareas, elegir palabras mas concretas y convertir experiencia dispersa en secciones faciles de leer.",
+            "Lo importante es que la herramienta no reemplace tu experiencia real, sino que la traduzca a un lenguaje mas profesional, concreto y entendible. Esa es la diferencia entre usar IA como atajo y usarla como apoyo de verdad.",
+          ],
+        },
+        {
+          title: "Hacer CV con IA vs usar una plantilla vacia",
+          paragraphs: [
+            "Una plantilla vacia resuelve el diseño, pero te deja solo frente a lo mas dificil: explicar tu experiencia con claridad. Por eso muchas personas terminan con un CV prolijo visualmente, pero generico en contenido.",
+            "Un creador de CV con IA ayuda a transformar datos simples en secciones mas utiles: perfil profesional, experiencia, habilidades y resumen de logros. La clave es que la IA trabaje sobre informacion real, no sobre frases inventadas.",
           ],
         },
         {
@@ -68,7 +75,7 @@ export default function HacerCvConIaPage() {
         {
           question: "La IA inventa experiencia si no le doy detalles?",
           answer:
-            "No deberia hacerlo. Lo ideal es trabajar con tus datos reales y revisar el resultado antes de enviarlo.",
+            "No deberia hacerlo. Lo ideal es trabajar con tus datos reales, revisar el resultado y ajustar cualquier frase que no represente tu experiencia.",
         },
         {
           question: "Puedo editar el contenido generado?",
@@ -76,9 +83,14 @@ export default function HacerCvConIaPage() {
             "Si. La IA sirve como apoyo para mejorar redaccion, no para quitarte control sobre tu CV.",
         },
         {
-          question: "Ayuda tambien si ya tengo un CV viejo?",
+          question: "Sirve para hacer mi primer CV?",
           answer:
-            "Si. Puedes usarla para reescribir secciones y volver mas claro un perfil que ya existe.",
+            "Si. Puede ayudarte a ordenar estudios, cursos, proyectos, habilidades y experiencias informales para que el curriculum no se vea vacio.",
+        },
+        {
+          question: "Es mejor que bajar una plantilla gratis?",
+          answer:
+            "Depende de lo que necesites. Una plantilla ayuda con el diseño; VitaeSpark tambien ayuda a mejorar contenido, estructura y redaccion antes de descargar el PDF.",
         },
       ]}
       relatedLinks={[
@@ -91,8 +103,7 @@ export default function HacerCvConIaPage() {
         {
           href: "/crear-cv-online",
           title: "Crear CV online",
-          description:
-            "Combina plantilla, IA y exportacion en un solo flujo.",
+          description: "Combina plantilla, IA y exportacion en un solo flujo.",
         },
         {
           href: "/curriculum-ats",

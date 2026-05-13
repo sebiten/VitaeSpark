@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Administrativo: Perfil Profesional, Ejemplos y Auxiliar",
+  title: "CV Administrativo: Auxiliar, Perfil Profesional y Ejemplos",
   description:
-    "Crea un CV administrativo o auxiliar administrativo con perfil profesional, ejemplos, experiencia, habilidades de oficina y formato ATS.",
+    "Crea un CV administrativo o auxiliar administrativo con perfil profesional, ejemplos de experiencia, habilidades de oficina y formato ATS.",
   path: "/cv-para-administrativo",
   keywords: [
     "cv para administrativo",
@@ -23,7 +23,7 @@ export default function CvParaAdministrativoPage() {
     <MarketingPage
       path="/cv-para-administrativo"
       eyebrow="CV por profesion"
-      title="CV administrativo: perfil profesional, ejemplos y auxiliar administrativo"
+      title="CV administrativo: auxiliar, perfil profesional y ejemplos"
       description="Arma un curriculum administrativo claro, con tareas de oficina, documentacion, sistemas, organizacion, reportes y soporte operativo."
       intro={[
         "Un CV para administrativo tiene que mostrar orden, criterio y capacidad para sostener procesos del dia a dia. Conviene explicar si trabajaste con documentacion, facturacion, atencion, carga de datos, reportes, agenda o soporte a distintas areas.",
@@ -87,6 +87,13 @@ export default function CvParaAdministrativoPage() {
           ],
         },
         {
+          title: "Ejemplo curriculum administrativo segun el area",
+          paragraphs: [
+            "Para administracion comercial, conviene mencionar pedidos, facturacion, contacto con clientes, proveedores y soporte a ventas. Para recursos humanos, destaca legajos, documentacion, asistencia a entrevistas, carga de novedades y seguimiento interno.",
+            "Para logistica o deposito, suma remitos, control de stock, planillas, coordinacion de entregas y comunicacion con transportes. Ajustar el area hace que el CV responda mejor a busquedas como cv administrativa o curriculum auxiliar administrativo.",
+          ],
+        },
+        {
           title: "Curriculum auxiliar administrativo",
           paragraphs: [
             "Si apuntas a auxiliar administrativo, conviene que el CV muestre herramientas concretas: Excel, planillas, correo, agenda, documentacion, carga de datos, archivo, facturacion, CRM o sistemas internos.",
@@ -121,6 +128,11 @@ export default function CvParaAdministrativoPage() {
           question: "Puedo usarlo si no tengo experiencia?",
           answer:
             "Si. Conviene reforzar estudios, cursos, herramientas digitales y habilidades transferibles.",
+        },
+        {
+          question: "Como escribir un perfil profesional administrativo?",
+          answer:
+            "Menciona el area, las tareas principales y las herramientas usadas: documentacion, carga de datos, Excel, agenda, facturacion, reportes, correo o sistemas internos.",
         },
       ]}
       relatedLinks={[

@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Call Center: Perfil Profesional y Ejemplos Listos",
+  title: "CV Call Center: Perfil, Experiencia y Ejemplos Listos",
   description:
-    "Crea un CV para call center con perfil profesional, habilidades y ejemplos para atencion telefonica, ventas, chat, soporte o cobranzas.",
+    "Crea un CV para call center con perfil profesional, experiencia, habilidades y ejemplos para atencion telefonica, ventas, chat o soporte.",
   path: "/cv-call-center",
   keywords: [
     "cv para call center",
@@ -22,7 +22,7 @@ export default function CvCallCenterPage() {
     <MarketingPage
       path="/cv-call-center"
       eyebrow="CV por profesion"
-      title="CV call center: perfil profesional y ejemplos listos para adaptar"
+      title="CV call center: perfil, experiencia y ejemplos listos"
       description="Prepara un curriculum para call center con frases concretas para atencion telefonica, soporte, ventas, cobranzas, chat y CRM."
       intro={[
         "Un CV para call center necesita mostrar mucho mas que buena diccion. Las empresas suelen buscar capacidad para atender volumen, seguir guiones, resolver consultas, registrar informacion y sostener una conversacion clara aun bajo presion.",
@@ -94,6 +94,13 @@ export default function CvCallCenterPage() {
           ],
         },
         {
+          title: "Como hacer que tu CV de call center se vea mas concreto",
+          paragraphs: [
+            "El problema mas comun es escribir solo 'atencion al cliente' sin explicar canales, herramientas ni tipo de campana. Es mejor aclarar si atendias llamadas entrantes, ventas salientes, chat, cobranzas, soporte o reclamos.",
+            "Tambien suma mencionar CRM, tickets, carga de datos, seguimiento de casos, metricas de calidad o cumplimiento de objetivos si realmente formaban parte del trabajo.",
+          ],
+        },
+        {
           title: "Habilidades clave y formato ATS",
           paragraphs: [
             "Entre las habilidades mas buscadas suelen estar comunicacion oral, escucha activa, digitacion, manejo de CRM, resolucion de conflictos, trabajo por objetivos y tolerancia a entornos dinamicos.",
@@ -138,6 +145,11 @@ export default function CvCallCenterPage() {
           question: "Como escribir experiencia de call center?",
           answer:
             "Menciona si atendias llamadas entrantes o salientes, chat, ventas, soporte o cobranzas, y agrega tareas como registro en CRM, seguimiento y resolucion de consultas.",
+        },
+        {
+          question: "Que poner si trabaje por chat y no por telefono?",
+          answer:
+            "Aclara el canal, seguimiento de tickets, escritura clara, tiempos de respuesta, CRM, resolucion de consultas y coordinacion con otras areas.",
         },
       ]}
       relatedLinks={[

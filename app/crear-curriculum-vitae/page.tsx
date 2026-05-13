@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Crear Currículum Vitae Online con IA y Plantillas",
+  title: "Crear Curriculum Vitae Online: Estructura y PDF",
   description:
-    "Crea tu currículum vitae online con IA, plantillas profesionales y estructura clara para buscar trabajo mejor.",
+    "Crea tu curriculum vitae online con estructura clara, ayuda de IA, plantillas profesionales y descarga en PDF para postularte mejor.",
   path: "/crear-curriculum-vitae",
   keywords: [
     "crear curriculum vitae",
@@ -19,10 +19,10 @@ export default function CrearCurriculumVitaePage() {
     <MarketingPage
       path="/crear-curriculum-vitae"
       eyebrow="Curriculum vitae"
-      title="Crear curriculum vitae online con una estructura clara y profesional"
+      title="Crear curriculum vitae online con estructura clara y PDF"
       description="Arma un curriculum vitae que se vea profesional, sea facil de leer y te ayude a postularte mejor a nuevas oportunidades laborales."
       intro={[
-        "Muchas personas buscan como crear un curriculum vitae cuando necesitan resolver rapido algo importante: postularse mejor. El problema es que la mayoria termina entre plantillas viejas, documentos desordenados o textos demasiado genericos.",
+        "Muchas personas buscan crear un curriculum vitae cuando necesitan resolver rapido algo importante: postularse mejor. El problema es que suelen terminar entre plantillas viejas, documentos desordenados o textos demasiado genericos.",
         "VitaeSpark te ayuda a pasar de esa confusion a un CV mas claro, con una estructura profesional y contenido mejor redactado para mostrar tu perfil con mas fuerza.",
       ]}
       benefits={[
@@ -54,10 +54,24 @@ export default function CrearCurriculumVitaePage() {
           ],
         },
         {
+          title: "Estructura recomendada para un curriculum vitae",
+          paragraphs: [
+            "Una estructura simple suele funcionar mejor: datos de contacto, perfil profesional, experiencia, formacion, habilidades, idiomas e informacion adicional si aporta valor. Si no tienes experiencia, puedes sumar cursos, proyectos o practicas.",
+            "El orden puede cambiar segun tu perfil, pero la prioridad siempre es la misma: que el reclutador entienda rapido quien eres, que buscas y que puedes aportar.",
+          ],
+        },
+        {
+          title: "Ejemplo de contenido para empezar",
+          paragraphs: [
+            "Un perfil inicial podria decir: 'Perfil orientado a administracion y atencion al cliente, con experiencia en carga de datos, trato con personas, organizacion de tareas y manejo basico de herramientas digitales'.",
+            "Ese ejemplo no debe copiarse literal. Sirve como base para que reemplaces el rubro, las tareas y las herramientas por informacion real de tu trayectoria.",
+          ],
+        },
+        {
           title: "Por que hacerlo online puede ayudarte mas",
           paragraphs: [
-            "Crear el curriculum online hace mucho mas facil actualizarlo, adaptarlo y mantenerlo ordenado. Tambien te ahorra tiempo cuando necesitas hacer ajustes para nuevas vacantes.",
-            "Si ademas el flujo te ayuda a mejorar contenido, el resultado final suele ser bastante mejor que editar una plantilla vacia por tu cuenta.",
+            "Crear el curriculum online hace mas facil actualizarlo, adaptarlo y mantenerlo ordenado. Tambien te ahorra tiempo cuando necesitas hacer ajustes para nuevas vacantes.",
+            "Si ademas el flujo te ayuda a mejorar contenido, el resultado final suele ser mejor que editar una plantilla vacia por tu cuenta.",
           ],
         },
       ]}
@@ -71,6 +85,11 @@ export default function CrearCurriculumVitaePage() {
           question: "Puedo usarlo aunque no tenga un CV previo?",
           answer:
             "Si. El flujo esta pensado tanto para crear uno desde cero como para mejorar uno existente.",
+        },
+        {
+          question: "Que secciones debe tener un curriculum vitae?",
+          answer:
+            "Contacto, perfil profesional, experiencia, formacion, habilidades e idiomas si suman. En perfiles iniciales tambien pueden entrar cursos, proyectos o practicas.",
         },
         {
           question: "El curriculum vitae se puede editar despues?",
@@ -93,12 +112,14 @@ export default function CrearCurriculumVitaePage() {
         {
           href: "/curriculum-vitae-pdf",
           title: "Curriculum vitae en PDF",
-          description: "Descubre por que el formato final importa tanto al postularte.",
+          description:
+            "Descubre por que el formato final importa tanto al postularte.",
         },
         {
           href: "/blog/que-poner-en-un-curriculum",
           title: "Que poner en un curriculum",
-          description: "Aclara el contenido ideal antes de armar tu version final.",
+          description:
+            "Aclara el contenido ideal antes de armar tu version final.",
         },
       ]}
     />

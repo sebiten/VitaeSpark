@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Atencion al Cliente: Perfil, Ejemplos y Habilidades",
+  title: "CV Atencion al Cliente: Perfil, Experiencia y Ejemplos",
   description:
-    "Crea un curriculum de atencion al cliente con perfil profesional, ejemplos, habilidades, experiencia, reclamos, CRM y formato ATS.",
+    "Crea un curriculum de atencion al cliente con perfil profesional, experiencia, habilidades, reclamos, CRM y ejemplos para adaptar.",
   path: "/cv-para-atencion-al-cliente",
   keywords: [
     "cv para atencion al cliente",
@@ -22,7 +22,7 @@ export default function CvParaAtencionAlClientePage() {
     <MarketingPage
       path="/cv-para-atencion-al-cliente"
       eyebrow="CV por profesion"
-      title="CV para atencion al cliente: perfil, ejemplos y habilidades"
+      title="CV atencion al cliente: perfil, experiencia y ejemplos"
       description="Prepara un curriculum para atencion al cliente con perfil profesional, reclamos, CRM, canales de contacto y estructura clara para ATS."
       intro={[
         "En atencion al cliente, el CV tiene que mostrar mucho mas que amabilidad. Debe dejar claro como respondes consultas, resuelves reclamos, organizas volumen de trabajo y sostienes una experiencia positiva para el usuario en canales como telefono, chat, mostrador o mail.",
@@ -80,6 +80,13 @@ export default function CvParaAtencionAlClientePage() {
           ],
         },
         {
+          title: "Ejemplos de experiencia en atencion al cliente",
+          paragraphs: [
+            "Para call center puedes escribir: 'Atendi consultas telefonicas, registre casos en sistema, derive reclamos al area correspondiente y realice seguimiento hasta completar la respuesta al cliente'.",
+            "Para comercio o mostrador, una frase util seria: 'Asesore clientes, resolvi consultas sobre productos, gestione cambios o reclamos simples y colabore con caja, stock u orden del sector cuando fue necesario'.",
+          ],
+        },
+        {
           title: "Curriculum atencion al cliente: por que puede no rankear",
           paragraphs: [
             "Si el CV o la pagina usan solo frases generales, compiten peor para busquedas como curriculum atencion al cliente, perfil profesional o habilidades para atencion al cliente.",
@@ -126,6 +133,11 @@ export default function CvParaAtencionAlClientePage() {
           question: "Puedo usarlo para cambiar de rubro?",
           answer:
             "Si. Muchas habilidades de atencion al cliente son transferibles a otros roles operativos o comerciales.",
+        },
+        {
+          question: "Que poner en experiencia laboral de atencion al cliente?",
+          answer:
+            "Canales atendidos, tipo de consultas, reclamos, CRM o sistema usado, seguimiento de casos, ventas, caja, soporte o coordinacion con otras areas.",
         },
       ]}
       relatedLinks={[
