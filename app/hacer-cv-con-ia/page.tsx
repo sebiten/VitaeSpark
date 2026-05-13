@@ -83,6 +83,12 @@ export default function HacerCvConIaPage() {
       ]}
       relatedLinks={[
         {
+          href: "/",
+          title: "Creador de CV online",
+          description:
+            "Usa VitaeSpark como punto de partida para crear tu CV con IA y descargarlo en PDF.",
+        },
+        {
           href: "/crear-cv-online",
           title: "Crear CV online",
           description:

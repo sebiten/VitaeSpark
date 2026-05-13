@@ -27,6 +27,58 @@ export default function Home() {
 
       <WelcomeHero />
 
+      <section className="relative overflow-hidden bg-[#111113] px-4 py-16">
+        <div className="pointer-events-none absolute left-1/2 top-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[#7C3AED]/10 blur-[110px]" />
+        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div>
+            <Badge className="mb-4 border border-white/[0.08] bg-white/[0.06] px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-white/70 hover:bg-white/[0.08]">
+              Creador de CV online
+            </Badge>
+            <h2 className="text-3xl font-bold leading-tight text-[#F0EBFF] md:text-4xl">
+              Un generador de CV que no te deja con una plantilla vacia
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-white/64 md:text-lg">
+              VitaeSpark combina formulario guiado, redaccion con IA,
+              plantillas profesionales y descarga en PDF. El objetivo es simple:
+              pasar de datos sueltos a un curriculum claro para enviar a
+              empresas, portales de empleo o reclutadores.
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              {
+                title: "Completa tus datos",
+                description:
+                  "Escribe experiencia, estudios, habilidades y links sin preocuparte por sonar perfecto.",
+              },
+              {
+                title: "La IA ordena el contenido",
+                description:
+                  "Convierte frases simples en un perfil mas claro, con logros y estructura profesional.",
+              },
+              {
+                title: "Descarga tu CV en PDF",
+                description:
+                  "Obtienes una version lista para postular y guardar en tu perfil.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5"
+              >
+                <h3 className="text-base font-semibold text-[#F0EBFF]">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-7 text-white/55">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Features Section — Bento Grid */}
       <section className="relative overflow-hidden py-20 px-4 bg-[#111113]">
         <div className="pointer-events-none absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-[#38BDF8]/10 blur-[110px]" />
@@ -367,6 +419,22 @@ export default function Home() {
             mainEntity: [
               {
                 "@type": "Question",
+                name: "Que es un creador de CV online?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Un creador de CV online es una herramienta web que te guia para cargar tus datos, ordenar tu experiencia, elegir una plantilla y descargar un curriculum listo para postular. VitaeSpark agrega redaccion con IA, estructura ATS y descarga en PDF.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Cual es la diferencia entre un creador de CV y una plantilla?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Una plantilla solo resuelve el diseño. Un creador de CV tambien ayuda a ordenar el contenido, mejorar la redaccion, completar secciones clave y preparar el documento final para reclutadores y filtros ATS.",
+                },
+              },
+              {
+                "@type": "Question",
                 name: "¿Qué es un sistema ATS y por qué es importante?",
                 acceptedAnswer: {
                   "@type": "Answer",
@@ -411,6 +479,33 @@ export default function Home() {
           </div>
 
           <div className="relative w-full rounded-xl border border-white/[0.06] bg-[#1C1C22] p-4">
+            <details className="group border-b border-white/[0.06] px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium text-white/80 transition hover:text-[#8B5CF6]">
+                <FileText className="mr-3 h-5 w-5 text-[#8B5CF6]" />
+                Que es un creador de CV online?
+                <span className="ml-auto text-xl text-white/50 transition group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-3 pl-8 leading-7 text-white/50">
+                Es una herramienta web para cargar tus datos, ordenar tu
+                experiencia, elegir una plantilla y descargar un curriculum
+                listo para postular. VitaeSpark suma redaccion con IA,
+                estructura ATS y PDF final.
+              </p>
+            </details>
+
+            <details className="group border-b border-white/[0.06] px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium text-white/80 transition hover:text-[#8B5CF6]">
+                <Sparkles className="mr-3 h-5 w-5 text-[#8B5CF6]" />
+                En que se diferencia de una plantilla?
+                <span className="ml-auto text-xl text-white/50 transition group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-3 pl-8 leading-7 text-white/50">
+                Una plantilla resuelve el diseño. Un creador de CV tambien te
+                ayuda a ordenar contenido, redactar mejor el perfil profesional
+                y preparar el documento para reclutadores y filtros ATS.
+              </p>
+            </details>
+
             <details className="group border-b border-white/[0.06] px-4 py-4 [&_summary::-webkit-details-marker]:hidden">
               <summary className="flex cursor-pointer items-center justify-between gap-4 text-left font-medium text-white/80 transition hover:text-[#8B5CF6]">
                 <HelpCircle className="mr-3 h-5 w-5 text-[#8B5CF6]" />

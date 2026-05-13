@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Operario de Producción: Ejemplo y Habilidades",
+  title: "CV Operario de Produccion: Ejemplos, Perfil y Habilidades",
   description:
-    "Crea un CV para operario de producción con ejemplo de perfil, experiencia, habilidades de fábrica, depósito, mantenimiento y formato ATS.",
+    "Crea un CV de operario de produccion con ejemplos de perfil, experiencia, habilidades de fabrica, deposito, mantenimiento y formato ATS.",
   path: "/cv-para-operario",
   keywords: [
     "cv para operario",
@@ -21,7 +21,7 @@ export default function CvParaOperarioPage() {
     <MarketingPage
       path="/cv-para-operario"
       eyebrow="CV por profesion"
-      title="CV para operario de produccion: ejemplo, habilidades y formato ATS"
+      title="CV operario de produccion: ejemplos, perfil y habilidades"
       description="Arma un curriculum para operario destacando produccion, fabrica, deposito, mantenimiento, herramientas, seguridad y trabajo por procesos."
       intro={[
         "Un CV para operario debe mostrar experiencia practica, responsabilidad y capacidad para seguir procedimientos. Conviene aclarar si trabajaste en produccion, deposito, mantenimiento, logistica, embalaje, control de calidad o tareas generales.",
@@ -78,10 +78,17 @@ export default function CvParaOperarioPage() {
           ],
         },
         {
-          title: "CV operario de produccion",
+          title: "Curriculum operario de produccion",
           paragraphs: [
             "Para operario de produccion conviene mencionar linea de produccion, armado, empaque, control visual, control de calidad, limpieza del puesto, cumplimiento de normas, uso de herramientas y apoyo a procesos de fabrica.",
             "Si trabajaste con maquinas, turnos rotativos o objetivos diarios, agregalo de forma concreta. Esos datos ayudan a diferenciar un CV generico de uno orientado a produccion real.",
+          ],
+        },
+        {
+          title: "Ejemplo de perfil profesional operario",
+          paragraphs: [
+            "Una version directa puede ser: 'Operario de produccion con experiencia en armado, empaque, control visual, orden del sector y cumplimiento de procedimientos de seguridad en entornos de fabrica'.",
+            "Si tu experiencia viene de deposito, cambia el enfoque a carga, descarga, preparacion de pedidos, stock, orden de mercaderia y apoyo logistico.",
           ],
         },
         {

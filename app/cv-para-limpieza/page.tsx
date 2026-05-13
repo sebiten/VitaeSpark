@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Limpieza: Ejemplo, Habilidades y Formato ATS",
+  title: "CV para Limpieza: Ejemplo, Habilidades y Sin Experiencia",
   description:
-    "Arma un CV para limpieza con ejemplo, habilidades operativas, orden, mantenimiento de espacios y formato ATS.",
+    "Arma un CV para limpieza con ejemplo, habilidades operativas, mantenimiento de espacios, disponibilidad y opciones sin experiencia.",
   path: "/cv-para-limpieza",
   keywords: [
     "cv para limpieza",
@@ -20,8 +20,8 @@ export default function CvParaLimpiezaPage() {
     <MarketingPage
       path="/cv-para-limpieza"
       eyebrow="CV por profesion"
-      title="CV para limpieza: ejemplo, habilidades y formato ATS"
-      description="Prepara un curriculum para limpieza destacando mantenimiento de espacios, orden, responsabilidad, productos, procedimientos y ritmo de trabajo."
+      title="CV para limpieza: ejemplo, habilidades y sin experiencia"
+      description="Prepara un curriculum para limpieza destacando mantenimiento de espacios, orden, responsabilidad, productos, procedimientos y disponibilidad."
       intro={[
         "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas.",
         "VitaeSpark te ayuda a presentar esa experiencia de forma profesional, con tareas claras, habilidades utiles y una estructura facil de leer para reclutadores.",
@@ -70,6 +70,20 @@ export default function CvParaLimpiezaPage() {
           ],
         },
         {
+          title: "Curriculum de limpieza sin experiencia",
+          paragraphs: [
+            "Para busquedas de primer empleo, conviene mencionar disponibilidad, puntualidad, cuidado de espacios, seguimiento de indicaciones, tareas domesticas, referencias si tienes y voluntad para aprender rutinas del lugar.",
+            "Tambien ayuda aclarar el tipo de lugar al que apuntas: oficinas, edificios, casas, comercios, escuelas, salud o limpieza industrial. Cada contexto cambia las palabras que conviene usar.",
+          ],
+        },
+        {
+          title: "Ejemplo de perfil profesional para limpieza",
+          paragraphs: [
+            "Una base posible es: 'Perfil orientado a limpieza y mantenimiento de espacios, con experiencia en rutinas de higiene, orden de areas comunes, uso responsable de productos y cumplimiento de indicaciones'.",
+            "Si no tienes experiencia formal, puedes cambiarlo por: 'Perfil inicial para limpieza, con responsabilidad, disponibilidad horaria, orden, puntualidad y capacidad para seguir rutinas de trabajo'.",
+          ],
+        },
+        {
           title: "Habilidades que suelen valorar",
           paragraphs: [
             "Entre las habilidades utiles estan atencion al detalle, organizacion, responsabilidad, manejo de productos, higiene, rapidez, cuidado de espacios y cumplimiento de rutinas.",
@@ -92,6 +106,11 @@ export default function CvParaLimpiezaPage() {
           question: "Puedo usarlo sin experiencia formal?",
           answer:
             "Si. Puedes destacar trabajos informales, tareas domesticas, responsabilidad y disponibilidad.",
+        },
+        {
+          question: "Que poner en perfil profesional de limpieza?",
+          answer:
+            "Menciona limpieza de espacios, orden, uso de productos, cumplimiento de rutinas, responsabilidad, disponibilidad y el tipo de lugar donde trabajaste o quieres trabajar.",
         },
       ]}
       relatedLinks={[

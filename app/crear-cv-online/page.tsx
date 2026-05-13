@@ -106,6 +106,12 @@ export default function CrearCvOnlinePage() {
       ]}
       relatedLinks={[
         {
+          href: "/",
+          title: "Creador de CV online",
+          description:
+            "Vuelve a la pagina principal para crear tu CV con IA, plantillas profesionales y PDF.",
+        },
+        {
           href: "/curriculum-ats",
           title: "Curriculum ATS",
           description:

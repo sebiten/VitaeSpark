@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Call Center: Perfil Profesional, Habilidades y Ejemplos",
+  title: "CV Call Center: Perfil Profesional y Ejemplos Listos",
   description:
-    "Crea un CV para call center con perfil profesional, experiencia, habilidades y ejemplos para soporte, ventas, chat, cobranzas y formato ATS.",
+    "Crea un CV para call center con perfil profesional, habilidades y ejemplos para atencion telefonica, ventas, chat, soporte o cobranzas.",
   path: "/cv-call-center",
   keywords: [
     "cv para call center",
@@ -22,8 +22,8 @@ export default function CvCallCenterPage() {
     <MarketingPage
       path="/cv-call-center"
       eyebrow="CV por profesion"
-      title="CV call center: perfil profesional, habilidades y ejemplos"
-      description="Prepara un curriculum para call center orientado a atencion telefonica, soporte, ventas, cobranzas, chat, CRM y procesos ATS."
+      title="CV call center: perfil profesional y ejemplos listos para adaptar"
+      description="Prepara un curriculum para call center con frases concretas para atencion telefonica, soporte, ventas, cobranzas, chat y CRM."
       intro={[
         "Un CV para call center necesita mostrar mucho mas que buena diccion. Las empresas suelen buscar capacidad para atender volumen, seguir guiones, resolver consultas, registrar informacion y sostener una conversacion clara aun bajo presion.",
         "VitaeSpark te ayuda a ordenar esa experiencia y traducirla a un formato mas profesional, con foco en soporte telefonico, ventas, cobranzas o atencion multicanal.",
@@ -80,10 +80,17 @@ export default function CvCallCenterPage() {
           ],
         },
         {
-          title: "Ejemplo de perfil profesional call center",
+          title: "Ejemplos de perfil profesional call center",
           paragraphs: [
-            "Una version concreta para atencion puede ser: 'Perfil orientado a call center y atencion al cliente, con experiencia en gestion de consultas, registro de datos, seguimiento de casos y comunicacion clara por telefono o canales digitales'.",
-            "Para ventas telefonicas, puedes ajustar el enfoque hacia contacto con clientes, manejo de objeciones, explicacion de servicios y carga de resultados en CRM o sistema interno.",
+            "Para atencion: 'Perfil orientado a call center y atencion al cliente, con experiencia en gestion de consultas, registro de datos, seguimiento de casos y comunicacion clara por telefono o canales digitales'.",
+            "Para ventas: 'Perfil comercial con experiencia en contacto telefonico, explicacion de servicios, manejo de objeciones, carga de resultados en CRM y seguimiento de potenciales clientes'.",
+          ],
+        },
+        {
+          title: "Curriculum call center para chat, ventas o soporte",
+          paragraphs: [
+            "Si el puesto es por chat, conviene nombrar escritura clara, seguimiento de tickets, CRM y tiempos de respuesta. Si es ventas, prioriza llamadas salientes, objeciones, objetivos y cierre.",
+            "Para soporte tecnico, suma diagnostico inicial, derivacion de casos, registro de incidencias y comunicacion con otras areas. Esa precision mejora la lectura y evita un CV demasiado general.",
           ],
         },
         {

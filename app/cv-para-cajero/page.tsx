@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Cajero: Ejemplo, Perfil y Habilidades",
+  title: "CV para Cajero: Ejemplo, Perfil y Sin Experiencia",
   description:
-    "Crea un CV para cajero con ejemplo de perfil profesional, experiencia, habilidades de caja, supermercado, retail y formato ATS.",
+    "Crea un CV para cajero o cajera con ejemplo de perfil, habilidades de caja, supermercado, retail y opciones para primer empleo.",
   path: "/cv-para-cajero",
   keywords: [
     "cv para cajero",
@@ -22,8 +22,8 @@ export default function CvParaCajeroPage() {
     <MarketingPage
       path="/cv-para-cajero"
       eyebrow="CV por profesion"
-      title="CV para cajero: ejemplo para supermercado, retail y comercio"
-      description="Crea un curriculum para cajero con perfil profesional, experiencia de caja, habilidades para supermercado, retail y formato ATS."
+      title="CV para cajero: ejemplo para supermercado, retail y primer empleo"
+      description="Crea un curriculum para cajero o cajera con perfil profesional, experiencia de caja, habilidades para supermercado, retail y comercio."
       intro={[
         "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa. No alcanza con poner 'manejo de caja': conviene mostrar atencion al cliente, medios de pago, cierre de caja, control basico y trabajo en entornos con ritmo alto.",
         "VitaeSpark te ayuda a convertir esa experiencia en un CV mas claro y competitivo para supermercados, farmacias, tiendas, estaciones de servicio o comercios de cercania.",
@@ -72,10 +72,17 @@ export default function CvParaCajeroPage() {
           ],
         },
         {
-          title: "Ejemplo de perfil profesional para cajero",
+          title: "Ejemplo de perfil profesional para cajero o cajera",
           paragraphs: [
             "Una base util puede ser: 'Perfil orientado a atencion al cliente y operacion de caja, con experiencia en cobros, manejo de distintos medios de pago, cierre diario y trabajo en entornos dinamicos'.",
             "Si todavia no trabajaste en caja, puedes apoyarte en experiencia de atencion al publico, ventas o tareas operativas donde hayas demostrado responsabilidad y trato con clientes.",
+          ],
+        },
+        {
+          title: "Curriculum cajera: que buscan los reclutadores",
+          paragraphs: [
+            "Muchas busquedas usan 'curriculum cajera', pero el contenido debe ser el mismo: caja, cobros, medios de pago, atencion al cliente, cierre, orden del sector y capacidad para resolver consultas simples.",
+            "Si trabajaste en supermercado, farmacia, tienda o estacion de servicio, nombra ese contexto. Ayuda a que el CV parezca escrito para el puesto y no como una plantilla generica.",
           ],
         },
         {
@@ -89,7 +96,7 @@ export default function CvParaCajeroPage() {
           title: "CV para cajero sin experiencia",
           paragraphs: [
             "Si buscas tu primer trabajo como cajero, no conviene dejar el CV vacio. Puedes destacar estudios, cursos, manejo basico de herramientas digitales, atencion al publico, ventas informales, voluntariado o tareas donde hayas usado responsabilidad y organizacion.",
-            "Tambien suma mencionar disponibilidad horaria, buena comunicacion, precision, aprendizaje rapido y trato cordial. Para puestos iniciales, el objetivo es mostrar que puedes aprender el proceso de caja y sostener una atencion ordenada.",
+            "Tambien suma mencionar disponibilidad horaria, precision, aprendizaje rapido y trato cordial. Para puestos iniciales, el objetivo es mostrar que puedes aprender el proceso de caja y sostener una atencion ordenada.",
           ],
         },
         {

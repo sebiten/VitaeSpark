@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Recepcionista: Ejemplo, Habilidades y Sin Experiencia",
+  title: "CV para Recepcionista: Ejemplos, Perfil y Sin Experiencia",
   description:
-    "Arma un CV para recepcionista con ejemplo de perfil, habilidades administrativas, atención al cliente, agenda y opciones sin experiencia.",
+    "Arma un CV para recepcionista con ejemplos de perfil, habilidades administrativas, atencion al cliente, agenda y opciones sin experiencia.",
   path: "/cv-para-recepcionista",
   keywords: [
     "cv para recepcionista",
@@ -22,8 +22,8 @@ export default function CvParaRecepcionistaPage() {
     <MarketingPage
       path="/cv-para-recepcionista"
       eyebrow="CV por profesion"
-      title="CV para recepcionista: ejemplo, habilidades y sin experiencia"
-      description="Prepara un curriculum para recepcionista destacando atencion al publico, agenda, administracion, comunicacion, turnos y organizacion diaria."
+      title="CV para recepcionista: ejemplos, perfil y sin experiencia"
+      description="Prepara un curriculum para recepcionista con atencion al publico, agenda, administracion, llamadas, turnos y organizacion diaria."
       intro={[
         "Un CV para recepcionista debe transmitir orden, trato profesional y capacidad para coordinar tareas al mismo tiempo. Este tipo de puesto suele combinar atencion al publico, agenda, llamadas, derivaciones, documentacion y soporte administrativo.",
         "VitaeSpark te ayuda a ordenar esa experiencia en un curriculum mas claro, con palabras clave utiles y una presentacion pensada para empresas, consultorios, hoteles, oficinas o centros de atencion.",
@@ -59,10 +59,17 @@ export default function CvParaRecepcionistaPage() {
           ],
         },
         {
-          title: "Ejemplo de perfil profesional para recepcionista",
+          title: "Ejemplos de perfil profesional para recepcionista",
           paragraphs: [
             "Una base posible es: 'Perfil orientado a recepcion y atencion al publico, con experiencia en gestion de agenda, llamadas, documentacion y soporte administrativo en entornos dinamicos'.",
-            "Ese perfil puede adaptarse a salud, hoteleria, oficinas o comercios. Lo importante es que el resumen nombre el entorno real y las responsabilidades principales.",
+            "Para consultorio puedes ajustar: 'Recepcionista con experiencia en turnos, agenda, recepcion de pacientes, documentacion y derivacion de consultas con trato claro y ordenado'.",
+          ],
+        },
+        {
+          title: "Recepcionista curriculum: palabras que conviene incluir",
+          paragraphs: [
+            "Las busquedas y avisos suelen repetir agenda, atencion telefonica, recepcion de visitas, turnos, documentacion, correo, planillas, carga de datos y soporte administrativo.",
+            "No hace falta forzar todas las palabras. Conviene usar solo las que correspondan a tu experiencia para que el CV sea creible y facil de escanear.",
           ],
         },
         {

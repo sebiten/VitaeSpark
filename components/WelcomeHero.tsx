@@ -13,7 +13,7 @@ import HeroShowcase from "./HeroShowcase";
 import { Button } from "./ui/button";
 
 const benefits = [
-  "Redaccion profesional",
+  "Creador de CV online",
   "Estructura compatible con ATS",
   "Descarga en PDF",
 ];
@@ -54,15 +54,16 @@ export default function WelcomeHero() {
         <div className="mx-auto min-w-0 max-w-[358px] text-left sm:mx-0 sm:max-w-3xl">
           <div className="hero-fade-up mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-sm text-[#F4F4F5]/76 shadow-2xl shadow-black/20 backdrop-blur">
             <Sparkles className="h-4 w-4 shrink-0 text-[#38BDF8]" />
-            <span className="truncate">CV con IA para postulaciones reales</span>
+            <span className="truncate">Creador de CV con IA para postulaciones reales</span>
           </div>
 
           <AnimatedHeroTitle />
 
           <p className="hero-fade-up hero-fade-up-3 mx-auto mt-5 max-w-2xl text-pretty text-base leading-7 text-[#F4F4F5]/74 sm:mx-0 sm:mt-6 sm:text-lg md:text-xl md:leading-8">
-            VitaeSpark transforma tus datos en un curriculum claro, profesional
-            y listo para descargar. Ideal para presentar tu experiencia sin
-            sonar generico ni perder horas editando.
+            VitaeSpark es un creador de CV online que transforma tus datos en
+            un curriculum claro, profesional y listo para descargar. Ideal para
+            presentar tu experiencia sin sonar generico ni perder horas
+            editando.
           </p>
 
           <div className="hero-fade-up hero-fade-up-4 mx-auto mt-6 flex max-w-[358px] flex-col items-stretch gap-3 sm:mx-0 sm:mt-8 sm:max-w-none sm:flex-row sm:items-center">
@@ -71,7 +72,7 @@ export default function WelcomeHero() {
                 size="lg"
                 className="h-[52px] w-full rounded-xl bg-[#7C3AED] px-6 text-base font-semibold text-white shadow-lg shadow-[#7C3AED]/25 transition hover:bg-[#6D28D9] sm:h-14 sm:w-auto sm:px-7"
               >
-                Crear mi CV ahora
+                Crear mi CV online
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -102,7 +103,7 @@ export default function WelcomeHero() {
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-white">
-                  VitaeSpark ordena tu historia
+                  Creador de CV online
                 </p>
                 <p className="mt-0.5 text-xs leading-5 text-white/68">
                   Texto claro, estructura ATS y PDF listo para postular.

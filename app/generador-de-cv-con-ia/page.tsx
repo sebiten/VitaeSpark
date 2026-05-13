@@ -82,6 +82,12 @@ export default function GeneradorDeCvConIaPage() {
       ]}
       relatedLinks={[
         {
+          href: "/",
+          title: "Creador de CV online",
+          description:
+            "Pagina principal de VitaeSpark para crear tu CV con IA, plantillas y descarga en PDF.",
+        },
+        {
           href: "/cv-para-atencion-al-cliente",
           title: "CV para atencion al cliente",
           description:

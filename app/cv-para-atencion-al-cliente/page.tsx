@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-title: "CV para Atención al Cliente: Ejemplo y Habilidades",
+  title: "CV para Atencion al Cliente: Perfil, Ejemplos y Habilidades",
   description:
-    "Crea un currículum de atención al cliente con ejemplo de perfil, habilidades, experiencia, reclamos, CRM y formato ATS.",
+    "Crea un curriculum de atencion al cliente con perfil profesional, ejemplos, habilidades, experiencia, reclamos, CRM y formato ATS.",
   path: "/cv-para-atencion-al-cliente",
   keywords: [
     "cv para atencion al cliente",
@@ -22,7 +22,7 @@ export default function CvParaAtencionAlClientePage() {
     <MarketingPage
       path="/cv-para-atencion-al-cliente"
       eyebrow="CV por profesion"
-      title="CV para atencion al cliente: ejemplo, habilidades y perfil"
+      title="CV para atencion al cliente: perfil, ejemplos y habilidades"
       description="Prepara un curriculum para atencion al cliente con perfil profesional, reclamos, CRM, canales de contacto y estructura clara para ATS."
       intro={[
         "En atencion al cliente, el CV tiene que mostrar mucho mas que amabilidad. Debe dejar claro como respondes consultas, resuelves reclamos, organizas volumen de trabajo y sostienes una experiencia positiva para el usuario en canales como telefono, chat, mostrador o mail.",
@@ -73,10 +73,17 @@ export default function CvParaAtencionAlClientePage() {
           ],
         },
         {
-          title: "Ejemplo de perfil profesional para atencion al cliente",
+          title: "Perfil profesional atencion al cliente: ejemplos",
           paragraphs: [
-            "Puedes usar una base como esta: 'Perfil orientado a atencion al cliente con experiencia en gestion de consultas, seguimiento de casos y resolucion de reclamos por canales telefonicos y digitales. Manejo de CRM, organizacion de tareas y enfoque en brindar respuestas claras y eficientes'.",
-            "No se trata de copiarlo literal, sino de adaptarlo a tu realidad. Si trabajaste en retail, soporte, recepcion o caja, conviene que el perfil nombre ese contexto para ganar relevancia.",
+            "Para soporte: 'Perfil orientado a atencion al cliente con experiencia en gestion de consultas, seguimiento de casos y resolucion de reclamos por canales telefonicos y digitales'.",
+            "Para comercio: 'Perfil de atencion al cliente con experiencia en trato presencial, asesoramiento, gestion de reclamos, cobros simples y apoyo a tareas operativas de tienda'.",
+          ],
+        },
+        {
+          title: "Curriculum atencion al cliente: por que puede no rankear",
+          paragraphs: [
+            "Si el CV o la pagina usan solo frases generales, compiten peor para busquedas como curriculum atencion al cliente, perfil profesional o habilidades para atencion al cliente.",
+            "Conviene incluir contextos reales: call center, retail, soporte, recepcion, reclamos, chat, telefono, CRM, caja o seguimiento de pedidos. Eso mejora relevancia sin rellenar por rellenar.",
           ],
         },
         {

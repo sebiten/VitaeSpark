@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Administrativo: Ejemplo para Auxiliar y Perfil Profesional",
+  title: "CV Administrativo: Perfil Profesional, Ejemplos y Auxiliar",
   description:
-    "Crea un CV administrativo o auxiliar administrativo con perfil profesional, experiencia, habilidades de oficina, ejemplos y formato ATS.",
+    "Crea un CV administrativo o auxiliar administrativo con perfil profesional, ejemplos, experiencia, habilidades de oficina y formato ATS.",
   path: "/cv-para-administrativo",
   keywords: [
     "cv para administrativo",
@@ -23,7 +23,7 @@ export default function CvParaAdministrativoPage() {
     <MarketingPage
       path="/cv-para-administrativo"
       eyebrow="CV por profesion"
-      title="CV administrativo: ejemplo para auxiliar, oficina y soporte"
+      title="CV administrativo: perfil profesional, ejemplos y auxiliar administrativo"
       description="Arma un curriculum administrativo claro, con tareas de oficina, documentacion, sistemas, organizacion, reportes y soporte operativo."
       intro={[
         "Un CV para administrativo tiene que mostrar orden, criterio y capacidad para sostener procesos del dia a dia. Conviene explicar si trabajaste con documentacion, facturacion, atencion, carga de datos, reportes, agenda o soporte a distintas areas.",
@@ -66,10 +66,17 @@ export default function CvParaAdministrativoPage() {
           ],
         },
         {
-          title: "Ejemplo de perfil profesional administrativo",
+          title: "Perfil profesional administrativo ejemplo",
           paragraphs: [
             "Una base posible es: 'Perfil administrativo con experiencia en gestion documental, carga de datos, atencion interna y soporte operativo, con manejo de herramientas digitales y enfoque en orden, seguimiento y cumplimiento de procesos'.",
             "La clave es adaptarlo al tipo de empresa. No es lo mismo administracion en salud, comercio, logistica o un estudio contable; ese contexto vuelve el CV mas relevante.",
+          ],
+        },
+        {
+          title: "CV administrativa: como adaptar el lenguaje",
+          paragraphs: [
+            "Muchas personas buscan 'cv administrativa' o 'curriculum administrativo'. En ambos casos, el reclutador espera ver herramientas, procesos, tareas de oficina y responsabilidad sobre informacion o documentacion.",
+            "Si tu experiencia fue en ventas, salud, contabilidad, recursos humanos o logistica, menciona el area. Ese detalle ayuda a que el CV conecte mejor con avisos reales.",
           ],
         },
         {
