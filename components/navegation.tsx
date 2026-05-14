@@ -167,8 +167,10 @@ export function Navegation() {
             <HomeIcon className="h-4 w-4" />
             <span className="hidden xs:inline">{labels.home}</span>
           </CustomLinkButton>
-
-
+          <CustomLinkButton href={guideHref} variant="ghost" size="sm">
+            <FileText className="h-4 w-4" />
+            <span className="hidden xs:inline">{labels.guide}</span>
+          </CustomLinkButton>
           <CustomLinkButton href={isEnglish ? "/" : "/en"} variant="ghost" size="sm">
             {isEnglish ? "ES" : "EN"}
           </CustomLinkButton>
@@ -191,10 +193,7 @@ export function Navegation() {
             <User2 className="h-4 w-4" />
             <span className="hidden xs:inline">{labels.profile}</span>
           </CustomLinkButton>
-          <CustomLinkButton href={guideHref} variant="ghost" size="sm">
-            <FileText className="h-4 w-4" />
-            <span className="hidden xs:inline">{labels.guide}</span>
-          </CustomLinkButton>
+
         </div>
       )}
     </header>
