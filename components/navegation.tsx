@@ -142,17 +142,15 @@ export function Navegation() {
           <div className="ml-1 flex rounded-lg border border-white/10 bg-white/[0.03] p-1 text-xs font-semibold">
             <Link
               href="/"
-              className={`rounded-md px-2 py-1 transition ${
-                !isEnglish ? "bg-white/10 text-white" : "text-white/50 hover:text-white"
-              }`}
+              className={`rounded-md px-2 py-1 transition ${!isEnglish ? "bg-white/10 text-white" : "text-white/50 hover:text-white"
+                }`}
             >
               ES
             </Link>
             <Link
               href="/en"
-              className={`rounded-md px-2 py-1 transition ${
-                isEnglish ? "bg-white/10 text-white" : "text-white/50 hover:text-white"
-              }`}
+              className={`rounded-md px-2 py-1 transition ${isEnglish ? "bg-white/10 text-white" : "text-white/50 hover:text-white"
+                }`}
             >
               EN
             </Link>
@@ -169,14 +167,8 @@ export function Navegation() {
             <HomeIcon className="h-4 w-4" />
             <span className="hidden xs:inline">{labels.home}</span>
           </CustomLinkButton>
-          <CustomLinkButton href={guideHref} variant="ghost" size="sm">
-            <FileText className="h-4 w-4" />
-            <span className="hidden xs:inline">{labels.guide}</span>
-          </CustomLinkButton>
-          <CustomLinkButton href="/perfil" variant="ghost" size="sm">
-            <User2 className="h-4 w-4" />
-            <span className="hidden xs:inline">{labels.profile}</span>
-          </CustomLinkButton>
+
+
           <CustomLinkButton href={isEnglish ? "/" : "/en"} variant="ghost" size="sm">
             {isEnglish ? "ES" : "EN"}
           </CustomLinkButton>
@@ -195,6 +187,14 @@ export function Navegation() {
       {menuOpen && (
         <div className="space-y-3 border-t border-[#27272A]/50 bg-[#0F0F10] px-4 py-4 md:hidden">
           <AuthControls mobile onNavigate={() => setMenuOpen(false)} />
+          <CustomLinkButton href="/perfil" variant="ghost" size="sm">
+            <User2 className="h-4 w-4" />
+            <span className="hidden xs:inline">{labels.profile}</span>
+          </CustomLinkButton>
+          <CustomLinkButton href={guideHref} variant="ghost" size="sm">
+            <FileText className="h-4 w-4" />
+            <span className="hidden xs:inline">{labels.guide}</span>
+          </CustomLinkButton>
         </div>
       )}
     </header>
