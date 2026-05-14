@@ -13,6 +13,7 @@ type ServerAnalyticsEventPayload = LandingAttribution & {
   event_name: AnalyticsEventName;
   user_id?: string | null;
   language?: "es" | "en";
+  payment_provider?: "mercado_pago" | "paypal";
   template?: string;
   cv_id?: string;
   payment_id?: string;
@@ -25,6 +26,7 @@ export async function recordAnalyticsEventServer({
   cta_label,
   source_type,
   language,
+  payment_provider,
   template,
   cv_id,
   payment_id,
@@ -36,6 +38,7 @@ export async function recordAnalyticsEventServer({
     cta_label: cta_label || null,
     source_type: source_type || null,
     language: language || null,
+    payment_provider: payment_provider || null,
     template: template || null,
     cv_id: cv_id || null,
     payment_id: payment_id || null,

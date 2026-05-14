@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import type { ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Instagram, Sparkles } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { FloatingRobot } from "@/components/floating-robot";
@@ -11,12 +12,18 @@ export function Footer() {
   const isEnglish = pathname === "/en" || pathname.startsWith("/en/");
   const homeHref = isEnglish ? "/en" : "/";
   const createHref = isEnglish ? "/crear?lang=en" : "/crear";
+  const guideHref = isEnglish ? "/en/ai-resume-builder" : "/blog";
+  const legalHref = {
+    terms: isEnglish ? "/en/terms" : "/terms",
+    privacy: isEnglish ? "/en/privacy" : "/privacy",
+    refund: isEnglish ? "/en/refund" : "/refund",
+  };
 
   return (
     <footer className="relative border-t border-white/10 bg-[#111113] px-4 py-14 md:py-16">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       <div className="pointer-events-none absolute left-0 top-8 h-48 w-48 rounded-full bg-[#8B5CF6]/6 blur-[120px]" />
-      <div className="pointer-events-none absolute right-0 bottom-8 h-32 w-32 rounded-full bg-[#38BDF8]/5 blur-[100px]" />
+      <div className="pointer-events-none absolute bottom-8 right-0 h-32 w-32 rounded-full bg-[#38BDF8]/5 blur-[100px]" />
 
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
@@ -33,7 +40,7 @@ export function Footer() {
             </Link>
             <p className="mb-5 text-sm leading-relaxed text-white/50">
               {isEnglish
-                ? "Create ATS-friendly resumes with AI and professional templates."
+                ? "Build ATS-friendly resumes with AI and unlock a clean PDF ready to send."
                 : "Crea curriculum profesionales optimizados para ATS con inteligencia artificial."}
             </p>
             <a
@@ -57,10 +64,10 @@ export function Footer() {
                   {isEnglish ? "Create resume" : "Crear CV"}
                 </FooterLink>
                 <FooterLink href="/perfil">
-                  {isEnglish ? "My Profile" : "Mi Perfil"}
+                  {isEnglish ? "My profile" : "Mi perfil"}
                 </FooterLink>
-                <FooterLink href="/plantillas-curriculum">
-                  {isEnglish ? "Templates" : "Plantillas"}
+                <FooterLink href={guideHref}>
+                  {isEnglish ? "Guide" : "Blog"}
                 </FooterLink>
               </ul>
             </div>
@@ -70,21 +77,27 @@ export function Footer() {
                 {isEnglish ? "Resources" : "Recursos"}
               </h3>
               <ul className="space-y-2.5">
-                <FooterLink href="/crear-cv-online">
-                  {isEnglish ? "Online resume builder" : "Crear CV online"}
-                </FooterLink>
-                <FooterLink href="/curriculum-ats">
-                  {isEnglish ? "ATS resume" : "Curriculum ATS"}
-                </FooterLink>
-                <FooterLink href="/curriculum-sin-experiencia">
-                  {isEnglish ? "Entry-level resume" : "CV sin experiencia"}
-                </FooterLink>
-                <FooterLink href="/plantilla-harvard">
-                  {isEnglish ? "Harvard template" : "Plantilla Harvard"}
-                </FooterLink>
-                <FooterLink href="/generador-de-cv-con-ia">
-                  {isEnglish ? "AI resume builder" : "Generador con IA"}
-                </FooterLink>
+                {isEnglish ? (
+                  <>
+                    <FooterLink href="/en">AI resume builder</FooterLink>
+                    <FooterLink href="/en/ai-resume-builder">
+                      ATS-friendly resume guide
+                    </FooterLink>
+                    <FooterLink href="/crear?lang=en">Start your resume</FooterLink>
+                  </>
+                ) : (
+                  <>
+                    <FooterLink href="/crear-cv-online">Crear CV online</FooterLink>
+                    <FooterLink href="/curriculum-ats">Curriculum ATS</FooterLink>
+                    <FooterLink href="/curriculum-sin-experiencia">
+                      CV sin experiencia
+                    </FooterLink>
+                    <FooterLink href="/plantilla-harvard">Plantilla Harvard</FooterLink>
+                    <FooterLink href="/generador-de-cv-con-ia">
+                      Generador con IA
+                    </FooterLink>
+                  </>
+                )}
               </ul>
             </div>
 
@@ -93,11 +106,13 @@ export function Footer() {
                 Legal
               </h3>
               <ul className="space-y-2.5">
-                <FooterLink href="/terms">{isEnglish ? "Terms" : "Términos"}</FooterLink>
-                <FooterLink href="/privacy">
+                <FooterLink href={legalHref.terms}>
+                  {isEnglish ? "Terms" : "Terminos"}
+                </FooterLink>
+                <FooterLink href={legalHref.privacy}>
                   {isEnglish ? "Privacy" : "Privacidad"}
                 </FooterLink>
-                <FooterLink href="/refund">
+                <FooterLink href={legalHref.refund}>
                   {isEnglish ? "Refunds" : "Reembolsos"}
                 </FooterLink>
               </ul>
@@ -119,7 +134,7 @@ export function Footer() {
           <FloatingRobot size="sm" className="-top-10 right-4 opacity-20" />
           <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <p className="text-xs text-white/50">
-              © {new Date().getFullYear()} VitaeSpark
+              &copy; {new Date().getFullYear()} VitaeSpark
             </p>
             <div className="flex items-center gap-1.5 text-xs text-white/50">
               <Sparkles className="h-3 w-3" />
@@ -141,7 +156,7 @@ function FooterLink({
   children,
 }: {
   href: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <li>

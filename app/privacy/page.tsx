@@ -3,11 +3,16 @@ import { legalUpdatedAt, privacyContent } from "@/lib/legal-pages";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Política de Privacidad de VitaeSpark",
+  title: "Politica de privacidad de VitaeSpark",
   description:
-    "Política de privacidad de VitaeSpark sobre datos de cuenta, CVs, pagos y proveedores externos.",
+    "Politica de privacidad de VitaeSpark sobre datos de cuenta, CVs, pagos y proveedores externos.",
   path: "/privacy",
   keywords: ["privacidad vitae spark", "politica de privacidad vitae spark"],
+  languages: {
+    es: "/privacy",
+    en: "/en/privacy",
+    "x-default": "/privacy",
+  },
 });
 
 export default function PrivacyPage() {

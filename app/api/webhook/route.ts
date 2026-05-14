@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/utils/supabase/admin";
 import { z } from "zod";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 const MercadoPagoWebhookSchema = z.object({
   type: z.string().optional(),
@@ -27,13 +27,10 @@ export async function POST(req: NextRequest) {
 
   const type = parsed.data.type;
   const id = parsed.data.data?.id;
-
-  // Ignorar eventos que no son pagos
   if (type !== "payment" || !id) {
     return NextResponse.json({ message: "Ignored" }, { status: 200 });
   }
 
-  // 1. Consultar el pago directamente a MercadoPago (nunca confiar en el body)
   const mpRes = await fetch(
     `https://api.mercadopago.com/v1/payments/${encodeURIComponent(String(id))}`,
     {
@@ -44,40 +41,38 @@ export async function POST(req: NextRequest) {
   );
 
   if (!mpRes.ok) {
-    console.error("❌ Error consultando MercadoPago:", mpRes.status);
+    console.error("Error consultando Mercado Pago:", mpRes.status);
     return NextResponse.json({ error: "MP error" }, { status: 500 });
   }
 
   const payment = await mpRes.json();
-
   if (payment.status !== "approved") {
     return NextResponse.json({ message: "Payment not approved" }, { status: 200 });
   }
 
-  // 2. Extraer cv_id y profile_id del metadata (lo pusiste vos al crear la preferencia)
   const cv_id = String(payment.metadata?.cv_id ?? "");
   const profile_id = String(payment.metadata?.profile_id ?? "");
 
   if (!cv_id || !profile_id) {
-    console.error("❌ Metadata incompleto:", payment.metadata);
-    return NextResponse.json({ error: "Metadata inválido" }, { status: 400 });
+    console.error("Metadata incompleta:", payment.metadata);
+    return NextResponse.json({ error: "Metadata invalida" }, { status: 400 });
   }
 
-  // 3. Verificar que el CV existe Y pertenece al profile_id del metadata
-  //    Esto evita que alguien manipule un cv_id ajeno
   const { data: cv } = await supabaseAdmin
     .from("cvs")
     .select("id, profile_id")
     .eq("id", cv_id)
-    .eq("profile_id", profile_id) // ← cruce clave de seguridad
+    .eq("profile_id", profile_id)
     .maybeSingle();
 
   if (!cv) {
-    console.error("❌ CV no encontrado o no pertenece al usuario:", { cv_id, profile_id });
+    console.error("CV no encontrado o no pertenece al usuario:", {
+      cv_id,
+      profile_id,
+    });
     return NextResponse.json({ error: "CV not found" }, { status: 404 });
   }
 
-  // 4. Idempotencia: si ya procesamos este pago, no hacer nada
   const { data: existing } = await supabaseAdmin
     .from("payments")
     .select("id")
@@ -88,7 +83,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Already processed" }, { status: 200 });
   }
 
-  // 5. Insertar el pago
   const { error: insertError } = await supabaseAdmin.from("payments").insert({
     user_id: profile_id,
     cv_id,
@@ -104,11 +98,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Already processed" }, { status: 200 });
     }
 
-    console.error("❌ Error insertando pago:", insertError);
+    console.error("Error insertando pago:", insertError);
     return NextResponse.json({ error: "DB error" }, { status: 500 });
   }
 
-  // 6. Marcar el CV como pagado
   const { error: updateError } = await supabaseAdmin
     .from("cvs")
     .update({ status: "paid" })
@@ -116,7 +109,7 @@ export async function POST(req: NextRequest) {
     .eq("profile_id", profile_id);
 
   if (updateError) {
-    console.error("❌ Error actualizando CV:", updateError);
+    console.error("Error actualizando CV:", updateError);
     return NextResponse.json({ error: "DB error" }, { status: 500 });
   }
 
@@ -127,6 +120,7 @@ export async function POST(req: NextRequest) {
     payment_id: String(payment.id),
     template: payment.metadata?.template,
     language: payment.metadata?.language,
+    payment_provider: payment.metadata?.payment_provider ?? "mercado_pago",
     landing_path: payment.metadata?.landing_path,
     cta_label: payment.metadata?.cta_label,
     source_type: payment.metadata?.source_type,

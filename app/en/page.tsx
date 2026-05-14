@@ -9,8 +9,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import HeroShowcase from "@/components/HeroShowcase";
-import { buildMetadata, getBaseUrl } from "@/lib/seo";
 import { TrackedCtaLink } from "@/components/seo/TrackedCtaLink";
+import { buildMetadata, getBaseUrl } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "AI Resume Builder for ATS-Friendly PDFs | VitaeSpark",
@@ -59,7 +59,6 @@ const steps = [
 
 export default function EnglishHomePage() {
   const baseUrl = getBaseUrl();
-
   const appSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -117,10 +116,10 @@ export default function EnglishHomePage() {
                 language="en"
               />
               <Link
-                href="/plantillas-curriculum"
+                href="/crear?lang=en"
                 className="inline-flex h-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.035] px-5 text-sm font-semibold text-white/78 transition hover:border-[#38BDF8]/30 hover:bg-white/[0.07] sm:h-14 sm:px-7 sm:text-base"
               >
-                View templates
+                Start with a template
               </Link>
             </div>
 

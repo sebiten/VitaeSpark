@@ -15,6 +15,7 @@ interface CustomButtonProps {
   className?: string;
   onClick?: () => void;
   type?: "button" | "submit";
+  "aria-label"?: string;
 }
 
 function CustomButton({
@@ -24,6 +25,7 @@ function CustomButton({
   className = "",
   onClick,
   type = "button",
+  ...props
 }: CustomButtonProps) {
   const baseStyles =
     "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#111113]";
@@ -43,6 +45,7 @@ function CustomButton({
       type={type}
       onClick={onClick}
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      {...props}
     >
       {children}
     </button>
@@ -96,9 +99,11 @@ export function Navegation() {
   const isEnglish = pathname === "/en" || pathname.startsWith("/en/");
   const homeHref = isEnglish ? "/en" : "/";
   const createHref = isEnglish ? "/crear?lang=en" : "/crear";
+  const guideHref = isEnglish ? "/en/ai-resume-builder" : "/blog";
   const labels = {
     create: isEnglish ? "Create resume" : "Crear CV",
     home: isEnglish ? "Home" : "Inicio",
+    guide: isEnglish ? "Guide" : "Blog",
     profile: isEnglish ? "Profile" : "Perfil",
     openMenu: isEnglish ? "Open menu" : "Abrir menu",
     closeMenu: isEnglish ? "Close menu" : "Cerrar menu",
@@ -117,7 +122,7 @@ export function Navegation() {
             width={112}
             height={112}
             sizes="112px"
-            className="h-28 w-28 rounded-lg object-cover"
+            className="h-24 w-24 rounded-lg object-cover"
           />
         </Link>
 
@@ -130,9 +135,9 @@ export function Navegation() {
             <HomeIcon className="h-4 w-4" />
             {labels.home}
           </CustomLinkButton>
-          <CustomLinkButton href="/blog" variant="ghost" size="sm">
+          <CustomLinkButton href={guideHref} variant="ghost" size="sm">
             <FileText className="h-4 w-4" />
-            Blog
+            {labels.guide}
           </CustomLinkButton>
           <div className="ml-1 flex rounded-lg border border-white/10 bg-white/[0.03] p-1 text-xs font-semibold">
             <Link
@@ -164,9 +169,9 @@ export function Navegation() {
             <HomeIcon className="h-4 w-4" />
             <span className="hidden xs:inline">{labels.home}</span>
           </CustomLinkButton>
-          <CustomLinkButton href="/blog" variant="ghost" size="sm">
+          <CustomLinkButton href={guideHref} variant="ghost" size="sm">
             <FileText className="h-4 w-4" />
-            <span className="hidden xs:inline">Blog</span>
+            <span className="hidden xs:inline">{labels.guide}</span>
           </CustomLinkButton>
           <CustomLinkButton href="/perfil" variant="ghost" size="sm">
             <User2 className="h-4 w-4" />

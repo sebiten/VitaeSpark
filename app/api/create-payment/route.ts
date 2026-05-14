@@ -1,9 +1,8 @@
-// /app/api/create-payment/route.ts
-import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { createClient } from "@/utils/supabase/server";
-import { CreatePaymentSchema } from "@/lib/schemas/cv";
+import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { CreatePaymentSchema } from "@/lib/schemas/cv";
+import { createClient } from "@/utils/supabase/server";
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -11,7 +10,7 @@ export async function POST(req: Request) {
     body = await req.json();
   } catch {
     return NextResponse.json(
-      { error: "JSON inválido en la solicitud" },
+      { error: "JSON invalido en la solicitud" },
       { status: 400 }
     );
   }
@@ -19,17 +18,18 @@ export async function POST(req: Request) {
   const parsed = CreatePaymentSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { error: "Datos inválidos", issues: parsed.error.flatten().fieldErrors },
+      { error: "Datos invalidos", issues: parsed.error.flatten().fieldErrors },
       { status: 400 }
     );
   }
 
   const { cvData, template, language, attribution } = parsed.data;
-
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
-  if (!user.data.user)
+
+  if (!user.data.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   const profile_id = user.data.user.id;
   const email = user.data.user.email;
@@ -41,12 +41,11 @@ export async function POST(req: Request) {
     );
   }
 
-  // Creamos el CV en estado temporal
   const { data: cv, error: cvError } = await supabase
     .from("cvs")
     .insert({
       profile_id,
-      cv_data: cvData,
+      cv_data: { ...cvData, language },
       foto_url: cvData.foto_url,
       template,
       status: "pending",
@@ -62,61 +61,63 @@ export async function POST(req: Request) {
   await recordAnalyticsEventServer({
     event_name: "payment_started",
     user_id: profile_id,
-    template,
     language,
+    payment_provider: "mercado_pago",
+    template,
     cv_id: cv.id,
     ...attribution,
   });
-  // creamos preferencia de mp y le pasamos el cv_id y el profile id, importante para verificar via webhook
-  const mpRes = await fetch(
-    "https://api.mercadopago.com/checkout/preferences",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`,
-        "Content-Type": "application/json",
-        "X-Idempotency-Key": randomUUID(),
+
+  const mpRes = await fetch("https://api.mercadopago.com/checkout/preferences", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`,
+      "Content-Type": "application/json",
+      "X-Idempotency-Key": randomUUID(),
+    },
+    body: JSON.stringify({
+      items: [
+        {
+          id: `cv-${cv.id}`,
+          title:
+            language === "en"
+              ? "ATS-friendly resume in PDF"
+              : "CV optimizado con IA",
+          description:
+            language === "en"
+              ? "Professional resume with AI writing and PDF download"
+              : "Curriculum profesional con diseno moderno y textos persuasivos",
+          category_id: "services",
+          quantity: 1,
+          unit_price: 2500,
+        },
+      ],
+      payer: { email },
+      external_reference: `cv_${cv.id}`,
+      notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
+      back_urls: {
+        success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
+        failure: `${process.env.NEXT_PUBLIC_SITE_URL}`,
+        pending: `${process.env.NEXT_PUBLIC_SITE_URL}`,
       },
-      body: JSON.stringify({
-        items: [
-          {
-            id: `cv-${cv.id}`, // ✅ recomendado
-            title: "CV optimizado con IA",
-            description:
-              "Currículum profesional con diseño moderno y textos persuasivos",
-            category_id: "services", // ✅ recomendado
-            quantity: 1,
-            unit_price: 2500,
-          },
-        ],
-        payer: {
-          email: email, // ✅ obligatorio
+      auto_return: "approved",
+      metadata: {
+        cv_id: cv.id,
+        profile_id,
+        landing_path: attribution?.landing_path,
+        cta_label: attribution?.cta_label,
+        source_type: attribution?.source_type,
+        language,
+        payment_provider: "mercado_pago",
+        template,
+      },
+      customization: {
+        visual: {
+          showExternalReference: true,
         },
-        external_reference: `cv_${cv.id}`, // ✅ obligatorio
-        notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
-        back_urls: {
-          success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
-          failure: `${process.env.NEXT_PUBLIC_SITE_URL}`,
-          pending: `${process.env.NEXT_PUBLIC_SITE_URL}`,
-        },
-        auto_return: "approved",
-        metadata: {
-          cv_id: cv.id,
-          profile_id,
-          landing_path: attribution?.landing_path,
-          cta_label: attribution?.cta_label,
-          source_type: attribution?.source_type,
-          language,
-          template,
-        },
-        customization: {
-          visual: {
-            showExternalReference: true,
-          },
-        },
-      }),
-    }
-  );
+      },
+    }),
+  });
 
   const mpJson = await mpRes.json();
 

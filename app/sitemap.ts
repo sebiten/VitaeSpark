@@ -6,6 +6,10 @@ export const dynamic = "force-static";
 const publicRoutes = [
   "/",
   "/en",
+  "/en/ai-resume-builder",
+  "/en/terms",
+  "/en/privacy",
+  "/en/refund",
   "/blog",
   "/crear-cv-online",
   "/curriculum-ats",

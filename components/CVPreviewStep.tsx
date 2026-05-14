@@ -9,16 +9,11 @@ import type { RespuestaCV } from "@/lib/types/cv";
 import type { Session } from "@supabase/supabase-js";
 import {
   ShieldCheck,
-  Handshake,
-  User,
   Loader2,
   CreditCard,
   Download,
   CheckCircle,
-  Globe2,
   ArrowLeft,
-  MessageSquare,
-  Send,
   LockKeyhole,
   Maximize2,
   X,
@@ -53,64 +48,52 @@ const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ),
 });
 
-const useCaseExamples = [
-  {
-    text: "Yo lo use para atencion al cliente porque tenia todo medio mezclado, trabajos, horarios y tareas. Me lo dejo bastante mas prolijo para mandar.",
-    author: "Perfil atencion al cliente",
-  },
-  {
-    text: "No tenia experiencia y no sabia que poner en el cv. Me sirvio para ordenar estudios, cursos y habilidades sin quedar como que estaba inventando.",
-    author: "Primer empleo",
-  },
-  {
-    text: "Lo arme para cajero y quedo claro lo de caja, atencion, horarios y responsabilidad con plata. Antes lo tenia escrito muy asi nomas.",
-    author: "Cajero",
-  },
-  {
-    text: "Para call center me ayudo bastante, porque yo habia puesto solo tareas sueltas. Ahora se entiende mejor llamadas, reclamos y carga de datos.",
-    author: "Call center",
-  },
-  {
-    text: "Soy programador junior y tenia una lista enorme de tecnologias. Me lo acomodo con proyectos, github y stack sin que parezca un copy paste.",
-    author: "Programador",
-  },
-  {
-    text: "En administrativo me costo explicar lo que hacia. Aca quedo mas claro carga de datos, planillas, documentos y atencion interna.",
-    author: "Administrativo",
-  },
-  {
-    text: "Para vendedor me gusto porque no quedo exagerado. Puso atencion, reposicion y trato con clientes de una forma mas profesional.",
-    author: "Vendedor",
-  },
-  {
-    text: "Lo hice para limpieza y mantenimiento. Quedo simple pero bien, con puntualidad, cuidado de espacios y experiencia en distintos lugares.",
-    author: "Limpieza",
-  },
-  {
-    text: "Para operario me sirvio porque ordeno produccion, control de tareas y disponibilidad para turnos. Antes el cv se veia muy pobre.",
-    author: "Operario",
-  },
-  {
-    text: "Queria postular a mineria y no sabia como poner cursos, seguridad y disponibilidad. Me lo dejo mas directo para ese tipo de trabajo.",
-    author: "Mineria",
-  },
-  {
-    text: "Para recepcionista quedo bien, con agenda, llamados, turnos y atencion al publico. No quedo largo ni lleno de cosas repetidas.",
-    author: "Recepcionista",
-  },
-  {
-    text: "Soy estudiante y queria algo para pasantias. Me ayudo a poner materias, proyectos y cursos sin que el cv quede vacio.",
-    author: "Estudiantes",
-  },
-  {
-    text: "Tenia experiencia de ventas, deposito y atencion todo junto. Lo bueno es que lo separo mejor y ahora se lee mas facil.",
-    author: "Perfil mixto",
-  },
-  {
-    text: "Me gusto que no tuve que escribir perfecto. Puse mis datos como pude y lo dejo con mejor tono para descargar en pdf.",
-    author: "CV profesional",
-  },
-];
+const useCaseExamples = {
+  es: [
+    {
+      text: "Yo lo use para atencion al cliente porque tenia todo medio mezclado, trabajos, horarios y tareas. Me lo dejo bastante mas prolijo para mandar.",
+      author: "Perfil atencion al cliente",
+    },
+    {
+      text: "No tenia experiencia y no sabia que poner en el cv. Me sirvio para ordenar estudios, cursos y habilidades sin quedar como que estaba inventando.",
+      author: "Primer empleo",
+    },
+    {
+      text: "Lo arme para cajero y quedo claro lo de caja, atencion, horarios y responsabilidad con plata. Antes lo tenia escrito muy asi nomas.",
+      author: "Cajero",
+    },
+    {
+      text: "Para call center me ayudo bastante, porque yo habia puesto solo tareas sueltas. Ahora se entiende mejor llamadas, reclamos y carga de datos.",
+      author: "Call center",
+    },
+    {
+      text: "Soy programador junior y tenia una lista enorme de tecnologias. Me lo acomodo con proyectos, github y stack sin que parezca un copy paste.",
+      author: "Programador",
+    },
+  ],
+  en: [
+    {
+      text: "I used it for customer support because my old draft was all over the place. It turned scattered tasks into a resume that reads much cleaner.",
+      author: "Customer support",
+    },
+    {
+      text: "I did not have much experience, so it helped me organize studies, projects and skills without the resume sounding inflated.",
+      author: "Entry-level",
+    },
+    {
+      text: "For cashier roles it made the responsibilities look clearer: cash handling, customer service, schedules and accuracy.",
+      author: "Cashier",
+    },
+    {
+      text: "I had a long list of tools as a junior developer. The resume looked more focused once projects and stack were grouped properly.",
+      author: "Junior developer",
+    },
+    {
+      text: "For admin work it helped explain spreadsheets, internal support, document handling and data entry in a more professional way.",
+      author: "Administrative",
+    },
+  ],
+} as const;
 
 const checkoutCopy = {
   es: {
@@ -129,6 +112,8 @@ const checkoutCopy = {
       "Desbloquea la version profesional sin marca de agua y descargala en PDF cuando quieras.",
     singlePayment: "Pago unico",
     secure: "Pago seguro con Mercado Pago",
+    priceValue: "$2.500",
+    priceCurrency: "ARS",
     cleanCv: "CV limpio, sin marca de agua",
     cleanCvText: "Listo para enviar a empresas, portales de empleo y reclutadores.",
     downloads: "Descargas ilimitadas en tu perfil",
@@ -160,6 +145,8 @@ const checkoutCopy = {
     finalText: "Unlock the professional version without watermark and download it as PDF anytime.",
     singlePayment: "One-time payment",
     secure: "Secure payment with PayPal",
+    priceValue: "US$4.99",
+    priceCurrency: "USD",
     cleanCv: "Clean resume, no watermark",
     cleanCvText: "Ready to send to companies, job boards and recruiters.",
     downloads: "Unlimited downloads in your profile",
@@ -200,6 +187,7 @@ export default function CVPreviewStepPurple({
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
   const checkoutViewedTracked = useRef(false);
   const copy = checkoutCopy[language];
+  const currentUseCases = useCaseExamples[language];
 
   const handlePayPal = async () => {
     if (!userSession) return;
@@ -232,7 +220,7 @@ export default function CVPreviewStepPurple({
           ...attribution,
         });
         failureTracked = true;
-        console.error("Error al crear orden PayPal:", errorData);
+        console.error("Error creating PayPal order:", errorData);
         toast.error(copy.paypalError);
         return;
       }
@@ -526,10 +514,10 @@ export default function CVPreviewStepPurple({
                 </p>
                 <div className="flex items-end justify-center gap-2 sm:mt-2">
                   <span className="text-4xl font-black leading-none text-white sm:text-5xl">
-                    $2.500
+                    {language === "en" ? copy.priceValue : "$2.500"}
                   </span>
                   <span className="pb-1 text-sm font-semibold text-white/62">
-                    ARS
+                    {language === "en" ? copy.priceCurrency : "ARS"}
                   </span>
                 </div>
               </div>
@@ -668,7 +656,7 @@ export default function CVPreviewStepPurple({
                 className="w-full"
               >
                 <CarouselContent className="-ml-1">
-                  {useCaseExamples.map((example, index) => (
+                  {currentUseCases.map((example, index) => (
                     <CarouselItem key={index} className="pl-2 pr-2 basis-full">
                       <div className="p-3 rounded-md">
                         <p className="mb-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">

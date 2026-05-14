@@ -11,6 +11,7 @@ type AnalyticsEventName =
 type AnalyticsEventPayload = LandingAttribution & {
   event_name: AnalyticsEventName;
   language?: "es" | "en";
+  payment_provider?: "mercado_pago" | "paypal";
   template?: string;
   cv_id?: string;
   payment_id?: string;

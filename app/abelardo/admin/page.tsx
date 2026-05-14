@@ -1,13 +1,10 @@
 import type React from "react";
-import { createClient } from "@/utils/supabase/server";
-import { supabaseAdmin } from "@/utils/supabase/admin";
+import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Activity,
   ArrowRight,
   CreditCard,
-  DollarSign,
   FileText,
   MessageSquare,
   Sparkles,
@@ -15,7 +12,9 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
+import { supabaseAdmin } from "@/utils/supabase/admin";
+import { createClient } from "@/utils/supabase/server";
 
 type DailyMetric = {
   label: string;
@@ -28,10 +27,14 @@ type AnalyticsEvent = {
   event_name: string;
   landing_path: string | null;
   created_at: string;
+  language: "es" | "en" | null;
+  payment_provider: "mercado_pago" | "paypal" | null;
 };
 
 type LandingMetric = {
   landing: string;
+  language: "es" | "en" | "all";
+  paymentProvider: "mercado_pago" | "paypal" | "all";
   clicks: number;
   templates: number;
   cvs: number;
@@ -40,11 +43,17 @@ type LandingMetric = {
   payments: number;
 };
 
+type FilterValue = "all" | "es" | "en";
+type ProviderFilterValue = "all" | "mercado_pago" | "paypal";
+
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
-export default async function AdminDashboardPage() {
+export default async function AdminDashboardPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ lang?: FilterValue; provider?: ProviderFilterValue }>;
+}) {
   const supabase = await createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -59,10 +68,15 @@ export default async function AdminDashboardPage() {
 
   if (error || !profile || !profile.isadmin) return redirect("/");
 
+  const params = await searchParams;
+  const languageFilter = params?.lang === "en" || params?.lang === "es" ? params.lang : "all";
+  const providerFilter =
+    params?.provider === "mercado_pago" || params?.provider === "paypal"
+      ? params.provider
+      : "all";
+
   const since7Days = new Date(Date.now() - 6 * DAY_IN_MS);
   since7Days.setHours(0, 0, 0, 0);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
 
   const [
     { count: totalUsers },
@@ -70,7 +84,6 @@ export default async function AdminDashboardPage() {
     { count: totalPayments },
     { count: totalFeedback },
     { data: recentFeedback },
-    { data: approvedPayments },
     { data: recentPayments },
     { data: recentUsers },
     { data: recentCvs },
@@ -91,11 +104,6 @@ export default async function AdminDashboardPage() {
     supabaseAdmin
       .from("payments")
       .select("amount, status, created_at, payment_type, payer_email")
-      .eq("status", "approved")
-      .order("created_at", { ascending: false }),
-    supabaseAdmin
-      .from("payments")
-      .select("amount, status, created_at, payment_type, payer_email")
       .order("created_at", { ascending: false })
       .limit(6),
     supabaseAdmin
@@ -108,35 +116,41 @@ export default async function AdminDashboardPage() {
       .gte("created_at", since7Days.toISOString()),
     supabaseAdmin
       .from("analytics_events")
-      .select("event_name, landing_path, created_at")
+      .select("event_name, landing_path, created_at, language, payment_provider")
       .not("landing_path", "is", null)
       .order("created_at", { ascending: false })
-      .limit(1000),
+      .limit(1500),
   ]);
 
-  const payments = approvedPayments ?? [];
+  const filteredAnalyticsEvents = (analyticsEvents ?? []).filter((event) =>
+    languageFilter === "all" ? true : event.language === languageFilter
+  );
+
   const usersLast7 = recentUsers ?? [];
   const cvsLast7 = recentCvs ?? [];
   const paidCvsLast7 = cvsLast7.filter((cv) => cv.status === "paid");
-  const paymentsLast7 = payments.filter(
-    (payment) => new Date(payment.created_at) >= since7Days
+  const paymentsLast7 = (analyticsEvents ?? []).filter(
+    (event) =>
+      event.event_name === "payment_completed" &&
+      new Date(event.created_at) >= since7Days
   );
-  const paymentsToday = payments.filter(
-    (payment) => new Date(payment.created_at) >= today
-  );
-
-  const totalRevenue = sumPayments(payments);
-  const revenueLast7 = sumPayments(paymentsLast7);
-  const revenueToday = sumPayments(paymentsToday);
-  const conversionRate =
-    totalCvs && totalCvs > 0 ? ((totalPayments ?? 0) / totalCvs) * 100 : 0;
-  const paidCvRate =
-    cvsLast7.length > 0 ? (paidCvsLast7.length / cvsLast7.length) * 100 : 0;
   const dailyMetrics = buildDailyMetrics(usersLast7, cvsLast7, paymentsLast7);
-  const landingMetrics = buildLandingMetrics(analyticsEvents ?? []);
+  const landingMetrics = buildLandingMetrics(
+    filteredAnalyticsEvents,
+    languageFilter,
+    providerFilter
+  );
   const maxDailyValue = Math.max(
     1,
     ...dailyMetrics.map((day) => day.users + day.cvs + day.payments)
+  );
+  const cvToPaymentRate =
+    totalCvs && totalCvs > 0 ? ((totalPayments ?? 0) / totalCvs) * 100 : 0;
+  const paidCvRate =
+    cvsLast7.length > 0 ? (paidCvsLast7.length / cvsLast7.length) * 100 : 0;
+  const englishEvents = (analyticsEvents ?? []).filter((event) => event.language === "en");
+  const paypalEvents = (analyticsEvents ?? []).filter(
+    (event) => event.payment_provider === "paypal"
   );
 
   return (
@@ -149,36 +163,36 @@ export default async function AdminDashboardPage() {
             Panel de crecimiento
           </h1>
           <p className="mt-2 max-w-2xl text-[#F4F4F5]/70">
-            Métricas rápidas para entender usuarios, CVs, pagos, conversión e
-            ingresos de VitaeSpark.
+            Metricas de usuarios, CVs, pagos y conversion por landing. Los
+            filtros de idioma y medio de pago usan eventos reales del funnel.
           </p>
         </div>
 
         <div className="mb-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <StatsCard
-            title="Ingresos totales"
-            value={formatCurrency(totalRevenue)}
-            helper={`Hoy: ${formatCurrency(revenueToday)}`}
-            icon={<DollarSign className="h-8 w-8 text-[#38BDF8]" />}
-          />
-          <StatsCard
             title="Pagos aprobados"
             value={totalPayments ?? 0}
-            helper={`Últimos 7 días: ${paymentsLast7.length}`}
+            helper={`Ultimos 7 dias: ${paymentsLast7.length}`}
             icon={<CreditCard className="h-8 w-8 text-[#7C3AED]" />}
           />
           <StatsCard
             title="CVs generados"
             value={totalCvs ?? 0}
-            helper={`Últimos 7 días: ${cvsLast7.length}`}
+            helper={`Ultimos 7 dias: ${cvsLast7.length}`}
             icon={<FileText className="h-8 w-8 text-[#A78BFA]" />}
           />
           <StatsCard
             title="Usuarios registrados"
             value={totalUsers ?? 0}
-            helper={`Últimos 7 días: ${usersLast7.length}`}
+            helper={`Ultimos 7 dias: ${usersLast7.length}`}
             icon={<Users className="h-8 w-8 text-[#38BDF8]" />}
             href="/abelardo/admin/users"
+          />
+          <StatsCard
+            title="Feedback"
+            value={totalFeedback ?? 0}
+            helper={`Eventos EN: ${englishEvents.length} · PayPal: ${paypalEvents.length}`}
+            icon={<MessageSquare className="h-8 w-8 text-[#38BDF8]" />}
           />
         </div>
 
@@ -187,14 +201,14 @@ export default async function AdminDashboardPage() {
             <CardContent className="p-6">
               <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
                 <div>
-                  <h2 className="text-2xl font-semibold">Movimiento 7 días</h2>
+                  <h2 className="text-2xl font-semibold">Movimiento 7 dias</h2>
                   <p className="text-sm text-white/55">
                     Altura combinada de usuarios, CVs y pagos aprobados.
                   </p>
                 </div>
                 <BadgeLike
                   icon={<TrendingUp className="h-4 w-4" />}
-                  text={`${formatCurrency(revenueLast7)} en 7 días`}
+                  text={`${paymentsLast7.length} pagos en 7 dias`}
                 />
               </div>
               <div className="grid h-52 grid-cols-7 items-end gap-3">
@@ -208,7 +222,6 @@ export default async function AdminDashboardPage() {
                           style={{
                             height: `${Math.max(8, (total / maxDailyValue) * 100)}%`,
                           }}
-                          title={`${day.label}: ${total}`}
                         />
                       </div>
                       <p className="text-center text-xs text-white/45">{day.label}</p>
@@ -230,73 +243,90 @@ export default async function AdminDashboardPage() {
               <FunnelRow
                 icon={<Target className="h-5 w-5" />}
                 label="Pago / CV generado"
-                value={formatPercent(conversionRate)}
+                value={formatPercent(cvToPaymentRate)}
               />
               <FunnelRow
                 icon={<Activity className="h-5 w-5" />}
-                label="CVs pagos últimos 7 días"
+                label="CVs pagos ultimos 7 dias"
                 value={formatPercent(paidCvRate)}
               />
               <FunnelRow
-                icon={<MessageSquare className="h-5 w-5" />}
-                label="Comentarios totales"
-                value={totalFeedback ?? 0}
+                icon={<CreditCard className="h-5 w-5" />}
+                label="Eventos PayPal"
+                value={paypalEvents.length}
               />
               <p className="rounded-2xl border border-[#38BDF8]/15 bg-[#38BDF8]/10 p-4 text-sm leading-6 text-[#BFEFFF]">
-                Si suben los CVs pero no suben pagos, el cuello está en precio,
-                confianza o claridad del desbloqueo.
+                Con trafico internacional, lo importante ya no es solo visitas:
+                mira que landing llega a checkout y cual termina en pago.
               </p>
             </CardContent>
           </Card>
         </div>
 
         <section className="mb-12 rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10">
-          <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+          <div className="mb-6 flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
             <div>
               <h2 className="text-2xl font-semibold text-white">
-                Conversión por landing
+                Conversion por landing
               </h2>
               <p className="text-sm text-white/55">
-                Últimos eventos guardados por origen SEO o blog.
+                Segmentado por idioma y medio de pago usando analytics_events.
               </p>
             </div>
-            <BadgeLike
-              icon={<Target className="h-4 w-4" />}
-              text={`${landingMetrics.length} origenes`}
-            />
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <FilterGroup
+                title="Idioma"
+                items={[
+                  { label: "Todos", href: buildFilterHref("all", providerFilter), active: languageFilter === "all" },
+                  { label: "ES", href: buildFilterHref("es", providerFilter), active: languageFilter === "es" },
+                  { label: "EN", href: buildFilterHref("en", providerFilter), active: languageFilter === "en" },
+                ]}
+              />
+              <FilterGroup
+                title="Pago"
+                items={[
+                  { label: "Todos", href: buildFilterHref(languageFilter, "all"), active: providerFilter === "all" },
+                  { label: "Mercado Pago", href: buildFilterHref(languageFilter, "mercado_pago"), active: providerFilter === "mercado_pago" },
+                  { label: "PayPal", href: buildFilterHref(languageFilter, "paypal"), active: providerFilter === "paypal" },
+                ]}
+              />
+            </div>
           </div>
 
           {landingMetrics.length > 0 ? (
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[760px] text-left text-sm">
+              <table className="w-full min-w-[960px] text-left text-sm">
                 <thead className="text-xs uppercase tracking-[0.16em] text-white/40">
                   <tr className="border-b border-white/10">
                     <th className="py-3 pr-4 font-medium">Landing</th>
-                    <th className="py-3 px-3 font-medium">Clicks</th>
-                    <th className="py-3 px-3 font-medium">Plantilla</th>
-                    <th className="py-3 px-3 font-medium">CVs</th>
-                    <th className="py-3 px-3 font-medium">Checkout</th>
-                    <th className="py-3 px-3 font-medium">Pago inicio</th>
-                    <th className="py-3 px-3 font-medium">Pagos</th>
-                    <th className="py-3 pl-3 font-medium">Conv.</th>
+                    <th className="px-3 py-3 font-medium">Idioma</th>
+                    <th className="px-3 py-3 font-medium">Pago</th>
+                    <th className="px-3 py-3 font-medium">Clicks</th>
+                    <th className="px-3 py-3 font-medium">Plantilla</th>
+                    <th className="px-3 py-3 font-medium">CVs</th>
+                    <th className="px-3 py-3 font-medium">Checkout</th>
+                    <th className="px-3 py-3 font-medium">Pago inicio</th>
+                    <th className="px-3 py-3 font-medium">Pagos</th>
+                    <th className="pl-3 py-3 font-medium">Conv.</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/10 text-white/72">
                   {landingMetrics.map((row) => (
-                    <tr key={row.landing}>
+                    <tr key={`${row.landing}-${row.language}-${row.paymentProvider}`}>
                       <td className="max-w-[260px] py-4 pr-4 font-medium text-white">
                         <span className="block truncate">{row.landing}</span>
                       </td>
-                      <td className="py-4 px-3">{row.clicks}</td>
-                      <td className="py-4 px-3">{row.templates}</td>
-                      <td className="py-4 px-3">{row.cvs}</td>
-                      <td className="py-4 px-3">{row.checkouts}</td>
-                      <td className="py-4 px-3">{row.paymentStarts}</td>
-                      <td className="py-4 px-3">{row.payments}</td>
-                      <td className="py-4 pl-3 text-[#38BDF8]">
-                        {formatPercent(
-                          row.clicks > 0 ? (row.payments / row.clicks) * 100 : 0
-                        )}
+                      <td className="px-3 py-4">{formatLanguage(row.language)}</td>
+                      <td className="px-3 py-4">{formatProvider(row.paymentProvider)}</td>
+                      <td className="px-3 py-4">{row.clicks}</td>
+                      <td className="px-3 py-4">{row.templates}</td>
+                      <td className="px-3 py-4">{row.cvs}</td>
+                      <td className="px-3 py-4">{row.checkouts}</td>
+                      <td className="px-3 py-4">{row.paymentStarts}</td>
+                      <td className="px-3 py-4">{row.payments}</td>
+                      <td className="pl-3 py-4 text-[#38BDF8]">
+                        {formatPercent(row.clicks > 0 ? (row.payments / row.clicks) * 100 : 0)}
                       </td>
                     </tr>
                   ))}
@@ -304,7 +334,7 @@ export default async function AdminDashboardPage() {
               </table>
             </div>
           ) : (
-            <EmptyPanel text="Todavía no hay eventos con origen guardado." />
+            <EmptyPanel text="Todavia no hay eventos para este filtro." />
           )}
         </section>
 
@@ -317,9 +347,9 @@ export default async function AdminDashboardPage() {
               <FileText className="h-6 w-6" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold">Ver currículums generados</h2>
+              <h2 className="text-xl font-semibold">Ver curriculums generados</h2>
               <p className="text-sm text-white/55">
-                Revisá CVs creados por usuarios, filtros y vistas previas.
+                Revisa CVs creados por usuarios, filtros y vistas previas.
               </p>
             </div>
           </div>
@@ -327,26 +357,24 @@ export default async function AdminDashboardPage() {
         </Link>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <Panel title="Últimos pagos" icon={<CreditCard className="h-5 w-5" />}>
+          <Panel title="Ultimos pagos" icon={<CreditCard className="h-5 w-5" />}>
             <div className="space-y-3">
               {recentPayments && recentPayments.length > 0 ? (
                 recentPayments.map((payment, index) => (
                   <InfoRow
                     key={`${payment.created_at}-${index}`}
                     title={payment.payer_email || "Email no disponible"}
-                    detail={`${formatCurrency(Number(payment.amount) || 0)} · ${
-                      payment.status
-                    }`}
+                    detail={`${payment.payment_type || "sin metodo"} · ${payment.status}`}
                     date={payment.created_at}
                   />
                 ))
               ) : (
-                <EmptyPanel text="Todavía no hay pagos registrados." />
+                <EmptyPanel text="Todavia no hay pagos registrados." />
               )}
             </div>
           </Panel>
 
-          <Panel title="Últimos comentarios" icon={<MessageSquare className="h-5 w-5" />}>
+          <Panel title="Ultimos comentarios" icon={<MessageSquare className="h-5 w-5" />}>
             <div className="space-y-3">
               {recentFeedback && recentFeedback.length > 0 ? (
                 recentFeedback.map((item, index) => (
@@ -358,7 +386,7 @@ export default async function AdminDashboardPage() {
                   />
                 ))
               ) : (
-                <EmptyPanel text="No hay comentarios aún." />
+                <EmptyPanel text="No hay comentarios aun." />
               )}
             </div>
           </Panel>
@@ -366,6 +394,93 @@ export default async function AdminDashboardPage() {
       </div>
     </main>
   );
+}
+
+function buildLandingMetrics(
+  events: AnalyticsEvent[],
+  language: FilterValue,
+  provider: ProviderFilterValue
+): LandingMetric[] {
+  const metrics = new Map<string, LandingMetric>();
+
+  events.forEach((event) => {
+    if (!event.landing_path) return;
+
+    const key = `${event.landing_path}-${language}-${provider}`;
+    const current =
+      metrics.get(key) ??
+      {
+        landing: event.landing_path,
+        language,
+        paymentProvider: provider,
+        clicks: 0,
+        templates: 0,
+        cvs: 0,
+        checkouts: 0,
+        paymentStarts: 0,
+        payments: 0,
+      };
+
+    if (event.event_name === "landing_cta_clicked") current.clicks += 1;
+    if (event.event_name === "template_selected") current.templates += 1;
+    if (event.event_name === "cv_generated") current.cvs += 1;
+    if (event.event_name === "checkout_viewed") current.checkouts += 1;
+
+    const providerMatches =
+      provider === "all" ? true : event.payment_provider === provider;
+
+    if (event.event_name === "payment_started" && providerMatches) {
+      current.paymentStarts += 1;
+    }
+
+    if (event.event_name === "payment_completed" && providerMatches) {
+      current.payments += 1;
+    }
+
+    metrics.set(key, current);
+  });
+
+  return Array.from(metrics.values())
+    .sort((a, b) => b.payments - a.payments || b.cvs - a.cvs || b.clicks - a.clicks)
+    .slice(0, 12);
+}
+
+function buildDailyMetrics(
+  users: Array<{ created_at: string }>,
+  cvs: Array<{ created_at: string }>,
+  payments: Array<{ created_at: string }>
+): DailyMetric[] {
+  return Array.from({ length: 7 }).map((_, index) => {
+    const date = new Date(Date.now() - (6 - index) * DAY_IN_MS);
+    const key = toDateKey(date);
+
+    return {
+      label: date.toLocaleDateString("es-AR", { weekday: "short" }),
+      users: users.filter((item) => toDateKey(new Date(item.created_at)) === key).length,
+      cvs: cvs.filter((item) => toDateKey(new Date(item.created_at)) === key).length,
+      payments: payments.filter((item) => toDateKey(new Date(item.created_at)) === key).length,
+    };
+  });
+}
+
+function buildFilterHref(language: FilterValue, provider: ProviderFilterValue) {
+  const params = new URLSearchParams();
+  if (language !== "all") params.set("lang", language);
+  if (provider !== "all") params.set("provider", provider);
+  const query = params.toString();
+  return query ? `/abelardo/admin?${query}` : "/abelardo/admin";
+}
+
+function formatLanguage(value: "all" | "es" | "en") {
+  if (value === "es") return "ES";
+  if (value === "en") return "EN";
+  return "Todos";
+}
+
+function formatProvider(value: "all" | "mercado_pago" | "paypal") {
+  if (value === "mercado_pago") return "Mercado Pago";
+  if (value === "paypal") return "PayPal";
+  return "Todos";
 }
 
 function StatsCard({
@@ -382,7 +497,7 @@ function StatsCard({
   href?: string;
 }) {
   const card = (
-    <Card className="group overflow-hidden bg-[#15151A]/85 text-[#F4F4F5] border border-white/10 shadow-xl shadow-black/10 hover:-translate-y-1 hover:border-[#38BDF8]/30 transition-all">
+    <Card className="group overflow-hidden border border-white/10 bg-[#15151A]/85 text-[#F4F4F5] shadow-xl shadow-black/10 transition-all hover:-translate-y-1 hover:border-[#38BDF8]/30">
       <CardContent className="p-6">
         <div className="flex justify-between gap-4">
           <div>
@@ -390,21 +505,19 @@ function StatsCard({
             <p className="mt-2 text-3xl font-bold">{value}</p>
             <p className="mt-2 text-sm text-white/45">{helper}</p>
           </div>
-          <div className="rounded-2xl bg-white/[0.04] p-3 self-start">{icon}</div>
+          <div className="self-start rounded-2xl bg-white/[0.04] p-3">{icon}</div>
         </div>
       </CardContent>
     </Card>
   );
 
-  if (href) {
-    return (
-      <Link href={href} className="block no-underline">
-        {card}
-      </Link>
-    );
-  }
-
-  return card;
+  return href ? (
+    <Link href={href} className="block no-underline">
+      {card}
+    </Link>
+  ) : (
+    card
+  );
 }
 
 function Panel({
@@ -471,9 +584,7 @@ function FunnelRow({
   return (
     <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
       <div className="flex items-center gap-3">
-        <div className="rounded-xl bg-[#7C3AED]/15 p-2 text-[#A78BFA]">
-          {icon}
-        </div>
+        <div className="rounded-xl bg-[#7C3AED]/15 p-2 text-[#A78BFA]">{icon}</div>
         <span className="text-sm text-white/70">{label}</span>
       </div>
       <strong className="text-white">{value}</strong>
@@ -494,77 +605,39 @@ function EmptyPanel({ text }: { text: string }) {
   return <p className="text-sm text-white/50">{text}</p>;
 }
 
-function sumPayments(payments: Array<{ amount: number | string | null }>) {
-  return payments.reduce((total, payment) => {
-    return total + (Number(payment.amount) || 0);
-  }, 0);
-}
-
-function formatCurrency(value: number) {
-  return new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency: "ARS",
-    maximumFractionDigits: 0,
-  }).format(value);
+function FilterGroup({
+  title,
+  items,
+}: {
+  title: string;
+  items: Array<{ label: string; href: string; active: boolean }>;
+}) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-2">
+      <p className="px-2 pb-2 text-[11px] uppercase tracking-[0.18em] text-white/40">
+        {title}
+      </p>
+      <div className="flex flex-wrap gap-2">
+        {items.map((item) => (
+          <Link
+            key={item.href + item.label}
+            href={item.href}
+            className={`rounded-xl px-3 py-2 text-sm transition ${
+              item.active
+                ? "bg-[#7C3AED] text-white"
+                : "bg-white/[0.04] text-white/65 hover:text-white"
+            }`}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function formatPercent(value: number) {
   return `${value.toFixed(1).replace(".", ",")}%`;
-}
-
-function buildDailyMetrics(
-  users: Array<{ created_at: string }>,
-  cvs: Array<{ created_at: string }>,
-  payments: Array<{ created_at: string }>
-): DailyMetric[] {
-  return Array.from({ length: 7 }).map((_, index) => {
-    const date = new Date(Date.now() - (6 - index) * DAY_IN_MS);
-    const key = toDateKey(date);
-
-    return {
-      label: date.toLocaleDateString("es-AR", { weekday: "short" }),
-      users: users.filter((item) => toDateKey(new Date(item.created_at)) === key)
-        .length,
-      cvs: cvs.filter((item) => toDateKey(new Date(item.created_at)) === key)
-        .length,
-      payments: payments.filter(
-        (item) => toDateKey(new Date(item.created_at)) === key
-      ).length,
-    };
-  });
-}
-
-function buildLandingMetrics(events: AnalyticsEvent[]): LandingMetric[] {
-  const metrics = new Map<string, LandingMetric>();
-
-  events.forEach((event) => {
-    if (!event.landing_path) return;
-
-    const current =
-      metrics.get(event.landing_path) ??
-      {
-        landing: event.landing_path,
-        clicks: 0,
-        templates: 0,
-        cvs: 0,
-        checkouts: 0,
-        paymentStarts: 0,
-        payments: 0,
-      };
-
-    if (event.event_name === "landing_cta_clicked") current.clicks += 1;
-    if (event.event_name === "template_selected") current.templates += 1;
-    if (event.event_name === "cv_generated") current.cvs += 1;
-    if (event.event_name === "checkout_viewed") current.checkouts += 1;
-    if (event.event_name === "payment_started") current.paymentStarts += 1;
-    if (event.event_name === "payment_completed") current.payments += 1;
-
-    metrics.set(event.landing_path, current);
-  });
-
-  return Array.from(metrics.values())
-    .sort((a, b) => b.payments - a.payments || b.cvs - a.cvs || b.clicks - a.clicks)
-    .slice(0, 12);
 }
 
 function toDateKey(date: Date) {

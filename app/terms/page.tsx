@@ -3,11 +3,16 @@ import { legalUpdatedAt, termsContent } from "@/lib/legal-pages";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Términos de Servicio de VitaeSpark",
+  title: "Terminos de servicio de VitaeSpark",
   description:
-    "Términos de servicio de VitaeSpark para uso de la plataforma, pagos y generación de CVs digitales.",
+    "Terminos de servicio de VitaeSpark para uso de la plataforma, pagos y generacion de CVs digitales.",
   path: "/terms",
   keywords: ["terminos vitae spark", "terminos vitae spark cv"],
+  languages: {
+    es: "/terms",
+    en: "/en/terms",
+    "x-default": "/terms",
+  },
 });
 
 export default function TermsPage() {

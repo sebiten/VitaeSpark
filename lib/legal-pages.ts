@@ -1,6 +1,18 @@
-export const legalUpdatedAt = "13 de mayo de 2026";
+type LegalSection = {
+  title: string;
+  paragraphs: string[];
+};
 
-export const termsContent = {
+type LegalContent = {
+  title: string;
+  intro: string;
+  sections: LegalSection[];
+};
+
+export const legalUpdatedAt = "13 de mayo de 2026";
+export const legalUpdatedAtEn = "May 13, 2026";
+
+export const termsContent: LegalContent = {
   title: "Terminos de servicio",
   intro:
     "Estos terminos regulan el uso de VitaeSpark, una herramienta online para crear, mejorar y descargar curriculums vitae profesionales.",
@@ -28,7 +40,7 @@ export const termsContent = {
     {
       title: "Pagos",
       paragraphs: [
-        "Los pagos se procesan mediante proveedores externos como Mercado Pago y PayPal, segun el medio de pago elegido por el usuario.",
+        "Los pagos se procesan mediante Mercado Pago o PayPal, segun el medio elegido por el usuario.",
         "El precio de desbloqueo del CV se muestra antes de confirmar la compra. VitaeSpark no almacena datos completos de tarjetas.",
       ],
     },
@@ -55,7 +67,7 @@ export const termsContent = {
   ],
 };
 
-export const privacyContent = {
+export const privacyContent: LegalContent = {
   title: "Politica de privacidad",
   intro:
     "Esta politica explica que informacion puede tratar VitaeSpark y como se utiliza para prestar el servicio de generacion y descarga de curriculums.",
@@ -83,7 +95,7 @@ export const privacyContent = {
     {
       title: "Pagos y proveedores externos",
       paragraphs: [
-        "Los pagos se procesan mediante proveedores externos como Mercado Pago y PayPal. Esos proveedores pueden tratar datos necesarios para completar la transaccion, emitir comprobantes y prevenir fraude.",
+        "Los pagos se procesan mediante Mercado Pago y PayPal. Esos proveedores pueden tratar datos necesarios para completar la transaccion, emitir comprobantes y prevenir fraude.",
         "VitaeSpark no almacena numeros completos de tarjeta ni codigos de seguridad.",
       ],
     },
@@ -110,7 +122,7 @@ export const privacyContent = {
   ],
 };
 
-export const refundContent = {
+export const refundContent: LegalContent = {
   title: "Politica de reembolsos",
   intro:
     "Esta politica describe cuando puede solicitarse un reembolso por compras digitales realizadas en VitaeSpark.",
@@ -151,6 +163,162 @@ export const refundContent = {
       title: "Como solicitarlo",
       paragraphs: [
         "Escribi a soporte@vitaespark.com con el asunto 'Solicitud de reembolso' e inclui el correo de tu cuenta, fecha de compra, proveedor de pago y una descripcion clara del problema.",
+      ],
+    },
+  ],
+};
+
+export const termsContentEn: LegalContent = {
+  title: "Terms of service",
+  intro:
+    "These terms govern the use of VitaeSpark, an online tool to create, improve and download professional resumes.",
+  sections: [
+    {
+      title: "Owner information",
+      paragraphs: [
+        "The VitaeSpark website is operated by Sergio Sebastian Burgos, an individual resident in Argentina, identified with CUIL 20-41422966-3.",
+      ],
+    },
+    {
+      title: "Use of the service",
+      paragraphs: [
+        "VitaeSpark allows users to upload personal, work and academic information to generate a digital resume. The user is responsible for making sure the submitted information is accurate, lawful and theirs to use.",
+        "The service may include free preview features and paid features to unlock the final resume without watermark or access additional downloads.",
+      ],
+    },
+    {
+      title: "Account and security",
+      paragraphs: [
+        "Signing in may be required to save and download resumes. Users are responsible for protecting access to their account and not sharing credentials with third parties.",
+        "We may suspend or restrict access if we detect abusive use, fraud attempts, automated activity or violations of these terms.",
+      ],
+    },
+    {
+      title: "Payments",
+      paragraphs: [
+        "Payments are processed through Mercado Pago or PayPal, depending on the payment method chosen by the user.",
+        "The resume unlock price is shown before confirming the purchase. VitaeSpark does not store full card details.",
+      ],
+    },
+    {
+      title: "Generated content",
+      paragraphs: [
+        "The generated resume depends on the information provided by the user and the writing tools available. VitaeSpark does not guarantee job offers, interviews or employment outcomes.",
+        "Users can review, edit and adapt the content before using it in job applications.",
+      ],
+    },
+    {
+      title: "Intellectual property",
+      paragraphs: [
+        "VitaeSpark, its brand, interface, base copy, templates and visual components belong to their respective owners. The user keeps the rights to the personal information they provide.",
+        "Copying, reselling, automating or commercially exploiting the platform without express authorization is not allowed.",
+      ],
+    },
+    {
+      title: "Contact",
+      paragraphs: [
+        "For questions about the service, payments or account access, contact soporte@vitaespark.com.",
+      ],
+    },
+  ],
+};
+
+export const privacyContentEn: LegalContent = {
+  title: "Privacy policy",
+  intro:
+    "This policy explains what information VitaeSpark may process and how it is used to provide resume generation and download features.",
+  sections: [
+    {
+      title: "Owner information",
+      paragraphs: [
+        "The VitaeSpark website is operated by Sergio Sebastian Burgos, an individual resident in Argentina, identified with CUIL 20-41422966-3.",
+      ],
+    },
+    {
+      title: "Information you provide",
+      paragraphs: [
+        "We may process the information you enter in the resume form, including name, contact details, work experience, education, skills, languages, professional links and a photo if you choose to upload one.",
+        "We may also process account information such as email address, user identifiers and the data required to sign in.",
+      ],
+    },
+    {
+      title: "How we use information",
+      paragraphs: [
+        "We use information to generate, store, display and enable download of your resume, improve the user experience, provide support and keep the platform secure.",
+        "Information may also be used in aggregated or statistical form to understand product usage and improve performance, content and features.",
+      ],
+    },
+    {
+      title: "Payments and external providers",
+      paragraphs: [
+        "Payments are processed through Mercado Pago and PayPal. These providers may process the data required to complete the transaction, issue receipts and prevent fraud.",
+        "VitaeSpark does not store full card numbers or security codes.",
+      ],
+    },
+    {
+      title: "Technical services",
+      paragraphs: [
+        "We may use infrastructure, authentication, analytics, security, storage and content-generation services to operate the platform.",
+        "These providers only receive the information needed to perform their role within the service.",
+      ],
+    },
+    {
+      title: "Retention and deletion",
+      paragraphs: [
+        "We keep information for as long as necessary to provide the service, comply with legal obligations, resolve disputes, prevent fraud or maintain operational records.",
+        "You may request support regarding data access, correction or deletion by writing to soporte@vitaespark.com.",
+      ],
+    },
+    {
+      title: "Contact",
+      paragraphs: [
+        "For privacy questions, contact soporte@vitaespark.com.",
+      ],
+    },
+  ],
+};
+
+export const refundContentEn: LegalContent = {
+  title: "Refund policy",
+  intro:
+    "This policy describes when a refund may be requested for digital purchases made on VitaeSpark.",
+  sections: [
+    {
+      title: "Owner information",
+      paragraphs: [
+        "The VitaeSpark website is operated by Sergio Sebastian Burgos, an individual resident in Argentina, identified with CUIL 20-41422966-3.",
+      ],
+    },
+    {
+      title: "Digital product",
+      paragraphs: [
+        "VitaeSpark offers a digital product: resume generation, unlock and download. Because it is a digital good, once the final resume has been unlocked or downloaded, a refund may not be available except in exceptional cases.",
+      ],
+    },
+    {
+      title: "Cases we may review",
+      paragraphs: [
+        "We may review requests in cases of duplicate payment, technical errors that prevent access to a paid resume, incorrect charges or a verified inability to use the product after payment.",
+        "To review the case, we may ask for the account email, payment date, provider used and a receipt or transaction identifier.",
+      ],
+    },
+    {
+      title: "Cases not covered",
+      paragraphs: [
+        "Refunds are not guaranteed for change of mind after unlocking the resume, errors in information entered by the user, expectations of getting a job or interview, or partial use of the service.",
+        "The user can review the preview and edit their information before paying.",
+      ],
+    },
+    {
+      title: "Request window",
+      paragraphs: [
+        "Refund requests must be sent within 7 days of the purchase. We review each case in good faith and respond to the email provided by the user.",
+      ],
+    },
+    {
+      title: "How to request one",
+      paragraphs: [
+        "Write to soporte@vitaespark.com with the subject 'Refund request' and include your account email, purchase date, payment provider and a clear description of the issue.",
       ],
     },
   ],

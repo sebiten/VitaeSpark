@@ -10,27 +10,49 @@ type LegalPageProps = {
   updatedAt: string;
   intro: string;
   sections: LegalSection[];
+  language?: "es" | "en";
 };
 
-export function LegalPage({ title, updatedAt, intro, sections }: LegalPageProps) {
+export function LegalPage({
+  title,
+  updatedAt,
+  intro,
+  sections,
+  language = "es",
+}: LegalPageProps) {
+  const copy =
+    language === "en"
+      ? {
+          home: "/en",
+          back: "Back to VitaeSpark",
+          legal: "Legal",
+          updated: "Last updated",
+        }
+      : {
+          home: "/",
+          back: "Volver a VitaeSpark",
+          legal: "Legal",
+          updated: "Ultima actualizacion",
+        };
+
   return (
     <div className="bg-[#111113] text-[#F4F4F5]">
       <section className="border-b border-white/10 bg-gradient-to-b from-[#1C1C22] to-[#111113]">
         <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
           <Link
-            href="/"
+            href={copy.home}
             className="mb-8 inline-flex text-sm font-medium text-[#38BDF8] hover:text-[#7DD3FC]"
           >
-            Volver a VitaeSpark
+            {copy.back}
           </Link>
           <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#38BDF8]">
-            Legal
+            {copy.legal}
           </p>
           <h1 className="mt-3 text-4xl font-bold leading-tight sm:text-5xl">
             {title}
           </h1>
           <p className="mt-4 text-sm text-white/65">
-            Ultima actualizacion: {updatedAt}
+            {copy.updated}: {updatedAt}
           </p>
           <p className="mt-8 text-lg leading-8 text-white/76">{intro}</p>
         </div>

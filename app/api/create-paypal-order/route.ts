@@ -1,12 +1,13 @@
-import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { createClient } from "@/utils/supabase/server";
-import { CreatePaymentSchema } from "@/lib/schemas/cv";
+import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { CreatePaymentSchema } from "@/lib/schemas/cv";
+import { createClient } from "@/utils/supabase/server";
 
-const PAYPAL_API_BASE = process.env.NODE_ENV === "production" 
-  ? "https://api-m.paypal.com" 
-  : "https://api-m.sandbox.paypal.com";
+const PAYPAL_API_BASE =
+  process.env.NODE_ENV === "production"
+    ? "https://api-m.paypal.com"
+    : "https://api-m.sandbox.paypal.com";
 
 async function getPayPalAccessToken(): Promise<string> {
   const clientId = process.env.PAYPAL_CLIENT_ID;
@@ -17,7 +18,6 @@ async function getPayPalAccessToken(): Promise<string> {
   }
 
   const credentials = Buffer.from(`${clientId}:${secret}`).toString("base64");
-
   const res = await fetch(`${PAYPAL_API_BASE}/v1/oauth2/token`, {
     method: "POST",
     headers: {
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     body = await req.json();
   } catch {
     return NextResponse.json(
-      { error: "JSON inválido en la solicitud" },
+      { error: "JSON invalido en la solicitud" },
       { status: 400 }
     );
   }
@@ -51,15 +51,15 @@ export async function POST(req: Request) {
   const parsed = CreatePaymentSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { error: "Datos inválidos", issues: parsed.error.flatten().fieldErrors },
+      { error: "Datos invalidos", issues: parsed.error.flatten().fieldErrors },
       { status: 400 }
     );
   }
 
   const { cvData, template, language, attribution } = parsed.data;
-
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
+
   if (!user.data.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
     .from("cvs")
     .insert({
       profile_id,
-      cv_data: cvData,
+      cv_data: { ...cvData, language },
       foto_url: cvData.foto_url,
       template,
       status: "pending",
@@ -94,22 +94,25 @@ export async function POST(req: Request) {
   await recordAnalyticsEventServer({
     event_name: "payment_started",
     user_id: profile_id,
-    template,
     language,
+    payment_provider: "paypal",
+    template,
     cv_id: cv.id,
     ...attribution,
   });
 
   try {
     const accessToken = await getPayPalAccessToken();
-
     const orderPayload = {
       intent: "CAPTURE",
       purchase_units: [
         {
           reference_id: `cv_${cv.id}`,
           custom_id: cv.id,
-          description: "CV optimizado con IA - VitaeSpark",
+          description:
+            language === "en"
+              ? "ATS-friendly resume in PDF - VitaeSpark"
+              : "CV optimizado con IA - VitaeSpark",
           amount: {
             currency_code: "USD",
             value: "4.99",
@@ -124,7 +127,7 @@ export async function POST(req: Request) {
         landing_page: "NO_PREFERENCE",
         user_action: "PAY_NOW",
         return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}&method=paypal`,
-        cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/crear`,
+        cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/crear?lang=${language}`,
       },
     };
 
@@ -159,7 +162,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("PayPal error:", error);
     return NextResponse.json(
-      { error: "Error comunicándose con PayPal" },
+      { error: "Error comunicandose con PayPal" },
       { status: 500 }
     );
   }
