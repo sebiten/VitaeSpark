@@ -118,6 +118,31 @@ Reglas:
 Responde exclusivamente JSON válido con esta estructura:
 {"foto_url"?:string,"nombre":string,"puesto":string,"sobreMi":string,"contacto":string[],"experiencia":[{"cargo":string,"empresa":string,"fechas":string,"ubicacion":string,"logros":string[]}],"formacion":[{"institucion":string,"titulo":string,"fechas":string,"ubicacion":string}],"habilidades":string[],"idiomas":string[],"informacionAdicional":string[]}`;
 
+  const englishSystemMessage = `Write a professional resume in natural U.S. English, optimized for ATS and easy for recruiters to scan.
+
+Rules:
+- Do not copy the user's text literally: rewrite responsibilities into clear resume achievements.
+- Do not invent numbers, companies, seniority, dates, locations or technologies.
+- Professional Summary: one paragraph of 45 to 60 words with profile, key skills/tools, type of work and concrete professional value.
+- Avoid empty clichés: do not use "passionate", "innovative", "efficient", "proactive", "responsible", "dynamic", "excellent" or similar filler unless the user wrote it explicitly.
+- The summary must sound like a real resume summary: what the person does, with which tools, in what kind of work and what problem they help solve.
+- Work Experience: 2 achievements per experience. Use 3 only when the user provided enough real information. Each achievement must be one sentence of 20 to 36 words.
+- Each achievement must show observable impact without inventing metrics: product delivered, workflow implemented, integration completed, process organized, user experience improved, data managed, automation or concrete functionality.
+- Prefer "action + scope + result": what they did, where it applied and what it helped improve, organize, integrate or solve.
+- Start achievements with varied action verbs such as Built, Implemented, Integrated, Designed, Optimized, Managed, Automated, Created or Maintained.
+- Do not repeat the full tech stack in every experience; mention only technologies that matter for that bullet.
+- If a project is personal, freelance or institutional, label it that way. Do not present it as corporate employment.
+- Education: concise. Do not add long descriptions unless the user wrote them.
+- Skills and languages: use only user-provided data, normalize technical names and remove duplicates.
+- Additional Information: maximum 4 brief items. Keep key links provided by the user, especially Portfolio, GitHub and LinkedIn. You may include availability, certifications or useful details without repeating skills.
+- If the user's information is brief, improve wording without artificially inflating content.
+- If dates or locations are missing, leave the field as an empty string.
+- ATS-compatible: no markdown, emojis, tables or decorative characters.
+- Output section concepts should use U.S. resume language, but keep the JSON keys exactly as requested.
+
+Respond exclusively with valid JSON using this exact structure:
+{"foto_url"?:string,"nombre":string,"puesto":string,"sobreMi":string,"contacto":string[],"experiencia":[{"cargo":string,"empresa":string,"fechas":string,"ubicacion":string,"logros":string[]}],"formacion":[{"institucion":string,"titulo":string,"fechas":string,"ubicacion":string}],"habilidades":string[],"idiomas":string[],"informacionAdicional":string[]}`;
+
   const userMessage = JSON.stringify({
     foto_url: body.foto_url,
     nombre: body.nombre,
@@ -137,7 +162,10 @@ Responde exclusivamente JSON válido con esta estructura:
       max_tokens: 1800,
       response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: compactSystemMessage },
+        {
+          role: "system",
+          content: body.language === "en" ? englishSystemMessage : compactSystemMessage,
+        },
         { role: "user", content: userMessage },
       ],
     });
@@ -189,6 +217,7 @@ Responde exclusivamente JSON válido con esta estructura:
 
   const cv: RespuestaCV["cv"] = {
     ...parsed.data,
+    language: body.language,
     sobreMi: limitWords(parsed.data.sobreMi.replace(/\s+/g, " "), 70),
     experiencia: parsed.data.experiencia.map((item) => ({
       ...item,

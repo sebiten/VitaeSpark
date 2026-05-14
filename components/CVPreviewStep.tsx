@@ -42,12 +42,13 @@ import {
 import Image from "next/image";
 import { getLandingAttribution } from "@/lib/analytics-attribution";
 import { recordAnalyticsEvent } from "@/lib/analytics-events";
+import type { AppLanguage } from "@/lib/i18n";
 
 const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ssr: false,
   loading: () => (
     <div className="flex h-full w-full items-center justify-center bg-white text-sm text-slate-500">
-      Preparando vista previa...
+      Preparing preview...
     </div>
   ),
 });
@@ -111,11 +112,78 @@ const useCaseExamples = [
   },
 ];
 
+const checkoutCopy = {
+  es: {
+    loadingPreview: "Preparando vista previa...",
+    title: "Tu CV profesional esta listo",
+    subtitle: "Desbloquea la version final y descargala en PDF sin marca de agua.",
+    protectedTitle: "Muestra protegida del CV",
+    protectedText: "Desbloquea para ver y descargar el documento completo.",
+    viewCv: "Ver CV",
+    unlock: "Desbloquear CV",
+    close: "Cerrar",
+    closePreview: "Cerrar vista del CV",
+    back: "Volver y editar datos",
+    finalTitle: "Tu CV final esta listo",
+    finalText:
+      "Desbloquea la version profesional sin marca de agua y descargala en PDF cuando quieras.",
+    singlePayment: "Pago unico",
+    secure: "Pago seguro con Mercado Pago",
+    cleanCv: "CV limpio, sin marca de agua",
+    cleanCvText: "Listo para enviar a empresas, portales de empleo y reclutadores.",
+    downloads: "Descargas ilimitadas en tu perfil",
+    downloadsText: "Queda guardado en tu perfil para volver a descargarlo.",
+    cards: "Tarjeta, debito y mas opciones",
+    cardsText: "El checkout se abre en Mercado Pago con los medios disponibles.",
+    processingPayment: "Procesando pago...",
+    processing: "Procesando...",
+    also: "o tambien",
+    useCases: "Casos comunes de uso",
+    useCasesText: "Ejemplos de perfiles que suelen ordenar su CV con VitaeSpark.",
+    useCaseLabel: "Caso comun",
+    mpError: "No se pudo iniciar el pago. Intenta nuevamente.",
+    paypalError: "No se pudo iniciar el pago con PayPal. Intenta nuevamente.",
+    paymentError: "Error al procesar el pago. Intenta nuevamente.",
+  },
+  en: {
+    loadingPreview: "Preparing preview...",
+    title: "Your professional resume is ready",
+    subtitle: "Unlock the final PDF without watermark and download it anytime.",
+    protectedTitle: "Protected resume preview",
+    protectedText: "Unlock to view and download the complete document.",
+    viewCv: "View resume",
+    unlock: "Unlock resume",
+    close: "Close",
+    closePreview: "Close resume preview",
+    back: "Back and edit details",
+    finalTitle: "Your final resume is ready",
+    finalText: "Unlock the professional version without watermark and download it as PDF anytime.",
+    singlePayment: "One-time payment",
+    secure: "Secure payment with PayPal",
+    cleanCv: "Clean resume, no watermark",
+    cleanCvText: "Ready to send to companies, job boards and recruiters.",
+    downloads: "Unlimited downloads in your profile",
+    downloadsText: "Saved in your profile so you can download it again.",
+    cards: "Cards and international payment options",
+    cardsText: "PayPal opens a secure checkout in USD.",
+    processingPayment: "Processing payment...",
+    processing: "Processing...",
+    also: "or pay with",
+    useCases: "Common use cases",
+    useCasesText: "Examples of profiles that usually organize their resume with VitaeSpark.",
+    useCaseLabel: "Common case",
+    mpError: "Could not start Mercado Pago checkout. Try again.",
+    paypalError: "Could not start PayPal checkout. Try again.",
+    paymentError: "Payment error. Try again.",
+  },
+} as const;
+
 type Props = {
   cvData: RespuestaCV["cv"];
   template: string;
   onBack: () => void;
   userSession: Session | null;
+  language: AppLanguage;
 };
 
 export default function CVPreviewStepPurple({
@@ -123,6 +191,7 @@ export default function CVPreviewStepPurple({
   template,
   onBack,
   userSession,
+  language,
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [loadingPayPal, setLoadingPayPal] = useState(false);
@@ -130,6 +199,7 @@ export default function CVPreviewStepPurple({
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
   const checkoutViewedTracked = useRef(false);
+  const copy = checkoutCopy[language];
 
   const handlePayPal = async () => {
     if (!userSession) return;
@@ -143,13 +213,14 @@ export default function CVPreviewStepPurple({
       price: 4.99,
       currency: "USD",
       method: "paypal",
+      language,
       ...attribution,
     });
     try {
       const res = await fetch("/api/create-paypal-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvData, template, attribution }),
+        body: JSON.stringify({ cvData, template, language, attribution }),
       });
 
       if (!res.ok) {
@@ -157,11 +228,12 @@ export default function CVPreviewStepPurple({
         track("PayPal Order Failed", {
           status: res.status,
           template,
+          language,
           ...attribution,
         });
         failureTracked = true;
         console.error("Error al crear orden PayPal:", errorData);
-        toast.error("No se pudo iniciar el pago con PayPal. Intenta nuevamente.");
+        toast.error(copy.paypalError);
         return;
       }
 
@@ -173,20 +245,21 @@ export default function CVPreviewStepPurple({
           price: 4.99,
           currency: "USD",
           method: "paypal",
+          language,
           ...attribution,
         });
         window.location.href = approveUrl;
       } else {
         track("PayPal Order Failed", { template, ...attribution });
         failureTracked = true;
-        toast.error("No se pudo iniciar el pago con PayPal. Intenta nuevamente.");
+        toast.error(copy.paypalError);
       }
     } catch (error) {
       if (!failureTracked) {
         track("PayPal Order Failed", { template, ...attribution });
       }
       console.error("Error en handlePayPal:", error);
-      toast.error("Error al procesar el pago. Intenta nuevamente.");
+      toast.error(copy.paymentError);
     } finally {
       setLoadingPayPal(false);
     }
@@ -204,13 +277,14 @@ export default function CVPreviewStepPurple({
       price: 2500,
       currency: "ARS",
       method: "mercado_pago",
+      language,
       ...attribution,
     });
     try {
       const res = await fetch("/api/create-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvData, template, attribution }),
+        body: JSON.stringify({ cvData, template, language, attribution }),
       });
 
       if (!res.ok) {
@@ -218,11 +292,12 @@ export default function CVPreviewStepPurple({
         track("Payment Preference Failed", {
           status: res.status,
           template,
+          language,
           ...attribution,
         });
         failureTracked = true;
         console.error("Error al crear preferencia:", errorData);
-        toast.error("No se pudo iniciar el pago. Intenta nuevamente.");
+        toast.error(copy.mpError);
         return;
       }
 
@@ -234,13 +309,14 @@ export default function CVPreviewStepPurple({
           price: 2500,
           currency: "ARS",
           method: "mercado_pago",
+          language,
           ...attribution,
         });
         window.location.href = init_point;
       } else {
         track("Payment Preference Failed", { template, ...attribution });
         failureTracked = true;
-        toast.error("No se pudo iniciar el pago. Intenta nuevamente.");
+        toast.error(copy.mpError);
       }
     } catch (error) {
       if (!failureTracked) {
@@ -250,7 +326,7 @@ export default function CVPreviewStepPurple({
         });
       }
       console.error("Error en handlePay:", error);
-      toast.error("Error al procesar el pago. Intenta nuevamente.");
+      toast.error(copy.paymentError);
     } finally {
       setLoading(false);
     }
@@ -277,14 +353,16 @@ export default function CVPreviewStepPurple({
     const attribution = getLandingAttribution();
     track("Checkout Viewed", {
       template,
+      language,
       ...attribution,
     });
     recordAnalyticsEvent({
       event_name: "checkout_viewed",
+      language,
       template,
       ...attribution,
     });
-  }, [template]);
+  }, [language, template]);
 
   useEffect(() => {
     if (!feedbackSent) return;
@@ -314,10 +392,10 @@ export default function CVPreviewStepPurple({
     <div className="mx-auto w-full max-w-6xl space-y-6 overflow-x-hidden">
       <div className="mx-auto max-w-[340px] space-y-2 text-left sm:max-w-none sm:text-center">
         <h2 className="text-[1.65rem] font-bold leading-tight text-white sm:text-3xl">
-          Tu CV profesional esta listo
+          {copy.title}
         </h2>
         <p className="max-w-[320px] text-sm leading-6 text-slate-400 sm:mx-auto sm:max-w-none sm:text-base">
-          Desbloquea la version final y descargala en PDF sin marca de agua.
+          {copy.subtitle}
         </p>
       </div>
 
@@ -325,9 +403,9 @@ export default function CVPreviewStepPurple({
         <div className="relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-[#2A2A2D] shadow-2xl shadow-black/30 sm:bg-white">
           <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#15151A] px-4 py-3 text-white sm:hidden">
             <div className="min-w-0">
-              <p className="text-sm font-semibold">Muestra protegida del CV</p>
+              <p className="text-sm font-semibold">{copy.protectedTitle}</p>
               <p className="mt-0.5 text-xs text-white/65">
-                Desbloquea para ver y descargar el documento completo.
+                {copy.protectedText}
               </p>
             </div>
             <LockKeyhole className="h-5 w-5 flex-shrink-0 text-[#38BDF8]" />
@@ -344,10 +422,10 @@ export default function CVPreviewStepPurple({
           </div>
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/55 to-transparent px-4 pb-4 pt-12 text-center sm:block">
             <p className="hidden text-sm font-medium text-white sm:block">
-              Desliza con el dedo para ver todo el CV
+              {language === "en" ? "Swipe to preview the resume" : "Desliza con el dedo para ver todo el CV"}
             </p>
             <p className="hidden text-xs text-white/80 sm:mt-1 sm:block">
-              Vista protegida con marca de agua
+              {language === "en" ? "Protected watermarked preview" : "Vista protegida con marca de agua"}
             </p>
           </div>
         </div>
@@ -359,36 +437,38 @@ export default function CVPreviewStepPurple({
             className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/15 bg-[#111113] px-3 text-sm font-bold text-white shadow-lg shadow-black/25 transition hover:bg-[#1C1C22]"
           >
             <Maximize2 className="h-4 w-4" />
-            Ver CV
+            {copy.viewCv}
           </button>
           <button
             type="button"
             onClick={scrollToCheckout}
             className="inline-flex h-12 items-center justify-center rounded-xl bg-[#7C3AED] px-3 text-sm font-bold text-white shadow-lg shadow-[#7C3AED]/25 transition hover:bg-[#6D28D9]"
           >
-            Desbloquear CV
+            {copy.unlock}
           </button>
         </div>
 
         <Dialog open={mobilePreviewOpen} onOpenChange={setMobilePreviewOpen}>
           <DialogContent className="fixed inset-0 left-0 top-0 z-50 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 bg-[#0F0F10] p-0 text-white shadow-none sm:hidden [&>button]:hidden">
-            <DialogTitle className="sr-only">Muestra protegida del CV</DialogTitle>
+            <DialogTitle className="sr-only">{copy.protectedTitle}</DialogTitle>
             <DialogDescription className="sr-only">
-              Muestra parcial del curriculum con marca de agua antes del desbloqueo.
+              {language === "en"
+                ? "Partial watermarked resume preview before unlocking."
+                : "Muestra parcial del curriculum con marca de agua antes del desbloqueo."}
             </DialogDescription>
 
             <div className="sticky top-0 z-20 border-b border-white/10 bg-[#111113]/95 px-4 py-3 backdrop-blur">
               <div className="mb-3 flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-sm font-semibold">Muestra protegida del CV</p>
+                  <p className="text-sm font-semibold">{copy.protectedTitle}</p>
                   <p className="mt-0.5 text-xs text-white/65">
-                    Desbloquea para acceder al CV completo sin marca de agua.
+                    {copy.protectedText}
                   </p>
                 </div>
                 <DialogClose asChild>
                   <button className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#7C3AED] px-4 text-sm font-semibold text-white">
                     <X className="h-4 w-4" />
-                    Cerrar
+                    {copy.close}
                   </button>
                 </DialogClose>
               </div>
@@ -404,7 +484,7 @@ export default function CVPreviewStepPurple({
               <DialogClose asChild>
                 <button className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#7C3AED] text-sm font-semibold text-white shadow-lg shadow-[#7C3AED]/20">
                   <X className="h-4 w-4" />
-                  Cerrar vista del CV
+                  {copy.closePreview}
                 </button>
               </DialogClose>
             </div>
@@ -422,7 +502,7 @@ export default function CVPreviewStepPurple({
               className="inline-flex items-center gap-2 text-sm font-semibold text-white/70 transition hover:text-white"
             >
               <ArrowLeft className="h-4 w-4" />
-              Volver y editar datos
+              {copy.back}
             </button>
 
             <div className="overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.025] sm:rounded-3xl">
@@ -432,18 +512,17 @@ export default function CVPreviewStepPurple({
                     <CheckCircle className="h-5 w-5" />
                   </div>
                   <h3 className="text-xl font-bold text-white sm:text-2xl">
-                    Tu CV final esta listo
+                    {copy.finalTitle}
                   </h3>
                 </div>
                 <p className="mt-3 max-w-xs text-xs leading-5 text-white/75 sm:mx-auto sm:mt-4 sm:text-center sm:text-sm sm:leading-6">
-                  Desbloquea la version profesional sin marca de agua y descargala
-                  en PDF cuando quieras.
+                  {copy.finalText}
                 </p>
               </div>
 
               <div className="flex items-center justify-between gap-4 p-4 sm:block sm:p-5 sm:text-center">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#38BDF8] sm:text-xs">
-                  Pago unico
+                  {copy.singlePayment}
                 </p>
                 <div className="flex items-end justify-center gap-2 sm:mt-2">
                   <span className="text-4xl font-black leading-none text-white sm:text-5xl">
@@ -459,7 +538,7 @@ export default function CVPreviewStepPurple({
             <div className="flex items-center justify-center gap-2 rounded-2xl border border-green-500/20 bg-green-500/10 px-4 py-2.5 sm:py-3">
               <ShieldCheck className="h-5 w-5 text-green-400" />
               <span className="text-sm font-semibold text-green-400 sm:text-base">
-                Pago seguro con Mercado Pago
+                {copy.secure}
               </span>
             </div>
 
@@ -468,10 +547,10 @@ export default function CVPreviewStepPurple({
                 <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#A78BFA]" />
                 <div>
                   <p className="text-sm font-semibold text-white">
-                    CV limpio, sin marca de agua
+                    {copy.cleanCv}
                   </p>
                   <p className="mt-1 hidden text-xs leading-5 text-white/68 sm:block">
-                    Listo para enviar a empresas, portales de empleo y reclutadores.
+                    {copy.cleanCvText}
                   </p>
                 </div>
               </div>
@@ -480,14 +559,14 @@ export default function CVPreviewStepPurple({
                 <Download className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
                 <div>
                   <p className="text-sm font-semibold text-white">
-                    Descargas ilimitadas en tu perfil
+                    {copy.downloads}
                   </p>
                   <p className="mt-1 hidden text-xs leading-5 text-white/68 sm:block">
-                    Queda guardado en tu{" "}
+                    {language === "en" ? "Saved in your " : "Queda guardado en tu "}
                     <Link href="/perfil" className="text-[#38BDF8] hover:underline">
-                      perfil
+                      {language === "en" ? "profile" : "perfil"}
                     </Link>{" "}
-                    para volver a descargarlo.
+                    {language === "en" ? "so you can download it again." : "para volver a descargarlo."}
                   </p>
                 </div>
               </div>
@@ -496,17 +575,21 @@ export default function CVPreviewStepPurple({
                 <CreditCard className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
                 <div>
                   <p className="text-sm font-semibold text-white">
-                    Tarjeta, debito y mas opciones
+                    {copy.cards}
                   </p>
                   <p className="mt-1 hidden text-xs leading-5 text-white/68 sm:block">
-                    El checkout se abre en Mercado Pago con los medios disponibles.
+                    {copy.cardsText}
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col gap-3">
-              <div className="group relative overflow-hidden rounded-2xl border border-[#00B0FF]/30 bg-gradient-to-br from-[#00B0FF] to-[#0070BA] p-[2px] transition-all duration-300 hover:border-[#00B0FF]/60 hover:shadow-lg hover:shadow-[#00B0FF]/20">
+              <div
+                className={`group relative overflow-hidden rounded-2xl border border-[#00B0FF]/30 bg-gradient-to-br from-[#00B0FF] to-[#0070BA] p-[2px] transition-all duration-300 hover:border-[#00B0FF]/60 hover:shadow-lg hover:shadow-[#00B0FF]/20 ${
+                  language === "en" ? "order-3" : "order-1"
+                }`}
+              >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <Button
                   disabled={loading}
@@ -516,7 +599,7 @@ export default function CVPreviewStepPurple({
                   {loading ? (
                     <div className="flex items-center justify-center gap-2">
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>Procesando pago...</span>
+                      <span>{copy.processingPayment}</span>
                     </div>
                   ) : (
                     <div className="flex items-center justify-center gap-3">
@@ -531,15 +614,21 @@ export default function CVPreviewStepPurple({
                 </Button>
               </div>
 
-              <div className="flex items-center justify-center">
+              <div className="order-2 flex items-center justify-center">
                 <div className="flex items-center gap-1.5">
                   <div className="h-px w-8 bg-white/20" />
-                  <span className="text-xs text-white/40 uppercase tracking-wider">o también</span>
+                  <span className="text-xs uppercase tracking-wider text-white/40">
+                    {copy.also}
+                  </span>
                   <div className="h-px w-8 bg-white/20" />
                 </div>
               </div>
 
-              <div className="group relative overflow-hidden rounded-2xl border border-[#0070BA]/30 bg-gradient-to-br from-[#0070BA] to-[#003D82] p-[2px] transition-all duration-300 hover:border-[#0070BA]/60 hover:shadow-lg hover:shadow-[#0070BA]/20">
+              <div
+                className={`group relative overflow-hidden rounded-2xl border border-[#0070BA]/30 bg-gradient-to-br from-[#0070BA] to-[#003D82] p-[2px] transition-all duration-300 hover:border-[#0070BA]/60 hover:shadow-lg hover:shadow-[#0070BA]/20 ${
+                  language === "en" ? "order-1" : "order-3"
+                }`}
+              >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <Button
                   disabled={loadingPayPal}
@@ -549,7 +638,7 @@ export default function CVPreviewStepPurple({
                   {loadingPayPal ? (
                     <div className="flex items-center justify-center gap-2">
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>Procesando...</span>
+                      <span>{copy.processing}</span>
                     </div>
                   ) : (
                     <div className="flex items-center justify-center gap-3">
@@ -566,10 +655,10 @@ export default function CVPreviewStepPurple({
 
               <div className="rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3">
                 <p className="text-sm font-semibold text-white">
-                  Casos comunes de uso
+                  {copy.useCases}
                 </p>
                 <p className="mt-1 text-xs leading-5 text-white/58">
-                  Ejemplos de perfiles que suelen ordenar su CV con VitaeSpark.
+                  {copy.useCasesText}
                 </p>
               </div>
 
@@ -583,7 +672,7 @@ export default function CVPreviewStepPurple({
                     <CarouselItem key={index} className="pl-2 pr-2 basis-full">
                       <div className="p-3 rounded-md">
                         <p className="mb-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">
-                          Caso comun: {example.author}
+                          {copy.useCaseLabel}: {example.author}
                         </p>
                         <p className="text-gray-300 text-sm">
                           {example.text}

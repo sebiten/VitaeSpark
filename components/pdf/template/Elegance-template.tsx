@@ -7,6 +7,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
+import { getCvLabels } from "./labels";
 
 const colors = {
   primary: "#0F172A",
@@ -201,12 +202,12 @@ export default function ProfessionalBlueTemplate({
         </View>
 
         <View style={styles.profileBox}>
-          <Text style={styles.sectionTitle}>Perfil profesional</Text>
+          <Text style={styles.sectionTitle}>{getCvLabels(cv).summary}</Text>
           <Text style={styles.description}>{cv.sobreMi}</Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Experiencia profesional</Text>
+          <Text style={styles.sectionTitle}>{getCvLabels(cv).experience}</Text>
           {cv.experiencia.map((item, index) => (
             <View key={index} style={styles.item}>
               <View style={styles.itemHeader} wrap={false}>
@@ -224,12 +225,12 @@ export default function ProfessionalBlueTemplate({
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Habilidades clave</Text>
+          <Text style={styles.sectionTitle}>{getCvLabels(cv).keySkills}</Text>
           <ChipList items={cv.habilidades} />
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Formación</Text>
+          <Text style={styles.sectionTitle}>{getCvLabels(cv).education}</Text>
           {cv.formacion.map((item, index) => (
             <View key={index} style={styles.itemHeader} wrap={false}>
               <View style={{ flex: 1, paddingRight: 10 }}>
@@ -245,14 +246,14 @@ export default function ProfessionalBlueTemplate({
 
         {cv.idiomas.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Idiomas</Text>
+            <Text style={styles.sectionTitle}>{getCvLabels(cv).languages}</Text>
             <ChipList items={cv.idiomas} />
           </View>
         )}
 
         {cv.informacionAdicional.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Información adicional</Text>
+            <Text style={styles.sectionTitle}>{getCvLabels(cv).additional}</Text>
             <BulletList items={cv.informacionAdicional} />
           </View>
         )}

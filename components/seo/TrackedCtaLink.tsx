@@ -12,6 +12,7 @@ type TrackedCtaLinkProps = {
   label: string;
   sourcePath: string;
   sourceType: "landing" | "blog";
+  language?: "es" | "en";
 };
 
 export function TrackedCtaLink({
@@ -19,6 +20,7 @@ export function TrackedCtaLink({
   label,
   sourcePath,
   sourceType,
+  language = "es",
 }: TrackedCtaLinkProps) {
   return (
     <Link
@@ -33,9 +35,11 @@ export function TrackedCtaLink({
           landing_path: sourcePath,
           cta_label: label,
           source_type: sourceType,
+          language,
         });
         recordAnalyticsEvent({
           event_name: "landing_cta_clicked",
+          language,
           landing_path: sourcePath,
           cta_label: label,
           source_type: sourceType,

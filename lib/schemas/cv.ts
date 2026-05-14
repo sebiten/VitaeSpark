@@ -34,6 +34,7 @@ export const LandingAttributionSchema = z
   .optional();
 
 export const GenerateCVInputSchema = z.object({
+  language: z.enum(["es", "en"]).optional().default("es"),
   foto_url: optionalPhotoUrl,
   template: TemplateSchema.optional(),
   nombre: boundedText(1, 120),
@@ -83,5 +84,6 @@ export const CVSchema = z.object({
 export const CreatePaymentSchema = z.object({
   cvData: CVSchema,
   template: TemplateSchema,
+  language: z.enum(["es", "en"]).optional().default("es"),
   attribution: LandingAttributionSchema,
 });

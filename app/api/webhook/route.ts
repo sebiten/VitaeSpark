@@ -126,6 +126,7 @@ export async function POST(req: NextRequest) {
     cv_id,
     payment_id: String(payment.id),
     template: payment.metadata?.template,
+    language: payment.metadata?.language,
     landing_path: payment.metadata?.landing_path,
     cta_label: payment.metadata?.cta_label,
     source_type: payment.metadata?.source_type,

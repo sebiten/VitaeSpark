@@ -17,6 +17,11 @@ export const metadata = buildMetadata({
     "curriculum ats",
     "crear cv con ia",
   ],
+  languages: {
+    es: "/",
+    en: "/en",
+    "x-default": "/",
+  },
 });
 
 export default function GeneradorCV() {

@@ -5,6 +5,7 @@ export const dynamic = "force-static";
 
 const publicRoutes = [
   "/",
+  "/en",
   "/blog",
   "/crear-cv-online",
   "/curriculum-ats",

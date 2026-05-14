@@ -1,5 +1,6 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
+import { getCvLabels } from "./labels";
 
 const styles = StyleSheet.create({
   page: {
@@ -138,10 +139,10 @@ export default function HarvardTemplate({ cv }: { cv: RespuestaCV["cv"] }) {
           <ContactLines items={cv.contacto} />
         </View>
 
-        <Text style={styles.sectionHeader}>Perfil profesional</Text>
+        <Text style={styles.sectionHeader}>{getCvLabels(cv).summary}</Text>
         <Text style={styles.summary}>{cv.sobreMi}</Text>
 
-        <Text style={styles.sectionHeader}>Experiencia profesional</Text>
+        <Text style={styles.sectionHeader}>{getCvLabels(cv).experience}</Text>
         {cv.experiencia.map((item, index) => (
           <View key={index} style={styles.item}>
             <View style={styles.itemHeader}>
@@ -158,7 +159,7 @@ export default function HarvardTemplate({ cv }: { cv: RespuestaCV["cv"] }) {
           </View>
         ))}
 
-        <Text style={styles.sectionHeader}>Formación</Text>
+        <Text style={styles.sectionHeader}>{getCvLabels(cv).education}</Text>
         {cv.formacion.map((item, index) => (
           <View key={index} style={styles.item} wrap={false}>
             <View style={styles.itemHeader}>
@@ -174,19 +175,19 @@ export default function HarvardTemplate({ cv }: { cv: RespuestaCV["cv"] }) {
           </View>
         ))}
 
-        <Text style={styles.sectionHeader}>Habilidades</Text>
+        <Text style={styles.sectionHeader}>{getCvLabels(cv).skills}</Text>
         <Text style={styles.inlineList}>{cv.habilidades.join(" • ")}</Text>
 
         {cv.idiomas.length > 0 && (
           <>
-            <Text style={styles.sectionHeader}>Idiomas</Text>
+            <Text style={styles.sectionHeader}>{getCvLabels(cv).languages}</Text>
             <Text style={styles.inlineList}>{cv.idiomas.join(" • ")}</Text>
           </>
         )}
 
         {cv.informacionAdicional.length > 0 && (
           <>
-            <Text style={styles.sectionHeader}>Información adicional</Text>
+            <Text style={styles.sectionHeader}>{getCvLabels(cv).additional}</Text>
             <BulletList items={cv.informacionAdicional} />
           </>
         )}

@@ -13,8 +13,13 @@ import CVFormStep from "../CVFormStep";
 import CVPreviewStep from "../CVPreviewStep";
 import { getLandingAttribution } from "@/lib/analytics-attribution";
 import { recordAnalyticsEvent } from "@/lib/analytics-events";
+import type { AppLanguage } from "@/lib/i18n";
 
-const CVForm: NextPage = () => {
+type CVFormProps = {
+  initialLanguage?: AppLanguage;
+};
+
+const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
   const [selectedTemplate, setSelectedTemplate] = useState("elegance");
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
   const [activeTab, setActiveTab] = useState("template");
@@ -24,6 +29,7 @@ const CVForm: NextPage = () => {
     setActiveTab(tab);
     track("CV Funnel Step Viewed", {
       step: tab,
+      language: initialLanguage,
       ...getLandingAttribution(),
     });
     window.scrollTo(0, 0);
@@ -32,30 +38,48 @@ const CVForm: NextPage = () => {
   const handleTemplateSelected = (templateId: string) => {
     setSelectedTemplate(templateId);
     const attribution = getLandingAttribution();
-    track("CV Template Selected", { template: templateId, ...attribution });
+    track("CV Template Selected", {
+      template: templateId,
+      language: initialLanguage,
+      ...attribution,
+    });
     recordAnalyticsEvent({
       event_name: "template_selected",
+      language: initialLanguage,
       template: templateId,
       ...attribution,
     });
     setTimeout(() => {
       setActiveTab("form");
-      track("CV Funnel Step Viewed", { step: "form", ...attribution });
+      track("CV Funnel Step Viewed", {
+        step: "form",
+        language: initialLanguage,
+        ...attribution,
+      });
     }, 500);
   };
 
   const handleFormCompleted = (data: RespuestaCV["cv"]) => {
     setCvData(data);
     const attribution = getLandingAttribution();
-    track("CV Generated", { template: selectedTemplate, ...attribution });
+    track("CV Generated", {
+      template: selectedTemplate,
+      language: initialLanguage,
+      ...attribution,
+    });
     recordAnalyticsEvent({
       event_name: "cv_generated",
+      language: initialLanguage,
       template: selectedTemplate,
       ...attribution,
     });
     setTimeout(() => {
       setActiveTab("preview");
-      track("CV Funnel Step Viewed", { step: "preview", ...attribution });
+      track("CV Funnel Step Viewed", {
+        step: "preview",
+        language: initialLanguage,
+        ...attribution,
+      });
     }, 500);
   };
 
@@ -93,7 +117,9 @@ const CVForm: NextPage = () => {
                   className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/72 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
                 >
                   <Palette className="h-4 w-4" />
-                  <span className="hidden sm:inline">Plantilla</span>
+                  <span className="hidden sm:inline">
+                    {initialLanguage === "en" ? "Template" : "Plantilla"}
+                  </span>
                   <span className="sm:hidden">1</span>
                 </TabsTrigger>
                 <TabsTrigger
@@ -102,7 +128,9 @@ const CVForm: NextPage = () => {
                   disabled={!selectedTemplate}
                 >
                   <FileText className="h-4 w-4" />
-                  <span className="hidden sm:inline">Datos</span>
+                  <span className="hidden sm:inline">
+                    {initialLanguage === "en" ? "Details" : "Datos"}
+                  </span>
                   <span className="sm:hidden">2</span>
                 </TabsTrigger>
                 <TabsTrigger
@@ -111,7 +139,9 @@ const CVForm: NextPage = () => {
                   disabled={!cvData}
                 >
                   <Eye className="h-4 w-4" />
-                  <span className="hidden sm:inline">Vista previa</span>
+                  <span className="hidden sm:inline">
+                    {initialLanguage === "en" ? "Preview" : "Vista previa"}
+                  </span>
                   <span className="sm:hidden">3</span>
                 </TabsTrigger>
               </TabsList>
@@ -147,6 +177,7 @@ const CVForm: NextPage = () => {
                   setActiveTab={setActiveTab}
                   template={selectedTemplate}
                   userSession={userSession}
+                  language={initialLanguage}
                 />
               )}
             </div>
@@ -160,6 +191,7 @@ const CVForm: NextPage = () => {
                   template={selectedTemplate}
                   onBack={() => setActiveTab("form")}
                   userSession={userSession}
+                  language={initialLanguage}
                 />
               )}
             </div>

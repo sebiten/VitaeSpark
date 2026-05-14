@@ -15,6 +15,7 @@ const AnalyticsEventSchema = z.object({
   landing_path: z.string().trim().max(240).optional(),
   cta_label: z.string().trim().max(120).optional(),
   source_type: z.enum(["landing", "blog"]).optional(),
+  language: z.enum(["es", "en"]).optional(),
   template: z.string().trim().max(80).optional(),
   cv_id: z.string().uuid().optional(),
   payment_id: z.string().trim().max(160).optional(),

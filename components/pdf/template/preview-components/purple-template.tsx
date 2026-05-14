@@ -7,6 +7,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import type { RespuestaCV } from "@/lib/types/cv";
+import { getCvLabels } from "../labels";
 
 const colors = {
   primary: "#7E22CE",
@@ -185,7 +186,7 @@ const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
     </View>
 
     <View style={styles.sidebarSection}>
-      <Text style={styles.sidebarTitle}>Contacto</Text>
+      <Text style={styles.sidebarTitle}>{getCvLabels(cv).contact}</Text>
       {cv.contacto.map((item, index) => (
         <Text key={index} style={styles.sidebarText}>
           {item}
@@ -195,7 +196,7 @@ const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
 
     {cv.idiomas.length > 0 && (
       <View style={styles.sidebarSection}>
-        <Text style={styles.sidebarTitle}>Idiomas</Text>
+        <Text style={styles.sidebarTitle}>{getCvLabels(cv).languages}</Text>
         {cv.idiomas.map((item, index) => (
           <Text key={index} style={styles.sidebarText}>
             {item}
@@ -205,7 +206,7 @@ const Sidebar = ({ cv }: { cv: RespuestaCV["cv"] }) => (
     )}
     {cv.informacionAdicional.length > 0 && (
       <View style={styles.sidebarSection}>
-        <Text style={styles.sidebarTitle}>Información adicional</Text>
+        <Text style={styles.sidebarTitle}>{getCvLabels(cv).additional}</Text>
         {cv.informacionAdicional.slice(0, 4).map((item, index) => (
           <Text key={index} style={styles.sidebarText}>
             {item}
@@ -225,19 +226,19 @@ export default function PurpleTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
           <Sidebar cv={cv} />
           <View style={styles.main}>
             <View style={styles.profileBox}>
-              <Text style={styles.sectionTitle}>Perfil profesional</Text>
+              <Text style={styles.sectionTitle}>{getCvLabels(cv).summary}</Text>
               <Text style={styles.paragraphText}>{cv.sobreMi}</Text>
             </View>
 
             {cv.habilidades.length > 0 && (
               <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Habilidades clave</Text>
+                <Text style={styles.sectionTitle}>{getCvLabels(cv).keySkills}</Text>
                 <SkillList items={cv.habilidades} />
               </View>
             )}
 
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Experiencia laboral</Text>
+              <Text style={styles.sectionTitle}>{getCvLabels(cv).experience}</Text>
               {cv.experiencia.map((item, index) => (
                 <View key={index} style={{ marginBottom: 10 }}>
                   <View
@@ -262,7 +263,7 @@ export default function PurpleTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
             </View>
 
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Formación</Text>
+              <Text style={styles.sectionTitle}>{getCvLabels(cv).education}</Text>
               {cv.formacion.map((item, index) => (
                 <View key={index} style={{ marginBottom: 9 }} wrap={false}>
                   <View

@@ -16,6 +16,8 @@ type MetadataInput = {
   path: string;
   keywords: string[];
   type?: "website" | "article";
+  locale?: string;
+  languages?: Record<string, string>;
 };
 
 export function buildMetadata({
@@ -24,6 +26,8 @@ export function buildMetadata({
   path,
   keywords,
   type = "website",
+  locale = "es_AR",
+  languages,
 }: MetadataInput): Metadata {
   const baseUrl = getBaseUrl();
   const url = new URL(path, baseUrl);
@@ -35,6 +39,7 @@ export function buildMetadata({
     keywords,
     alternates: {
       canonical: url,
+      languages,
     },
     openGraph: {
       type,
@@ -42,7 +47,7 @@ export function buildMetadata({
       title,
       description,
       siteName: "Vitae Spark",
-      locale: "es_AR",
+      locale,
       images: [
         {
           url: ogImage,

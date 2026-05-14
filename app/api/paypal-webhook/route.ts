@@ -165,7 +165,7 @@ export async function POST(req: Request) {
 
   const { data: startedEvent } = await supabase
     .from("analytics_events")
-    .select("landing_path, cta_label, source_type, template")
+    .select("landing_path, cta_label, source_type, language, template")
     .eq("event_name", "payment_started")
     .eq("cv_id", cvId)
     .order("created_at", { ascending: false })
@@ -178,6 +178,7 @@ export async function POST(req: Request) {
     cv_id: cvId,
     payment_id: paypalOrderId,
     template: startedEvent?.template ?? cv?.template,
+    language: startedEvent?.language,
     landing_path: startedEvent?.landing_path,
     cta_label: startedEvent?.cta_label,
     source_type: startedEvent?.source_type,

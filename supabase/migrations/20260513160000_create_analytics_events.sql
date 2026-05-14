@@ -14,6 +14,7 @@ create table if not exists public.analytics_events (
   landing_path text,
   cta_label text,
   source_type text check (source_type in ('landing', 'blog')),
+  language text check (language in ('es', 'en')),
   template text,
   cv_id uuid references public.cvs(id) on delete set null,
   payment_id text,

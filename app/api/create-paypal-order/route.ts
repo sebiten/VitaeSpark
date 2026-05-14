@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { cvData, template, attribution } = parsed.data;
+  const { cvData, template, language, attribution } = parsed.data;
 
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
@@ -95,6 +95,7 @@ export async function POST(req: Request) {
     event_name: "payment_started",
     user_id: profile_id,
     template,
+    language,
     cv_id: cv.id,
     ...attribution,
   });

@@ -10,6 +10,7 @@ type AnalyticsEventName =
 
 type AnalyticsEventPayload = LandingAttribution & {
   event_name: AnalyticsEventName;
+  language?: "es" | "en";
   template?: string;
   cv_id?: string;
   payment_id?: string;
