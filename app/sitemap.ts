@@ -9,7 +9,6 @@ const publicRoutes = [
   "/crear",
   "/crear-cv-online",
   "/curriculum-ats",
-  "/curriculum-ats",
   "/curriculum-sin-experiencia",
   "/curriculum-vitae-ejemplo",
   "/curriculum-vitae-pdf",
