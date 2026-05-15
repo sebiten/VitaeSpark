@@ -28,8 +28,6 @@ import UserPayments from "@/components/UserPayment";
 import { CVThumbnail } from "./CvThumbnail";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// Componente para generar una miniatura del CV
-
 const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
   ssr: false,
   loading: () => (
@@ -54,6 +52,35 @@ const PDFDownloadButton = dynamic(
   }
 );
 
+const templateLabels: Record<string, string> = {
+  green: "Verde Energía",
+  blue: "Azul Corporativo",
+  elegance: "Elegancia",
+  purple: "Púrpura Pro",
+  harvard: "Harvard",
+};
+
+function getTemplateClass(template: string) {
+  switch (template) {
+    case "green":
+      return "bg-green-600 text-white";
+    case "blue":
+      return "bg-blue-600 text-white";
+    case "elegance":
+      return "bg-sky-800 text-white";
+    case "purple":
+      return "bg-purple-600 text-white";
+    case "harvard":
+      return "bg-white text-black";
+    default:
+      return "bg-purple-600 text-white";
+  }
+}
+
+function getTemplateLabel(template: string): string {
+  return templateLabels[template || "purple"] || "Púrpura Pro";
+}
+
 export default function PerfilCVs() {
   const [cvs, setCvs] = useState<CVRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,38 +94,6 @@ export default function PerfilCVs() {
   } | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
-  function getTemplateClass(template: string) {
-    switch (template) {
-      case "green":
-        return "bg-green-600 text-white";
-      case "blue":
-        return "bg-blue-600 text-white";
-      case "elegance":
-        return "bg-sky-800 text-white"; // o el azul que uses para "elegance"
-      case "purple":
-        return "bg-purple-600 text-white";
-      case "harvard":
-        return "bg-white text-black"; // o el rojo que uses para "harvard"
-      default:
-        return "bg-purple-600 text-white";
-    }
-  }
-  function getTemplateLabel(template: string): string {
-    switch (template) {
-      case "green":
-        return "Verde";
-      case "blue":
-        return "Azul";
-      case "elegance":
-        return "Elegance";
-      case "purple":
-        return "Púrpura";
-      case "harvard":
-        return "Harvard";
-      default:
-        return "Púrpura";
-    }
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -112,7 +107,6 @@ export default function PerfilCVs() {
         return;
       }
 
-      // Fetch user profile information
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
         .select("full_name")
@@ -169,7 +163,6 @@ export default function PerfilCVs() {
   return (
     <div className="relative w-full mx-auto overflow-hidden px-4 py-10 space-y-8 bg-[#111113]">
       <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-[#7C3AED]/10 blur-[120px]" />
-      {/* Profile Information Card */}
       {profileInfo && (
         <div className="relative max-w-5xl mx-auto mb-8">
           <Card className="overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/85 text-white shadow-2xl shadow-black/20 transition-all duration-300">
@@ -190,8 +183,7 @@ export default function PerfilCVs() {
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-xl font-bold text-[#F4F4F5] flex items-center gap-2">
-                    ¡Hola, {profileInfo.name}!{" "}
-                    <span className="animate-wave inline-block">👋</span>
+                    ¡Hola, {profileInfo.name}! <span className="animate-wave inline-block">👋</span>
                   </h3>
                   <p className="text-sm text-[#A1A1AA] flex items-center gap-1.5">
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400"></span>
@@ -202,8 +194,7 @@ export default function PerfilCVs() {
               <div className="bg-white/[0.04] px-4 py-1.5 rounded-full text-sm font-medium text-[#E4E4E7] flex items-center gap-2 shadow-inner border border-white/10">
                 <span className="text-[#7C3AED]">{cvs.length}</span>
                 <span>
-                  {cvs.length === 1 ? "CV" : "CVs"} disponible
-                  {cvs.length !== 1 && "s"}
+                  {cvs.length === 1 ? "CV" : "CVs"} {cvs.length === 1 ? "disponible" : "disponibles"}
                 </span>
               </div>
             </CardHeader>
@@ -211,7 +202,6 @@ export default function PerfilCVs() {
         </div>
       )}
 
-      {/* Notificación de pago aprobado */}
       {showCongrats && paidCv && (
         <div className="max-w-4xl mx-auto">
           <Card className="bg-gradient-to-r from-green-600 to-green-700 border-green-500 text-white p-4 rounded-lg shadow-lg transform transition-all duration-300 hover:shadow-green-500/20 hover:shadow-xl">
@@ -219,13 +209,11 @@ export default function PerfilCVs() {
               <div className="w-6 h-6 text-white flex items-center justify-center">
                 ✓
               </div>
-              <div className="text-xl font-bold">¡Pago Aprobado!</div>
+              <div className="text-xl font-bold">¡Pago aprobado!</div>
             </CardHeader>
             <CardContent>
               <p className="text-green-100">
-                Tu pago para el CV de{" "}
-                <strong className="text-white">{paidCv.cv_data.nombre}</strong>{" "}
-                ha sido confirmado. ¡Ahora puedes descargarlo!
+                Tu CV "{paidCv.cv_data.nombre}" está listo para descargar.
               </p>
             </CardContent>
           </Card>
@@ -235,10 +223,9 @@ export default function PerfilCVs() {
         <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#7C3AED]/15 text-[#A78BFA] ring-1 ring-[#A78BFA]/20">
           <FileText className="h-6 w-6" />
         </div>
-        <h2 className="text-3xl font-bold text-white">Tus CVs Aprobados</h2>
+        <h2 className="text-3xl font-bold text-white">Tus CVs aprobados</h2>
         <p className="text-[#A1A1AA] max-w-md mx-auto">
-          Aquí encontrarás todos tus currículums generados y listos para
-          descargar
+          Descarga y comparte tus currículums profesionales
         </p>
       </div>
 
@@ -249,19 +236,19 @@ export default function PerfilCVs() {
               value="grid"
               className="text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white rounded-xl"
             >
-              Vista Grid
+              Cuadrícula
             </TabsTrigger>
             <TabsTrigger
               value="list"
               className="text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white rounded-xl"
             >
-              Vista Lista
+              Lista
             </TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="grid" className="mt-0">
           {cvs.length === 0 ? (
-            <EmptyState router={router} />
+            <PerfilEmptyState router={router} />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {cvs.map((cv) => (
@@ -277,7 +264,7 @@ export default function PerfilCVs() {
       ${getTemplateClass(cv.template || "purple")}
     `}
                       >
-                        Plantilla: {getTemplateLabel(cv.template || "purple")}
+                        {getTemplateLabel(cv.template || "purple")}
                       </div>
                     </div>
 
@@ -324,7 +311,7 @@ export default function PerfilCVs() {
                         <DialogContent className="max-w-4xl h-[90vh] p-0 bg-[#111113] border-[#2A2A2D]">
                           <DialogHeader className="p-4 border-b border-[#2A2A2D] flex flex-row justify-between items-center text-white">
                             <DialogTitle className="text-lg font-semibold text-[#F4F4F5]">
-                              Vista previa: {selectedCV?.cv_data.nombre}
+                              Vista previa - {selectedCV?.cv_data.nombre}
                             </DialogTitle>
                           </DialogHeader>
                           <div className="p-4 h-[calc(90vh-70px)]">
@@ -355,7 +342,7 @@ export default function PerfilCVs() {
         <TabsContent value="list" className="mt-0">
           <ScrollArea className="max-h-[70vh] pr-4 pb-4">
             {cvs.length === 0 ? (
-              <EmptyState router={router} />
+              <PerfilEmptyState router={router} />
             ) : (
               <div className="space-y-4">
                 {cvs.map((cv) => (
@@ -380,7 +367,7 @@ export default function PerfilCVs() {
                         </div>
                         <div className="mt-2">
                           <div className="bg-primary text-xs font-medium text-primary-foreground px-2 py-0.5 rounded inline-block uppercase">
-                            {cv.template || "purple"}
+                            {getTemplateLabel(cv.template || "purple")}
                           </div>
                         </div>
                       </CardHeader>
@@ -419,7 +406,7 @@ export default function PerfilCVs() {
                             <DialogContent className="max-w-4xl h-[90vh] p-0 bg-[#111113] border-[#2A2A2D]">
                               <DialogHeader className="p-4 border-b border-[#2A2A2D] flex flex-row justify-between items-center">
                                 <DialogTitle className="text-lg font-semibold text-[#F4F4F5]">
-                                  Vista previa: {selectedCV?.cv_data.nombre}
+                                  Vista previa - {selectedCV?.cv_data.nombre}
                                 </DialogTitle>
                                 <DialogClose asChild>
                                   <Button
@@ -467,16 +454,15 @@ export default function PerfilCVs() {
   );
 }
 
-// Componente para estado vacío
-function EmptyState({ router }: { router: any }) {
+function PerfilEmptyState({ router }: { router: any }) {
   return (
     <div className="text-center py-16 px-6 bg-[#15151A]/85 rounded-3xl border border-white/10 max-w-md mx-auto shadow-2xl shadow-black/10">
       <Sparkles className="w-12 h-12 text-[#7C3AED] mx-auto mb-4 opacity-80" />
       <h3 className="text-xl font-semibold text-[#F4F4F5] mb-2">
-        Sin CVs disponibles
+        No tienes CVs todavía
       </h3>
       <p className="text-[#A1A1AA] mb-6">
-        No tienes CVs generados y aprobados aún.
+        Crea tu primer currículum profesional con inteligencia artificial
       </p>
       <Button
         onClick={() => router.push("/crear")}

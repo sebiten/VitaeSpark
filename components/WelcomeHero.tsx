@@ -1,11 +1,10 @@
+"use client";
+
 import {
   ArrowRight,
   Bot,
   CheckCircle2,
   Sparkles,
-  Wand2,
-  ScanSearch,
-  FileText,
 } from "lucide-react";
 import Link from "next/link";
 import AnimatedHeroTitle from "./AnimatedHeroTitle";
@@ -13,9 +12,10 @@ import HeroShowcase from "./HeroShowcase";
 import { Button } from "./ui/button";
 
 const benefits = [
-  "Creador de CV online",
-  "Estructura compatible con ATS",
+  "CV optimizado para ATS",
+  "Plantillas profesionales",
   "Descarga en PDF",
+  "Actualizaciones ilimitadas",
 ];
 
 export default function WelcomeHero() {
@@ -32,8 +32,8 @@ export default function WelcomeHero() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#111113] to-transparent" />
       </div>
 
-      <div className="mx-auto grid max-w-7xl min-w-0 items-center gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(500px,1.08fr)] lg:gap-12">
-        <div className="mx-auto min-w-0 max-w-[358px] text-left sm:mx-0 sm:max-w-3xl">
+      <div className="mx-auto grid max-w-7xl min-w-0 items-center gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(340px,1fr)] lg:gap-6">
+        <div className="mx-auto min-w-0 max-w-xl text-left sm:mx-0 sm:max-w-2xl">
           <div className="hero-fade-up mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-sm text-[#F4F4F5]/76 shadow-2xl shadow-black/20 backdrop-blur">
             <Sparkles className="h-4 w-4 shrink-0 text-[#38BDF8]" />
             <span className="truncate">Creador de CV con IA para postulaciones reales</span>
@@ -42,19 +42,16 @@ export default function WelcomeHero() {
           <AnimatedHeroTitle />
 
           <p className="hero-fade-up hero-fade-up-3 mx-auto mt-5 max-w-2xl text-pretty text-base leading-7 text-[#F4F4F5]/74 sm:mx-0 sm:mt-6 sm:text-lg md:text-xl md:leading-8">
-            VitaeSpark es un creador de CV online que transforma tus datos en
-            un curriculum claro, profesional y listo para descargar. Ideal para
-            presentar tu experiencia sin sonar generico ni perder horas
-            editando.
+            VitaeSpark es un creador de CV online que transforma tus datos en un currículum claro, profesional y listo para descargar. Ideal para presentar tu experiencia sin sonar genérico ni perder horas editando.
           </p>
 
-          <div className="hero-fade-up hero-fade-up-4 mx-auto mt-6 flex max-w-[358px] flex-col items-stretch gap-3 sm:mx-0 sm:mt-8 sm:max-w-none sm:flex-row sm:items-center">
+          <div className="hero-fade-up hero-fade-up-4 mx-auto mt-6 flex max-w-xl flex-col items-stretch gap-3 sm:mx-0 sm:mt-8 sm:max-w-none sm:flex-row sm:items-center">
             <Link href="/crear" className="w-full sm:w-auto">
               <Button
                 size="lg"
                 className="h-[52px] w-full rounded-xl bg-[#7C3AED] px-6 text-base font-semibold text-white shadow-lg shadow-[#7C3AED]/25 transition hover:bg-[#6D28D9] sm:h-14 sm:w-auto sm:px-7"
               >
-                Crear mi CV online
+                Crear mi CV ahora
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -66,7 +63,7 @@ export default function WelcomeHero() {
             </Link>
           </div>
 
-          <div className="mt-7 hidden max-w-[358px] flex-wrap gap-3 text-sm text-[#F4F4F5]/72 sm:flex sm:max-w-full">
+          <div className="mt-7 hidden max-w-xl flex-wrap gap-3 text-sm text-[#F4F4F5]/72 sm:flex sm:max-w-full">
             {benefits.map((item) => (
               <span
                 key={item}
@@ -85,33 +82,31 @@ export default function WelcomeHero() {
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-white">
-                  Creador de CV online
+                  Descarga tu CV en PDF
                 </p>
                 <p className="mt-0.5 text-xs leading-5 text-white/68">
-                  Texto claro, estructura ATS y PDF listo para postular.
+                  Listo para enviar a empresas
                 </p>
               </div>
             </div>
             <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[10px] font-semibold uppercase tracking-[0.08em] text-white/65">
-              <span className="rounded-xl bg-black/20 px-2 py-2">IA</span>
-              <span className="rounded-xl bg-black/20 px-2 py-2 text-[#38BDF8]">
-                ATS
-              </span>
+              <span className="rounded-xl bg-black/20 px-2 py-2">ES</span>
+              <span className="rounded-xl bg-black/20 px-2 py-2 text-[#38BDF8]">ATS</span>
               <span className="rounded-xl bg-black/20 px-2 py-2">PDF</span>
             </div>
           </div>
 
-          <div className="mt-7 hidden max-w-[358px] grid-cols-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] text-center shadow-xl shadow-black/15 backdrop-blur sm:max-w-full lg:hidden">
+          <div className="mt-7 hidden max-w-xl grid-cols-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] text-center shadow-xl shadow-black/15 backdrop-blur sm:max-w-full lg:hidden">
             <div className="border-r border-white/10 px-3 py-3">
-              <p className="text-sm font-bold text-white">IA</p>
+              <p className="text-sm font-bold text-white">ES</p>
               <p className="mt-1 text-[10px] uppercase tracking-wide text-white/60">
-                Redaccion
+                Redacción
               </p>
             </div>
             <div className="border-r border-white/10 px-3 py-3">
               <p className="text-sm font-bold text-[#38BDF8]">ATS</p>
               <p className="mt-1 text-[10px] uppercase tracking-wide text-white/60">
-                Lectura
+                Optimizado
               </p>
             </div>
             <div className="px-3 py-3">

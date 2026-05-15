@@ -9,9 +9,7 @@ export const metadata = buildMetadata({
   path: "/privacy",
   keywords: ["privacidad vitae spark", "politica de privacidad vitae spark"],
   languages: {
-    es: "/privacy",
-    en: "/en/privacy",
-    "x-default": "/privacy",
+    es: "/privacidad",
   },
 });
 

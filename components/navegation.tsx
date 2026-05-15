@@ -95,25 +95,12 @@ function CustomLinkButton({
 
 export function Navegation() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname();
-  const isEnglish = pathname === "/en" || pathname.startsWith("/en/");
-  const homeHref = isEnglish ? "/en" : "/";
-  const createHref = isEnglish ? "/crear?lang=en" : "/crear";
-  const guideHref = isEnglish ? "/en/ai-resume-builder" : "/blog";
-  const labels = {
-    create: isEnglish ? "Create resume" : "Crear CV",
-    home: isEnglish ? "Home" : "Inicio",
-    guide: isEnglish ? "Guide" : "Blog",
-    profile: isEnglish ? "Profile" : "Perfil",
-    openMenu: isEnglish ? "Open menu" : "Abrir menu",
-    closeMenu: isEnglish ? "Close menu" : "Cerrar menu",
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#27272A]/50 bg-[#111113]/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-0">
         <Link
-          href={homeHref}
+          href="/"
           className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
           <Image
@@ -126,59 +113,40 @@ export function Navegation() {
           />
         </Link>
 
-        <nav aria-label="Navegacion principal" className="hidden items-center gap-3 md:flex">
-          <CustomLinkButton href={createHref} variant="primary" size="sm">
+        <nav aria-label="Navegación principal" className="hidden items-center gap-3 md:flex">
+          <CustomLinkButton href="/crear" variant="primary" size="sm">
             <Paperclip className="h-4 w-4" />
-            {labels.create}
+            Crear CV
           </CustomLinkButton>
-          <CustomLinkButton href={homeHref} variant="ghost" size="sm">
+          <CustomLinkButton href="/" variant="ghost" size="sm">
             <HomeIcon className="h-4 w-4" />
-            {labels.home}
+            Inicio
           </CustomLinkButton>
-          <CustomLinkButton href={guideHref} variant="ghost" size="sm">
+          <CustomLinkButton href="/blog" variant="ghost" size="sm">
             <FileText className="h-4 w-4" />
-            {labels.guide}
+            Guía
           </CustomLinkButton>
-          <div className="ml-1 flex rounded-lg border border-white/10 bg-white/[0.03] p-1 text-xs font-semibold">
-            <Link
-              href="/"
-              className={`rounded-md px-2 py-1 transition ${!isEnglish ? "bg-white/10 text-white" : "text-white/50 hover:text-white"
-                }`}
-            >
-              ES
-            </Link>
-            <Link
-              href="/en"
-              className={`rounded-md px-2 py-1 transition ${isEnglish ? "bg-white/10 text-white" : "text-white/50 hover:text-white"
-                }`}
-            >
-              EN
-            </Link>
-          </div>
           <AuthControls />
         </nav>
 
         <div className="flex items-center gap-4 md:hidden">
-          <CustomLinkButton href={createHref} variant="primary" size="sm">
+          <CustomLinkButton href="/crear" variant="primary" size="sm">
             <Paperclip className="h-4 w-4" />
-            <span className="hidden xs:inline">{labels.create}</span>
+            <span className="hidden xs:inline">Crear CV</span>
           </CustomLinkButton>
-          <CustomLinkButton href={homeHref} variant="ghost" size="sm">
+          <CustomLinkButton href="/" variant="ghost" size="sm">
             <HomeIcon className="h-4 w-4" />
-            <span className="hidden xs:inline">{labels.home}</span>
+            <span className="hidden xs:inline">Inicio</span>
           </CustomLinkButton>
-          <CustomLinkButton href={guideHref} variant="ghost" size="sm">
+          <CustomLinkButton href="/blog" variant="ghost" size="sm">
             <FileText className="h-4 w-4" />
-            <span className="hidden xs:inline">{labels.guide}</span>
-          </CustomLinkButton>
-          <CustomLinkButton href={isEnglish ? "/" : "/en"} variant="ghost" size="sm">
-            {isEnglish ? "ES" : "EN"}
+            <span className="hidden xs:inline">Guía</span>
           </CustomLinkButton>
           <CustomButton
             variant="ghost"
             size="sm"
             onClick={() => setMenuOpen((current) => !current)}
-            aria-label={menuOpen ? labels.closeMenu : labels.openMenu}
+            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
             className="p-2"
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -189,11 +157,14 @@ export function Navegation() {
       {menuOpen && (
         <div className="space-y-3 border-t border-[#27272A]/50 bg-[#0F0F10] px-4 py-4 md:hidden">
           <AuthControls mobile onNavigate={() => setMenuOpen(false)} />
-          <CustomLinkButton href="/perfil" variant="ghost" size="sm">
+          <CustomLinkButton
+            href="/perfil"
+            variant="ghost"
+            size="sm"
+          >
             <User2 className="h-4 w-4" />
-            <span className="hidden xs:inline">{labels.profile}</span>
+            <span className="hidden xs:inline">Mi perfil</span>
           </CustomLinkButton>
-
         </div>
       )}
     </header>

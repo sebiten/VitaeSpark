@@ -9,9 +9,7 @@ export const metadata = buildMetadata({
   path: "/refund",
   keywords: ["reembolsos vitae spark", "politica de reembolsos vitae spark"],
   languages: {
-    es: "/refund",
-    en: "/en/refund",
-    "x-default": "/refund",
+    es: "/reembolsos",
   },
 });
 

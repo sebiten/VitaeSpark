@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import PerfilCVs from "./PerfilCVs";
 
-export default function PerfilPage() {
+export default async function PerfilPage() {
   return (
     <Suspense
       fallback={

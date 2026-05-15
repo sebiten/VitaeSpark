@@ -49,7 +49,7 @@ export function SubmitButton({
       {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Un momento...
+          Cargando...
         </>
       ) : (
         children
@@ -100,7 +100,7 @@ export default function AuthPageClient() {
       setRegistrationSuccess(true);
       setActiveTab("login");
     } catch (error) {
-      console.error("Error durante el registro:", error);
+      console.error("Error during registration:", error);
     }
   }
 
@@ -113,19 +113,19 @@ export default function AuthPageClient() {
   const getErrorMessage = (errorCode: string) => {
     switch (errorCode) {
       case "missing-fields":
-        return "Por favor completa todos los campos requeridos.";
+        return "Completa todos los campos";
       case "invalid-credentials":
-        return "Email o contraseña incorrectos.";
+        return "Credenciales inválidas";
       case "signup-failed":
-        return "No se pudo completar el registro. Intenta nuevamente.";
+        return "Error al registrarse";
       case "user-already-exists":
-        return "Este email ya está registrado.";
+        return "El usuario ya existe";
       case "weak_password":
-        return "Ingresa una contraseña mas segura";
+        return "Contraseña muy débil";
       case "password-mismatch":
-        return "Las contraseñas no coinciden.";
+        return "Las contraseñas no coinciden";
       default:
-        return "Ocurrió un error. Intenta nuevamente.";
+        return "Ocurrió un error";
     }
   };
 
@@ -143,17 +143,14 @@ export default function AuthPageClient() {
       <FloatingRobot size="sm" className="top-20 right-8 opacity-40" />
 
       <div className="relative w-full max-w-[420px]">
-     
 
         <Card className="w-full shadow-2xl shadow-black/20 border border-white/10 bg-[#1C1C22]/95 backdrop-blur rounded-2xl">
           <CardHeader className="space-y-1 text-center py-4">
             <CardTitle className="text-xl font-semibold text-white">
-              {activeTab === "login" ? "Bienvenido de nuevo" : "Crea tu cuenta"}
+              {activeTab === "login" ? "¡Bienvenido!" : "Crear cuenta"}
             </CardTitle>
             <CardDescription className="text-white/50">
-              {activeTab === "login"
-                ? "Inicia sesión para gestionar y crear tu CV."
-                : "Regístrate para comenzar a crear tu CV."}
+              {activeTab === "login" ? "Ingresa tus datos para continuar" : "Regístrate para empezar"}
             </CardDescription>
           </CardHeader>
 
@@ -165,7 +162,7 @@ export default function AuthPageClient() {
                 <div className="w-full border-t border-white/10" />
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="bg-[#1C1C22] px-3 text-white/60">o continua con email</span>
+                <span className="bg-[#1C1C22] px-3 text-white/60">o continúa con email</span>
               </div>
             </div>
 
@@ -208,12 +205,12 @@ export default function AuthPageClient() {
 
                 <form action={login} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="email-login" className="text-sm text-white/70">Email</Label>
+                    <Label htmlFor="email-login" className="text-sm text-white/70">Correo</Label>
                     <Input
                       id="email-login"
                       name="email"
                       type="email"
-                      placeholder="tu@email.com"
+                      placeholder="tu@correo.com"
                       className="bg-[#27272A] border-white/10 text-white rounded-xl h-11"
                       required
                     />
@@ -225,7 +222,7 @@ export default function AuthPageClient() {
                         href="/forgot-password"
                         className="text-xs text-[#8B5CF6] hover:underline"
                       >
-                        ¿Olvidaste?
+                        ¿Olvidaste tu contraseña?
                       </a>
                     </div>
                     <Input
@@ -255,7 +252,7 @@ export default function AuthPageClient() {
                           className="p-0 h-auto text-[#8B5CF6] ml-1"
                           onClick={switchToLogin}
                         >
-                          Iniciar sesión
+                          Ir a iniciar sesión
                         </Button>
                       )}
                     </AlertDescription>
@@ -268,18 +265,18 @@ export default function AuthPageClient() {
                     <Input
                       id="name-register"
                       name="name"
-                      placeholder="Juan Pérez"
+                      placeholder="Tu nombre"
                       className="bg-[#27272A] border-white/10 text-white rounded-xl h-11"
                       required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email-register" className="text-sm text-white/70">Email</Label>
+                    <Label htmlFor="email-register" className="text-sm text-white/70">Correo</Label>
                     <Input
                       id="email-register"
                       name="email"
                       type="email"
-                      placeholder="tu@email.com"
+                      placeholder="tu@correo.com"
                       className="bg-[#27272A] border-white/10 text-white rounded-xl h-11"
                       required
                     />
@@ -339,12 +336,12 @@ export default function AuthPageClient() {
 
           <CardFooter className="flex justify-center pt-2">
             <p className="text-xs text-white/60 text-center">
-              Al continuar, aceptas nuestros{" "}
-              <a href="/terms" className="text-[#8B5CF6] hover:underline">
+              Al registrarte aceptas nuestros{" "}
+              <a href="/terminos" className="text-[#8B5CF6] hover:underline">
                 Términos
               </a>{" "}
               y{" "}
-              <a href="/privacy" className="text-[#8B5CF6] hover:underline">
+              <a href="/privacidad" className="text-[#8B5CF6] hover:underline">
                 Privacidad
               </a>
               .
@@ -354,7 +351,7 @@ export default function AuthPageClient() {
 
         <p className="mt-6 text-center text-sm text-white/60">
           <Link href="/" className="text-[#8B5CF6] hover:underline">
-            ← Volver al inicio
+            Volver al inicio
           </Link>
         </p>
       </div>

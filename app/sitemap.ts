@@ -5,13 +5,10 @@ export const dynamic = "force-static";
 
 const publicRoutes = [
   "/",
-  "/en",
-  "/en/ai-resume-builder",
-  "/en/terms",
-  "/en/privacy",
-  "/en/refund",
   "/blog",
+  "/crear",
   "/crear-cv-online",
+  "/curriculum-ats",
   "/curriculum-ats",
   "/curriculum-sin-experiencia",
   "/curriculum-vitae-ejemplo",
@@ -70,12 +67,37 @@ const publicRoutes = [
   "/cv-para-seguridad-sin-experiencia",
 ];
 
+function getChangeFrequency(route: string): MetadataRoute.Sitemap[number]["changeFrequency"] {
+  if (route.startsWith("/blog/")) return "weekly";
+  if (route.startsWith("/comparar/")) return "weekly";
+  if (route.startsWith("/glosario/")) return "weekly";
+  return "daily";
+}
+
+function getPriority(route: string): number {
+  if (route === "/" || route === "/crear") return 1;
+  if (route.startsWith("/blog/")) return 0.7;
+  if (route.startsWith("/comparar/")) return 0.6;
+  if (route.startsWith("/glosario/")) return 0.6;
+  return 0.8;
+}
+
+function getLanguageAlternate(route: string, baseUrl: URL): MetadataRoute.Sitemap[number]["alternates"] {
+  const url = new URL(route, baseUrl).toString();
+  return {
+    languages: {
+      es: url,
+    },
+  };
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getBaseUrl();
 
   return publicRoutes.map((route) => ({
     url: new URL(route, baseUrl).toString(),
-    changeFrequency: route.startsWith("/blog/") ? "weekly" : "daily",
-    priority: route === "/" ? 1 : route.startsWith("/blog/") ? 0.7 : 0.8,
+    changeFrequency: getChangeFrequency(route),
+    priority: getPriority(route),
+    ...getLanguageAlternate(route, baseUrl),
   }));
 }

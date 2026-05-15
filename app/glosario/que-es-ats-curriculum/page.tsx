@@ -78,26 +78,36 @@ export default function QueEsAtsCurriculumPage() {
       ]}
       faqs={[
         {
-          question: "Un CV para ATS tiene que ser aburrido visualmente?",
+          question: "Cuánto tiempo tiene que tener un CV para ATS?",
           answer:
-            "No. Un CV bien diseñado para ATS puede mantener una presentación profesional y limpia, sin elementos gráficos que interfieran con la lectura del sistema. VitaeSpark diseña plantillas que son compatibles con ATS sin sacrificar la apariencia.",
-          },
-        {
-          question: "Las palabras clave son lo mismo que 'spammear' el CV con términos?",
-          answer:
-            "No. Forzar palabras clave sin contexto puede perjudicar tu CV. Las palabras clave deben aparecer de forma natural y representar habilidades o experiencias reales. La calidad del contenido sigue siendo más importante que la cantidad.",
-          },
+            "La extensión ideal es de 1 a 2 páginas. Menos de una puede parecer incompleto. Más de dos aumenta el riesgo de que el ATS confunda o descarte información. Si tenés mucha experiencia, priorizá lo más relevante para cada puesto.",
+        },
         {
           question: "Puedo usar el mismo CV para todos los puestos?",
           answer:
-            "Se recomienda personalizarlo según cada oferta, especialmente las palabras clave. Un CV base adaptado a cada puesto tiene muchas más posibilidades de pasar el filtro ATS que uno genérico.",
-          },
+            "Podés usar un CV base, pero necesitás personalizar las palabras clave y ajustar el resumen para cada oferta. Un CV genérico con las mismas palabras clave para todos los puestos tiene menos chances de pasar el ATS que uno adaptado a cada aplicación.",
+        },
         {
-          question: "Qué formato de archivo es más seguro para el ATS?",
+          question: "Las fotos y gráficos arruinan el CV para el ATS?",
           answer:
-            "PDF es generalmente el más seguro porque preserva el formato. Algunos ATS más antiguos tienen dificultades con PDF, pero en la mayoría de los casos modernos, PDF funciona correctamente. Si la empresa indica otro formato, seguí esa indicación.",
-          },
-        ]}
+            "Sí. Cualquier elemento visual (fotos, íconos, gráficos, texturas, colores) no es leído por el ATS. En el mejor caso, el sistema ignora esos elementos y solo extrae texto. En el peor, pueden romper la estructura del documento y hacer que pierdas información. Lo más seguro es un CV limpio, solo texto.",
+        },
+        {
+          question: "PDF o Word: cuál formato es mejor para ATS?",
+          answer:
+            "PDF es generalmente la opción más segura porque preserva el formato en cualquier sistema. Word (.docx) también funciona, pero algunos ATS más antiguos pueden tener problemas para leer correctamente el diseño. Si la empresa especifica un formato, seguí esa indicación.",
+        },
+        {
+          question: "Cómo sé si mi CV pasó el filtro ATS?",
+          answer:
+            "No hay forma segura de saber si tu CV pasó o no, excepto aplicando y esperando respuesta. Por eso es clave testearlo antes con herramientas de simulación o haciendo la prueba del documento de texto plano. Si tu CV pasa esas pruebas, tiene muchas más chances de avanzar.",
+        },
+        {
+          question: "Los ATS rechazan CV buenos por no tener palabras clave exactas?",
+          answer:
+            "Sí, puede pasar. El ATS busca coincidencia entre las palabras clave de la vacante y las de tu CV. Si tu experiencia es relevante pero usás términos diferentes a los de la oferta, el sistema puede puntuarte bajo aunque seas un buen candidato. Por eso es clave leer la oferta y alinear tu lenguaje con el de la vacante.",
+        },
+      ]}
       relatedLinks={[
         {
           href: "/curriculum-ats",

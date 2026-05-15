@@ -31,7 +31,7 @@ export default function UpdatePasswordForm() {
       } = await supabase.auth.getSession()
 
       if (!session) {
-        toast.error("Acceso denegado. Debes estar autenticado para cambiar tu contraseña")
+        toast.error("Acceso denegado")
         router.push("/login")
       } else {
         setIsAuthenticated(true)
@@ -59,7 +59,6 @@ export default function UpdatePasswordForm() {
     setIsSubmitting(true)
 
     try {
-      // Actualizar la contraseña del usuario
       const { error } = await supabase.auth.updateUser({
         password: password,
       })
@@ -68,14 +67,13 @@ export default function UpdatePasswordForm() {
         throw error
       }
 
-      toast.success("¡Tu contraseña ha sido actualizada correctamente!")
+      toast.success("Contraseña actualizada")
 
-      // Redirigir al usuario a la página de inicio de sesión
       setTimeout(() => {
         router.push("/login")
       }, 2000)
     } catch (error: any) {
-      toast.error(error.message || "Ocurrió un error al actualizar tu contraseña")
+      toast.error(error.message || "Ocurrió un error")
     } finally {
       setIsSubmitting(false)
     }
@@ -92,7 +90,7 @@ export default function UpdatePasswordForm() {
   }
 
   if (!isAuthenticated) {
-    return null // No renderizar nada si no está autenticado (será redirigido)
+    return null
   }
 
   return (
@@ -100,15 +98,15 @@ export default function UpdatePasswordForm() {
       <CardHeader className="space-y-1">
         <div className="flex items-center">
           <img src="/logoreal.webp" alt="VitaeSpark Logo" className="mr-2 h-10 w-10" />
-          <CardTitle className="text-2xl font-bold text-white">VitaeSpark</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white">Nueva contraseña</CardTitle>
         </div>
-        <CardDescription className="text-white">Establece tu nueva contraseña</CardDescription>
+        <CardDescription className="text-white">Ingresa tu nueva contraseña</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="password" className="text-white">
-              Nueva Contraseña
+              Nueva contraseña
             </Label>
             <div className="relative">
               <Input
@@ -133,13 +131,13 @@ export default function UpdatePasswordForm() {
                 ) : (
                   <Eye className="h-4 w-4" aria-hidden="true" />
                 )}
-                <span className="sr-only">{showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}</span>
+                <span className="sr-only">{showPassword ? "Ocultar" : "Mostrar"} contraseña</span>
               </Button>
             </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="confirmPassword" className="text-white">
-              Confirmar Contraseña
+              Confirmar contraseña
             </Label>
             <div className="relative">
               <Input
@@ -164,7 +162,7 @@ export default function UpdatePasswordForm() {
                 ) : (
                   <Eye className="h-4 w-4" aria-hidden="true" />
                 )}
-                <span className="sr-only">{showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}</span>
+                <span className="sr-only">{showConfirmPassword ? "Ocultar" : "Mostrar"} confirmación</span>
               </Button>
             </div>
           </div>
@@ -175,7 +173,7 @@ export default function UpdatePasswordForm() {
                 Actualizando...
               </>
             ) : (
-              "Actualizar Contraseña"
+              "Actualizar contraseña"
             )}
           </Button>
         </form>

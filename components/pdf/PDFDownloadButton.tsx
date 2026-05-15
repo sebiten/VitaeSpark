@@ -17,7 +17,7 @@ export default function PDFDownloadButton({
   cv,
   template,
   className,
-  label = "Descargar",
+  label,
 }: Props) {
   return (
     <PDFDownloadLink
@@ -35,7 +35,7 @@ export default function PDFDownloadButton({
           ) : (
             <Download className="h-4 w-4" />
           )}
-          <span className="ml-2">{loading ? "Preparando..." : label}</span>
+          <span className="ml-2">{loading ? "Descargando..." : (label || "Descargar PDF")}</span>
         </Button>
       )}
     </PDFDownloadLink>

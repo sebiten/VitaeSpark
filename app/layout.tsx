@@ -53,9 +53,6 @@ export const metadata: Metadata = {
     "max-image-preview": "large",
     "max-video-preview": -1,
   },
-  alternates: {
-    canonical: baseUrl.href,
-  },
   manifest: "/favicons/manifest.json",
   openGraph: {
     type: "website",
@@ -110,7 +107,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -154,7 +151,7 @@ export default function RootLayout({
               name: "Vitae Spark",
               alternateName: "Creador de currículum online",
               description:
-                "Genera currículum vitae online con IA, optimizado para ATS y reclutadores.",
+                "Crea tu currículum vitae online con inteligencia artificial, plantillas profesionales y enfoque ATS para conseguir más entrevistas.",
             }),
           }}
         />

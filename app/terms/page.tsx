@@ -9,9 +9,7 @@ export const metadata = buildMetadata({
   path: "/terms",
   keywords: ["terminos vitae spark", "terminos vitae spark cv"],
   languages: {
-    es: "/terms",
-    en: "/en/terms",
-    "x-default": "/terms",
+    es: "/terminos",
   },
 });
 

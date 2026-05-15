@@ -25,15 +25,13 @@ export default function BlogIndexPage() {
       <section className="border-b border-white/10 bg-gradient-to-b from-[#1C1C22] to-[#111113]">
         <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8">
           <span className="inline-flex rounded-full border border-[#7C3AED]/30 bg-[#7C3AED]/10 px-4 py-1 text-sm font-medium text-[#A78BFA]">
-            Blog VitaeSpark
+            Blog
           </span>
           <h1 className="mt-6 max-w-[358px] text-pretty text-[2.45rem] font-bold leading-tight sm:max-w-4xl sm:text-5xl">
-            Guias para crear un mejor curriculum y encontrar trabajo
+            Guías para crear el mejor currículum
           </h1>
           <p className="mt-6 max-w-[358px] text-base leading-8 text-white/75 sm:max-w-3xl sm:text-lg">
-            Reunimos contenido pensado para personas que quieren crear su CV,
-            mejorar postulaciones, entender ATS y prepararse mejor para el
-            mercado laboral.
+            Artículos prácticos sobre CV, ATS, habilidades y empleo para mejorar tus oportunidades laborales.
           </p>
         </div>
       </section>
@@ -50,7 +48,7 @@ export default function BlogIndexPage() {
               className="h-64 w-full object-cover object-top"
             />
             <figcaption className="border-t border-white/10 px-5 py-4 text-sm text-white/72">
-              Ejemplo de CV moderno optimizado para ATS.
+              CV moderno con diseño profesional
             </figcaption>
           </figure>
           <figure className="overflow-hidden rounded-3xl border border-white/10 bg-[#1C1C22]">
@@ -63,7 +61,7 @@ export default function BlogIndexPage() {
               className="h-64 w-full object-cover object-top"
             />
             <figcaption className="border-t border-white/10 px-5 py-4 text-sm text-white/72">
-              Ejemplo de CV profesional con diseño elegante.
+              CV elegante con estilo clásico
             </figcaption>
           </figure>
         </div>
@@ -76,34 +74,34 @@ export default function BlogIndexPage() {
             Recursos recomendados
           </h2>
           <p className="text-sm text-white/50 mb-6">
-            Para seguir creciendo en tu carrera
+            Explora más herramientas para crear tu currículum perfecto.
           </p>
           <div className="grid gap-4 md:grid-cols-3">
             <Link
               href="/plantillas-curriculum"
               className="group rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]"
             >
-              <h3 className="text-sm font-semibold text-white/90 mb-1.5">Plantillas de curriculum</h3>
+              <h3 className="text-sm font-semibold text-white/90 mb-1.5">Plantillas</h3>
               <p className="text-xs text-white/50 leading-relaxed">
-                Explora formatos y estructuras para distintos perfiles.
+                Explora plantillas profesionales para tu CV
               </p>
             </Link>
             <Link
               href="/generador-de-cv-con-ia"
               className="group rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]"
             >
-              <h3 className="text-sm font-semibold text-white/90 mb-1.5">Generador de CV con IA</h3>
+              <h3 className="text-sm font-semibold text-white/90 mb-1.5">Generador con IA</h3>
               <p className="text-xs text-white/50 leading-relaxed">
-                Lleva estas guías a la práctica dentro del flujo de VitaeSpark.
+                Crea tu CV automáticamente con inteligencia artificial
               </p>
             </Link>
             <Link
               href="/cv-profesional"
               className="group rounded-xl border border-white/[0.06] bg-[#1C1C22] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-white/[0.12]"
             >
-              <h3 className="text-sm font-semibold text-white/90 mb-1.5">CV profesional</h3>
+              <h3 className="text-sm font-semibold text-white/90 mb-1.5">CV Profesional</h3>
               <p className="text-xs text-white/50 leading-relaxed">
-                Da el siguiente paso si quieres una versión más competitiva.
+                Aprende qué debe tener un CV profesional
               </p>
             </Link>
           </div>

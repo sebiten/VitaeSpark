@@ -66,6 +66,22 @@ function slugify(text: string) {
     .replace(/\s+/g, "-");
 }
 
+const marketingLabels = {
+  crearMiCv: "Crear mi CV gratis",
+  verGuias: "Ver guías",
+  guiaPractica: "Guía práctica",
+  preguntasFrecuentes: "Preguntas frecuentes",
+  comoFunciona: "Cómo funciona",
+  tambienTePuedeServir: "También te puede servir",
+  visualAlt: "Ejemplo de CV generado con VitaeSpark",
+  visualCaption: "Currículum profesional generado",
+};
+
+const blogLabels = {
+  inicio: "Inicio",
+  blog: "Blog",
+};
+
 export function MarketingPage({
   path,
   eyebrow,
@@ -78,14 +94,15 @@ export function MarketingPage({
   faqs,
   relatedLinks,
   exampleImage,
-  ctaLabel = "Crear mi CV",
+  ctaLabel,
 }: MarketingPageProps) {
   const sectionIcons = [FileText, PenLine, Lightbulb, CheckCircle2];
   const visual = exampleImage ?? {
     src: "/purple-hero.webp",
-    alt: "Ejemplo de curriculum profesional creado con VitaeSpark",
-    caption: "Referencia visual de CV profesional creado con VitaeSpark.",
+    alt: marketingLabels.visualAlt,
+    caption: marketingLabels.visualCaption,
   };
+  const cta = ctaLabel || marketingLabels.crearMiCv;
 
   const baseUrl = getBaseUrl();
 
@@ -131,8 +148,8 @@ export function MarketingPage({
         <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-20 sm:px-6 lg:px-8">
           <Breadcrumbs
             items={[
-              { label: "Inicio", href: "/" },
-              { label: "Recursos", href: "/blog" },
+              { label: blogLabels.inicio, href: "/" },
+              { label: blogLabels.blog, href: "/blog" },
               { label: eyebrow, href: path },
             ]}
           />
@@ -152,7 +169,7 @@ export function MarketingPage({
             <div className="flex flex-wrap gap-3">
               <TrackedCtaLink
                 href="/crear"
-                label={ctaLabel}
+                label={cta}
                 sourcePath={path}
                 sourceType="landing"
               />
@@ -162,7 +179,7 @@ export function MarketingPage({
                   variant="outline"
                   className="border-white/15 bg-white/5 text-white hover:bg-white/10"
                 >
-                  Ver guias
+                  {marketingLabels.verGuias}
                 </Button>
               </Link>
             </div>
@@ -192,7 +209,7 @@ export function MarketingPage({
             <div className="min-w-0 w-full max-w-[calc(100vw-2rem)] sm:max-w-full">
               <div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-[#38BDF8]">
                 <BookOpenCheck className="h-4 w-4" />
-                Guia practica
+                {marketingLabels.guiaPractica}
               </div>
               <div className="space-y-5">
                 {intro.map((paragraph) => (
@@ -263,7 +280,7 @@ export function MarketingPage({
               <div className="rounded-xl bg-[#7C3AED]/15 p-2.5 text-[#A78BFA] ring-1 ring-[#A78BFA]/20" aria-hidden="true">
                 <HelpCircle className="h-5 w-5" />
               </div>
-              <h2 className="text-2xl font-semibold">Preguntas frecuentes</h2>
+              <h2 className="text-2xl font-semibold">{marketingLabels.preguntasFrecuentes}</h2>
             </div>
             <div className="divide-y divide-white/10">
               {faqs.map((faq) => (
@@ -284,7 +301,7 @@ export function MarketingPage({
           <div className="border-l border-[#7C3AED]/30 pl-6">
             <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#A78BFA]">
               <Route className="h-4 w-4" aria-hidden="true" />
-              Como funciona
+              {marketingLabels.comoFunciona}
             </div>
             <div className="space-y-5">
               {steps.map((step, index) => (
@@ -311,7 +328,7 @@ export function MarketingPage({
           <div className="border-l border-[#38BDF8]/30 pl-6">
             <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">
               <Link2 className="h-4 w-4" aria-hidden="true" />
-              Tambien te puede servir
+              {marketingLabels.tambienTePuedeServir}
             </div>
             <div className="grid gap-5">
               {relatedLinks.map((link) => (

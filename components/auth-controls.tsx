@@ -137,7 +137,7 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
           className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-[#F4F4F5]/70 hover:bg-[#1F1F22]/50 hover:text-[#F4F4F5]"
         >
           <User2 className="h-4 w-4" />
-          Perfil
+          Mi perfil
         </Link>
         <form action={logout} className="w-full">
           <button
@@ -168,7 +168,7 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
         className="inline-flex items-center justify-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-[#F4F4F5]/70 hover:bg-[#1F1F22]/50 hover:text-[#F4F4F5]"
       >
         <User2 className="h-4 w-4" />
-        Perfil
+        Mi perfil
       </Link>
       <DropdownMenu>
         <DropdownMenuTrigger className="flex cursor-pointer items-center gap-2 rounded-lg p-2 transition-opacity hover:bg-[#1F1F22]/50 hover:opacity-80">
@@ -181,7 +181,7 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
         <DropdownMenuContent className="border-white/10 bg-[#1C1C22] text-[#F4F4F5] shadow-xl shadow-black/20 rounded-xl">
           <DropdownMenuItem asChild>
             <Link href="/perfil" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" /> Perfil
+              <FileText className="h-4 w-4" /> Mi perfil
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>

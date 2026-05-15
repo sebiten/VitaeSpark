@@ -44,8 +44,24 @@ type BlogArticlePageProps = {
   dateModified?: string;
 };
 
+const blogLabels = {
+  guiaBadge: "Guía",
+  lecturaRecomendada: "Lectura recomendada",
+  crearMiCv: "Crear mi CV gratis",
+  verMasArticulos: "Ver más artículos",
+  preguntasFrecuentes: "Preguntas frecuentes",
+  tambienTePuedeServir: "También te puede servir",
+  ejemploAlt: "Ejemplo de currículum",
+  figcaption: "Currículum profesional creado con VitaeSpark",
+};
+
+const blogBreadcrumbs = {
+  inicio: "Inicio",
+  blog: "Blog",
+};
+
 export function BlogArticlePage({
-path,
+  path,
   title,
   description,
   intro,
@@ -107,7 +123,7 @@ path,
       : null;
 
   return (
-<div className="overflow-x-hidden bg-[#111113] text-[#F4F4F5]">
+    <div className="overflow-x-hidden bg-[#111113] text-[#F4F4F5]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -123,14 +139,14 @@ path,
         <div className="mx-auto max-w-4xl min-w-0 px-4 py-20 sm:px-6 lg:px-8">
           <Breadcrumbs
             items={[
-              { label: "Inicio", href: "/" },
-              { label: "Blog", href: "/blog" },
+              { label: blogBreadcrumbs.inicio, href: "/" },
+              { label: blogBreadcrumbs.blog, href: "/blog" },
               { label: title, href: path },
             ]}
           />
           <div className="flex flex-wrap items-center gap-3">
             <span className="inline-flex rounded-full border border-[#7C3AED]/30 bg-[#7C3AED]/10 px-4 py-1 text-sm font-medium text-[#A78BFA]">
-              Guia VitaeSpark
+              {blogLabels.guiaBadge}
             </span>
             {datePublished && (
               <time dateTime={datePublished} className="text-sm text-white/60">
@@ -147,7 +163,7 @@ path,
           <div className="mt-8 flex flex-wrap gap-3">
             <TrackedCtaLink
               href="/crear"
-              label="Crear mi CV"
+              label={blogLabels.crearMiCv}
               sourcePath={path}
               sourceType="blog"
             />
@@ -157,7 +173,7 @@ path,
                 variant="outline"
                 className="border-white/15 bg-white/5 text-white hover:bg-white/10"
               >
-                Ver mas articulos
+                {blogLabels.verMasArticulos}
               </Button>
             </Link>
           </div>
@@ -168,9 +184,9 @@ path,
         <article className="min-w-0 max-w-full">
           <div className="mb-12 grid gap-6 border-b border-white/10 pb-10 lg:grid-cols-[1fr_280px]">
             <div>
-<div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-[#38BDF8]">
+              <div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-[#38BDF8]">
                 <BookOpenCheck className="h-4 w-4" aria-hidden="true" />
-                Lectura recomendada
+                {blogLabels.lecturaRecomendada}
               </div>
               <p className="text-lg leading-9 text-white/82 sm:text-xl">
                 {intro}
@@ -179,14 +195,14 @@ path,
             <figure className="overflow-hidden rounded-2xl border border-white/10 bg-[#1C1C22]">
               <Image
                 src="/elegance-good.webp"
-                alt="Ejemplo de curriculum profesional creado con VitaeSpark"
+                alt={blogLabels.ejemploAlt}
                 width={560}
                 height={360}
                 sizes="(min-width: 1024px) 280px, 92vw"
                 className="h-48 w-full object-cover object-top"
               />
               <figcaption className="border-t border-white/10 px-4 py-3 text-xs leading-5 text-white/68">
-                Usa cada guia como referencia y adapta el contenido a tu perfil.
+                {blogLabels.figcaption}
               </figcaption>
             </figure>
           </div>
@@ -201,7 +217,7 @@ path,
               className="border-b border-white/10 pb-10 last:border-b-0"
             >
               <div className="mb-5 flex items-start gap-4">
-<div className="mt-1 rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15" aria-hidden="true">
+                <div className="mt-1 rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15" aria-hidden="true">
                   <Icon className="h-5 w-5" />
                 </div>
                 <h2 className="text-2xl font-semibold leading-snug">
@@ -225,10 +241,10 @@ path,
 
           <section className="mt-12 rounded-2xl border border-white/10 bg-white/[0.035] p-6 sm:p-8">
             <div className="mb-6 flex items-center gap-3">
-<div className="rounded-xl bg-[#7C3AED]/15 p-2.5 text-[#A78BFA] ring-1 ring-[#A78BFA]/20" aria-hidden="true">
-              <HelpCircle className="h-5 w-5" />
-            </div>
-              <h2 className="text-2xl font-semibold">Preguntas frecuentes</h2>
+              <div className="rounded-xl bg-[#7C3AED]/15 p-2.5 text-[#A78BFA] ring-1 ring-[#A78BFA]/20" aria-hidden="true">
+                <HelpCircle className="h-5 w-5" />
+              </div>
+              <h2 className="text-2xl font-semibold">{blogLabels.preguntasFrecuentes}</h2>
             </div>
             <div className="divide-y divide-white/10">
               {faqs.map((faq) => (
@@ -250,7 +266,7 @@ path,
             <FloatingRobot size="sm" className="-top-6 -left-8 opacity-30" />
             <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#8B5CF6]">
               <Link2 className="h-4 w-4" aria-hidden="true" />
-              Tambien te puede servir
+              {blogLabels.tambienTePuedeServir}
             </div>
             <div className="grid gap-5">
               {relatedLinks.map((link) => (

@@ -26,7 +26,7 @@ export default function ForgotPasswordForm() {
     e.preventDefault();
 
     if (!email) {
-      toast.error("Por favor ingresa tu correo electrónico.");
+      toast.error("Ingresa tu correo electrónico");
       return;
     }
 
@@ -46,7 +46,7 @@ export default function ForgotPasswordForm() {
 
       setIsSubmitted(true);
     } catch (error: any) {
-      toast.error(error?.message || "Ocurrió un error al procesar tu solicitud.");
+      toast.error(error?.message || "Ocurrió un error");
     } finally {
       setIsSubmitting(false);
     }
@@ -62,13 +62,13 @@ export default function ForgotPasswordForm() {
             className="mr-2 h-10 w-10"
           />
           <CardTitle className="text-2xl font-bold text-white">
-            VitaeSpark
+            ¿Olvidaste tu contraseña?
           </CardTitle>
         </div>
         <CardDescription>
           {!isSubmitted
-            ? "Ingresa tu correo electrónico para recuperar tu contraseña"
-            : "Revisa tu bandeja de entrada"}
+            ? "Ingresa tu correo para recibir el enlace de recuperación"
+            : "Revisa tu correo para restablecer tu contraseña"}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -81,7 +81,7 @@ export default function ForgotPasswordForm() {
               <Input
                 id="email"
                 type="email"
-                placeholder="tu@ejemplo.com"
+                placeholder="tu@correo.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isSubmitting}
@@ -95,7 +95,7 @@ export default function ForgotPasswordForm() {
                   Enviando...
                 </>
               ) : (
-                "Recuperar contraseña"
+                "Enviar enlace"
               )}
             </Button>
           </form>
@@ -118,12 +118,10 @@ export default function ForgotPasswordForm() {
               </svg>
             </div>
             <p className="text-white">
-              Hemos enviado un correo electrónico a <strong>{email}</strong> con
-              instrucciones para restablecer tu contraseña.
+              Se envió el enlace de recuperación
             </p>
             <p className="animate-pulse text-lg text-green-500">
-              Si no recibes el correo en unos minutos, revisa tu carpeta de spam
-              o intenta nuevamente.
+              Revisa también tu carpeta de spam
             </p>
           </div>
         )}

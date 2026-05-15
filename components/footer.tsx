@@ -4,21 +4,9 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Instagram, Sparkles } from "lucide-react";
-import { usePathname } from "next/navigation";
 import { FloatingRobot } from "@/components/floating-robot";
 
 export function Footer() {
-  const pathname = usePathname();
-  const isEnglish = pathname === "/en" || pathname.startsWith("/en/");
-  const homeHref = isEnglish ? "/en" : "/";
-  const createHref = isEnglish ? "/crear?lang=en" : "/crear";
-  const guideHref = isEnglish ? "/en/ai-resume-builder" : "/blog";
-  const legalHref = {
-    terms: isEnglish ? "/en/terms" : "/terms",
-    privacy: isEnglish ? "/en/privacy" : "/privacy",
-    refund: isEnglish ? "/en/refund" : "/refund",
-  };
-
   return (
     <footer className="relative border-t border-white/10 bg-[#111113] px-4 py-14 md:py-16">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -28,10 +16,10 @@ export function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-[280px]">
-            <Link href={homeHref} className="group mb-4 flex items-center gap-3">
+            <Link href="/" className="group mb-4 flex items-center gap-3">
               <Image
                 src="/logoreal.webp"
-                alt="VitaeSpark"
+                alt="Logo Vitae Spark"
                 width={40}
                 height={40}
                 className="rounded-xl transition-transform group-hover:scale-105"
@@ -39,9 +27,7 @@ export function Footer() {
               <span className="text-lg font-semibold text-white">VitaeSpark</span>
             </Link>
             <p className="mb-5 text-sm leading-relaxed text-white/50">
-              {isEnglish
-                ? "Build ATS-friendly resumes with AI and unlock a clean PDF ready to send."
-                : "Crea curriculum profesionales optimizados para ATS con inteligencia artificial."}
+              Crea tu currículum profesional optimizado para ATS con inteligencia artificial.
             </p>
             <a
               href="https://www.instagram.com/vitae.spark/"
@@ -57,47 +43,35 @@ export function Footer() {
           <div className="grid grid-cols-3 gap-8 sm:gap-12">
             <div>
               <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-white">
-                {isEnglish ? "Product" : "Producto"}
+                Producto
               </h3>
               <ul className="space-y-2.5">
-                <FooterLink href={createHref}>
-                  {isEnglish ? "Create resume" : "Crear CV"}
+                <FooterLink href="/crear">
+                  Crear CV
                 </FooterLink>
                 <FooterLink href="/perfil">
-                  {isEnglish ? "My profile" : "Mi perfil"}
+                  Mi perfil
                 </FooterLink>
-                <FooterLink href={guideHref}>
-                  {isEnglish ? "Guide" : "Blog"}
+                <FooterLink href="/blog">
+                  Guía
                 </FooterLink>
               </ul>
             </div>
 
             <div className="col-span-2 sm:col-span-1">
               <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-white">
-                {isEnglish ? "Resources" : "Recursos"}
+                Recursos
               </h3>
               <ul className="space-y-2.5">
-                {isEnglish ? (
-                  <>
-                    <FooterLink href="/en">AI resume builder</FooterLink>
-                    <FooterLink href="/en/ai-resume-builder">
-                      ATS-friendly resume guide
-                    </FooterLink>
-                    <FooterLink href="/crear?lang=en">Start your resume</FooterLink>
-                  </>
-                ) : (
-                  <>
-                    <FooterLink href="/crear-cv-online">Crear CV online</FooterLink>
-                    <FooterLink href="/curriculum-ats">Curriculum ATS</FooterLink>
-                    <FooterLink href="/curriculum-sin-experiencia">
-                      CV sin experiencia
-                    </FooterLink>
-                    <FooterLink href="/plantilla-harvard">Plantilla Harvard</FooterLink>
-                    <FooterLink href="/generador-de-cv-con-ia">
-                      Generador con IA
-                    </FooterLink>
-                  </>
-                )}
+                <FooterLink href="/crear-cv-online">Crear CV online</FooterLink>
+                <FooterLink href="/curriculum-ats">Curriculum ATS</FooterLink>
+                <FooterLink href="/curriculum-sin-experiencia">
+                  CV sin experiencia
+                </FooterLink>
+                <FooterLink href="/plantilla-harvard">Plantilla Harvard</FooterLink>
+                <FooterLink href="/generador-de-cv-con-ia">
+                  Generador con IA
+                </FooterLink>
               </ul>
             </div>
 
@@ -106,14 +80,14 @@ export function Footer() {
                 Legal
               </h3>
               <ul className="space-y-2.5">
-                <FooterLink href={legalHref.terms}>
-                  {isEnglish ? "Terms" : "Terminos"}
+                <FooterLink href="/terminos">
+                  Términos
                 </FooterLink>
-                <FooterLink href={legalHref.privacy}>
-                  {isEnglish ? "Privacy" : "Privacidad"}
+                <FooterLink href="/privacidad">
+                  Privacidad
                 </FooterLink>
-                <FooterLink href={legalHref.refund}>
-                  {isEnglish ? "Refunds" : "Reembolsos"}
+                <FooterLink href="/reembolsos">
+                  Reembolsos
                 </FooterLink>
               </ul>
 
@@ -139,9 +113,7 @@ export function Footer() {
             <div className="flex items-center gap-1.5 text-xs text-white/50">
               <Sparkles className="h-3 w-3" />
               <span>
-                {isEnglish
-                  ? "Built with AI for your career"
-                  : "Hecho con IA para tu carrera"}
+                Hecho con IA
               </span>
             </div>
           </div>

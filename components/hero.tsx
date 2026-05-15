@@ -83,6 +83,30 @@ function StatBadge({ icon, value, label }: { icon: React.ReactNode; value: strin
   );
 }
 
+const featureCards = [
+  { title: "Optimización ATS", desc: "Tu CV pasa los filtros de las empresas.", tag: "ATS", color: "#8B5CF6", icon: "Search" },
+  { title: "Redacción con IA", desc: "Genera contenido profesional automáticamente.", tag: "IA", color: "#38BDF8", icon: "Sparkles" },
+  { title: "Plantillas Premium", desc: "Diseños exclusivos que destacan.", tag: "Premium", color: "#10B981", icon: "Target" },
+  { title: "Descarga PDF", desc: "Obtén tu CV listo para enviar.", tag: "PDF", color: "#F59E0B", icon: "Download" },
+  { title: "Edición Fácil", desc: "Modifica todo sin complicaciones.", tag: "Fácil", color: "#EC4899", icon: "PencilLine" },
+  { title: "Actualizaciones", desc: "Mejora tu CV cuando quieras.", tag: "Ilimitado", color: "#6366F1", icon: "Layers" },
+];
+
+const faqQuestions = [
+  { q: "¿Cómo funciona VitaeSpark?", a: "Responde algunas preguntas sobre tu experiencia y la IA genera un CV profesional optimizado para ATS." },
+  { q: "¿Necesito experiencia?", a: "No. Puedes crear un CV sin experiencia usando plantillas diseñadas para primer empleo." },
+  { q: "¿Es gratuito?", a: "Puedes crear tu CV gratis con funciones básicas. El plan premium incluye descargas ilimitadas y plantillas exclusivas." },
+  { q: "¿Qué es el enfoque ATS?", a: "ATS son los sistemas que las empresas usan para filtrar currículums. Optimizamos tu CV para que pase esos filtros." },
+  { q: "¿Puedo descargar mi CV?", a: "Sí. Descarga tu CV en PDF optimizado para enviar por email o subir a portales de empleo." },
+];
+
+const guides = [
+  { href: "/curriculum-ats", title: "CV para ATS" },
+  { href: "/plantilla-harvard", title: "Plantilla Harvard" },
+  { href: "/curriculum-sin-experiencia", title: "Sin experiencia" },
+  { href: "/crear-cv-online", title: "Crear CV online" },
+];
+
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-[#111113] text-[#F4F4F5]">
@@ -92,9 +116,9 @@ export default function Home() {
       <section className="border-y border-white/[0.06] bg-[#15151A] py-16 px-4">
         <div className="mx-auto max-w-6xl">
           <SectionHeader
-            badge="Proceso simple"
-            title="Tu CV listo en minutos"
-            description="Solo seguí estos pasos y ottené un CV profesional."
+            badge="Cómo funciona"
+            title="Crea tu CV en 3 pasos"
+            description="Genera un currículum profesional en minutos, sin complicaciones."
           />
 
           {/* Steps + Stats Grid */}
@@ -113,8 +137,8 @@ export default function Home() {
               <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#8B5CF6] to-[#6D28D9] text-white shadow-lg shadow-[#8B5CF6]/30">
                 <FileText className="h-6 w-6" />
               </div>
-              <h3 className="text-base font-semibold text-white">Cargá tus datos</h3>
-              <p className="mt-2 text-sm text-white/50">Experiencia, estudios, habilidades y links.</p>
+              <h3 className="text-base font-semibold text-white">Ingresa tus datos</h3>
+              <p className="mt-2 text-sm text-white/50">Responde preguntas simples sobre tu experiencia.</p>
               <div className="mt-auto h-1 w-8 rounded-full bg-gradient-to-r from-[#8B5CF6] to-transparent transition-all duration-500 group-hover:w-full" />
             </motion.div>
 
@@ -132,8 +156,8 @@ export default function Home() {
               <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#38BDF8] to-[#0284C7] text-white shadow-lg shadow-[#38BDF8]/30">
                 <Bot className="h-6 w-6" />
               </div>
-              <h3 className="text-base font-semibold text-white">La IA ordena</h3>
-              <p className="mt-2 text-sm text-white/50">Convierte frases sueltas en contenido claro.</p>
+              <h3 className="text-base font-semibold text-white">IA genera el CV</h3>
+              <p className="mt-2 text-sm text-white/50">Nuestra IA crea contenido profesional optimizado.</p>
               <div className="mt-auto h-1 w-8 rounded-full bg-gradient-to-r from-[#38BDF8] to-transparent transition-all duration-500 group-hover:w-full" />
             </motion.div>
 
@@ -151,8 +175,8 @@ export default function Home() {
               <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#10B981] to-[#059669] text-white shadow-lg shadow-[#10B981]/30">
                 <Download className="h-6 w-6" />
               </div>
-              <h3 className="text-base font-semibold text-white">Descargá tu CV</h3>
-              <p className="mt-2 text-sm text-white/50">PDF profesional listo para enviar.</p>
+              <h3 className="text-base font-semibold text-white">Descarga PDF</h3>
+              <p className="mt-2 text-sm text-white/50">Recibe tu CV listo para enviar a empresas.</p>
               <div className="mt-auto h-1 w-8 rounded-full bg-gradient-to-r from-[#10B981] to-transparent transition-all duration-500 group-hover:w-full" />
             </motion.div>
 
@@ -170,7 +194,7 @@ export default function Home() {
                 </div>
                 <div className="text-center">
                   <span className="text-2xl font-bold text-white">500+</span>
-                  <p className="text-xs text-white/50">usuarios registrados</p>
+                  <p className="text-xs text-white/50">Usuarios registrados</p>
                 </div>
               </div>
               <div className="mb-3 flex items-center justify-center gap-2">
@@ -181,7 +205,7 @@ export default function Home() {
               <div className="flex items-center justify-center gap-2">
                 <TrendingUp className="h-4 w-4 text-[#10B981]" />
                 <span className="text-lg font-bold text-white">85%</span>
-                <span className="text-xs text-white/50">más entrevistas</span>
+                <span className="text-xs text-white/50">Más entrevistas</span>
               </div>
             </motion.div>
           </div>
@@ -193,56 +217,22 @@ export default function Home() {
         <div className="pointer-events-none absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-[#8B5CF6]/8 blur-[120px]" />
         <div className="max-w-6xl mx-auto">
           <SectionHeader
-            badge="Características"
-            title="Todo lo que necesitas para un CV perfecto"
-            description="VitaeSpark combina tecnología avanzada con diseño profesional para crear CVs que impresionan."
+            badge="Funciones"
+            title="Todo lo que necesitas"
+            description="Herramientas diseñadas para que tu currículum destaque."
           />
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                icon: <Search className="h-6 w-6" />,
-                color: "#8B5CF6",
-                title: "Optimizado para ATS",
-                desc: "Supera filtros automáticos con palabras clave estratégicas.",
-                tag: "ATS Ready",
-              },
-              {
-                icon: <Sparkles className="h-6 w-6" />,
-                color: "#38BDF8",
-                title: "Redacción con IA",
-                desc: "Textos más impactantes y profesionales en segundos.",
-                tag: "AI Power",
-              },
-              {
-                icon: <Target className="h-6 w-6" />,
-                color: "#10B981",
-                title: "Enfoque estratégico",
-                desc: "Estructura que destaca tus logros y habilidades.",
-                tag: "Strategic",
-              },
-              {
-                icon: <Layers className="h-6 w-6" />,
-                color: "#F59E0B",
-                title: "Plantillas premium",
-                desc: "Diseños modernos adaptados a cada industria.",
-                tag: "Premium",
-              },
-              {
-                icon: <Zap className="h-6 w-6" />,
-                color: "#EC4899",
-                title: "Proceso express",
-                desc: "De datos sueltos a CV profesional en 10 minutos.",
-                tag: "Fast",
-              },
-              {
-                icon: <Download className="h-6 w-6" />,
-                color: "#6366F1",
-                title: "Descarga ilimitada",
-                desc: "PDF profesional desde tu perfil, cuántas veces quieras.",
-                tag: "Unlimited",
-              },
-            ].map((item, i) => (
+            {featureCards.map((item, i) => {
+              const iconMap: Record<string, React.ReactNode> = {
+                Search: <Search className="h-6 w-6" />,
+                Sparkles: <Sparkles className="h-6 w-6" />,
+                Target: <Target className="h-6 w-6" />,
+                Layers: <Layers className="h-6 w-6" />,
+                Zap: <Zap className="h-6 w-6" />,
+                Download: <Download className="h-6 w-6" />,
+              };
+              return (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 30 }}
@@ -252,8 +242,8 @@ export default function Home() {
                 className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#1C1C22] p-6 hover:border-[#8B5CF6]/30 hover:shadow-[0_0_40px_rgba(139,92,246,0.1)]"
               >
                 <div className="mb-4 flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl" style={{ backgroundColor: `${item.color}15`, color: item.color }}>
-                    {item.icon}
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl" style={{ backgroundColor: item.color + "15", color: item.color }}>
+                    {iconMap[item.icon]}
                   </div>
                   <span className="rounded-full bg-white/[0.06] px-3 py-1 text-xs font-medium text-white/60">
                     {item.tag}
@@ -263,18 +253,19 @@ export default function Home() {
                 <p className="text-sm text-white/50 leading-relaxed">{item.desc}</p>
                 <div className="mt-4 h-px w-0 bg-gradient-to-r from-transparent via-[#8B5CF6]/50 to-transparent transition-all duration-500 group-hover:w-full" />
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Comparativa */}
       <section className="py-16 px-4 bg-[#111113]">
         <div className="max-w-6xl mx-auto">
           <SectionHeader
-            badge="Comparativa"
-            title="La diferencia VitaeSpark"
-            description="Verás por qué un CV optimizado marca la diferencia."
+            badge="Ventajas"
+            title="Compara y decide"
+            description="Descubre por qué VitaeSpark supera a un CV tradicional."
           />
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -295,24 +286,19 @@ export default function Home() {
               <div className="aspect-[4/3] rounded-xl bg-[#0F0F10] mb-6 overflow-hidden">
                 <Image
                   src="/hamdu.webp"
-                  alt="CV tradicional"
+                  alt="CV Tradicional"
                   width={400}
                   height={300}
                   className="w-full h-full object-cover object-top opacity-40 grayscale"
                 />
               </div>
               <div className="space-y-3">
-                {[
-                  { text: "Rechazado por filtros ATS", ok: false },
-                  { text: "Diseño genérico", ok: false },
-                  { text: "Horas de edición manual", ok: false },
-                  { text: "Sin diferenciación", ok: false },
-                ].map((item, i) => (
+                {["Sin optimización ATS", "Diseño básico", "Sin IA"].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className={`flex h-6 w-6 items-center justify-center rounded-full ${item.ok ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}>
-                      {item.ok ? <CheckCircle2 className="h-4 w-4" /> : <span className="text-xs">✕</span>}
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500/20 text-red-400">
+                      <span className="text-xs">✕</span>
                     </div>
-                    <span className="text-sm text-white/50">{item.text}</span>
+                    <span className="text-sm text-white/50">{item}</span>
                   </div>
                 ))}
               </div>
@@ -344,21 +330,16 @@ export default function Home() {
                   className="w-full h-full object-cover object-top"
                 />
                 <div className="absolute top-2 right-2 rounded-full bg-[#8B5CF6] px-2 py-1 text-xs font-bold text-white shadow-lg">
-                  ATS ✓
+                  ATS
                 </div>
               </div>
               <div className="space-y-3">
-                {[
-                  { text: "Supera filtros ATS", ok: true },
-                  { text: "Diseño profesional único", ok: true },
-                  { text: "Listo en minutos", ok: true },
-                  { text: "Destaque entre candidatos", ok: true },
-                ].map((item, i) => (
+                {["Optimizado para ATS", "Diseño profesional con IA", "Descarga PDF"].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className={`flex h-6 w-6 items-center justify-center rounded-full ${item.ok ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}>
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-500/20 text-green-400">
                       <CheckCircle2 className="h-4 w-4" />
                     </div>
-                    <span className="text-sm text-white/80">{item.text}</span>
+                    <span className="text-sm text-white/80">{item}</span>
                   </div>
                 ))}
               </div>
@@ -367,65 +348,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      {/* <section className="py-16 px-4 bg-[#15151A]">
-        <div className="max-w-6xl mx-auto">
-          <SectionHeader
-            badge="Testimonios"
-            title="Lo que dicen nuestros usuarios"
-            description="Miles de profesionales ya mejoraron sus oportunidades."
-          />
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                quote: "Actualicé mi CV con VitaeSpark y a la semana ya tenía entrevistas. Súper práctico y fácil de usar.",
-                author: "Laura Martínez",
-                role: "Diseñadora UX/UI",
-                avatar: "LM",
-              },
-              {
-                quote: "Me ayudó un montón con el tema de los filtros de las empresas. Después de varios meses, por fin empecé a recibir respuestas.",
-                author: "Carlos Rodríguez",
-                role: "Desarrollador Full Stack",
-                avatar: "CR",
-              },
-              {
-                quote: "Muy simple de usar y el resultado quedó re bien. Ahora mi CV muestra mejor lo que sé hacer.",
-                author: "Ana García",
-                role: "Marketing Digital",
-                avatar: "AG",
-              },
-            ].map((t, i) => (
-              <motion.div
-                key={t.author}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="rounded-2xl border border-white/[0.08] bg-[#1C1C22] p-6 hover:border-[#8B5CF6]/20 transition-colors"
-              >
-                <div className="flex gap-1 mb-4">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Star key={s} className="h-4 w-4 fill-[#F59E0B] text-[#F59E0B]" />
-                  ))}
-                </div>
-                <p className="text-white/70 leading-relaxed mb-6">"{t.quote}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#8B5CF6]/20 text-[#8B5CF6] font-semibold text-sm">
-                    {t.avatar}
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-white">{t.author}</p>
-                    <p className="text-xs text-white/50">{t.role}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
       {/* FAQ */}
       <section className="relative overflow-hidden py-16 px-4 bg-[#111113]">
         <div className="pointer-events-none absolute right-0 top-20 h-72 w-72 rounded-full bg-[#8B5CF6]/8 blur-[120px]" />
@@ -433,37 +355,11 @@ export default function Home() {
           <SectionHeader
             badge="FAQ"
             title="Preguntas frecuentes"
-            description="Todo lo que necesitas saber."
+            description="Resolvemos tus dudas sobre VitaeSpark."
           />
 
           <div className="space-y-2">
-            {[
-              {
-                q: "¿Qué es un creador de CV online?",
-                a: "Es una herramienta web que te guía para cargar tus datos, ordenar experiencia, elegir plantilla y descargar un curriculum listo para postular. VitaeSpark suma redacción con IA, estructura ATS y PDF.",
-                icon: <FileText className="h-5 w-5" />,
-              },
-              {
-                q: "¿En qué se diferencia de una plantilla?",
-                a: "Una plantilla solo resuelve el diseño. Un creador de CV también te ayuda a ordenar contenido, redactar mejor y preparar el documento para recruiters y filtros ATS.",
-                icon: <Layers className="h-5 w-5" />,
-              },
-              {
-                q: "¿Qué es un sistema ATS y por qué importa?",
-                a: "Un ATS (Applicant Tracking System) filtra CVs automáticamente. Aproximadamente el 75% son rechazados antes de ser vistos. VitaeSpark asegura que tu CV pase estos filtros.",
-                icon: <Search className="h-5 w-5" />,
-              },
-              {
-                q: "¿Cómo mejora la IA mi currículum?",
-                a: "Analiza tu información y mejora redacción para que sea más impactante. Identifica palabras clave de tu industria y las incorpora estratégicamente.",
-                icon: <Sparkles className="h-5 w-5" />,
-              },
-              {
-                q: "¿En qué formatos puedo descargar?",
-                a: "PDF profesional,多少次 quieras desde tu perfil. El mismo archivo actualizado.",
-                icon: <Download className="h-5 w-5" />,
-              },
-            ].map((item, i) => (
+            {faqQuestions.map((item, i) => (
               <motion.details
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
@@ -474,7 +370,7 @@ export default function Home() {
               >
                 <summary className="flex cursor-pointer items-center gap-4 px-5 py-4 text-left font-medium text-white/80 transition-colors hover:text-white">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#8B5CF6]/10 text-[#8B5CF6]">
-                    {item.icon}
+                    <FileText className="h-5 w-5" />
                   </div>
                   <span className="flex-1">{item.q}</span>
                   <ChevronDown className="h-5 w-5 text-white/40 transition-transform duration-300 group-open:rotate-180" />
@@ -505,17 +401,17 @@ export default function Home() {
             <div className="relative grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <Badge className="mb-4 bg-[#8B5CF6]/20 text-[#8B5CF6] border-[#8B5CF6]/30 px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
-                  Empezá ahora
+                  Empieza gratis
                 </Badge>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white leading-tight">
-                  Tu próximo CV puede estar listo en minutos
+                  Crea tu CV profesional ahora
                 </h2>
                 <p className="text-white/60 mb-8 leading-relaxed">
-                  Completá tus datos, dejá que la IA mejore la redacción y descargá un PDF profesional preparado para filtros ATS.
+                  Genera un currículum optimizado para ATS en minutos. Sin experiencia previa.
                 </p>
                 <Link href="/crear">
                   <Button size="lg" className="h-12 rounded-xl bg-[#8B5CF6] hover:bg-[#7C3AED] text-white shadow-lg shadow-[#8B5CF6]/30 transition-all duration-300 font-semibold px-8">
-                    Crear mi CV ahora
+                    Crear mi CV gratis
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
@@ -533,7 +429,7 @@ export default function Home() {
                   </div>
                   <Image
                     src="/purple-hero.webp"
-                    alt="CV Preview"
+                    alt="Vista previa del CV"
                     width={480}
                     height={560}
                     className="w-full aspect-[4/5] object-cover object-top"
@@ -550,21 +446,12 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <SectionHeader
             badge="Recursos"
-            title="Encuentra la guía para tu CV"
-            description="Páginas pensadas para cada tipo de necesidad."
+            title="Guías rápidas"
+            description="Aprende a crear el mejor currículum con nuestros artículos."
           />
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {[
-              { href: "/crear-cv-online", title: "Crear CV online", icon: "→" },
-              { href: "/curriculum-ats", title: "CV para ATS", icon: "→" },
-              { href: "/hacer-cv-con-ia", title: "CV con IA", icon: "→" },
-              { href: "/plantilla-harvard", title: "Plantilla Harvard", icon: "→" },
-              { href: "/cv-sin-experiencia", title: "Sin experiencia", icon: "→" },
-              { href: "/cv-para-programadores", title: "Programadores", icon: "→" },
-              { href: "/cv-para-medicos", title: "Médicos", icon: "→" },
-              { href: "/cv-para-vendedor", title: "Vendedores", icon: "→" },
-            ].map((item) => (
+            {guides.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -574,7 +461,7 @@ export default function Home() {
                   {item.title}
                 </span>
                 <span className="text-[#8B5CF6] transition-transform group-hover:translate-x-1">
-                  {item.icon}
+                  →
                 </span>
               </Link>
             ))}
@@ -582,7 +469,7 @@ export default function Home() {
 
           <div className="mt-8 text-center">
             <Link href="/blog" className="text-sm text-[#38BDF8] hover:text-white transition-colors">
-              Ver más guías en el blog →
+              Ver todas las guías →
             </Link>
           </div>
         </div>
@@ -594,48 +481,14 @@ export default function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "FAQPage",
-            mainEntity: [
-              {
-                "@type": "Question",
-                name: "Que es un creador de CV online?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Un creador de CV online es una herramienta web que te guia para cargar tus datos, ordenar tu experiencia, elegir una plantilla y descargar un curriculum listo para protestar. VitaeSpark agrega redaccion con IA, estructura ATS y descarga en PDF.",
-                },
+            mainEntity: faqQuestions.map((item) => ({
+              "@type": "Question",
+              name: item.q,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: item.a,
               },
-              {
-                "@type": "Question",
-                name: "Cual es la diferencia entre un creador de CV y una plantilla?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Una plantilla solo resuelve el diseño. Un creador de CV tambien ayuda a ordenar el contenido, mejorar la redaccion, completar secciones clave y preparar el documento final para reclutadores y filtros ATS.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "¿Qué es un sistema ATS y por qué es importante?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Un ATS (Applicant Tracking System) es un software que utilizan las empresas para filtrar automáticamente los CVs. Es importante que tu CV esté optimizado para estos sistemas, ya que aproximadamente el 75% de los currículos son rechazados antes de que un reclutador los vea. VitaeSpark asegura que tu CV pase estos filtros.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "¿Cómo mejora la IA mi currículum?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Nuestra IA analiza tu información y mejora la redacción para hacerla más impactante y profesional. También identifica palabras clave relevantes para tu industria y las incorpora estratégicamente, aumentando tus posibilidades de superar los filtros ATS.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "¿En qué formatos puedo descargar mi CV?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Con la generación de tu CV puedes descargarlo en formato PDF las veces que sean necesarias desde tu perfil.",
-                },
-              },
-            ],
+            })),
           }),
         }}
       />
