@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
 import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Toaster } from "sonner";
@@ -183,6 +184,16 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-black/90  flex min-h-screen flex-col`}
       >
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-SZY8XLM2G1"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-config">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-SZY8XLM2G1');
+        `}</Script>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-black focus:shadow-lg"
