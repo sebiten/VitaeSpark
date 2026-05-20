@@ -538,6 +538,7 @@ export default function CVFormWizard({
 
               {stepIndex < steps.length - 1 ? (
                 <Button
+                  key={`next-${currentStep.id}`}
                   type="button"
                   onClick={handleNext}
                   className="h-12 bg-[#7C3AED] px-6 font-semibold text-white hover:bg-[#6D28D9] sm:min-w-48"
@@ -546,6 +547,7 @@ export default function CVFormWizard({
                 </Button>
               ) : (
                 <Button
+                  key={`submit-${currentStep.id}`}
                   type="submit"
                   disabled={isGenerating || isSubmitting}
                   className="h-12 bg-[#7C3AED] px-6 font-semibold text-white hover:bg-[#6D28D9] sm:min-w-48"
