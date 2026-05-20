@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Seguridad y Vigilador: Ejemplo y Habilidades",
+  title: "CV para Seguridad: Ejemplo, Perfil y Habilidades de Vigilador",
   description:
-    "Crea un CV para seguridad o vigilador con ejemplo de perfil, experiencia, control de accesos, rondas, cámaras, protocolos y formato ATS.",
+    "Crea un CV para seguridad o vigilador con ejemplo, perfil profesional, control de accesos, rondas, camaras, protocolos y formato ATS.",
   path: "/cv-para-seguridad",
   keywords: [
     "cv para seguridad",
@@ -14,6 +14,7 @@ export const metadata = buildMetadata({
     "curriculum vigilador",
     "ejemplo cv seguridad",
     "habilidades seguridad curriculum",
+    "cv de seguridad",
   ],
 });
 
@@ -22,11 +23,11 @@ export default function CvParaSeguridadPage() {
     <MarketingPage
       path="/cv-para-seguridad"
       eyebrow="CV por profesion"
-      title="CV para seguridad y vigilador: ejemplo, habilidades y formato ATS"
+      title="CV para seguridad: ejemplo, perfil y habilidades de vigilador"
       description="Arma un curriculum para seguridad o vigilador destacando control de accesos, recorridas, prevencion, camaras, registro de novedades y responsabilidad."
       intro={[
         "Un CV para seguridad debe transmitir confianza, atencion al detalle y criterio para actuar ante situaciones sensibles. Conviene mostrar experiencia en control de accesos, monitoreo, recorridas, registro de novedades y trato con personas.",
-        "VitaeSpark te ayuda a ordenar esa experiencia en un CV profesional, claro y enfocado en puestos de vigilador, seguridad privada, control de ingreso o prevencion.",
+        "VitaeSpark te ayuda a ordenar esa experiencia en un curriculum seguridad mas claro, con perfil profesional, habilidades utiles y estructura ATS para vigilancia, control de ingreso o prevencion.",
       ]}
       exampleImage={{
         src: "/purple-hero.webp",
@@ -58,7 +59,7 @@ export default function CvParaSeguridadPage() {
       ]}
       sections={[
         {
-          title: "Que destacar en un CV de seguridad",
+          title: "CV de seguridad: que destacar para que se entienda rapido",
           paragraphs: [
             "Suele sumar experiencia en control de accesos, registro de visitantes, monitoreo de camaras, rondas preventivas, informes de novedades, cumplimiento de protocolos y comunicacion con superiores.",
             "Si tienes cursos, habilitaciones, registro de conducir o experiencia nocturna, conviene incluirlo porque puede ser diferencial.",
@@ -72,10 +73,10 @@ export default function CvParaSeguridadPage() {
           ],
         },
         {
-          title: "Ejemplos de experiencia para vigilador o seguridad",
+          title: "Ejemplo de CV para vigilador o seguridad",
           paragraphs: [
-            "Para control de accesos, puedes escribir: 'Realice control de ingreso y egreso de personas, registro de visitantes, verificacion de novedades y comunicacion con responsables del establecimiento segun protocolo'.",
-            "Para recorridas preventivas, una frase util seria: 'Efectue rondas internas y externas, monitoreo visual de sectores, deteccion de incidencias y reporte de novedades para mantener condiciones de seguridad'.",
+            "Una frase concreta puede ser: 'Realice control de ingreso y egreso de personas, registro de visitantes, rondas preventivas y reporte de novedades, manteniendo cumplimiento de protocolos y trato responsable'.",
+            "Ese tipo de ejemplo responde mejor a busquedas como cv de seguridad o curriculum vigilador, porque explica tareas y contexto sin exagerar el perfil.",
           ],
         },
         {
@@ -141,8 +142,8 @@ export default function CvParaSeguridadPage() {
           description: "Cercano si tu experiencia incluye control de ingreso y atencion.",
         },
         {
-          href: "/curriculum-sin-experiencia",
-          title: "CV sin experiencia",
+          href: "/cv-para-seguridad-sin-experiencia",
+          title: "CV para seguridad sin experiencia",
           description: "Util si estas entrando por primera vez al sector.",
         },
         {

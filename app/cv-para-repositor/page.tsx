@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Repositor: Ejemplo para Supermercado y Stock",
+  title: "CV para Repositor: Ejemplo, Perfil y Habilidades de Stock",
   description:
-    "Arma un CV para repositor con ejemplo de perfil, experiencia, habilidades de stock, góndola, supermercado, depósito y formato ATS.",
+    "Arma un CV para repositor con ejemplo, perfil profesional, habilidades de stock, gondola, supermercado, deposito y formato ATS.",
   path: "/cv-para-repositor",
   keywords: [
     "cv para repositor",
@@ -12,6 +12,7 @@ export const metadata = buildMetadata({
     "ejemplo cv repositor",
     "habilidades repositor curriculum",
     "cv repositor supermercado",
+    "cv de repositor",
   ],
 });
 
@@ -20,11 +21,11 @@ export default function CvParaRepositorPage() {
     <MarketingPage
       path="/cv-para-repositor"
       eyebrow="CV por profesion"
-      title="CV para repositor: ejemplo para supermercado, stock y gondola"
-      description="Prepara un curriculum para repositor destacando stock, orden de gondola, reposicion, control de mercaderia, deposito y ritmo operativo."
+      title="CV para repositor: ejemplo, perfil y habilidades de stock"
+      description="Prepara un curriculum repositor destacando stock, orden de gondola, reposicion, control de mercaderia, deposito y ritmo operativo."
       intro={[
-        "Un CV para repositor debe transmitir responsabilidad, orden y capacidad fisica/operativa. Conviene mostrar experiencia en reposicion, control de stock, rotacion de productos, limpieza de sector, atencion basica y cumplimiento de procedimientos.",
-        "VitaeSpark te ayuda a ordenar esa experiencia y convertirla en un CV claro para supermercados, mayoristas, farmacias, tiendas y comercios.",
+        "Un CV para repositor debe transmitir responsabilidad, orden y capacidad operativa. Conviene mostrar experiencia en reposicion, control de stock, rotacion de productos, limpieza de sector, descarga, inventario y atencion basica al cliente.",
+        "VitaeSpark te ayuda a ordenar esa experiencia en un curriculum repositor mas claro, con perfil profesional, habilidades de stock y una estructura ATS para supermercados, mayoristas, farmacias, tiendas y comercios.",
       ]}
       exampleImage={{
         src: "/elegance-good.webp",
@@ -56,24 +57,24 @@ export default function CvParaRepositorPage() {
       ]}
       sections={[
         {
-          title: "Que poner en un CV para repositor",
+          title: "CV para repositor: que poner para que no suene generico",
           paragraphs: [
             "Suele sumar experiencia en reposicion de mercaderia, control de fechas, rotacion, orden de gondolas, descarga, inventario, etiquetado, limpieza del sector y apoyo a clientes.",
             "Si trabajaste con volumen alto, horarios rotativos o productos especificos, conviene aclararlo porque muestra adaptacion al ritmo del puesto.",
           ],
         },
         {
-          title: "Ejemplo de perfil profesional para repositor",
+          title: "Perfil profesional para repositor",
           paragraphs: [
             "Una base clara puede ser: 'Perfil operativo orientado a reposicion y orden de mercaderia, con experiencia en control de stock, rotacion de productos, limpieza de sector y apoyo a clientes en comercios de alto movimiento'.",
             "Si tambien hiciste deposito, caja o atencion al cliente, conviene mencionarlo porque muchas empresas valoran perfiles que puedan cubrir varias tareas dentro del salon o supermercado.",
           ],
         },
         {
-          title: "Ejemplos de experiencia para repositor",
+          title: "Ejemplo de CV de repositor de supermercado",
           paragraphs: [
-            "Para supermercado, puedes escribir: 'Realice reposicion de gondolas, control de fechas de vencimiento, rotacion de productos y orden del sector, colaborando con descarga y atencion basica a clientes'.",
-            "Para deposito o mayorista, una frase util seria: 'Colabore en recepcion de mercaderia, inventario, ubicacion de productos, preparacion de pedidos y mantenimiento de pasillos ordenados para facilitar el trabajo operativo'.",
+            "Una frase util puede ser: 'Realice reposicion de gondolas, control de stock y vencimientos, rotacion de productos, orden del sector y apoyo en descarga y atencion basica a clientes'.",
+            "Ese tipo de redaccion funciona mejor que dejar solo 'reposicion', porque explica tareas concretas y responde a busquedas como cv de repositor o curriculum repositor de supermercado.",
           ],
         },
         {
@@ -139,11 +140,6 @@ export default function CvParaRepositorPage() {
           description: "Otra salida frecuente para retail, supermercados y comercio.",
         },
         {
-          href: "/cv-para-vendedor",
-          title: "CV para vendedor",
-          description: "Ideal si tambien atendias clientes o colaborabas en ventas.",
-        },
-        {
           href: "/crear-cv-online",
           title: "Crear CV online",
           description: "Arma tu CV en una plantilla lista para descargar.",
@@ -152,6 +148,11 @@ export default function CvParaRepositorPage() {
           href: "/cv-para-operario",
           title: "CV para operario",
           description: "Buena alternativa si tambien hiciste deposito, carga o tareas operativas.",
+        },
+        {
+          href: "/cv-para-limpieza",
+          title: "CV para limpieza",
+          description: "Otra salida operativa si tu experiencia incluye orden, mantenimiento y rutinas.",
         },
       ]}
     />

@@ -1,5 +1,6 @@
 "use client";
 
+import type { ChangeEvent } from "react";
 import { useMemo, useState } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import { useForm } from "react-hook-form";
@@ -8,44 +9,67 @@ import { z } from "zod";
 import { track } from "@vercel/analytics";
 import type { Session } from "@supabase/supabase-js";
 import { toast } from "sonner";
-import {
-  AlertCircle,
-  BookOpen,
-  Briefcase,
-  CheckCircle2,
-  GraduationCap,
-  Hammer,
-  Languages,
-  Loader2,
-  Mail,
-  PlusCircle,
-  Sparkles,
-  Trash2,
-  Upload,
-  User,
-  Wand2,
-  Palette,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { createClient } from "@/utils/supabase/client";
-import { Label } from "./ui/label";
 import { getLandingAttribution } from "@/lib/analytics-attribution";
 import type { AppLanguage } from "@/lib/i18n";
+import CVFormWizard from "./CVFormWizard";
 
 const createSchema = (language: AppLanguage) =>
   z.object({
-  foto_url: z.string().url().optional(),
-  nombre: z.string().min(1, language === "en" ? "Name is required" : "El nombre es obligatorio"),
-  puesto: z.string().min(1, language === "en" ? "Target role is required" : "El puesto es obligatorio"),
-  contacto: z.string().min(1, language === "en" ? "Contact information is required" : "La informacion de contacto es obligatoria"),
-  sobreMi: z.string().min(10, language === "en" ? "Add a short professional summary" : "Describe un poco sobre ti"),
-  experiencia: z.string().min(20, language === "en" ? "Describe your work experience" : "Describe tu experiencia profesional"),
-  formacion: z.string().min(10, language === "en" ? "Describe your education" : "Describe tu formacion academica"),
-  habilidades: z.string().min(1, language === "en" ? "Add at least one skill" : "Incluye al menos una habilidad"),
-  idiomas: z.string().min(1, language === "en" ? "Add at least one language" : "Incluye al menos un idioma"),
-  informacionAdicional: z.string().optional(),
-});
+    foto_url: z.string().url().optional(),
+    nombre: z
+      .string()
+      .min(1, language === "en" ? "Name is required" : "El nombre es obligatorio"),
+    puesto: z
+      .string()
+      .min(1, language === "en" ? "Target role is required" : "El puesto es obligatorio"),
+    contacto: z
+      .string()
+      .min(
+        1,
+        language === "en"
+          ? "Contact information is required"
+          : "La informacion de contacto es obligatoria",
+      ),
+    sobreMi: z
+      .string()
+      .min(
+        10,
+        language === "en"
+          ? "Add a short professional summary"
+          : "Describe un poco sobre ti",
+      ),
+    experiencia: z
+      .string()
+      .min(
+        20,
+        language === "en"
+          ? "Describe your work experience"
+          : "Describe tu experiencia profesional",
+      ),
+    formacion: z
+      .string()
+      .min(
+        10,
+        language === "en"
+          ? "Describe your education"
+          : "Describe tu formacion academica",
+      ),
+    habilidades: z
+      .string()
+      .min(
+        1,
+        language === "en" ? "Add at least one skill" : "Incluye al menos una habilidad",
+      ),
+    idiomas: z
+      .string()
+      .min(
+        1,
+        language === "en" ? "Add at least one language" : "Incluye al menos un idioma",
+      ),
+    informacionAdicional: z.string().optional(),
+  });
 
 const formCopy = {
   es: {
@@ -89,15 +113,6 @@ const formCopy = {
     additional: "Informacion adicional",
     additionalPlaceholder:
       "Ej: portfolio, certificaciones, disponibilidad, licencia de conducir o enlaces importantes.",
-    quickGuide: "Guia rapida",
-    guideItems: [
-      ["Escribi datos reales", "No hace falta redactar perfecto. Prioriza claridad y ejemplos concretos."],
-      ["Fechas y lugares ayudan", "Si no los recordas, podes dejar el campo aproximado o sin fecha."],
-      ["Una idea por linea", "Separar la informacion ayuda a que la IA arme mejor el CV final."],
-    ],
-    idealFormat: "Formato ideal",
-    idealFormatText:
-      "Puesto, fechas, empresa, lugar y tareas principales. Con eso ya alcanza para generar una version profesional.",
     generate: "Generar CV",
     generating: "Generando CV...",
     success: "CV generado correctamente.",
@@ -148,15 +163,6 @@ const formCopy = {
     additional: "Additional information",
     additionalPlaceholder:
       "Example: portfolio, certifications, availability, driver's license or important links.",
-    quickGuide: "Quick guide",
-    guideItems: [
-      ["Use real information", "No need to write perfectly. Prioritize clarity and concrete examples."],
-      ["Dates and locations help", "If you do not remember them, use approximate dates or leave them out."],
-      ["One idea per line", "Separating information helps AI build a better final resume."],
-    ],
-    idealFormat: "Ideal format",
-    idealFormatText:
-      "Role, dates, company, location and main responsibilities. That is enough to generate a professional version.",
     generate: "Generate resume",
     generating: "Generating resume...",
     success: "Resume generated successfully.",
@@ -185,23 +191,29 @@ export default function CVFormStep({
 }: Props) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [foto_url, setFotoUrl] = useState<string | null>(null);
+  const [fotoUrl, setFotoUrl] = useState<string | null>(null);
   const copy = formCopy[language];
   const formSchema = useMemo(() => createSchema(language), [language]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<DatosCVFormulario>({
+  const form = useForm<DatosCVFormulario>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      nombre: "",
+      puesto: "",
+      contacto: "",
+      sobreMi: "",
+      experiencia: "",
+      formacion: "",
+      habilidades: "",
+      idiomas: "",
+      informacionAdicional: "",
+    },
   });
 
   const supabase = createClient();
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (!file) return;
 
     const fileExt = file.name.split(".").pop();
@@ -235,35 +247,31 @@ export default function CVFormStep({
       const attribution = getLandingAttribution();
       track("CV Generation Started", { template, language, ...attribution });
 
-      const res = await fetch("/api/generate-cv", {
+      const response = await fetch("/api/generate-cv", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, template, language, foto_url }),
+        body: JSON.stringify({ ...data, template, language, foto_url: fotoUrl }),
       });
 
-      if (!res.ok) {
-        const isTimeout = res.status === 504;
+      if (!response.ok) {
+        const isTimeout = response.status === 504;
         track("CV Generation Failed", {
-          status: res.status,
+          status: response.status,
           template,
           language,
           ...attribution,
         });
         failureTracked = true;
-        throw new Error(
-          isTimeout
-            ? copy.timeout
-            : copy.generationError
-        );
+        throw new Error(isTimeout ? copy.timeout : copy.generationError);
       }
 
-      const json = (await res.json()) as RespuestaCV;
+      const json = (await response.json()) as RespuestaCV;
       unstable_batchedUpdates(() => {
         setCvData(json.cv);
         setActiveTab("preview");
       });
       toast.success(copy.success);
-    } catch (err) {
+    } catch (submitError) {
       if (!failureTracked) {
         track("CV Generation Failed", {
           template,
@@ -271,7 +279,9 @@ export default function CVFormStep({
           ...getLandingAttribution(),
         });
       }
-      setError(err instanceof Error ? err.message : copy.unknownError);
+      setError(
+        submitError instanceof Error ? submitError.message : copy.unknownError,
+      );
     } finally {
       setIsGenerating(false);
     }
@@ -279,7 +289,7 @@ export default function CVFormStep({
 
   const rellenarDatosPrueba = () => {
     if (language === "en") {
-      reset({
+      form.reset({
         nombre: "Sebastian Lopez",
         puesto: "Junior Full Stack Developer",
         contacto:
@@ -306,10 +316,11 @@ export default function CVFormStep({
         informacionAdicional:
           "Portfolio: https://sebdevspace.me\nGitHub: https://github.com/sebiten\nLinkedIn: https://www.linkedin.com/in/sebdevspace\nOwn product: https://vitaespark.com\nAvailable for remote freelance or full-time work",
       });
+      setError(null);
       return;
     }
 
-    reset({
+    form.reset({
       nombre: "Sebastian",
       puesto: "Desarrollador Full Stack",
       contacto:
@@ -336,10 +347,11 @@ export default function CVFormStep({
       informacionAdicional:
         "Portfolio: https://sebdevspace.me\nGitHub: https://github.com/sebiten\nLinkedIn: https://www.linkedin.com/in/sebdevspace\nProducto propio: https://vitaespark.com\nDisponibilidad para trabajo remoto, freelance o presencial en Salta",
     });
+    setError(null);
   };
 
   const limpiarCampos = () => {
-    reset({
+    form.reset({
       nombre: "",
       puesto: "",
       contacto: "",
@@ -354,10 +366,6 @@ export default function CVFormStep({
     setError(null);
   };
 
-  const fieldClass =
-    "w-full rounded-xl border border-white/10 bg-[#101014] px-4 py-3 text-sm text-white outline-none transition focus:border-[#7C3AED] focus:ring-2 focus:ring-[#7C3AED]/20 placeholder:text-white/32";
-  const textareaClass =
-    "w-full resize-y rounded-xl border border-white/10 bg-[#101014] px-4 py-3 text-sm leading-7 text-white outline-none transition focus:border-[#7C3AED] focus:ring-2 focus:ring-[#7C3AED]/20 placeholder:text-white/32";
   const templateName =
     (language === "en"
       ? {
@@ -376,331 +384,21 @@ export default function CVFormStep({
         })[template] || template;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-6xl">
-      <div className="mb-6 rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-2xl shadow-black/10 sm:p-6">
-        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
-          <div className="max-w-2xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#38BDF8]/20 bg-[#38BDF8]/10 px-3 py-1.5 text-sm text-[#38BDF8]">
-              <Wand2 className="h-4 w-4" />
-              {copy.badge}
-            </div>
-            <h2 className="text-2xl font-bold text-white sm:text-3xl">
-              {copy.title}
-            </h2>
-            <p className="mt-2 text-sm leading-7 text-white/60">
-              {copy.description}
-            </p>
-            <div className="mt-4 flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-white/72">
-              <Palette className="h-3.5 w-3.5 text-[#38BDF8]" />
-              {copy.currentTemplate}:{" "}
-              <span className="font-semibold text-white">{templateName}</span>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <Button
-              type="button"
-              onClick={() => setActiveTab("template")}
-              variant="outline"
-              className="border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
-            >
-              <Palette className="mr-2 h-4 w-4 text-[#38BDF8]" />
-              {copy.changeTemplate}
-            </Button>
-            <Button
-              type="button"
-              onClick={rellenarDatosPrueba}
-              variant="outline"
-              className="border-[#7C3AED]/40 bg-[#7C3AED]/10 text-white hover:bg-[#7C3AED]/20"
-            >
-              <CheckCircle2 className="mr-2 h-4 w-4 text-[#A78BFA]" />
-              {copy.fillTest}
-            </Button>
-            <Button
-              type="button"
-              onClick={limpiarCampos}
-              variant="outline"
-              className="border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
-            >
-              <Trash2 className="mr-2 h-4 w-4 text-white/65" />
-              {copy.clear}
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
-        <div className="space-y-5">
-          <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
-            <SectionTitle
-              icon={<User className="h-5 w-5" />}
-              title={copy.basicTitle}
-              description={copy.basicDescription}
-            />
-
-            <div className="grid gap-4 md:grid-cols-2">
-              <FieldError message={errors.nombre?.message}>
-                <Label className="mb-2 block text-sm font-medium text-white/85">
-                  {copy.fullName}
-                </Label>
-                <input
-                  {...register("nombre")}
-                  className={fieldClass}
-                  placeholder={copy.fullNamePlaceholder}
-                />
-              </FieldError>
-
-              <FieldError message={errors.puesto?.message}>
-                <Label className="mb-2 block text-sm font-medium text-white/85">
-                  {copy.role}
-                </Label>
-                <input
-                  {...register("puesto")}
-                  className={fieldClass}
-                  placeholder={copy.rolePlaceholder}
-                />
-              </FieldError>
-            </div>
-
-            <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_260px]">
-              <FieldError message={errors.contacto?.message}>
-                <Label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/85">
-                  <Mail className="h-4 w-4 text-[#38BDF8]" />
-                  {copy.contact}
-                </Label>
-                <textarea
-                  {...register("contacto")}
-                  rows={4}
-                  className={textareaClass}
-                  placeholder={copy.contactPlaceholder}
-                />
-              </FieldError>
-
-              <div>
-                <Label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/85">
-                  <Upload className="h-4 w-4 text-[#38BDF8]" />
-                  {copy.photo}
-                </Label>
-                <label className="flex min-h-[118px] cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-[#101014] px-4 py-5 text-center transition hover:border-[#7C3AED]/45 hover:bg-[#7C3AED]/5">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="sr-only"
-                  />
-                  {foto_url ? (
-                    <img
-                      src={foto_url}
-                      alt={copy.photo}
-                      className="h-20 w-20 rounded-2xl border border-white/10 object-cover"
-                    />
-                  ) : (
-                    <>
-                      <Upload className="mb-2 h-5 w-5 text-white/45" />
-                      <span className="text-sm text-white/70">{copy.uploadImage}</span>
-                      <span className="mt-1 text-xs text-white/35">
-                        JPG, PNG o WebP
-                      </span>
-                    </>
-                  )}
-                </label>
-              </div>
-            </div>
-          </section>
-
-          <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
-            <SectionTitle
-              icon={<BookOpen className="h-5 w-5" />}
-              title={copy.summaryTitle}
-              description={copy.summaryDescription}
-            />
-            <FieldError message={errors.sobreMi?.message}>
-              <textarea
-                {...register("sobreMi")}
-                rows={4}
-                className={textareaClass}
-                placeholder={copy.summaryPlaceholder}
-              />
-            </FieldError>
-          </section>
-
-          <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
-            <SectionTitle
-              icon={<Briefcase className="h-5 w-5" />}
-              title={copy.experienceTitle}
-              description={copy.experienceDescription}
-            />
-            <FieldError message={errors.experiencia?.message}>
-              <textarea
-                {...register("experiencia")}
-                rows={8}
-                className={textareaClass}
-                placeholder={copy.experiencePlaceholder}
-              />
-            </FieldError>
-          </section>
-
-          <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
-            <SectionTitle
-              icon={<GraduationCap className="h-5 w-5" />}
-              title={copy.educationTitle}
-              description={copy.educationDescription}
-            />
-            <FieldError message={errors.formacion?.message}>
-              <textarea
-                {...register("formacion")}
-                rows={5}
-                className={textareaClass}
-                placeholder={copy.educationPlaceholder}
-              />
-            </FieldError>
-          </section>
-
-          <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
-            <SectionTitle
-              icon={<Hammer className="h-5 w-5" />}
-              title={copy.skillsTitle}
-              description={copy.skillsDescription}
-            />
-            <div className="grid gap-4 md:grid-cols-2">
-              <FieldError message={errors.habilidades?.message}>
-                <Label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/85">
-                  <Hammer className="h-4 w-4 text-[#38BDF8]" />
-                  {copy.skills}
-                </Label>
-                <textarea
-                  {...register("habilidades")}
-                  rows={4}
-                  className={textareaClass}
-                  placeholder={copy.skillsPlaceholder}
-                />
-              </FieldError>
-
-              <FieldError message={errors.idiomas?.message}>
-                <Label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/85">
-                  <Languages className="h-4 w-4 text-[#38BDF8]" />
-                  {copy.languages}
-                </Label>
-                <textarea
-                  {...register("idiomas")}
-                  rows={4}
-                  className={textareaClass}
-                  placeholder={copy.languagesPlaceholder}
-                />
-              </FieldError>
-            </div>
-
-            <div className="mt-4">
-              <Label className="mb-2 flex items-center gap-2 text-sm font-medium text-white/85">
-                <PlusCircle className="h-4 w-4 text-[#38BDF8]" />
-                {copy.additional}
-              </Label>
-              <textarea
-                {...register("informacionAdicional")}
-                rows={3}
-                className={textareaClass}
-                placeholder={copy.additionalPlaceholder}
-              />
-            </div>
-          </section>
-        </div>
-
-        <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
-          <div className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
-            <h3 className="mb-4 flex items-center gap-2 font-semibold text-white">
-              <Sparkles className="h-4 w-4 text-[#A78BFA]" />
-              {copy.quickGuide}
-            </h3>
-            <div className="space-y-4 text-sm leading-6 text-white/70">
-              {copy.guideItems.map(([title, text]) => (
-                <GuideItem key={title} title={title} text={text} />
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-[#7C3AED]/20 bg-[#7C3AED]/10 p-5">
-            <p className="text-sm font-medium text-white">{copy.idealFormat}</p>
-            <p className="mt-2 text-sm leading-6 text-white/70">
-              {copy.idealFormatText}
-            </p>
-          </div>
-        </aside>
-      </div>
-
-      {error ? (
-        <div className="mt-5 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-200">
-          <div className="flex items-start gap-2">
-            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-            <span>{error}</span>
-          </div>
-        </div>
-      ) : null}
-
-      <div className="mt-6 flex justify-center rounded-3xl border border-white/10 bg-[#15151A]/70 p-4 shadow-xl shadow-black/10">
-        <Button
-          variant="default"
-          type="submit"
-          disabled={isGenerating || isSubmitting}
-          className="h-12 w-full max-w-sm rounded-xl bg-[#7C3AED] px-6 font-semibold text-white shadow-lg shadow-[#7C3AED]/20 transition hover:bg-[#6D28D9] sm:w-auto sm:min-w-64"
-        >
-          <Sparkles className="mr-2 h-4 w-4" />
-          {isGenerating || isSubmitting ? copy.generating : copy.generate}
-          {isGenerating ? <Loader2 className="ml-2 h-4 w-4 animate-spin" /> : null}
-        </Button>
-      </div>
-    </form>
-  );
-}
-
-function SectionTitle({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="mb-5 flex gap-3">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#7C3AED]/15 text-[#A78BFA] ring-1 ring-[#A78BFA]/15">
-        {icon}
-      </div>
-      <div>
-        <h3 className="font-semibold text-white">{title}</h3>
-        <p className="mt-1 text-sm leading-6 text-white/60">{description}</p>
-      </div>
-    </div>
-  );
-}
-
-function FieldError({
-  children,
-  message,
-}: {
-  children: React.ReactNode;
-  message?: string;
-}) {
-  return (
-    <div>
-      {children}
-      {message ? (
-        <p className="mt-2 flex items-center text-xs text-red-300">
-          <AlertCircle className="mr-1.5 h-3.5 w-3.5 shrink-0" />
-          {message}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
-function GuideItem({ title, text }: { title: string; text: string }) {
-  return (
-    <div className="border-b border-white/10 pb-4 last:border-b-0 last:pb-0">
-      <p className="flex items-center gap-2 font-medium text-white/88">
-        <CheckCircle2 className="h-4 w-4 text-[#38BDF8]" />
-        {title}
-      </p>
-      <p className="mt-1 pl-6 text-white/65">{text}</p>
-    </div>
+    <CVFormWizard
+      copy={copy}
+      language={language}
+      template={template}
+      templateName={templateName}
+      form={form}
+      fotoUrl={fotoUrl}
+      isGenerating={isGenerating}
+      isSubmitting={form.formState.isSubmitting}
+      error={error}
+      onSubmit={onSubmit}
+      onImageUpload={handleImageUpload}
+      onFillSample={rellenarDatosPrueba}
+      onClear={limpiarCampos}
+      onChangeTemplate={() => setActiveTab("template")}
+    />
   );
 }

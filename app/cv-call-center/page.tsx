@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Call Center: Perfil, Experiencia y Ejemplos Listos",
+  title: "CV Call Center: Ejemplo, Perfil Profesional y Habilidades",
   description:
-    "Crea un CV para call center con perfil profesional, experiencia, habilidades y ejemplos para atencion telefonica, ventas, chat o soporte.",
+    "Crea un CV call center con ejemplo, perfil profesional, habilidades y experiencia para atencion telefonica, chat, ventas o soporte.",
   path: "/cv-call-center",
   keywords: [
     "cv para call center",
@@ -22,11 +22,11 @@ export default function CvCallCenterPage() {
     <MarketingPage
       path="/cv-call-center"
       eyebrow="CV por profesion"
-      title="CV call center: perfil, experiencia y ejemplos listos"
-      description="Prepara un curriculum para call center con frases concretas para atencion telefonica, soporte, ventas, cobranzas, chat y CRM."
+      title="CV call center: ejemplo, perfil profesional y habilidades"
+      description="Prepara un curriculum call center con perfil profesional, experiencia, CRM, llamadas, chat, soporte y estructura ATS."
       intro={[
-        "Un CV para call center necesita mostrar mucho mas que buena diccion. Las empresas suelen buscar capacidad para atender volumen, seguir guiones, resolver consultas, registrar informacion y sostener una conversacion clara aun bajo presion.",
-        "VitaeSpark te ayuda a ordenar esa experiencia y traducirla a un formato mas profesional, con foco en soporte telefonico, ventas, cobranzas o atencion multicanal.",
+        "Un CV call center necesita mostrar mas que buena comunicacion. Tiene que dejar claro si atendias llamadas entrantes, ventas salientes, cobranzas, soporte, chat o seguimiento de casos, y con que herramientas trabajabas.",
+        "VitaeSpark te ayuda a convertir esa experiencia en un curriculum call center mas concreto, con perfil profesional, habilidades y palabras clave utiles para contact centers, soporte y atencion multicanal.",
       ]}
       benefits={[
         "Enfoca tu experiencia en atencion telefonica, chat o soporte remoto.",
@@ -52,17 +52,24 @@ export default function CvCallCenterPage() {
       ]}
       sections={[
         {
-          title: "Que poner en un CV para call center",
+          title: "CV call center: que poner para que se entienda rapido",
           paragraphs: [
             "Conviene destacar experiencia en llamadas entrantes o salientes, atencion por chat, seguimiento de casos, carga de datos, uso de CRM y cumplimiento de objetivos operativos o comerciales.",
             "Tambien ayuda aclarar si trabajaste con ventas, soporte tecnico, cobranzas, encuestas o fidelizacion, porque cada contexto cambia bastante el perfil.",
           ],
         },
         {
-          title: "Perfil profesional para call center",
+          title: "Perfil profesional call center",
           paragraphs: [
             "Una base posible es: 'Perfil orientado a atencion telefonica y seguimiento de consultas, con experiencia en gestion de llamadas, registro en CRM y resolucion de casos en entornos de alto volumen'.",
             "Si tu experiencia fue mas comercial, suma terminos como ventas, objeciones, cierre o recuperacion de clientes. Si fue mas operativa, prioriza soporte, tiempos de respuesta y calidad de atencion.",
+          ],
+        },
+        {
+          title: "Ejemplo de CV call center",
+          paragraphs: [
+            "Un ejemplo corto puede ser: 'Asesore clientes por telefono y chat, registre consultas en CRM, derive casos segun protocolo y realice seguimiento hasta su resolucion, manteniendo comunicacion clara y ordenada'.",
+            "Ese tipo de redaccion mejora mucho frente a frases vagas como 'atencion al cliente', porque explica canal, herramienta y responsabilidad concreta.",
           ],
         },
         {
@@ -157,6 +164,11 @@ export default function CvCallCenterPage() {
           href: "/cv-atencion-al-cliente-sin-experiencia",
           title: "CV atencion al cliente sin experiencia",
           description: "Cercano si buscas entrar a soporte, chat o atencion inicial.",
+        },
+        {
+          href: "/cv-para-recepcionista",
+          title: "CV para recepcionista",
+          description: "Util si tu experiencia telefonica tambien incluye agenda y atencion presencial.",
         },
         {
           href: "/cv-para-vendedor",

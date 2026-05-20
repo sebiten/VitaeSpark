@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Mineria: Ayudante de Mina, Minera y Operario",
+  title: "CV para Mineria: Ejemplo, Ayudante de Mina y Perfil",
   description:
-    "Crea un CV para mineria, minera o ayudante de mina con perfil, seguridad, turnos, campamento, maquinaria y experiencia operativa.",
+    "Crea un CV para mineria, minera o ayudante de mina con ejemplo, perfil, seguridad, turnos, campamento y experiencia operativa.",
   path: "/cv-para-mineria",
   keywords: [
     "cv para mineria",
@@ -24,10 +24,10 @@ export default function CvParaMineriaPage() {
       path="/cv-para-mineria"
       eyebrow="CV por profesion"
       title="CV para mineria: ejemplo para minera, ayudante de mina y operario"
-      description="Arma un curriculum para minera destacando seguridad, experiencia operativa, turnos, maquinaria, mantenimiento, campamento y disponibilidad real."
+      description="Arma un curriculum para mineria destacando seguridad, experiencia operativa, turnos, maquinaria, campamento y disponibilidad real."
       intro={[
-        "Un CV para mineria tiene que transmitir responsabilidad, resistencia al ritmo de trabajo y respeto por los procedimientos de seguridad. Conviene aclarar si tienes experiencia en yacimientos, plantas, mantenimiento, transporte, laboratorio, deposito, campamento o tareas operativas.",
-        "VitaeSpark te ayuda a convertir esa experiencia en un CV claro para postularte a mineras, contratistas, servicios industriales y puestos vinculados al sector.",
+        "Un CV para mineria tiene que transmitir responsabilidad, resistencia al ritmo de trabajo y respeto por los procedimientos de seguridad. Conviene aclarar si tienes experiencia en yacimientos, planta, mantenimiento, transporte, deposito, campamento o tareas operativas.",
+        "VitaeSpark te ayuda a convertir esa experiencia en un curriculum para mineria mas claro, con perfil profesional, habilidades utiles y estructura ATS para mineras, contratistas y servicios industriales.",
       ]}
       exampleImage={{
         src: "/purple-hero.webp",
@@ -59,7 +59,7 @@ export default function CvParaMineriaPage() {
       ]}
       sections={[
         {
-          title: "Que destacar en un CV para mineria",
+          title: "CV para mineria: que destacar para ganar clics y entrevistas",
           paragraphs: [
             "Suele sumar experiencia en seguridad, uso de EPP, cumplimiento de procedimientos, trabajo por turnos, mantenimiento, carga y descarga, operacion de equipos, control de calidad, limpieza industrial, deposito o logistica.",
             "Tambien conviene mencionar disponibilidad para viajar, campamento, roster, turnos rotativos, altura geografica, licencias de conducir, cursos tecnicos y cualquier capacitacion vinculada a seguridad laboral.",
@@ -70,6 +70,13 @@ export default function CvParaMineriaPage() {
           paragraphs: [
             "Una base posible es: 'Perfil operativo orientado a mineria e industria, con experiencia en tareas de terreno, cumplimiento de normas de seguridad, trabajo por turnos y apoyo a procesos de mantenimiento, logistica u operacion'.",
             "Lo importante es adaptar el texto al puesto real. No es lo mismo postularse como operario, ayudante, chofer, tecnico, mecanico, electricista o personal de campamento.",
+          ],
+        },
+        {
+          title: "Ejemplo de CV para ayudante de mina",
+          paragraphs: [
+            "Una formula simple puede ser: 'Colabore en tareas de apoyo operativo, traslado de materiales, orden de herramientas, uso de EPP y cumplimiento de procedimientos de seguridad en entornos industriales y de terreno'.",
+            "Ese tipo de ejemplo responde mejor a busquedas como cv para ayudante de mina o cv para minera, porque deja claro el tipo de trabajo y el contexto operativo.",
           ],
         },
         {
@@ -147,6 +154,11 @@ export default function CvParaMineriaPage() {
           href: "/cv-para-operario",
           title: "CV para operario",
           description: "Cercano si tu experiencia es operativa, industrial o de produccion.",
+        },
+        {
+          href: "/cv-para-operario-sin-experiencia",
+          title: "CV para operario sin experiencia",
+          description: "Buena base si quieres entrar a mineria desde industria, deposito o mantenimiento.",
         },
         {
           href: "/cv-para-seguridad",

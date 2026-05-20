@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Operario de Produccion: Ejemplos, Perfil y Habilidades",
+  title: "CV Operario de Produccion: Ejemplo, Perfil Profesional y Habilidades",
   description:
-    "Crea un CV de operario de produccion con ejemplos de perfil, experiencia, habilidades de fabrica, deposito, mantenimiento y formato ATS.",
+    "Crea un CV de operario de produccion con ejemplo, perfil profesional, habilidades de fabrica, deposito y formato ATS.",
   path: "/cv-para-operario",
   keywords: [
     "cv para operario",
@@ -21,11 +21,11 @@ export default function CvParaOperarioPage() {
     <MarketingPage
       path="/cv-para-operario"
       eyebrow="CV por profesion"
-      title="CV operario de produccion: ejemplos, perfil y habilidades"
-      description="Arma un curriculum para operario destacando produccion, fabrica, deposito, mantenimiento, herramientas, seguridad y trabajo por procesos."
+      title="CV operario de produccion: ejemplo, perfil profesional y habilidades"
+      description="Arma un curriculum operario de produccion destacando fabrica, deposito, herramientas, seguridad y trabajo por procesos."
       intro={[
-        "Un CV para operario debe mostrar experiencia practica, responsabilidad y capacidad para seguir procedimientos. Conviene aclarar si trabajaste en produccion, deposito, mantenimiento, logistica, embalaje, control de calidad o tareas generales.",
-        "VitaeSpark te ayuda a ordenar esas tareas y convertirlas en un perfil mas claro para empresas industriales, depositos, comercios y servicios.",
+        "Un curriculum operario de produccion tiene que mostrar experiencia practica, responsabilidad y capacidad para seguir procedimientos. Conviene aclarar si trabajaste en linea de produccion, deposito, mantenimiento, embalaje, control de calidad o logistica.",
+        "VitaeSpark te ayuda a ordenar esas tareas en un CV para operario mas claro, con perfil profesional, habilidades utiles y estructura ATS para empresas industriales, depositos, comercios y servicios.",
       ]}
       exampleImage={{
         src: "/purple-hero.webp",
@@ -57,7 +57,7 @@ export default function CvParaOperarioPage() {
       ]}
       sections={[
         {
-          title: "Que destacar en un CV para operario",
+          title: "Curriculum operario de produccion: que destacar primero",
           paragraphs: [
             "Suele sumar experiencia en produccion, armado, embalaje, control de calidad, deposito, carga y descarga, uso de herramientas, limpieza del sector, mantenimiento basico y cumplimiento de normas de seguridad.",
             "Si trabajaste por objetivos, turnos rotativos, lineas de produccion o tareas fisicas, conviene incluirlo porque muestra adaptacion al ritmo del puesto.",
@@ -68,6 +68,13 @@ export default function CvParaOperarioPage() {
           paragraphs: [
             "Una base posible es: 'Perfil operativo con experiencia en tareas de produccion, deposito y cumplimiento de procesos, con enfoque en responsabilidad, orden, seguridad y trabajo en equipo'.",
             "Lo ideal es adaptar el texto a tu experiencia real: fabrica, deposito, mantenimiento, logistica o servicios generales.",
+          ],
+        },
+        {
+          title: "Ejemplo de CV operario de produccion",
+          paragraphs: [
+            "Una redaccion concreta puede ser: 'Realice tareas de armado, embalaje y control visual en linea de produccion, manteniendo orden del sector, cumplimiento de procedimientos y apoyo a objetivos diarios'.",
+            "Si tu experiencia fue mas de deposito, cambia el foco a carga, descarga, preparacion de pedidos, stock y uso de herramientas. Ese ajuste responde mejor a las busquedas reales.",
           ],
         },
         {
@@ -145,6 +152,11 @@ export default function CvParaOperarioPage() {
           href: "/cv-para-repositor",
           title: "CV para repositor",
           description: "Cercano si tu experiencia incluye stock, deposito o mercaderia.",
+        },
+        {
+          href: "/cv-para-operario-sin-experiencia",
+          title: "CV para operario sin experiencia",
+          description: "Util si estas armando una version inicial para fabrica o deposito.",
         },
         {
           href: "/cv-para-mineria",

@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Limpieza: Ejemplo, Habilidades y Sin Experiencia",
+  title: "CV para Limpieza: Ejemplo, Perfil Profesional y Habilidades",
   description:
-    "Arma un CV para limpieza con ejemplo, habilidades operativas, mantenimiento de espacios, disponibilidad y opciones sin experiencia.",
+    "Arma un CV para limpieza con ejemplo, perfil profesional, habilidades operativas, mantenimiento de espacios y opciones sin experiencia.",
   path: "/cv-para-limpieza",
   keywords: [
     "cv para limpieza",
@@ -20,11 +20,11 @@ export default function CvParaLimpiezaPage() {
     <MarketingPage
       path="/cv-para-limpieza"
       eyebrow="CV por profesion"
-      title="CV para limpieza: ejemplo, habilidades y sin experiencia"
+      title="CV para limpieza: ejemplo, perfil profesional y habilidades"
       description="Prepara un curriculum para limpieza destacando mantenimiento de espacios, orden, responsabilidad, productos, procedimientos y disponibilidad."
       intro={[
-        "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas.",
-        "VitaeSpark te ayuda a presentar esa experiencia de forma profesional, con tareas claras, habilidades utiles y una estructura facil de leer para reclutadores.",
+        "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas, y con que rutinas o productos lo hacias.",
+        "VitaeSpark te ayuda a presentar esa experiencia en un curriculum limpieza mas profesional, con perfil claro, habilidades utiles y estructura ATS facil de leer para reclutadores.",
       ]}
       exampleImage={{
         src: "/elegance-good.webp",
@@ -56,7 +56,7 @@ export default function CvParaLimpiezaPage() {
       ]}
       sections={[
         {
-          title: "Que poner en un CV para limpieza",
+          title: "CV para limpieza: que poner para que se vea serio",
           paragraphs: [
             "Suele sumar experiencia en limpieza de espacios, mantenimiento de areas comunes, uso de productos, orden de materiales, cumplimiento de rutinas, reposicion de insumos y cuidado de normas de higiene.",
             "Si trabajaste en lugares con protocolos especiales, como salud, gastronomia o edificios, conviene aclararlo porque aumenta la relevancia del perfil.",
@@ -77,10 +77,17 @@ export default function CvParaLimpiezaPage() {
           ],
         },
         {
-          title: "Ejemplo de perfil profesional para limpieza",
+          title: "Perfil profesional para limpieza",
           paragraphs: [
             "Una base posible es: 'Perfil orientado a limpieza y mantenimiento de espacios, con experiencia en rutinas de higiene, orden de areas comunes, uso responsable de productos y cumplimiento de indicaciones'.",
             "Si no tienes experiencia formal, puedes cambiarlo por: 'Perfil inicial para limpieza, con responsabilidad, disponibilidad horaria, orden, puntualidad y capacidad para seguir rutinas de trabajo'.",
+          ],
+        },
+        {
+          title: "Ejemplo de CV para limpieza",
+          paragraphs: [
+            "Una formula util puede ser: 'Realice limpieza y mantenimiento de espacios comunes, reposicion de insumos, orden de materiales y cumplimiento de rutinas de higiene segun indicaciones del lugar'.",
+            "Si fue en oficinas, edificios, comercios o salud, nombralos. Ese contexto mejora mucho el match con las busquedas reales.",
           ],
         },
         {
