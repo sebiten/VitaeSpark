@@ -380,21 +380,21 @@ export default function CVFormWizard({
         handleExit("close");
       }}
     >
-      <DialogContent className="fixed inset-0 z-50 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 bg-[#0F0F10] p-0 text-white shadow-none sm:inset-auto sm:left-1/2 sm:top-1/2 sm:h-[min(90vh,920px)] sm:w-[min(100vw-2rem,1100px)] sm:max-w-[1100px] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px] sm:border sm:border-white/10 sm:bg-[#121217] [&>button]:hidden">
+      <DialogContent className="fixed inset-0 z-50 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden overscroll-contain rounded-none border-0 bg-[#0F0F10] p-0 text-white shadow-none sm:inset-auto sm:left-1/2 sm:top-1/2 sm:h-[min(90vh,920px)] sm:w-[min(100vw-2rem,1100px)] sm:max-w-[1100px] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px] sm:border sm:border-white/10 sm:bg-[#121217] [&>button]:hidden">
         <DialogTitle className="sr-only">{chrome.wizardTitle}</DialogTitle>
         <DialogDescription className="sr-only">
           {chrome.wizardDescription}
         </DialogDescription>
 
-        <form onSubmit={handleFinalSubmit} className="flex h-full min-h-0 flex-col">
-          <div className="sticky top-0 z-20 border-b border-white/10 bg-[#121217]/96 px-4 py-4 backdrop-blur sm:px-6">
+        <form onSubmit={handleFinalSubmit} className="flex h-full min-h-0 touch-pan-y flex-col">
+          <div className="sticky top-0 z-20 border-b border-white/10 bg-[#121217]/96 px-4 py-3 backdrop-blur sm:px-6 sm:py-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#38BDF8]/20 bg-[#38BDF8]/10 px-3 py-1.5 text-xs text-[#38BDF8] sm:text-sm">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#38BDF8]/20 bg-[#38BDF8]/10 px-3 py-1.5 text-[11px] text-[#38BDF8] sm:text-sm">
                   <Wand2 className="h-4 w-4" />
                   {copy.badge}
                 </div>
-                <div className="flex flex-wrap items-center gap-2 text-xs text-white/45">
+                <div className="flex flex-wrap items-center gap-2 text-[11px] text-white/45 sm:text-xs">
                   <span>{chrome.stepLabel}</span>
                   <span className="font-semibold text-[#A78BFA]">
                     {chrome.stepCount(stepIndex + 1, steps.length)}
@@ -403,20 +403,20 @@ export default function CVFormWizard({
                   <span>{copy.currentTemplate}</span>
                   <span className="font-semibold text-white">{templateName}</span>
                 </div>
-                <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
+                <h2 className="mt-2 text-[1.7rem] font-bold leading-tight text-white sm:text-3xl">
                   {currentStep.title}
                 </h2>
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-white/60">
+                <p className="mt-2 max-w-2xl text-[15px] leading-6 text-white/60 sm:text-sm">
                   {currentStep.description}
                 </p>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+              <div className="flex w-full snap-x snap-mandatory items-center gap-2 overflow-x-auto pb-1 sm:w-auto sm:flex-wrap sm:justify-end sm:overflow-visible sm:pb-0">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => handleExit("change_template")}
-                  className="border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
+                  className="h-10 shrink-0 snap-start border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
                 >
                   <Palette className="h-4 w-4 text-[#38BDF8]" />
                   {chrome.changeTemplate}
@@ -425,7 +425,7 @@ export default function CVFormWizard({
                   type="button"
                   variant="outline"
                   onClick={onFillSample}
-                  className="border-[#7C3AED]/40 bg-[#7C3AED]/10 text-white hover:bg-[#7C3AED]/20"
+                  className="h-10 shrink-0 snap-start border-[#7C3AED]/40 bg-[#7C3AED]/10 text-white hover:bg-[#7C3AED]/20"
                 >
                   <CheckCircle2 className="h-4 w-4 text-[#A78BFA]" />
                   {chrome.fillSample}
@@ -434,7 +434,7 @@ export default function CVFormWizard({
                   type="button"
                   variant="outline"
                   onClick={onClear}
-                  className="border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
+                  className="h-10 shrink-0 snap-start border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white"
                 >
                   <Trash2 className="h-4 w-4 text-white/65" />
                   {chrome.clear}
@@ -442,7 +442,7 @@ export default function CVFormWizard({
                 <button
                   type="button"
                   onClick={() => handleExit("close")}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/70 transition hover:bg-white/10 hover:text-white"
+                  className="inline-flex h-10 w-10 shrink-0 snap-start items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/70 transition hover:bg-white/10 hover:text-white"
                   aria-label={chrome.close}
                 >
                   <X className="h-4 w-4" />
@@ -462,15 +462,15 @@ export default function CVFormWizard({
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">
-            <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
-              <section className="rounded-[24px] border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10 sm:p-6">
+            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-5">
+              <section className="rounded-[24px] border border-white/10 bg-[#15151A]/80 p-4 shadow-xl shadow-black/10 sm:p-6">
                 <div className="mb-5 flex gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#7C3AED]/15 text-[#A78BFA] ring-1 ring-[#A78BFA]/15">
                     <currentStep.icon className="h-5 w-5" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-white">{currentStep.title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-white/60">
+                    <p className="mt-1 text-[15px] leading-6 text-white/60 sm:text-sm">
                       {currentStep.description}
                     </p>
                   </div>
@@ -489,17 +489,17 @@ export default function CVFormWizard({
                 />
               </section>
 
-              <aside className="space-y-4 lg:sticky lg:top-0 lg:self-start">
-                <div className="rounded-[24px] border border-white/10 bg-[#15151A]/80 p-5 shadow-xl shadow-black/10">
+              <aside className="space-y-3 lg:sticky lg:top-0 lg:self-start lg:space-y-4">
+                <div className="rounded-[24px] border border-white/10 bg-[#15151A]/80 p-4 shadow-xl shadow-black/10 sm:p-5">
                   <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#38BDF8]">
                     {chrome.exampleLabel}
                   </p>
-                  <pre className="whitespace-pre-wrap font-sans text-sm leading-7 text-white/72">
+                  <pre className="whitespace-pre-wrap font-sans text-[15px] leading-7 text-white/72 sm:text-sm">
                     {currentStep.example}
                   </pre>
                 </div>
 
-                <div className="rounded-[24px] border border-[#7C3AED]/20 bg-[#7C3AED]/10 p-5">
+                <div className="rounded-[24px] border border-[#7C3AED]/20 bg-[#7C3AED]/10 p-4 sm:p-5">
                   <p className="flex items-center gap-2 text-sm font-semibold text-white">
                     <Sparkles className="h-4 w-4 text-[#C4B5FD]" />
                     {chrome.helpLabel}
@@ -507,7 +507,7 @@ export default function CVFormWizard({
                   <p className="mt-3 text-sm font-medium text-white/92">
                     {currentStep.helperTitle}
                   </p>
-                  <p className="mt-2 text-sm leading-6 text-white/70">
+                  <p className="mt-2 text-[15px] leading-6 text-white/70 sm:text-sm">
                     {currentStep.helperText}
                   </p>
                 </div>
@@ -524,13 +524,13 @@ export default function CVFormWizard({
             </div>
           </div>
 
-          <div className="sticky bottom-0 z-20 border-t border-white/10 bg-[#121217]/96 px-4 py-4 backdrop-blur sm:px-6">
+          <div className="sticky bottom-0 z-20 border-t border-white/10 bg-[#121217]/96 px-4 py-3 backdrop-blur sm:px-6 sm:py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <Button
                 type="button"
                 variant="outline"
                 onClick={handleStepBack}
-                className="h-12 border-white/15 bg-white/5 text-white/85 hover:bg-white/10 hover:text-white sm:min-w-40"
+                className="h-12 w-full border-white/15 bg-white/5 text-white/85 hover:bg-white/10 hover:text-white sm:min-w-40 sm:w-auto"
               >
                 <ArrowLeft className="h-4 w-4" />
                 {chrome.back}
@@ -541,7 +541,7 @@ export default function CVFormWizard({
                   key={`next-${currentStep.id}`}
                   type="button"
                   onClick={handleNext}
-                  className="h-12 bg-[#7C3AED] px-6 font-semibold text-white hover:bg-[#6D28D9] sm:min-w-48"
+                  className="h-12 w-full bg-[#7C3AED] px-6 text-base font-semibold text-white hover:bg-[#6D28D9] sm:min-w-48 sm:w-auto"
                 >
                   {chrome.continue}
                 </Button>
@@ -550,7 +550,7 @@ export default function CVFormWizard({
                   key={`submit-${currentStep.id}`}
                   type="submit"
                   disabled={isGenerating || isSubmitting}
-                  className="h-12 bg-[#7C3AED] px-6 font-semibold text-white hover:bg-[#6D28D9] sm:min-w-48"
+                  className="h-12 w-full bg-[#7C3AED] px-6 text-base font-semibold text-white hover:bg-[#6D28D9] sm:min-w-48 sm:w-auto"
                 >
                   <Sparkles className="h-4 w-4" />
                   {isGenerating || isSubmitting ? copy.generating : copy.generate}
@@ -767,6 +767,6 @@ function FieldError({
 }
 
 const FIELD_CLASS =
-  "w-full rounded-xl border border-white/10 bg-[#101014] px-4 py-3 text-sm text-white outline-none transition focus:border-[#7C3AED] focus:ring-2 focus:ring-[#7C3AED]/20 placeholder:text-white/32";
+  "w-full rounded-xl border border-white/10 bg-[#101014] px-4 py-3 text-base text-white outline-none transition focus:border-[#7C3AED] focus:ring-2 focus:ring-[#7C3AED]/20 placeholder:text-white/32 sm:text-sm";
 const TEXTAREA_CLASS =
-  "w-full resize-y rounded-xl border border-white/10 bg-[#101014] px-4 py-3 text-sm leading-7 text-white outline-none transition focus:border-[#7C3AED] focus:ring-2 focus:ring-[#7C3AED]/20 placeholder:text-white/32";
+  "w-full min-h-[140px] resize-y rounded-xl border border-white/10 bg-[#101014] px-4 py-3 text-base leading-7 text-white outline-none transition focus:border-[#7C3AED] focus:ring-2 focus:ring-[#7C3AED]/20 placeholder:text-white/32 sm:text-sm";
