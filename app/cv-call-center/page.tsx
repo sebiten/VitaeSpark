@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Call Center: Ejemplo, Perfil Profesional y Habilidades",
+  title: "CV Call Center: Ejemplo Listo para Atencion, Ventas o Soporte",
   description:
-    "Crea un CV call center con ejemplo, perfil profesional, habilidades y experiencia para atencion telefonica, chat, ventas o soporte.",
+    "Arma un CV call center con ejemplo, perfil profesional, habilidades, CRM, llamadas, chat, ventas o soporte para postular mejor.",
   path: "/cv-call-center",
   keywords: [
     "cv para call center",
@@ -22,12 +22,18 @@ export default function CvCallCenterPage() {
     <MarketingPage
       path="/cv-call-center"
       eyebrow="CV por profesion"
-      title="CV call center: ejemplo, perfil profesional y habilidades"
-      description="Prepara un curriculum call center con perfil profesional, experiencia, CRM, llamadas, chat, soporte y estructura ATS."
+      title="CV call center para atencion, ventas o soporte"
+      description="Ejemplo de curriculum call center con perfil profesional, experiencia en llamadas o chat, CRM, soporte, ventas y estructura ATS."
       intro={[
-        "Un CV call center necesita mostrar mas que buena comunicacion. Tiene que dejar claro si atendias llamadas entrantes, ventas salientes, cobranzas, soporte, chat o seguimiento de casos, y con que herramientas trabajabas.",
+        "Un CV call center tiene que explicar rapido el tipo de gestion: llamadas entrantes, ventas salientes, cobranzas, soporte, chat, tickets o seguimiento de casos. Si tambien usaste CRM o sistemas internos, conviene que aparezca desde el inicio.",
         "VitaeSpark te ayuda a convertir esa experiencia en un curriculum call center mas concreto, con perfil profesional, habilidades y palabras clave utiles para contact centers, soporte y atencion multicanal.",
       ]}
+      conversionCta={{
+        title: "Crea tu CV call center y adaptalo al puesto",
+        description:
+          "Carga tu experiencia en llamadas, chat, ventas o soporte. La IA la ordena en un CV claro, compatible con ATS y listo para descargar.",
+        label: "Crear mi CV call center",
+      }}
       benefits={[
         "Enfoca tu experiencia en atencion telefonica, chat o soporte remoto.",
         "Ayuda a destacar logros, tiempos de respuesta y manejo de objeciones.",

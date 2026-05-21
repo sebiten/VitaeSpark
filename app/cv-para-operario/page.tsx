@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Operario de Produccion: Ejemplo, Perfil Profesional y Habilidades",
+  title: "CV Operario de Produccion: Ejemplo Listo para Postular",
   description:
-    "Crea un CV de operario de produccion con ejemplo, perfil profesional, habilidades de fabrica, deposito y formato ATS.",
+    "Crea un CV de operario de produccion con ejemplo real, perfil profesional, habilidades de fabrica, deposito y formato claro.",
   path: "/cv-para-operario",
   keywords: [
     "cv para operario",
@@ -21,12 +21,18 @@ export default function CvParaOperarioPage() {
     <MarketingPage
       path="/cv-para-operario"
       eyebrow="CV por profesion"
-      title="CV operario de produccion: ejemplo, perfil profesional y habilidades"
-      description="Arma un curriculum operario de produccion destacando fabrica, deposito, herramientas, seguridad y trabajo por procesos."
+      title="CV operario de produccion para enviar a empresas"
+      description="Ejemplo de curriculum operario con perfil profesional, experiencia en fabrica o deposito, habilidades practicas y estructura clara para postular."
       intro={[
-        "Un curriculum operario de produccion tiene que mostrar experiencia practica, responsabilidad y capacidad para seguir procedimientos. Conviene aclarar si trabajaste en linea de produccion, deposito, mantenimiento, embalaje, control de calidad o logistica.",
+        "Un curriculum operario de produccion tiene que mostrar rapido que tareas sabes hacer: linea de produccion, deposito, mantenimiento, embalaje, control de calidad, carga y descarga o logistica. Esa claridad suele importar mas que un texto largo.",
         "VitaeSpark te ayuda a ordenar esas tareas en un CV para operario mas claro, con perfil profesional, habilidades utiles y estructura ATS para empresas industriales, depositos, comercios y servicios.",
       ]}
+      conversionCta={{
+        title: "Crea tu CV de operario con estructura profesional",
+        description:
+          "Escribe tus tareas reales y la IA las convierte en experiencia clara, habilidades utiles y un PDF listo para postular.",
+        label: "Crear mi CV de operario",
+      }}
       exampleImage={{
         src: "/purple-hero.webp",
         alt: "ejemplo de cv para operario",

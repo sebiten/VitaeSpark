@@ -43,6 +43,12 @@ type ExampleImage = {
   caption: string;
 };
 
+type ConversionCta = {
+  title: string;
+  description: string;
+  label?: string;
+};
+
 type MarketingPageProps = {
   path: string;
   eyebrow: string;
@@ -56,6 +62,7 @@ type MarketingPageProps = {
   relatedLinks: RelatedLink[];
   exampleImage?: ExampleImage;
   ctaLabel?: string;
+  conversionCta?: ConversionCta;
 };
 
 function slugify(text: string) {
@@ -95,6 +102,7 @@ export function MarketingPage({
   relatedLinks,
   exampleImage,
   ctaLabel,
+  conversionCta,
 }: MarketingPageProps) {
   const sectionIcons = [FileText, PenLine, Lightbulb, CheckCircle2];
   const visual = exampleImage ?? {
@@ -239,6 +247,30 @@ export function MarketingPage({
               </figure>
             ) : null}
           </div>
+
+          {conversionCta ? (
+            <section className="mb-12 overflow-hidden rounded-3xl border border-[#7C3AED]/25 bg-gradient-to-br from-[#7C3AED]/18 via-white/[0.045] to-[#38BDF8]/10 p-6 shadow-2xl shadow-[#7C3AED]/10 sm:p-8">
+              <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+                <div className="min-w-0">
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-[#38BDF8]">
+                    Listo para postular
+                  </p>
+                  <h2 className="text-2xl font-semibold leading-tight text-white">
+                    {conversionCta.title}
+                  </h2>
+                  <p className="mt-3 max-w-2xl text-sm leading-7 text-white/74 sm:text-base">
+                    {conversionCta.description}
+                  </p>
+                </div>
+                <TrackedCtaLink
+                  href="/crear"
+                  label={conversionCta.label || cta}
+                  sourcePath={path}
+                  sourceType="landing"
+                />
+              </div>
+            </section>
+          ) : null}
 
           <div className="space-y-12">
             {sections.map((section, index) => {

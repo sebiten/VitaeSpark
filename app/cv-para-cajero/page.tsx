@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Cajero: Ejemplo, Perfil Profesional y Habilidades",
+  title: "CV para Cajero: Ejemplo Listo para Supermercado o Comercio",
   description:
-    "Crea un CV para cajero o cajera con ejemplo, perfil profesional, habilidades de caja, retail y opciones para primer empleo.",
+    "Arma un CV para cajero o cajera con ejemplo, perfil profesional, caja, medios de pago, retail y opcion sin experiencia.",
   path: "/cv-para-cajero",
   keywords: [
     "cv para cajero",
@@ -22,12 +22,18 @@ export default function CvParaCajeroPage() {
     <MarketingPage
       path="/cv-para-cajero"
       eyebrow="CV por profesion"
-      title="CV para cajero: ejemplo, perfil profesional y habilidades"
-      description="Crea un curriculum para cajero o cajera con perfil profesional, experiencia de caja, habilidades para supermercado, retail y comercio."
+      title="CV para cajero listo para supermercado, retail o comercio"
+      description="Ejemplo de curriculum para cajero o cajera con perfil profesional, experiencia de caja, medios de pago, atencion y tareas de comercio."
       intro={[
-        "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa. No alcanza con poner 'manejo de caja': conviene mostrar medios de pago, cierre de caja, atencion al cliente, control basico y trabajo en entornos con ritmo alto.",
+        "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa desde el primer vistazo. No alcanza con poner 'manejo de caja': conviene mostrar medios de pago, cierre, atencion, control basico y ritmo de trabajo.",
         "VitaeSpark te ayuda a convertir esa experiencia en un curriculum cajero mas claro, con perfil profesional, habilidades y ejemplos para supermercados, farmacias, tiendas, estaciones de servicio o comercios de cercania.",
       ]}
+      conversionCta={{
+        title: "Crea tu CV para cajero y descargalo en PDF",
+        description:
+          "Carga tus tareas de caja, atencion, medios de pago y comercio. La IA lo convierte en un CV profesional listo para enviar.",
+        label: "Crear mi CV de cajero",
+      }}
       exampleImage={{
         src: "/purple-hero.webp",
         alt: "ejemplo de cv para cajero",

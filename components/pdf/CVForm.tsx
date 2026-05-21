@@ -11,7 +11,10 @@ import type { RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
 import CVFormStep from "../CVFormStep";
 import CVPreviewStep from "../CVPreviewStep";
-import { getLandingAttribution } from "@/lib/analytics-attribution";
+import {
+  getLandingAttribution,
+  setLandingAttribution,
+} from "@/lib/analytics-attribution";
 import { recordAnalyticsEvent } from "@/lib/analytics-events";
 import type { AppLanguage } from "@/lib/i18n";
 
@@ -84,6 +87,23 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
   };
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const landingPath = params.get("landing_path");
+    const ctaLabel = params.get("cta_label");
+    const sourceType = params.get("source_type");
+
+    if (
+      landingPath &&
+      ctaLabel &&
+      (sourceType === "landing" || sourceType === "blog")
+    ) {
+      setLandingAttribution({
+        landing_path: landingPath,
+        cta_label: ctaLabel,
+        source_type: sourceType,
+      });
+    }
+
     const getUser = async () => {
       const supabase = createClient();
       const {

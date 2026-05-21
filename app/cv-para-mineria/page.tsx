@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Mineria: Ejemplo, Ayudante de Mina y Perfil",
+  title: "CV para Mineria: Ejemplo Listo para Minera y Ayudante",
   description:
-    "Crea un CV para mineria, minera o ayudante de mina con ejemplo, perfil, seguridad, turnos, campamento y experiencia operativa.",
+    "Arma tu CV para mineria con ejemplo, perfil profesional, seguridad, turnos, campamento y formato claro para postular a mineras.",
   path: "/cv-para-mineria",
   keywords: [
     "cv para mineria",
@@ -23,12 +23,18 @@ export default function CvParaMineriaPage() {
     <MarketingPage
       path="/cv-para-mineria"
       eyebrow="CV por profesion"
-      title="CV para mineria: ejemplo para minera, ayudante de mina y operario"
-      description="Arma un curriculum para mineria destacando seguridad, experiencia operativa, turnos, maquinaria, campamento y disponibilidad real."
+      title="CV para mineria listo para postular a mineras"
+      description="Ejemplo de curriculum para mineria con perfil profesional, experiencia operativa, seguridad, turnos y datos que suelen mirar las empresas."
       intro={[
-        "Un CV para mineria tiene que transmitir responsabilidad, resistencia al ritmo de trabajo y respeto por los procedimientos de seguridad. Conviene aclarar si tienes experiencia en yacimientos, planta, mantenimiento, transporte, deposito, campamento o tareas operativas.",
-        "VitaeSpark te ayuda a convertir esa experiencia en un curriculum para mineria mas claro, con perfil profesional, habilidades utiles y estructura ATS para mineras, contratistas y servicios industriales.",
+        "Si buscas trabajo en mineria, el CV tiene que mostrar rapido puesto objetivo, experiencia operativa, seguridad, disponibilidad y antecedentes cercanos al rubro. El reclutador no deberia tener que adivinar si apuntas a planta, mina, mantenimiento, transporte, deposito o campamento.",
+        "VitaeSpark te ayuda a ordenar esa informacion en un curriculum para mineria claro, con perfil profesional, habilidades utiles y estructura ATS para mineras, contratistas y servicios industriales.",
       ]}
+      conversionCta={{
+        title: "Crea tu CV para mineria en minutos",
+        description:
+          "Carga tu experiencia, cursos, disponibilidad y puesto objetivo. La IA lo ordena en un CV profesional listo para descargar en PDF.",
+        label: "Crear mi CV para mineria",
+      }}
       exampleImage={{
         src: "/purple-hero.webp",
         alt: "ejemplo de cv para mineria",

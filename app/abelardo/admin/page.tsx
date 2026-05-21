@@ -296,7 +296,7 @@ export default async function AdminDashboardPage({
 
           {landingMetrics.length > 0 ? (
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[960px] text-left text-sm">
+              <table className="w-full min-w-[1120px] text-left text-sm">
                 <thead className="text-xs uppercase tracking-[0.16em] text-white/40">
                   <tr className="border-b border-white/10">
                     <th className="py-3 pr-4 font-medium">Landing</th>
@@ -308,7 +308,9 @@ export default async function AdminDashboardPage({
                     <th className="px-3 py-3 font-medium">Checkout</th>
                     <th className="px-3 py-3 font-medium">Pago inicio</th>
                     <th className="px-3 py-3 font-medium">Pagos</th>
-                    <th className="pl-3 py-3 font-medium">Conv.</th>
+                    <th className="px-3 py-3 font-medium">Click a CV</th>
+                    <th className="px-3 py-3 font-medium">CV a checkout</th>
+                    <th className="pl-3 py-3 font-medium">Checkout a pago</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/10 text-white/72">
@@ -325,8 +327,14 @@ export default async function AdminDashboardPage({
                       <td className="px-3 py-4">{row.checkouts}</td>
                       <td className="px-3 py-4">{row.paymentStarts}</td>
                       <td className="px-3 py-4">{row.payments}</td>
+                      <td className="px-3 py-4 text-[#38BDF8]">
+                        {formatPercent(row.clicks > 0 ? (row.cvs / row.clicks) * 100 : 0)}
+                      </td>
+                      <td className="px-3 py-4 text-[#38BDF8]">
+                        {formatPercent(row.cvs > 0 ? (row.checkouts / row.cvs) * 100 : 0)}
+                      </td>
                       <td className="pl-3 py-4 text-[#38BDF8]">
-                        {formatPercent(row.clicks > 0 ? (row.payments / row.clicks) * 100 : 0)}
+                        {formatPercent(row.checkouts > 0 ? (row.payments / row.checkouts) * 100 : 0)}
                       </td>
                     </tr>
                   ))}

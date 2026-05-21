@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Recepcionista: Ejemplo, Perfil Profesional y Habilidades",
+  title: "CV para Recepcionista: Ejemplo Listo para Oficina o Consultorio",
   description:
-    "Arma un CV para recepcionista con ejemplo, perfil profesional, habilidades administrativas, agenda, llamadas y opciones sin experiencia.",
+    "Crea un CV para recepcionista con ejemplo, perfil profesional, agenda, llamadas, tareas administrativas y version sin experiencia.",
   path: "/cv-para-recepcionista",
   keywords: [
     "cv para recepcionista",
@@ -22,12 +22,18 @@ export default function CvParaRecepcionistaPage() {
     <MarketingPage
       path="/cv-para-recepcionista"
       eyebrow="CV por profesion"
-      title="CV para recepcionista: ejemplo, perfil profesional y habilidades"
-      description="Prepara un curriculum recepcionista con atencion al publico, agenda, administracion, llamadas, turnos y estructura ATS."
+      title="CV para recepcionista claro y listo para postular"
+      description="Ejemplo de curriculum recepcionista para oficina, consultorio, hotel, comercio o atencion al publico, con perfil y habilidades concretas."
       intro={[
-        "Un curriculum recepcionista funciona mejor cuando deja claro si atendias publico, agenda, llamadas, turnos, correo, documentacion y soporte administrativo. El reclutador necesita ver rapido orden, trato profesional y capacidad para coordinar varias tareas a la vez.",
+        "Un curriculum recepcionista funciona mejor cuando muestra en pocas lineas que tareas manejaste: publico, agenda, llamadas, turnos, correo, documentacion, carga de datos o soporte administrativo. Esa precision ayuda mucho en resultados de busqueda y entrevistas.",
         "VitaeSpark te ayuda a convertir esa experiencia en un CV para recepcionista mas claro, con perfil profesional, habilidades utiles y una presentacion pensada para consultorios, oficinas, hoteles, comercios o centros de atencion.",
       ]}
+      conversionCta={{
+        title: "Crea tu CV para recepcionista sin empezar de cero",
+        description:
+          "Escribe tus tareas de recepcion, agenda y atencion. La IA arma una version profesional, ordenada y lista para descargar en PDF.",
+        label: "Crear mi CV de recepcionista",
+      }}
       benefits={[
         "Destaca atencion al publico, agenda, llamadas y tareas administrativas.",
         "Sirve para recepcion en oficinas, salud, hoteleria, comercios y empresas.",

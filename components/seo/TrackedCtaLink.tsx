@@ -22,9 +22,17 @@ export function TrackedCtaLink({
   sourceType,
   language = "es",
 }: TrackedCtaLinkProps) {
+  const trackedHref = buildTrackedHref({
+    href,
+    label,
+    sourcePath,
+    sourceType,
+    language,
+  });
+
   return (
     <Link
-      href={href}
+      href={trackedHref}
       onClick={() => {
         setLandingAttribution({
           landing_path: sourcePath,
@@ -55,4 +63,22 @@ export function TrackedCtaLink({
       </Button>
     </Link>
   );
+}
+
+function buildTrackedHref({
+  href,
+  label,
+  sourcePath,
+  sourceType,
+  language,
+}: TrackedCtaLinkProps & { language: "es" | "en" }) {
+  const [pathname = "", query = ""] = href.split("?");
+  const params = new URLSearchParams(query);
+
+  params.set("landing_path", sourcePath);
+  params.set("source_type", sourceType);
+  params.set("cta_label", label);
+  params.set("lang", language);
+
+  return `${pathname}?${params.toString()}`;
 }
