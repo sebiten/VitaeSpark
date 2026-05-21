@@ -1,47 +1,40 @@
 "use client";
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
+
 import { Button } from "./ui/button";
+import { createClient } from "@/utils/supabase/client";
 
 const supabase = createClient();
 
 export function OAuthButtons() {
-  const router = useRouter();
-
   const handleOAuth = async (provider: "google" | "github") => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/crear`, // checkear que esta colocado bien en supabase
-        // si necesitas tokens de Google:
+        redirectTo: `${window.location.origin}/auth/callback?next=/crear`,
         queryParams: { access_type: "offline", prompt: "consent" },
       },
     });
+
     if (error) {
       console.error("OAuth error:", error.message);
-    } else if (data.url) {
-      // redirige al endpoint de Supabase para iniciar el flujo PKCE
+      return;
+    }
+
+    if (data.url) {
       window.location.href = data.url;
     }
   };
 
   return (
-    <div className="space-x-4">
+    <div className="space-y-2">
       <Button
-        variant="default"
+        type="button"
         size="lg"
         onClick={() => handleOAuth("google")}
-        className="
-          w-full
-          flex items-center justify-center gap-2
-          border-gray-600 text-gray-200
-          bg-[#1F1F22] hover:bg-[#2A2A2D] hover:text-gray-100
-          transition
-          my-2
-        "
+        className="h-12 w-full justify-center gap-3 rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.055)_0%,rgba(255,255,255,0.03)_100%)] px-4 text-[15px] font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/[0.08]"
       >
-        <img src="/google.png" alt="Google" className="w-5 h-5" />
-        <span className="font-medium">Continuar con Google</span>
+        <img src="/google.png" alt="Google" className="h-5 w-5" />
+        <span>Continuar con Google</span>
       </Button>
     </div>
   );
