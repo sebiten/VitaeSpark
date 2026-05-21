@@ -148,14 +148,14 @@ export default function AuthPageClient() {
               Guarda tu progreso y descarga tu CV cuando quieras
             </h1>
             <p className="mt-4 max-w-lg text-[17px] leading-8 text-white/58">
-              Entra con tu cuenta para editar, regenerar y descargar tus
-              curriculums desde un solo lugar.
+              Entra con tu cuenta para descargar tus
+              curriculums desde tu perfil cuando quieras.
             </p>
 
             <div className="mt-8 grid max-w-lg gap-3">
               {[
                 "Tus CVs quedan vinculados a tu perfil.",
-                "Puedes actualizar texto, plantilla y PDF cuando quieras.",
+                "Puedes descargarlo cuando quieras.",
                 "El flujo esta pensado para ATS, claridad y velocidad.",
               ].map((item) => (
                 <div
