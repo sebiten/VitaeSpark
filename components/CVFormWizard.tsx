@@ -413,7 +413,7 @@ export default function CVFormWizard({
         handleExit("close");
       }}
     >
-      <DialogContent className="fixed inset-0 z-50 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.18),_transparent_28%),linear-gradient(180deg,_#111116_0%,_#0A0A0D_100%)] p-0 text-white shadow-none sm:inset-auto sm:left-1/2 sm:top-1/2 sm:h-[min(90vh,920px)] sm:w-[min(100vw-2rem,1100px)] sm:max-w-[1100px] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[32px] sm:border sm:border-white/10 sm:shadow-[0_24px_80px_rgba(8,8,18,0.65)] [&>button]:hidden">
+      <DialogContent className="fixed inset-0 z-50 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 bg-[#0d0d11] p-0 text-white shadow-none sm:inset-auto sm:left-1/2 sm:top-1/2 sm:h-[min(90vh,920px)] sm:w-[min(100vw-2rem,1100px)] sm:max-w-[1100px] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[30px] sm:border sm:border-white/8 sm:shadow-[0_24px_80px_rgba(8,8,18,0.5)] [&>button]:hidden">
         <DialogTitle className="sr-only">{chrome.wizardTitle}</DialogTitle>
         <DialogDescription className="sr-only">
           {chrome.wizardDescription}
@@ -421,8 +421,7 @@ export default function CVFormWizard({
 
         <form onSubmit={handleFinalSubmit} className="flex h-full min-h-0 flex-col">
           <div className="sticky top-0 z-30 px-3 pt-3 sm:px-6 sm:pt-6">
-            <div className="relative overflow-hidden rounded-[30px] border border-white/8 bg-[linear-gradient(180deg,rgba(17,17,24,0.9)_0%,rgba(12,12,18,0.74)_100%)] px-3 py-3 shadow-[0_18px_56px_rgba(5,5,14,0.32)] backdrop-blur-2xl sm:px-5 sm:py-4">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.14),transparent_30%),radial-gradient(circle_at_left,rgba(56,189,248,0.08),transparent_24%)]" />
+            <div className="relative rounded-[28px] border border-white/8 bg-[#141419]/96 px-3 py-3 shadow-[0_16px_40px_rgba(5,5,14,0.2)] sm:px-5 sm:py-4">
               <div className="relative flex items-start gap-2">
                 <Button
                   type="button"
@@ -436,14 +435,14 @@ export default function CVFormWizard({
 
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.045] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#CDD0E8]">
+                    <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#d1d4e6]">
                       <Wand2 className="h-3.5 w-3.5" />
                       {copy.badge}
                     </div>
-                    <span className="rounded-full border border-[#8B5CF6]/18 bg-[#8B5CF6]/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-[#D7C7FF]">
+                    <span className="rounded-full border border-[#7c4dd4]/18 bg-[#7c4dd4]/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-[#d8cbf7]">
                       {chrome.stepLabel} {chrome.stepCount(stepIndex + 1, steps.length)}
                     </span>
-                    <span className="inline-flex rounded-full border border-white/8 bg-black/20 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-white/60">
+                    <span className="inline-flex rounded-full border border-white/8 bg-[#111116] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-white/62">
                       {templateName}
                     </span>
                   </div>
@@ -524,9 +523,8 @@ export default function CVFormWizard({
                 <div className="relative">
                   <Progress
                     value={progressValue}
-                    className="h-1.5 rounded-full bg-white/[0.05] [&_[data-slot=progress-indicator]]:bg-[linear-gradient(90deg,#5B21B6_0%,#7C3AED_50%,#B794F6_100%)]"
+                    className="h-1.5 rounded-full bg-white/[0.05] [&_[data-slot=progress-indicator]]:bg-[#7c4dd4]"
                   />
-                  <div className="pointer-events-none absolute inset-y-0 left-0 w-24 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0.16),transparent)] blur-sm" />
                 </div>
                 <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                   {steps.map((step, index) => {
@@ -543,9 +541,9 @@ export default function CVFormWizard({
                         className={cn(
                           "group inline-flex shrink-0 items-center gap-2.5 rounded-[20px] border px-3 py-2.5 text-left transition-all duration-200",
                           isActive
-                            ? "border-[#9F7AEA]/32 bg-[linear-gradient(180deg,rgba(139,92,246,0.2)_0%,rgba(139,92,246,0.08)_100%)] text-white shadow-[0_10px_30px_rgba(90,41,179,0.2)]"
+                            ? "border-[#8b5cf6]/26 bg-[#1b1824] text-white shadow-[0_10px_24px_rgba(90,41,179,0.14)]"
                             : isDone
-                              ? "border-white/10 bg-white/[0.045] text-white/76 hover:border-white/15 hover:bg-white/[0.075]"
+                              ? "border-white/10 bg-white/[0.04] text-white/76 hover:border-white/15 hover:bg-white/[0.06]"
                               : "border-white/8 bg-white/[0.02] text-white/52",
                           isLocked && "cursor-not-allowed opacity-75",
                         )}
@@ -554,7 +552,7 @@ export default function CVFormWizard({
                           className={cn(
                             "flex size-7 items-center justify-center rounded-2xl border text-[11px] transition-colors",
                             isActive
-                              ? "border-[#C4B5FD]/22 bg-[#C4B5FD]/16 text-[#F2ECFF]"
+                              ? "border-[#8b5cf6]/18 bg-[#8b5cf6]/10 text-[#efe8ff]"
                               : isDone
                                 ? "border-white/10 bg-white/[0.07] text-white/76"
                                 : "border-white/8 bg-white/[0.03] text-white/48",
@@ -592,15 +590,15 @@ export default function CVFormWizard({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -12, scale: 0.985 }}
                   transition={{ duration: 0.22, ease: "easeOut" }}
-                  className="rounded-[30px] border border-white/8 bg-[linear-gradient(180deg,rgba(17,17,23,0.88)_0%,rgba(13,13,18,0.68)_100%)] p-5 shadow-[0_18px_60px_rgba(6,6,14,0.22)] backdrop-blur-xl sm:p-7"
+                  className="rounded-[30px] border border-white/8 bg-[#121217] p-5 shadow-[0_18px_48px_rgba(6,6,14,0.16)] sm:p-7"
                 >
                   <div className="mb-6 flex items-start gap-4 sm:mb-8">
-                    <div className="flex size-11 shrink-0 items-center justify-center rounded-[22px] border border-white/8 bg-[linear-gradient(180deg,rgba(124,58,237,0.22)_0%,rgba(124,58,237,0.06)_100%)] text-[#D7C7FF] shadow-[0_10px_28px_rgba(124,58,237,0.12)]">
+                    <div className="flex size-11 shrink-0 items-center justify-center rounded-[22px] border border-white/8 bg-[#171720] text-[#d8cbf7] shadow-[0_10px_24px_rgba(8,8,18,0.14)]">
                       <currentStep.icon className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
                       <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-white/46">
-                        {chrome.stepLabel} {stepIndex + 1} · {templateName}
+                        {chrome.stepLabel} {stepIndex + 1} - {templateName}
                       </p>
                       <h3 className="mt-1 text-xl font-semibold tracking-[-0.03em] text-[#F5F5FA] sm:text-[1.45rem]">
                         {currentStep.title}
@@ -626,7 +624,7 @@ export default function CVFormWizard({
               </AnimatePresence>
 
               <aside className="space-y-3 lg:sticky lg:top-0 lg:self-start lg:space-y-4">
-                <div className="overflow-hidden rounded-[28px] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.045)_0%,rgba(255,255,255,0.02)_100%)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] backdrop-blur-xl sm:p-5">
+                <div className="overflow-hidden rounded-[28px] border border-white/8 bg-[#121217] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] sm:p-5">
                   <div className="mb-3 flex items-center gap-2">
                     <div className="flex size-8 items-center justify-center rounded-xl bg-[#38BDF8]/10 text-[#8DDCFF]">
                       <FileText className="h-4 w-4" />
@@ -638,12 +636,12 @@ export default function CVFormWizard({
                   <ExamplePreview step={currentStep} previewLabel={chrome.suggestedPreview} />
                 </div>
 
-                <div className="rounded-[28px] border border-[#8B5CF6]/14 bg-[linear-gradient(180deg,rgba(124,58,237,0.1)_0%,rgba(124,58,237,0.035)_100%)] p-4 shadow-[0_12px_36px_rgba(124,58,237,0.06)] backdrop-blur-xl sm:p-5">
+                <div className="rounded-[28px] border border-white/8 bg-[#141419] p-4 shadow-[0_12px_32px_rgba(8,8,18,0.12)] sm:p-5">
                   <div className="mb-3 flex items-center gap-2">
-                    <div className="flex size-8 items-center justify-center rounded-xl bg-[#8B5CF6]/14 text-[#D8CBFF]">
+                    <div className="flex size-8 items-center justify-center rounded-xl bg-[#1a1822] text-[#d8cbf7]">
                       <Sparkles className="h-4 w-4" />
                     </div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#D8CBFF]">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#d8cbf7]">
                       {chrome.helpLabel}
                     </p>
                   </div>
@@ -668,7 +666,7 @@ export default function CVFormWizard({
           </div>
 
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 px-3 pb-3 sm:px-6 sm:pb-6">
-            <div className="pointer-events-auto rounded-[28px] border border-white/8 bg-[linear-gradient(180deg,rgba(16,16,22,0.88)_0%,rgba(10,10,15,0.94)_100%)] p-2 shadow-[0_-12px_40px_rgba(7,7,16,0.14),0_18px_60px_rgba(4,4,10,0.36)] backdrop-blur-2xl">
+            <div className="pointer-events-auto rounded-[28px] border border-white/8 bg-[#111116]/96 p-2 shadow-[0_-12px_40px_rgba(7,7,16,0.12),0_18px_48px_rgba(4,4,10,0.24)] backdrop-blur-xl">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                 <Button
                   type="button"
@@ -690,7 +688,7 @@ export default function CVFormWizard({
                       key={`next-${currentStep.id}`}
                       type="button"
                       onClick={handleNext}
-                      className="h-12 w-full rounded-[22px] bg-[linear-gradient(135deg,#5B21B6_0%,#7C3AED_45%,#9F7AEA_100%)] px-5 text-[15px] font-semibold text-white shadow-[0_14px_34px_rgba(109,40,217,0.28)] transition-all hover:-translate-y-px hover:brightness-110 hover:shadow-[0_18px_42px_rgba(124,58,237,0.34)]"
+                      className="h-12 w-full rounded-[22px] bg-[#6f3cd2] px-5 text-[15px] font-semibold text-white shadow-[0_14px_30px_rgba(109,40,217,0.2)] transition-all hover:-translate-y-px hover:bg-[#7a47dd] hover:shadow-[0_18px_34px_rgba(109,40,217,0.26)]"
                     >
                       <span>{nextButtonLabel}</span>
                       <ChevronRight className="h-4 w-4" />
@@ -700,7 +698,7 @@ export default function CVFormWizard({
                       key={`submit-${currentStep.id}`}
                       type="submit"
                       disabled={isGenerating || isSubmitting}
-                      className="h-12 w-full rounded-[22px] bg-[linear-gradient(135deg,#5B21B6_0%,#7C3AED_45%,#9F7AEA_100%)] px-5 text-[15px] font-semibold text-white shadow-[0_14px_34px_rgba(109,40,217,0.28)] transition-all hover:-translate-y-px hover:brightness-110 hover:shadow-[0_18px_42px_rgba(124,58,237,0.34)] disabled:translate-y-0 disabled:brightness-100 disabled:shadow-[0_8px_20px_rgba(124,58,237,0.16)]"
+                      className="h-12 w-full rounded-[22px] bg-[#6f3cd2] px-5 text-[15px] font-semibold text-white shadow-[0_14px_30px_rgba(109,40,217,0.2)] transition-all hover:-translate-y-px hover:bg-[#7a47dd] hover:shadow-[0_18px_34px_rgba(109,40,217,0.26)] disabled:translate-y-0 disabled:bg-[#5f34b0] disabled:shadow-[0_8px_18px_rgba(109,40,217,0.12)]"
                     >
                       <Sparkles className="h-4 w-4" />
                       {isGenerating || isSubmitting ? copy.generating : copy.generate}
@@ -728,7 +726,7 @@ function ExamplePreview({
 }) {
   if (step.id === "basic") {
     return (
-      <div className="rounded-[24px] border border-white/8 bg-[linear-gradient(180deg,rgba(12,12,18,0.86)_0%,rgba(16,16,22,0.58)_100%)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+      <div className="rounded-[24px] border border-white/8 bg-[#101015] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]">
         <p className="text-lg font-semibold tracking-[-0.02em] text-[#F4F4F8]">
           Sebastian Lopez
         </p>
@@ -750,7 +748,7 @@ function ExamplePreview({
     .filter(Boolean);
 
   return (
-    <div className="rounded-[24px] border border-white/8 bg-[linear-gradient(180deg,rgba(12,12,18,0.86)_0%,rgba(16,16,22,0.58)_100%)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+    <div className="rounded-[24px] border border-white/8 bg-[#101015] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]">
       <p className="text-[11px] uppercase tracking-[0.16em] text-white/42">
         {previewLabel}
       </p>
@@ -825,7 +823,7 @@ function StepFields({
 
           <div>
             <FieldLabel icon={Upload}>{copy.photo}</FieldLabel>
-            <label className="group flex min-h-[172px] cursor-pointer flex-col items-center justify-center rounded-[24px] border border-dashed border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.02)_100%)] px-4 py-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] transition-all hover:-translate-y-px hover:border-[#8B5CF6]/26 hover:bg-[#8B5CF6]/8">
+            <label className="group flex min-h-[172px] cursor-pointer flex-col items-center justify-center rounded-[24px] border border-dashed border-white/12 bg-[#141419] px-4 py-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] transition-all hover:-translate-y-px hover:border-[#8B5CF6]/24 hover:bg-[#171720]">
               <input
                 type="file"
                 accept="image/*"
@@ -968,6 +966,6 @@ function FieldError({
 }
 
 const FIELD_CLASS =
-  "h-12 w-full rounded-[22px] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0.03)_100%)] px-4 text-[15px] text-[#F3F3F7] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] outline-none transition-all placeholder:text-white/42 focus:border-[#8B5CF6]/34 focus:bg-white/[0.06] focus:shadow-[0_0_0_4px_rgba(124,58,237,0.12),0_12px_28px_rgba(4,4,12,0.18)] sm:text-sm";
+  "h-12 w-full rounded-[22px] border border-white/8 bg-[#141419] px-4 text-[15px] text-[#F3F3F7] shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] outline-none transition-all placeholder:text-white/42 focus:border-[#8B5CF6]/28 focus:bg-[#17171d] focus:shadow-[0_0_0_4px_rgba(124,58,237,0.08),0_10px_24px_rgba(4,4,12,0.14)] sm:text-sm";
 const TEXTAREA_CLASS =
-  "w-full min-h-[168px] resize-y rounded-[24px] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0.03)_100%)] px-4 py-3.5 text-[15px] leading-7 text-[#F3F3F7] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] outline-none transition-all placeholder:text-white/42 focus:border-[#8B5CF6]/34 focus:bg-white/[0.06] focus:shadow-[0_0_0_4px_rgba(124,58,237,0.12),0_12px_28px_rgba(4,4,12,0.18)] sm:text-sm";
+  "w-full min-h-[168px] resize-y rounded-[24px] border border-white/8 bg-[#141419] px-4 py-3.5 text-[15px] leading-7 text-[#F3F3F7] shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] outline-none transition-all placeholder:text-white/42 focus:border-[#8B5CF6]/28 focus:bg-[#17171d] focus:shadow-[0_0_0_4px_rgba(124,58,237,0.08),0_10px_24px_rgba(4,4,12,0.14)] sm:text-sm";
