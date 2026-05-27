@@ -22,11 +22,28 @@ type CVFormProps = {
   initialLanguage?: AppLanguage;
 };
 
+const createEmptyDraft = () => ({
+  nombre: "",
+  puesto: "",
+  contacto: "",
+  sobreMi: "",
+  experiencia: "",
+  formacion: "",
+  habilidades: "",
+  idiomas: "",
+  informacionAdicional: "",
+});
+
 const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
   const [selectedTemplate, setSelectedTemplate] = useState("elegance");
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
   const [activeTab, setActiveTab] = useState("template");
   const [userSession, setUserSession] = useState<Session | null>(null);
+  const [draftData, setDraftData] = useState(createEmptyDraft);
+  const [draftPhotoUrl, setDraftPhotoUrl] = useState<string | null>(null);
+  const [templateFlowTarget, setTemplateFlowTarget] = useState<"form" | "preview">(
+    "form",
+  );
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -41,24 +58,28 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
   const handleTemplateSelected = (templateId: string) => {
     setSelectedTemplate(templateId);
     const attribution = getLandingAttribution();
+    const nextStep = templateFlowTarget === "preview" && cvData ? "preview" : "form";
     track("CV Template Selected", {
       template: templateId,
       language: initialLanguage,
+      target_step: nextStep,
       ...attribution,
     });
     recordAnalyticsEvent({
       event_name: "template_selected",
       language: initialLanguage,
       template: templateId,
+      target_step: nextStep,
       ...attribution,
     });
     setTimeout(() => {
-      setActiveTab("form");
+      setActiveTab(nextStep);
       track("CV Funnel Step Viewed", {
-        step: "form",
+        step: nextStep,
         language: initialLanguage,
         ...attribution,
       });
+      setTemplateFlowTarget("form");
     }, 500);
   };
 
@@ -198,6 +219,10 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
                   template={selectedTemplate}
                   userSession={userSession}
                   language={initialLanguage}
+                  draftData={draftData}
+                  onDraftChange={setDraftData}
+                  fotoUrl={draftPhotoUrl}
+                  onFotoUrlChange={setDraftPhotoUrl}
                 />
               )}
             </div>
@@ -210,6 +235,10 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
                   cvData={cvData}
                   template={selectedTemplate}
                   onBack={() => setActiveTab("form")}
+                  onChangeTemplate={() => {
+                    setTemplateFlowTarget("preview");
+                    setActiveTab("template");
+                  }}
                   userSession={userSession}
                   language={initialLanguage}
                 />

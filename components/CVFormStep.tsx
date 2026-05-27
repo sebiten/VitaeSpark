@@ -1,7 +1,7 @@
 "use client";
 
 import type { ChangeEvent } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -180,6 +180,10 @@ type Props = {
   template: string;
   userSession: Session | null;
   language: AppLanguage;
+  draftData: DatosCVFormulario;
+  onDraftChange: (data: DatosCVFormulario) => void;
+  fotoUrl: string | null;
+  onFotoUrlChange: (url: string | null) => void;
 };
 
 export default function CVFormStep({
@@ -188,29 +192,43 @@ export default function CVFormStep({
   template,
   userSession,
   language,
+  draftData,
+  onDraftChange,
+  fotoUrl,
+  onFotoUrlChange,
 }: Props) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [fotoUrl, setFotoUrl] = useState<string | null>(null);
   const copy = formCopy[language];
   const formSchema = useMemo(() => createSchema(language), [language]);
 
   const form = useForm<DatosCVFormulario>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      nombre: "",
-      puesto: "",
-      contacto: "",
-      sobreMi: "",
-      experiencia: "",
-      formacion: "",
-      habilidades: "",
-      idiomas: "",
-      informacionAdicional: "",
-    },
+    defaultValues: draftData,
   });
 
   const supabase = createClient();
+
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      onDraftChange({
+        nombre: value.nombre ?? "",
+        puesto: value.puesto ?? "",
+        contacto: value.contacto ?? "",
+        sobreMi: value.sobreMi ?? "",
+        experiencia: value.experiencia ?? "",
+        formacion: value.formacion ?? "",
+        habilidades: value.habilidades ?? "",
+        idiomas: value.idiomas ?? "",
+        informacionAdicional: value.informacionAdicional ?? "",
+        foto_url: value.foto_url,
+        template: value.template,
+        language: value.language,
+      });
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form, onDraftChange]);
 
   const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -234,7 +252,7 @@ export default function CVFormStep({
       .from("fotos-perfil")
       .getPublicUrl(filePath);
 
-    setFotoUrl(publicUrl.publicUrl);
+    onFotoUrlChange(publicUrl.publicUrl);
     toast.success(copy.imageSuccess);
   };
 
@@ -316,6 +334,7 @@ export default function CVFormStep({
         informacionAdicional:
           "Portfolio: https://sebdevspace.me\nGitHub: https://github.com/sebiten\nLinkedIn: https://www.linkedin.com/in/sebdevspace\nOwn product: https://vitaespark.com\nAvailable for remote freelance or full-time work",
       });
+      onDraftChange(form.getValues());
       setError(null);
       return;
     }
@@ -347,6 +366,7 @@ export default function CVFormStep({
       informacionAdicional:
         "Portfolio: https://sebdevspace.me\nGitHub: https://github.com/sebiten\nLinkedIn: https://www.linkedin.com/in/sebdevspace\nProducto propio: https://vitaespark.com\nDisponibilidad para trabajo remoto, freelance o presencial en Salta",
     });
+    onDraftChange(form.getValues());
     setError(null);
   };
 
@@ -362,7 +382,8 @@ export default function CVFormStep({
       idiomas: "",
       informacionAdicional: "",
     });
-    setFotoUrl(null);
+    onDraftChange(form.getValues());
+    onFotoUrlChange(null);
     setError(null);
   };
 

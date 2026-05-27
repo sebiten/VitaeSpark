@@ -16,6 +16,7 @@ import {
   ArrowLeft,
   LockKeyhole,
   Maximize2,
+  Palette,
   X,
 } from "lucide-react";
 import {
@@ -107,6 +108,7 @@ const checkoutCopy = {
     close: "Cerrar",
     closePreview: "Cerrar vista del CV",
     back: "Volver y editar datos",
+    changeTemplate: "Cambiar plantilla",
     finalTitle: "Tu CV final esta listo",
     finalText:
       "Desbloquea la version profesional sin marca de agua y descargala en PDF cuando quieras.",
@@ -141,6 +143,7 @@ const checkoutCopy = {
     close: "Close",
     closePreview: "Close resume preview",
     back: "Back and edit details",
+    changeTemplate: "Change template",
     finalTitle: "Your final resume is ready",
     finalText: "Unlock the professional version without watermark and download it as PDF anytime.",
     singlePayment: "One-time payment",
@@ -169,6 +172,7 @@ type Props = {
   cvData: RespuestaCV["cv"];
   template: string;
   onBack: () => void;
+  onChangeTemplate: () => void;
   userSession: Session | null;
   language: AppLanguage;
 };
@@ -177,6 +181,7 @@ export default function CVPreviewStepPurple({
   cvData,
   template,
   onBack,
+  onChangeTemplate,
   userSession,
   language,
 }: Props) {
@@ -484,14 +489,25 @@ export default function CVPreviewStepPurple({
           className="scroll-mt-24 min-w-0 border-white/10 bg-[#15151A] text-white shadow-2xl shadow-black/30"
         >
           <CardContent className="space-y-3 p-4 sm:space-y-4 sm:p-6">
-            <button
-              type="button"
-              onClick={onBack}
-              className="inline-flex items-center gap-2 text-sm font-semibold text-white/70 transition hover:text-white"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              {copy.back}
-            </button>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={onBack}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white/70 transition hover:text-white"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                {copy.back}
+              </button>
+
+              <button
+                type="button"
+                onClick={onChangeTemplate}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#A78BFA] transition hover:text-white"
+              >
+                <Palette className="h-4 w-4" />
+                {copy.changeTemplate}
+              </button>
+            </div>
 
             <div className="overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.025] sm:rounded-3xl">
               <div className="border-b border-white/10 p-4 text-left sm:p-5">
