@@ -7,7 +7,7 @@ import type { Session } from "@supabase/supabase-js";
 import { Eye, FileText, Palette } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createClient } from "@/utils/supabase/client";
-import type { RespuestaCV } from "@/lib/types/cv";
+import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
 import CVFormStep from "../CVFormStep";
 import CVPreviewStep from "../CVPreviewStep";
@@ -22,7 +22,7 @@ type CVFormProps = {
   initialLanguage?: AppLanguage;
 };
 
-const createEmptyDraft = () => ({
+const createEmptyDraft = (): DatosCVFormulario => ({
   nombre: "",
   puesto: "",
   contacto: "",
@@ -69,7 +69,6 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
       event_name: "template_selected",
       language: initialLanguage,
       template: templateId,
-      target_step: nextStep,
       ...attribution,
     });
     setTimeout(() => {
@@ -220,7 +219,13 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
                   userSession={userSession}
                   language={initialLanguage}
                   draftData={draftData}
-                  onDraftChange={setDraftData}
+                  onDraftChange={(data) =>
+                    setDraftData({
+                      ...createEmptyDraft(),
+                      ...data,
+                      informacionAdicional: data.informacionAdicional ?? "",
+                    })
+                  }
                   fotoUrl={draftPhotoUrl}
                   onFotoUrlChange={setDraftPhotoUrl}
                 />
