@@ -102,9 +102,9 @@ export const blogPosts = [
   },
   {
     href: "/blog/habilidades-para-curriculum",
-    title: "Habilidades para curriculum",
+    title: "Habilidades para curriculum: ejemplos",
     description:
-      "Como elegir habilidades relevantes y evitar listas genericas que no aportan.",
+      "Que habilidades poner en tu CV segun el puesto, con ejemplos concretos.",
     category: "Habilidades",
     iconKey: "BadgeCheck",
   },
@@ -142,9 +142,9 @@ export const blogPosts = [
   },
   {
     href: "/blog/perfil-profesional-para-cv",
-    title: "Perfil profesional para CV",
+    title: "Perfil profesional para CV: ejemplos",
     description:
-      "Aprende a escribir un resumen profesional breve pero convincente.",
+      "Como escribir un perfil claro con ejemplos para distintos puestos.",
     category: "Perfil",
     iconKey: "PenLine",
   },

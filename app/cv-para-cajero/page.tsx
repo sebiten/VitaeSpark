@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Cajero: Ejemplo Listo para Supermercado o Comercio",
+  title: "CV para Cajero: Ejemplo, Perfil y Habilidades",
   description:
-    "Arma un CV para cajero o cajera con ejemplo, perfil profesional, caja, medios de pago, retail y opcion sin experiencia.",
+    "Arma un CV para cajero o cajera con ejemplo listo, perfil profesional, caja, medios de pago, supermercado, retail y opcion sin experiencia.",
   path: "/cv-para-cajero",
   keywords: [
     "cv para cajero",
@@ -22,10 +22,10 @@ export default function CvParaCajeroPage() {
     <MarketingPage
       path="/cv-para-cajero"
       eyebrow="CV por profesion"
-      title="CV para cajero listo para supermercado, retail o comercio"
-      description="Ejemplo de curriculum para cajero o cajera con perfil profesional, experiencia de caja, medios de pago, atencion y tareas de comercio."
+      title="CV para cajero: ejemplo listo para supermercado o comercio"
+      description="Ejemplo de curriculum para cajero o cajera con perfil profesional, experiencia de caja, medios de pago, atencion, retail y tareas de comercio."
       intro={[
-        "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa desde el primer vistazo. No alcanza con poner 'manejo de caja': conviene mostrar medios de pago, cierre, atencion, control basico y ritmo de trabajo.",
+        "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa desde el primer vistazo. No alcanza con poner 'manejo de caja': conviene mostrar medios de pago, cierre, atencion, control basico y ritmo de trabajo. Eso ayuda a responder busquedas como curriculum cajero supermercado o curriculum cajero sin experiencia.",
         "VitaeSpark te ayuda a convertir esa experiencia en un curriculum cajero mas claro, con perfil profesional, habilidades y ejemplos para supermercados, farmacias, tiendas, estaciones de servicio o comercios de cercania.",
       ]}
       conversionCta={{
@@ -66,7 +66,7 @@ export default function CvParaCajeroPage() {
         {
           title: "CV para cajero: que destacar para ganar mas clics",
           paragraphs: [
-            "Suele sumar el manejo de efectivo, tarjetas, billeteras virtuales, apertura y cierre de caja, control basico de tickets, atencion al cliente, reposicion, orden de salon y cumplimiento de procedimientos.",
+            "Suele sumar el manejo de efectivo, tarjetas, billeteras virtuales, apertura y cierre de caja, control basico de tickets, atencion al cliente, reposicion, orden de salon y cumplimiento de procedimientos. Esas tareas hacen que el snippet y el contenido se sientan mas utiles para quien busca un ejemplo real.",
             "Si ademas trabajaste con facturacion, stock o resolucion de reclamos, conviene incluirlo porque te hace ver como un perfil mas completo.",
           ],
         },
@@ -158,6 +158,11 @@ export default function CvParaCajeroPage() {
           answer:
             "Describe tareas concretas: cobros, medios de pago, cierre de caja, atencion, orden del sector, reposicion y apoyo en momentos de alta demanda.",
         },
+        {
+          question: "Que debe incluir un CV de cajero para supermercado?",
+          answer:
+            "Debe incluir caja, medios de pago, atencion al cliente, reposicion, orden de salon, disponibilidad horaria, cierre o arqueo si aplica y experiencia en ritmo alto.",
+        },
       ]}
       relatedLinks={[
         {
@@ -179,6 +184,11 @@ export default function CvParaCajeroPage() {
           href: "/cv-para-recepcionista",
           title: "CV para recepcionista",
           description: "Otra opcion cercana para perfiles de atencion presencial y organizacion.",
+        },
+        {
+          href: "/cv-para-repositor",
+          title: "CV para repositor",
+          description: "Cercano si tu experiencia en comercio tambien incluye stock y reposicion.",
         },
         {
           href: "/curriculum-sin-experiencia",

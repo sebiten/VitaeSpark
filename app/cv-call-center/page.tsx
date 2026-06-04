@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Call Center: Ejemplo Listo para Atencion, Ventas o Soporte",
+  title: "CV Call Center: Ejemplo, Perfil Profesional y Habilidades",
   description:
-    "Arma un CV call center con ejemplo, perfil profesional, habilidades, CRM, llamadas, chat, ventas o soporte para postular mejor.",
+    "Arma un CV call center con ejemplo listo, perfil profesional, habilidades, CRM, llamadas, chat, ventas, soporte y formato ATS.",
   path: "/cv-call-center",
   keywords: [
     "cv para call center",
@@ -22,10 +22,10 @@ export default function CvCallCenterPage() {
     <MarketingPage
       path="/cv-call-center"
       eyebrow="CV por profesion"
-      title="CV call center para atencion, ventas o soporte"
-      description="Ejemplo de curriculum call center con perfil profesional, experiencia en llamadas o chat, CRM, soporte, ventas y estructura ATS."
+      title="CV call center: ejemplo listo para atencion, ventas o soporte"
+      description="Ejemplo de curriculum call center con perfil profesional, llamadas, chat, CRM, ventas, soporte, habilidades y estructura ATS."
       intro={[
-        "Un CV call center tiene que explicar rapido el tipo de gestion: llamadas entrantes, ventas salientes, cobranzas, soporte, chat, tickets o seguimiento de casos. Si tambien usaste CRM o sistemas internos, conviene que aparezca desde el inicio.",
+        "Un CV call center tiene que explicar rapido el tipo de gestion: llamadas entrantes, ventas salientes, cobranzas, soporte, chat, tickets o seguimiento de casos. Si tambien usaste CRM o sistemas internos, conviene que aparezca desde el inicio porque la query perfil profesional call center ya muestra oportunidad.",
         "VitaeSpark te ayuda a convertir esa experiencia en un curriculum call center mas concreto, con perfil profesional, habilidades y palabras clave utiles para contact centers, soporte y atencion multicanal.",
       ]}
       conversionCta={{
@@ -68,7 +68,7 @@ export default function CvCallCenterPage() {
           title: "Perfil profesional call center",
           paragraphs: [
             "Una base posible es: 'Perfil orientado a atencion telefonica y seguimiento de consultas, con experiencia en gestion de llamadas, registro en CRM y resolucion de casos en entornos de alto volumen'.",
-            "Si tu experiencia fue mas comercial, suma terminos como ventas, objeciones, cierre o recuperacion de clientes. Si fue mas operativa, prioriza soporte, tiempos de respuesta y calidad de atencion.",
+            "Si tu experiencia fue mas comercial, suma terminos como ventas, objeciones, cierre o recuperacion de clientes. Si fue mas operativa, prioriza soporte, tiempos de respuesta, calidad de atencion y seguimiento de tickets.",
           ],
         },
         {
@@ -96,7 +96,7 @@ export default function CvCallCenterPage() {
           title: "Ejemplos de perfil profesional call center",
           paragraphs: [
             "Para atencion: 'Perfil orientado a call center y atencion al cliente, con experiencia en gestion de consultas, registro de datos, seguimiento de casos y comunicacion clara por telefono o canales digitales'.",
-            "Para ventas: 'Perfil comercial con experiencia en contacto telefonico, explicacion de servicios, manejo de objeciones, carga de resultados en CRM y seguimiento de potenciales clientes'.",
+            "Para ventas: 'Perfil comercial con experiencia en contacto telefonico, explicacion de servicios, manejo de objeciones, carga de resultados en CRM y seguimiento de potenciales clientes'. Estos ejemplos ayudan a que el contenido responda mejor a busquedas de perfil profesional call center.",
           ],
         },
         {
@@ -158,6 +158,11 @@ export default function CvCallCenterPage() {
           question: "Como escribir experiencia de call center?",
           answer:
             "Menciona si atendias llamadas entrantes o salientes, chat, ventas, soporte o cobranzas, y agrega tareas como registro en CRM, seguimiento y resolucion de consultas.",
+        },
+        {
+          question: "Como hacer un perfil profesional call center con buen enfoque?",
+          answer:
+            "Define si apuntas a atencion, ventas, soporte o cobranzas, y menciona canales, CRM, seguimiento de casos, comunicacion clara y objetivos si corresponde.",
         },
         {
           question: "Que poner si trabaje por chat y no por telefono?",

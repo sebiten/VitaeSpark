@@ -156,6 +156,16 @@ export default function CvParaSeguridadPage() {
           title: "CV para operario",
           description: "Alternativa si buscas puestos operativos, deposito o control.",
         },
+        {
+          href: "/cv-para-primer-empleo",
+          title: "CV para primer empleo",
+          description: "Util si estas armando una primera postulacion seria.",
+        },
+        {
+          href: "/cv-para-administrativo",
+          title: "CV administrativo",
+          description: "Cercano si tu experiencia incluye registros, informes o control documental.",
+        },
       ]}
     />
   );

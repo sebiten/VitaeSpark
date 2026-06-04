@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Recepcionista: Ejemplo Listo para Oficina o Consultorio",
+  title: "CV para Recepcionista: Ejemplo, Perfil y Habilidades",
   description:
-    "Crea un CV para recepcionista con ejemplo, perfil profesional, agenda, llamadas, tareas administrativas y version sin experiencia.",
+    "Crea un CV para recepcionista con ejemplo listo, perfil profesional, agenda, llamadas, tareas administrativas y version sin experiencia.",
   path: "/cv-para-recepcionista",
   keywords: [
     "cv para recepcionista",
@@ -22,10 +22,10 @@ export default function CvParaRecepcionistaPage() {
     <MarketingPage
       path="/cv-para-recepcionista"
       eyebrow="CV por profesion"
-      title="CV para recepcionista claro y listo para postular"
-      description="Ejemplo de curriculum recepcionista para oficina, consultorio, hotel, comercio o atencion al publico, con perfil y habilidades concretas."
+      title="CV para recepcionista: ejemplo listo para oficina o consultorio"
+      description="Ejemplo de curriculum recepcionista con perfil profesional, agenda, llamadas, turnos, tareas administrativas y habilidades concretas."
       intro={[
-        "Un curriculum recepcionista funciona mejor cuando muestra en pocas lineas que tareas manejaste: publico, agenda, llamadas, turnos, correo, documentacion, carga de datos o soporte administrativo. Esa precision ayuda mucho en resultados de busqueda y entrevistas.",
+        "Un curriculum recepcionista funciona mejor cuando muestra en pocas lineas que tareas manejaste: publico, agenda, llamadas, turnos, correo, documentacion, carga de datos o soporte administrativo. Esa precision ayuda mucho en resultados de busqueda como recepcionista curriculum y curriculum recepcionista.",
         "VitaeSpark te ayuda a convertir esa experiencia en un CV para recepcionista mas claro, con perfil profesional, habilidades utiles y una presentacion pensada para consultorios, oficinas, hoteles, comercios o centros de atencion.",
       ]}
       conversionCta={{
@@ -60,7 +60,7 @@ export default function CvParaRecepcionistaPage() {
         {
           title: "Curriculum recepcionista: que destacar primero",
           paragraphs: [
-            "Suele sumar experiencia en atencion presencial y telefonica, gestion de agenda, recepcion de visitas, derivacion de consultas, carga de datos, manejo de documentacion y coordinacion con distintas areas.",
+            "Suele sumar experiencia en atencion presencial y telefonica, gestion de agenda, recepcion de visitas, derivacion de consultas, carga de datos, manejo de documentacion y coordinacion con distintas areas. Para mejorar CTR, el contenido debe responder rapido a quien busca un ejemplo concreto.",
             "Tambien conviene aclarar herramientas o sistemas usados, como planillas, calendarios, software de turnos, CRM, correo corporativo o sistemas internos.",
           ],
         },
@@ -140,6 +140,11 @@ export default function CvParaRecepcionistaPage() {
           answer:
             "Enfoca cursos, herramientas digitales, atencion al publico, organizacion, disponibilidad y ejemplos donde hayas tratado con personas o administrado informacion.",
         },
+        {
+          question: "Que debe incluir un curriculum recepcionista para consultorio?",
+          answer:
+            "Debe incluir agenda, turnos, recepcion de pacientes o visitas, llamadas, documentacion, trato claro, correo, planillas y sistemas usados si corresponde.",
+        },
       ]}
       relatedLinks={[
         {
@@ -161,6 +166,11 @@ export default function CvParaRecepcionistaPage() {
           href: "/cv-para-cajero",
           title: "CV para cajero",
           description: "Otra opcion cercana para perfiles de atencion presencial.",
+        },
+        {
+          href: "/cv-para-administrativo",
+          title: "CV administrativo",
+          description: "Cercano si tu experiencia de recepcion incluye archivo, planillas o soporte de oficina.",
         },
         {
           href: "/crear-cv-online",

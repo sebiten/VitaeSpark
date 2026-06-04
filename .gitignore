@@ -26,6 +26,7 @@
 .agents/
 .codex/
 .opencode/
+.tmp
 
 # debug
 npm-debug.log*

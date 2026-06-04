@@ -172,6 +172,16 @@ export default function CvParaMineriaPage() {
           description: "Util si apuntas a control, prevencion o cumplimiento de protocolos.",
         },
         {
+          href: "/cv-para-administrativo",
+          title: "CV administrativo",
+          description: "Alternativa si tu experiencia minera incluye documentacion, control o soporte operativo.",
+        },
+        {
+          href: "/cv-para-primer-empleo",
+          title: "CV para primer empleo",
+          description: "Util si quieres entrar a mineria desde un perfil inicial o sin experiencia directa.",
+        },
+        {
           href: "/crear-cv-online",
           title: "Crear CV online",
           description: "Arma una version profesional lista para descargar.",

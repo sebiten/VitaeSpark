@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Limpieza: Ejemplo, Perfil Profesional y Habilidades",
+  title: "CV para Limpieza: Ejemplo, Perfil y Habilidades",
   description:
-    "Arma un CV para limpieza con ejemplo, perfil profesional, habilidades operativas, mantenimiento de espacios y opciones sin experiencia.",
+    "Arma un CV para limpieza con ejemplo listo, perfil profesional, habilidades, mantenimiento de espacios y opcion sin experiencia.",
   path: "/cv-para-limpieza",
   keywords: [
     "cv para limpieza",
@@ -20,10 +20,10 @@ export default function CvParaLimpiezaPage() {
     <MarketingPage
       path="/cv-para-limpieza"
       eyebrow="CV por profesion"
-      title="CV para limpieza: ejemplo, perfil profesional y habilidades"
-      description="Prepara un curriculum para limpieza destacando mantenimiento de espacios, orden, responsabilidad, productos, procedimientos y disponibilidad."
+      title="CV para limpieza: ejemplo listo con perfil y habilidades"
+      description="Prepara un curriculum de limpieza claro para oficinas, edificios, comercios o casas, con perfil profesional, tareas, productos y disponibilidad."
       intro={[
-        "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas, y con que rutinas o productos lo hacias.",
+        "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas, y con que rutinas o productos lo hacias. Eso mejora el match con busquedas como curriculum de limpieza o curriculum de limpieza sin experiencia.",
         "VitaeSpark te ayuda a presentar esa experiencia en un curriculum limpieza mas profesional, con perfil claro, habilidades utiles y estructura ATS facil de leer para reclutadores.",
       ]}
       exampleImage={{
@@ -58,7 +58,7 @@ export default function CvParaLimpiezaPage() {
         {
           title: "CV para limpieza: que poner para que se vea serio",
           paragraphs: [
-            "Suele sumar experiencia en limpieza de espacios, mantenimiento de areas comunes, uso de productos, orden de materiales, cumplimiento de rutinas, reposicion de insumos y cuidado de normas de higiene.",
+            "Suele sumar experiencia en limpieza de espacios, mantenimiento de areas comunes, uso de productos, orden de materiales, cumplimiento de rutinas, reposicion de insumos y cuidado de normas de higiene. Estas tareas deberian aparecer antes que frases genericas como 'buena predisposicion'.",
             "Si trabajaste en lugares con protocolos especiales, como salud, gastronomia o edificios, conviene aclararlo porque aumenta la relevancia del perfil.",
           ],
         },
@@ -119,6 +119,11 @@ export default function CvParaLimpiezaPage() {
           answer:
             "Menciona limpieza de espacios, orden, uso de productos, cumplimiento de rutinas, responsabilidad, disponibilidad y el tipo de lugar donde trabajaste o quieres trabajar.",
         },
+        {
+          question: "Como hacer un curriculum de limpieza sin experiencia?",
+          answer:
+            "Destaca responsabilidad, puntualidad, disponibilidad, tareas domesticas o informales, cuidado de espacios, seguimiento de indicaciones y referencias si las tienes.",
+        },
       ]}
       relatedLinks={[
         {
@@ -130,6 +135,11 @@ export default function CvParaLimpiezaPage() {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",
           description: "Util para armar un perfil inicial mas solido.",
+        },
+        {
+          href: "/cv-para-operario",
+          title: "CV para operario",
+          description: "Cercano si buscas puestos de servicios generales, mantenimiento o deposito.",
         },
         {
           href: "/crear-cv-online",
