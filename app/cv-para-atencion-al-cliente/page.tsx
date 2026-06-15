@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Atencion al Cliente: Ejemplo, Perfil Profesional y Habilidades",
+  title: "Curriculum Atencion al Cliente: Ejemplo, Perfil y Habilidades",
   description:
-    "Crea un CV de atencion al cliente con ejemplo, perfil profesional, habilidades, reclamos, CRM y estructura ATS para adaptar.",
+    "Crea un curriculum de atencion al cliente con ejemplo listo, perfil profesional, habilidades, reclamos, CRM, soporte y estructura ATS.",
   path: "/cv-para-atencion-al-cliente",
   keywords: [
     "cv para atencion al cliente",
@@ -22,8 +22,8 @@ export default function CvParaAtencionAlClientePage() {
     <MarketingPage
       path="/cv-para-atencion-al-cliente"
       eyebrow="CV por profesion"
-      title="CV atencion al cliente: ejemplo, perfil profesional y habilidades"
-      description="Prepara un curriculum atencion al cliente con perfil profesional, reclamos, CRM, canales de contacto y estructura ATS."
+      title="Curriculum atencion al cliente: ejemplo, perfil y habilidades"
+      description="Prepara un CV de atencion al cliente con perfil profesional, reclamos, CRM, canales de contacto, soporte, comercio y estructura ATS."
       intro={[
         "Un curriculum atencion al cliente tiene que explicar rapido que canales atendias, que tipo de consultas resolvias y como trabajabas con reclamos, CRM, pedidos o seguimiento de casos. Solo decir 'buena atencion' casi nunca alcanza para ganar el clic ni la entrevista.",
         "VitaeSpark te ayuda a convertir experiencia real con clientes en un CV de atencion al cliente mas claro, con perfil profesional, habilidades y ejemplos adaptables a soporte, retail, mostrador, chat o telefono.",
@@ -54,7 +54,7 @@ export default function CvParaAtencionAlClientePage() {
         {
           title: "Curriculum atencion al cliente: que destacar primero",
           paragraphs: [
-            "Suele sumar experiencia con clientes, resolucion de consultas, manejo de reclamos, uso de CRM o sistemas internos, seguimiento de casos y coordinacion con otras areas. Tambien ayudan habilidades como comunicacion clara, orden, escucha activa y empatia.",
+            "Suele sumar experiencia con clientes, resolucion de consultas, manejo de reclamos, uso de CRM o sistemas internos, seguimiento de casos y coordinacion con otras areas. Para busquedas como curriculum atencion al cliente o atencion al cliente curriculum, estos elementos tienen que estar desde el primer bloque.",
             "Lo ideal es que esas cualidades no aparezcan solas, sino respaldadas por contexto laboral, tipo de canal, volumen gestionado y responsabilidades concretas.",
           ],
         },
@@ -83,7 +83,7 @@ export default function CvParaAtencionAlClientePage() {
           title: "Ejemplo de CV de atencion al cliente",
           paragraphs: [
             "Una redaccion concreta puede ser: 'Atendi consultas por telefono, mostrador y canales digitales, registre casos en sistema, resolvi reclamos frecuentes y derive gestiones complejas al area correspondiente'.",
-            "Ese formato ayuda a responder mejor a busquedas como curriculum atencion al cliente o atencion al cliente cv, porque deja claro canal, tarea y nivel de responsabilidad.",
+            "Ese formato ayuda a responder mejor a busquedas como curriculum atencion al cliente, cv atencion al cliente o atencion al cliente cv, porque deja claro canal, tarea y nivel de responsabilidad.",
           ],
         },
         {
@@ -146,6 +146,11 @@ export default function CvParaAtencionAlClientePage() {
           answer:
             "Canales atendidos, tipo de consultas, reclamos, CRM o sistema usado, seguimiento de casos, ventas, caja, soporte o coordinacion con otras areas.",
         },
+        {
+          question: "Como escribir un perfil profesional de atencion al cliente?",
+          answer:
+            "Menciona el canal de atencion, tipo de consultas, reclamos, CRM, seguimiento de casos, comunicacion clara y si tu experiencia fue en soporte, comercio, call center o mostrador.",
+        },
       ]}
       relatedLinks={[
         {
@@ -172,11 +177,6 @@ export default function CvParaAtencionAlClientePage() {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",
           description: "Util si estas entrando por primera vez a roles de contacto con clientes.",
-        },
-        {
-          href: "/cv-call-center",
-          title: "CV para call center",
-          description: "Adapta tu experiencia a soporte telefonico, ventas o atencion por canales remotos.",
         },
         {
           href: "/blog/habilidades-para-curriculum",
