@@ -2,9 +2,9 @@
 
 export default function AnimatedHeroTitle() {
   return (
-    <h1 className="max-w-full text-pretty text-3xl font-bold leading-[1.02] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[3.8rem] lg:leading-[0.96]">
+    <h1 className="max-w-full text-pretty text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-[#F6F2EA] sm:text-5xl md:text-6xl lg:text-[4.5rem] lg:leading-[0.92]">
       <span className="hero-title-word inline-block">
-        Creador de CV online con IA
+        Creador de CV con IA
       </span>
       <br />
       <span className="hero-title-word inline-block" style={{ animationDelay: "0.125s" }}>
