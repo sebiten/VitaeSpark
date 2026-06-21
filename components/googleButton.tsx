@@ -114,9 +114,9 @@ export function OAuthButtons() {
 
       window.google.accounts.id.renderButton(buttonRef.current, {
         type: "standard",
-        theme: "filled_black",
+        theme: "outline",
         size: "large",
-        shape: "pill",
+        shape: "rectangular",
         text: "continue_with",
         logo_alignment: "left",
         width: Math.min(420, Math.max(280, buttonRef.current.offsetWidth)),
@@ -149,18 +149,18 @@ export function OAuthButtons() {
         onLoad={() => setIsScriptReady(true)}
         onReady={() => setIsScriptReady(true)}
       />
-      <div className="relative min-h-12 overflow-hidden rounded-2xl border border-white/10 bg-[#101014] p-[1px] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+      <div className="relative min-h-12 overflow-hidden rounded-[18px] bg-[#F7F7F5] shadow-[0_12px_28px_rgba(0,0,0,0.18)] ring-1 ring-white/12">
         <div
           ref={buttonRef}
-          className="relative z-10 flex min-h-[46px] items-center justify-center [&>div]:!mx-auto [&>div]:!w-full [&_iframe]:!mx-auto [&_iframe]:!w-full [&_iframe]:!rounded-[15px]"
+          className="relative z-10 flex min-h-[48px] items-center justify-center [&>div]:!mx-auto [&>div]:!w-full [&_iframe]:!mx-auto [&_iframe]:!w-full [&_iframe]:!rounded-[18px]"
         />
         {!isScriptReady ? (
-          <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-white/[0.035] text-sm font-medium text-white/58">
+          <div className="absolute inset-0 flex items-center justify-center rounded-[18px] bg-[#F7F7F5] text-sm font-semibold text-[#27272A]/60">
             Cargando Google...
           </div>
         ) : null}
         {isLoading ? (
-          <div className="absolute inset-0 flex items-center justify-center rounded-2xl border border-white/10 bg-[#17171D]/90 text-sm font-medium text-white">
+          <div className="absolute inset-0 flex items-center justify-center rounded-[18px] bg-[#F7F7F5]/95 text-sm font-semibold text-[#18181B]">
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             Iniciando sesion...
           </div>

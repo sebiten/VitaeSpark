@@ -175,28 +175,28 @@ export default function AuthPageClient() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
-            className="w-full"
+            className="mx-auto w-full max-w-[460px] lg:mx-0 lg:justify-self-end"
           >
             <div className="overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(25,25,32,0.96)_0%,rgba(16,16,22,0.98)_100%)] shadow-[0_26px_70px_rgba(0,0,0,0.32)] backdrop-blur-xl">
-              <div className="border-b border-white/8 px-5 pb-5 pt-5 sm:px-6 sm:pb-6 sm:pt-6">
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-white/52">
+              <div className="border-b border-white/8 px-5 pb-5 pt-6 text-center sm:px-7 sm:pb-6 sm:pt-7">
+                <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-white/52">
                   VitaeSpark
                 </div>
-                <h2 className="mt-4 text-[1.8rem] font-semibold tracking-[-0.03em] text-white">
+                <h2 className="mt-5 text-[1.8rem] font-semibold tracking-[-0.03em] text-white">
                   {activeTab === "login" ? "Bienvenido otra vez" : "Crea tu cuenta"}
                 </h2>
-                <p className="mt-2 max-w-md text-[14px] leading-6 text-white/56">
+                <p className="mx-auto mt-2 max-w-[340px] text-[14px] leading-6 text-white/56">
                   {activeTab === "login"
                     ? "Accede a tus CVs, descargas y ediciones desde el mismo perfil."
                     : "Registra tu cuenta para guardar progreso y trabajar tu CV cuando quieras."}
                 </p>
               </div>
 
-              <div className="px-5 py-5 sm:px-6 sm:py-6">
-                <div className="rounded-[26px] border border-white/8 bg-white/[0.03] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+              <div className="px-5 py-5 sm:px-7 sm:py-6">
+                <div className="rounded-[28px] border border-white/8 bg-white/[0.025] p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] sm:p-4">
                   <OAuthButtons />
 
-                  <div className="my-4 flex items-center gap-3">
+                  <div className="my-5 flex items-center gap-3">
                     <div className="h-px flex-1 bg-white/8" />
                     <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-white/34">
                       o continua con email
