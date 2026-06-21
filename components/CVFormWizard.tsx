@@ -124,7 +124,7 @@ const wizardChromeCopy = {
     stepCount: (current: number, total: number) => `${current}/${total}`,
     wizardTitle: "Completa tus datos paso a paso",
     wizardDescription:
-      "Escribe lo importante. Tus datos se conservan dentro del flujo y podes cambiar de plantilla sin volver a cargar todo.",
+      "Escribe lo importante. Antes de pagar, tus datos se conservan dentro del flujo y podes cambiar de plantilla sin volver a cargar todo.",
     exampleLabel: "Ejemplo",
     helpLabel: "Tip para esta seccion",
     changeTemplate: "Cambiar plantilla",
@@ -153,7 +153,7 @@ const wizardChromeCopy = {
     stepCount: (current: number, total: number) => `${current}/${total}`,
     wizardTitle: "Complete your resume details step by step",
     wizardDescription:
-      "Write the essentials. Your details stay in this flow, so you can change templates without starting over.",
+      "Write the essentials. Before paying, your details stay in this flow, so you can change templates without starting over.",
     exampleLabel: "Example",
     helpLabel: "Tip for this section",
     changeTemplate: "Change template",

@@ -10,6 +10,12 @@ type GoogleCredentialResponse = {
   credential?: string;
 };
 
+type OAuthButtonsProps = {
+  onAuthStart?: () => void;
+  onAuthSuccess?: () => void;
+  onAuthError?: () => void;
+};
+
 type GoogleAccountsId = {
   initialize: (options: {
     client_id: string;
@@ -56,7 +62,11 @@ async function generateNoncePair() {
   return { nonce, hashedNonce };
 }
 
-export function OAuthButtons() {
+export function OAuthButtons({
+  onAuthStart,
+  onAuthSuccess,
+  onAuthError,
+}: OAuthButtonsProps = {}) {
   const router = useRouter();
   const buttonRef = useRef<HTMLDivElement>(null);
   const nonceRef = useRef<string | null>(null);
@@ -87,9 +97,11 @@ export function OAuthButtons() {
         callback: async (response) => {
           if (!response.credential) {
             setErrorMessage("Google no devolvió credenciales. Probá de nuevo.");
+            onAuthError?.();
             return;
           }
 
+          onAuthStart?.();
           setIsLoading(true);
           setErrorMessage(null);
 
@@ -104,13 +116,22 @@ export function OAuthButtons() {
             console.error("Google sign in error:", error.message);
             setErrorMessage("No se pudo iniciar sesión con Google.");
             setIsLoading(false);
+            onAuthError?.();
             return;
           }
 
-          router.replace("/crear");
-          router.refresh();
+          onAuthSuccess?.();
+          window.setTimeout(() => {
+            router.replace("/crear");
+            router.refresh();
+          }, 450);
         },
       });
+
+      const buttonWidth = Math.min(
+        420,
+        Math.max(240, buttonRef.current.offsetWidth - 10),
+      );
 
       window.google.accounts.id.renderButton(buttonRef.current, {
         type: "standard",
@@ -119,7 +140,7 @@ export function OAuthButtons() {
         shape: "rectangular",
         text: "continue_with",
         logo_alignment: "left",
-        width: Math.min(420, Math.max(280, buttonRef.current.offsetWidth)),
+        width: buttonWidth,
       });
     };
 
@@ -128,7 +149,7 @@ export function OAuthButtons() {
     return () => {
       isMounted = false;
     };
-  }, [isScriptReady, router]);
+  }, [isScriptReady, onAuthError, onAuthStart, onAuthSuccess, router]);
 
   if (!googleClientId) {
     return (
@@ -149,10 +170,10 @@ export function OAuthButtons() {
         onLoad={() => setIsScriptReady(true)}
         onReady={() => setIsScriptReady(true)}
       />
-      <div className="relative min-h-12 overflow-hidden rounded-[18px] bg-[#F7F7F5] shadow-[0_12px_28px_rgba(0,0,0,0.18)] ring-1 ring-white/12">
+      <div className="relative min-h-14 overflow-visible rounded-[20px] bg-[#F7F7F5] p-[5px] shadow-[0_12px_28px_rgba(0,0,0,0.18)] ring-1 ring-white/12">
         <div
           ref={buttonRef}
-          className="relative z-10 flex min-h-[48px] items-center justify-center [&>div]:!mx-auto [&>div]:!w-full [&_iframe]:!mx-auto [&_iframe]:!w-full [&_iframe]:!rounded-[18px]"
+          className="relative z-10 flex min-h-[44px] items-center justify-center [&>div]:!mx-auto [&_iframe]:!mx-auto"
         />
         {!isScriptReady ? (
           <div className="absolute inset-0 flex items-center justify-center rounded-[18px] bg-[#F7F7F5] text-sm font-semibold text-[#27272A]/60">

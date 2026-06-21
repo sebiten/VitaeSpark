@@ -73,7 +73,7 @@ export async function PATCH(req: Request, context: RouteContext) {
 
   const { data: existingCv, error: existingError } = await supabaseAdmin
     .from("cvs")
-    .select("id")
+    .select("id, template")
     .eq("id", id)
     .eq("profile_id", userId)
     .eq("status", "paid")
@@ -84,12 +84,24 @@ export async function PATCH(req: Request, context: RouteContext) {
   }
 
   const { cvData, template } = parsed.data;
+  const lockedTemplate = existingCv.template || "elegance";
+
+  if (template !== lockedTemplate) {
+    return NextResponse.json(
+      {
+        error:
+          "La plantilla de este CV ya esta fijada. Para usar otra plantilla, crea un nuevo CV.",
+      },
+      { status: 409 },
+    );
+  }
+
   const { data: updatedCv, error: updateError } = await supabaseAdmin
     .from("cvs")
     .update({
       cv_data: cvData,
       foto_url: cvData.foto_url ?? null,
-      template,
+      template: lockedTemplate,
     })
     .eq("id", id)
     .eq("profile_id", userId)

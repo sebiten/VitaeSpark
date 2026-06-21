@@ -86,8 +86,8 @@ export default function TemplateSelector({
           Elegi una base para tu CV
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-white/64 sm:text-base">
-          No es una decision final. Podes cambiar la plantilla despues sin perder
-          los datos que cargues.
+          Antes de pagar podes comparar plantillas sin volver a cargar tus datos.
+          Despues, ese CV queda asociado a la plantilla elegida.
         </p>
       </div>
 

@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Crear CV Online Editable en Minutos con IA",
   description:
-    "Crea tu currículum online con IA, editalo desde tu perfil, cambia plantilla y descargalo en PDF con enfoque ATS.",
+    "Crea tu currículum online con IA, editalo desde tu perfil y descargalo en PDF con enfoque ATS.",
   path: "/crear-cv-online",
   keywords: [
     "crear cv online",
@@ -96,7 +96,7 @@ export default function CrearCvOnlinePage() {
         {
           question: "Puedo editar mi CV despues?",
           answer:
-            "Si. Desde tu perfil podes ajustar contenido, cambiar plantilla y descargar una nueva version en PDF sin volver a cargar todo.",
+            "Si. Desde tu perfil podes ajustar contenido y descargar una nueva version en PDF con la plantilla elegida.",
         },
         {
           question: "Que pasa si no tengo mucha experiencia?",

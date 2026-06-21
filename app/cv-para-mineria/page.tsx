@@ -35,6 +35,19 @@ export default function CvParaMineriaPage() {
           "Carga tu experiencia, cursos, disponibilidad y puesto objetivo. La IA lo ordena en un CV profesional listo para descargar en PDF.",
         label: "Crear mi CV para mineria",
       }}
+      diagnosticCta={{
+        title: "Antes de postular a una minera, revisa si tu CV pasa este chequeo",
+        description:
+          "Marca los puntos que hoy faltan o no se ven claros. Si aparecen dos o mas, conviene ordenar el CV antes de enviarlo.",
+        items: [
+          "No queda claro si apunto a ayudante, operario, mantenimiento, transporte o campamento.",
+          "No menciono seguridad, EPP, turnos, roster o disponibilidad para viajar.",
+          "Mi experiencia industrial esta muy general y no conecta con mineria.",
+          "Todavia no tengo un PDF prolijo, editable y listo para enviar.",
+        ],
+        label: "Crear mi CV para mineria",
+        trackingLabel: "mineria_diagnostic_cta",
+      }}
       exampleImage={{
         src: "/purple-hero.webp",
         alt: "ejemplo de cv para mineria",

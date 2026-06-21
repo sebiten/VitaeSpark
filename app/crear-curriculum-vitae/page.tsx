@@ -94,7 +94,7 @@ export default function CrearCurriculumVitaePage() {
         {
           question: "El curriculum vitae se puede editar despues?",
           answer:
-            "Si. El CV queda guardado en tu perfil para seguir ajustandolo, cambiar plantilla y descargar nuevas versiones.",
+            "Si. El CV queda guardado en tu perfil para seguir ajustando datos y descargar nuevas versiones con la plantilla elegida.",
         },
       ]}
       relatedLinks={[

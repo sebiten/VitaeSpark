@@ -223,7 +223,7 @@ export default function HeroShowcase() {
         className="absolute bottom-5 left-1/2 z-20 hidden w-[min(88%,600px)] -translate-x-1/2 rounded-full border border-[#F6F2EA]/[0.12] bg-[#111014]/[0.86] px-4 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(246,242,234,0.06)] backdrop-blur-xl sm:block"
       >
         <div className="grid grid-cols-3 gap-2 text-center text-[12px] font-medium text-[#F6F2EA]/[0.78]">
-          <span>Plantillas editables</span>
+          <span>Plantilla elegida</span>
           <span className="border-x border-[#F6F2EA]/10">Texto mejorado</span>
           <span>PDF listo</span>
         </div>

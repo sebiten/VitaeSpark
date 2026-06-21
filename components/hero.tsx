@@ -97,7 +97,7 @@ const faqQuestions = [
   },
   {
     q: "Puedo editarlo despues?",
-    a: "Si. El CV queda guardado en tu perfil para editar datos, cambiar plantilla y descargar una nueva version en PDF.",
+    a: "Si. El CV queda guardado en tu perfil para editar datos y descargar nuevas versiones en PDF con la plantilla elegida.",
   },
 ];
 
@@ -222,7 +222,7 @@ export default function Home() {
               </h2>
               <p className="mt-4 max-w-xl text-base leading-8 text-[#D8D2C8]/64">
                 Diseños sobrios para que el contenido haga el trabajo. Podes
-                cambiar de plantilla sin perder datos.
+                comparar plantillas antes de pagar.
               </p>
             </div>
             <Link

@@ -45,7 +45,7 @@ export default function PlantillaHarvardVsModernaPage() {
         {
           title: "Probá ambas con tu información real",
           description:
-            "En VitaeSpark podés cambiar entre plantillas sin perder contenido. Compará cómo se ve tu CV en Harvard y en moderna antes de decidir.",
+            "En VitaeSpark podés comparar plantillas antes de pagar sin perder contenido. Después, ese CV queda asociado a la plantilla elegida.",
         },
       ]}
       sections={[
@@ -85,9 +85,9 @@ export default function PlantillaHarvardVsModernaPage() {
             "Las plantillas modernas de VitaeSpark están diseñadas para mantener compatibilidad ATS. Evitan tablas complejas, fuentes no estándar e imágenes que interfieran con la lectura automatizada.",
         },
         {
-          question: "Puedo cambiar de plantilla después de crear mi CV?",
+          question: "Cuando puedo cambiar de plantilla?",
           answer:
-            "Sí, en VitaeSpark podés cambiar de plantilla en cualquier momento. El contenido se adapta automáticamente al nuevo formato sin que pierdas información.",
+            "Podés comparar plantillas durante la creación antes de pagar. Después del pago, ese CV queda editable desde tu perfil, pero asociado a la plantilla elegida.",
         },
         {
           question: "Qué plantilla conviene para un primer empleo?",

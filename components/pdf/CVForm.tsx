@@ -200,8 +200,8 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
             </div>
             <p className="px-2 pb-1 pt-2 text-center text-[11px] leading-5 text-white/48">
               {initialLanguage === "en"
-                ? "You can switch templates without reloading your details."
-                : "Podés cambiar de plantilla sin volver a cargar tus datos."}
+                ? "Before paying, you can switch templates without reloading your details."
+                : "Antes de pagar, podes cambiar de plantilla sin volver a cargar tus datos."}
             </p>
           </div>
 

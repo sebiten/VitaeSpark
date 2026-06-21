@@ -4,7 +4,7 @@ import { buildMetadata, getBaseUrl } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Creador de CV Online Editable con IA | VitaeSpark",
   description:
-    "Crea tu CV online con IA, editalo desde tu perfil, cambia plantilla y descarga un PDF profesional con enfoque ATS.",
+    "Crea tu CV online con IA, editalo desde tu perfil y descarga un PDF profesional con enfoque ATS.",
   path: "/",
   keywords: [
     "creador de cv",
@@ -75,7 +75,7 @@ export default function GeneradorCV() {
         name: "Puedo editarlo despues?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Si. El CV queda guardado en tu perfil para editar datos, probar otra plantilla y descargar una nueva version en PDF.",
+          text: "Si. El CV queda guardado en tu perfil para editar datos y descargar nuevas versiones en PDF con la plantilla elegida.",
         },
       },
     ],

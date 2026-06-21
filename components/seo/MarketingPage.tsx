@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { LandingCvDiagnosticCta } from "./LandingCvDiagnosticCta";
 import { TrackedCtaLink } from "./TrackedCtaLink";
 import { getBaseUrl } from "@/lib/seo";
 
@@ -49,6 +50,14 @@ type ConversionCta = {
   label?: string;
 };
 
+type DiagnosticCta = {
+  title: string;
+  description: string;
+  items: string[];
+  label: string;
+  trackingLabel: string;
+};
+
 type MarketingPageProps = {
   path: string;
   eyebrow: string;
@@ -63,6 +72,7 @@ type MarketingPageProps = {
   exampleImage?: ExampleImage;
   ctaLabel?: string;
   conversionCta?: ConversionCta;
+  diagnosticCta?: DiagnosticCta;
 };
 
 function slugify(text: string) {
@@ -103,6 +113,7 @@ export function MarketingPage({
   exampleImage,
   ctaLabel,
   conversionCta,
+  diagnosticCta,
 }: MarketingPageProps) {
   const sectionIcons = [FileText, PenLine, Lightbulb, CheckCircle2];
   const visual = exampleImage ?? {
@@ -327,6 +338,19 @@ export function MarketingPage({
               ))}
             </div>
           </section>
+
+          {diagnosticCta ? (
+            <div className="mt-10">
+              <LandingCvDiagnosticCta
+                path={path}
+                title={diagnosticCta.title}
+                description={diagnosticCta.description}
+                items={diagnosticCta.items}
+                ctaLabel={diagnosticCta.label}
+                trackingLabel={diagnosticCta.trackingLabel}
+              />
+            </div>
+          ) : null}
         </article>
 
         <aside className="min-w-0 space-y-10 lg:sticky lg:top-24 lg:self-start">

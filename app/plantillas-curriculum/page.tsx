@@ -101,10 +101,10 @@ export default function PlantillasCurriculumPage() {
       },
       {
         "@type": "Question",
-        name: "¿Puedo cambiar de plantilla después de crear mi CV?",
+        name: "¿Cuándo puedo cambiar de plantilla?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Sí, en VitaeSpark podés cambiar de plantilla durante la creación y volver a editar tu CV desde el perfil después de pagarlo. El contenido se adapta automáticamente al nuevo formato.",
+          text: "Podés cambiar de plantilla durante la creación, antes de pagar. Después del pago, el CV queda editable desde tu perfil, pero asociado a la plantilla elegida.",
         },
       },
       {
@@ -159,7 +159,7 @@ export default function PlantillasCurriculumPage() {
         "@type": "HowToStep",
         position: 3,
         name: "Probá la plantilla con tu contenido real",
-        text: "En VitaeSpark podés ver tu CV en distintas plantillas antes de decidir. Cargá tu información y compará cómo se ve en cada formato para elegir con seguridad. Si después querés ajustar texto o plantilla, podés hacerlo desde tu perfil.",
+        text: "En VitaeSpark podés ver tu CV en distintas plantillas antes de pagar. Cargá tu información y compará cómo se ve en cada formato para elegir con seguridad. Después, podés ajustar el contenido desde tu perfil.",
         url: new URL(path, baseUrl).toString(),
       },
     ],
@@ -492,12 +492,12 @@ export default function PlantillasCurriculumPage() {
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-6">
               <h3 className="mb-2 text-base font-semibold text-white/95">
-                ¿Puedo cambiar de plantilla después de crear mi CV?
+                ¿Cuándo puedo cambiar de plantilla?
               </h3>
               <p className="text-sm leading-7 text-white/75">
-                Sí, en VitaeSpark podés cambiar de plantilla durante la creación
-                y editar tu CV desde el perfil después de pagarlo. El contenido
-                se adapta automáticamente al nuevo formato sin perder nada.
+                Podés cambiar de plantilla durante la creación, antes de pagar.
+                Después del pago, el CV queda editable desde tu perfil, pero
+                asociado a la plantilla elegida.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-6">

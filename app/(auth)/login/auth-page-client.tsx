@@ -1,10 +1,10 @@
 "use client";
 
 import type React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import {
   AlertCircle,
@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { createClient } from "@/utils/supabase/client";
 
 export function SubmitButton({
   children,
@@ -51,13 +52,64 @@ export function SubmitButton({
   );
 }
 
+type AuthTransitionState = "checking" | "idle" | "signing-in" | "confirmed";
+
 export default function AuthPageClient() {
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const redirectTimeoutRef = useRef<number | null>(null);
   const [activeTab, setActiveTab] = useState<string>("login");
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [authTransition, setAuthTransition] =
+    useState<AuthTransitionState>("checking");
+
+  const redirectToCreate = () => {
+    if (redirectTimeoutRef.current) {
+      window.clearTimeout(redirectTimeoutRef.current);
+    }
+
+    redirectTimeoutRef.current = window.setTimeout(() => {
+      router.replace("/crear");
+      router.refresh();
+    }, 450);
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    const supabase = createClient();
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (!isMounted) return;
+
+      if (data.session) {
+        setAuthTransition("confirmed");
+        redirectToCreate();
+        return;
+      }
+
+      setAuthTransition("idle");
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" && session) {
+        setAuthTransition("confirmed");
+        redirectToCreate();
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+      if (redirectTimeoutRef.current) {
+        window.clearTimeout(redirectTimeoutRef.current);
+      }
+    };
+  }, [router]);
 
   useEffect(() => {
     const errorParam = searchParams.get("error");
@@ -121,6 +173,10 @@ export default function AuthPageClient() {
     }
   };
 
+  if (authTransition === "checking" || authTransition === "confirmed") {
+    return <AuthTransitionScreen state={authTransition} />;
+  }
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#0C0C10] px-4 py-6 text-[#F6F2EA] sm:px-6 sm:py-10">
       <div className="pointer-events-none absolute inset-0">
@@ -170,7 +226,7 @@ export default function AuthPageClient() {
                 "CV editable",
                 "PDF descargable",
                 "Pago único",
-                "Plantillas ATS",
+                "Plantilla elegida",
               ].map((item) => (
                 <div
                   key={item}
@@ -206,7 +262,11 @@ export default function AuthPageClient() {
 
               <div className="px-5 py-5 sm:px-7 sm:py-6">
                 <div className="rounded-[28px] border border-[#F6F2EA]/[0.08] bg-[#F6F2EA]/[0.035] p-3.5 shadow-[inset_0_1px_0_rgba(246,242,234,0.04)] sm:p-4">
-                  <OAuthButtons />
+                  <OAuthButtons
+                    onAuthStart={() => setAuthTransition("signing-in")}
+                    onAuthSuccess={() => setAuthTransition("confirmed")}
+                    onAuthError={() => setAuthTransition("idle")}
+                  />
 
                   <div className="my-5 flex items-center gap-3">
                     <div className="h-px flex-1 bg-[#F6F2EA]/[0.08]" />
@@ -426,6 +486,62 @@ export default function AuthPageClient() {
             </div>
           </motion.div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function AuthTransitionScreen({ state }: { state: AuthTransitionState }) {
+  const isConfirmed = state === "confirmed";
+  const title =
+    state === "checking"
+      ? "Revisando sesión"
+      : isConfirmed
+        ? "Sesión confirmada"
+        : "Confirmando acceso con Google";
+  const description =
+    state === "checking"
+      ? "Estamos verificando si ya tenés una sesión activa."
+      : isConfirmed
+        ? "Tu cuenta ya está lista. Te llevamos al creador de CV."
+        : "Volvimos de Google y estamos preparando tu espacio.";
+
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-[#0C0C10] px-4 py-6 text-[#F6F2EA] sm:px-6 sm:py-10">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E8DDFF]/[0.18] to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_20%,rgba(122,92,255,0.22),transparent_30%),radial-gradient(circle_at_24%_74%,rgba(246,242,234,0.08),transparent_28%),linear-gradient(135deg,#0C0C10_0%,#141219_46%,#08080A_100%)]" />
+        <div className="hero-grid absolute inset-0 opacity-[0.045] [background-image:linear-gradient(rgba(246,242,234,0.62)_1px,transparent_1px),linear-gradient(90deg,rgba(246,242,234,0.48)_1px,transparent_1px)] [background-size:84px_84px]" />
+      </div>
+
+      <div className="relative mx-auto flex min-h-[calc(100vh-3rem)] max-w-xl items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.28, ease: "easeOut" }}
+          className="w-full rounded-[34px] border border-[#F6F2EA]/[0.1] bg-[#111014]/[0.94] p-6 text-center shadow-[0_26px_80px_rgba(0,0,0,0.36)] sm:p-8"
+        >
+          <div className="mx-auto flex size-14 items-center justify-center rounded-2xl border border-[#E8DDFF]/[0.14] bg-[#F6F2EA]/[0.045] text-[#D7C8FF]">
+            {isConfirmed ? (
+              <CheckCircle className="h-6 w-6" />
+            ) : (
+              <Loader2 className="h-6 w-6 animate-spin" />
+            )}
+          </div>
+          <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#D7C8FF]/80">
+            VitaeSpark
+          </p>
+          <h1 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-[#F6F2EA] sm:text-3xl">
+            {title}
+          </h1>
+          <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-[#D8D2C8]/[0.68]">
+            {description}
+          </p>
+          <div className="mx-auto mt-6 flex max-w-sm items-center justify-center gap-2 rounded-2xl border border-[#F6F2EA]/[0.08] bg-[#F6F2EA]/[0.035] px-4 py-3 text-xs font-medium text-[#D8D2C8]/[0.72]">
+            <ShieldCheck className="h-4 w-4 text-[#D7C8FF]" />
+            Sesión segura, sin volver a cargar tus datos.
+          </div>
+        </motion.div>
       </div>
     </div>
   );

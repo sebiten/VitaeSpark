@@ -11,13 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
 const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
@@ -78,6 +71,13 @@ const templateOptions = [
   { value: "purple", label: "Purpura Pro" },
   { value: "green", label: "Verde Energia" },
 ];
+
+function getTemplateLabel(value: string) {
+  return (
+    templateOptions.find((option) => option.value === value)?.label ||
+    "Elegante"
+  );
+}
 
 const emptyExperience: EditableExperience = {
   cargo: "",
@@ -349,8 +349,8 @@ export function EditSavedCVForm({ cvId }: EditSavedCVFormProps) {
             </button>
             <h1 className="text-2xl font-bold sm:text-3xl">Edita tu CV guardado</h1>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/62">
-              Ajusta contenido, cambia plantilla y guarda una nueva version sin
-              volver a pagar.
+              Ajusta el contenido y guarda una nueva version con la misma
+              plantilla comprada.
             </p>
           </div>
 
@@ -396,18 +396,15 @@ export function EditSavedCVForm({ cvId }: EditSavedCVFormProps) {
             </div>
 
             <Field label="Plantilla">
-              <Select value={template} onValueChange={setTemplate}>
-                <SelectTrigger className="border-white/10 bg-[#0F0F10] text-white">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="border-white/10 bg-[#18181D] text-white">
-                  {templateOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="rounded-2xl border border-white/10 bg-[#0F0F10] px-4 py-3">
+                <p className="text-sm font-semibold text-white">
+                  {getTemplateLabel(template)}
+                </p>
+                <p className="mt-1 text-xs leading-5 text-white/52">
+                  La plantilla queda fija para este CV. Para usar otro diseno,
+                  crea un nuevo CV.
+                </p>
+              </div>
             </Field>
 
             <Field label="Contacto">

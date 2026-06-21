@@ -55,7 +55,7 @@ const checkoutCopy = {
     changeTemplate: "Cambiar plantilla",
     finalTitle: "Desbloquea el PDF final",
     finalText:
-      "Tu CV queda guardado en tu perfil para editarlo, cambiar plantilla y volver a descargarlo.",
+      "Tu CV queda guardado en tu perfil para editar datos y volver a descargarlo con la plantilla elegida.",
     singlePayment: "Pago unico",
     previousPrice: "Antes $2.500",
     noSubscription: "Sin suscripcion",
@@ -70,7 +70,7 @@ const checkoutCopy = {
     includedItems: [
       "Descarga inmediata del PDF sin marca de agua",
       "CV guardado y editable desde tu perfil",
-      "Cambio de plantilla y nuevas descargas",
+      "Nuevas descargas con la plantilla elegida",
     ],
     mpButton: "Desbloquear PDF",
     mpButtonNote: "Mercado Pago, tarjeta y medios locales",
@@ -95,7 +95,7 @@ const checkoutCopy = {
     changeTemplate: "Change template",
     finalTitle: "Unlock the final PDF",
     finalText:
-      "Your resume stays saved in your profile, ready to edit, change template, and download again.",
+      "Your resume stays saved in your profile, ready to edit and download again with the selected template.",
     singlePayment: "One-time payment",
     previousPrice: "Before US$4.99",
     noSubscription: "No subscription",
@@ -110,7 +110,7 @@ const checkoutCopy = {
     includedItems: [
       "Immediate PDF download without watermark",
       "Resume saved and editable from your profile",
-      "Template changes and new downloads",
+      "New downloads with the selected template",
     ],
     mpButton: "Mercado Pago",
     mpButtonNote: "Local payment methods",
