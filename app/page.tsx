@@ -36,7 +36,7 @@ export default function GeneradorCV() {
       "Creador de CV online con IA, plantillas profesionales, enfoque ATS y descarga en PDF.",
     offers: {
       "@type": "Offer",
-      price: "2500",
+      price: "1999",
       priceCurrency: "ARS",
     },
   };

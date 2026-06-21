@@ -114,7 +114,7 @@ const checkoutCopy = {
       "Desbloquea la version profesional sin marca de agua y descargala en PDF cuando quieras.",
     singlePayment: "Pago unico",
     secure: "Pago seguro con Mercado Pago",
-    priceValue: "$2.500",
+    priceValue: "$1.999",
     priceCurrency: "ARS",
     cleanCv: "CV limpio, sin marca de agua",
     cleanCvText: "Listo para enviar a empresas, portales de empleo y reclutadores.",
@@ -148,7 +148,7 @@ const checkoutCopy = {
     finalText: "Unlock the professional version without watermark and download it as PDF anytime.",
     singlePayment: "One-time payment",
     secure: "Secure payment with PayPal",
-    priceValue: "US$4.99",
+    priceValue: "US$2.99",
     priceCurrency: "USD",
     cleanCv: "Clean resume, no watermark",
     cleanCvText: "Ready to send to companies, job boards and recruiters.",
@@ -203,7 +203,7 @@ export default function CVPreviewStepPurple({
     setLoadingPayPal(true);
     track("Payment Started", {
       template,
-      price: 4.99,
+      price: 2.99,
       currency: "USD",
       method: "paypal",
       language,
@@ -235,7 +235,7 @@ export default function CVPreviewStepPurple({
       if (approveUrl) {
         track("Payment Redirected", {
           template,
-          price: 4.99,
+          price: 2.99,
           currency: "USD",
           method: "paypal",
           language,
@@ -267,7 +267,7 @@ export default function CVPreviewStepPurple({
     setLoading(true);
     track("Payment Started", {
       template,
-      price: 2500,
+      price: 1999,
       currency: "ARS",
       method: "mercado_pago",
       language,
@@ -299,7 +299,7 @@ export default function CVPreviewStepPurple({
       if (init_point) {
         track("Payment Redirected", {
           template,
-          price: 2500,
+          price: 1999,
           currency: "ARS",
           method: "mercado_pago",
           language,
@@ -530,7 +530,7 @@ export default function CVPreviewStepPurple({
                 </p>
                 <div className="flex items-end justify-center gap-2 sm:mt-2">
                   <span className="text-4xl font-black leading-none text-white sm:text-5xl">
-                    {language === "en" ? copy.priceValue : "$2.500"}
+                    {language === "en" ? copy.priceValue : "$1.999"}
                   </span>
                   <span className="pb-1 text-sm font-semibold text-white/62">
                     {language === "en" ? copy.priceCurrency : "ARS"}
@@ -611,7 +611,7 @@ export default function CVPreviewStepPurple({
                       <span className="text-base font-bold sm:text-lg">Mercado Pago</span>
                       <div className="h-6 w-px bg-white/30" />
                       <span className="text-sm font-semibold sm:text-base">
-                        $2.500 ARS
+                        $1.999 ARS
                       </span>
                     </div>
                   )}
@@ -650,7 +650,7 @@ export default function CVPreviewStepPurple({
                       <span className="text-base font-bold sm:text-lg">PayPal</span>
                       <div className="h-6 w-px bg-white/30" />
                       <span className="text-sm font-semibold sm:text-base">
-                        US$4.99
+                        US$2.99
                       </span>
                     </div>
                   )}

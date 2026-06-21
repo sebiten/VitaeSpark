@@ -115,7 +115,7 @@ export async function POST(req: Request) {
               : "CV optimizado con IA - VitaeSpark",
           amount: {
             currency_code: "USD",
-            value: "4.99",
+            value: "2.99",
           },
         },
       ],

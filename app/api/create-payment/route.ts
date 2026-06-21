@@ -89,7 +89,7 @@ export async function POST(req: Request) {
               : "Curriculum profesional con diseno moderno y textos persuasivos",
           category_id: "services",
           quantity: 1,
-          unit_price: 2500,
+          unit_price: 1999,
         },
       ],
       payer: { email },

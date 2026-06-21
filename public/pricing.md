@@ -16,7 +16,7 @@
 - Descargas ilimitadas desde tu perfil
 - CV guardado en tu cuenta para editar y descargar cuando quieras
 - Pago seguro con Mercado Pago (tarjeta, debito y mas opciones)
-- **Precio: $2.500 ARS (pago unico)**
+- **Precio: $1.999 ARS (pago unico)**
 
 ## Notas
 

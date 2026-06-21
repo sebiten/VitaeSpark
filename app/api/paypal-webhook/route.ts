@@ -98,7 +98,7 @@ export async function POST(req: Request) {
     userId = cv.profile_id;
   }
 
-  const amount = resource.purchase_units?.[0]?.amount?.value || "4.99";
+  const amount = resource.purchase_units?.[0]?.amount?.value || "2.99";
   const payerEmail = resource.purchase_units?.[0]?.payer?.email_address || null;
 
   const { error: insertError } = await supabaseAdmin.from("payments").insert({
