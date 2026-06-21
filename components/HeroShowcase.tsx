@@ -27,19 +27,19 @@ const secondaryDocuments = [
     src: "/harvard.webp",
     alt: "Plantilla Harvard de curriculum en VitaeSpark",
     className:
-      "left-0 top-20 w-[34%] -rotate-[10deg] opacity-[0.72] xl:-left-2 xl:top-24",
+      "left-2 top-24 w-[31%] -rotate-[9deg] opacity-[0.62] xl:left-0 xl:top-28",
   },
   {
     src: "/purple-hero.webp",
     alt: "Plantilla moderna de curriculum en VitaeSpark",
     className:
-      "right-1 top-28 w-[34%] rotate-[9deg] opacity-[0.68] xl:right-4 xl:top-32",
+      "right-4 top-32 w-[31%] rotate-[8deg] opacity-[0.58] xl:right-8 xl:top-36",
   },
   {
     src: "/green.webp",
     alt: "Plantilla profesional de curriculum en VitaeSpark",
     className:
-      "bottom-8 left-[10%] w-[28%] rotate-[7deg] opacity-[0.58] xl:bottom-10",
+      "bottom-16 left-[12%] w-[24%] rotate-[7deg] opacity-[0.44] xl:bottom-20",
   },
 ];
 
@@ -52,7 +52,7 @@ export default function HeroShowcase() {
       initial={reduceMotion ? false : { opacity: 0, y: 26, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.7, delay: 0.08, ease: easeOut }}
-      className="relative mx-auto min-h-[520px] w-full max-w-[820px] sm:min-h-[640px] lg:mr-0 lg:min-h-[620px]"
+      className="relative mx-auto min-h-[520px] w-full max-w-[820px] sm:min-h-[700px] lg:mr-0 lg:min-h-[700px]"
     >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[12%] top-[18%] h-72 w-72 rounded-full bg-[#7A5CFF]/[0.16] blur-[120px]" />
@@ -111,12 +111,12 @@ export default function HeroShowcase() {
         initial={reduceMotion ? false : { opacity: 0, y: 34, rotateX: 8 }}
         animate={{ opacity: 1, y: 0, rotateX: 0 }}
         transition={{ duration: 0.72, delay: 0.12, ease: easeOut }}
-        className="relative z-10 mx-auto w-[min(88vw,500px)] pt-10 sm:pt-14 lg:w-[500px] xl:w-[540px]"
+        className="relative z-10 mx-auto w-[min(88vw,500px)] pt-10 sm:pt-10 lg:w-[500px] xl:w-[540px]"
       >
         <div className="relative rounded-[36px] border border-[#F6F2EA]/[0.16] bg-[#ECE8DE] p-3 shadow-[0_42px_110px_rgba(0,0,0,0.58),0_0_0_1px_rgba(246,242,234,0.05)] sm:p-4">
           <div className="absolute -inset-3 -z-10 rounded-[44px] bg-[linear-gradient(135deg,rgba(246,242,234,0.2),rgba(122,92,255,0.08)_42%,rgba(12,12,16,0))]" />
 
-          <div className="relative overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_rgba(20,17,14,0.22)]">
+          <div className="relative h-[500px] overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_rgba(20,17,14,0.22)] sm:h-[590px] xl:h-[610px]">
             <Image
               src="/elegance-good.webp"
               alt="Vista previa de curriculum profesional generado con VitaeSpark"
@@ -126,7 +126,7 @@ export default function HeroShowcase() {
               fetchPriority="high"
               draggable={false}
               sizes="(min-width: 1280px) 34vw, (min-width: 1024px) 38vw, 88vw"
-              className="w-full object-cover object-top"
+              className="h-full w-full object-cover object-top"
             />
 
             <div className="hero-scan-line pointer-events-none absolute inset-x-0 top-0 h-20 bg-[linear-gradient(180deg,transparent,rgba(122,92,255,0.12),transparent)]" />
@@ -164,7 +164,7 @@ export default function HeroShowcase() {
                   <p className="text-sm font-semibold text-[#F6F2EA]">
                     La IA convierte borradores en perfil profesional
                   </p>
-                  <div className="mt-3 grid gap-2 text-[12px] leading-5 sm:grid-cols-2">
+                  <div className="mt-3 hidden gap-2 text-[12px] leading-5 sm:grid sm:grid-cols-2">
                     <p className="rounded-2xl bg-[#F6F2EA]/[0.06] px-3 py-2 text-[#D8D2C8]/[0.62]">
                       Antes: responsable y proactivo.
                     </p>
@@ -183,7 +183,7 @@ export default function HeroShowcase() {
         initial={reduceMotion ? false : { opacity: 0, x: 26 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.58, delay: 0.32, ease: easeOut }}
-        className="absolute right-0 top-20 z-20 hidden w-[218px] rounded-[30px] border border-[#F6F2EA]/[0.12] bg-[#18171C]/[0.92] p-3 shadow-[0_26px_70px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(246,242,234,0.06)] backdrop-blur-xl xl:block"
+        className="absolute right-0 top-24 z-20 hidden w-[210px] rounded-[30px] border border-[#F6F2EA]/[0.12] bg-[#18171C]/[0.92] p-3 shadow-[0_26px_70px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(246,242,234,0.06)] backdrop-blur-xl xl:block"
       >
         <div className="border-b border-[#F6F2EA]/[0.08] px-2 pb-3">
           <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#D7C8FF]/[0.82]">
@@ -211,7 +211,7 @@ export default function HeroShowcase() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, delay: 0.38, ease: easeOut }}
-        className="absolute bottom-6 left-1/2 z-20 hidden w-[min(92%,620px)] -translate-x-1/2 rounded-full border border-[#F6F2EA]/[0.12] bg-[#111014]/[0.82] px-4 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(246,242,234,0.06)] backdrop-blur-xl sm:block"
+        className="absolute bottom-5 left-1/2 z-20 hidden w-[min(88%,600px)] -translate-x-1/2 rounded-full border border-[#F6F2EA]/[0.12] bg-[#111014]/[0.86] px-4 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(246,242,234,0.06)] backdrop-blur-xl sm:block"
       >
         <div className="grid grid-cols-3 gap-2 text-center text-[12px] font-medium text-[#F6F2EA]/[0.78]">
           <span>Plantillas editables</span>
