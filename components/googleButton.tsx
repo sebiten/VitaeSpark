@@ -86,7 +86,7 @@ export function OAuthButtons() {
         use_fedcm_for_prompt: true,
         callback: async (response) => {
           if (!response.credential) {
-            setErrorMessage("Google no devolvio credenciales. Proba de nuevo.");
+            setErrorMessage("Google no devolvió credenciales. Probá de nuevo.");
             return;
           }
 
@@ -102,7 +102,7 @@ export function OAuthButtons() {
 
           if (error) {
             console.error("Google sign in error:", error.message);
-            setErrorMessage("No se pudo iniciar sesion con Google.");
+            setErrorMessage("No se pudo iniciar sesión con Google.");
             setIsLoading(false);
             return;
           }
@@ -162,7 +162,7 @@ export function OAuthButtons() {
         {isLoading ? (
           <div className="absolute inset-0 flex items-center justify-center rounded-[18px] bg-[#F7F7F5]/95 text-sm font-semibold text-[#18181B]">
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Iniciando sesion...
+            Iniciando sesión...
           </div>
         ) : null}
       </div>
