@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import type { CVRecord } from "@/lib/types/cv";
-import { getLandingAttribution } from "@/lib/analytics-attribution";
+import { PendingPaymentRecovery } from "@/components/PendingPaymentRecovery";
 
 import {
   Card,
@@ -25,11 +25,9 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  CreditCard,
   Eye,
   FileText,
   Loader2,
-  LockKeyhole,
   Sparkles,
   User,
   X,
@@ -37,7 +35,6 @@ import {
 import UserPayments from "@/components/UserPayment";
 import { CVThumbnail } from "./CvThumbnail";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { toast } from "sonner";
 
 const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
   ssr: false,
@@ -92,16 +89,9 @@ function getTemplateLabel(template: string): string {
   return templateLabels[template || "purple"] || "Púrpura Pro";
 }
 
-type PendingCVRecord = CVRecord & {
-  created_at?: string | null;
-  status?: string | null;
-};
-
 export default function PerfilCVs() {
   const [cvs, setCvs] = useState<CVRecord[]>([]);
-  const [pendingCvs, setPendingCvs] = useState<PendingCVRecord[]>([]);
   const [loading, setLoading] = useState(true);
-  const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
   const [showCongrats, setShowCongrats] = useState(false);
   const [paidCv, setPaidCv] = useState<CVRecord | null>(null);
   const [selectedCV, setSelectedCV] = useState<CVRecord | null>(null);
@@ -159,49 +149,11 @@ export default function PerfilCVs() {
         }
       }
 
-      const { data: pendingData, error: pendingError } = await supabase
-        .from("cvs")
-        .select("id, cv_data, template, created_at, status")
-        .eq("profile_id", user.id)
-        .eq("status", "pending")
-        .order("created_at", { ascending: false })
-        .limit(3);
-
-      if (!pendingError && pendingData) {
-        setPendingCvs(pendingData as PendingCVRecord[]);
-      }
-
       setLoading(false);
     };
 
     fetchData();
   }, []);
-
-  const handleCompletePendingPayment = async (cvId: string) => {
-    setPendingPaymentId(cvId);
-
-    try {
-      const res = await fetch("/api/create-payment-for-cv", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvId, attribution: getLandingAttribution() }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok || !data.init_point) {
-        toast.error(data.error || "No se pudo iniciar el pago.");
-        return;
-      }
-
-      window.location.href = data.init_point;
-    } catch (error) {
-      console.error("Error retomando pago:", error);
-      toast.error("No se pudo iniciar el pago. Intenta nuevamente.");
-    } finally {
-      setPendingPaymentId(null);
-    }
-  };
 
   if (loading) {
     return (
@@ -276,50 +228,7 @@ export default function PerfilCVs() {
         </div>
       )}
 
-      {pendingCvs.length > 0 && (
-        <div className="relative mx-auto max-w-5xl">
-          <Card className="overflow-hidden rounded-3xl border border-[#7C3AED]/25 bg-[#17141F]/95 text-white shadow-2xl shadow-black/20">
-            <div className="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[#7C3AED]/20 blur-3xl" />
-            <CardContent className="relative grid gap-4 p-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
-              <div className="flex gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#7C3AED]/18 text-[#C4B5FD] ring-1 ring-[#C4B5FD]/20">
-                  <LockKeyhole className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-[#C4B5FD]">
-                    CV pendiente de pago
-                  </p>
-                  <h3 className="mt-1 text-xl font-bold text-[#F4F4F5]">
-                    Tu CV ya esta generado. Falta desbloquear el PDF final.
-                  </h3>
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-[#D4D4D8]">
-                    Completalo por $1.999 ARS y descargalo sin marca de agua
-                    desde tu perfil. Pago unico, sin suscripcion.
-                  </p>
-                </div>
-              </div>
-
-              <Button
-                onClick={() => handleCompletePendingPayment(pendingCvs[0].id)}
-                disabled={pendingPaymentId === pendingCvs[0].id}
-                className="h-12 rounded-2xl bg-[#00B0FF] px-5 text-sm font-bold text-white hover:bg-[#0098E6]"
-              >
-                {pendingPaymentId === pendingCvs[0].id ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Iniciando pago
-                  </>
-                ) : (
-                  <>
-                    <CreditCard className="mr-2 h-4 w-4" />
-                    Completar pago
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+      <PendingPaymentRecovery variant="profile" />
       <div className="relative text-center space-y-2 mb-8 ">
         <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#7C3AED]/15 text-[#A78BFA] ring-1 ring-[#A78BFA]/20">
           <FileText className="h-6 w-6" />

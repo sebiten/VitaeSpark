@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PendingPaymentRecovery } from "@/components/PendingPaymentRecovery";
 import { Toaster } from "sonner";
 import { getBaseUrl } from "@/lib/seo";
 import "./globals.css";
@@ -201,6 +202,7 @@ export default async function RootLayout({
           Saltar al contenido
         </a>
         <Navbar />
+        <PendingPaymentRecovery />
         <main id="main-content" className="h-full flex-grow">{children}</main>
         <Toaster />
         <Footer />
