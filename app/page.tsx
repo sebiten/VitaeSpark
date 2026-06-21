@@ -47,42 +47,34 @@ export default function GeneradorCV() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "¿Qué es un creador de CV online con IA?",
+        name: "Como funciona VitaeSpark?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Es una herramienta web que te guía para cargar tus datos, ordenar experiencia, elegir plantilla y descargar un curriculum listo para postular. VitaeSpark suma redacción con IA, estructura ATS y PDF profesional.",
+          text: "Cargas tus datos, eliges una plantilla y la IA mejora la redacción para que el CV se lea más claro.",
         },
       },
       {
         "@type": "Question",
-        name: "¿En qué se diferencia de una plantilla?",
+        name: "Sirve si no tengo experiencia?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Una plantilla solo resuelve el diseño. Un creador de CV también te ayuda a ordenar contenido, redactar mejor y preparar el documento para recruiters y filtros ATS.",
+          text: "Si. Puedes armar un CV inicial destacando estudios, cursos, proyectos, habilidades y disponibilidad.",
         },
       },
       {
         "@type": "Question",
-        name: "¿Qué es un sistema ATS y por qué importa?",
+        name: "Es solo una plantilla?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Un ATS (Applicant Tracking System) filtra CVs automáticamente. Aproximadamente el 75% son rechazados antes de ser vistos. VitaeSpark asegura que tu CV pase estos filtros.",
+          text: "No. La plantilla resuelve el diseño, pero VitaeSpark también ayuda a ordenar y redactar mejor el contenido.",
         },
       },
       {
         "@type": "Question",
-        name: "¿Cómo mejora la IA mi currículum?",
+        name: "Puedo editarlo despues?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Analiza tu información y mejora redacción para que sea más impactante. Identifica palabras clave de tu industria y las incorpora estratégicamente.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "¿En qué formatos puedo descargar?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "PDF profesional, cuántas veces quieras desde tu perfil. El mismo archivo actualizado.",
+          text: "Si. Puedes volver, cambiar datos, probar otra plantilla y descargar una nueva versión en PDF.",
         },
       },
     ],
