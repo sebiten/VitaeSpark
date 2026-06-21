@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import { FileText, LogIn, LogOut, MenuIcon, User2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,7 +12,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { logout } from "@/app/(auth)/login/actions";
 import { createClient } from "@/utils/supabase/client";
 
 type AuthControlsProps = {
@@ -107,12 +107,34 @@ function useAuthUser() {
     return () => subscription.unsubscribe();
   }, []);
 
-  return { user, cachedDisplay };
+  return { user, cachedDisplay, setUser, setCachedDisplay };
 }
 
 export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) {
-  const { user, cachedDisplay } = useAuthUser();
+  const router = useRouter();
+  const { user, cachedDisplay, setUser, setCachedDisplay } = useAuthUser();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const display = user ? getUserDisplay(user) : cachedDisplay;
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    setUser(null);
+    setCachedDisplay(null);
+    writeCachedDisplay(null);
+    onNavigate?.();
+
+    const supabase = createClient();
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error("Logout error:", error.message);
+      setIsLoggingOut(false);
+      return;
+    }
+
+    router.replace("/login");
+    router.refresh();
+  };
 
   if (user === undefined) {
     return display ? (
@@ -139,15 +161,17 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
           <User2 className="h-4 w-4" />
           Mi perfil
         </Link>
-        <form action={logout} className="w-full">
+        <div className="w-full">
           <button
-            type="submit"
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#EF4444] px-4 py-2 text-sm font-medium text-[#F4F4F5] hover:bg-[#EF4444]/90"
+            type="button"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#EF4444] px-4 py-2 text-sm font-medium text-[#F4F4F5] hover:bg-[#EF4444]/90 disabled:cursor-wait disabled:opacity-70"
           >
             <LogOut className="h-4 w-4" />
             Cerrar sesión
           </button>
-        </form>
+        </div>
       </>
     ) : (
       <Link
@@ -185,11 +209,14 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <form action={logout} className="w-full">
-              <button type="submit" className="flex w-full items-center gap-2 text-left">
-                <LogOut className="h-4 w-4" /> Cerrar sesión
-              </button>
-            </form>
+            <button
+              type="button"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="flex w-full items-center gap-2 text-left disabled:cursor-wait disabled:opacity-70"
+            >
+              <LogOut className="h-4 w-4" /> Cerrar sesión
+            </button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -37,7 +37,7 @@ export default async function middleware(request: NextRequest) {
     pathname.startsWith("/login");
 
   if (needsSessionRefresh) {
-    await updateSession(request);
+    return updateSession(request);
   }
 
   return NextResponse.next();

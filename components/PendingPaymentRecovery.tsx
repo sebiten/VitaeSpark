@@ -131,10 +131,6 @@ export function PendingPaymentRecovery({
     }),
     [pathname, variant]
   );
-  const previewTemplate =
-    pendingCv?.template === "ats-compact"
-      ? "elegance"
-      : pendingCv?.template || "elegance";
 
   const handleCompletePayment = useCallback(async () => {
     if (!pendingCv) return;
@@ -165,6 +161,19 @@ export function PendingPaymentRecovery({
   }, [attribution, pendingCv]);
 
   if (!pendingCv) return null;
+
+  const previewTemplate =
+    pendingCv.template === "ats-compact"
+      ? "elegance"
+      : pendingCv.template || "elegance";
+  const previewDialog = (
+    <PendingCvPreviewDialog
+      open={isPreviewOpen}
+      onOpenChange={setIsPreviewOpen}
+      cv={pendingCv}
+      template={previewTemplate}
+    />
+  );
 
   if (variant === "profile") {
     return (
@@ -222,51 +231,7 @@ export function PendingPaymentRecovery({
           </CardContent>
         </Card>
 
-        <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-          <DialogContent className="max-h-[92vh] max-w-5xl overflow-hidden border-white/10 bg-[#111113] p-0 text-white sm:rounded-3xl [&>button]:hidden">
-            <DialogTitle className="sr-only">
-              Vista previa del CV pendiente
-            </DialogTitle>
-            <DialogDescription className="sr-only">
-              Vista protegida del CV generado con marca de agua antes de
-              completar el pago.
-            </DialogDescription>
-
-            <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#15151A] px-4 py-3 sm:px-5">
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-[#F4F4F5]">
-                  CV creado con marca de agua
-                </p>
-                <p className="mt-0.5 text-xs leading-5 text-white/58">
-                  Completa el pago para descargar el PDF final sin marca de
-                  agua.
-                </p>
-              </div>
-              <DialogClose asChild>
-                <button className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white/72 transition hover:bg-white/[0.08] hover:text-white">
-                  <X className="h-4 w-4" />
-                </button>
-              </DialogClose>
-            </div>
-
-            <div className="h-[calc(92vh-74px)] overflow-auto bg-[#2A2A2D] p-3 sm:p-5">
-              <div className="mx-auto h-[82vh] min-h-[620px] max-w-[720px] overflow-hidden rounded-2xl bg-white shadow-2xl shadow-black/40">
-                {pendingCv.cv_data ? (
-                  <PDFViewerPane
-                    cv={pendingCv.cv_data}
-                    template={previewTemplate}
-                    watermark
-                    className="h-full w-full border-0"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center text-sm text-slate-500">
-                    No se pudo preparar la vista previa.
-                  </div>
-                )}
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+        {previewDialog}
       </div>
     );
   }
@@ -288,24 +253,94 @@ export function PendingPaymentRecovery({
           </div>
         </div>
 
-        <Button
-          onClick={handleCompletePayment}
-          disabled={isLoadingPayment}
-          className="h-10 shrink-0 rounded-xl bg-[#00B0FF] px-4 text-sm font-bold text-white hover:bg-[#0098E6]"
-        >
-          {isLoadingPayment ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Iniciando
-            </>
-          ) : (
-            <>
-              <CreditCard className="mr-2 h-4 w-4" />
-              Completar pago
-            </>
-          )}
-        </Button>
+        <div className="grid shrink-0 grid-cols-1 gap-2 sm:grid-cols-2">
+          <Button
+            type="button"
+            onClick={() => setIsPreviewOpen(true)}
+            variant="outline"
+            className="h-10 rounded-xl border-white/12 bg-white/[0.04] px-4 text-sm font-bold text-white hover:bg-white/[0.08] hover:text-white"
+          >
+            <Eye className="mr-2 h-4 w-4" />
+            Ver CV
+          </Button>
+
+          <Button
+            onClick={handleCompletePayment}
+            disabled={isLoadingPayment}
+            className="h-10 rounded-xl bg-[#00B0FF] px-4 text-sm font-bold text-white hover:bg-[#0098E6]"
+          >
+            {isLoadingPayment ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Iniciando
+              </>
+            ) : (
+              <>
+                <CreditCard className="mr-2 h-4 w-4" />
+                Completar pago
+              </>
+            )}
+          </Button>
+        </div>
       </div>
+      {previewDialog}
     </div>
+  );
+}
+
+function PendingCvPreviewDialog({
+  open,
+  onOpenChange,
+  cv,
+  template,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  cv: PendingCVRecord;
+  template: string;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-h-[92vh] max-w-5xl overflow-hidden border-white/10 bg-[#111113] p-0 text-white sm:rounded-3xl [&>button]:hidden">
+        <DialogTitle className="sr-only">Vista previa del CV pendiente</DialogTitle>
+        <DialogDescription className="sr-only">
+          Vista protegida del CV generado con marca de agua antes de completar el
+          pago.
+        </DialogDescription>
+
+        <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#15151A] px-4 py-3 sm:px-5">
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-[#F4F4F5]">
+              CV creado con marca de agua
+            </p>
+            <p className="mt-0.5 text-xs leading-5 text-white/58">
+              Completa el pago para descargar el PDF final sin marca de agua.
+            </p>
+          </div>
+          <DialogClose asChild>
+            <button className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white/72 transition hover:bg-white/[0.08] hover:text-white">
+              <X className="h-4 w-4" />
+            </button>
+          </DialogClose>
+        </div>
+
+        <div className="h-[calc(92vh-74px)] overflow-auto bg-[#2A2A2D] p-3 sm:p-5">
+          <div className="mx-auto h-[82vh] min-h-[620px] max-w-[720px] overflow-hidden rounded-2xl bg-white shadow-2xl shadow-black/40">
+            {cv.cv_data ? (
+              <PDFViewerPane
+                cv={cv.cv_data}
+                template={template}
+                watermark
+                className="h-full w-full border-0"
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center text-sm text-slate-500">
+                No se pudo preparar la vista previa.
+              </div>
+            )}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

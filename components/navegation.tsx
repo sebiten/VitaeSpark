@@ -3,9 +3,8 @@
 import type React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { FileText, HomeIcon, Menu, Paperclip, User2, X } from "lucide-react";
+import { FileText, HomeIcon, Menu, Paperclip, X } from "lucide-react";
 import { AuthControls } from "@/components/auth-controls";
 
 interface CustomButtonProps {
@@ -157,14 +156,6 @@ export function Navegation() {
       {menuOpen && (
         <div className="space-y-3 border-t border-[#27272A]/50 bg-[#0F0F10] px-4 py-4 md:hidden">
           <AuthControls mobile onNavigate={() => setMenuOpen(false)} />
-          <CustomLinkButton
-            href="/perfil"
-            variant="ghost"
-            size="sm"
-          >
-            <User2 className="h-4 w-4" />
-            <span className="hidden xs:inline">Mi perfil</span>
-          </CustomLinkButton>
         </div>
       )}
     </header>

@@ -147,14 +147,14 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
         <Tabs
           value={activeTab}
           onValueChange={handleTabChange}
-          className="min-w-0 space-y-5"
+          className="min-w-0 space-y-4"
         >
-          <div className="mx-0 rounded-2xl border border-white/8 bg-[#15151A]/70 p-2 shadow-xl shadow-black/10 sm:mx-auto sm:max-w-3xl">
+          <div className="mx-0 rounded-[22px] border border-white/8 bg-[#101014]/72 p-1.5 sm:mx-auto sm:max-w-2xl">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-              <TabsList className="grid h-auto w-full grid-cols-3 rounded-xl border border-white/10 bg-[#0F0F10]/70 p-1 sm:flex-1">
+              <TabsList className="grid h-auto w-full grid-cols-3 rounded-[18px] border border-white/8 bg-white/[0.025] p-1 sm:flex-1">
                 <TabsTrigger
                   value="template"
-                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/72 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  className="flex min-w-0 items-center justify-center gap-2 rounded-[14px] px-3 py-2 text-xs text-white/68 transition-colors data-[state=active]:bg-white/[0.08] data-[state=active]:text-white"
                 >
                   <Palette className="h-4 w-4" />
                   <span className="hidden sm:inline">
@@ -164,7 +164,7 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
                 </TabsTrigger>
                 <TabsTrigger
                   value="form"
-                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/72 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  className="flex min-w-0 items-center justify-center gap-2 rounded-[14px] px-3 py-2 text-xs text-white/68 transition-colors data-[state=active]:bg-white/[0.08] data-[state=active]:text-white"
                   disabled={!selectedTemplate}
                 >
                   <FileText className="h-4 w-4" />
@@ -175,7 +175,7 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
                 </TabsTrigger>
                 <TabsTrigger
                   value="preview"
-                  className="flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-white/72 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white"
+                  className="flex min-w-0 items-center justify-center gap-2 rounded-[14px] px-3 py-2 text-xs text-white/68 transition-colors data-[state=active]:bg-white/[0.08] data-[state=active]:text-white"
                   disabled={!cvData}
                 >
                   <Eye className="h-4 w-4" />
@@ -187,9 +187,9 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
               </TabsList>
 
               <div className="flex items-center gap-3 px-1 sm:w-32">
-                <div className="h-1.5 flex-1 rounded-full bg-white/10">
+                <div className="h-1 flex-1 rounded-full bg-white/10">
                   <div
-                    className="h-1.5 rounded-full bg-[#7C3AED]"
+                    className="h-1 rounded-full bg-[#7C3AED]"
                     style={{ width: `${getProgress()}%` }}
                   />
                 </div>
@@ -198,7 +198,7 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
                 </span>
               </div>
             </div>
-            <p className="px-2 pb-1 pt-2 text-center text-[12px] leading-5 text-white/50">
+            <p className="px-2 pb-1 pt-2 text-center text-[11px] leading-5 text-white/48">
               {initialLanguage === "en"
                 ? "You can switch templates without reloading your details."
                 : "Podés cambiar de plantilla sin volver a cargar tus datos."}

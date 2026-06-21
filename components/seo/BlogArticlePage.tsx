@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { BlogConversionCta, getBlogCtaContent } from "./BlogConversionCta";
+import { BlogCvDiagnosticCta } from "./BlogCvDiagnosticCta";
 import { TrackedCtaLink } from "./TrackedCtaLink";
 import { getBaseUrl } from "@/lib/seo";
 import { FloatingRobot } from "@/components/floating-robot";
@@ -74,8 +75,12 @@ export function BlogArticlePage({
 }: BlogArticlePageProps) {
   const sectionIcons = [FileText, PenLine, Lightbulb, CheckCircle2];
   const blogCta = getBlogCtaContent(path);
-  const shouldShowMidCta = sections.length > 3;
-  const midCtaIndex = Math.ceil(sections.length / 2) - 1;
+  const paragraphCount = sections.reduce(
+    (total, section) => total + section.paragraphs.length,
+    0,
+  );
+  const shouldShowMidCta = sections.length >= 6 && paragraphCount >= 10;
+  const midCtaIndex = Math.floor(sections.length / 2);
 
   const baseUrl = getBaseUrl();
 
@@ -214,9 +219,9 @@ export function BlogArticlePage({
           <div className="space-y-12">
             {sections.map((section, index) => {
               const Icon = sectionIcons[index % sectionIcons.length];
-              const showInlineCta = index === 0;
+              const showDiagnosticCta = index === 0;
               const showMidCta =
-                shouldShowMidCta && index === midCtaIndex && !showInlineCta;
+                shouldShowMidCta && index === midCtaIndex && !showDiagnosticCta;
 
               return (
                 <div key={section.title} className="space-y-12">
@@ -243,13 +248,7 @@ export function BlogArticlePage({
                       ))}
                     </div>
                   </section>
-                  {showInlineCta && (
-                    <BlogConversionCta
-                      path={path}
-                      content={blogCta}
-                      variant="inline"
-                    />
-                  )}
+                  {showDiagnosticCta && <BlogCvDiagnosticCta path={path} />}
                   {showMidCta && (
                     <BlogConversionCta
                       path={path}
