@@ -114,12 +114,12 @@ export function OAuthButtons() {
 
       window.google.accounts.id.renderButton(buttonRef.current, {
         type: "standard",
-        theme: "outline",
+        theme: "filled_black",
         size: "large",
         shape: "pill",
         text: "continue_with",
         logo_alignment: "left",
-        width: Math.min(420, Math.max(260, buttonRef.current.offsetWidth)),
+        width: Math.min(420, Math.max(280, buttonRef.current.offsetWidth)),
       });
     };
 
@@ -149,11 +149,16 @@ export function OAuthButtons() {
         onLoad={() => setIsScriptReady(true)}
         onReady={() => setIsScriptReady(true)}
       />
-      <div className="relative min-h-12">
+      <div className="relative min-h-12 overflow-hidden rounded-2xl border border-white/10 bg-[#101014] p-[1px] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
         <div
           ref={buttonRef}
-          className="[&>div]:!mx-auto [&>div]:!w-full [&_iframe]:!mx-auto [&_iframe]:!w-full"
+          className="relative z-10 flex min-h-[46px] items-center justify-center [&>div]:!mx-auto [&>div]:!w-full [&_iframe]:!mx-auto [&_iframe]:!w-full [&_iframe]:!rounded-[15px]"
         />
+        {!isScriptReady ? (
+          <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-white/[0.035] text-sm font-medium text-white/58">
+            Cargando Google...
+          </div>
+        ) : null}
         {isLoading ? (
           <div className="absolute inset-0 flex items-center justify-center rounded-2xl border border-white/10 bg-[#17171D]/90 text-sm font-medium text-white">
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
