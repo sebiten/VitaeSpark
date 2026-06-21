@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { BlogConversionCta, getBlogCtaContent } from "./BlogConversionCta";
 import { TrackedCtaLink } from "./TrackedCtaLink";
 import { getBaseUrl } from "@/lib/seo";
 import { FloatingRobot } from "@/components/floating-robot";
@@ -72,6 +73,9 @@ export function BlogArticlePage({
   dateModified,
 }: BlogArticlePageProps) {
   const sectionIcons = [FileText, PenLine, Lightbulb, CheckCircle2];
+  const blogCta = getBlogCtaContent(path);
+  const shouldShowMidCta = sections.length > 3;
+  const midCtaIndex = Math.ceil(sections.length / 2) - 1;
 
   const baseUrl = getBaseUrl();
 
@@ -123,7 +127,7 @@ export function BlogArticlePage({
       : null;
 
   return (
-    <div className="overflow-x-hidden bg-[#111113] text-[#F4F4F5]">
+    <div className="overflow-x-hidden bg-[#111113] pb-28 text-[#F4F4F5] md:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -208,35 +212,58 @@ export function BlogArticlePage({
           </div>
 
           <div className="space-y-12">
-          {sections.map((section, index) => {
-            const Icon = sectionIcons[index % sectionIcons.length];
+            {sections.map((section, index) => {
+              const Icon = sectionIcons[index % sectionIcons.length];
+              const showInlineCta = index === 0;
+              const showMidCta =
+                shouldShowMidCta && index === midCtaIndex && !showInlineCta;
 
-            return (
-            <section
-              key={section.title}
-              className="border-b border-white/10 pb-10 last:border-b-0"
-            >
-              <div className="mb-5 flex items-start gap-4">
-                <div className="mt-1 rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15" aria-hidden="true">
-                  <Icon className="h-5 w-5" />
+              return (
+                <div key={section.title} className="space-y-12">
+                  <section className="border-b border-white/10 pb-10 last:border-b-0">
+                    <div className="mb-5 flex items-start gap-4">
+                      <div
+                        className="mt-1 rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15"
+                        aria-hidden="true"
+                      >
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <h2 className="text-2xl font-semibold leading-snug">
+                        {section.title}
+                      </h2>
+                    </div>
+                    <div className="space-y-5 pl-0 sm:pl-[3.75rem]">
+                      {section.paragraphs.map((paragraph) => (
+                        <p
+                          key={paragraph}
+                          className="text-[1.03rem] leading-8 text-white/76"
+                        >
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                  </section>
+                  {showInlineCta && (
+                    <BlogConversionCta
+                      path={path}
+                      content={blogCta}
+                      variant="inline"
+                    />
+                  )}
+                  {showMidCta && (
+                    <BlogConversionCta
+                      path={path}
+                      content={blogCta}
+                      variant="mid"
+                    />
+                  )}
                 </div>
-                <h2 className="text-2xl font-semibold leading-snug">
-                  {section.title}
-                </h2>
-              </div>
-              <div className="space-y-5 pl-0 sm:pl-[3.75rem]">
-                {section.paragraphs.map((paragraph) => (
-                  <p
-                    key={paragraph}
-                    className="text-[1.03rem] leading-8 text-white/76"
-                  >
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-            </section>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          <div className="mt-12">
+            <BlogConversionCta path={path} content={blogCta} variant="final" />
           </div>
 
           <section className="mt-12 rounded-2xl border border-white/10 bg-white/[0.035] p-6 sm:p-8">
@@ -288,6 +315,7 @@ export function BlogArticlePage({
           </div>
         </aside>
       </section>
+      <BlogConversionCta path={path} content={blogCta} variant="stickyMobile" />
     </div>
   );
 }

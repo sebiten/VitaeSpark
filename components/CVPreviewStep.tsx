@@ -10,8 +10,6 @@ import type { Session } from "@supabase/supabase-js";
 import {
   ShieldCheck,
   Loader2,
-  CreditCard,
-  Download,
   CheckCircle,
   ArrowLeft,
   LockKeyhole,
@@ -26,7 +24,6 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "./ui/card";
-import Link from "next/link";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -109,10 +106,13 @@ const checkoutCopy = {
     closePreview: "Cerrar vista del CV",
     back: "Volver y editar datos",
     changeTemplate: "Cambiar plantilla",
-    finalTitle: "Tu CV final esta listo",
+    finalTitle: "Desbloquea tu CV completo",
     finalText:
-      "Desbloquea la version profesional sin marca de agua y descargala en PDF cuando quieras.",
-    singlePayment: "Pago unico",
+      "Ya viste la vista previa. El pago libera el PDF final sin marca de agua.",
+    singlePayment: "Precio lanzamiento",
+    previousPrice: "Antes $2.500",
+    noSubscription: "Sin suscripcion",
+    previewBeforePay: "Vista previa antes de pagar",
     secure: "Pago seguro con Mercado Pago",
     priceValue: "$1.999",
     priceCurrency: "ARS",
@@ -125,6 +125,17 @@ const checkoutCopy = {
     processingPayment: "Procesando pago...",
     processing: "Procesando...",
     also: "o tambien",
+    includedTitle: "Que incluye",
+    includedItems: [
+      "PDF completo sin marca de agua",
+      "Descargas ilimitadas desde tu perfil",
+      "Cambio de plantilla antes de pagar",
+      "Pago unico, sin suscripcion",
+    ],
+    mpButton: "Pagar con Mercado Pago",
+    mpButtonNote: "Tarjeta, debito y medios locales",
+    paypalButton: "PayPal",
+    paypalButtonNote: "Pago internacional en USD",
     useCases: "Casos comunes de uso",
     useCasesText: "Ejemplos de perfiles que suelen ordenar su CV con VitaeSpark.",
     useCaseLabel: "Caso comun",
@@ -144,9 +155,12 @@ const checkoutCopy = {
     closePreview: "Close resume preview",
     back: "Back and edit details",
     changeTemplate: "Change template",
-    finalTitle: "Your final resume is ready",
-    finalText: "Unlock the professional version without watermark and download it as PDF anytime.",
-    singlePayment: "One-time payment",
+    finalTitle: "Unlock your complete resume",
+    finalText: "You already saw the preview. Payment unlocks the final PDF without watermark.",
+    singlePayment: "Launch price",
+    previousPrice: "Before US$4.99",
+    noSubscription: "No subscription",
+    previewBeforePay: "Preview before paying",
     secure: "Secure payment with PayPal",
     priceValue: "US$2.99",
     priceCurrency: "USD",
@@ -159,6 +173,17 @@ const checkoutCopy = {
     processingPayment: "Processing payment...",
     processing: "Processing...",
     also: "or pay with",
+    includedTitle: "What you get",
+    includedItems: [
+      "Complete PDF without watermark",
+      "Unlimited downloads from your profile",
+      "Template changes before paying",
+      "One-time payment, no subscription",
+    ],
+    mpButton: "Mercado Pago",
+    mpButtonNote: "Local payment methods",
+    paypalButton: "Pay with PayPal",
+    paypalButtonNote: "International payment in USD",
     useCases: "Common use cases",
     useCasesText: "Examples of profiles that usually organize their resume with VitaeSpark.",
     useCaseLabel: "Common case",
@@ -522,6 +547,14 @@ export default function CVPreviewStepPurple({
                 <p className="mt-3 max-w-xs text-xs leading-5 text-white/75 sm:mx-auto sm:mt-4 sm:text-center sm:text-sm sm:leading-6">
                   {copy.finalText}
                 </p>
+                <div className="mt-4 flex flex-wrap gap-2 sm:justify-center">
+                  <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] font-semibold text-white/75">
+                    {copy.previewBeforePay}
+                  </span>
+                  <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] font-semibold text-white/75">
+                    {copy.noSubscription}
+                  </span>
+                </div>
               </div>
 
               <div className="flex items-center justify-between gap-4 p-4 sm:block sm:p-5 sm:text-center">
@@ -536,6 +569,11 @@ export default function CVPreviewStepPurple({
                     {language === "en" ? copy.priceCurrency : "ARS"}
                   </span>
                 </div>
+                <p className="mt-2 text-xs font-medium text-white/48">
+                  <span className="line-through">{copy.previousPrice}</span>
+                  <span className="mx-2 text-white/25">|</span>
+                  <span>{copy.noSubscription}</span>
+                </p>
               </div>
             </div>
 
@@ -546,45 +584,19 @@ export default function CVPreviewStepPurple({
               </span>
             </div>
 
-            <div className="space-y-2 sm:space-y-2.5">
-              <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3 sm:p-3.5">
-                <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#A78BFA]" />
-                <div>
-                  <p className="text-sm font-semibold text-white">
-                    {copy.cleanCv}
-                  </p>
-                  <p className="mt-1 hidden text-xs leading-5 text-white/68 sm:block">
-                    {copy.cleanCvText}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3 sm:p-3.5">
-                <Download className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
-                <div>
-                  <p className="text-sm font-semibold text-white">
-                    {copy.downloads}
-                  </p>
-                  <p className="mt-1 hidden text-xs leading-5 text-white/68 sm:block">
-                    {language === "en" ? "Saved in your " : "Queda guardado en tu "}
-                    <Link href="/perfil" className="text-[#38BDF8] hover:underline">
-                      {language === "en" ? "profile" : "perfil"}
-                    </Link>{" "}
-                    {language === "en" ? "so you can download it again." : "para volver a descargarlo."}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3 sm:p-3.5">
-                <CreditCard className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
-                <div>
-                  <p className="text-sm font-semibold text-white">
-                    {copy.cards}
-                  </p>
-                  <p className="mt-1 hidden text-xs leading-5 text-white/68 sm:block">
-                    {copy.cardsText}
-                  </p>
-                </div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-3 sm:p-3.5">
+              <p className="mb-3 text-sm font-semibold text-white">
+                {copy.includedTitle}
+              </p>
+              <div className="grid gap-2">
+                {copy.includedItems.map((item) => (
+                  <div key={item} className="flex items-start gap-2.5">
+                    <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#A78BFA]" />
+                    <span className="text-xs leading-5 text-white/72 sm:text-sm">
+                      {item}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -598,7 +610,7 @@ export default function CVPreviewStepPurple({
                 <Button
                   disabled={loading}
                   onClick={handlePay}
-                  className="relative w-full h-12 sm:h-14 rounded-[1.1rem] bg-[#00B0FF] hover:bg-[#0098E6] text-white shadow-none border-0 transition-all duration-300"
+                  className="relative h-14 w-full rounded-[1.1rem] border-0 bg-[#00B0FF] text-white shadow-none transition-all duration-300 hover:bg-[#0098E6] sm:h-16"
                 >
                   {loading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -606,9 +618,16 @@ export default function CVPreviewStepPurple({
                       <span>{copy.processingPayment}</span>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center gap-3">
+                    <div className="flex w-full items-center justify-center gap-3">
                       <Image src="/logompsolomano.png" alt="Mercado Pago" width={28} height={28} className="h-7 w-7 object-contain" />
-                      <span className="text-base font-bold sm:text-lg">Mercado Pago</span>
+                      <span className="flex flex-col items-start leading-tight">
+                        <span className="text-base font-bold sm:text-lg">
+                          {copy.mpButton}
+                        </span>
+                        <span className="hidden text-[11px] font-medium text-white/78 sm:block">
+                          {copy.mpButtonNote}
+                        </span>
+                      </span>
                       <div className="h-6 w-px bg-white/30" />
                       <span className="text-sm font-semibold sm:text-base">
                         $1.999 ARS
@@ -629,15 +648,21 @@ export default function CVPreviewStepPurple({
               </div>
 
               <div
-                className={`group relative overflow-hidden rounded-2xl border border-[#0070BA]/30 bg-gradient-to-br from-[#0070BA] to-[#003D82] p-[2px] transition-all duration-300 hover:border-[#0070BA]/60 hover:shadow-lg hover:shadow-[#0070BA]/20 ${
-                  language === "en" ? "order-1" : "order-3"
+                className={`group relative overflow-hidden rounded-2xl p-[2px] transition-all duration-300 ${
+                  language === "en"
+                    ? "order-1 border border-[#0070BA]/30 bg-gradient-to-br from-[#0070BA] to-[#003D82] hover:border-[#0070BA]/60 hover:shadow-lg hover:shadow-[#0070BA]/20"
+                    : "order-3 border border-white/10 bg-white/[0.045] hover:border-white/20"
                 }`}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <Button
                   disabled={loadingPayPal}
                   onClick={handlePayPal}
-                  className="relative w-full h-12 sm:h-14 rounded-[1.1rem] bg-[#0070BA] hover:bg-[#005ea6] text-white shadow-none border-0 transition-all duration-300"
+                  className={`relative h-12 w-full rounded-[1.1rem] border-0 text-white shadow-none transition-all duration-300 sm:h-14 ${
+                    language === "en"
+                      ? "bg-[#0070BA] hover:bg-[#005ea6]"
+                      : "bg-[#1A1A1D] hover:bg-[#22222A]"
+                  }`}
                 >
                   {loadingPayPal ? (
                     <div className="flex items-center justify-center gap-2">
@@ -647,7 +672,14 @@ export default function CVPreviewStepPurple({
                   ) : (
                     <div className="flex items-center justify-center gap-3">
                       <Image src="/paypal.png" alt="PayPal" width={28} height={28} className="h-7 w-7 object-contain" />
-                      <span className="text-base font-bold sm:text-lg">PayPal</span>
+                      <span className="flex flex-col items-start leading-tight">
+                        <span className="text-base font-bold sm:text-lg">
+                          {copy.paypalButton}
+                        </span>
+                        <span className="hidden text-[11px] font-medium text-white/60 sm:block">
+                          {copy.paypalButtonNote}
+                        </span>
+                      </span>
                       <div className="h-6 w-px bg-white/30" />
                       <span className="text-sm font-semibold sm:text-base">
                         US$2.99
