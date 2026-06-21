@@ -24,7 +24,7 @@ export default function WelcomeHero() {
         <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-[#0D0D10] via-[#0D0D10]/[0.74] to-transparent" />
       </div>
 
-      <div className="mx-auto grid max-w-[1500px] items-center gap-8 lg:grid-cols-[minmax(0,0.76fr)_minmax(620px,1.24fr)] lg:gap-8 xl:gap-12">
+      <div className="mx-auto grid max-w-[1500px] items-center gap-5 sm:gap-8 lg:grid-cols-[minmax(0,0.76fr)_minmax(620px,1.24fr)] lg:gap-8 xl:gap-12">
         <div className="relative z-10 max-w-3xl lg:pt-1">
           <motion.div
             initial={reduceMotion ? false : { opacity: 0, y: 18 }}
@@ -71,6 +71,19 @@ export default function WelcomeHero() {
             >
               Ver plantillas
             </Link>
+          </motion.div>
+
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.2, ease: easeOut }}
+            className="mt-4 flex w-full flex-wrap items-center justify-center gap-2 rounded-2xl border border-[#F6F2EA]/[0.08] bg-[#F6F2EA]/[0.035] px-3 py-2.5 text-[12px] font-medium text-[#D8D2C8]/[0.72] shadow-[inset_0_1px_0_rgba(246,242,234,0.04)] sm:w-fit sm:justify-start sm:rounded-full sm:px-4"
+          >
+            <span>Pago unico</span>
+            <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/40" />
+            <span>PDF descargable</span>
+            <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/40" />
+            <span>Editable despues</span>
           </motion.div>
         </div>
 
