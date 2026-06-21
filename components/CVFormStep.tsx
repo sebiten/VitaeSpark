@@ -395,6 +395,7 @@ export default function CVFormStep({
           blue: "Blue",
           green: "Green",
           harvard: "Harvard",
+          "ats-compact": "ATS Compact",
         }
       : {
           elegance: "Elegante",
@@ -402,6 +403,7 @@ export default function CVFormStep({
           blue: "Azul",
           green: "Verde",
           harvard: "Harvard",
+          "ats-compact": "ATS Compacta",
         })[template] || template;
 
   return (

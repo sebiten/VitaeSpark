@@ -54,6 +54,13 @@ const templates = [
     category: "Premium",
     features: ["ATS Optimizado", "PDF", "Diseño exclusivo"],
   },
+  {
+    id: "ats-compact",
+    name: "ATS Compacta",
+    description: "Una pagina clara y directa",
+    category: "ATS",
+    features: ["ATS Optimizado", "PDF", "Alta legibilidad"],
+  },
 ];
 
 const templateColors: Record<string, string> = {
@@ -62,6 +69,7 @@ const templateColors: Record<string, string> = {
   blue: "#1E40AF",
   green: "#15803D",
   harvard: "#F4F4F5",
+  "ats-compact": "#CBD5E1",
 };
 
 const templateImages: Record<string, string> = {
@@ -70,6 +78,7 @@ const templateImages: Record<string, string> = {
   blue: "/blue.webp",
   green: "/green.webp",
   harvard: "/harvard.webp",
+  "ats-compact": "/ats-compact.svg",
 };
 
 const templatePopularity: Record<string, number> = {
@@ -78,6 +87,7 @@ const templatePopularity: Record<string, number> = {
   blue: 92,
   green: 78,
   harvard: 95,
+  "ats-compact": 93,
 };
 
 export default function TemplateSelector({

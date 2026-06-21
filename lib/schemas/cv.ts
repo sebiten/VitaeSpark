@@ -21,6 +21,7 @@ export const TemplateSchema = z.enum([
   "green",
   "purple",
   "harvard",
+  "ats-compact",
   "elegance",
 ]);
 

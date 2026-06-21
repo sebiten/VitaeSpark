@@ -120,7 +120,7 @@ export default function CvAtsVsConvencionalPage() {
           href: "/plantillas-curriculum",
           title: "Plantillas de CV",
           description:
-            "5 plantillas profesionales optimizadas para ATS y con buen diseño.",
+            "6 plantillas profesionales optimizadas para ATS y con buen diseño.",
         },
         {
           href: "/blog/como-hacer-un-cv-ats",

@@ -66,6 +66,7 @@ const templateLabels: Record<string, string> = {
   elegance: "Elegancia",
   purple: "Púrpura Pro",
   harvard: "Harvard",
+  "ats-compact": "ATS Compacta",
 };
 
 function getTemplateClass(template: string) {
@@ -80,6 +81,8 @@ function getTemplateClass(template: string) {
       return "bg-purple-600 text-white";
     case "harvard":
       return "bg-white text-black";
+    case "ats-compact":
+      return "bg-slate-200 text-slate-950";
     default:
       return "bg-purple-600 text-white";
   }

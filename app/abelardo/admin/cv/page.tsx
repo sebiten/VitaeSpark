@@ -139,7 +139,7 @@ export default function Page() {
 
   const totalPages = Math.max(1, Math.ceil(totalCvs / itemsPerPage));
   const uniqueTemplates = useMemo(
-    () => ["elegance", "purple", "blue", "green", "harvard"],
+    () => ["elegance", "purple", "blue", "green", "harvard", "ats-compact"],
     []
   );
 
