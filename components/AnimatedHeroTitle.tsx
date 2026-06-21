@@ -2,13 +2,13 @@
 
 export default function AnimatedHeroTitle() {
   return (
-    <h1 className="max-w-full text-pretty text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-[#F6F2EA] sm:text-5xl md:text-6xl lg:text-[4.5rem] lg:leading-[0.92]">
+    <h1 className="max-w-[14ch] text-balance text-[3.75rem] font-semibold leading-[0.84] tracking-[-0.075em] text-[#F6F2EA] sm:text-[5rem] md:text-[5.8rem] lg:text-[6.9rem] xl:text-[7.45rem]">
       <span className="hero-title-word inline-block">
-        Creador de CV con IA
+        CV con IA,
       </span>
       <br />
       <span className="hero-title-word inline-block" style={{ animationDelay: "0.125s" }}>
-        listo para entrevistas
+        listo para postular
       </span>
     </h1>
   );
