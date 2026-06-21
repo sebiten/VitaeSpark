@@ -1,7 +1,6 @@
 // components/CVPreviewStepPurple.tsx
 "use client";
 import { useEffect, useState, useMemo, useRef } from "react";
-import type React from "react";
 import dynamic from "next/dynamic";
 import { track } from "@vercel/analytics";
 import { Button } from "@/components/ui/button";
@@ -17,12 +16,6 @@ import {
   Palette,
   X,
 } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "./ui/card";
 import { toast } from "sonner";
 import {
@@ -46,147 +39,83 @@ const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ),
 });
 
-const useCaseExamples = {
-  es: [
-    {
-      text: "Yo lo use para atencion al cliente porque tenia todo medio mezclado, trabajos, horarios y tareas. Me lo dejo bastante mas prolijo para mandar.",
-      author: "Perfil atencion al cliente",
-    },
-    {
-      text: "No tenia experiencia y no sabia que poner en el cv. Me sirvio para ordenar estudios, cursos y habilidades sin quedar como que estaba inventando.",
-      author: "Primer empleo",
-    },
-    {
-      text: "Lo arme para cajero y quedo claro lo de caja, atencion, horarios y responsabilidad con plata. Antes lo tenia escrito muy asi nomas.",
-      author: "Cajero",
-    },
-    {
-      text: "Para call center me ayudo bastante, porque yo habia puesto solo tareas sueltas. Ahora se entiende mejor llamadas, reclamos y carga de datos.",
-      author: "Call center",
-    },
-    {
-      text: "Soy programador junior y tenia una lista enorme de tecnologias. Me lo acomodo con proyectos, github y stack sin que parezca un copy paste.",
-      author: "Programador",
-    },
-  ],
-  en: [
-    {
-      text: "I used it for customer support because my old draft was all over the place. It turned scattered tasks into a resume that reads much cleaner.",
-      author: "Customer support",
-    },
-    {
-      text: "I did not have much experience, so it helped me organize studies, projects and skills without the resume sounding inflated.",
-      author: "Entry-level",
-    },
-    {
-      text: "For cashier roles it made the responsibilities look clearer: cash handling, customer service, schedules and accuracy.",
-      author: "Cashier",
-    },
-    {
-      text: "I had a long list of tools as a junior developer. The resume looked more focused once projects and stack were grouped properly.",
-      author: "Junior developer",
-    },
-    {
-      text: "For admin work it helped explain spreadsheets, internal support, document handling and data entry in a more professional way.",
-      author: "Administrative",
-    },
-  ],
-} as const;
-
 const checkoutCopy = {
   es: {
     loadingPreview: "Preparando vista previa...",
-    title: "Tu CV profesional esta listo",
-    subtitle: "Desbloquea la version final y descargala en PDF sin marca de agua.",
-    protectedTitle: "Muestra protegida del CV",
-    protectedText: "Desbloquea para ver y descargar el documento completo.",
+    title: "Tu CV ya esta generado",
+    subtitle:
+      "Pagas una vez, descargas el PDF limpio y queda editable desde tu perfil.",
+    protectedTitle: "Vista previa protegida",
+    protectedText: "La marca de agua se elimina despues del pago.",
     viewCv: "Ver CV",
-    unlock: "Desbloquear CV",
+    unlock: "Desbloquear PDF",
     close: "Cerrar",
-    closePreview: "Cerrar vista del CV",
+    closePreview: "Seguir viendo",
     back: "Volver y editar datos",
     changeTemplate: "Cambiar plantilla",
-    finalTitle: "Desbloquea tu CV completo",
+    finalTitle: "Desbloquea el PDF final",
     finalText:
-      "Ya viste la vista previa. El pago libera el PDF final sin marca de agua.",
-    singlePayment: "Precio lanzamiento",
+      "Tu CV queda guardado en tu perfil para editarlo, cambiar plantilla y volver a descargarlo.",
+    singlePayment: "Pago unico",
     previousPrice: "Antes $2.500",
     noSubscription: "Sin suscripcion",
-    previewBeforePay: "Vista previa antes de pagar",
-    secure: "Pago seguro con Mercado Pago",
+    previewBeforePay: "Marca de agua temporal",
+    secure: "Mercado Pago procesa el pago de forma segura",
     priceValue: "$1.999",
     priceCurrency: "ARS",
-    cleanCv: "CV limpio, sin marca de agua",
-    cleanCvText: "Listo para enviar a empresas, portales de empleo y reclutadores.",
-    downloads: "Editable y descargable desde tu perfil",
-    downloadsText: "Queda guardado para editarlo y descargar una nueva version.",
-    cards: "Tarjeta, debito y mas opciones",
-    cardsText: "El checkout se abre en Mercado Pago con los medios disponibles.",
     processingPayment: "Procesando pago...",
     processing: "Procesando...",
     also: "o tambien",
-    includedTitle: "Que incluye",
+    includedTitle: "Despues del pago",
     includedItems: [
-      "PDF completo sin marca de agua",
-      "Edicion y descargas desde tu perfil",
-      "Cambio de plantilla antes y despues de pagar",
-      "Pago unico, sin suscripcion",
+      "Descarga inmediata del PDF sin marca de agua",
+      "CV guardado y editable desde tu perfil",
+      "Cambio de plantilla y nuevas descargas",
     ],
-    mpButton: "Pagar con Mercado Pago",
-    mpButtonNote: "Tarjeta, debito y medios locales",
-    paypalButton: "PayPal",
-    paypalButtonNote: "Pago internacional en USD",
-    useCases: "Casos comunes de uso",
-    useCasesText: "Ejemplos de perfiles que suelen ordenar su CV con VitaeSpark.",
-    useCaseLabel: "Caso comun",
+    mpButton: "Desbloquear PDF",
+    mpButtonNote: "Mercado Pago, tarjeta y medios locales",
+    paypalButton: "Pagar con PayPal",
+    paypalButtonNote: "Alternativa internacional",
     mpError: "No se pudo iniciar el pago. Intenta nuevamente.",
     paypalError: "No se pudo iniciar el pago con PayPal. Intenta nuevamente.",
     paymentError: "Error al procesar el pago. Intenta nuevamente.",
   },
   en: {
     loadingPreview: "Preparing preview...",
-    title: "Your professional resume is ready",
-    subtitle: "Unlock the final PDF without watermark and download it anytime.",
+    title: "Your resume is generated",
+    subtitle:
+      "Pay once, download the clean PDF, and keep it editable from your profile.",
     protectedTitle: "Protected resume preview",
-    protectedText: "Unlock to view and download the complete document.",
+    protectedText: "The watermark is removed after payment.",
     viewCv: "View resume",
-    unlock: "Unlock resume",
+    unlock: "Unlock PDF",
     close: "Close",
-    closePreview: "Close resume preview",
+    closePreview: "Keep viewing",
     back: "Back and edit details",
     changeTemplate: "Change template",
-    finalTitle: "Unlock your complete resume",
-    finalText: "You already saw the preview. Payment unlocks the final PDF without watermark.",
-    singlePayment: "Launch price",
+    finalTitle: "Unlock the final PDF",
+    finalText:
+      "Your resume stays saved in your profile, ready to edit, change template, and download again.",
+    singlePayment: "One-time payment",
     previousPrice: "Before US$4.99",
     noSubscription: "No subscription",
-    previewBeforePay: "Preview before paying",
-    secure: "Secure payment with PayPal",
+    previewBeforePay: "Temporary watermark",
+    secure: "Secure checkout with trusted payment providers",
     priceValue: "US$2.99",
     priceCurrency: "USD",
-    cleanCv: "Clean resume, no watermark",
-    cleanCvText: "Ready to send to companies, job boards and recruiters.",
-    downloads: "Editable and downloadable from your profile",
-    downloadsText: "Saved in your profile so you can edit it and download a new version.",
-    cards: "Cards and international payment options",
-    cardsText: "PayPal opens a secure checkout in USD.",
     processingPayment: "Processing payment...",
     processing: "Processing...",
     also: "or pay with",
-    includedTitle: "What you get",
+    includedTitle: "After payment",
     includedItems: [
-      "Complete PDF without watermark",
-      "Edits and downloads from your profile",
-      "Template changes before and after paying",
-      "One-time payment, no subscription",
+      "Immediate PDF download without watermark",
+      "Resume saved and editable from your profile",
+      "Template changes and new downloads",
     ],
     mpButton: "Mercado Pago",
     mpButtonNote: "Local payment methods",
-    paypalButton: "Pay with PayPal",
+    paypalButton: "Unlock PDF",
     paypalButtonNote: "International payment in USD",
-    useCases: "Common use cases",
-    useCasesText: "Examples of profiles that usually organize their resume with VitaeSpark.",
-    useCaseLabel: "Common case",
     mpError: "Could not start Mercado Pago checkout. Try again.",
     paypalError: "Could not start PayPal checkout. Try again.",
     paymentError: "Payment error. Try again.",
@@ -212,12 +141,9 @@ export default function CVPreviewStepPurple({
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [loadingPayPal, setLoadingPayPal] = useState(false);
-  const [feedbackText, setFeedbackText] = useState("");
-  const [feedbackSent, setFeedbackSent] = useState(false);
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
   const checkoutViewedTracked = useRef(false);
   const copy = checkoutCopy[language];
-  const currentUseCases = useCaseExamples[language];
 
   const handlePayPal = async () => {
     if (!userSession) return;
@@ -382,32 +308,26 @@ export default function CVPreviewStepPurple({
     });
   }, [language, template]);
 
-  useEffect(() => {
-    if (!feedbackSent) return;
-
-    const timeoutId = window.setTimeout(() => {
-      setFeedbackSent(false);
-    }, 3800);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [feedbackSent]);
-
-  const handleFeedbackSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!feedbackText.trim()) return;
-
-    setFeedbackText("");
-    setFeedbackSent(true);
-  };
-
   const scrollToCheckout = () => {
     document
       .getElementById("checkout-panel")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  const paymentInProgress = loading || loadingPayPal;
+  const primaryPaymentPrice = language === "en" ? "US$2.99" : "$1.999 ARS";
+
+  const handlePrimaryPayment = () => {
+    void (language === "en" ? handlePayPal() : handlePay());
+  };
+
+  const handlePrimaryPaymentFromPreview = () => {
+    setMobilePreviewOpen(false);
+    handlePrimaryPayment();
+  };
+
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-6 overflow-x-hidden">
+    <div className="mx-auto w-full max-w-6xl space-y-6 overflow-x-hidden pb-24 sm:pb-0">
       <div className="mx-auto max-w-[340px] space-y-2 text-left sm:max-w-none sm:text-center">
         <h2 className="text-[1.65rem] font-bold leading-tight text-white sm:text-3xl">
           {copy.title}
@@ -440,10 +360,12 @@ export default function CVPreviewStepPurple({
           </div>
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/55 to-transparent px-4 pb-4 pt-12 text-center sm:block">
             <p className="hidden text-sm font-medium text-white sm:block">
-              {language === "en" ? "Swipe to preview the resume" : "Desliza con el dedo para ver todo el CV"}
+              {language === "en"
+                ? "Swipe to preview the resume"
+                : "Desliza con el dedo para ver todo el CV"}
             </p>
             <p className="hidden text-xs text-white/80 sm:mt-1 sm:block">
-              {language === "en" ? "Protected watermarked preview" : "Vista protegida con marca de agua"}
+              {copy.protectedText}
             </p>
           </div>
         </div>
@@ -498,13 +420,27 @@ export default function CVPreviewStepPurple({
               </div>
             </div>
 
-            <div className="sticky bottom-0 z-20 border-t border-white/10 bg-[#111113]/95 px-4 py-3 backdrop-blur">
-              <DialogClose asChild>
-                <button className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#7C3AED] text-sm font-semibold text-white shadow-lg shadow-[#7C3AED]/20">
-                  <X className="h-4 w-4" />
-                  {copy.closePreview}
+            <div className="sticky bottom-0 z-20 border-t border-white/10 bg-[#111113]/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur">
+              <div className="grid grid-cols-[1fr_auto] gap-2">
+                <button
+                  type="button"
+                  onClick={handlePrimaryPaymentFromPreview}
+                  disabled={paymentInProgress}
+                  className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#7C3AED] px-4 text-sm font-semibold text-white shadow-lg shadow-[#7C3AED]/20 transition hover:bg-[#6D28D9] disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {paymentInProgress ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <LockKeyhole className="h-4 w-4" />
+                  )}
+                  {copy.unlock}
                 </button>
-              </DialogClose>
+                <DialogClose asChild>
+                  <button className="flex h-12 items-center justify-center rounded-xl border border-white/12 bg-white/[0.04] px-4 text-sm font-semibold text-white/80">
+                    {copy.closePreview}
+                  </button>
+                </DialogClose>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
@@ -513,12 +449,12 @@ export default function CVPreviewStepPurple({
           id="checkout-panel"
           className="scroll-mt-24 min-w-0 border-white/10 bg-[#15151A] text-white shadow-2xl shadow-black/30"
         >
-          <CardContent className="space-y-3 p-4 sm:space-y-4 sm:p-6">
-            <div className="flex flex-wrap items-center gap-3">
+          <CardContent className="space-y-4 p-4 sm:p-5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <button
                 type="button"
                 onClick={onBack}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-white/70 transition hover:text-white"
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-semibold text-white/68 transition hover:border-white/18 hover:text-white"
               >
                 <ArrowLeft className="h-4 w-4" />
                 {copy.back}
@@ -527,64 +463,149 @@ export default function CVPreviewStepPurple({
               <button
                 type="button"
                 onClick={onChangeTemplate}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[#A78BFA] transition hover:text-white"
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-semibold text-[#C4B5FD] transition hover:border-[#A78BFA]/40 hover:text-white"
               >
                 <Palette className="h-4 w-4" />
                 {copy.changeTemplate}
               </button>
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.025] sm:rounded-3xl">
-              <div className="border-b border-white/10 p-4 text-left sm:p-5">
-                <div className="flex items-center gap-3 sm:justify-center">
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-[#7C3AED]/18 text-[#C4B5FD] ring-1 ring-[#7C3AED]/25 sm:h-11 sm:w-11">
-                    <CheckCircle className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white sm:text-2xl">
+            <div className="rounded-[1.5rem] border border-white/10 bg-[#111115] p-4 sm:p-5">
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-[#7C3AED]/16 text-[#C4B5FD] ring-1 ring-[#7C3AED]/25">
+                  <CheckCircle className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#A78BFA]">
+                    {copy.previewBeforePay}
+                  </p>
+                  <h3 className="mt-1 text-xl font-bold leading-tight text-white sm:text-2xl">
                     {copy.finalTitle}
                   </h3>
-                </div>
-                <p className="mt-3 max-w-xs text-xs leading-5 text-white/75 sm:mx-auto sm:mt-4 sm:text-center sm:text-sm sm:leading-6">
-                  {copy.finalText}
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2 sm:justify-center">
-                  <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] font-semibold text-white/75">
-                    {copy.previewBeforePay}
-                  </span>
-                  <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] font-semibold text-white/75">
-                    {copy.noSubscription}
-                  </span>
+                  <p className="mt-2 text-sm leading-6 text-white/68">
+                    {copy.finalText}
+                  </p>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between gap-4 p-4 sm:block sm:p-5 sm:text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#38BDF8] sm:text-xs">
-                  {copy.singlePayment}
-                </p>
-                <div className="flex items-end justify-center gap-2 sm:mt-2">
+              <div className="mt-5 flex items-end justify-between gap-4 border-t border-white/10 pt-4">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#38BDF8] sm:text-xs">
+                    {copy.singlePayment}
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-white/48">
+                    <span className="line-through">{copy.previousPrice}</span>
+                    <span className="mx-2 text-white/25">|</span>
+                    <span>{copy.noSubscription}</span>
+                  </p>
+                </div>
+                <div className="flex flex-shrink-0 items-end gap-2">
                   <span className="text-4xl font-black leading-none text-white sm:text-5xl">
-                    {language === "en" ? copy.priceValue : "$1.999"}
+                    {copy.priceValue}
                   </span>
                   <span className="pb-1 text-sm font-semibold text-white/62">
-                    {language === "en" ? copy.priceCurrency : "ARS"}
+                    {copy.priceCurrency}
                   </span>
                 </div>
-                <p className="mt-2 text-xs font-medium text-white/48">
-                  <span className="line-through">{copy.previousPrice}</span>
-                  <span className="mx-2 text-white/25">|</span>
-                  <span>{copy.noSubscription}</span>
-                </p>
               </div>
             </div>
 
-            <div className="flex items-center justify-center gap-2 rounded-2xl border border-green-500/20 bg-green-500/10 px-4 py-2.5 sm:py-3">
-              <ShieldCheck className="h-5 w-5 text-green-400" />
-              <span className="text-sm font-semibold text-green-400 sm:text-base">
+            <div className="flex flex-col gap-2.5">
+              <Button
+                disabled={paymentInProgress}
+                onClick={handlePay}
+                className={`w-full rounded-2xl border text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
+                  language === "en"
+                    ? "order-3 h-12 border-white/10 bg-white/[0.045] shadow-none hover:bg-white/[0.07] sm:h-14"
+                    : "order-1 h-14 border-[#00B0FF]/25 bg-[#00AEEF] shadow-lg shadow-[#00AEEF]/15 hover:bg-[#009BD8] sm:h-16"
+                }`}
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <span>{copy.processingPayment}</span>
+                  </div>
+                ) : (
+                  <div className="flex w-full items-center justify-center gap-3">
+                    <Image
+                      src="/logompsolomano.png"
+                      alt="Mercado Pago"
+                      width={28}
+                      height={28}
+                      className="h-7 w-7 object-contain"
+                    />
+                    <span className="flex min-w-0 flex-1 flex-col items-start leading-tight">
+                      <span className="text-base font-bold sm:text-lg">
+                        {copy.mpButton}
+                      </span>
+                      <span className="hidden text-[11px] font-medium text-white/72 sm:block">
+                        {copy.mpButtonNote}
+                      </span>
+                    </span>
+                    <span className="flex-shrink-0 text-sm font-semibold sm:text-base">
+                      $1.999 ARS
+                    </span>
+                  </div>
+                )}
+              </Button>
+
+              <div className="order-2 flex items-center justify-center">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-px w-8 bg-white/14" />
+                  <span className="text-xs uppercase tracking-wider text-white/40">
+                    {copy.also}
+                  </span>
+                  <div className="h-px w-8 bg-white/14" />
+                </div>
+              </div>
+
+              <Button
+                disabled={paymentInProgress}
+                onClick={handlePayPal}
+                className={`w-full rounded-2xl border text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
+                  language === "en"
+                    ? "order-1 h-14 border-[#0070BA]/25 bg-[#0070BA] shadow-lg shadow-[#0070BA]/15 hover:bg-[#005EA6] sm:h-16"
+                    : "order-3 h-12 border-white/10 bg-white/[0.045] shadow-none hover:bg-white/[0.07] sm:h-14"
+                }`}
+              >
+                {loadingPayPal ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <span>{copy.processing}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center gap-3">
+                    <Image
+                      src="/paypal.png"
+                      alt="PayPal"
+                      width={28}
+                      height={28}
+                      className="h-7 w-7 object-contain"
+                    />
+                    <span className="flex min-w-0 flex-1 flex-col items-start leading-tight">
+                      <span className="text-base font-bold sm:text-lg">
+                        {copy.paypalButton}
+                      </span>
+                      <span className="hidden text-[11px] font-medium text-white/60 sm:block">
+                        {copy.paypalButtonNote}
+                      </span>
+                    </span>
+                    <span className="flex-shrink-0 text-sm font-semibold sm:text-base">
+                      US$2.99
+                    </span>
+                  </div>
+                )}
+              </Button>
+            </div>
+
+            <div className="flex items-start gap-2 rounded-2xl border border-emerald-500/18 bg-emerald-500/[0.08] px-4 py-3">
+              <ShieldCheck className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
+              <span className="text-sm font-semibold leading-5 text-emerald-300">
                 {copy.secure}
               </span>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-3 sm:p-3.5">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-3.5">
               <p className="mb-3 text-sm font-semibold text-white">
                 {copy.includedTitle}
               </p>
@@ -599,128 +620,34 @@ export default function CVPreviewStepPurple({
                 ))}
               </div>
             </div>
-
-            <div className="flex flex-col gap-3">
-              <div
-                className={`group relative overflow-hidden rounded-2xl border border-[#00B0FF]/30 bg-gradient-to-br from-[#00B0FF] to-[#0070BA] p-[2px] transition-all duration-300 hover:border-[#00B0FF]/60 hover:shadow-lg hover:shadow-[#00B0FF]/20 ${
-                  language === "en" ? "order-3" : "order-1"
-                }`}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <Button
-                  disabled={loading}
-                  onClick={handlePay}
-                  className="relative h-14 w-full rounded-[1.1rem] border-0 bg-[#00B0FF] text-white shadow-none transition-all duration-300 hover:bg-[#0098E6] sm:h-16"
-                >
-                  {loading ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>{copy.processingPayment}</span>
-                    </div>
-                  ) : (
-                    <div className="flex w-full items-center justify-center gap-3">
-                      <Image src="/logompsolomano.png" alt="Mercado Pago" width={28} height={28} className="h-7 w-7 object-contain" />
-                      <span className="flex flex-col items-start leading-tight">
-                        <span className="text-base font-bold sm:text-lg">
-                          {copy.mpButton}
-                        </span>
-                        <span className="hidden text-[11px] font-medium text-white/78 sm:block">
-                          {copy.mpButtonNote}
-                        </span>
-                      </span>
-                      <div className="h-6 w-px bg-white/30" />
-                      <span className="text-sm font-semibold sm:text-base">
-                        $1.999 ARS
-                      </span>
-                    </div>
-                  )}
-                </Button>
-              </div>
-
-              <div className="order-2 flex items-center justify-center">
-                <div className="flex items-center gap-1.5">
-                  <div className="h-px w-8 bg-white/20" />
-                  <span className="text-xs uppercase tracking-wider text-white/40">
-                    {copy.also}
-                  </span>
-                  <div className="h-px w-8 bg-white/20" />
-                </div>
-              </div>
-
-              <div
-                className={`group relative overflow-hidden rounded-2xl p-[2px] transition-all duration-300 ${
-                  language === "en"
-                    ? "order-1 border border-[#0070BA]/30 bg-gradient-to-br from-[#0070BA] to-[#003D82] hover:border-[#0070BA]/60 hover:shadow-lg hover:shadow-[#0070BA]/20"
-                    : "order-3 border border-white/10 bg-white/[0.045] hover:border-white/20"
-                }`}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <Button
-                  disabled={loadingPayPal}
-                  onClick={handlePayPal}
-                  className={`relative h-12 w-full rounded-[1.1rem] border-0 text-white shadow-none transition-all duration-300 sm:h-14 ${
-                    language === "en"
-                      ? "bg-[#0070BA] hover:bg-[#005ea6]"
-                      : "bg-[#1A1A1D] hover:bg-[#22222A]"
-                  }`}
-                >
-                  {loadingPayPal ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>{copy.processing}</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-center gap-3">
-                      <Image src="/paypal.png" alt="PayPal" width={28} height={28} className="h-7 w-7 object-contain" />
-                      <span className="flex flex-col items-start leading-tight">
-                        <span className="text-base font-bold sm:text-lg">
-                          {copy.paypalButton}
-                        </span>
-                        <span className="hidden text-[11px] font-medium text-white/60 sm:block">
-                          {copy.paypalButtonNote}
-                        </span>
-                      </span>
-                      <div className="h-6 w-px bg-white/30" />
-                      <span className="text-sm font-semibold sm:text-base">
-                        US$2.99
-                      </span>
-                    </div>
-                  )}
-                </Button>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3">
-                <p className="text-sm font-semibold text-white">
-                  {copy.useCases}
-                </p>
-                <p className="mt-1 text-xs leading-5 text-white/58">
-                  {copy.useCasesText}
-                </p>
-              </div>
-
-              <Carousel
-                plugins={[Autoplay({ delay: 5000 })]}
-                opts={{ align: "start", loop: true, dragFree: true }}
-                className="w-full"
-              >
-                <CarouselContent className="-ml-1">
-                  {currentUseCases.map((example, index) => (
-                    <CarouselItem key={index} className="pl-2 pr-2 basis-full">
-                      <div className="p-3 rounded-md">
-                        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">
-                          {copy.useCaseLabel}: {example.author}
-                        </p>
-                        <p className="text-gray-300 text-sm">
-                          {example.text}
-                        </p>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
-            </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#101013]/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-2xl shadow-black/40 backdrop-blur sm:hidden">
+        <div className="mx-auto flex max-w-md items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-bold leading-none text-white">
+              {primaryPaymentPrice}
+            </p>
+            <p className="mt-1 truncate text-[11px] font-medium text-white/55">
+              {copy.noSubscription}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handlePrimaryPayment}
+            disabled={paymentInProgress}
+            className="inline-flex h-12 min-w-[180px] items-center justify-center gap-2 rounded-xl bg-[#7C3AED] px-4 text-sm font-bold text-white shadow-lg shadow-[#7C3AED]/20 transition hover:bg-[#6D28D9] disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {paymentInProgress ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <LockKeyhole className="h-4 w-4" />
+            )}
+            {copy.unlock}
+          </button>
+        </div>
       </div>
     </div>
   );
