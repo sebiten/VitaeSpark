@@ -23,11 +23,11 @@ type BlogConversionCtaProps = {
 const fallbackCta: BlogCtaContent = {
   title: "Usa esta guia para armar tu CV",
   description:
-    "Ordena tu informacion, elegi una plantilla clara y genera un PDF listo para enviar.",
+    "Ordena tu informacion, elegi una plantilla clara, editalo desde tu perfil y genera un PDF listo para enviar.",
   primaryLabel: "Crear mi CV con IA",
   secondaryHref: "/plantillas-curriculum",
   secondaryLabel: "Ver plantillas",
-  bullets: ["Contenido guiado", "Plantillas profesionales", "PDF listo para descargar"],
+  bullets: ["Contenido guiado", "CV editable", "PDF listo para descargar"],
 };
 
 const ctaByPath: Record<string, BlogCtaContent> = {
@@ -38,7 +38,7 @@ const ctaByPath: Record<string, BlogCtaContent> = {
     primaryLabel: "Usar mis habilidades en un CV",
     secondaryHref: "/plantillas-curriculum",
     secondaryLabel: "Ver plantillas",
-    bullets: ["Habilidades por puesto", "Texto mas especifico", "Formato profesional"],
+    bullets: ["Habilidades por puesto", "Texto editable", "Formato profesional"],
   },
   "/blog/perfil-profesional-para-cv": {
     title: "Escribi tu perfil profesional con IA sin sonar generico",
@@ -47,7 +47,7 @@ const ctaByPath: Record<string, BlogCtaContent> = {
     primaryLabel: "Crear mi perfil en el CV",
     secondaryHref: "/hacer-cv-con-ia",
     secondaryLabel: "Ver como funciona",
-    bullets: ["Resumen profesional", "Redaccion guiada", "Menos frases vacias"],
+    bullets: ["Resumen profesional", "Redaccion editable", "Menos frases vacias"],
   },
   "/blog/ejemplo-de-perfil-profesional": {
     title: "Escribi tu perfil profesional con IA sin sonar generico",
@@ -56,7 +56,7 @@ const ctaByPath: Record<string, BlogCtaContent> = {
     primaryLabel: "Crear mi perfil en el CV",
     secondaryHref: "/hacer-cv-con-ia",
     secondaryLabel: "Ver como funciona",
-    bullets: ["Ejemplos adaptables", "Perfil claro", "CV mas consistente"],
+    bullets: ["Ejemplos adaptables", "Perfil editable", "CV mas consistente"],
   },
   "/blog/como-hacer-un-curriculum-sin-experiencia": {
     title: "Arma tu primer CV sin empezar de cero",
@@ -65,7 +65,7 @@ const ctaByPath: Record<string, BlogCtaContent> = {
     primaryLabel: "Crear mi CV sin experiencia",
     secondaryHref: "/curriculum-sin-experiencia",
     secondaryLabel: "Ver guia especifica",
-    bullets: ["Primer empleo", "Habilidades y estudios", "Plantilla clara"],
+    bullets: ["Primer empleo", "Habilidades y estudios", "CV editable"],
   },
   "/blog/como-hacer-un-cv-ats": {
     title: "Genera un CV claro para ATS",
@@ -74,7 +74,7 @@ const ctaByPath: Record<string, BlogCtaContent> = {
     primaryLabel: "Crear un CV compatible con ATS",
     secondaryHref: "/plantillas-curriculum",
     secondaryLabel: "Ver plantillas",
-    bullets: ["Secciones claras", "Formato simple", "PDF profesional"],
+    bullets: ["Secciones claras", "Formato simple", "Editable despues"],
   },
 };
 

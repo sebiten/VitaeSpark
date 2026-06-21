@@ -2,9 +2,9 @@ import Hero from "@/components/hero";
 import { buildMetadata, getBaseUrl } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Creador de CV Online con IA | VitaeSpark",
+  title: "Creador de CV Online Editable con IA | VitaeSpark",
   description:
-    "Crea tu CV online con IA, plantillas profesionales, enfoque ATS y descarga en PDF. VitaeSpark te ayuda a armar un curriculum claro y listo para postular.",
+    "Crea tu CV online con IA, editalo desde tu perfil, cambia plantilla y descarga un PDF profesional con enfoque ATS.",
   path: "/",
   keywords: [
     "creador de cv",
@@ -16,6 +16,7 @@ export const metadata = buildMetadata({
     "hacer curriculum vitae",
     "curriculum ats",
     "crear cv con ia",
+    "cv editable online",
   ],
   languages: {
     es: "/",
@@ -33,7 +34,7 @@ export default function GeneradorCV() {
     operatingSystem: "Web",
     url: baseUrl.toString(),
     description:
-      "Creador de CV online con IA, plantillas profesionales, enfoque ATS y descarga en PDF.",
+      "Creador de CV online con IA, plantillas profesionales, edición posterior, enfoque ATS y descarga en PDF.",
     offers: {
       "@type": "Offer",
       price: "1999",
@@ -74,7 +75,7 @@ export default function GeneradorCV() {
         name: "Puedo editarlo despues?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Si. Puedes volver, cambiar datos, probar otra plantilla y descargar una nueva versión en PDF.",
+          text: "Si. El CV queda guardado en tu perfil para editar datos, probar otra plantilla y descargar una nueva version en PDF.",
         },
       },
     ],
@@ -84,7 +85,7 @@ export default function GeneradorCV() {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name: "Cómo crear tu CV online con VitaeSpark",
-    description: "Paso a paso para generar un curriculum profesional con IA, estructura ATS y descarga en PDF.",
+    description: "Paso a paso para generar un curriculum profesional editable con IA, estructura ATS y descarga en PDF.",
     step: [
       {
         "@type": "HowToStep",
@@ -101,8 +102,8 @@ export default function GeneradorCV() {
       {
         "@type": "HowToStep",
         position: 3,
-        name: "Descargá tu CV",
-        text: "PDF profesional listo para enviar a cualquier oferta.",
+        name: "Edita y descargá tu CV",
+        text: "Ajusta el contenido desde tu perfil y descarga un PDF profesional listo para enviar.",
       },
     ],
   };

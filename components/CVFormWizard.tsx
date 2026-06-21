@@ -24,17 +24,10 @@ import {
   Upload,
   User,
   Wand2,
-  X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import type { Path, UseFormReturn } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -66,6 +59,8 @@ type FormCopy = {
   contactPlaceholder: string;
   photo: string;
   uploadImage: string;
+  photoUnavailableTitle: string;
+  photoUnavailableText: string;
   summaryTitle: string;
   summaryDescription: string;
   summaryPlaceholder: string;
@@ -125,21 +120,18 @@ const wizardChromeCopy = {
     progressLabel: "Progreso",
     back: "Volver",
     continue: "Continuar",
-    close: "Cerrar",
     options: "Opciones",
     stepCount: (current: number, total: number) => `${current}/${total}`,
     wizardTitle: "Completa tus datos paso a paso",
     wizardDescription:
-      "Escribe lo importante. La IA se encarga de convertirlo en un CV ordenado y profesional.",
+      "Escribe lo importante. Tus datos se conservan dentro del flujo y podes cambiar de plantilla sin volver a cargar todo.",
     exampleLabel: "Ejemplo",
     helpLabel: "Tip para esta seccion",
     changeTemplate: "Cambiar plantilla",
     fillSample: "Rellenar prueba",
     clear: "Limpiar",
-    confirmClose:
-      "Hay datos cargados en el formulario. Si cierras ahora, vas a salir del paso y tendras que volver a abrirlo. Quieres continuar?",
     changeTemplateConfirm:
-      "Hay datos cargados. Si cambias la plantilla volveras al selector. Quieres continuar?",
+      "Vas a volver al selector de plantillas. Tus datos se mantienen en esta sesion. Quieres continuar?",
     photoFormats: "JPG, PNG o WebP",
     finalHelperTitle: "Cierra con datos concretos",
     finalHelperText:
@@ -157,21 +149,18 @@ const wizardChromeCopy = {
     progressLabel: "Progress",
     back: "Back",
     continue: "Continue",
-    close: "Close",
     options: "Options",
     stepCount: (current: number, total: number) => `${current}/${total}`,
     wizardTitle: "Complete your resume details step by step",
     wizardDescription:
-      "Write the essentials. AI will turn them into a cleaner, professional resume.",
+      "Write the essentials. Your details stay in this flow, so you can change templates without starting over.",
     exampleLabel: "Example",
     helpLabel: "Tip for this section",
     changeTemplate: "Change template",
     fillSample: "Fill sample",
     clear: "Clear",
-    confirmClose:
-      "There is information in the form. If you close now, you will leave this step and need to reopen it. Do you want to continue?",
     changeTemplateConfirm:
-      "There is information in the form. If you change the template, you will go back to the selector. Do you want to continue?",
+      "You will go back to the template selector. Your details stay in this session. Do you want to continue?",
     photoFormats: "JPG, PNG or WebP",
     finalHelperTitle: "Finish with specific details",
     finalHelperText:
@@ -198,7 +187,6 @@ export default function CVFormWizard({
   onClear,
   onChangeTemplate,
 }: Props) {
-  const [open, setOpen] = useState(true);
   const [stepIndex, setStepIndex] = useState(0);
   const chrome = wizardChromeCopy[language];
   const {
@@ -332,36 +320,30 @@ export default function CVFormWizard({
     );
   };
 
-  const handleExit = (reason: "close" | "change_template") => {
+  const handleExit = () => {
     const shouldExit =
       !hasLoadedData() ||
-      window.confirm(
-        reason === "change_template"
-          ? chrome.changeTemplateConfirm
-          : chrome.confirmClose,
-      );
+      window.confirm(chrome.changeTemplateConfirm);
 
     if (!shouldExit) {
-      setOpen(true);
       return;
     }
 
     track(chrome.abandoned, {
       template,
       language,
-      reason,
+      reason: "change_template",
       step_id: currentStep.id,
       step_index: stepIndex + 1,
       ...getLandingAttribution(),
     });
 
-    setOpen(false);
     onChangeTemplate();
   };
 
   const handleStepBack = () => {
     if (stepIndex === 0) {
-      handleExit("change_template");
+      handleExit();
       return;
     }
     setStepIndex((prev) => prev - 1);
@@ -403,24 +385,12 @@ export default function CVFormWizard({
   });
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(nextOpen) => {
-        if (nextOpen) {
-          setOpen(true);
-          return;
-        }
-        handleExit("close");
-      }}
+    <form
+      onSubmit={handleFinalSubmit}
+      className="relative flex min-h-[calc(100dvh-8rem)] flex-col overflow-hidden rounded-[30px] border border-white/8 bg-[#0d0d11] text-white shadow-[0_24px_80px_rgba(8,8,18,0.36)]"
     >
-      <DialogContent className="fixed inset-0 z-50 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 bg-[#0d0d11] p-0 text-white shadow-none sm:inset-auto sm:left-1/2 sm:top-1/2 sm:h-[min(90vh,920px)] sm:w-[min(100vw-2rem,1100px)] sm:max-w-[1100px] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[30px] sm:border sm:border-white/8 sm:shadow-[0_24px_80px_rgba(8,8,18,0.5)] [&>button]:hidden">
-        <DialogTitle className="sr-only">{chrome.wizardTitle}</DialogTitle>
-        <DialogDescription className="sr-only">
-          {chrome.wizardDescription}
-        </DialogDescription>
-
-        <form onSubmit={handleFinalSubmit} className="flex h-full min-h-0 flex-col">
-          <div className="sticky top-0 z-30 px-3 pt-3 sm:px-6 sm:pt-6">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.14),_transparent_60%)]" />
+      <div className="sticky top-2 z-30 px-3 pt-3 sm:px-6 sm:pt-6">
             <div className="relative rounded-[28px] border border-white/8 bg-[#141419]/96 px-3 py-3 shadow-[0_16px_40px_rgba(5,5,14,0.2)] sm:px-5 sm:py-4">
               <div className="relative flex items-start gap-2">
                 <Button
@@ -482,7 +452,7 @@ export default function CVFormWizard({
                     className="w-56 rounded-2xl border-white/10 bg-[#12121A]/96 p-1.5 text-white shadow-[0_20px_60px_rgba(5,5,12,0.55)] backdrop-blur-xl"
                   >
                     <DropdownMenuItem
-                      onClick={() => handleExit("change_template")}
+                      onClick={handleExit}
                       className="rounded-xl px-3 py-2.5 text-white/80 focus:bg-white/[0.06] focus:text-white"
                     >
                       <Palette className="h-4 w-4 text-[#38BDF8]" />
@@ -501,13 +471,6 @@ export default function CVFormWizard({
                     >
                       <Trash2 className="h-4 w-4 text-white/55" />
                       {chrome.clear}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => handleExit("close")}
-                      className="rounded-xl px-3 py-2.5 text-white/80 focus:bg-white/[0.06] focus:text-white"
-                    >
-                      <X className="h-4 w-4 text-white/55" />
-                      {chrome.close}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -581,7 +544,7 @@ export default function CVFormWizard({
             </div>
           </div>
 
-          <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-36 pt-4 sm:px-6 sm:pb-36 sm:pt-6">
+          <div className="min-h-0 flex-1 px-3 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6">
             <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-6">
               <AnimatePresence mode="wait">
                 <motion.section
@@ -612,6 +575,7 @@ export default function CVFormWizard({
                   <StepFields
                     stepId={currentStep.id}
                     copy={copy}
+                    template={template}
                     fotoUrl={fotoUrl}
                     register={register}
                     errors={errors}
@@ -665,7 +629,7 @@ export default function CVFormWizard({
             </div>
           </div>
 
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 px-3 pb-3 sm:px-6 sm:pb-6">
+          <div className="pointer-events-none sticky bottom-3 z-30 px-3 pb-3 sm:px-6 sm:pb-6">
             <div className="pointer-events-auto rounded-[28px] border border-white/8 bg-[#111116]/96 p-2 shadow-[0_-12px_40px_rgba(7,7,16,0.12),0_18px_48px_rgba(4,4,10,0.24)] backdrop-blur-xl">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                 <Button
@@ -711,9 +675,7 @@ export default function CVFormWizard({
               </div>
             </div>
           </div>
-        </form>
-      </DialogContent>
-    </Dialog>
+    </form>
   );
 }
 
@@ -769,6 +731,7 @@ function ExamplePreview({
 function StepFields({
   stepId,
   copy,
+  template,
   fotoUrl,
   register,
   errors,
@@ -779,6 +742,7 @@ function StepFields({
 }: {
   stepId: WizardStep["id"];
   copy: FormCopy;
+  template: string;
   fotoUrl: string | null;
   register: UseFormReturn<DatosCVFormulario>["register"];
   errors: UseFormReturn<DatosCVFormulario>["formState"]["errors"];
@@ -788,6 +752,8 @@ function StepFields({
   photoFormats: string;
 }) {
   if (stepId === "basic") {
+    const allowsPhoto = template !== "harvard";
+
     return (
       <div className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
@@ -810,7 +776,12 @@ function StepFields({
           </FieldError>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_250px]">
+        <div
+          className={cn(
+            "grid gap-4",
+            allowsPhoto ? "md:grid-cols-[minmax(0,1fr)_250px]" : "",
+          )}
+        >
           <FieldError message={errors.contacto?.message}>
             <FieldLabel icon={Mail}>{copy.contact}</FieldLabel>
             <textarea
@@ -821,34 +792,42 @@ function StepFields({
             />
           </FieldError>
 
-          <div>
-            <FieldLabel icon={Upload}>{copy.photo}</FieldLabel>
-            <label className="group flex min-h-[172px] cursor-pointer flex-col items-center justify-center rounded-[24px] border border-dashed border-white/12 bg-[#141419] px-4 py-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] transition-all hover:-translate-y-px hover:border-[#8B5CF6]/24 hover:bg-[#171720]">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={onImageUpload}
-                className="sr-only"
-              />
-              {fotoUrl ? (
-                <img
-                  src={fotoUrl}
-                  alt={copy.photo}
-                  className="h-24 w-24 rounded-[20px] border border-white/10 object-cover shadow-[0_12px_28px_rgba(6,6,12,0.28)]"
+          {allowsPhoto ? (
+            <div>
+              <FieldLabel icon={Upload}>{copy.photo}</FieldLabel>
+              <label className="group flex min-h-[172px] cursor-pointer flex-col items-center justify-center rounded-[24px] border border-dashed border-white/12 bg-[#141419] px-4 py-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] transition-all hover:-translate-y-px hover:border-[#8B5CF6]/24 hover:bg-[#171720]">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={onImageUpload}
+                  className="sr-only"
                 />
-              ) : (
-                <>
-                  <div className="mb-2 flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white/62 transition-colors group-hover:text-white/86">
-                    <Upload className="h-4 w-4" />
-                  </div>
-                  <span className="text-sm font-medium text-white/84">
-                    {copy.uploadImage}
-                  </span>
-                  <span className="mt-1 text-xs text-white/46">{photoFormats}</span>
-                </>
-              )}
-            </label>
-          </div>
+                {fotoUrl ? (
+                  <img
+                    src={fotoUrl}
+                    alt={copy.photo}
+                    className="h-24 w-24 rounded-[20px] border border-white/10 object-cover shadow-[0_12px_28px_rgba(6,6,12,0.28)]"
+                  />
+                ) : (
+                  <>
+                    <div className="mb-2 flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white/62 transition-colors group-hover:text-white/86">
+                      <Upload className="h-4 w-4" />
+                    </div>
+                    <span className="text-sm font-medium text-white/84">
+                      {copy.uploadImage}
+                    </span>
+                    <span className="mt-1 text-xs text-white/46">{photoFormats}</span>
+                  </>
+                )}
+              </label>
+            </div>
+          ) : (
+            <div className="rounded-[24px] border border-white/8 bg-[#141419] p-4 text-sm leading-6 text-white/64 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]">
+              <FieldLabel icon={Upload}>{copy.photo}</FieldLabel>
+              <p className="font-medium text-white/86">{copy.photoUnavailableTitle}</p>
+              <p className="mt-1">{copy.photoUnavailableText}</p>
+            </div>
+          )}
         </div>
       </div>
     );

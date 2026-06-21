@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Hacer CV con IA: Redacta, Ordena y Descarga en PDF",
+  title: "Hacer CV con IA: Redacta, Edita y Descarga en PDF",
   description:
-    "Haz un CV con IA usando tus datos reales. Mejora perfil, experiencia y habilidades, elige una plantilla y descarga tu curriculum en PDF.",
+    "Haz un CV con IA usando tus datos reales. Mejora perfil, experiencia y habilidades, edita el resultado y descarga tu curriculum en PDF.",
   path: "/hacer-cv-con-ia",
   keywords: [
     "hacer cv con ia",
@@ -20,11 +20,11 @@ export default function HacerCvConIaPage() {
     <MarketingPage
       path="/hacer-cv-con-ia"
       eyebrow="IA aplicada al CV"
-      title="Hacer CV con IA para redactar mejor y descargar en PDF"
-      description="Usa inteligencia artificial para ordenar tu experiencia, mejorar el perfil profesional y crear un curriculum mas claro sin partir de una plantilla vacia."
+      title="Hacer CV con IA para redactar mejor, editar y descargar en PDF"
+      description="Usa inteligencia artificial para ordenar tu experiencia, mejorar el perfil profesional y crear un curriculum editable sin partir de una plantilla vacia."
       intro={[
         "Hacer un CV con IA puede ahorrarte tiempo, pero la diferencia real aparece cuando la herramienta trabaja con tus datos reales y los convierte en un perfil mas claro. No se trata de rellenar frases bonitas, sino de explicar mejor que sabes hacer y por que deberian entrevistarte.",
-        "VitaeSpark combina formulario guiado, redaccion asistida, plantillas profesionales y descarga en PDF para que puedas pasar de informacion suelta a un curriculum listo para enviar.",
+        "VitaeSpark combina formulario guiado, redaccion asistida, plantillas profesionales, edicion posterior y descarga en PDF para que puedas pasar de informacion suelta a un curriculum listo para enviar.",
       ]}
       benefits={[
         "Te ayuda a escribir mejor incluso si no sabes como describir tu experiencia.",
@@ -43,9 +43,9 @@ export default function HacerCvConIaPage() {
             "La IA propone una version mas profesional, clara y enfocada en resultados.",
         },
         {
-          title: "Revisa y exporta",
+          title: "Revisa, edita y exporta",
           description:
-            "Ajustas el contenido final y lo llevas a una plantilla lista para descargar.",
+            "Ajustas el contenido final, lo guardas en tu perfil y lo llevas a una plantilla lista para descargar.",
         },
       ]}
       sections={[
@@ -80,7 +80,7 @@ export default function HacerCvConIaPage() {
         {
           question: "Puedo editar el contenido generado?",
           answer:
-            "Si. La IA sirve como apoyo para mejorar redaccion, no para quitarte control sobre tu CV.",
+            "Si. La IA sirve como apoyo para mejorar redaccion, no para quitarte control. Despues podes editar el CV guardado desde tu perfil.",
         },
         {
           question: "Sirve para hacer mi primer CV?",

@@ -74,7 +74,7 @@ export default function QueEsCurrriculumVitaePage() {
           title: "Herramientas para crear tu currículum vitae",
           paragraphs: [
             "Crear un CV desde cero puede ser difícil si no sabés por dónde empezar. VitaeSpark te permite construir tu currículum paso a paso con ayuda de inteligencia artificial que mejora la redacción de cada sección.",
-            "Podés elegir entre 6 plantillas profesionales, cambiar de diseño sin perder contenido, y descargar tu CV en formato PDF optimizado para ATS. Todo gratis para empezar.",
+            "Podés elegir entre 5 plantillas profesionales, cambiar de diseño sin perder contenido, y descargar tu CV en formato PDF optimizado para ATS. Todo gratis para empezar.",
             "Lo más importante es que el proceso te guía para que cada sección quede bien redactada, con palabras clave relevantes y estructura clara. No necesitás ser diseñador ni especialista en recursos humanos para tener un CV profesional.",
           ],
         },
@@ -118,7 +118,7 @@ export default function QueEsCurrriculumVitaePage() {
           href: "/plantillas-curriculum",
           title: "Plantillas de CV",
           description:
-            "6 plantillas profesionales para dar formato a tu currículum.",
+            "5 plantillas profesionales para dar formato a tu currículum.",
         },
         {
           href: "/curriculum-vitae-ejemplo",

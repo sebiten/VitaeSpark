@@ -4,11 +4,9 @@ import BlueTemplate from "./template/BlueTemplate";
 import GreenTemplate from "./template/GreenTemplate";
 import PurpleTemplate from "./template/PurpleTemplate";
 import HarvardTemplate from "./template/harvard-cv-template";
-import AtsCompactTemplate from "./template/AtsCompactTemplate";
 import BlueTemplateW from "./template/preview-components/blue-template";
 import GreenTemplateW from "./template/preview-components/green-template";
 import HarvardTemplateW from "./template/preview-components/harvard-template";
-import AtsCompactTemplateW from "./template/preview-components/ats-compact-template";
 import PurpleTemplateW from "./template/preview-components/purple-template";
 import EleganceTemplate from "./template/Elegance-template";
 import EleganceTemplateW from "./template/preview-components/elegance-template";
@@ -30,8 +28,6 @@ export function DocumentoCV({
       return <GreenTemplate cv={cv} />;
     case "harvard":
       return <HarvardTemplate cv={cv} />;
-    case "ats-compact":
-      return <AtsCompactTemplate cv={cv} />;
     case "purple":
       return <PurpleTemplate cv={cv} />;
     case "elegance":
@@ -56,8 +52,6 @@ export function DocumentoCVW({
       return <GreenTemplateW cv={cv} />;
     case "harvard":
       return <HarvardTemplateW cv={cv} />;
-    case "ats-compact":
-      return <AtsCompactTemplateW cv={cv} />;
     case "purple":
       return <PurpleTemplateW cv={cv} />;
     case "elegance":

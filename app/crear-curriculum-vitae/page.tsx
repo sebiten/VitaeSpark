@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Crear Curriculum Vitae Online: Estructura y PDF",
+  title: "Crear Curriculum Vitae Online Editable: Estructura y PDF",
   description:
-    "Crea tu curriculum vitae online con estructura clara, ayuda de IA, plantillas profesionales y descarga en PDF para postularte mejor.",
+    "Crea tu curriculum vitae online con estructura clara, ayuda de IA, plantillas profesionales, edicion posterior y descarga en PDF.",
   path: "/crear-curriculum-vitae",
   keywords: [
     "crear curriculum vitae",
@@ -19,7 +19,7 @@ export default function CrearCurriculumVitaePage() {
     <MarketingPage
       path="/crear-curriculum-vitae"
       eyebrow="Curriculum vitae"
-      title="Crear curriculum vitae online con estructura clara y PDF"
+      title="Crear curriculum vitae online editable con estructura clara y PDF"
       description="Arma un curriculum vitae que se vea profesional, sea facil de leer y te ayude a postularte mejor a nuevas oportunidades laborales."
       intro={[
         "Muchas personas buscan crear un curriculum vitae cuando necesitan resolver rapido algo importante: postularse mejor. El problema es que suelen terminar entre plantillas viejas, documentos desordenados o textos demasiado genericos.",
@@ -28,7 +28,7 @@ export default function CrearCurriculumVitaePage() {
       benefits={[
         "Ordena experiencia, estudios y habilidades sin perder claridad.",
         "Te ayuda a redactar mejor sin empezar desde cero.",
-        "Terminas con un curriculum listo para descargar y compartir.",
+        "Terminas con un curriculum listo para editar, descargar y compartir.",
       ]}
       steps={[
         {
@@ -41,8 +41,8 @@ export default function CrearCurriculumVitaePage() {
           description: "Mejora redaccion, estructura y enfoque del CV.",
         },
         {
-          title: "Llevalo a una plantilla final",
-          description: "Descarga una version lista para tus postulaciones.",
+          title: "Llevalo a una plantilla editable",
+          description: "Guarda una version lista para tus postulaciones y ajustala cuando haga falta.",
         },
       ]}
       sections={[
@@ -94,7 +94,7 @@ export default function CrearCurriculumVitaePage() {
         {
           question: "El curriculum vitae se puede editar despues?",
           answer:
-            "Si. La idea es que puedas seguir ajustandolo y mejorandolo segun nuevas postulaciones.",
+            "Si. El CV queda guardado en tu perfil para seguir ajustandolo, cambiar plantilla y descargar nuevas versiones.",
         },
       ]}
       relatedLinks={[

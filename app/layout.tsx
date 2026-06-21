@@ -26,11 +26,11 @@ const baseUrl = getBaseUrl();
 export const metadata: Metadata = {
   metadataBase: baseUrl,
   title: {
-    default: "Vitae Spark | Crear currículum online con IA",
+    default: "Vitae Spark | Crear currículum online editable con IA",
     template: "%s | Vitae Spark",
   },
   description:
-    "Crea tu currículum vitae online con inteligencia artificial, plantillas profesionales y enfoque ATS para conseguir más entrevistas.",
+    "Crea tu currículum vitae online con IA, plantillas profesionales, enfoque ATS y edición posterior desde tu perfil.",
   applicationName: "Vitae Spark",
   generator: "Next.js 15 - App Router",
   keywords: [
@@ -41,6 +41,7 @@ export const metadata: Metadata = {
     "curriculum profesional",
     "ia para cv",
     "crear cv con ia",
+    "cv editable online",
     "plantilla harvard",
     "curriculum sin experiencia",
     "cv online",
@@ -59,9 +60,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: baseUrl,
-    title: "Vitae Spark | Crea currículum online optimizado para ATS",
+    title: "Vitae Spark | Crea currículum online editable optimizado para ATS",
     description:
-      "Usa inteligencia artificial para crear CVs atractivos y optimizados para superar filtros ATS y destacar ante reclutadores.",
+      "Usa inteligencia artificial para crear, editar y descargar CVs optimizados para filtros ATS y reclutadores.",
     siteName: "Vitae Spark",
     locale: "es_AR",
     images: [
@@ -89,7 +90,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Vitae Spark | Crea CVs efectivos con IA",
     description:
-      "Genera tu currículum profesional optimizado para filtros ATS con inteligencia artificial.",
+      "Genera y edita tu currículum profesional optimizado para filtros ATS con inteligencia artificial.",
     images: [`${baseUrl.href}/logotab.webp`],
     creator: "@vitae.spark",
   },
@@ -127,7 +128,7 @@ export default async function RootLayout({
               url: baseUrl.href,
               logo: `${baseUrl.href}/logoreal.webp`,
               description:
-                "Herramienta web para crear currículum vitae online con IA, plantillas profesionales y enfoque ATS.",
+                "Herramienta web para crear, editar y descargar currículum vitae online con IA, plantillas profesionales y enfoque ATS.",
               email: "soporte@vitaespark.com",
               sameAs: [
                 "https://www.instagram.com/vitae.spark/",
@@ -153,7 +154,7 @@ export default async function RootLayout({
               name: "Vitae Spark",
               alternateName: "Creador de currículum online",
               description:
-                "Crea tu currículum vitae online con inteligencia artificial, plantillas profesionales y enfoque ATS para conseguir más entrevistas.",
+                "Crea tu currículum vitae online con inteligencia artificial, plantillas profesionales, edición posterior y enfoque ATS para conseguir más entrevistas.",
             }),
           }}
         />
@@ -168,7 +169,7 @@ export default async function RootLayout({
               operatingSystem: "Web",
               url: baseUrl.href,
               description:
-                "Herramienta web para crear currículum vitae online con IA, plantillas profesionales y enfoque ATS.",
+                "Herramienta web para crear, editar y descargar currículum vitae online con IA, plantillas profesionales y enfoque ATS.",
               publisher: {
                 "@type": "Organization",
                 name: "Vitae Spark",

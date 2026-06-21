@@ -140,7 +140,7 @@ export default function ComoHacerUnCvAtsPage() {
           href: "/plantillas-curriculum",
           title: "Plantillas compatibles con ATS",
           description:
-            "6 plantillas profesionales diseñadas específicamente para pasar filtros automáticos.",
+            "5 plantillas profesionales diseñadas específicamente para pasar filtros automáticos.",
         },
       ]}
     />

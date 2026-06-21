@@ -149,7 +149,7 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
           onValueChange={handleTabChange}
           className="min-w-0 space-y-5"
         >
-          <div className="mx-0 rounded-2xl border border-white/10 bg-[#15151A]/75 p-2 shadow-xl shadow-black/10 sm:mx-auto sm:max-w-3xl">
+          <div className="mx-0 rounded-2xl border border-white/8 bg-[#15151A]/70 p-2 shadow-xl shadow-black/10 sm:mx-auto sm:max-w-3xl">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               <TabsList className="grid h-auto w-full grid-cols-3 rounded-xl border border-white/10 bg-[#0F0F10]/70 p-1 sm:flex-1">
                 <TabsTrigger
@@ -189,7 +189,7 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
               <div className="flex items-center gap-3 px-1 sm:w-32">
                 <div className="h-1.5 flex-1 rounded-full bg-white/10">
                   <div
-                    className="h-1.5 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#38BDF8]"
+                    className="h-1.5 rounded-full bg-[#7C3AED]"
                     style={{ width: `${getProgress()}%` }}
                   />
                 </div>
@@ -198,6 +198,11 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
                 </span>
               </div>
             </div>
+            <p className="px-2 pb-1 pt-2 text-center text-[12px] leading-5 text-white/50">
+              {initialLanguage === "en"
+                ? "You can switch templates without reloading your details."
+                : "Podés cambiar de plantilla sin volver a cargar tus datos."}
+            </p>
           </div>
 
           <TabsContent value="template" className="space-y-6">

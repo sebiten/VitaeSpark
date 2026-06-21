@@ -48,8 +48,8 @@ const methodSteps = [
   },
   {
     icon: ScanSearch,
-    title: "Queda legible",
-    text: "Secciones simples, lectura rápida y estructura compatible con ATS.",
+    title: "Queda editable",
+    text: "Secciones simples, estructura compatible con ATS y cambios posteriores desde tu perfil.",
   },
 ];
 
@@ -97,7 +97,7 @@ const faqQuestions = [
   },
   {
     q: "Puedo editarlo despues?",
-    a: "Si. Puedes volver, cambiar datos, probar otra plantilla y descargar una nueva versión en PDF.",
+    a: "Si. El CV queda guardado en tu perfil para editar datos, cambiar plantilla y descargar una nueva version en PDF.",
   },
 ];
 
@@ -180,8 +180,8 @@ export default function Home() {
                 Un flujo corto, no una herramienta más.
               </h2>
               <p className="mt-5 max-w-[34rem] text-base leading-8 text-[#D8D2C8]/66">
-                VitaeSpark guía el contenido como un editor: primero ordena,
-                después pule y al final lo lleva a una plantilla lista.
+                VitaeSpark guia el contenido como un editor: primero ordena,
+                despues pule y al final lo deja editable en tu perfil.
               </p>
             </div>
 
@@ -221,7 +221,8 @@ export default function Home() {
                 Plantillas que no gritan.
               </h2>
               <p className="mt-4 max-w-xl text-base leading-8 text-[#D8D2C8]/64">
-                Diseños sobrios para que el contenido haga el trabajo.
+                Diseños sobrios para que el contenido haga el trabajo. Podes
+                cambiar de plantilla sin perder datos.
               </p>
             </div>
             <Link
@@ -375,11 +376,11 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(122,92,255,0.18),transparent_28%)]" />
           <div className="relative p-6 sm:p-8 lg:p-10">
             <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
-              Salí con una versión presentable hoy.
+              Sali con una version presentable hoy.
             </h2>
             <p className="mt-4 max-w-xl text-base leading-8 text-[#D8D2C8]/66">
-              Carga tus datos, deja que la IA los ordene y descarga un PDF
-              listo para postular.
+              Carga tus datos, deja que la IA los ordene, editalo cuando haga
+              falta y descarga un PDF listo para postular.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link href="/crear" className="w-full sm:w-auto">

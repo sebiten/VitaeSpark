@@ -1,17 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CheckIcon, Crown, Eye, FileText, Star, X } from "lucide-react";
+import { CheckIcon, FileText, ShieldCheck } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type Props = {
   selectedTemplate: string;
@@ -22,254 +14,164 @@ const templates = [
   {
     id: "elegance",
     name: "Elegancia",
-    description: "Diseño profesional clásico",
-    category: "Clásico",
-    features: ["ATS Optimizado", "PDF", "Editable"],
-  },
-  {
-    id: "purple",
-    name: "Púrpura Pro",
-    description: "Moderno y llamativo",
-    category: "Moderno",
-    features: ["ATS Optimizado", "PDF", "Colores vibrantes"],
-  },
-  {
-    id: "blue",
-    name: "Azul Corporativo",
-    description: "Ideal para empresas",
-    category: "Corporativo",
-    features: ["ATS Optimizado", "PDF", "Profesional"],
-  },
-  {
-    id: "green",
-    name: "Verde Energía",
-    description: "Creativo y dinámico",
-    category: "Creativo",
-    features: ["ATS Optimizado", "PDF", "Diseño fresco"],
+    description: "Clasica, clara y profesional",
+    category: "Versatil",
+    features: ["ATS", "PDF", "Editable"],
+    recommended: true,
   },
   {
     id: "harvard",
     name: "Harvard",
-    description: "El prestigio del estilo Harvard",
-    category: "Premium",
-    features: ["ATS Optimizado", "PDF", "Diseño exclusivo"],
+    description: "Sobria para perfiles formales",
+    category: "Formal",
+    features: ["ATS", "Sin foto", "Editable"],
+    recommended: false,
   },
   {
-    id: "ats-compact",
-    name: "ATS Compacta",
-    description: "Una pagina clara y directa",
-    category: "ATS",
-    features: ["ATS Optimizado", "PDF", "Alta legibilidad"],
+    id: "blue",
+    name: "Azul Corporativo",
+    description: "Ordenada para empresas",
+    category: "Corporativo",
+    features: ["ATS", "PDF", "Editable"],
+    recommended: false,
   },
-];
+  {
+    id: "purple",
+    name: "Purpura Pro",
+    description: "Moderna sin perder legibilidad",
+    category: "Moderno",
+    features: ["ATS", "PDF", "Editable"],
+    recommended: false,
+  },
+  {
+    id: "green",
+    name: "Verde Energia",
+    description: "Simple para roles operativos",
+    category: "Operativo",
+    features: ["ATS", "PDF", "Editable"],
+    recommended: false,
+  },
+] as const;
 
-const templateColors: Record<string, string> = {
+const templateColors: Record<(typeof templates)[number]["id"], string> = {
   elegance: "#0A2C7C",
-  purple: "#8B5CF6",
+  harvard: "#E4E4E7",
   blue: "#1E40AF",
+  purple: "#8B5CF6",
   green: "#15803D",
-  harvard: "#F4F4F5",
-  "ats-compact": "#CBD5E1",
 };
 
-const templateImages: Record<string, string> = {
+const templateImages: Record<(typeof templates)[number]["id"], string> = {
   elegance: "/elegance-good.webp",
-  purple: "/purple-hero.webp",
-  blue: "/blue.webp",
-  green: "/green.webp",
   harvard: "/harvard.webp",
-  "ats-compact": "/ats-compact.svg",
-};
-
-const templatePopularity: Record<string, number> = {
-  elegance: 96,
-  purple: 95,
-  blue: 92,
-  green: 78,
-  harvard: 95,
-  "ats-compact": 93,
+  blue: "/blue.webp",
+  purple: "/purple-hero.webp",
+  green: "/green.webp",
 };
 
 export default function TemplateSelector({
   selectedTemplate,
   onSelectTemplate,
 }: Props) {
-  const [openDialogId, setOpenDialogId] = useState<string | null>(null);
-
   return (
-    <div className="space-y-5 sm:space-y-8">
-      <div className="space-y-3 text-center sm:space-y-6">
-        <div className="relative inline-block">
-          <div className="relative mx-auto flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#5B21B6] shadow-xl shadow-[#7C3AED]/20 sm:h-24 sm:w-24 sm:rounded-3xl sm:shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
-            <FileText className="relative z-10 h-7 w-7 text-white sm:h-12 sm:w-12" />
-          </div>
-          <div className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-[#F59E0B] to-[#D97706] shadow-lg sm:h-8 sm:w-8">
-            <Crown className="h-3 w-3 text-white sm:h-4 sm:w-4" />
-          </div>
+    <div className="space-y-6 sm:space-y-8">
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-[#D8CBF7]">
+          <FileText className="h-5 w-5" />
         </div>
-
-        <div>
-          <h2 className="mb-2 bg-gradient-to-r from-white via-[#F4F4F5] to-[#D4D4D8] bg-clip-text text-2xl font-bold leading-tight text-transparent sm:mb-3 sm:text-3xl">
-            Elige tu plantilla
-          </h2>
-          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-[#A1A1AA] sm:text-lg">
-            Selecciona el diseño perfecto para tu currículum
-          </p>
-        </div>
+        <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/48">
+          Paso 1 de 3
+        </p>
+        <h2 className="mt-2 text-2xl font-semibold tracking-[-0.035em] text-[#F5F5FA] sm:text-3xl">
+          Elegi una base para tu CV
+        </h2>
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-white/64 sm:text-base">
+          No es una decision final. Podes cambiar la plantilla despues sin perder
+          los datos que cargues.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
-        {templates.map((tpl, idx) => {
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-5">
+        {templates.map((tpl) => {
+          const isSelected = selectedTemplate === tpl.id;
+
           return (
-            <div key={tpl.id} className="relative group">
-              <button
-                type="button"
-                className={`relative w-full cursor-pointer overflow-hidden rounded-2xl border-2 text-left transition-all duration-300 hover:-translate-y-0.5 ${
-                  selectedTemplate === tpl.id
-                    ? "border-[#7C3AED] bg-gradient-to-br from-[#7C3AED]/5 to-[#06B6D4]/5 shadow-2xl shadow-[#7C3AED]/25"
-                    : "border-[#3A3A3D] bg-gradient-to-br from-[#1C1C1E] to-[#2A2A2D] hover:border-[#7C3AED]/50"
-                }`}
-                onClick={() => onSelectTemplate(tpl.id)}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20" />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 via-transparent to-[#06B6D4]/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-                <div className="relative h-44 overflow-hidden rounded-t-xl sm:h-48">
-                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/50 to-transparent" />
-                  <Image
-                    src={templateImages[tpl.id]}
-                    alt={`Vista previa de ${tpl.name}`}
-                    fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  />
-
-                  <div className="absolute left-3 top-3 z-20">
-                    <Badge className="border-white/20 bg-black/50 text-white backdrop-blur-sm">
-                      {tpl.category}
-                    </Badge>
-                  </div>
-
-                  <div className="absolute right-3 top-3 z-20">
-                    <div className="flex items-center gap-1 rounded-full bg-black/50 px-2 py-1 backdrop-blur-sm">
-                      <Star className="h-3 w-3 text-yellow-400" />
-                      <span className="text-xs font-medium text-white">
-                        {templatePopularity[tpl.id]}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative space-y-3 p-4 sm:space-y-4 sm:p-6">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="h-4 w-4 rounded-full shadow-lg"
-                        style={{
-                          backgroundColor: templateColors[tpl.id],
-                          boxShadow: `0 4px 15px ${templateColors[tpl.id]}40`,
-                        }}
-                      />
-                      <div>
-                        <h4 className="text-lg font-bold text-[#F4F4F5]">
-                          {tpl.name}
-                        </h4>
-                        <p className="text-sm text-[#A1A1AA]">
-                          {tpl.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    {selectedTemplate === tpl.id && (
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#7C3AED] shadow-lg">
-                        <CheckIcon className="h-4 w-4 text-white" />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex flex-wrap gap-1">
-                    {tpl.features.map((feature) => (
-                      <span
-                        key={feature}
-                        className="rounded-md border border-[#4A4A4D]/30 bg-[#3A3A3D]/50 px-2 py-1 text-xs text-[#D4D4D8]"
-                      >
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  style={{
-                    background: `linear-gradient(135deg, ${templateColors[tpl.id]}10, transparent)`,
-                    boxShadow: `0 0 30px ${templateColors[tpl.id]}20`,
-                  }}
+            <button
+              key={tpl.id}
+              type="button"
+              onClick={() => onSelectTemplate(tpl.id)}
+              className={cn(
+                "group relative flex h-full flex-col overflow-hidden rounded-[24px] border bg-[#141419] text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-white/18 hover:bg-[#17171d]",
+                isSelected
+                  ? "border-[#8B5CF6]/42 shadow-[0_18px_44px_rgba(82,43,148,0.22)]"
+                  : "border-white/8 shadow-[0_12px_30px_rgba(5,5,12,0.12)]",
+              )}
+            >
+              <div className="relative h-52 overflow-hidden bg-[#ECEAE4] sm:h-48 lg:h-56">
+                <Image
+                  src={templateImages[tpl.id]}
+                  alt={`Vista previa de plantilla ${tpl.name}`}
+                  fill
+                  sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.025]"
                 />
-              </button>
-
-              <Dialog
-                open={openDialogId === tpl.id}
-                onOpenChange={(open) => setOpenDialogId(open ? tpl.id : null)}
-              >
-                <DialogTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="w-full text-[#D4D4D8] transition-all duration-300"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpenDialogId(tpl.id);
-                    }}
-                  >
-                    <Eye className="mr-2 h-4 w-4" />
-                    Ver plantilla
-                  </Button>
-                </DialogTrigger>
-
-                <DialogContent className="max-w-5xl overflow-hidden border border-[#2A2A2D] bg-[#0F0F10] p-2 text-[#F4F4F5]">
-                  <DialogHeader>
-                    <DialogTitle className="text-lg font-bold">
-                      {tpl.name}
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="relative p-2">
-                    <div className="relative overflow-hidden rounded-2xl bg-white shadow-2xl">
-                      <Image
-                        src={templateImages[tpl.id]}
-                        alt={`Vista previa de ${tpl.name}`}
-                        width={980}
-                        height={1280}
-                        sizes="(min-width: 1024px) 980px, 92vw"
-                        className="h-auto w-full"
-                      />
-                    </div>
-                    <div className="flex flex-col items-center justify-center">
-                      <Button
-                        onClick={() => {
-                          onSelectTemplate(tpl.id);
-                          setOpenDialogId(null);
-                        }}
-                        className="mt-4 h-12 w-full flex-1 gap-2 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 hover:from-[#6D28D9] hover:to-[#5B21B6]"
-                      >
-                        <CheckIcon className="mr-2 h-5 w-5" />
-                        Seleccionar
-                      </Button>
-                      <Button
-                        variant="default"
-                        onClick={() => setOpenDialogId(null)}
-                        className="mt-4 h-12 w-full flex-1 gap-2 bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 hover:from-[#6D28D9] hover:to-[#5B21B6]"
-                      >
-                        <X className="h-4 w-4" />
-                        Cerrar
-                      </Button>
-                    </div>
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#141419] to-transparent" />
+                {isSelected ? (
+                  <div className="absolute right-3 top-3 flex size-8 items-center justify-center rounded-full border border-white/14 bg-[#6F3CD2] text-white shadow-[0_10px_24px_rgba(70,30,140,0.28)]">
+                    <CheckIcon className="h-4 w-4" />
                   </div>
-                </DialogContent>
-              </Dialog>
-            </div>
+                ) : null}
+              </div>
+
+              <div className="flex flex-1 flex-col p-4">
+                <div className="mb-3 flex items-center justify-between gap-2">
+                  <Badge className="border-white/10 bg-white/[0.05] text-[10px] font-medium uppercase tracking-[0.14em] text-white/62 hover:bg-white/[0.05]">
+                    {tpl.category}
+                  </Badge>
+                  {tpl.recommended ? (
+                    <span className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#C9B8FF]">
+                      Recomendada
+                    </span>
+                  ) : null}
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <span
+                    className="mt-1 size-2.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: templateColors[tpl.id] }}
+                  />
+                  <div className="min-w-0">
+                    <h3 className="text-[15px] font-semibold tracking-[-0.01em] text-[#F4F4F8]">
+                      {tpl.name}
+                    </h3>
+                    <p className="mt-1 text-[13px] leading-5 text-white/58">
+                      {tpl.description}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {tpl.features.map((feature) => (
+                    <span
+                      key={feature}
+                      className="rounded-full border border-white/8 bg-white/[0.035] px-2 py-1 text-[11px] text-white/58"
+                    >
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </button>
           );
         })}
+      </div>
+
+      <div className="mx-auto flex max-w-3xl items-start gap-3 rounded-[22px] border border-white/8 bg-white/[0.035] px-4 py-3 text-left text-sm leading-6 text-white/66">
+        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#A78BFA]" />
+        <p>
+          Todas las plantillas generan un PDF profesional. La IA ordena el
+          contenido y vos podes editar el CV guardado desde tu perfil.
+        </p>
       </div>
     </div>
   );

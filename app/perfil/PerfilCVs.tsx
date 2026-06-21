@@ -28,6 +28,7 @@ import {
   Eye,
   FileText,
   Loader2,
+  Pencil,
   Sparkles,
   User,
   X,
@@ -66,7 +67,6 @@ const templateLabels: Record<string, string> = {
   elegance: "Elegancia",
   purple: "Púrpura Pro",
   harvard: "Harvard",
-  "ats-compact": "ATS Compacta",
 };
 
 function getTemplateClass(template: string) {
@@ -81,8 +81,6 @@ function getTemplateClass(template: string) {
       return "bg-purple-600 text-white";
     case "harvard":
       return "bg-white text-black";
-    case "ats-compact":
-      return "bg-slate-200 text-slate-950";
     default:
       return "bg-purple-600 text-white";
   }
@@ -224,7 +222,7 @@ export default function PerfilCVs() {
             </CardHeader>
             <CardContent>
               <p className="text-green-100">
-                Tu CV "{paidCv.cv_data.nombre}" está listo para descargar.
+                Tu CV "{paidCv.cv_data.nombre}" esta listo para editar y descargar.
               </p>
             </CardContent>
           </Card>
@@ -238,7 +236,7 @@ export default function PerfilCVs() {
         </div>
         <h2 className="text-3xl font-bold text-white">Tus CVs aprobados</h2>
         <p className="text-[#A1A1AA] max-w-md mx-auto">
-          Descarga y comparte tus currículums profesionales
+          Edita, descarga y comparte tus curriculums profesionales
         </p>
       </div>
 
@@ -306,16 +304,24 @@ export default function PerfilCVs() {
                         CV Profesional
                       </div>
                       <div className="text-xs text-[#A1A1AA]">
-                        Listo para descargar
+                        Editable y listo para descargar
                       </div>
                     </div>
 
-                    <div className="flex gap-2 w-full">
+                    <div className="grid w-full grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        className="bg-[#1A1A1D] border-[#2A2A2D] text-[#F4F4F5]"
+                        onClick={() => router.push(`/editar-cv/${cv.id}`)}
+                      >
+                        <Pencil className="w-4 h-4 mr-2" /> Editar
+                      </Button>
+
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button
                             variant="outline"
-                            className="flex-1 bg-[#1A1A1D]  border-[#2A2A2D] text-[#F4F4F5]"
+                            className="bg-[#1A1A1D] border-[#2A2A2D] text-[#F4F4F5]"
                             onClick={() => setSelectedCV(cv)}
                           >
                             <Eye className="w-4 h-4 mr-2" /> Ver
@@ -343,7 +349,7 @@ export default function PerfilCVs() {
                       <PDFDownloadButton
                         cv={cv.cv_data}
                         template={cv.template || undefined}
-                        className="flex-1"
+                        className="col-span-2"
                       />
                     </div>
                   </CardFooter>
@@ -400,12 +406,20 @@ export default function PerfilCVs() {
                               CV Profesional
                             </h3>
                             <p className="text-xs text-[#A1A1AA]">
-                              Listo para descargar
+                              Editable y listo para descargar
                             </p>
                           </div>
                         </div>
 
                         <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            className="bg-[#1A1A1D] hover:bg-[#2A2A2D] border-[#2A2A2D] text-[#F4F4F5]"
+                            onClick={() => router.push(`/editar-cv/${cv.id}`)}
+                          >
+                            <Pencil className="w-4 h-4 mr-2" /> Editar
+                          </Button>
+
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button

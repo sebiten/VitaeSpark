@@ -22,7 +22,7 @@ export default function PaymentConfirmation() {
         <CardHeader>
           <CardTitle className="flex items-center justify-start gap-2 text-center text-xl font-semibold">
             <ShieldCheck className="h-5 w-5 text-green-400" />
-            Pago 100% Seguroas
+            Pago 100% seguro
           </CardTitle>
         </CardHeader>
 
@@ -44,7 +44,7 @@ export default function PaymentConfirmation() {
             <div className="flex items-start gap-3 rounded-md bg-[#252530] p-3">
               <Download className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" />
               <p className="text-sm text-gray-300">
-                Podrás descargar tu CV todas las veces que quieras desde tu{" "}
+                Podras editar y descargar tu CV todas las veces que quieras desde tu{" "}
                 <a href="/perfil" className="text-blue-400">
                   perfil.
                 </a>

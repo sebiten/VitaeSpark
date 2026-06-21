@@ -9,16 +9,15 @@ import {
   Link2,
   Route,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { TrackedCtaLink } from "@/components/seo/TrackedCtaLink";
 import { buildMetadata } from "@/lib/seo";
 import { getBaseUrl } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Mejores Plantillas de Currículum para Descargar en PDF | 2025",
+  title: "Plantillas de Currículum Editables para Descargar en PDF | 2025",
   description:
-    "Compará las mejores plantillas de currículum vitae profesionales y elegí la ideal según tu perfil, industria y objetivo laboral. Descarga en PDF con formato ATS.",
+    "Compará plantillas de currículum profesionales, editables desde tu perfil y listas para descargar en PDF con formato ATS.",
   path: "/plantillas-curriculum",
   keywords: [
     "mejores plantillas de curriculum vitae",
@@ -27,6 +26,7 @@ export const metadata = buildMetadata({
     "modelo de curriculum vitae",
     "template cv",
     "plantillas cv ats",
+    "plantillas de curriculum editables",
   ],
 });
 
@@ -40,16 +40,6 @@ const templates = [
     bestFor: ["Perfiles senior", "Consultoría", "Académico", "Finanzas", "Abogacía"],
     atsCompatible: true,
     color: "#F4F4F5",
-  },
-  {
-    id: "ats-compact",
-    name: "ATS Compacta",
-    image: "/ats-compact.svg",
-    description:
-      "Formato de una columna, denso y muy legible. Pensado para portales de empleo, sistemas ATS y perfiles que necesitan entrar en una pagina.",
-    bestFor: ["ATS", "Primer empleo", "Administracion", "Tecnologia", "Operaciones"],
-    atsCompatible: true,
-    color: "#CBD5E1",
   },
   {
     id: "elegance",
@@ -106,7 +96,7 @@ export default function PlantillasCurriculumPage() {
         name: "¿Cuál es la mejor plantilla de currículum para ATS?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Todas las plantillas de VitaeSpark están diseñadas para ser compatibles con sistemas ATS. Harvard, ATS Compacta y Elegante suelen dar mejores resultados en procesos formales o corporativos, mientras que Morado, Azul y Verde funcionan bien en industrias más creativas o modernas.",
+          text: "Todas las plantillas de VitaeSpark están diseñadas para ser compatibles con sistemas ATS. Harvard, Elegante y Azul suelen dar mejores resultados en procesos formales o corporativos, mientras que Morado y Verde funcionan bien en industrias más creativas o modernas.",
         },
       },
       {
@@ -114,7 +104,7 @@ export default function PlantillasCurriculumPage() {
         name: "¿Puedo cambiar de plantilla después de crear mi CV?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Sí, en VitaeSpark podés cambiar de plantilla cuando quieras desde el selector de plantillas. El contenido se adapta automáticamente al nuevo formato.",
+          text: "Sí, en VitaeSpark podés cambiar de plantilla durante la creación y volver a editar tu CV desde el perfil después de pagarlo. El contenido se adapta automáticamente al nuevo formato.",
         },
       },
       {
@@ -122,7 +112,7 @@ export default function PlantillasCurriculumPage() {
         name: "¿Las plantillas se descargan en PDF?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Sí, todas las plantillas se descargan en formato PDF profesional, listo para enviar por email, portales de empleo o imprimir.",
+          text: "Sí, todas las plantillas se descargan en formato PDF profesional. También podés editar el CV guardado y volver a descargar una nueva versión.",
         },
       },
       {
@@ -130,7 +120,7 @@ export default function PlantillasCurriculumPage() {
         name: "¿Qué plantilla conviene para mi primer empleo?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Para un primer empleo, ATS Compacta, Harvard o Azul son buenas opciones porque transmiten seriedad y orden, lo cual es importante cuando todavía no tenés mucha experiencia laboral que mostrar.",
+          text: "Para un primer empleo, Harvard, Elegante o Azul son buenas opciones porque transmiten seriedad y orden, lo cual es importante cuando todavía no tenés mucha experiencia laboral que mostrar.",
         },
       },
       {
@@ -138,7 +128,7 @@ export default function PlantillasCurriculumPage() {
         name: "¿Cuántas plantillas tiene VitaeSpark?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "VitaeSpark ofrece 6 plantillas profesionales: Harvard, ATS Compacta, Elegante, Morado, Azul y Verde. Cada una está optimizada para ATS y se adapta a distintos perfiles e industrias.",
+          text: "VitaeSpark ofrece 5 plantillas profesionales: Harvard, Elegante, Morado, Azul y Verde. Cada una está optimizada para ATS y se adapta a distintos perfiles e industrias.",
         },
       },
     ],
@@ -169,7 +159,7 @@ export default function PlantillasCurriculumPage() {
         "@type": "HowToStep",
         position: 3,
         name: "Probá la plantilla con tu contenido real",
-        text: "En VitaeSpark podés ver tu CV en distintas plantillas antes de decidir. Cargá tu información y compará cómo se ve en cada formato para elegir con seguridad.",
+        text: "En VitaeSpark podés ver tu CV en distintas plantillas antes de decidir. Cargá tu información y compará cómo se ve en cada formato para elegir con seguridad. Si después querés ajustar texto o plantilla, podés hacerlo desde tu perfil.",
         url: new URL(path, baseUrl).toString(),
       },
     ],
@@ -227,12 +217,13 @@ export default function PlantillasCurriculumPage() {
             Comparación de plantillas
           </div>
           <h2 className="text-3xl font-bold">
-            Las 6 plantillas de VitaeSpark: cuál elegir según tu perfil
+            Las 5 plantillas de VitaeSpark: cuál elegir según tu perfil
           </h2>
           <p className="mt-4 max-w-3xl text-lg leading-8 text-white/75">
-            Todas nuestras plantillas están optimizadas para sistemas ATS y se
-            descargan en PDF profesional. La diferencia está en el estilo visual
-            y el tipo de industria para la que mejor funcionan.
+            Todas nuestras plantillas están optimizadas para sistemas ATS, se
+            descargan en PDF profesional y quedan editables desde tu perfil. La
+            diferencia está en el estilo visual y el tipo de industria para la
+            que mejor funcionan.
           </p>
         </div>
 
@@ -312,7 +303,7 @@ export default function PlantillasCurriculumPage() {
                       <CheckCircle2 className="mt-1 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
                       <span className="text-[1.03rem] leading-8 text-white/76">
                         <strong className="text-white">Perfiles senior o formales:</strong>{" "}
-                        Harvard, ATS Compacta o Azul proyectan autoridad y orden.
+                        Harvard, Elegante o Azul proyectan autoridad y orden.
                       </span>
                     </li>
                     <li className="flex items-start gap-3">
@@ -327,7 +318,7 @@ export default function PlantillasCurriculumPage() {
                       <CheckCircle2 className="mt-1 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
                       <span className="text-[1.03rem] leading-8 text-white/76">
                         <strong className="text-white">Primer empleo:</strong>{" "}
-                        ATS Compacta, Harvard o Azul ayudan a que el CV se vea completo aunque
+                        Harvard, Elegante o Azul ayudan a que el CV se vea completo aunque
                         tengas poca experiencia.
                       </span>
                     </li>
@@ -383,7 +374,7 @@ export default function PlantillasCurriculumPage() {
                   {[
                     {
                       title: "Elegí tu plantilla",
-                      desc: "Seleccioná entre 6 opciones profesionales y mirá cómo se ve tu CV en cada una.",
+                      desc: "Seleccioná entre 5 opciones profesionales y mirá cómo se ve tu CV en cada una.",
                     },
                     {
                       title: "Completá tu información",
@@ -493,7 +484,7 @@ export default function PlantillasCurriculumPage() {
               </h3>
               <p className="text-sm leading-7 text-white/75">
                 Todas las plantillas de VitaeSpark están diseñadas para ser
-                compatibles con sistemas ATS. Harvard, ATS Compacta y Elegante suelen dar
+                compatibles con sistemas ATS. Harvard, Elegante y Azul suelen dar
                 mejores resultados en procesos muy formales o corporativos,
                 mientras que Morado, Azul y Verde funcionan bien en industrias
                 más creativas o modernas.
@@ -504,9 +495,9 @@ export default function PlantillasCurriculumPage() {
                 ¿Puedo cambiar de plantilla después de crear mi CV?
               </h3>
               <p className="text-sm leading-7 text-white/75">
-                Sí, en VitaeSpark podés cambiar de plantilla cuando quieras
-                desde el selector de plantillas. El contenido se adapta
-                automáticamente al nuevo formato sin perder nada.
+                Sí, en VitaeSpark podés cambiar de plantilla durante la creación
+                y editar tu CV desde el perfil después de pagarlo. El contenido
+                se adapta automáticamente al nuevo formato sin perder nada.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-6">
@@ -514,9 +505,9 @@ export default function PlantillasCurriculumPage() {
                 ¿Las plantillas se descargan en PDF?
               </h3>
               <p className="text-sm leading-7 text-white/75">
-                Sí, todas las plantillas se descargan en formato PDF profesional,
-                listo para enviar por email, portales de empleo o imprimir sin
-                perder formato.
+                Sí, todas las plantillas se descargan en formato PDF profesional.
+                Además, el CV queda guardado para editarlo y descargar una nueva
+                versión cuando lo necesites.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-6">
@@ -524,7 +515,7 @@ export default function PlantillasCurriculumPage() {
                 ¿Qué plantilla conviene para mi primer empleo?
               </h3>
               <p className="text-sm leading-7 text-white/75">
-                Para un primer empleo, ATS Compacta, Harvard o Azul son buenas opciones porque
+                Para un primer empleo, Harvard, Elegante o Azul son buenas opciones porque
                 transmiten seriedad y orden, lo cual es importante cuando
                 todavía no tenés mucha experiencia laboral que mostrar.
               </p>

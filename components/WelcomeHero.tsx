@@ -46,8 +46,8 @@ export default function WelcomeHero() {
             transition={{ duration: 0.5, delay: 0.08, ease: easeOut }}
             className="mt-6 max-w-[35rem] text-pretty text-base leading-7 text-[#D8D2C8]/[0.76] sm:text-xl sm:leading-8"
           >
-            Ordena tu experiencia, mejora la redacción y descarga un PDF serio
-            para enviar hoy.
+            Ordena tu experiencia, mejora la redaccion y edita tu CV despues
+            desde tu perfil.
           </motion.p>
 
           <motion.div
@@ -83,7 +83,7 @@ export default function WelcomeHero() {
             <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/40" />
             <span>PDF descargable</span>
             <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/40" />
-            <span>Editable despues</span>
+            <span>Editable desde tu perfil</span>
           </motion.div>
         </div>
 

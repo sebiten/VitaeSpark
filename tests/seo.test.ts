@@ -44,7 +44,12 @@ describe("buildMetadata", () => {
     expect(metadata.openGraph?.url?.toString()).toBe(
       "https://vitaespark.test/cv-para-cajero"
     );
-    expect(metadata.openGraph?.images?.[0]).toMatchObject({
+    const openGraphImages = metadata.openGraph?.images;
+    const firstOpenGraphImage = Array.isArray(openGraphImages)
+      ? openGraphImages[0]
+      : openGraphImages;
+
+    expect(firstOpenGraphImage).toMatchObject({
       width: 1200,
       height: 630,
       alt: "Vitae Spark",

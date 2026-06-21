@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Currículum Vitae en PDF: Crea, Formatea y Descarga Profesional",
+  title: "Currículum Vitae en PDF Editable: Crea, Formatea y Descarga",
   description:
-    "Creá y descargá tu currículum vitae en PDF con formato profesional, compatible con ATS, listo para enviar por email y portales de empleo.",
+    "Creá, editá y descargá tu currículum vitae en PDF con formato profesional, compatible con ATS y listo para enviar.",
   path: "/curriculum-vitae-pdf",
   keywords: [
     "curriculum vitae pdf",
@@ -22,8 +22,8 @@ export default function CurriculumVitaePdfPage() {
     <MarketingPage
       path="/curriculum-vitae-pdf"
       eyebrow="CV en PDF"
-      title="Curriculum vitae en PDF listo para enviar a vacantes reales"
-      description="Prepará un CV profesional y descargalo en PDF con una estructura clara, buena presentación y formato compatible con ATS."
+      title="Curriculum vitae en PDF editable listo para enviar a vacantes reales"
+      description="Prepará un CV profesional, editalo desde tu perfil y descargalo en PDF con estructura clara y formato compatible con ATS."
       intro={[
         "El formato PDF sigue siendo una de las formas más prácticas y profesionales de enviar un currículum. Mantiene la estructura, evita cambios inesperados y transmite una imagen más cuidada en procesos de selección.",
         "VitaeSpark te permite llegar a ese resultado sin tener que resolver por separado contenido, diseño y exportación. Todo el flujo está orientado a terminar con un CV útil, claro y listo para compartir, con texto real que los sistemas ATS pueden leer.",

@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Crear CV Online en Minutos con IA y Plantillas",
+  title: "Crear CV Online Editable en Minutos con IA",
   description:
-    "Crea tu currículum online con IA, plantillas profesionales y enfoque ATS para postularte mejor a trabajos reales.",
+    "Crea tu currículum online con IA, editalo desde tu perfil, cambia plantilla y descargalo en PDF con enfoque ATS.",
   path: "/crear-cv-online",
   keywords: [
     "crear cv online",
@@ -20,15 +20,15 @@ export default function CrearCvOnlinePage() {
     <MarketingPage
       path="/crear-cv-online"
       eyebrow="Crear CV online"
-      title="Crear curriculum online para conseguir entrevistas mas rapido"
-      description="Arma tu curriculum vitae online con ayuda de IA, plantillas profesionales y enfoque ATS para postularte mejor a ofertas reales."
+      title="Crear curriculum online editable para conseguir entrevistas mas rapido"
+      description="Arma tu curriculum vitae online con ayuda de IA, plantillas profesionales, edición posterior y enfoque ATS para postularte mejor."
       intro={[
         "Crear un curriculum online ya no consiste solo en llenar un formulario y descargar un PDF. Si quieres conseguir entrevistas, necesitas un CV que explique bien tu experiencia, ordene tus logros y use un formato que reclutadores y sistemas ATS puedan leer sin friccion.",
         "VitaeSpark esta pensado para personas que quieren hacer un CV profesional en poco tiempo, pero sin resignar claridad ni impacto. El flujo te ayuda a elegir una plantilla, completar tu informacion y mejorar la redaccion con inteligencia artificial para que el resultado final se vea serio y listo para enviar.",
       ]}
       benefits={[
         "Redaccion guiada para transformar datos sueltos en un curriculum mas convincente.",
-        "Plantillas listas para descargar en PDF y compartir en postulaciones reales.",
+        "Plantillas listas para editar, descargar en PDF y compartir en postulaciones reales.",
         "Estructura orientada a mejorar legibilidad para reclutadores y filtros ATS.",
       ]}
       steps={[
@@ -43,9 +43,9 @@ export default function CrearCvOnlinePage() {
             "Carga experiencia, estudios, habilidades e informacion adicional con una guia clara.",
         },
         {
-          title: "Mejora y descarga",
+          title: "Edita y descarga",
           description:
-            "La app optimiza el contenido y te deja tu CV listo para usar.",
+            "La app optimiza el contenido y deja tu CV guardado para editarlo cuando lo necesites.",
         },
       ]}
       sections={[
@@ -66,7 +66,7 @@ export default function CrearCvOnlinePage() {
         {
           title: "Que recibes al final del proceso",
           paragraphs: [
-            "El objetivo no es dejarte con un borrador a medias, sino con un CV terminado y util para postularte. Al completar el flujo obtienes una version clara, profesional y preparada para descargar en PDF.",
+            "El objetivo no es dejarte con un borrador a medias, sino con un CV terminado y util para postularte. Al completar el flujo obtienes una version clara, profesional, editable desde tu perfil y preparada para descargar en PDF.",
             "Eso reduce mucha friccion para quien necesita avanzar rapido: no tienes que pelearte con el formato, ni pensar desde cero como redactar cada bloque, ni perder tiempo ordenando visualmente el documento.",
           ],
         },
@@ -86,7 +86,7 @@ export default function CrearCvOnlinePage() {
         {
           question: "El CV se puede descargar en PDF?",
           answer:
-            "Si. El flujo esta pensado para terminar con un CV visualmente profesional y listo para descargar en PDF.",
+            "Si. El flujo termina con un CV visualmente profesional, editable desde tu perfil y listo para descargar en PDF.",
         },
         {
           question: "Cuanto tiempo tarda crear el CV?",
@@ -96,7 +96,7 @@ export default function CrearCvOnlinePage() {
         {
           question: "Puedo editar mi CV despues?",
           answer:
-            "Si. El flujo esta pensado para que puedas ajustar contenido, mejorar redaccion y adaptar tu perfil a nuevas postulaciones.",
+            "Si. Desde tu perfil podes ajustar contenido, cambiar plantilla y descargar una nueva version en PDF sin volver a cargar todo.",
         },
         {
           question: "Que pasa si no tengo mucha experiencia?",
