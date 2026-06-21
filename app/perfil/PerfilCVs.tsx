@@ -1,46 +1,48 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import type { CVRecord } from "@/lib/types/cv";
 import { PendingPaymentRecovery } from "@/components/PendingPaymentRecovery";
-
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogTitle,
-  DialogHeader,
   DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
+  ArrowRight,
+  CheckCircle2,
   Eye,
-  FileText,
+  LayoutGrid,
+  List,
   Loader2,
   Pencil,
+  Plus,
+  ShieldCheck,
   Sparkles,
-  User,
   X,
 } from "lucide-react";
 import UserPayments from "@/components/UserPayment";
 import { CVThumbnail } from "./CvThumbnail";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full w-full items-center justify-center rounded-md bg-white text-sm text-slate-500">
+    <div className="flex h-full w-full items-center justify-center rounded-2xl bg-white text-sm text-slate-500">
       Preparando vista previa...
     </div>
   ),
@@ -52,55 +54,73 @@ const PDFDownloadButton = dynamic(
     ssr: false,
     loading: () => (
       <Button
-        className="w-full bg-[#1A1A1D] border border-[#2A2A2D] text-[#F4F4F5]"
+        className="w-full rounded-2xl border border-white/10 bg-white/[0.04] text-[#F4F4F5]"
         disabled
       >
         Preparando...
       </Button>
     ),
-  }
+  },
 );
 
+type ProfileCVRecord = CVRecord & {
+  created_at?: string | null;
+};
+
+type ProfileInfo = {
+  name: string;
+  email: string;
+  imgUrl?: string;
+};
+
 const templateLabels: Record<string, string> = {
-  green: "Verde Energía",
+  green: "Verde Energia",
   blue: "Azul Corporativo",
   elegance: "Elegancia",
-  purple: "Púrpura Pro",
+  purple: "Purpura Pro",
   harvard: "Harvard",
 };
 
-function getTemplateClass(template: string) {
+function getTemplateLabel(template: string): string {
+  return templateLabels[template || "purple"] || "Purpura Pro";
+}
+
+function getTemplateDotClass(template?: string | null) {
   switch (template) {
     case "green":
-      return "bg-green-600 text-white";
+      return "bg-emerald-400";
     case "blue":
-      return "bg-blue-600 text-white";
+      return "bg-sky-400";
     case "elegance":
-      return "bg-sky-800 text-white";
-    case "purple":
-      return "bg-purple-600 text-white";
+      return "bg-blue-300";
     case "harvard":
-      return "bg-white text-black";
+      return "bg-zinc-200";
     default:
-      return "bg-purple-600 text-white";
+      return "bg-violet-400";
   }
 }
 
-function getTemplateLabel(template: string): string {
-  return templateLabels[template || "purple"] || "Púrpura Pro";
+function formatShortDate(value?: string | null) {
+  if (!value) return "Sin fecha";
+
+  try {
+    return new Intl.DateTimeFormat("es-AR", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }).format(new Date(value));
+  } catch {
+    return "Sin fecha";
+  }
 }
 
 export default function PerfilCVs() {
-  const [cvs, setCvs] = useState<CVRecord[]>([]);
+  const [cvs, setCvs] = useState<ProfileCVRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCongrats, setShowCongrats] = useState(false);
-  const [paidCv, setPaidCv] = useState<CVRecord | null>(null);
-  const [selectedCV, setSelectedCV] = useState<CVRecord | null>(null);
-  const [profileInfo, setProfileInfo] = useState<{
-    name: string;
-    email: string;
-    imgUrl: string;
-  } | null>(null);
+  const [paidCv, setPaidCv] = useState<ProfileCVRecord | null>(null);
+  const [selectedCV, setSelectedCV] = useState<ProfileCVRecord | null>(null);
+  const [profileInfo, setProfileInfo] = useState<ProfileInfo | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -138,10 +158,12 @@ export default function PerfilCVs() {
         .order("created_at", { ascending: false });
 
       if (!error && data) {
-        setCvs(data);
+        const paidCvs = data as ProfileCVRecord[];
+        setCvs(paidCvs);
+
         const cvId = searchParams.get("cv_id");
         if (cvId) {
-          const found = data.find((cv) => cv.id === cvId);
+          const found = paidCvs.find((cv) => cv.id === cvId);
           if (found) {
             setPaidCv(found);
             setShowCongrats(true);
@@ -154,15 +176,15 @@ export default function PerfilCVs() {
     };
 
     fetchData();
-  }, []);
+  }, [router, searchParams]);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="bg-gradient-to-br from-[#1F1F22] to-[#141416] px-8 py-6 rounded-2xl shadow-2xl border border-[#2A2A2D] flex flex-col items-center space-y-4">
-          <Loader2 className="w-10 h-10 animate-spin text-white" />
-          <span className="text-[#E4E4E7] font-semibold text-lg tracking-wide">
-            Cargando tus CVs...
+      <div className="flex min-h-[60vh] items-center justify-center bg-[#0F0F12] px-4">
+        <div className="flex items-center gap-3 rounded-3xl border border-white/10 bg-[#15151A] px-5 py-4 text-white shadow-2xl shadow-black/20">
+          <Loader2 className="h-5 w-5 animate-spin text-[#A78BFA]" />
+          <span className="text-sm font-medium text-white/78">
+            Cargando tu perfil...
           </span>
         </div>
       </div>
@@ -170,332 +192,394 @@ export default function PerfilCVs() {
   }
 
   return (
-    <div className="relative w-full mx-auto overflow-hidden px-4 py-10 space-y-8 bg-[#111113]">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-[#7C3AED]/10 blur-[120px]" />
-      {profileInfo && (
-        <div className="relative max-w-5xl mx-auto mb-8">
-          <Card className="overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/85 text-white shadow-2xl shadow-black/20 transition-all duration-300">
-            <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#38BDF8]/10 blur-3xl" />
-            <CardHeader className="pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0 p-5">
-              <div className="flex items-center gap-4">
-                <div className="bg-gradient-to-br from-[#7C3AED] to-[#5B21B6] p-3 rounded-full shadow-md ">
-                  <Avatar>
-                    <AvatarImage
-                      src={profileInfo.imgUrl}
-                      alt={profileInfo.name}
-                      className="rounded-full object-cover"
+    <main className="relative min-h-screen overflow-hidden bg-[#0F0F12] px-4 py-8 text-[#F4F4F5] sm:px-6 sm:py-10">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-[#7C3AED]/8 blur-[140px]" />
+
+      <div className="relative mx-auto max-w-6xl space-y-6">
+        {profileInfo ? (
+          <ProfileHeader
+            profileInfo={profileInfo}
+            paidCount={cvs.length}
+            onCreate={() => router.push("/crear")}
+          />
+        ) : null}
+
+        {showCongrats && paidCv ? <PaymentSuccessNotice cv={paidCv} /> : null}
+
+        <PendingPaymentRecovery variant="profile" />
+
+        <section className="rounded-[30px] border border-white/8 bg-[#141419] p-4 shadow-[0_18px_48px_rgba(4,4,10,0.18)] sm:p-5">
+          <Tabs defaultValue="grid" className="space-y-5">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/42">
+                  Biblioteca
+                </p>
+                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">
+                  CVs pagados
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-white/58">
+                  Edita, revisa y descarga los CVs que ya desbloqueaste.
+                </p>
+              </div>
+
+              <TabsList className="h-auto w-full rounded-2xl border border-white/8 bg-[#0F0F12] p-1 sm:w-auto">
+                <TabsTrigger
+                  value="grid"
+                  className="flex flex-1 items-center gap-2 rounded-xl px-3 py-2 text-xs text-white/62 data-[state=active]:bg-white/[0.08] data-[state=active]:text-white sm:flex-none"
+                >
+                  <LayoutGrid className="h-4 w-4" />
+                  Tarjetas
+                </TabsTrigger>
+                <TabsTrigger
+                  value="list"
+                  className="flex flex-1 items-center gap-2 rounded-xl px-3 py-2 text-xs text-white/62 data-[state=active]:bg-white/[0.08] data-[state=active]:text-white sm:flex-none"
+                >
+                  <List className="h-4 w-4" />
+                  Lista
+                </TabsTrigger>
+              </TabsList>
+            </div>
+
+            <TabsContent value="grid" className="mt-0">
+              {cvs.length === 0 ? (
+                <PerfilEmptyState onCreate={() => router.push("/crear")} />
+              ) : (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {cvs.map((cv) => (
+                    <CVGridCard
+                      key={cv.id}
+                      cv={cv}
+                      onEdit={() => router.push(`/editar-cv/${cv.id}`)}
+                      onPreview={() => setSelectedCV(cv)}
                     />
-                    <AvatarFallback className="bg-transparent text-white text-xl">
-                      {profileInfo.name?.charAt(0) ?? "U"}
-                    </AvatarFallback>
-                  </Avatar>
+                  ))}
                 </div>
-                <div className="space-y-1">
-                  <h3 className="text-xl font-bold text-[#F4F4F5] flex items-center gap-2">
-                    ¡Hola, {profileInfo.name}! <span className="animate-wave inline-block">👋</span>
-                  </h3>
-                  <p className="text-sm text-[#A1A1AA] flex items-center gap-1.5">
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400"></span>
-                    {profileInfo.email}
-                  </p>
-                </div>
-              </div>
-              <div className="bg-white/[0.04] px-4 py-1.5 rounded-full text-sm font-medium text-[#E4E4E7] flex items-center gap-2 shadow-inner border border-white/10">
-                <span className="text-[#7C3AED]">{cvs.length}</span>
-                <span>
-                  {cvs.length === 1 ? "CV" : "CVs"} {cvs.length === 1 ? "disponible" : "disponibles"}
-                </span>
-              </div>
-            </CardHeader>
-          </Card>
-        </div>
-      )}
+              )}
+            </TabsContent>
 
-      {showCongrats && paidCv && (
-        <div className="max-w-4xl mx-auto">
-          <Card className="bg-gradient-to-r from-green-600 to-green-700 border-green-500 text-white p-4 rounded-lg shadow-lg transform transition-all duration-300 hover:shadow-green-500/20 hover:shadow-xl">
-            <CardHeader className="pb-2 flex flex-row items-center space-y-0 gap-2">
-              <div className="w-6 h-6 text-white flex items-center justify-center">
-                ✓
-              </div>
-              <div className="text-xl font-bold">¡Pago aprobado!</div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-green-100">
-                Tu CV "{paidCv.cv_data.nombre}" esta listo para editar y descargar.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+            <TabsContent value="list" className="mt-0">
+              <ScrollArea className="max-h-[72vh] pr-2">
+                {cvs.length === 0 ? (
+                  <PerfilEmptyState onCreate={() => router.push("/crear")} />
+                ) : (
+                  <div className="space-y-3">
+                    {cvs.map((cv) => (
+                      <CVListItem
+                        key={cv.id}
+                        cv={cv}
+                        onEdit={() => router.push(`/editar-cv/${cv.id}`)}
+                        onPreview={() => setSelectedCV(cv)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </ScrollArea>
+            </TabsContent>
+          </Tabs>
+        </section>
 
-      <PendingPaymentRecovery variant="profile" />
-      <div className="relative text-center space-y-2 mb-8 ">
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#7C3AED]/15 text-[#A78BFA] ring-1 ring-[#A78BFA]/20">
-          <FileText className="h-6 w-6" />
-        </div>
-        <h2 className="text-3xl font-bold text-white">Tus CVs aprobados</h2>
-        <p className="text-[#A1A1AA] max-w-md mx-auto">
-          Edita, descarga y comparte tus curriculums profesionales
-        </p>
+        <UserPayments />
       </div>
 
-      <Tabs defaultValue="grid" className="relative max-w-6xl mx-auto">
-        <div className="flex justify-center mb-6">
-          <TabsList className="bg-[#15151A] border border-white/10 p-1 rounded-2xl text-white">
-            <TabsTrigger
-              value="grid"
-              className="text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white rounded-xl"
-            >
-              Cuadrícula
-            </TabsTrigger>
-            <TabsTrigger
-              value="list"
-              className="text-white/70 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white rounded-xl"
-            >
-              Lista
-            </TabsTrigger>
-          </TabsList>
+      <PreviewDialog
+        cv={selectedCV}
+        onOpenChange={(open) => {
+          if (!open) setSelectedCV(null);
+        }}
+      />
+    </main>
+  );
+}
+
+function ProfileHeader({
+  profileInfo,
+  paidCount,
+  onCreate,
+}: {
+  profileInfo: ProfileInfo;
+  paidCount: number;
+  onCreate: () => void;
+}) {
+  return (
+    <section className="rounded-[30px] border border-white/8 bg-[#141419] p-4 shadow-[0_18px_48px_rgba(4,4,10,0.18)] sm:p-5">
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+        <div className="flex min-w-0 items-start gap-4">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-1">
+            <Avatar className="h-14 w-14">
+              <AvatarImage
+                src={profileInfo.imgUrl}
+                alt={profileInfo.name}
+                className="object-cover"
+              />
+              <AvatarFallback className="bg-[#1B1B22] text-lg font-semibold text-white">
+                {profileInfo.name?.charAt(0) ?? "U"}
+              </AvatarFallback>
+            </Avatar>
+          </div>
+
+          <div className="min-w-0">
+            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/42">
+              Mi perfil
+            </p>
+            <h1 className="mt-1 truncate text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              {profileInfo.name}
+            </h1>
+            <p className="mt-1 truncate text-sm text-white/56">
+              {profileInfo.email}
+            </p>
+          </div>
         </div>
-        <TabsContent value="grid" className="mt-0">
-          {cvs.length === 0 ? (
-            <PerfilEmptyState router={router} />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {cvs.map((cv) => (
-                <Card
-                  key={cv.id}
-                  className="group overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/85 text-[#F4F4F5] shadow-xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-[#38BDF8]/30"
-                >
-                  <CardHeader className="bg-white/[0.03] p-4 relative border-b border-white/10">
-                    <div className="mt-2">
-                      <div
-                        className={`
-      text-xs font-medium px-2 py-0.5 rounded inline-block uppercase
-      ${getTemplateClass(cv.template || "purple")}
-    `}
-                      >
-                        {getTemplateLabel(cv.template || "purple")}
-                      </div>
-                    </div>
 
-                    <div className="flex items-center gap-3">
-                      <div className="bg-[#2A2A2D] p-2 rounded-full">
-                        <User className="w-4 h-4 text-[#F4F4F5]" />
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="text-[#F4F4F5] font-medium">
-                          {cv.cv_data.nombre}
-                        </div>
-                        <div className="text-sm text-[#7C3AED]">
-                          {cv.cv_data.puesto}
-                        </div>
-                      </div>
-                    </div>
-                  </CardHeader>
-
-                  <CardContent className="p-0">
-                    <CVThumbnail cv={cv} />
-                  </CardContent>
-
-                  <CardFooter className="p-4 flex flex-col gap-2 bg-[#15151A]">
-                    <div className="text-center w-full mb-1">
-                      <div className="font-medium text-[#F4F4F5]">
-                        CV Profesional
-                      </div>
-                      <div className="text-xs text-[#A1A1AA]">
-                        Editable y listo para descargar
-                      </div>
-                    </div>
-
-                    <div className="grid w-full grid-cols-2 gap-2">
-                      <Button
-                        variant="outline"
-                        className="bg-[#1A1A1D] border-[#2A2A2D] text-[#F4F4F5]"
-                        onClick={() => router.push(`/editar-cv/${cv.id}`)}
-                      >
-                        <Pencil className="w-4 h-4 mr-2" /> Editar
-                      </Button>
-
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button
-                            variant="outline"
-                            className="bg-[#1A1A1D] border-[#2A2A2D] text-[#F4F4F5]"
-                            onClick={() => setSelectedCV(cv)}
-                          >
-                            <Eye className="w-4 h-4 mr-2" /> Ver
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-4xl h-[90vh] p-0 bg-[#111113] border-[#2A2A2D]">
-                          <DialogHeader className="p-4 border-b border-[#2A2A2D] flex flex-row justify-between items-center text-white">
-                            <DialogTitle className="text-lg font-semibold text-[#F4F4F5]">
-                              Vista previa - {selectedCV?.cv_data.nombre}
-                            </DialogTitle>
-                          </DialogHeader>
-                          <div className="p-4 h-[calc(90vh-70px)]">
-                            {selectedCV && (
-                              <PDFViewerPane
-                                cv={selectedCV.cv_data}
-                                template={selectedCV.template || undefined}
-                                className="rounded-md border border-[#2A2A2D]"
-                                style={{ width: "100%", height: "100%" }}
-                              />
-                            )}
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-
-                      <PDFDownloadButton
-                        cv={cv.cv_data}
-                        template={cv.template || undefined}
-                        className="col-span-2"
-                      />
-                    </div>
-                  </CardFooter>
-                </Card>
-              ))}
+        <div className="grid gap-3 sm:grid-cols-[auto_auto] sm:items-center">
+          <div className="grid grid-cols-2 overflow-hidden rounded-2xl border border-white/8 bg-[#0F0F12]">
+            <div className="border-r border-white/8 px-4 py-3">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-white/36">
+                CVs pagados
+              </p>
+              <p className="mt-1 text-2xl font-semibold text-white">
+                {paidCount}
+              </p>
             </div>
-          )}
-        </TabsContent>
-        <TabsContent value="list" className="mt-0">
-          <ScrollArea className="max-h-[70vh] pr-4 pb-4">
-            {cvs.length === 0 ? (
-              <PerfilEmptyState router={router} />
-            ) : (
-              <div className="space-y-4">
-                {cvs.map((cv) => (
-                  <Card
-                    key={cv.id}
-                    className="bg-[#111113] border border-[#2A2A2D] text-[#F4F4F5] shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:border-primary/50"
-                  >
-                    <div className="flex flex-col md:flex-row">
-                      <CardHeader className="bg-[#1A1A1D] md:w-1/3 p-4">
-                        <div className="flex items-center gap-3">
-                          <div className="bg-[#2A2A2D] p-2 rounded-full">
-                            <User className="w-4 h-4 text-[#F4F4F5]" />
-                          </div>
-                          <div className="flex flex-col">
-                            <div className="text-[#F4F4F5] font-medium">
-                              {cv.cv_data.nombre}
-                            </div>
-                            <div className="text-xs text-[#7C3AED]">
-                              {cv.cv_data.puesto}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="mt-2">
-                          <div className="bg-primary text-xs font-medium text-primary-foreground px-2 py-0.5 rounded inline-block uppercase">
-                            {getTemplateLabel(cv.template || "purple")}
-                          </div>
-                        </div>
-                      </CardHeader>
+            <div className="px-4 py-3">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-white/36">
+                Estado
+              </p>
+              <p className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-xs font-medium text-emerald-300">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                Activo
+              </p>
+            </div>
+          </div>
 
-                      <CardContent className="p-4 md:w-2/3 flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <div className="w-[60px] h-[80px] bg-white rounded shadow-md flex flex-col p-1">
-                            <div className="w-full h-2 bg-primary mb-1 rounded-sm"></div>
-                            <div className="w-3/4 h-1 bg-gray-300 mb-0.5 rounded-sm"></div>
-                            <div className="w-1/2 h-1 bg-gray-300 mb-1 rounded-sm"></div>
-                            <div className="w-full h-1 bg-gray-200 mb-0.5 rounded-sm"></div>
-                            <div className="w-full h-1 bg-gray-200 mb-0.5 rounded-sm"></div>
-                            <div className="w-3/4 h-1 bg-gray-200 mb-1 rounded-sm"></div>
-                          </div>
-                          <div>
-                            <h3 className="font-medium text-[#F4F4F5]">
-                              CV Profesional
-                            </h3>
-                            <p className="text-xs text-[#A1A1AA]">
-                              Editable y listo para descargar
-                            </p>
-                          </div>
-                        </div>
+          <Button
+            onClick={onCreate}
+            className="h-12 rounded-2xl bg-[#6F3CD2] px-5 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(109,40,217,0.18)] hover:bg-[#7A47DD]"
+          >
+            <Plus className="h-4 w-4" />
+            Crear otro CV
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-                        <div className="flex gap-2">
-                          <Button
-                            variant="outline"
-                            className="bg-[#1A1A1D] hover:bg-[#2A2A2D] border-[#2A2A2D] text-[#F4F4F5]"
-                            onClick={() => router.push(`/editar-cv/${cv.id}`)}
-                          >
-                            <Pencil className="w-4 h-4 mr-2" /> Editar
-                          </Button>
-
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button
-                                variant="outline"
-                                className="bg-[#1A1A1D] hover:bg-[#2A2A2D] border-[#2A2A2D] text-[#F4F4F5]"
-                                onClick={() => setSelectedCV(cv)}
-                              >
-                                <Eye className="w-4 h-4 mr-2" /> Ver
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-4xl h-[90vh] p-0 bg-[#111113] border-[#2A2A2D]">
-                              <DialogHeader className="p-4 border-b border-[#2A2A2D] flex flex-row justify-between items-center">
-                                <DialogTitle className="text-lg font-semibold text-[#F4F4F5]">
-                                  Vista previa - {selectedCV?.cv_data.nombre}
-                                </DialogTitle>
-                                <DialogClose asChild>
-                                  <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="rounded-full text-[#F4F4F5]"
-                                  >
-                                    <X className="w-4 h-4" />
-                                  </Button>
-                                </DialogClose>
-                              </DialogHeader>
-                              <div className="p-4 h-[calc(90vh-70px)]">
-                                {selectedCV && (
-                                  <PDFViewerPane
-                                    cv={selectedCV.cv_data}
-                                    template={
-                                      selectedCV.template || undefined
-                                    }
-                                    className="rounded-md border border-[#2A2A2D]"
-                                    style={{ width: "100%", height: "100%" }}
-                                  />
-                                )}
-                              </div>
-                            </DialogContent>
-                          </Dialog>
-
-                          <PDFDownloadButton
-                            cv={cv.cv_data}
-                            template={cv.template || undefined}
-                          />
-                        </div>
-                      </CardContent>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </ScrollArea>
-        </TabsContent>
-      </Tabs>
-      <div className="relative">
-        <UserPayments />
+function PaymentSuccessNotice({ cv }: { cv: ProfileCVRecord }) {
+  return (
+    <div className="rounded-[26px] border border-emerald-400/18 bg-emerald-400/10 p-4 text-white">
+      <div className="flex items-start gap-3">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-emerald-400/20 bg-emerald-400/10 text-emerald-300">
+          <CheckCircle2 className="h-5 w-5" />
+        </div>
+        <div>
+          <p className="text-sm font-semibold text-emerald-200">
+            Pago aprobado
+          </p>
+          <p className="mt-1 text-sm leading-6 text-white/72">
+            Tu CV de {cv.cv_data.nombre} ya esta listo para editar y descargar
+            sin marca de agua.
+          </p>
+        </div>
       </div>
     </div>
   );
 }
 
-function PerfilEmptyState({ router }: { router: any }) {
+function CVGridCard({
+  cv,
+  onEdit,
+  onPreview,
+}: {
+  cv: ProfileCVRecord;
+  onEdit: () => void;
+  onPreview: () => void;
+}) {
   return (
-    <div className="text-center py-16 px-6 bg-[#15151A]/85 rounded-3xl border border-white/10 max-w-md mx-auto shadow-2xl shadow-black/10">
-      <Sparkles className="w-12 h-12 text-[#7C3AED] mx-auto mb-4 opacity-80" />
-      <h3 className="text-xl font-semibold text-[#F4F4F5] mb-2">
-        No tienes CVs todavía
-      </h3>
-      <p className="text-[#A1A1AA] mb-6">
-        Crea tu primer currículum profesional con inteligencia artificial
+    <Card className="group overflow-hidden rounded-[28px] border-white/8 bg-[#101014] text-[#F4F4F5] shadow-[0_14px_36px_rgba(4,4,10,0.16)] transition duration-200 hover:border-white/14">
+      <CardHeader className="space-y-4 border-b border-white/8 bg-white/[0.025] p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="truncate text-base font-semibold text-white">
+              {cv.cv_data.nombre}
+            </p>
+            <p className="mt-1 line-clamp-1 text-sm text-[#A78BFA]">
+              {cv.cv_data.puesto}
+            </p>
+          </div>
+          <TemplatePill template={cv.template} />
+        </div>
+        <p className="text-xs text-white/42">
+          Pagado el {formatShortDate(cv.created_at)}
+        </p>
+      </CardHeader>
+
+      <CardContent className="p-0">
+        <button
+          type="button"
+          onClick={onPreview}
+          className="block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A78BFA]"
+        >
+          <CVThumbnail cv={cv} />
+        </button>
+      </CardContent>
+
+      <CardFooter className="flex flex-col gap-3 border-t border-white/8 bg-[#101014] p-4">
+        <div className="grid w-full grid-cols-2 gap-2">
+          <Button
+            variant="outline"
+            className="h-10 rounded-2xl border-white/10 bg-white/[0.035] text-white/78 hover:bg-white/[0.07] hover:text-white"
+            onClick={onEdit}
+          >
+            <Pencil className="h-4 w-4" />
+            Editar
+          </Button>
+
+          <Button
+            variant="outline"
+            className="h-10 rounded-2xl border-white/10 bg-white/[0.035] text-white/78 hover:bg-white/[0.07] hover:text-white"
+            onClick={onPreview}
+          >
+            <Eye className="h-4 w-4" />
+            Ver
+          </Button>
+        </div>
+
+        <PDFDownloadButton
+          cv={cv.cv_data}
+          template={cv.template || undefined}
+          className="w-full"
+        />
+      </CardFooter>
+    </Card>
+  );
+}
+
+function CVListItem({
+  cv,
+  onEdit,
+  onPreview,
+}: {
+  cv: ProfileCVRecord;
+  onEdit: () => void;
+  onPreview: () => void;
+}) {
+  return (
+    <div className="grid gap-4 rounded-[24px] border border-white/8 bg-[#101014] p-4 text-white shadow-[0_10px_28px_rgba(4,4,10,0.14)] md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+      <div className="flex min-w-0 items-center gap-4">
+        <button
+          type="button"
+          onClick={onPreview}
+          className="flex h-16 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white shadow-lg shadow-black/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A78BFA]"
+        >
+          <div className="h-full w-full scale-[0.45]">
+            <CVThumbnail cv={cv} />
+          </div>
+        </button>
+
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="truncate text-base font-semibold text-white">
+              {cv.cv_data.nombre}
+            </h3>
+            <TemplatePill template={cv.template} />
+          </div>
+          <p className="mt-1 truncate text-sm text-[#A78BFA]">
+            {cv.cv_data.puesto}
+          </p>
+          <p className="mt-1 text-xs text-white/42">
+            Pagado el {formatShortDate(cv.created_at)}
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
+        <Button
+          variant="outline"
+          className="h-10 rounded-2xl border-white/10 bg-white/[0.035] text-white/78 hover:bg-white/[0.07] hover:text-white"
+          onClick={onEdit}
+        >
+          <Pencil className="h-4 w-4" />
+          Editar
+        </Button>
+        <Button
+          variant="outline"
+          className="h-10 rounded-2xl border-white/10 bg-white/[0.035] text-white/78 hover:bg-white/[0.07] hover:text-white"
+          onClick={onPreview}
+        >
+          <Eye className="h-4 w-4" />
+          Ver
+        </Button>
+        <PDFDownloadButton
+          cv={cv.cv_data}
+          template={cv.template || undefined}
+          className="col-span-2 sm:min-w-[160px]"
+        />
+      </div>
+    </div>
+  );
+}
+
+function TemplatePill({ template }: { template?: string | null }) {
+  return (
+    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/8 bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/62">
+      <span className={`h-1.5 w-1.5 rounded-full ${getTemplateDotClass(template)}`} />
+      {getTemplateLabel(template || "purple")}
+    </span>
+  );
+}
+
+function PreviewDialog({
+  cv,
+  onOpenChange,
+}: {
+  cv: ProfileCVRecord | null;
+  onOpenChange: (open: boolean) => void;
+}) {
+  return (
+    <Dialog open={Boolean(cv)} onOpenChange={onOpenChange}>
+      <DialogContent className="max-h-[92vh] max-w-5xl overflow-hidden border-white/10 bg-[#111113] p-0 text-white sm:rounded-3xl [&>button]:hidden">
+        <DialogHeader className="flex flex-row items-center justify-between border-b border-white/10 bg-[#15151A] px-4 py-3 text-left sm:px-5">
+          <DialogTitle className="min-w-0 truncate text-base font-semibold text-white">
+            Vista previa {cv?.cv_data.nombre ? `, ${cv.cv_data.nombre}` : ""}
+          </DialogTitle>
+          <DialogClose asChild>
+            <button className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white/72 transition hover:bg-white/[0.08] hover:text-white">
+              <X className="h-4 w-4" />
+            </button>
+          </DialogClose>
+        </DialogHeader>
+        <div className="h-[calc(92vh-64px)] bg-[#2A2A2D] p-3 sm:p-5">
+          {cv ? (
+            <PDFViewerPane
+              cv={cv.cv_data}
+              template={cv.template || undefined}
+              className="h-full w-full rounded-2xl border-0 bg-white"
+            />
+          ) : null}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function PerfilEmptyState({ onCreate }: { onCreate: () => void }) {
+  return (
+    <div className="mx-auto max-w-xl rounded-[28px] border border-white/8 bg-[#101014] px-6 py-12 text-center">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-[#A78BFA]">
+        <Sparkles className="h-5 w-5" />
+      </div>
+      <h3 className="text-xl font-semibold text-white">Todavia no tenes CVs pagados</h3>
+      <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-white/58">
+        Crea tu primer CV, revisa la vista previa y desbloquea el PDF final
+        cuando este listo.
       </p>
       <Button
-        onClick={() => router.push("/crear")}
-        className="bg-primary hover:bg-primary/90 text-primary-foreground"
+        onClick={onCreate}
+        className="mt-6 h-11 rounded-2xl bg-[#6F3CD2] px-5 text-sm font-semibold text-white hover:bg-[#7A47DD]"
       >
-        Crear mi primer CV
+        Crear mi CV
+        <ArrowRight className="h-4 w-4" />
       </Button>
     </div>
   );
