@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
+import { FloatingRobot } from "./floating-robot";
 import HeroShowcase from "./HeroShowcase";
 import { Button } from "./ui/button";
 
@@ -48,15 +49,20 @@ export default function WelcomeHero() {
           variants={copyContainer}
           className="relative z-10 max-w-3xl lg:pt-1"
         >
+          <FloatingRobot
+            size="lg"
+            className="hero-robot -right-12 top-12 z-0 scale-110 border-[#8B5CF6]/20 bg-[#8B5CF6]/[0.075] text-[#D7C8FF]/[0.34] opacity-70 sm:hidden"
+          />
+
           <motion.div
             variants={copyItem}
-            className="inline-flex items-center gap-2 rounded-full border border-[#E8DDFF]/[0.12] bg-[#F6F2EA]/[0.045] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#D7C8FF] shadow-[0_10px_30px_rgba(0,0,0,0.2)] backdrop-blur-xl"
+            className="relative z-10 inline-flex items-center gap-2 rounded-full border border-[#E8DDFF]/[0.12] bg-[#F6F2EA]/[0.045] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#D7C8FF] shadow-[0_10px_30px_rgba(0,0,0,0.2)] backdrop-blur-xl"
           >
             <Sparkles className="h-3.5 w-3.5" />
             Documento guiado por IA
           </motion.div>
 
-          <div className="mt-7">
+          <div className="relative z-10 mt-7">
             <motion.h1
               variants={{
                 hidden: { opacity: 0, y: 26, filter: "blur(8px)" },
@@ -77,7 +83,7 @@ export default function WelcomeHero() {
 
           <motion.p
             variants={copyItem}
-            className="mt-6 max-w-[35rem] text-pretty text-base leading-7 text-[#D8D2C8]/[0.76] sm:text-xl sm:leading-8"
+            className="relative z-10 mt-6 max-w-[35rem] text-pretty text-base leading-7 text-[#D8D2C8]/[0.76] sm:text-xl sm:leading-8"
           >
             Ordena tu experiencia, mejora la redaccion y edita tu CV despues
             desde tu perfil.
@@ -85,7 +91,7 @@ export default function WelcomeHero() {
 
           <motion.div
             variants={copyItem}
-            className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
+            className="relative z-10 mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
             <Link href="/crear" className="w-full sm:w-auto">
               <Button
@@ -106,7 +112,7 @@ export default function WelcomeHero() {
 
           <motion.div
             variants={copyItem}
-            className="mt-4 flex w-full flex-wrap items-center justify-center gap-2 rounded-2xl border border-[#F6F2EA]/[0.08] bg-[#F6F2EA]/[0.035] px-3 py-2.5 text-[12px] font-medium text-[#D8D2C8]/[0.72] shadow-[inset_0_1px_0_rgba(246,242,234,0.04)] sm:w-fit sm:justify-start sm:rounded-full sm:px-4"
+            className="relative z-10 mt-4 flex w-full flex-wrap items-center justify-center gap-2 rounded-2xl border border-[#F6F2EA]/[0.08] bg-[#F6F2EA]/[0.035] px-3 py-2.5 text-[12px] font-medium text-[#D8D2C8]/[0.72] shadow-[inset_0_1px_0_rgba(246,242,234,0.04)] sm:w-fit sm:justify-start sm:rounded-full sm:px-4"
           >
             <span>Pago unico</span>
             <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/40" />
