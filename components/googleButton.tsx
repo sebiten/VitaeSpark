@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
@@ -67,7 +66,6 @@ export function OAuthButtons({
   onAuthSuccess,
   onAuthError,
 }: OAuthButtonsProps = {}) {
-  const router = useRouter();
   const buttonRef = useRef<HTMLDivElement>(null);
   const nonceRef = useRef<string | null>(null);
   const [isScriptReady, setIsScriptReady] = useState(false);
@@ -122,9 +120,8 @@ export function OAuthButtons({
 
           onAuthSuccess?.();
           window.setTimeout(() => {
-            router.replace("/crear");
-            router.refresh();
-          }, 450);
+            window.location.replace("/crear");
+          }, 350);
         },
       });
 
@@ -149,7 +146,7 @@ export function OAuthButtons({
     return () => {
       isMounted = false;
     };
-  }, [isScriptReady, onAuthError, onAuthStart, onAuthSuccess, router]);
+  }, [isScriptReady, onAuthError, onAuthStart, onAuthSuccess]);
 
   if (!googleClientId) {
     return (

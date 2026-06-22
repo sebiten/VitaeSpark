@@ -4,7 +4,7 @@ import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import {
   AlertCircle,
@@ -55,7 +55,6 @@ export function SubmitButton({
 type AuthTransitionState = "checking" | "idle" | "signing-in" | "confirmed";
 
 export default function AuthPageClient() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTimeoutRef = useRef<number | null>(null);
   const [activeTab, setActiveTab] = useState<string>("login");
@@ -72,9 +71,8 @@ export default function AuthPageClient() {
     }
 
     redirectTimeoutRef.current = window.setTimeout(() => {
-      router.replace("/crear");
-      router.refresh();
-    }, 450);
+      window.location.replace("/crear");
+    }, 350);
   };
 
   useEffect(() => {
@@ -109,7 +107,7 @@ export default function AuthPageClient() {
         window.clearTimeout(redirectTimeoutRef.current);
       }
     };
-  }, [router]);
+  }, []);
 
   useEffect(() => {
     const errorParam = searchParams.get("error");
@@ -541,6 +539,14 @@ function AuthTransitionScreen({ state }: { state: AuthTransitionState }) {
             <ShieldCheck className="h-4 w-4 text-[#D7C8FF]" />
             Sesión segura, sin volver a cargar tus datos.
           </div>
+          {isConfirmed ? (
+            <Link
+              href="/crear"
+              className="mx-auto mt-4 inline-flex h-11 items-center justify-center rounded-full bg-[#F6F2EA] px-5 text-sm font-semibold text-[#121114] transition hover:bg-[#FFFCF4]"
+            >
+              Continuar al creador
+            </Link>
+          ) : null}
         </motion.div>
       </div>
     </div>
