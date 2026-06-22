@@ -318,6 +318,19 @@ export function MarketingPage({
             })}
           </div>
 
+          {diagnosticCta ? (
+            <div className="mt-10">
+              <LandingCvDiagnosticCta
+                path={path}
+                title={diagnosticCta.title}
+                description={diagnosticCta.description}
+                items={diagnosticCta.items}
+                ctaLabel={diagnosticCta.label}
+                trackingLabel={diagnosticCta.trackingLabel}
+              />
+            </div>
+          ) : null}
+
           <section className="mt-12 rounded-2xl border border-white/10 bg-white/[0.035] p-6 sm:p-8">
             <div className="mb-6 flex items-center gap-3">
               <div className="rounded-xl bg-[#7C3AED]/15 p-2.5 text-[#A78BFA] ring-1 ring-[#A78BFA]/20" aria-hidden="true">
@@ -338,19 +351,6 @@ export function MarketingPage({
               ))}
             </div>
           </section>
-
-          {diagnosticCta ? (
-            <div className="mt-10">
-              <LandingCvDiagnosticCta
-                path={path}
-                title={diagnosticCta.title}
-                description={diagnosticCta.description}
-                items={diagnosticCta.items}
-                ctaLabel={diagnosticCta.label}
-                trackingLabel={diagnosticCta.trackingLabel}
-              />
-            </div>
-          ) : null}
         </article>
 
         <aside className="min-w-0 space-y-10 lg:sticky lg:top-24 lg:self-start">
