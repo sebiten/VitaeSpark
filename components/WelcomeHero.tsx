@@ -12,6 +12,24 @@ import { Button } from "./ui/button";
 export default function WelcomeHero() {
   const reduceMotion = useReducedMotion();
   const easeOut = [0.16, 1, 0.3, 1] as const;
+  const copyContainer = {
+    hidden: {},
+    show: {
+      transition: {
+        delayChildren: 0.02,
+        staggerChildren: 0.075,
+      },
+    },
+  };
+  const copyItem = {
+    hidden: { opacity: 0, y: 18, filter: "blur(6px)" },
+    show: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 0.58, ease: easeOut },
+    },
+  };
 
   return (
     <section className="relative isolate overflow-hidden bg-[#0C0C10] px-4 pb-12 pt-5 sm:px-6 sm:pb-14 sm:pt-7 lg:min-h-[calc(100dvh-64px)] lg:pb-10 lg:pt-8">
@@ -24,11 +42,14 @@ export default function WelcomeHero() {
       </div>
 
       <div className="mx-auto grid max-w-[1500px] items-center gap-5 sm:gap-8 lg:grid-cols-[minmax(0,0.76fr)_minmax(620px,1.24fr)] lg:gap-8 xl:gap-12">
-        <div className="relative z-10 max-w-3xl lg:pt-1">
+        <motion.div
+          initial={reduceMotion ? false : "hidden"}
+          animate="show"
+          variants={copyContainer}
+          className="relative z-10 max-w-3xl lg:pt-1"
+        >
           <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: easeOut }}
+            variants={copyItem}
             className="inline-flex items-center gap-2 rounded-full border border-[#E8DDFF]/[0.12] bg-[#F6F2EA]/[0.045] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#D7C8FF] shadow-[0_10px_30px_rgba(0,0,0,0.2)] backdrop-blur-xl"
           >
             <Sparkles className="h-3.5 w-3.5" />
@@ -36,17 +57,26 @@ export default function WelcomeHero() {
           </motion.div>
 
           <div className="mt-7">
-            <h1 className="max-w-[14ch] text-balance text-[3.75rem] font-semibold leading-[0.84] tracking-[-0.075em] text-[#F6F2EA] sm:text-[5rem] md:text-[5.8rem] lg:text-[6.9rem] xl:text-[7.45rem]">
+            <motion.h1
+              variants={{
+                hidden: { opacity: 0, y: 26, filter: "blur(8px)" },
+                show: {
+                  opacity: 1,
+                  y: 0,
+                  filter: "blur(0px)",
+                  transition: { duration: 0.68, ease: easeOut },
+                },
+              }}
+              className="max-w-[14ch] text-balance text-[3.75rem] font-semibold leading-[0.84] tracking-[-0.075em] text-[#F6F2EA] sm:text-[5rem] md:text-[5.8rem] lg:text-[6.9rem] xl:text-[7.45rem]"
+            >
               CV con IA,
               <br />
               listo para postular
-            </h1>
+            </motion.h1>
           </div>
 
           <motion.p
-            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.08, ease: easeOut }}
+            variants={copyItem}
             className="mt-6 max-w-[35rem] text-pretty text-base leading-7 text-[#D8D2C8]/[0.76] sm:text-xl sm:leading-8"
           >
             Ordena tu experiencia, mejora la redaccion y edita tu CV despues
@@ -54,9 +84,7 @@ export default function WelcomeHero() {
           </motion.p>
 
           <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.14, ease: easeOut }}
+            variants={copyItem}
             className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
             <Link href="/crear" className="w-full sm:w-auto">
@@ -77,9 +105,7 @@ export default function WelcomeHero() {
           </motion.div>
 
           <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.2, ease: easeOut }}
+            variants={copyItem}
             className="mt-4 flex w-full flex-wrap items-center justify-center gap-2 rounded-2xl border border-[#F6F2EA]/[0.08] bg-[#F6F2EA]/[0.035] px-3 py-2.5 text-[12px] font-medium text-[#D8D2C8]/[0.72] shadow-[inset_0_1px_0_rgba(246,242,234,0.04)] sm:w-fit sm:justify-start sm:rounded-full sm:px-4"
           >
             <span>Pago unico</span>
@@ -88,7 +114,7 @@ export default function WelcomeHero() {
             <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/40" />
             <span>Editable desde tu perfil</span>
           </motion.div>
-        </div>
+        </motion.div>
 
         <HeroShowcase />
       </div>

@@ -28,19 +28,25 @@ const secondaryDocuments = [
     src: "/harvard.webp",
     alt: "Plantilla Harvard de curriculum en VitaeSpark",
     className:
-      "left-2 top-24 w-[31%] -rotate-[9deg] opacity-[0.62] xl:left-0 xl:top-28",
+      "left-2 top-24 w-[31%] -rotate-[9deg] xl:left-0 xl:top-28",
+    opacity: 0.62,
+    floatY: 7,
   },
   {
     src: "/purple-hero.webp",
     alt: "Plantilla moderna de curriculum en VitaeSpark",
     className:
-      "right-4 top-32 w-[31%] rotate-[8deg] opacity-[0.58] xl:right-8 xl:top-36",
+      "right-4 top-32 w-[31%] rotate-[8deg] xl:right-8 xl:top-36",
+    opacity: 0.58,
+    floatY: -8,
   },
   {
     src: "/green.webp",
     alt: "Plantilla profesional de curriculum en VitaeSpark",
     className:
-      "bottom-16 left-[12%] w-[24%] rotate-[7deg] opacity-[0.44] xl:bottom-20",
+      "bottom-16 left-[12%] w-[24%] rotate-[7deg] xl:bottom-20",
+    opacity: 0.44,
+    floatY: 6,
   },
 ];
 
@@ -50,9 +56,13 @@ export default function HeroShowcase() {
 
   return (
     <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y: 26, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.7, delay: 0.08, ease: easeOut }}
+      initial={
+        reduceMotion
+          ? false
+          : { opacity: 0, y: 18, scale: 0.985, filter: "blur(8px)" }
+      }
+      animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+      transition={{ duration: 0.72, delay: 0.04, ease: easeOut }}
       className="relative mx-auto min-h-[410px] w-full max-w-[820px] sm:min-h-[700px] lg:mr-0 lg:min-h-[700px]"
     >
       <div className="pointer-events-none absolute inset-0">
@@ -69,7 +79,12 @@ export default function HeroShowcase() {
         />
       </div>
 
-      <div className="absolute inset-x-4 bottom-4 top-4 rounded-[40px] border border-[#F6F2EA]/[0.08] bg-[#F6F2EA]/[0.025] shadow-[inset_0_1px_0_rgba(246,242,234,0.05)]" />
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.52, delay: 0.02, ease: easeOut }}
+        className="absolute inset-x-4 bottom-4 top-4 rounded-[40px] border border-[#F6F2EA]/[0.08] bg-[#F6F2EA]/[0.025] shadow-[inset_0_1px_0_rgba(246,242,234,0.05)]"
+      />
 
       <div className="pointer-events-none absolute inset-0 hidden sm:block">
         {secondaryDocuments.map((doc, index) => (
@@ -78,48 +93,54 @@ export default function HeroShowcase() {
             initial={
               reduceMotion
                 ? false
-                : { opacity: 0, y: 24 }
+                : { opacity: 0, y: 30, scale: 0.94, filter: "blur(6px)" }
             }
-            animate={
-              reduceMotion
-                ? { opacity: 1 }
-                : {
-                    opacity: 1,
-                    y: index === 1 ? [0, -8, 0] : [0, 7, 0],
-                  }
-            }
+            animate={{ opacity: doc.opacity, y: 0, scale: 1, filter: "blur(0px)" }}
             transition={{
-              opacity: {
-                duration: 0.5,
-                delay: 0.14 + index * 0.07,
-                ease: easeOut,
-              },
-              y: {
-                duration: reduceMotion ? 0 : 6 + index,
-                delay: 0.14 + index * 0.07,
-                repeat: reduceMotion ? 0 : Infinity,
-                ease: "easeInOut",
-              },
+              duration: 0.62,
+              delay: 0.18 + index * 0.08,
+              ease: easeOut,
             }}
-            className={`absolute overflow-hidden rounded-[26px] border border-[#F6F2EA]/[0.12] bg-[#EEE9DE] p-2 shadow-[0_26px_70px_rgba(0,0,0,0.34)] ${doc.className}`}
+            className={`absolute ${doc.className}`}
           >
-            <Image
-              src={doc.src}
-              alt={doc.alt}
-              width={420}
-              height={560}
-              draggable={false}
-              sizes="(min-width: 1024px) 18vw, 30vw"
-              className="aspect-[0.76] w-full rounded-[18px] object-cover object-top"
-            />
+            <motion.div
+              animate={
+                reduceMotion
+                  ? undefined
+                  : {
+                      y: [0, doc.floatY, 0],
+                    }
+              }
+              transition={{
+                duration: 6.2 + index * 0.6,
+                delay: 0.85 + index * 0.14,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="overflow-hidden rounded-[26px] border border-[#F6F2EA]/[0.12] bg-[#EEE9DE] p-2 shadow-[0_26px_70px_rgba(0,0,0,0.34)]"
+            >
+              <Image
+                src={doc.src}
+                alt={doc.alt}
+                width={420}
+                height={560}
+                draggable={false}
+                sizes="(min-width: 1024px) 18vw, 30vw"
+                className="aspect-[0.76] w-full rounded-[18px] object-cover object-top"
+              />
+            </motion.div>
           </motion.div>
         ))}
       </div>
 
       <motion.div
-        initial={reduceMotion ? false : { opacity: 0, y: 34, rotateX: 8 }}
-        animate={{ opacity: 1, y: 0, rotateX: 0 }}
-        transition={{ duration: 0.72, delay: 0.12, ease: easeOut }}
+        initial={
+          reduceMotion
+            ? false
+            : { opacity: 0, y: 34, scale: 0.965, rotateX: 8, filter: "blur(8px)" }
+        }
+        animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0, filter: "blur(0px)" }}
+        transition={{ duration: 0.78, delay: 0.1, ease: easeOut }}
         className="relative z-10 mx-auto w-[min(92vw,430px)] pt-5 sm:w-[min(88vw,500px)] sm:pt-10 lg:w-[500px] xl:w-[540px]"
       >
         <div className="relative rounded-[36px] border border-[#F6F2EA]/[0.16] bg-[#ECE8DE] p-3 shadow-[0_42px_110px_rgba(0,0,0,0.58),0_0_0_1px_rgba(246,242,234,0.05)] sm:p-4">

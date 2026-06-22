@@ -572,28 +572,20 @@ export default function CVPreviewStepPurple({
                 onClick={handlePay}
                 className={`group w-full overflow-hidden rounded-2xl border transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
                   language === "en"
-                    ? "order-3 h-12 border-white/10 bg-white/[0.045] text-white shadow-none hover:bg-white/[0.07] sm:h-14"
-                    : "order-1 h-16 border-[#72D8FF]/45 bg-[#F8FCFF] text-[#09283A] shadow-[0_18px_42px_rgba(0,174,239,0.18)] hover:border-[#00AEEF]/70 hover:bg-[#EAF8FF] hover:shadow-[0_22px_52px_rgba(0,174,239,0.24)] sm:h-[4.5rem]"
+                    ? "order-3 h-12 border-[#65D8FF]/45 bg-[#00AEEF] text-[#062B3D] shadow-none hover:border-[#8FE4FF]/70 hover:bg-[#18BDF4] hover:shadow-none sm:h-14"
+                    : "order-1 h-16 border-[#65D8FF]/45 bg-[#00AEEF] text-[#062B3D] shadow-none hover:border-[#8FE4FF]/70 hover:bg-[#18BDF4] hover:shadow-none sm:h-[4.5rem]"
                 }`}
               >
                 {loading ? (
                   <div
-                    className={`flex items-center justify-center gap-2 ${
-                      language === "en" ? "text-white" : "text-[#09283A]"
-                    }`}
+                    className="flex items-center justify-center gap-2 text-[#062B3D]"
                   >
                     <Loader2 className="h-5 w-5 animate-spin" />
                     <span>{copy.processingPayment}</span>
                   </div>
                 ) : (
                   <div className="flex w-full items-center justify-center gap-3">
-                    <span
-                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${
-                        language === "en"
-                          ? "border-white/10 bg-white/[0.06]"
-                          : "border-[#00AEEF]/25 bg-[#E6F7FF]"
-                      }`}
-                    >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/50 bg-white">
                       <Image
                         src="/logompsolomano.png"
                         alt="Mercado Pago"
@@ -606,20 +598,12 @@ export default function CVPreviewStepPurple({
                       <span className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-center text-[15px] font-extrabold tracking-[-0.01em] sm:text-lg">
                         <span>{copy.mpButton}</span>
                         <span
-                          className={
-                            language === "en"
-                              ? "text-white/78"
-                              : "text-[#007EB5]"
-                          }
+                          className="text-[#063A50]"
                         >
                           {PRICING.mercadoPago.label}
                         </span>
                       </span>
-                      <span
-                        className={`mt-1 flex items-center justify-center gap-1.5 text-[11px] font-semibold ${
-                          language === "en" ? "text-white/60" : "text-[#0A6F9F]"
-                        }`}
-                      >
+                      <span className="mt-1 flex items-center justify-center gap-1.5 text-[11px] font-semibold text-[#064B67]">
                         <ShieldCheck className="h-3.5 w-3.5" />
                         {copy.mpButtonNote}
                       </span>
