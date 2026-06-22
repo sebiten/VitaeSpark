@@ -1,16 +1,12 @@
 "use client";
 
-import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
-import type { Session } from "@supabase/supabase-js";
 import { Eye, FileText, Palette } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { createClient } from "@/utils/supabase/client";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
-import CVFormStep from "../CVFormStep";
-import CVPreviewStep from "../CVPreviewStep";
 import {
   getLandingAttribution,
   setLandingAttribution,
@@ -18,9 +14,25 @@ import {
 import { recordAnalyticsEvent } from "@/lib/analytics-events";
 import type { AppLanguage } from "@/lib/i18n";
 
+type CurrentUser = {
+  id: string;
+  email?: string | null;
+};
+
 type CVFormProps = {
   initialLanguage?: AppLanguage;
+  currentUser: CurrentUser;
 };
+
+const CVFormStep = dynamic(() => import("../CVFormStep"), {
+  ssr: false,
+  loading: () => <FlowStepSkeleton label="Preparando formulario..." />,
+});
+
+const CVPreviewStep = dynamic(() => import("../CVPreviewStep"), {
+  ssr: false,
+  loading: () => <FlowStepSkeleton label="Preparando checkout..." />,
+});
 
 const createEmptyDraft = (): DatosCVFormulario => ({
   nombre: "",
@@ -34,44 +46,52 @@ const createEmptyDraft = (): DatosCVFormulario => ({
   informacionAdicional: "",
 });
 
-const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
+export default function CVForm({
+  initialLanguage = "es",
+  currentUser,
+}: CVFormProps) {
   const [selectedTemplate, setSelectedTemplate] = useState("elegance");
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
   const [activeTab, setActiveTab] = useState("template");
-  const [userSession, setUserSession] = useState<Session | null>(null);
-  const [draftData, setDraftData] = useState(createEmptyDraft);
+  const draftDataRef = useRef<DatosCVFormulario>(createEmptyDraft());
   const [draftPhotoUrl, setDraftPhotoUrl] = useState<string | null>(null);
   const [templateFlowTarget, setTemplateFlowTarget] = useState<"form" | "preview">(
     "form",
   );
 
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    track("CV Funnel Step Viewed", {
-      step: tab,
-      language: initialLanguage,
-      ...getLandingAttribution(),
-    });
-    window.scrollTo(0, 0);
-  };
+  const handleTabChange = useCallback(
+    (tab: string) => {
+      setActiveTab(tab);
+      track("CV Funnel Step Viewed", {
+        step: tab,
+        language: initialLanguage,
+        ...getLandingAttribution(),
+      });
+      window.scrollTo(0, 0);
+    },
+    [initialLanguage],
+  );
 
-  const handleTemplateSelected = (templateId: string) => {
-    setSelectedTemplate(templateId);
-    const attribution = getLandingAttribution();
-    const nextStep = templateFlowTarget === "preview" && cvData ? "preview" : "form";
-    track("CV Template Selected", {
-      template: templateId,
-      language: initialLanguage,
-      target_step: nextStep,
-      ...attribution,
-    });
-    recordAnalyticsEvent({
-      event_name: "template_selected",
-      language: initialLanguage,
-      template: templateId,
-      ...attribution,
-    });
-    setTimeout(() => {
+  const handleTemplateSelected = useCallback(
+    (templateId: string) => {
+      setSelectedTemplate(templateId);
+      const attribution = getLandingAttribution();
+      const nextStep =
+        templateFlowTarget === "preview" && cvData ? "preview" : "form";
+
+      track("CV Template Selected", {
+        template: templateId,
+        language: initialLanguage,
+        target_step: nextStep,
+        ...attribution,
+      });
+      recordAnalyticsEvent({
+        event_name: "template_selected",
+        language: initialLanguage,
+        template: templateId,
+        ...attribution,
+      });
+
       setActiveTab(nextStep);
       track("CV Funnel Step Viewed", {
         step: nextStep,
@@ -79,32 +99,49 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
         ...attribution,
       });
       setTemplateFlowTarget("form");
-    }, 500);
-  };
+      window.scrollTo(0, 0);
+    },
+    [cvData, initialLanguage, templateFlowTarget],
+  );
 
-  const handleFormCompleted = (data: RespuestaCV["cv"]) => {
-    setCvData(data);
-    const attribution = getLandingAttribution();
-    track("CV Generated", {
-      template: selectedTemplate,
-      language: initialLanguage,
-      ...attribution,
-    });
-    recordAnalyticsEvent({
-      event_name: "cv_generated",
-      language: initialLanguage,
-      template: selectedTemplate,
-      ...attribution,
-    });
-    setTimeout(() => {
+  const handleFormCompleted = useCallback(
+    (data: RespuestaCV["cv"]) => {
+      setCvData(data);
+      const attribution = getLandingAttribution();
+      track("CV Generated", {
+        template: selectedTemplate,
+        language: initialLanguage,
+        ...attribution,
+      });
+      recordAnalyticsEvent({
+        event_name: "cv_generated",
+        language: initialLanguage,
+        template: selectedTemplate,
+        ...attribution,
+      });
+
       setActiveTab("preview");
       track("CV Funnel Step Viewed", {
         step: "preview",
         language: initialLanguage,
         ...attribution,
       });
-    }, 500);
-  };
+      window.scrollTo(0, 0);
+    },
+    [initialLanguage, selectedTemplate],
+  );
+
+  const handleDraftChange = useCallback((data: DatosCVFormulario) => {
+    draftDataRef.current = {
+      ...createEmptyDraft(),
+      ...data,
+      informacionAdicional: data.informacionAdicional ?? "",
+    };
+  }, []);
+
+  const handlePhotoUrlChange = useCallback((url: string | null) => {
+    setDraftPhotoUrl(url);
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -123,15 +160,6 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
         source_type: sourceType,
       });
     }
-
-    const getUser = async () => {
-      const supabase = createClient();
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUserSession(session);
-    };
-    getUser();
   }, []);
 
   const getProgress = () => {
@@ -206,59 +234,56 @@ const CVForm: NextPage<CVFormProps> = ({ initialLanguage = "es" }) => {
           </div>
 
           <TabsContent value="template" className="space-y-6">
-            <div>
-              <TemplateSelector
-                selectedTemplate={selectedTemplate}
-                onSelectTemplate={handleTemplateSelected}
-              />
-            </div>
+            <TemplateSelector
+              selectedTemplate={selectedTemplate}
+              onSelectTemplate={handleTemplateSelected}
+            />
           </TabsContent>
 
           <TabsContent value="form" className="space-y-6">
-            <div>
-              {selectedTemplate && (
-                <CVFormStep
-                  setCvData={handleFormCompleted}
-                  setActiveTab={setActiveTab}
-                  template={selectedTemplate}
-                  userSession={userSession}
-                  language={initialLanguage}
-                  draftData={draftData}
-                  onDraftChange={(data) =>
-                    setDraftData({
-                      ...createEmptyDraft(),
-                      ...data,
-                      informacionAdicional: data.informacionAdicional ?? "",
-                    })
-                  }
-                  fotoUrl={draftPhotoUrl}
-                  onFotoUrlChange={setDraftPhotoUrl}
-                />
-              )}
-            </div>
+            {selectedTemplate ? (
+              <CVFormStep
+                template={selectedTemplate}
+                currentUserId={currentUser.id}
+                language={initialLanguage}
+                draftData={draftDataRef.current}
+                onGenerated={handleFormCompleted}
+                onDraftChange={handleDraftChange}
+                fotoUrl={draftPhotoUrl}
+                onFotoUrlChange={handlePhotoUrlChange}
+                onChangeTemplate={() => setActiveTab("template")}
+              />
+            ) : null}
           </TabsContent>
 
           <TabsContent value="preview" className="space-y-6">
-            <div>
-              {cvData && (
-                <CVPreviewStep
-                  cvData={cvData}
-                  template={selectedTemplate}
-                  onBack={() => setActiveTab("form")}
-                  onChangeTemplate={() => {
-                    setTemplateFlowTarget("preview");
-                    setActiveTab("template");
-                  }}
-                  userSession={userSession}
-                  language={initialLanguage}
-                />
-              )}
-            </div>
+            {cvData ? (
+              <CVPreviewStep
+                cvData={cvData}
+                template={selectedTemplate}
+                onBack={() => setActiveTab("form")}
+                onChangeTemplate={() => {
+                  setTemplateFlowTarget("preview");
+                  setActiveTab("template");
+                }}
+                currentUser={currentUser}
+                language={initialLanguage}
+              />
+            ) : null}
           </TabsContent>
         </Tabs>
       </div>
     </div>
   );
-};
+}
 
-export default CVForm;
+function FlowStepSkeleton({ label }: { label: string }) {
+  return (
+    <div className="min-h-[420px] rounded-[26px] border border-white/8 bg-[#101014] p-6 text-white">
+      <div className="mx-auto flex max-w-xl flex-col items-center justify-center gap-4 py-20 text-center">
+        <div className="h-10 w-10 animate-pulse rounded-2xl bg-white/[0.06]" />
+        <p className="text-sm font-medium text-white/58">{label}</p>
+      </div>
+    </div>
+  );
+}

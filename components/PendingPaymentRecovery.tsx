@@ -88,12 +88,14 @@ export function PendingPaymentRecovery({
 
       const supabase = createClient();
       const {
-        data: { user },
-      } = await supabase.auth.getUser();
+        data: { session },
+      } = await supabase.auth.getSession();
 
       if (!isMounted) return;
 
-      if (!user) {
+      const userId = session?.user.id;
+
+      if (!userId) {
         setPendingCv(null);
         return;
       }
@@ -101,7 +103,7 @@ export function PendingPaymentRecovery({
       const { data, error } = await supabase
         .from("cvs")
         .select("id, cv_data, template, created_at, status")
-        .eq("profile_id", user.id)
+        .eq("profile_id", userId)
         .eq("status", "pending")
         .order("created_at", { ascending: false })
         .limit(1);

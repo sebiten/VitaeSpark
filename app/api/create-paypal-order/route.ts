@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { getOrCreatePendingPaymentCv } from "@/lib/payment-cv";
 import { PRICING } from "@/lib/pricing";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
@@ -57,7 +58,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { cvData, template, language, attribution } = parsed.data;
+  const { cvId, cvData, template, language, attribution } = parsed.data;
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
 
@@ -75,21 +76,20 @@ export async function POST(req: Request) {
     );
   }
 
-  const { data: cv, error: cvError } = await supabase
-    .from("cvs")
-    .insert({
-      profile_id,
-      cv_data: { ...cvData, language },
-      foto_url: cvData.foto_url,
-      template,
-      status: "pending",
-    })
-    .select()
-    .single();
+  const paymentCv = await getOrCreatePendingPaymentCv({
+    supabase,
+    cvId,
+    profileId: profile_id,
+    cvData,
+    template,
+    language,
+  });
 
-  if (cvError) {
-    console.error("Error insertando CV:", cvError);
-    return NextResponse.json({ error: "Error creando CV" }, { status: 500 });
+  if (!paymentCv.ok) {
+    return NextResponse.json(
+      { error: paymentCv.error },
+      { status: paymentCv.status },
+    );
   }
 
   await recordAnalyticsEventServer({
@@ -97,8 +97,8 @@ export async function POST(req: Request) {
     user_id: profile_id,
     language,
     payment_provider: "paypal",
-    template,
-    cv_id: cv.id,
+    template: paymentCv.cv.template,
+    cv_id: paymentCv.cv.id,
     ...attribution,
   });
 
@@ -108,8 +108,8 @@ export async function POST(req: Request) {
       intent: "CAPTURE",
       purchase_units: [
         {
-          reference_id: `cv_${cv.id}`,
-          custom_id: cv.id,
+          reference_id: `cv_${paymentCv.cv.id}`,
+          custom_id: paymentCv.cv.id,
           description:
             language === "en"
               ? "ATS-friendly resume in PDF - VitaeSpark"
@@ -127,7 +127,7 @@ export async function POST(req: Request) {
         brand_name: "VitaeSpark",
         landing_page: "NO_PREFERENCE",
         user_action: "PAY_NOW",
-        return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}&method=paypal`,
+        return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${paymentCv.cv.id}&method=paypal`,
         cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/crear?lang=${language}`,
       },
     };
@@ -147,7 +147,10 @@ export async function POST(req: Request) {
     if (!paypalRes.ok || !paypalJson.id) {
       console.error("PayPal order error:", paypalJson);
       return NextResponse.json(
-        { error: "No se pudo crear la orden de PayPal" },
+        {
+          cvId: paymentCv.cv.id,
+          error: "No se pudo crear la orden de PayPal",
+        },
         { status: 500 }
       );
     }
@@ -157,13 +160,14 @@ export async function POST(req: Request) {
     )?.href;
 
     return NextResponse.json({
+      cvId: paymentCv.cv.id,
       orderId: paypalJson.id,
       approveUrl: approveUrl || null,
     });
   } catch (error) {
     console.error("PayPal error:", error);
     return NextResponse.json(
-      { error: "Error comunicandose con PayPal" },
+      { cvId: paymentCv.cv.id, error: "Error comunicandose con PayPal" },
       { status: 500 }
     );
   }

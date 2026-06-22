@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { track } from "@vercel/analytics";
 import { Button } from "@/components/ui/button";
 import type { RespuestaCV } from "@/lib/types/cv";
-import type { Session } from "@supabase/supabase-js";
 import {
   ShieldCheck,
   Loader2,
@@ -128,7 +127,10 @@ type Props = {
   template: string;
   onBack: () => void;
   onChangeTemplate: () => void;
-  userSession: Session | null;
+  currentUser: {
+    id: string;
+    email?: string | null;
+  };
   language: AppLanguage;
 };
 
@@ -137,17 +139,23 @@ export default function CVPreviewStepPurple({
   template,
   onBack,
   onChangeTemplate,
-  userSession,
+  currentUser,
   language,
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [loadingPayPal, setLoadingPayPal] = useState(false);
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
+  const [canRenderInlinePreview, setCanRenderInlinePreview] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(min-width: 640px)").matches,
+  );
+  const [pendingCvId, setPendingCvId] = useState<string | null>(null);
   const checkoutViewedTracked = useRef(false);
   const copy = checkoutCopy[language];
 
   const handlePayPal = async () => {
-    if (!userSession) return;
+    if (!currentUser.id) return;
 
     let failureTracked = false;
     const attribution = getLandingAttribution();
@@ -165,11 +173,18 @@ export default function CVPreviewStepPurple({
       const res = await fetch("/api/create-paypal-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvData, template, language, attribution }),
+        body: JSON.stringify({
+          cvId: pendingCvId ?? undefined,
+          cvData,
+          template,
+          language,
+          attribution,
+        }),
       });
 
       if (!res.ok) {
         const errorData = await res.json();
+        if (errorData?.cvId) setPendingCvId(errorData.cvId);
         track("PayPal Order Failed", {
           status: res.status,
           template,
@@ -182,7 +197,9 @@ export default function CVPreviewStepPurple({
         return;
       }
 
-      const { approveUrl } = await res.json();
+      const { cvId, approveUrl } = await res.json();
+
+      if (cvId) setPendingCvId(cvId);
 
       if (approveUrl) {
         track("Payment Redirected", {
@@ -211,7 +228,7 @@ export default function CVPreviewStepPurple({
   };
 
   const handlePay = async () => {
-    if (!userSession) return;
+    if (!currentUser.id) return;
 
     let failureTracked = false;
     const attribution = getLandingAttribution();
@@ -229,11 +246,18 @@ export default function CVPreviewStepPurple({
       const res = await fetch("/api/create-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvData, template, language, attribution }),
+        body: JSON.stringify({
+          cvId: pendingCvId ?? undefined,
+          cvData,
+          template,
+          language,
+          attribution,
+        }),
       });
 
       if (!res.ok) {
         const errorData = await res.json();
+        if (errorData?.cvId) setPendingCvId(errorData.cvId);
         track("Payment Preference Failed", {
           status: res.status,
           template,
@@ -246,7 +270,9 @@ export default function CVPreviewStepPurple({
         return;
       }
 
-      const { init_point } = await res.json();
+      const { cvId, init_point } = await res.json();
+
+      if (cvId) setPendingCvId(cvId);
 
       if (init_point) {
         track("Payment Redirected", {
@@ -290,6 +316,18 @@ export default function CVPreviewStepPurple({
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 640px)");
+    const syncPreviewMode = () => setCanRenderInlinePreview(mediaQuery.matches);
+
+    syncPreviewMode();
+    mediaQuery.addEventListener("change", syncPreviewMode);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncPreviewMode);
+    };
   }, []);
 
   useEffect(() => {
@@ -358,7 +396,23 @@ export default function CVPreviewStepPurple({
               justifyContent: "center",
             }}
           >
-            {renderTemplate}
+            {canRenderInlinePreview ? (
+              renderTemplate
+            ) : (
+              <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#15151A] px-6 text-center text-white">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-[#C4B5FD]">
+                  <LockKeyhole className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold">{copy.protectedTitle}</p>
+                  <p className="mt-1 text-xs leading-5 text-white/60">
+                    {language === "en"
+                      ? "Tap View resume to load the full preview."
+                      : "Toca Ver CV para cargar la vista completa."}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/55 to-transparent px-4 pb-4 pt-12 text-center sm:block">
             <p className="hidden text-sm font-medium text-white sm:block">

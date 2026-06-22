@@ -2,12 +2,10 @@
 
 import type { ChangeEvent } from "react";
 import { useEffect, useMemo, useState } from "react";
-import { unstable_batchedUpdates } from "react-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { track } from "@vercel/analytics";
-import type { Session } from "@supabase/supabase-js";
 import { toast } from "sonner";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { createClient } from "@/utils/supabase/client";
@@ -71,6 +69,9 @@ const createSchema = (language: AppLanguage) =>
     informacionAdicional: z.string().optional(),
   });
 
+const MAX_PHOTO_SIZE_BYTES = 3 * 1024 * 1024;
+const ALLOWED_PHOTO_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+
 const formCopy = {
   es: {
     badge: "Datos para tu CV",
@@ -120,6 +121,8 @@ const formCopy = {
     generating: "Generando CV...",
     success: "CV generado correctamente.",
     imageSuccess: "Foto cargada correctamente.",
+    imageTypeError: "Subi una foto JPG, PNG o WebP.",
+    imageSizeError: "La foto debe pesar menos de 3 MB.",
     imageError: "No se pudo subir la foto. Intenta con otra imagen.",
     timeout: "La generacion esta tardando demasiado. Intenta de nuevo.",
     generationError: "Error al generar el CV. Intenta nuevamente.",
@@ -173,6 +176,8 @@ const formCopy = {
     generating: "Generating resume...",
     success: "Resume generated successfully.",
     imageSuccess: "Photo uploaded successfully.",
+    imageTypeError: "Upload a JPG, PNG or WebP photo.",
+    imageSizeError: "The photo must be smaller than 3 MB.",
     imageError: "Could not upload the photo. Try another image.",
     timeout: "Generation is taking too long. Try again.",
     generationError: "Error generating the resume. Try again.",
@@ -181,27 +186,27 @@ const formCopy = {
 } as const;
 
 type Props = {
-  setCvData: (data: RespuestaCV["cv"]) => void;
-  setActiveTab: (value: string) => void;
   template: string;
-  userSession: Session | null;
+  currentUserId: string;
   language: AppLanguage;
   draftData: DatosCVFormulario;
+  onGenerated: (data: RespuestaCV["cv"]) => void;
   onDraftChange: (data: DatosCVFormulario) => void;
   fotoUrl: string | null;
   onFotoUrlChange: (url: string | null) => void;
+  onChangeTemplate: () => void;
 };
 
 export default function CVFormStep({
-  setCvData,
-  setActiveTab,
   template,
-  userSession,
+  currentUserId,
   language,
   draftData,
+  onGenerated,
   onDraftChange,
   fotoUrl,
   onFotoUrlChange,
+  onChangeTemplate,
 }: Props) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -213,7 +218,7 @@ export default function CVFormStep({
     defaultValues: draftData,
   });
 
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     const subscription = form.watch((value) => {
@@ -240,9 +245,22 @@ export default function CVFormStep({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const fileExt = file.name.split(".").pop();
+    if (!ALLOWED_PHOTO_TYPES.has(file.type)) {
+      toast.error(copy.imageTypeError);
+      event.target.value = "";
+      return;
+    }
+
+    if (file.size > MAX_PHOTO_SIZE_BYTES) {
+      toast.error(copy.imageSizeError);
+      event.target.value = "";
+      return;
+    }
+
+    const fileExt =
+      file.name.split(".").pop() || file.type.split("/")[1] || "webp";
     const fileName = `${Date.now()}.${fileExt}`;
-    const filePath = `fotos/user-${userSession?.user.id}/${fileName}`;
+    const filePath = `fotos/user-${currentUserId}/${fileName}`;
 
     const { error: uploadError } = await supabase.storage
       .from("fotos-perfil")
@@ -290,10 +308,7 @@ export default function CVFormStep({
       }
 
       const json = (await response.json()) as RespuestaCV;
-      unstable_batchedUpdates(() => {
-        setCvData(json.cv);
-        setActiveTab("preview");
-      });
+      onGenerated(json.cv);
       toast.success(copy.success);
     } catch (submitError) {
       if (!failureTracked) {
@@ -425,7 +440,7 @@ export default function CVFormStep({
       onImageUpload={handleImageUpload}
       onFillSample={rellenarDatosPrueba}
       onClear={limpiarCampos}
-      onChangeTemplate={() => setActiveTab("template")}
+      onChangeTemplate={onChangeTemplate}
     />
   );
 }

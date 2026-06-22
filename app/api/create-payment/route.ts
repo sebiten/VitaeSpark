@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { getOrCreatePendingPaymentCv } from "@/lib/payment-cv";
 import { PRICING } from "@/lib/pricing";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { cvData, template, language, attribution } = parsed.data;
+  const { cvId, cvData, template, language, attribution } = parsed.data;
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
 
@@ -42,21 +43,20 @@ export async function POST(req: Request) {
     );
   }
 
-  const { data: cv, error: cvError } = await supabase
-    .from("cvs")
-    .insert({
-      profile_id,
-      cv_data: { ...cvData, language },
-      foto_url: cvData.foto_url,
-      template,
-      status: "pending",
-    })
-    .select()
-    .single();
+  const paymentCv = await getOrCreatePendingPaymentCv({
+    supabase,
+    cvId,
+    profileId: profile_id,
+    cvData,
+    template,
+    language,
+  });
 
-  if (cvError) {
-    console.error("Error insertando CV:", cvError);
-    return NextResponse.json({ error: "Error creando CV" }, { status: 500 });
+  if (!paymentCv.ok) {
+    return NextResponse.json(
+      { error: paymentCv.error },
+      { status: paymentCv.status },
+    );
   }
 
   await recordAnalyticsEventServer({
@@ -64,8 +64,8 @@ export async function POST(req: Request) {
     user_id: profile_id,
     language,
     payment_provider: "mercado_pago",
-    template,
-    cv_id: cv.id,
+    template: paymentCv.cv.template,
+    cv_id: paymentCv.cv.id,
     ...attribution,
   });
 
@@ -79,7 +79,7 @@ export async function POST(req: Request) {
     body: JSON.stringify({
       items: [
         {
-          id: `cv-${cv.id}`,
+          id: `cv-${paymentCv.cv.id}`,
           title:
             language === "en"
               ? "ATS-friendly resume in PDF"
@@ -94,23 +94,23 @@ export async function POST(req: Request) {
         },
       ],
       payer: { email },
-      external_reference: `cv_${cv.id}`,
+      external_reference: `cv_${paymentCv.cv.id}`,
       notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
       back_urls: {
-        success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
+        success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${paymentCv.cv.id}`,
         failure: `${process.env.NEXT_PUBLIC_SITE_URL}`,
         pending: `${process.env.NEXT_PUBLIC_SITE_URL}`,
       },
       auto_return: "approved",
       metadata: {
-        cv_id: cv.id,
+        cv_id: paymentCv.cv.id,
         profile_id,
         landing_path: attribution?.landing_path,
         cta_label: attribution?.cta_label,
         source_type: attribution?.source_type,
         language,
         payment_provider: "mercado_pago",
-        template,
+        template: paymentCv.cv.template,
       },
       customization: {
         visual: {
@@ -125,10 +125,13 @@ export async function POST(req: Request) {
   if (!mpRes.ok || !mpJson.init_point) {
     console.error("Error creando preferencia de Mercado Pago:", mpJson);
     return NextResponse.json(
-      { error: "No se pudo generar link de pago" },
+      { cvId: paymentCv.cv.id, error: "No se pudo generar link de pago" },
       { status: 500 }
     );
   }
 
-  return NextResponse.json({ init_point: mpJson.init_point });
+  return NextResponse.json({
+    cvId: paymentCv.cv.id,
+    init_point: mpJson.init_point,
+  });
 }

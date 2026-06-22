@@ -82,6 +82,7 @@ export const CVSchema = z.object({
 });
 
 export const CreatePaymentSchema = z.object({
+  cvId: z.string().uuid().optional(),
   cvData: CVSchema,
   template: TemplateSchema,
   language: z.enum(["es", "en"]).optional().default("es"),
