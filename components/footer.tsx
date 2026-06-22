@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Instagram, Sparkles } from "lucide-react";
+import { Instagram } from "lucide-react";
 import { FloatingRobot } from "@/components/floating-robot";
 
 export function Footer() {
@@ -110,12 +110,6 @@ export function Footer() {
             <p className="text-xs text-white/50">
               &copy; {new Date().getFullYear()} VitaeSpark
             </p>
-            <div className="flex items-center gap-1.5 text-xs text-white/50">
-              <Sparkles className="h-3 w-3" />
-              <span>
-                Hecho con IA
-              </span>
-            </div>
           </div>
         </div>
       </div>

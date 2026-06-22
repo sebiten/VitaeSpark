@@ -514,35 +514,51 @@ export default function CVPreviewStepPurple({
               <Button
                 disabled={paymentInProgress}
                 onClick={handlePay}
-                className={`w-full rounded-2xl border text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
+                className={`group w-full overflow-hidden rounded-2xl border transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
                   language === "en"
-                    ? "order-3 h-12 border-white/10 bg-white/[0.045] shadow-none hover:bg-white/[0.07] sm:h-14"
-                    : "order-1 h-14 border-[#00B0FF]/25 bg-[#00AEEF] shadow-lg shadow-[#00AEEF]/15 hover:bg-[#009BD8] sm:h-16"
+                    ? "order-3 h-12 border-white/10 bg-white/[0.045] text-white shadow-none hover:bg-white/[0.07] sm:h-14"
+                    : "order-1 h-14 border-[#F6F2EA]/18 bg-[#F6F2EA] text-[#111113] shadow-[0_18px_42px_rgba(246,242,234,0.16)] hover:bg-[#FFFCF4] hover:shadow-[0_22px_54px_rgba(246,242,234,0.2)] sm:h-16"
                 }`}
               >
                 {loading ? (
-                  <div className="flex items-center justify-center gap-2">
+                  <div
+                    className={`flex items-center justify-center gap-2 ${
+                      language === "en" ? "text-white" : "text-[#111113]"
+                    }`}
+                  >
                     <Loader2 className="h-5 w-5 animate-spin" />
                     <span>{copy.processingPayment}</span>
                   </div>
                 ) : (
-                  <div className="flex w-full items-center justify-center gap-3">
-                    <Image
-                      src="/logompsolomano.png"
-                      alt="Mercado Pago"
-                      width={28}
-                      height={28}
-                      className="h-7 w-7 object-contain"
-                    />
+                  <div className="flex w-full items-center justify-between gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#111113]/10 bg-[#00AEEF]/12">
+                      <Image
+                        src="/logompsolomano.png"
+                        alt="Mercado Pago"
+                        width={26}
+                        height={26}
+                        className="h-6 w-6 object-contain"
+                      />
+                    </span>
                     <span className="flex min-w-0 flex-1 flex-col items-start leading-tight">
-                      <span className="text-base font-bold sm:text-lg">
+                      <span className="text-[15px] font-extrabold tracking-[-0.01em] sm:text-lg">
                         {copy.mpButton}
                       </span>
-                      <span className="hidden text-[11px] font-medium text-white/72 sm:block">
+                      <span
+                        className={`hidden text-[11px] font-semibold sm:block ${
+                          language === "en" ? "text-white/60" : "text-[#111113]/55"
+                        }`}
+                      >
                         {copy.mpButtonNote}
                       </span>
                     </span>
-                    <span className="flex-shrink-0 text-sm font-semibold sm:text-base">
+                    <span
+                      className={`shrink-0 rounded-full border px-2.5 py-1 text-xs font-extrabold sm:text-sm ${
+                        language === "en"
+                          ? "border-white/10 bg-white/[0.08] text-white"
+                          : "border-[#111113]/10 bg-[#111113] text-[#F6F2EA]"
+                      }`}
+                    >
                       $1.999 ARS
                     </span>
                   </div>

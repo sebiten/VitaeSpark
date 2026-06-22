@@ -237,44 +237,45 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes hero-ai-i-recover {
   0%,
-  48%,
+  58%,
   100% {
     transform: translateY(0) rotate(0deg);
   }
-  53% {
-    transform: translateY(0.02em) rotate(8deg);
+  8% {
+    transform: translateY(0.02em) rotate(10deg);
   }
-  58% {
-    transform: translateY(0.18em) rotate(82deg);
+  14% {
+    transform: translateY(0.2em) rotate(88deg);
   }
-  65% {
-    transform: translateY(0.13em) rotate(60deg);
+  24% {
+    transform: translateY(0.14em) rotate(58deg);
   }
-  73% {
+  34% {
     transform: translateY(-0.04em) rotate(-8deg);
   }
-  82% {
+  44% {
     transform: translateY(0) rotate(3deg);
   }
 }
 
 @keyframes hero-ai-eyes {
   0%,
-  47%,
+  16%,
+  58%,
   100% {
     opacity: 0;
     transform: translate(-50%, -0.1em) scale(0.65);
   }
-  56%,
-  84% {
+  22%,
+  48% {
     opacity: 1;
     transform: translate(-50%, -0.1em) scale(1);
   }
-  64% {
+  30% {
     opacity: 1;
     transform: translate(-38%, -0.07em) scale(1);
   }
-  74% {
+  39% {
     opacity: 1;
     transform: translate(-60%, -0.12em) scale(1);
   }
@@ -282,17 +283,34 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes hero-ai-a-nudge {
   0%,
-  48%,
+  58%,
   100% {
     transform: translateY(0);
     text-shadow: 0 0 24px rgba(124, 58, 237, 0.16);
   }
-  58% {
+  18% {
     transform: translateY(-0.03em);
     text-shadow: 0 0 26px rgba(103, 210, 255, 0.36);
   }
-  74% {
+  32% {
     transform: translateY(0.01em);
+  }
+}
+
+@keyframes hero-ai-dot-bounce {
+  0%,
+  58%,
+  100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  10% {
+    transform: translateX(-50%) translateY(0.1em) scale(0.88);
+  }
+  24% {
+    transform: translateX(-50%) translateY(-0.08em) scale(1.12);
+  }
+  40% {
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 }
 
@@ -411,7 +429,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero-ai-i {
   transform-origin: 50% 82%;
-  animation: hero-ai-i-recover 3.8s cubic-bezier(0.16, 1, 0.3, 1) 0.65s infinite;
+  animation: hero-ai-i-recover 2.9s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   will-change: transform;
 }
 
@@ -426,6 +444,8 @@ h1, h2, h3, h4, h5, h6 {
   background: #d7c8ff;
   box-shadow: 0 0 16px rgba(167, 139, 250, 0.58);
   transform: translateX(-50%);
+  animation: hero-ai-dot-bounce 2.9s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  will-change: transform;
 }
 
 .hero-ai-eyes {
@@ -435,7 +455,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   gap: 0.045em;
   opacity: 0;
-  animation: hero-ai-eyes 3.8s cubic-bezier(0.16, 1, 0.3, 1) 0.65s infinite;
+  animation: hero-ai-eyes 2.9s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   pointer-events: none;
 }
 
@@ -449,7 +469,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-ai-a {
-  animation: hero-ai-a-nudge 3.8s cubic-bezier(0.16, 1, 0.3, 1) 0.65s infinite;
+  animation: hero-ai-a-nudge 2.9s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   will-change: transform;
 }
 
@@ -515,6 +535,7 @@ h1, h2, h3, h4, h5, h6 {
   .hero-ambient,
   .hero-title-word,
   .hero-ai-i,
+  .hero-ai-i::before,
   .hero-ai-eyes,
   .hero-ai-a,
   .hero-showcase,
