@@ -61,7 +61,7 @@ export default function HeroShowcase() {
         <div className="absolute left-[4%] right-[3%] top-[52%] h-28 -translate-y-1/2 rounded-[999px] bg-[#7A5CFF]/10 blur-[54px]" />
         <FloatingRobot
           size="lg"
-          className="hero-robot -right-4 top-10 border-[#8B5CF6]/10 bg-[#8B5CF6]/[0.035] text-[#D7C8FF]/[0.2] opacity-40 blur-[0.2px] sm:right-10 sm:top-16 lg:right-4 lg:top-20 xl:right-20"
+          className="hero-robot -right-7 top-2 scale-125 border-[#8B5CF6]/20 bg-[#8B5CF6]/[0.07] text-[#D7C8FF]/[0.34] opacity-70 blur-[0.15px] sm:right-10 sm:top-16 sm:scale-100 sm:border-[#8B5CF6]/10 sm:bg-[#8B5CF6]/[0.035] sm:text-[#D7C8FF]/[0.2] sm:opacity-40 lg:right-4 lg:top-20 xl:right-20"
         />
         <FloatingRobot
           size="md"

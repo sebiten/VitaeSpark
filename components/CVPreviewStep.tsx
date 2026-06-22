@@ -73,7 +73,7 @@ const checkoutCopy = {
       "Nuevas descargas con la plantilla elegida",
     ],
     mpButton: "Desbloquear PDF",
-    mpButtonNote: "Mercado Pago, tarjeta y medios locales",
+    mpButtonNote: "Pago seguro con Mercado Pago",
     paypalButton: "Pagar con PayPal",
     paypalButtonNote: "Alternativa internacional",
     mpError: "No se pudo iniciar el pago. Intenta nuevamente.",
@@ -113,7 +113,7 @@ const checkoutCopy = {
       "New downloads with the selected template",
     ],
     mpButton: "Mercado Pago",
-    mpButtonNote: "Local payment methods",
+    mpButtonNote: "Secure Mercado Pago checkout",
     paypalButton: "Unlock PDF",
     paypalButtonNote: "International payment in USD",
     mpError: "Could not start Mercado Pago checkout. Try again.",
@@ -573,21 +573,27 @@ export default function CVPreviewStepPurple({
                 className={`group w-full overflow-hidden rounded-2xl border transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
                   language === "en"
                     ? "order-3 h-12 border-white/10 bg-white/[0.045] text-white shadow-none hover:bg-white/[0.07] sm:h-14"
-                    : "order-1 h-14 border-[#F6F2EA]/18 bg-[#F6F2EA] text-[#111113] shadow-[0_18px_42px_rgba(246,242,234,0.16)] hover:bg-[#FFFCF4] hover:shadow-[0_22px_54px_rgba(246,242,234,0.2)] sm:h-16"
+                    : "order-1 h-16 border-[#72D8FF]/45 bg-[#F8FCFF] text-[#09283A] shadow-[0_18px_42px_rgba(0,174,239,0.18)] hover:border-[#00AEEF]/70 hover:bg-[#EAF8FF] hover:shadow-[0_22px_52px_rgba(0,174,239,0.24)] sm:h-[4.5rem]"
                 }`}
               >
                 {loading ? (
                   <div
                     className={`flex items-center justify-center gap-2 ${
-                      language === "en" ? "text-white" : "text-[#111113]"
+                      language === "en" ? "text-white" : "text-[#09283A]"
                     }`}
                   >
                     <Loader2 className="h-5 w-5 animate-spin" />
                     <span>{copy.processingPayment}</span>
                   </div>
                 ) : (
-                  <div className="flex w-full items-center justify-between gap-3">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#111113]/10 bg-[#00AEEF]/12">
+                  <div className="flex w-full items-center justify-center gap-3">
+                    <span
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${
+                        language === "en"
+                          ? "border-white/10 bg-white/[0.06]"
+                          : "border-[#00AEEF]/25 bg-[#E6F7FF]"
+                      }`}
+                    >
                       <Image
                         src="/logompsolomano.png"
                         alt="Mercado Pago"
@@ -596,26 +602,27 @@ export default function CVPreviewStepPurple({
                         className="h-6 w-6 object-contain"
                       />
                     </span>
-                    <span className="flex min-w-0 flex-1 flex-col items-start leading-tight">
-                      <span className="text-[15px] font-extrabold tracking-[-0.01em] sm:text-lg">
-                        {copy.mpButton}
+                    <span className="flex min-w-0 flex-col items-center leading-tight">
+                      <span className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-center text-[15px] font-extrabold tracking-[-0.01em] sm:text-lg">
+                        <span>{copy.mpButton}</span>
+                        <span
+                          className={
+                            language === "en"
+                              ? "text-white/78"
+                              : "text-[#007EB5]"
+                          }
+                        >
+                          {PRICING.mercadoPago.label}
+                        </span>
                       </span>
                       <span
-                        className={`hidden text-[11px] font-semibold sm:block ${
-                          language === "en" ? "text-white/60" : "text-[#111113]/55"
+                        className={`mt-1 flex items-center justify-center gap-1.5 text-[11px] font-semibold ${
+                          language === "en" ? "text-white/60" : "text-[#0A6F9F]"
                         }`}
                       >
+                        <ShieldCheck className="h-3.5 w-3.5" />
                         {copy.mpButtonNote}
                       </span>
-                    </span>
-                    <span
-                      className={`shrink-0 rounded-full border px-2.5 py-1 text-xs font-extrabold sm:text-sm ${
-                        language === "en"
-                          ? "border-white/10 bg-white/[0.08] text-white"
-                          : "border-[#111113]/10 bg-[#111113] text-[#F6F2EA]"
-                      }`}
-                    >
-                      {PRICING.mercadoPago.label}
                     </span>
                   </div>
                 )}

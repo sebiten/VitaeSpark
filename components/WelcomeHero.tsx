@@ -6,7 +6,6 @@ import {
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
-import AnimatedHeroTitle from "./AnimatedHeroTitle";
 import HeroShowcase from "./HeroShowcase";
 import { Button } from "./ui/button";
 
@@ -37,7 +36,11 @@ export default function WelcomeHero() {
           </motion.div>
 
           <div className="mt-7">
-            <AnimatedHeroTitle />
+            <h1 className="max-w-[14ch] text-balance text-[3.75rem] font-semibold leading-[0.84] tracking-[-0.075em] text-[#F6F2EA] sm:text-[5rem] md:text-[5.8rem] lg:text-[6.9rem] xl:text-[7.45rem]">
+              CV con IA,
+              <br />
+              listo para postular
+            </h1>
           </div>
 
           <motion.p

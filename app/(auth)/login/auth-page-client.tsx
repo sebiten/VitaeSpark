@@ -200,19 +200,7 @@ export default function AuthPageClient() {
               Perfil VitaeSpark
             </div>
             <h1 className="mt-6 max-w-xl text-balance text-[3.7rem] font-semibold leading-[0.88] tracking-[-0.065em] text-[#F6F2EA]">
-              Entrá y seguí tu CV con{" "}
-              <span className="hero-ai-mark" aria-label="IA">
-                <span className="hero-ai-letter hero-ai-i" aria-hidden="true">
-                  I
-                  <span className="hero-ai-eyes">
-                    <span />
-                    <span />
-                  </span>
-                </span>
-                <span className="hero-ai-letter hero-ai-a" aria-hidden="true">
-                  A
-                </span>
-              </span>
+              Entrá y seguí tu CV con IA
             </h1>
             <p className="mt-5 max-w-lg text-[17px] leading-8 text-[#D8D2C8]/[0.76]">
               Guardá tus currículums, editá datos y descargá nuevas versiones
