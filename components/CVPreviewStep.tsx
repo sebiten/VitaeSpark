@@ -72,8 +72,7 @@ const checkoutCopy = {
       "CV guardado y editable desde tu perfil",
       "Nuevas descargas con la plantilla elegida",
     ],
-    mpButton: "Desbloquear PDF",
-    mpButtonNote: "Pago seguro con Mercado Pago",
+    mpButton: "Pagar con Mercado Pago",
     paypalButton: "Pagar con PayPal",
     paypalButtonNote: "Alternativa internacional",
     mpError: "No se pudo iniciar el pago. Intenta nuevamente.",
@@ -113,7 +112,6 @@ const checkoutCopy = {
       "New downloads with the selected template",
     ],
     mpButton: "Mercado Pago",
-    mpButtonNote: "Secure Mercado Pago checkout",
     paypalButton: "Unlock PDF",
     paypalButtonNote: "International payment in USD",
     mpError: "Could not start Mercado Pago checkout. Try again.",
@@ -570,43 +568,35 @@ export default function CVPreviewStepPurple({
               <Button
                 disabled={paymentInProgress}
                 onClick={handlePay}
-                className={`group w-full overflow-hidden rounded-2xl border transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
+                className={`group w-full overflow-hidden rounded-xl border transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
                   language === "en"
-                    ? "order-3 h-12 border-[#65D8FF]/45 bg-[#00AEEF] text-[#062B3D] shadow-none hover:border-[#8FE4FF]/70 hover:bg-[#18BDF4] hover:shadow-none sm:h-14"
-                    : "order-1 h-16 border-[#65D8FF]/45 bg-[#00AEEF] text-[#062B3D] shadow-none hover:border-[#8FE4FF]/70 hover:bg-[#18BDF4] hover:shadow-none sm:h-[4.5rem]"
+                    ? "order-3 h-12 border-[#008FCC] bg-[#009EE3] text-white shadow-none hover:border-[#007EB5] hover:bg-[#008FCC] hover:shadow-none sm:h-14"
+                    : "order-1 h-14 border-[#008FCC] bg-[#009EE3] text-white shadow-none hover:border-[#007EB5] hover:bg-[#008FCC] hover:shadow-none sm:h-14"
                 }`}
               >
                 {loading ? (
                   <div
-                    className="flex items-center justify-center gap-2 text-[#062B3D]"
+                    className="flex items-center justify-center gap-2 text-white"
                   >
                     <Loader2 className="h-5 w-5 animate-spin" />
                     <span>{copy.processingPayment}</span>
                   </div>
                 ) : (
-                  <div className="flex w-full items-center justify-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/50 bg-white">
+                  <div className="grid w-full grid-cols-[36px_1fr_auto] items-center gap-3 px-1">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-white">
                       <Image
                         src="/logompsolomano.png"
                         alt="Mercado Pago"
-                        width={26}
-                        height={26}
-                        className="h-6 w-6 object-contain"
+                        width={24}
+                        height={24}
+                        className="h-5 w-5 object-contain"
                       />
                     </span>
-                    <span className="flex min-w-0 flex-col items-center leading-tight">
-                      <span className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-center text-[15px] font-extrabold tracking-[-0.01em] sm:text-lg">
-                        <span>{copy.mpButton}</span>
-                        <span
-                          className="text-[#063A50]"
-                        >
-                          {PRICING.mercadoPago.label}
-                        </span>
-                      </span>
-                      <span className="mt-1 flex items-center justify-center gap-1.5 text-[11px] font-semibold text-[#064B67]">
-                        <ShieldCheck className="h-3.5 w-3.5" />
-                        {copy.mpButtonNote}
-                      </span>
+                    <span className="min-w-0 text-center text-[15px] font-semibold tracking-[-0.01em] sm:text-base">
+                      {copy.mpButton}
+                    </span>
+                    <span className="shrink-0 rounded-md bg-white/14 px-2 py-1 text-xs font-semibold text-white sm:text-sm">
+                      {PRICING.mercadoPago.label}
                     </span>
                   </div>
                 )}
