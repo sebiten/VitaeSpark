@@ -1,10 +1,11 @@
 import { MarketingPage } from "@/components/seo/MarketingPage";
+import { PRICING } from "@/lib/pricing";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Currículum Vitae en PDF Editable: Crea, Formatea y Descarga",
   description:
-    "Creá, editá y descargá tu currículum vitae en PDF con formato profesional, compatible con ATS y listo para enviar.",
+    `Crea, edita y descarga tu curriculum vitae en PDF con formato profesional, compatible con ATS y listo para enviar. ${PRICING.copy.seoLine}`,
   path: "/curriculum-vitae-pdf",
   keywords: [
     "curriculum vitae pdf",
@@ -94,6 +95,10 @@ export default function CurriculumVitaePdfPage() {
           question: "¿Puedo volver a editar el CV después de descargarlo?",
           answer:
             "Sí. La descarga en PDF es el cierre de una versión, pero podés seguir ajustando el contenido desde tu perfil cuando lo necesites.",
+        },
+        {
+          question: PRICING.copy.faqQuestion,
+          answer: PRICING.copy.faqAnswer,
         },
         {
           question: "¿Un PDF garantiza que el CV se vea bien en todos lados?",

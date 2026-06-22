@@ -29,6 +29,7 @@ import Image from "next/image";
 import { getLandingAttribution } from "@/lib/analytics-attribution";
 import { recordAnalyticsEvent } from "@/lib/analytics-events";
 import type { AppLanguage } from "@/lib/i18n";
+import { PRICING } from "@/lib/pricing";
 
 const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ssr: false,
@@ -57,12 +58,12 @@ const checkoutCopy = {
     finalText:
       "Tu CV queda guardado en tu perfil para editar datos y volver a descargarlo con la plantilla elegida.",
     singlePayment: "Pago unico",
-    previousPrice: "Antes $2.500",
+    previousPrice: PRICING.mercadoPago.previousLabel,
     noSubscription: "Sin suscripcion",
     previewBeforePay: "Marca de agua temporal",
     secure: "Mercado Pago procesa el pago de forma segura",
-    priceValue: "$1.999",
-    priceCurrency: "ARS",
+    priceValue: PRICING.mercadoPago.shortLabel,
+    priceCurrency: PRICING.mercadoPago.currency,
     processingPayment: "Procesando pago...",
     processing: "Procesando...",
     also: "o tambien",
@@ -97,12 +98,12 @@ const checkoutCopy = {
     finalText:
       "Your resume stays saved in your profile, ready to edit and download again with the selected template.",
     singlePayment: "One-time payment",
-    previousPrice: "Before US$4.99",
+    previousPrice: PRICING.paypal.previousLabel,
     noSubscription: "No subscription",
     previewBeforePay: "Temporary watermark",
     secure: "Secure checkout with trusted payment providers",
-    priceValue: "US$2.99",
-    priceCurrency: "USD",
+    priceValue: PRICING.paypal.shortLabel,
+    priceCurrency: PRICING.paypal.currency,
     processingPayment: "Processing payment...",
     processing: "Processing...",
     also: "or pay with",
@@ -154,8 +155,8 @@ export default function CVPreviewStepPurple({
     setLoadingPayPal(true);
     track("Payment Started", {
       template,
-      price: 2.99,
-      currency: "USD",
+      price: PRICING.paypal.amount,
+      currency: PRICING.paypal.currency,
       method: "paypal",
       language,
       ...attribution,
@@ -186,8 +187,8 @@ export default function CVPreviewStepPurple({
       if (approveUrl) {
         track("Payment Redirected", {
           template,
-          price: 2.99,
-          currency: "USD",
+          price: PRICING.paypal.amount,
+          currency: PRICING.paypal.currency,
           method: "paypal",
           language,
           ...attribution,
@@ -218,8 +219,8 @@ export default function CVPreviewStepPurple({
     setLoading(true);
     track("Payment Started", {
       template,
-      price: 1999,
-      currency: "ARS",
+      price: PRICING.mercadoPago.amount,
+      currency: PRICING.mercadoPago.currency,
       method: "mercado_pago",
       language,
       ...attribution,
@@ -250,8 +251,8 @@ export default function CVPreviewStepPurple({
       if (init_point) {
         track("Payment Redirected", {
           template,
-          price: 1999,
-          currency: "ARS",
+          price: PRICING.mercadoPago.amount,
+          currency: PRICING.mercadoPago.currency,
           method: "mercado_pago",
           language,
           ...attribution,
@@ -315,7 +316,8 @@ export default function CVPreviewStepPurple({
   };
 
   const paymentInProgress = loading || loadingPayPal;
-  const primaryPaymentPrice = language === "en" ? "US$2.99" : "$1.999 ARS";
+  const primaryPaymentPrice =
+    language === "en" ? PRICING.paypal.label : PRICING.mercadoPago.label;
 
   const handlePrimaryPayment = () => {
     void (language === "en" ? handlePayPal() : handlePay());
@@ -559,7 +561,7 @@ export default function CVPreviewStepPurple({
                           : "border-[#111113]/10 bg-[#111113] text-[#F6F2EA]"
                       }`}
                     >
-                      $1.999 ARS
+                      {PRICING.mercadoPago.label}
                     </span>
                   </div>
                 )}
@@ -607,7 +609,7 @@ export default function CVPreviewStepPurple({
                       </span>
                     </span>
                     <span className="flex-shrink-0 text-sm font-semibold sm:text-base">
-                      US$2.99
+                      {PRICING.paypal.label}
                     </span>
                   </div>
                 )}

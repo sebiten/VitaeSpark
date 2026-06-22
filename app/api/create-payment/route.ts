@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { PRICING } from "@/lib/pricing";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
 
@@ -89,7 +90,7 @@ export async function POST(req: Request) {
               : "Curriculum profesional con diseno moderno y textos persuasivos",
           category_id: "services",
           quantity: 1,
-          unit_price: 1999,
+          unit_price: PRICING.mercadoPago.amount,
         },
       ],
       payer: { email },

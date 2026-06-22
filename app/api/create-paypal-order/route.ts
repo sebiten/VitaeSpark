@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { PRICING } from "@/lib/pricing";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
 
@@ -114,8 +115,8 @@ export async function POST(req: Request) {
               ? "ATS-friendly resume in PDF - VitaeSpark"
               : "CV optimizado con IA - VitaeSpark",
           amount: {
-            currency_code: "USD",
-            value: "2.99",
+            currency_code: PRICING.paypal.currency,
+            value: PRICING.paypal.value,
           },
         },
       ],

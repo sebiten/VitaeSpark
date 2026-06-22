@@ -14,6 +14,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { PRICING } from "@/lib/pricing";
 import type { RespuestaCV } from "@/lib/types/cv";
 import { createClient } from "@/utils/supabase/client";
 
@@ -193,8 +194,9 @@ export function PendingPaymentRecovery({
                   Tu CV ya esta generado. Falta desbloquear el PDF final.
                 </h3>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-[#D4D4D8]">
-                  Completalo por $1.999 ARS y descargalo sin marca de agua
-                  desde tu perfil. Pago unico, sin suscripcion.
+                  Completalo por {PRICING.mercadoPago.label} y descargalo sin
+                  marca de agua desde tu perfil. {PRICING.copy.singlePayment},{" "}
+                  {PRICING.copy.noSubscription.toLowerCase()}.
                 </p>
               </div>
             </div>
@@ -248,7 +250,8 @@ export function PendingPaymentRecovery({
               Tenes un CV pendiente de pago.
             </p>
             <p className="mt-0.5 text-xs leading-5 text-[#D4D4D8] sm:text-sm">
-              Desbloquea el PDF final por $1.999, sin recrearlo desde cero.
+              Desbloquea el PDF final por {PRICING.mercadoPago.shortLabel}, sin
+              recrearlo desde cero.
             </p>
           </div>
         </div>

@@ -1,10 +1,11 @@
 import Hero from "@/components/hero";
+import { PRICING } from "@/lib/pricing";
 import { buildMetadata, getBaseUrl } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Creador de CV Online Editable con IA | VitaeSpark",
   description:
-    "Crea tu CV online con IA, editalo desde tu perfil y descarga un PDF profesional con enfoque ATS.",
+    `Crea tu CV online con IA, editalo desde tu perfil y descarga un PDF profesional. ${PRICING.copy.seoLine}`,
   path: "/",
   keywords: [
     "creador de cv",
@@ -37,8 +38,8 @@ export default function GeneradorCV() {
       "Creador de CV online con IA, plantillas profesionales, edición posterior, enfoque ATS y descarga en PDF.",
     offers: {
       "@type": "Offer",
-      price: "1999",
-      priceCurrency: "ARS",
+      price: PRICING.mercadoPago.value,
+      priceCurrency: PRICING.mercadoPago.currency,
     },
   };
 
@@ -76,6 +77,14 @@ export default function GeneradorCV() {
         acceptedAnswer: {
           "@type": "Answer",
           text: "Si. El CV queda guardado en tu perfil para editar datos y descargar nuevas versiones en PDF con la plantilla elegida.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: PRICING.copy.faqQuestion,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: PRICING.copy.faqAnswer,
         },
       },
     ],

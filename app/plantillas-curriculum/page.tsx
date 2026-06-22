@@ -11,13 +11,14 @@ import {
 } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { TrackedCtaLink } from "@/components/seo/TrackedCtaLink";
+import { PRICING } from "@/lib/pricing";
 import { buildMetadata } from "@/lib/seo";
 import { getBaseUrl } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Plantillas de Currículum Editables para Descargar en PDF | 2025",
+  title: "Plantillas de Curriculum Editables para Descargar en PDF | 2026",
   description:
-    "Compará plantillas de currículum profesionales, editables desde tu perfil y listas para descargar en PDF con formato ATS.",
+    `Compara plantillas de curriculum profesionales, editables desde tu perfil y listas para descargar en PDF con formato ATS. ${PRICING.copy.seoLine}`,
   path: "/plantillas-curriculum",
   keywords: [
     "mejores plantillas de curriculum vitae",
@@ -113,6 +114,14 @@ export default function PlantillasCurriculumPage() {
         acceptedAnswer: {
           "@type": "Answer",
           text: "Sí, todas las plantillas se descargan en formato PDF profesional. También podés editar el CV guardado y volver a descargar una nueva versión.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: PRICING.copy.faqQuestion,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: PRICING.copy.faqAnswer,
         },
       },
       {
@@ -508,6 +517,14 @@ export default function PlantillasCurriculumPage() {
                 Sí, todas las plantillas se descargan en formato PDF profesional.
                 Además, el CV queda guardado para editarlo y descargar una nueva
                 versión cuando lo necesites.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-6">
+              <h3 className="mb-2 text-base font-semibold text-white/95">
+                {PRICING.copy.faqQuestion}
+              </h3>
+              <p className="text-sm leading-7 text-white/75">
+                {PRICING.copy.faqAnswer}
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-6">

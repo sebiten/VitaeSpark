@@ -9,7 +9,7 @@ export const metadata = buildMetadata({
   keywords: [
     "plantilla harvard vs moderna",
     "formato harvard vs moderno curriculum",
-    "mejor plantilla cv 2025",
+    "mejor plantilla cv 2026",
     "plantilla cv formal vs creativa",
   ],
 });
@@ -20,7 +20,7 @@ export default function PlantillaHarvardVsModernaPage() {
       path="/comparar/plantilla-harvard-vs-moderna"
       eyebrow="Comparación"
       title="Plantilla Harvard vs Moderna: Cuál Hace que tu CV Destaque"
-      description="La plantilla Harvard transmite autoridad y orden; la moderna aporta свежесть y adaptación a industrias contemporáneas. Conocé cuál conviene según tu perfil y objetivo."
+      description="La plantilla Harvard transmite autoridad y orden; la moderna aporta frescura y adaptacion a industrias contemporaneas. Conoce cual conviene segun tu perfil y objetivo."
       intro={[
         "Elegir entre una plantilla Harvard y una moderna no es solo una cuestión de gusto personal. Cada formato comunica algo diferente a los reclutadores y tiene distinta efectividad según la industria, el nivel de experiencia y el tipo de proceso de selección.",
         "La plantilla Harvard prioriza la claridad y la jerarquía profesional. La moderna busca un equilibrio entre diseño y legibilidad, con más flexibilidad visual.",

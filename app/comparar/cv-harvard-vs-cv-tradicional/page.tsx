@@ -2,7 +2,7 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Harvard vs CV Tradicional: Cuál Conviene en 2025",
+  title: "CV Harvard vs CV Tradicional: Cual Conviene en 2026",
   description:
     "Compará el formato Harvard y el currículum tradicional. Estructura, compatibilidad ATS, casos de uso y cuál conviene según tu perfil profesional.",
   path: "/comparar/cv-harvard-vs-cv-tradicional",
@@ -19,7 +19,7 @@ export default function CvHarvardVsTradicionalPage() {
     <MarketingPage
       path="/comparar/cv-harvard-vs-cv-tradicional"
       eyebrow="Comparación"
-      title="CV Harvard vs CV Tradicional:Cuál Conviene en 2025"
+      title="CV Harvard vs CV Tradicional: Cual Conviene en 2026"
       description="Si tenés que elegir entre el formato Harvard y un currículum tradicional, esta guía te ayuda a decidir cuál se adapta mejor a tu perfil, industria y objetivo laboral."
       intro={[
         "El formato Harvard es uno de los más reconocidos a nivel mundial para presentar trayectoria profesional. Su estructura clara y jerárquica lo hace fácil de leer tanto para personas como para sistemas automatizados. El CV tradicional, en cambio, tiene variantes muy diversas y no siempre garantiza la misma legibilidad.",
@@ -87,12 +87,12 @@ export default function CvHarvardVsTradicionalPage() {
         {
           question: "Puedo usar el formato Harvard si no tengo experiencia?",
           answer:
-            "Sí, pero necesitás compensar la falta de experiencia con un perfil profesional bien redactado y una sección de educación o logros que填补 el espacio. Harvard funciona para todos los niveles, solo hay que saber cómo estructurar el contenido.",
+            "Si, pero necesitas compensar la falta de experiencia con un perfil profesional bien redactado y una seccion de educacion o logros que cubra el espacio. Harvard funciona para todos los niveles, solo hay que saber como estructurar el contenido.",
         },
         {
           question: "Cuál formato prefieren los reclutadores en Argentina?",
           answer:
-            "En industrias corporativas y formales (banca, consultoría, derecho, tecnología empresarial), Harvard es muy well received. En industrias creativas o startups, hay más apertura a formatos modernos. Depende del sector.",
+            "En industrias corporativas y formales (banca, consultoria, derecho, tecnologia empresarial), Harvard suele ser bien recibido. En industrias creativas o startups, hay mas apertura a formatos modernos. Depende del sector.",
         },
         {
           question: "El CV tradicional es menos profesional?",

@@ -1,10 +1,11 @@
 import { MarketingPage } from "@/components/seo/MarketingPage";
+import { PRICING } from "@/lib/pricing";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Crear CV Online Editable en Minutos con IA",
   description:
-    "Crea tu currículum online con IA, editalo desde tu perfil y descargalo en PDF con enfoque ATS.",
+    `Crea tu curriculum online con IA, editalo desde tu perfil y descargalo en PDF con enfoque ATS. ${PRICING.copy.seoLine}`,
   path: "/crear-cv-online",
   keywords: [
     "crear cv online",
@@ -87,6 +88,10 @@ export default function CrearCvOnlinePage() {
           question: "El CV se puede descargar en PDF?",
           answer:
             "Si. El flujo termina con un CV visualmente profesional, editable desde tu perfil y listo para descargar en PDF.",
+        },
+        {
+          question: PRICING.copy.faqQuestion,
+          answer: PRICING.copy.faqAnswer,
         },
         {
           question: "Cuanto tiempo tarda crear el CV?",

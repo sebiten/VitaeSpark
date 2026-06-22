@@ -12,6 +12,7 @@ import {
 import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+import { PRICING } from "@/lib/pricing";
 import WelcomeHero from "./WelcomeHero";
 
 const editPasses = [
@@ -98,6 +99,10 @@ const faqQuestions = [
   {
     q: "Puedo editarlo despues?",
     a: "Si. El CV queda guardado en tu perfil para editar datos y descargar nuevas versiones en PDF con la plantilla elegida.",
+  },
+  {
+    q: PRICING.copy.faqQuestion,
+    a: PRICING.copy.faqAnswer,
   },
 ];
 
