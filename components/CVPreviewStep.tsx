@@ -582,14 +582,14 @@ export default function CVPreviewStepPurple({
                     <span>{copy.processingPayment}</span>
                   </div>
                 ) : (
-                  <div className="grid w-full grid-cols-[36px_1fr_auto] items-center gap-3 px-1">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-white">
+                  <div className="grid w-full grid-cols-[42px_1fr_auto] items-center gap-3 px-1">
+                    <span className="flex h-9 w-10 shrink-0 items-center justify-center">
                       <Image
                         src="/logompsolomano.png"
                         alt="Mercado Pago"
-                        width={24}
-                        height={24}
-                        className="h-5 w-5 object-contain"
+                        width={36}
+                        height={36}
+                        className="h-8 w-8 object-contain"
                       />
                     </span>
                     <span className="min-w-0 text-center text-[15px] font-semibold tracking-[-0.01em] sm:text-base">
