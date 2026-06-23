@@ -33,7 +33,11 @@ type AnalyticsEventName =
   | "cv_generated"
   | "checkout_viewed"
   | "payment_started"
-  | "payment_completed";
+  | "payment_completed"
+  | "recovery_email_sent"
+  | "recovery_email_clicked"
+  | "feedback_submitted"
+  | "download_completed";
 
 type AnalyticsEvent = {
   event_name: AnalyticsEventName;
@@ -44,6 +48,10 @@ type AnalyticsEvent = {
   source_type: string | null;
   cta_label: string | null;
   template: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_content: string | null;
 };
 
 type CvRecord = {
@@ -71,6 +79,18 @@ type LandingMetric = {
   paymentStarts: number;
   payments: number;
   sourceTypes: Set<string>;
+};
+
+type CampaignMetric = {
+  source: string;
+  medium: string;
+  campaign: string;
+  content: string;
+  clicks: number;
+  cvs: number;
+  checkouts: number;
+  paymentStarts: number;
+  payments: number;
 };
 
 type PeriodMetrics = {
@@ -167,7 +187,7 @@ export default async function AdminDashboardPage({
     supabaseAdmin
       .from("analytics_events")
       .select(
-        "event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template"
+        "event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template, utm_source, utm_medium, utm_campaign, utm_content"
       )
       .gte("created_at", since30Days.toISOString())
       .order("created_at", { ascending: false })
@@ -208,6 +228,7 @@ export default async function AdminDashboardPage({
 
   const dailyMetrics = buildDailyMetrics(users, cvs, payments, since7Days);
   const landingMetrics = buildLandingMetrics(events, languageFilter, providerFilter);
+  const campaignMetrics = buildCampaignMetrics(events, providerFilter);
   const topLanding = landingMetrics[0];
   const maxDailyValue = Math.max(
     1,
@@ -506,6 +527,61 @@ export default async function AdminDashboardPage({
           )}
         </section>
 
+        <section className="mb-7 rounded-[30px] border border-white/10 bg-[#15151A]/82 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:p-6">
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold tracking-[-0.03em] text-white">
+              Campanas y UTMs
+            </h2>
+            <p className="mt-1 text-sm text-white/50">
+              Lee links de blog, emails de recuperacion y publicaciones con UTM.
+              Actua cuando una campana tenga muestra, no por un solo click.
+            </p>
+          </div>
+
+          {campaignMetrics.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[980px] text-left text-sm">
+                <thead className="text-[11px] uppercase tracking-[0.16em] text-white/38">
+                  <tr className="border-b border-white/10">
+                    <th className="py-3 pr-4 font-medium">Campana</th>
+                    <th className="px-3 py-3 font-medium">Fuente</th>
+                    <th className="px-3 py-3 font-medium">Medio</th>
+                    <th className="px-3 py-3 font-medium">Contenido</th>
+                    <th className="px-3 py-3 font-medium">Clicks</th>
+                    <th className="px-3 py-3 font-medium">CVs</th>
+                    <th className="px-3 py-3 font-medium">Checkout</th>
+                    <th className="px-3 py-3 font-medium">Inicio pago</th>
+                    <th className="px-3 py-3 font-medium">Pagos</th>
+                    <th className="px-3 py-3 font-medium">CV / click</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10 text-white/70">
+                  {campaignMetrics.map((row) => (
+                    <tr key={`${row.source}-${row.medium}-${row.campaign}-${row.content}`}>
+                      <td className="py-4 pr-4 font-medium text-white">
+                        {row.campaign}
+                      </td>
+                      <td className="px-3 py-4">{row.source}</td>
+                      <td className="px-3 py-4">{row.medium}</td>
+                      <td className="px-3 py-4">{row.content}</td>
+                      <td className="px-3 py-4">{row.clicks}</td>
+                      <td className="px-3 py-4">{row.cvs}</td>
+                      <td className="px-3 py-4">{row.checkouts}</td>
+                      <td className="px-3 py-4">{row.paymentStarts}</td>
+                      <td className="px-3 py-4">{row.payments}</td>
+                      <td className="px-3 py-4 text-[#38BDF8]">
+                        {formatPercent(rate(row.cvs, row.clicks))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <EmptyPanel text="Todavia no hay eventos con UTM en esta ventana." />
+          )}
+        </section>
+
         <section className="mb-7 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
           <Panel title="Como medir y cuando actuar" icon={<BarChart3 className="h-5 w-5" />}>
             <div className="grid gap-3">
@@ -675,6 +751,62 @@ function buildLandingMetrics(
         b.clicks - a.clicks
     )
     .slice(0, 14);
+}
+
+function buildCampaignMetrics(
+  events: AnalyticsEvent[],
+  provider: ProviderFilterValue
+): CampaignMetric[] {
+  const metrics = new Map<string, CampaignMetric>();
+
+  events.forEach((event) => {
+    if (!event.utm_source && !event.utm_campaign && !event.utm_medium) return;
+
+    const source = event.utm_source || "sin fuente";
+    const medium = event.utm_medium || "sin medio";
+    const campaign = event.utm_campaign || "sin campana";
+    const content = event.utm_content || "general";
+    const key = `${source}:${medium}:${campaign}:${content}`;
+    const current =
+      metrics.get(key) ??
+      {
+        source,
+        medium,
+        campaign,
+        content,
+        clicks: 0,
+        cvs: 0,
+        checkouts: 0,
+        paymentStarts: 0,
+        payments: 0,
+      };
+
+    const providerMatches =
+      provider === "all" ? true : event.payment_provider === provider;
+
+    if (event.event_name === "landing_cta_clicked") current.clicks += 1;
+    if (event.event_name === "cv_generated") current.cvs += 1;
+    if (event.event_name === "checkout_viewed") current.checkouts += 1;
+    if (event.event_name === "payment_started" && providerMatches) {
+      current.paymentStarts += 1;
+    }
+    if (event.event_name === "payment_completed" && providerMatches) {
+      current.payments += 1;
+    }
+
+    metrics.set(key, current);
+  });
+
+  return Array.from(metrics.values())
+    .sort(
+      (a, b) =>
+        b.payments - a.payments ||
+        b.paymentStarts - a.paymentStarts ||
+        b.checkouts - a.checkouts ||
+        b.cvs - a.cvs ||
+        b.clicks - a.clicks
+    )
+    .slice(0, 12);
 }
 
 function buildDailyMetrics(

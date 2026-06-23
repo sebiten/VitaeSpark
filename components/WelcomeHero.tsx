@@ -1,14 +1,11 @@
 "use client";
 
-import {
-  ArrowRight,
-  Sparkles,
-} from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { FloatingRobot } from "./floating-robot";
 import HeroShowcase from "./HeroShowcase";
-import { Button } from "./ui/button";
+import { TrackedCtaLink } from "./seo/TrackedCtaLink";
 
 export default function WelcomeHero() {
   const reduceMotion = useReducedMotion();
@@ -93,15 +90,15 @@ export default function WelcomeHero() {
             variants={copyItem}
             className="relative z-10 mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
-            <Link href="/crear" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                className="h-[52px] w-full rounded-full bg-[#F6F2EA] px-7 text-[15px] font-semibold text-[#121114] shadow-[0_18px_44px_rgba(246,242,234,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#FFFCF4] hover:shadow-[0_22px_54px_rgba(246,242,234,0.24)] active:translate-y-0 sm:w-auto sm:px-8"
-              >
-                Crear mi CV
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+            <TrackedCtaLink
+              href="/crear"
+              label="Crear mi CV"
+              sourcePath="/"
+              sourceType="landing"
+              trackingLabel="home_hero_primary"
+              className="w-full sm:w-auto"
+              buttonClassName="h-[52px] w-full rounded-full bg-[#F6F2EA] px-7 text-[15px] font-semibold text-[#121114] shadow-[0_18px_44px_rgba(246,242,234,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#FFFCF4] hover:shadow-[0_22px_54px_rgba(246,242,234,0.24)] active:translate-y-0 sm:w-auto sm:px-8"
+            />
             <Link
               href="/plantillas-curriculum"
               className="inline-flex h-[52px] items-center justify-center rounded-full border border-[#F6F2EA]/[0.12] bg-[#F6F2EA]/[0.035] px-6 text-sm font-medium text-[#F6F2EA]/[0.78] shadow-[inset_0_1px_0_rgba(246,242,234,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#F6F2EA]/20 hover:bg-[#F6F2EA]/[0.07] hover:text-[#F6F2EA] active:translate-y-0"

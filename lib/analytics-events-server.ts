@@ -7,7 +7,11 @@ type AnalyticsEventName =
   | "cv_generated"
   | "checkout_viewed"
   | "payment_started"
-  | "payment_completed";
+  | "payment_completed"
+  | "recovery_email_sent"
+  | "recovery_email_clicked"
+  | "feedback_submitted"
+  | "download_completed";
 
 type ServerAnalyticsEventPayload = LandingAttribution & {
   event_name: AnalyticsEventName;
@@ -30,6 +34,10 @@ export async function recordAnalyticsEventServer({
   template,
   cv_id,
   payment_id,
+  utm_source,
+  utm_medium,
+  utm_campaign,
+  utm_content,
 }: ServerAnalyticsEventPayload) {
   const { error } = await supabaseAdmin.from("analytics_events").insert({
     user_id: user_id ?? null,
@@ -42,6 +50,10 @@ export async function recordAnalyticsEventServer({
     template: template || null,
     cv_id: cv_id || null,
     payment_id: payment_id || null,
+    utm_source: utm_source || null,
+    utm_medium: utm_medium || null,
+    utm_campaign: utm_campaign || null,
+    utm_content: utm_content || null,
   });
 
   if (error) {

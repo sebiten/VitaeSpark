@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { PRICING } from "@/lib/pricing";
+import { getLandingAttribution } from "@/lib/analytics-attribution";
 import type { RespuestaCV } from "@/lib/types/cv";
 import { createClient } from "@/utils/supabase/client";
 
@@ -128,6 +129,7 @@ export function PendingPaymentRecovery({
 
   const attribution = useMemo(
     () => ({
+      ...getLandingAttribution(),
       landing_path: pathname,
       cta_label: getCtaLabel(variant),
       source_type: getSourceType(pathname),

@@ -92,16 +92,6 @@ export async function POST(req: Request) {
     );
   }
 
-  await recordAnalyticsEventServer({
-    event_name: "payment_started",
-    user_id: profile_id,
-    language,
-    payment_provider: "paypal",
-    template: paymentCv.cv.template,
-    cv_id: paymentCv.cv.id,
-    ...attribution,
-  });
-
   try {
     const accessToken = await getPayPalAccessToken();
     const orderPayload = {
@@ -158,6 +148,16 @@ export async function POST(req: Request) {
     const approveUrl = paypalJson.links?.find(
       (link: { rel: string; href: string }) => link.rel === "approve"
     )?.href;
+
+    await recordAnalyticsEventServer({
+      event_name: "payment_started",
+      user_id: profile_id,
+      language,
+      payment_provider: "paypal",
+      template: paymentCv.cv.template,
+      cv_id: paymentCv.cv.id,
+      ...attribution,
+    });
 
     return NextResponse.json({
       cvId: paymentCv.cv.id,

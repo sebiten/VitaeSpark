@@ -55,12 +55,34 @@ const templates = [
 ];
 
 const days = 30;
-const rows = [["dia", "rubro", "publicacion"]];
+const campaign = "oficios_organico";
+const rows = [["dia", "canal", "rubro", "publicacion", "url"]];
+const channels = ["facebook", "tiktok", "reels"];
+
+function buildTrackedUrl(path, index, role, channel) {
+  const url = new URL(path);
+  url.searchParams.set("utm_source", channel);
+  url.searchParams.set("utm_medium", "social");
+  url.searchParams.set("utm_campaign", campaign);
+  url.searchParams.set("utm_content", `day-${index + 1}-${channel}-${role}`);
+  return url.toString();
+}
 
 for (let index = 0; index < days; index += 1) {
   const role = roles[index % roles.length];
   const template = templates[index % templates.length];
-  rows.push([String(index + 1), role.role, template(role)]);
+  const slug = role.role.replaceAll(" ", "-");
+
+  channels.forEach((channel) => {
+    const url = buildTrackedUrl(role.path, index, slug, channel);
+    rows.push([
+      String(index + 1),
+      channel,
+      role.role,
+      template({ ...role, path: url }),
+      url,
+    ]);
+  });
 }
 
 const csv = rows

@@ -37,6 +37,7 @@ import {
   X,
 } from "lucide-react";
 import UserPayments from "@/components/UserPayment";
+import { ProfileFeedbackPrompt } from "@/components/ProfileFeedbackPrompt";
 import { CVThumbnail } from "./CvThumbnail";
 
 const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
@@ -205,6 +206,9 @@ export default function PerfilCVs() {
         ) : null}
 
         {showCongrats && paidCv ? <PaymentSuccessNotice cv={paidCv} /> : null}
+        {showCongrats && paidCv ? (
+          <ProfileFeedbackPrompt cvId={paidCv.id} />
+        ) : null}
 
         <PendingPaymentRecovery variant="profile" />
 
@@ -448,6 +452,7 @@ function CVGridCard({
         <PDFDownloadButton
           cv={cv.cv_data}
           template={cv.template || undefined}
+          cvId={cv.id}
           className="w-full"
         />
       </CardFooter>
@@ -513,6 +518,7 @@ function CVListItem({
         <PDFDownloadButton
           cv={cv.cv_data}
           template={cv.template || undefined}
+          cvId={cv.id}
           className="col-span-2 sm:min-w-[160px]"
         />
       </div>

@@ -1,4 +1,7 @@
-import type { LandingAttribution } from "@/lib/analytics-attribution";
+import {
+  getLandingAttribution,
+  type LandingAttribution,
+} from "@/lib/analytics-attribution";
 
 type AnalyticsEventName =
   | "landing_cta_clicked"
@@ -6,7 +9,11 @@ type AnalyticsEventName =
   | "cv_generated"
   | "checkout_viewed"
   | "payment_started"
-  | "payment_completed";
+  | "payment_completed"
+  | "recovery_email_sent"
+  | "recovery_email_clicked"
+  | "feedback_submitted"
+  | "download_completed";
 
 type AnalyticsEventPayload = LandingAttribution & {
   event_name: AnalyticsEventName;
@@ -20,7 +27,7 @@ type AnalyticsEventPayload = LandingAttribution & {
 export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
   if (typeof window === "undefined") return;
 
-  const body = JSON.stringify(payload);
+  const body = JSON.stringify({ ...getLandingAttribution(), ...payload });
 
   if (navigator.sendBeacon) {
     const sent = navigator.sendBeacon(

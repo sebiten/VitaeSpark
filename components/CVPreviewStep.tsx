@@ -29,6 +29,8 @@ import { getLandingAttribution } from "@/lib/analytics-attribution";
 import { recordAnalyticsEvent } from "@/lib/analytics-events";
 import type { AppLanguage } from "@/lib/i18n";
 import { PRICING } from "@/lib/pricing";
+import { calculateCvScore } from "@/lib/cv-score";
+import { ConversionProof } from "@/components/ConversionProof";
 
 const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ssr: false,
@@ -151,6 +153,7 @@ export default function CVPreviewStepPurple({
   const [pendingCvId, setPendingCvId] = useState<string | null>(null);
   const checkoutViewedTracked = useRef(false);
   const copy = checkoutCopy[language];
+  const cvScore = useMemo(() => calculateCvScore(cvData), [cvData]);
 
   const handlePayPal = async () => {
     if (!currentUser.id) return;
@@ -564,6 +567,46 @@ export default function CVPreviewStepPurple({
               </div>
             </div>
 
+            <div className="rounded-2xl border border-[#38BDF8]/16 bg-[#38BDF8]/[0.065] p-4">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7DD3FC]">
+                    Revision del CV
+                  </p>
+                  <h4 className="mt-1 text-base font-semibold text-white">
+                    {cvScore.label}
+                  </h4>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-2 text-right">
+                  <p className="text-2xl font-black leading-none text-white">
+                    {cvScore.score}
+                  </p>
+                  <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.14em] text-white/42">
+                    score
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2">
+                {cvScore.items.map((item) => (
+                  <div key={item.label} className="flex items-start gap-2">
+                    <CheckCircle
+                      className={`mt-0.5 h-4 w-4 flex-shrink-0 ${
+                        item.passed ? "text-emerald-300" : "text-white/28"
+                      }`}
+                    />
+                    <div>
+                      <p className="text-xs font-semibold text-white/82">
+                        {item.label}
+                      </p>
+                      <p className="mt-0.5 text-xs leading-5 text-white/52">
+                        {item.detail}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <div className="flex flex-col gap-2.5">
               <Button
                 disabled={paymentInProgress}
@@ -657,6 +700,8 @@ export default function CVPreviewStepPurple({
                 {copy.secure}
               </span>
             </div>
+
+            <ConversionProof variant="checkout" />
 
             <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-3.5">
               <p className="mb-3 text-sm font-semibold text-white">

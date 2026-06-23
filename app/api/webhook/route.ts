@@ -206,7 +206,7 @@ export async function POST(req: NextRequest) {
   const { data: startedEvent } = await supabaseAdmin
     .from("analytics_events")
     .select(
-      "landing_path, cta_label, source_type, language, payment_provider, template"
+      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content"
     )
     .eq("event_name", "payment_started")
     .eq("cv_id", cv_id)
@@ -240,6 +240,16 @@ export async function POST(req: NextRequest) {
       metadataSourceType === "landing" || metadataSourceType === "blog"
         ? metadataSourceType
         : startedEvent?.source_type,
+    utm_source:
+      metadataString(payment.metadata, "utm_source") || startedEvent?.utm_source,
+    utm_medium:
+      metadataString(payment.metadata, "utm_medium") || startedEvent?.utm_medium,
+    utm_campaign:
+      metadataString(payment.metadata, "utm_campaign") ||
+      startedEvent?.utm_campaign,
+    utm_content:
+      metadataString(payment.metadata, "utm_content") ||
+      startedEvent?.utm_content,
   });
 
   return NextResponse.json({ message: "ok" }, { status: 200 });

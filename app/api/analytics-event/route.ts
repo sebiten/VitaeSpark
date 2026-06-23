@@ -11,6 +11,10 @@ const AnalyticsEventSchema = z.object({
     "checkout_viewed",
     "payment_started",
     "payment_completed",
+    "recovery_email_sent",
+    "recovery_email_clicked",
+    "feedback_submitted",
+    "download_completed",
   ]),
   landing_path: z.string().trim().max(240).optional(),
   cta_label: z.string().trim().max(120).optional(),
@@ -20,6 +24,10 @@ const AnalyticsEventSchema = z.object({
   template: z.string().trim().max(80).optional(),
   cv_id: z.string().uuid().optional(),
   payment_id: z.string().trim().max(160).optional(),
+  utm_source: z.string().trim().max(120).optional(),
+  utm_medium: z.string().trim().max(120).optional(),
+  utm_campaign: z.string().trim().max(120).optional(),
+  utm_content: z.string().trim().max(120).optional(),
 });
 
 export async function POST(req: Request) {

@@ -6,6 +6,10 @@ export type LandingAttribution = {
   cta_label?: string;
   source_type?: "landing" | "blog";
   landing_ts?: number;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
 };
 
 export function setLandingAttribution({
@@ -21,6 +25,7 @@ export function setLandingAttribution({
       landing_path,
       cta_label,
       source_type,
+      ...getCurrentCampaignParams(),
       landing_ts: Date.now(),
     })
   );
@@ -42,8 +47,29 @@ export function getLandingAttribution(): LandingAttribution {
       return {};
     }
 
-    return parsed;
+    return { ...parsed, ...getCurrentCampaignParams() };
   } catch {
-    return {};
+    return getCurrentCampaignParams();
   }
+}
+
+export function getCurrentCampaignParams(): Pick<
+  LandingAttribution,
+  "utm_source" | "utm_medium" | "utm_campaign" | "utm_content"
+> {
+  if (typeof window === "undefined") return {};
+
+  const params = new URLSearchParams(window.location.search);
+
+  return {
+    utm_source: sanitizeCampaignParam(params.get("utm_source")),
+    utm_medium: sanitizeCampaignParam(params.get("utm_medium")),
+    utm_campaign: sanitizeCampaignParam(params.get("utm_campaign")),
+    utm_content: sanitizeCampaignParam(params.get("utm_content")),
+  };
+}
+
+function sanitizeCampaignParam(value: string | null) {
+  const clean = value?.trim().slice(0, 120);
+  return clean || undefined;
 }

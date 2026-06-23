@@ -4,11 +4,13 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { RespuestaCV } from "@/lib/types/cv";
+import { recordAnalyticsEvent } from "@/lib/analytics-events";
 import { DocumentoCV } from "./CVDocument";
 
 type Props = {
   cv: RespuestaCV["cv"];
   template?: string | null;
+  cvId?: string;
   className?: string;
   label?: string;
 };
@@ -16,6 +18,7 @@ type Props = {
 export default function PDFDownloadButton({
   cv,
   template,
+  cvId,
   className,
   label,
 }: Props) {
@@ -29,6 +32,14 @@ export default function PDFDownloadButton({
         <Button
           className="w-full bg-[#1A1A1D] hover:bg-[#2A2A2D] border border-[#2A2A2D] text-[#F4F4F5]"
           disabled={loading}
+          onClick={() => {
+            if (!cvId || loading) return;
+            recordAnalyticsEvent({
+              event_name: "download_completed",
+              cv_id: cvId,
+              template: template || undefined,
+            });
+          }}
         >
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" />

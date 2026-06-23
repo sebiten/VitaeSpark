@@ -124,7 +124,7 @@ export async function POST(req: Request) {
   const { data: startedEvent } = await supabaseAdmin
     .from("analytics_events")
     .select(
-      "landing_path, cta_label, source_type, language, payment_provider, template"
+      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content"
     )
     .eq("event_name", "payment_started")
     .eq("cv_id", cvId)
@@ -143,6 +143,10 @@ export async function POST(req: Request) {
     landing_path: startedEvent?.landing_path,
     cta_label: startedEvent?.cta_label,
     source_type: startedEvent?.source_type,
+    utm_source: startedEvent?.utm_source,
+    utm_medium: startedEvent?.utm_medium,
+    utm_campaign: startedEvent?.utm_campaign,
+    utm_content: startedEvent?.utm_content,
   });
 
   return NextResponse.json({ received: true });

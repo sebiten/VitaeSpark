@@ -30,6 +30,10 @@ export const LandingAttributionSchema = z
     cta_label: z.string().trim().max(120).optional(),
     source_type: z.enum(["landing", "blog"]).optional(),
     landing_ts: z.number().optional(),
+    utm_source: z.string().trim().max(120).optional(),
+    utm_medium: z.string().trim().max(120).optional(),
+    utm_campaign: z.string().trim().max(120).optional(),
+    utm_content: z.string().trim().max(120).optional(),
   })
   .optional();
 

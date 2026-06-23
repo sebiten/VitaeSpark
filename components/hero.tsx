@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
   BookOpenCheck,
@@ -13,6 +12,8 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { PRICING } from "@/lib/pricing";
+import { ConversionProof } from "@/components/ConversionProof";
+import { TrackedCtaLink } from "@/components/seo/TrackedCtaLink";
 import WelcomeHero from "./WelcomeHero";
 
 const editPasses = [
@@ -117,6 +118,10 @@ export default function Home() {
   return (
     <div className="min-h-screen overflow-hidden bg-[#0D0D10] text-[#F6F2EA]">
       <WelcomeHero />
+
+      <section className="px-4 pb-12 pt-0 sm:px-6 sm:pb-16">
+        <ConversionProof variant="home" className="mx-auto max-w-7xl" />
+      </section>
 
       <section className="relative border-y border-[#F6F2EA]/8 bg-[#111014] px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
@@ -388,12 +393,15 @@ export default function Home() {
               falta y descarga un PDF listo para postular.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link href="/crear" className="w-full sm:w-auto">
-                <Button className="h-12 w-full rounded-full bg-[#F6F2EA] px-7 text-[15px] font-semibold text-[#121114] shadow-[0_18px_44px_rgba(246,242,234,0.18)] transition hover:-translate-y-0.5 hover:bg-white sm:w-auto">
-                  Crear mi CV
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
+              <TrackedCtaLink
+                href="/crear"
+                label="Crear mi CV"
+                sourcePath="/"
+                sourceType="landing"
+                trackingLabel="home_final_cta"
+                className="w-full sm:w-auto"
+                buttonClassName="h-12 w-full rounded-full bg-[#F6F2EA] px-7 text-[15px] font-semibold text-[#121114] shadow-[0_18px_44px_rgba(246,242,234,0.18)] transition hover:-translate-y-0.5 hover:bg-white sm:w-auto"
+              />
               <Link
                 href="/blog"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-[#F6F2EA]/12 px-6 text-sm font-medium text-[#F6F2EA]/76 transition hover:border-[#F6F2EA]/[0.22] hover:bg-[#F6F2EA]/[0.06] hover:text-[#F6F2EA]"
