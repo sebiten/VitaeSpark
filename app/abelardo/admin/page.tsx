@@ -1,12 +1,16 @@
-import type React from "react";
+import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
-  Activity,
+  AlertTriangle,
   ArrowRight,
+  BarChart3,
+  CheckCircle2,
   CreditCard,
   FileText,
   MessageSquare,
+  MousePointerClick,
+  ShieldCheck,
   Sparkles,
   Target,
   TrendingUp,
@@ -23,12 +27,37 @@ type DailyMetric = {
   payments: number;
 };
 
+type AnalyticsEventName =
+  | "landing_cta_clicked"
+  | "template_selected"
+  | "cv_generated"
+  | "checkout_viewed"
+  | "payment_started"
+  | "payment_completed";
+
 type AnalyticsEvent = {
-  event_name: string;
+  event_name: AnalyticsEventName;
   landing_path: string | null;
   created_at: string;
   language: "es" | "en" | null;
   payment_provider: "mercado_pago" | "paypal" | null;
+  source_type: string | null;
+  cta_label: string | null;
+  template: string | null;
+};
+
+type CvRecord = {
+  created_at: string;
+  status: string | null;
+};
+
+type PaymentRecord = {
+  amount: number | null;
+  status: string | null;
+  created_at: string;
+  payment_type: string | null;
+  payment_method: string | null;
+  payer_email: string | null;
 };
 
 type LandingMetric = {
@@ -41,12 +70,26 @@ type LandingMetric = {
   checkouts: number;
   paymentStarts: number;
   payments: number;
+  sourceTypes: Set<string>;
+};
+
+type PeriodMetrics = {
+  users: number;
+  cvs: number;
+  paidCvs: number;
+  checkouts: number;
+  paymentStarts: number;
+  completedPaymentEvents: number;
+  approvedPayments: number;
+  revenueARS: number;
+  revenueUSD: number;
 };
 
 type FilterValue = "all" | "es" | "en";
 type ProviderFilterValue = "all" | "mercado_pago" | "paypal";
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
+const APPROVED_STATUSES = ["approved", "paid"];
 
 export default async function AdminDashboardPage({
   searchParams,
@@ -66,17 +109,20 @@ export default async function AdminDashboardPage({
     .eq("id", user.id)
     .single();
 
-  if (error || !profile || !profile.isadmin) return redirect("/");
+  if (error || !profile?.isadmin) return redirect("/");
 
   const params = await searchParams;
-  const languageFilter = params?.lang === "en" || params?.lang === "es" ? params.lang : "all";
+  const languageFilter =
+    params?.lang === "en" || params?.lang === "es" ? params.lang : "all";
   const providerFilter =
     params?.provider === "mercado_pago" || params?.provider === "paypal"
       ? params.provider
       : "all";
 
-  const since7Days = new Date(Date.now() - 6 * DAY_IN_MS);
-  since7Days.setHours(0, 0, 0, 0);
+  const now = new Date();
+  const since7Days = startOfDay(new Date(Date.now() - 6 * DAY_IN_MS));
+  const since30Days = startOfDay(new Date(Date.now() - 29 * DAY_IN_MS));
+  const since60Days = startOfDay(new Date(Date.now() - 59 * DAY_IN_MS));
 
   const [
     { count: totalUsers },
@@ -84,7 +130,7 @@ export default async function AdminDashboardPage({
     { count: totalPayments },
     { count: totalFeedback },
     { data: recentFeedback },
-    { data: recentPayments },
+    { data: paymentsLast60 },
     { data: recentUsers },
     { data: recentCvs },
     { data: analyticsEvents },
@@ -94,7 +140,7 @@ export default async function AdminDashboardPage({
     supabaseAdmin
       .from("payments")
       .select("*", { count: "exact", head: true })
-      .eq("status", "approved"),
+      .in("status", APPROVED_STATUSES),
     supabaseAdmin.from("feedback").select("*", { count: "exact", head: true }),
     supabaseAdmin
       .from("feedback")
@@ -103,174 +149,257 @@ export default async function AdminDashboardPage({
       .limit(5),
     supabaseAdmin
       .from("payments")
-      .select("amount, status, created_at, payment_type, payer_email")
+      .select("amount, status, created_at, payment_type, payment_method, payer_email")
+      .in("status", APPROVED_STATUSES)
+      .gte("created_at", since60Days.toISOString())
       .order("created_at", { ascending: false })
-      .limit(6),
+      .limit(500),
     supabaseAdmin
       .from("profiles")
       .select("created_at")
-      .gte("created_at", since7Days.toISOString()),
+      .gte("created_at", since60Days.toISOString())
+      .limit(5000),
     supabaseAdmin
       .from("cvs")
       .select("created_at, status")
-      .gte("created_at", since7Days.toISOString()),
+      .gte("created_at", since60Days.toISOString())
+      .limit(5000),
     supabaseAdmin
       .from("analytics_events")
-      .select("event_name, landing_path, created_at, language, payment_provider")
-      .not("landing_path", "is", null)
+      .select(
+        "event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template"
+      )
+      .gte("created_at", since30Days.toISOString())
       .order("created_at", { ascending: false })
-      .limit(1500),
+      .limit(3000),
   ]);
 
-  const filteredAnalyticsEvents = (analyticsEvents ?? []).filter((event) =>
+  const users = recentUsers ?? [];
+  const cvs = (recentCvs ?? []) as CvRecord[];
+  const payments = (paymentsLast60 ?? []) as PaymentRecord[];
+  const events = ((analyticsEvents ?? []) as AnalyticsEvent[]).filter((event) =>
     languageFilter === "all" ? true : event.language === languageFilter
   );
 
-  const usersLast7 = recentUsers ?? [];
-  const cvsLast7 = recentCvs ?? [];
-  const paidCvsLast7 = cvsLast7.filter((cv) => cv.status === "paid");
-  const paymentsLast7 = (analyticsEvents ?? []).filter(
-    (event) =>
-      event.event_name === "payment_completed" &&
-      new Date(event.created_at) >= since7Days
-  );
-  const dailyMetrics = buildDailyMetrics(usersLast7, cvsLast7, paymentsLast7);
-  const landingMetrics = buildLandingMetrics(
-    filteredAnalyticsEvents,
-    languageFilter,
-    providerFilter
-  );
+  const current30 = buildPeriodMetrics({
+    users,
+    cvs,
+    payments,
+    events: analyticsEvents ?? [],
+    start: since30Days,
+    end: now,
+  });
+  const previous30 = buildPeriodMetrics({
+    users,
+    cvs,
+    payments,
+    events: analyticsEvents ?? [],
+    start: since60Days,
+    end: since30Days,
+  });
+  const current7 = buildPeriodMetrics({
+    users,
+    cvs,
+    payments,
+    events: analyticsEvents ?? [],
+    start: since7Days,
+    end: now,
+  });
+
+  const dailyMetrics = buildDailyMetrics(users, cvs, payments, since7Days);
+  const landingMetrics = buildLandingMetrics(events, languageFilter, providerFilter);
+  const topLanding = landingMetrics[0];
   const maxDailyValue = Math.max(
     1,
     ...dailyMetrics.map((day) => day.users + day.cvs + day.payments)
   );
-  const cvToPaymentRate =
-    totalCvs && totalCvs > 0 ? ((totalPayments ?? 0) / totalCvs) * 100 : 0;
-  const paidCvRate =
-    cvsLast7.length > 0 ? (paidCvsLast7.length / cvsLast7.length) * 100 : 0;
-  const englishEvents = (analyticsEvents ?? []).filter((event) => event.language === "en");
-  const paypalEvents = (analyticsEvents ?? []).filter(
-    (event) => event.payment_provider === "paypal"
-  );
+
+  const globalCtaClicks = countEvents(events, "landing_cta_clicked");
+  const globalTemplates = countEvents(events, "template_selected");
+  const globalGenerated = countEvents(events, "cv_generated");
+  const globalCheckouts = countEvents(events, "checkout_viewed");
+  const globalPaymentStarts = countEvents(events, "payment_started");
+  const globalCompletedEvents = countEvents(events, "payment_completed");
+
+  const insights = buildInsights({
+    current30,
+    previous30,
+    ctaClicks: globalCtaClicks,
+    generated: globalGenerated,
+    checkouts: globalCheckouts,
+    paymentStarts: globalPaymentStarts,
+    completedEvents: globalCompletedEvents,
+    topLanding,
+  });
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#0F0F10] px-4 py-12 text-[#F4F4F5]">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-[#7C3AED]/10 blur-[130px]" />
-      <div className="relative container mx-auto max-w-7xl">
-        <div className="mb-10 rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10">
-          <BadgeLike icon={<Sparkles className="h-4 w-4" />} text="Admin" />
-          <h1 className="mt-4 text-3xl font-bold text-white md:text-4xl">
-            Panel de crecimiento
-          </h1>
-          <p className="mt-2 max-w-2xl text-[#F4F4F5]/70">
-            Metricas de usuarios, CVs, pagos y conversion por landing. Los
-            filtros de idioma y medio de pago usan eventos reales del funnel.
-          </p>
-        </div>
+    <main className="relative min-h-screen overflow-hidden bg-[#0C0C10] px-4 py-8 text-[#F4F4F5] sm:px-6 sm:py-10">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_8%,rgba(122,92,255,0.2),transparent_30%),radial-gradient(circle_at_18%_32%,rgba(56,189,248,0.08),transparent_26%),linear-gradient(135deg,#0C0C10_0%,#141219_48%,#08080A_100%)]" />
+        <div className="hero-grid absolute inset-0 opacity-[0.04] [background-image:linear-gradient(rgba(246,242,234,0.62)_1px,transparent_1px),linear-gradient(90deg,rgba(246,242,234,0.48)_1px,transparent_1px)] [background-size:84px_84px]" />
+      </div>
 
-        <div className="mb-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          <StatsCard
-            title="Pagos aprobados"
-            value={totalPayments ?? 0}
-            helper={`Ultimos 7 dias: ${paymentsLast7.length}`}
-            icon={<CreditCard className="h-8 w-8 text-[#7C3AED]" />}
+      <div className="relative mx-auto max-w-7xl">
+        <header className="mb-8 overflow-hidden rounded-[34px] border border-white/10 bg-[#15151A]/82 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] sm:p-7">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <BadgeLike icon={<Sparkles className="h-4 w-4" />} text="Admin privado" />
+              <h1 className="mt-5 max-w-4xl text-3xl font-semibold tracking-[-0.045em] text-[#F6F2EA] sm:text-5xl">
+                Centro de datos VitaeSpark
+              </h1>
+              <p className="mt-4 max-w-3xl text-sm leading-6 text-[#D8D2C8]/70 sm:text-base">
+                Lectura operativa con datos reales de Supabase: usuarios, CVs,
+                pagos aprobados, feedback y eventos del funnel de los ultimos 30 dias.
+              </p>
+            </div>
+
+            <nav className="grid gap-2 sm:grid-cols-3 lg:min-w-[430px]">
+              <AdminNav href="/abelardo/admin/users" label="Usuarios" icon={<Users />} />
+              <AdminNav href="/abelardo/admin/cv" label="CVs creados" icon={<FileText />} />
+              <AdminNav href="/" label="Ver home" icon={<ArrowRight />} />
+            </nav>
+          </div>
+        </header>
+
+        <section className="mb-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+          <MetricCard
+            title="Ingresos ARS 30d"
+            value={formatMoneyARS(current30.revenueARS)}
+            helper={`${current30.approvedPayments} pagos aprobados`}
+            delta={buildDelta(current30.revenueARS, previous30.revenueARS)}
+            icon={<CreditCard className="h-5 w-5" />}
           />
-          <StatsCard
+          <MetricCard
+            title="Ingresos USD 30d"
+            value={formatMoneyUSD(current30.revenueUSD)}
+            helper="PayPal separado para no mezclar monedas"
+            delta={buildDelta(current30.revenueUSD, previous30.revenueUSD)}
+            icon={<CreditCard className="h-5 w-5" />}
+          />
+          <MetricCard
             title="CVs generados"
-            value={totalCvs ?? 0}
-            helper={`Ultimos 7 dias: ${cvsLast7.length}`}
-            icon={<FileText className="h-8 w-8 text-[#A78BFA]" />}
+            value={current30.cvs}
+            helper={`${current7.cvs} en los ultimos 7 dias`}
+            delta={buildDelta(current30.cvs, previous30.cvs)}
+            icon={<FileText className="h-5 w-5" />}
           />
-          <StatsCard
-            title="Usuarios registrados"
-            value={totalUsers ?? 0}
-            helper={`Ultimos 7 dias: ${usersLast7.length}`}
-            icon={<Users className="h-8 w-8 text-[#38BDF8]" />}
-            href="/abelardo/admin/users"
+          <MetricCard
+            title="Usuarios nuevos"
+            value={current30.users}
+            helper={`${totalUsers ?? 0} usuarios historicos`}
+            delta={buildDelta(current30.users, previous30.users)}
+            icon={<Users className="h-5 w-5" />}
           />
-          <StatsCard
-            title="Feedback"
-            value={totalFeedback ?? 0}
-            helper={`Eventos EN: ${englishEvents.length} · PayPal: ${paypalEvents.length}`}
-            icon={<MessageSquare className="h-8 w-8 text-[#38BDF8]" />}
+          <MetricCard
+            title="Pago / CV"
+            value={formatPercent(rate(current30.approvedPayments, current30.cvs))}
+            helper={`${totalPayments ?? 0} pagos historicos`}
+            delta={buildDelta(
+              rate(current30.approvedPayments, current30.cvs),
+              rate(previous30.approvedPayments, previous30.cvs)
+            )}
+            icon={<Target className="h-5 w-5" />}
           />
-        </div>
+        </section>
 
-        <div className="mb-12 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
-          <Card className="overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/85 text-white shadow-2xl shadow-black/10">
-            <CardContent className="p-6">
+        <section className="mb-7 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+          <Card className="overflow-hidden rounded-[30px] border border-white/10 bg-[#15151A]/82 text-white shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
+            <CardContent className="p-5 sm:p-6">
               <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
                 <div>
-                  <h2 className="text-2xl font-semibold">Movimiento 7 dias</h2>
-                  <p className="text-sm text-white/55">
-                    Altura combinada de usuarios, CVs y pagos aprobados.
+                  <h2 className="text-2xl font-semibold tracking-[-0.03em]">
+                    Movimiento real, 7 dias
+                  </h2>
+                  <p className="mt-1 text-sm text-white/50">
+                    Usuarios, CVs y pagos aprobados desde tablas reales.
                   </p>
                 </div>
                 <BadgeLike
                   icon={<TrendingUp className="h-4 w-4" />}
-                  text={`${paymentsLast7.length} pagos en 7 dias`}
+                  text={`${current7.approvedPayments} pagos aprobados`}
                 />
               </div>
-              <div className="grid h-52 grid-cols-7 items-end gap-3">
+
+              <div className="grid h-56 grid-cols-7 items-end gap-2 sm:gap-3">
                 {dailyMetrics.map((day) => {
                   const total = day.users + day.cvs + day.payments;
+
                   return (
                     <div key={day.label} className="flex h-full flex-col justify-end gap-2">
-                      <div className="flex flex-1 items-end rounded-2xl bg-white/[0.035] p-1.5">
+                      <div className="flex flex-1 items-end rounded-2xl border border-white/8 bg-white/[0.03] p-1.5">
                         <div
-                          className="w-full rounded-xl bg-gradient-to-t from-[#7C3AED] to-[#38BDF8]"
+                          className="w-full rounded-xl bg-[#7A5CFF]"
                           style={{
                             height: `${Math.max(8, (total / maxDailyValue) * 100)}%`,
                           }}
                         />
                       </div>
-                      <p className="text-center text-xs text-white/45">{day.label}</p>
+                      <p className="text-center text-[11px] font-medium text-white/42">
+                        {day.label}
+                      </p>
                     </div>
                   );
                 })}
               </div>
-              <div className="mt-5 grid gap-3 text-sm text-white/72 sm:grid-cols-3">
-                <MiniMetric label="Usuarios" value={usersLast7.length} />
-                <MiniMetric label="CVs" value={cvsLast7.length} />
-                <MiniMetric label="Pagos" value={paymentsLast7.length} />
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <MiniMetric label="Usuarios" value={current7.users} />
+                <MiniMetric label="CVs" value={current7.cvs} />
+                <MiniMetric label="Pagos" value={current7.approvedPayments} />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="overflow-hidden rounded-3xl border border-white/10 bg-[#15151A]/85 text-white shadow-2xl shadow-black/10">
-            <CardContent className="space-y-5 p-6">
-              <h2 className="text-2xl font-semibold">Salud del funnel</h2>
-              <FunnelRow
-                icon={<Target className="h-5 w-5" />}
-                label="Pago / CV generado"
-                value={formatPercent(cvToPaymentRate)}
-              />
-              <FunnelRow
-                icon={<Activity className="h-5 w-5" />}
-                label="CVs pagos ultimos 7 dias"
-                value={formatPercent(paidCvRate)}
-              />
-              <FunnelRow
-                icon={<CreditCard className="h-5 w-5" />}
-                label="Eventos PayPal"
-                value={paypalEvents.length}
-              />
-              <p className="rounded-2xl border border-[#38BDF8]/15 bg-[#38BDF8]/10 p-4 text-sm leading-6 text-[#BFEFFF]">
-                Con trafico internacional, lo importante ya no es solo visitas:
-                mira que landing llega a checkout y cual termina en pago.
+          <Card className="overflow-hidden rounded-[30px] border border-white/10 bg-[#15151A]/82 text-white shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
+            <CardContent className="p-5 sm:p-6">
+              <h2 className="text-2xl font-semibold tracking-[-0.03em]">
+                Salud del funnel
+              </h2>
+              <p className="mt-1 text-sm text-white/50">
+                Basado en eventos de analytics de los ultimos 30 dias.
               </p>
+
+              <div className="mt-5 space-y-3">
+                <FunnelRow
+                  label="CTA a plantilla"
+                  value={formatPercent(rate(globalTemplates, globalCtaClicks))}
+                  helper={`${globalCtaClicks} clicks`}
+                />
+                <FunnelRow
+                  label="Plantilla a CV"
+                  value={formatPercent(rate(globalGenerated, globalTemplates))}
+                  helper={`${globalGenerated} CVs generados`}
+                />
+                <FunnelRow
+                  label="CV a checkout"
+                  value={formatPercent(rate(globalCheckouts, globalGenerated))}
+                  helper={`${globalCheckouts} checkouts`}
+                />
+                <FunnelRow
+                  label="Checkout a pago"
+                  value={formatPercent(rate(globalCompletedEvents, globalCheckouts))}
+                  helper={`${globalPaymentStarts} inicios de pago`}
+                />
+              </div>
             </CardContent>
           </Card>
-        </div>
+        </section>
 
-        <section className="mb-12 rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10">
+        <section className="mb-7 grid gap-4 lg:grid-cols-3">
+          {insights.map((insight) => (
+            <DecisionCard key={insight.title} {...insight} />
+          ))}
+        </section>
+
+        <section className="mb-7 rounded-[30px] border border-white/10 bg-[#15151A]/82 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:p-6">
           <div className="mb-6 flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
             <div>
-              <h2 className="text-2xl font-semibold text-white">
-                Conversion por landing
+              <h2 className="text-2xl font-semibold tracking-[-0.03em] text-white">
+                Landings que traen demanda
               </h2>
-              <p className="text-sm text-white/55">
-                Segmentado por idioma y medio de pago usando analytics_events.
+              <p className="mt-1 text-sm text-white/50">
+                Prioriza paginas con suficiente muestra. Los pagos por landing salen de
+                `analytics_events`; los ingresos reales salen de `payments`.
               </p>
             </div>
 
@@ -278,17 +407,41 @@ export default async function AdminDashboardPage({
               <FilterGroup
                 title="Idioma"
                 items={[
-                  { label: "Todos", href: buildFilterHref("all", providerFilter), active: languageFilter === "all" },
-                  { label: "ES", href: buildFilterHref("es", providerFilter), active: languageFilter === "es" },
-                  { label: "EN", href: buildFilterHref("en", providerFilter), active: languageFilter === "en" },
+                  {
+                    label: "Todos",
+                    href: buildFilterHref("all", providerFilter),
+                    active: languageFilter === "all",
+                  },
+                  {
+                    label: "ES",
+                    href: buildFilterHref("es", providerFilter),
+                    active: languageFilter === "es",
+                  },
+                  {
+                    label: "EN",
+                    href: buildFilterHref("en", providerFilter),
+                    active: languageFilter === "en",
+                  },
                 ]}
               />
               <FilterGroup
                 title="Pago"
                 items={[
-                  { label: "Todos", href: buildFilterHref(languageFilter, "all"), active: providerFilter === "all" },
-                  { label: "Mercado Pago", href: buildFilterHref(languageFilter, "mercado_pago"), active: providerFilter === "mercado_pago" },
-                  { label: "PayPal", href: buildFilterHref(languageFilter, "paypal"), active: providerFilter === "paypal" },
+                  {
+                    label: "Todos",
+                    href: buildFilterHref(languageFilter, "all"),
+                    active: providerFilter === "all",
+                  },
+                  {
+                    label: "MP",
+                    href: buildFilterHref(languageFilter, "mercado_pago"),
+                    active: providerFilter === "mercado_pago",
+                  },
+                  {
+                    label: "PayPal",
+                    href: buildFilterHref(languageFilter, "paypal"),
+                    active: providerFilter === "paypal",
+                  },
                 ]}
               />
             </div>
@@ -296,48 +449,55 @@ export default async function AdminDashboardPage({
 
           {landingMetrics.length > 0 ? (
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[1120px] text-left text-sm">
-                <thead className="text-xs uppercase tracking-[0.16em] text-white/40">
+              <table className="w-full min-w-[1180px] text-left text-sm">
+                <thead className="text-[11px] uppercase tracking-[0.16em] text-white/38">
                   <tr className="border-b border-white/10">
                     <th className="py-3 pr-4 font-medium">Landing</th>
-                    <th className="px-3 py-3 font-medium">Idioma</th>
-                    <th className="px-3 py-3 font-medium">Pago</th>
+                    <th className="px-3 py-3 font-medium">Fuente</th>
                     <th className="px-3 py-3 font-medium">Clicks</th>
                     <th className="px-3 py-3 font-medium">Plantilla</th>
                     <th className="px-3 py-3 font-medium">CVs</th>
                     <th className="px-3 py-3 font-medium">Checkout</th>
-                    <th className="px-3 py-3 font-medium">Pago inicio</th>
+                    <th className="px-3 py-3 font-medium">Inicio pago</th>
                     <th className="px-3 py-3 font-medium">Pagos</th>
                     <th className="px-3 py-3 font-medium">Click a CV</th>
                     <th className="px-3 py-3 font-medium">CV a checkout</th>
-                    <th className="pl-3 py-3 font-medium">Checkout a pago</th>
+                    <th className="px-3 py-3 font-medium">Decision</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/10 text-white/72">
-                  {landingMetrics.map((row) => (
-                    <tr key={`${row.landing}-${row.language}-${row.paymentProvider}`}>
-                      <td className="max-w-[260px] py-4 pr-4 font-medium text-white">
-                        <span className="block truncate">{row.landing}</span>
-                      </td>
-                      <td className="px-3 py-4">{formatLanguage(row.language)}</td>
-                      <td className="px-3 py-4">{formatProvider(row.paymentProvider)}</td>
-                      <td className="px-3 py-4">{row.clicks}</td>
-                      <td className="px-3 py-4">{row.templates}</td>
-                      <td className="px-3 py-4">{row.cvs}</td>
-                      <td className="px-3 py-4">{row.checkouts}</td>
-                      <td className="px-3 py-4">{row.paymentStarts}</td>
-                      <td className="px-3 py-4">{row.payments}</td>
-                      <td className="px-3 py-4 text-[#38BDF8]">
-                        {formatPercent(row.clicks > 0 ? (row.cvs / row.clicks) * 100 : 0)}
-                      </td>
-                      <td className="px-3 py-4 text-[#38BDF8]">
-                        {formatPercent(row.cvs > 0 ? (row.checkouts / row.cvs) * 100 : 0)}
-                      </td>
-                      <td className="pl-3 py-4 text-[#38BDF8]">
-                        {formatPercent(row.checkouts > 0 ? (row.payments / row.checkouts) * 100 : 0)}
-                      </td>
-                    </tr>
-                  ))}
+                <tbody className="divide-y divide-white/10 text-white/70">
+                  {landingMetrics.map((row) => {
+                    const decision = getLandingDecision(row);
+
+                    return (
+                      <tr key={`${row.landing}-${row.language}-${row.paymentProvider}`}>
+                        <td className="max-w-[280px] py-4 pr-4 font-medium text-white">
+                          <span className="block truncate">{row.landing}</span>
+                          <span className="mt-1 block text-xs text-white/38">
+                            {formatLanguage(row.language)} - {formatProvider(row.paymentProvider)}
+                          </span>
+                        </td>
+                        <td className="px-3 py-4">{formatSources(row.sourceTypes)}</td>
+                        <td className="px-3 py-4">{row.clicks}</td>
+                        <td className="px-3 py-4">{row.templates}</td>
+                        <td className="px-3 py-4">{row.cvs}</td>
+                        <td className="px-3 py-4">{row.checkouts}</td>
+                        <td className="px-3 py-4">{row.paymentStarts}</td>
+                        <td className="px-3 py-4">{row.payments}</td>
+                        <td className="px-3 py-4 text-[#38BDF8]">
+                          {formatPercent(rate(row.cvs, row.clicks))}
+                        </td>
+                        <td className="px-3 py-4 text-[#38BDF8]">
+                          {formatPercent(rate(row.checkouts, row.cvs))}
+                        </td>
+                        <td className="px-3 py-4">
+                          <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${decision.className}`}>
+                            {decision.label}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -346,42 +506,47 @@ export default async function AdminDashboardPage({
           )}
         </section>
 
-        <Link
-          href="/abelardo/admin/cv"
-          className="mb-12 flex items-center justify-between rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 text-white shadow-2xl shadow-black/10 transition hover:-translate-y-1 hover:border-[#38BDF8]/30"
-        >
-          <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-[#38BDF8]/10 p-4 text-[#38BDF8] ring-1 ring-[#38BDF8]/15">
-              <FileText className="h-6 w-6" />
+        <section className="mb-7 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+          <Panel title="Como medir y cuando actuar" icon={<BarChart3 className="h-5 w-5" />}>
+            <div className="grid gap-3">
+              <RuleItem
+                title="No decidas con poca muestra"
+                text="Esperar si una landing tiene menos de 30 clicks de CTA o menos de 10 CVs generados en 30 dias."
+              />
+              <RuleItem
+                title="Actua si hay friccion clara"
+                text="Si hay 20 o mas checkouts y menos de 15% termina en pago, revisar precio, copy del checkout o metodos de pago."
+              />
+              <RuleItem
+                title="Escala lo que ya convierte"
+                text="Si una pagina genera pagos o supera 35% de CV a checkout, mejorar enlaces internos y llevar mas trafico a esa pagina."
+              />
+              <RuleItem
+                title="No optimices todo al mismo tiempo"
+                text="Cambiar una sola variable fuerte por semana: hero, CTA, precio, checkout o formulario. Si cambias todo, no sabes que funciono."
+              />
             </div>
-            <div>
-              <h2 className="text-xl font-semibold">Ver curriculums generados</h2>
-              <p className="text-sm text-white/55">
-                Revisa CVs creados por usuarios, filtros y vistas previas.
-              </p>
-            </div>
-          </div>
-          <ArrowRight className="h-5 w-5 text-white/40" />
-        </Link>
+          </Panel>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Panel title="Ultimos pagos" icon={<CreditCard className="h-5 w-5" />}>
+          <Panel title="Ultimos pagos aprobados" icon={<CreditCard className="h-5 w-5" />}>
             <div className="space-y-3">
-              {recentPayments && recentPayments.length > 0 ? (
-                recentPayments.map((payment, index) => (
+              {payments.length > 0 ? (
+                payments.slice(0, 6).map((payment, index) => (
                   <InfoRow
                     key={`${payment.created_at}-${index}`}
                     title={payment.payer_email || "Email no disponible"}
-                    detail={`${payment.payment_type || "sin metodo"} · ${payment.status}`}
+                    detail={`${formatProvider(inferPaymentProvider(payment))} - ${formatPaymentAmount(payment)}`}
                     date={payment.created_at}
                   />
                 ))
               ) : (
-                <EmptyPanel text="Todavia no hay pagos registrados." />
+                <EmptyPanel text="Todavia no hay pagos aprobados en la ventana revisada." />
               )}
             </div>
           </Panel>
+        </section>
 
+        <section className="grid gap-4 lg:grid-cols-2">
           <Panel title="Ultimos comentarios" icon={<MessageSquare className="h-5 w-5" />}>
             <div className="space-y-3">
               {recentFeedback && recentFeedback.length > 0 ? (
@@ -394,14 +559,64 @@ export default async function AdminDashboardPage({
                   />
                 ))
               ) : (
-                <EmptyPanel text="No hay comentarios aun." />
+                <EmptyPanel text="No hay comentarios todavia." />
               )}
             </div>
           </Panel>
-        </div>
+
+          <Panel title="Calidad de datos" icon={<ShieldCheck className="h-5 w-5" />}>
+            <div className="grid gap-3">
+              <DataQualityRow label="Eventos analizados" value={events.length} />
+              <DataQualityRow label="Feedback total" value={totalFeedback ?? 0} />
+              <DataQualityRow label="CVs historicos" value={totalCvs ?? 0} />
+              <DataQualityRow label="Pagos historicos aprobados" value={totalPayments ?? 0} />
+            </div>
+            <p className="mt-4 rounded-2xl border border-white/10 bg-white/[0.035] p-4 text-sm leading-6 text-white/58">
+              Para mejorar la pagina, mira la tendencia de 30 dias. Para bugs o
+              problemas de pago, actua en el dia. Para conversion, espera muestra.
+            </p>
+          </Panel>
+        </section>
       </div>
     </main>
   );
+}
+
+function buildPeriodMetrics({
+  users,
+  cvs,
+  payments,
+  events,
+  start,
+  end,
+}: {
+  users: Array<{ created_at: string }>;
+  cvs: CvRecord[];
+  payments: PaymentRecord[];
+  events: AnalyticsEvent[];
+  start: Date;
+  end: Date;
+}): PeriodMetrics {
+  const periodUsers = users.filter((item) => isInRange(item.created_at, start, end));
+  const periodCvs = cvs.filter((item) => isInRange(item.created_at, start, end));
+  const periodPayments = payments.filter((item) =>
+    isInRange(item.created_at, start, end)
+  );
+  const periodEvents = events.filter((item) =>
+    isInRange(item.created_at, start, end)
+  );
+
+  return {
+    users: periodUsers.length,
+    cvs: periodCvs.length,
+    paidCvs: periodCvs.filter((cv) => cv.status === "paid").length,
+    checkouts: countEvents(periodEvents, "checkout_viewed"),
+    paymentStarts: countEvents(periodEvents, "payment_started"),
+    completedPaymentEvents: countEvents(periodEvents, "payment_completed"),
+    approvedPayments: periodPayments.length,
+    revenueARS: sumPayments(periodPayments, "mercado_pago"),
+    revenueUSD: sumPayments(periodPayments, "paypal"),
+  };
 }
 
 function buildLandingMetrics(
@@ -414,7 +629,7 @@ function buildLandingMetrics(
   events.forEach((event) => {
     if (!event.landing_path) return;
 
-    const key = `${event.landing_path}-${language}-${provider}`;
+    const key = event.landing_path;
     const current =
       metrics.get(key) ??
       {
@@ -427,8 +642,10 @@ function buildLandingMetrics(
         checkouts: 0,
         paymentStarts: 0,
         payments: 0,
+        sourceTypes: new Set<string>(),
       };
 
+    if (event.source_type) current.sourceTypes.add(event.source_type);
     if (event.event_name === "landing_cta_clicked") current.clicks += 1;
     if (event.event_name === "template_selected") current.templates += 1;
     if (event.event_name === "cv_generated") current.cvs += 1;
@@ -449,26 +666,171 @@ function buildLandingMetrics(
   });
 
   return Array.from(metrics.values())
-    .sort((a, b) => b.payments - a.payments || b.cvs - a.cvs || b.clicks - a.clicks)
-    .slice(0, 12);
+    .sort(
+      (a, b) =>
+        b.payments - a.payments ||
+        b.paymentStarts - a.paymentStarts ||
+        b.checkouts - a.checkouts ||
+        b.cvs - a.cvs ||
+        b.clicks - a.clicks
+    )
+    .slice(0, 14);
 }
 
 function buildDailyMetrics(
   users: Array<{ created_at: string }>,
-  cvs: Array<{ created_at: string }>,
-  payments: Array<{ created_at: string }>
+  cvs: CvRecord[],
+  payments: PaymentRecord[],
+  since: Date
 ): DailyMetric[] {
   return Array.from({ length: 7 }).map((_, index) => {
-    const date = new Date(Date.now() - (6 - index) * DAY_IN_MS);
+    const date = new Date(since.getTime() + index * DAY_IN_MS);
     const key = toDateKey(date);
 
     return {
       label: date.toLocaleDateString("es-AR", { weekday: "short" }),
-      users: users.filter((item) => toDateKey(new Date(item.created_at)) === key).length,
+      users: users.filter((item) => toDateKey(new Date(item.created_at)) === key)
+        .length,
       cvs: cvs.filter((item) => toDateKey(new Date(item.created_at)) === key).length,
-      payments: payments.filter((item) => toDateKey(new Date(item.created_at)) === key).length,
+      payments: payments.filter((item) => toDateKey(new Date(item.created_at)) === key)
+        .length,
     };
   });
+}
+
+function buildInsights({
+  current30,
+  previous30,
+  ctaClicks,
+  generated,
+  checkouts,
+  paymentStarts,
+  completedEvents,
+  topLanding,
+}: {
+  current30: PeriodMetrics;
+  previous30: PeriodMetrics;
+  ctaClicks: number;
+  generated: number;
+  checkouts: number;
+  paymentStarts: number;
+  completedEvents: number;
+  topLanding?: LandingMetric;
+}) {
+  const insights: Array<{
+    title: string;
+    value: string;
+    text: string;
+    tone: "good" | "warn" | "neutral";
+    icon: React.ReactNode;
+  }> = [];
+
+  const paymentDelta = buildDelta(current30.approvedPayments, previous30.approvedPayments);
+  const checkoutToPayment = rate(completedEvents, checkouts);
+  const cvToCheckout = rate(checkouts, generated);
+
+  insights.push({
+    title: "Decision principal",
+    value: current30.cvs < 10 ? "Esperar muestra" : "Optimizar con foco",
+    text:
+      current30.cvs < 10
+        ? "Todavia hay poca muestra para concluir conversion. Prioriza trafico y registro de eventos."
+        : paymentDelta.raw < 0
+          ? "Los pagos bajaron contra el periodo anterior. Revisa landings con checkout pero sin pago."
+          : "Hay muestra suficiente para priorizar la mejor landing y reducir friccion del checkout.",
+    tone: current30.cvs < 10 ? "neutral" : paymentDelta.raw < 0 ? "warn" : "good",
+    icon: <Target className="h-5 w-5" />,
+  });
+
+  insights.push({
+    title: "Punto de fuga",
+    value:
+      generated < 10
+        ? "Antes del CV"
+        : cvToCheckout < 30
+          ? "CV a checkout"
+          : checkoutToPayment < 15
+            ? "Checkout a pago"
+            : "Funnel sano",
+    text:
+      generated < 10
+        ? `Hay ${ctaClicks} clicks de CTA y ${generated} CVs generados. Mejora promesa, CTA y entrada al flujo.`
+        : cvToCheckout < 30
+          ? "Mucha gente genera CV pero no llega al checkout. Revisa preview, precio visible y mensaje de desbloqueo."
+          : checkoutToPayment < 15
+            ? "Hay intencion de pago, pero no cierre. Revisa confianza, metodo de pago y errores."
+            : "No hay fuga critica. Conviene escalar trafico antes de redisenar.",
+    tone:
+      generated < 10 || cvToCheckout < 30 || checkoutToPayment < 15
+        ? "warn"
+        : "good",
+    icon: <AlertTriangle className="h-5 w-5" />,
+  });
+
+  insights.push({
+    title: "Landing a mirar",
+    value: topLanding?.landing ?? "Sin datos",
+    text: topLanding
+      ? `${topLanding.cvs} CVs, ${topLanding.checkouts} checkouts y ${topLanding.payments} pagos atribuidos. Decision: ${getLandingDecision(topLanding).label}.`
+      : "Todavia no hay landings con eventos en la ventana actual.",
+    tone: topLanding?.payments ? "good" : "neutral",
+    icon: <MousePointerClick className="h-5 w-5" />,
+  });
+
+  return insights;
+}
+
+function countEvents(events: AnalyticsEvent[], eventName: AnalyticsEventName) {
+  return events.filter((event) => event.event_name === eventName).length;
+}
+
+function sumPayments(
+  payments: PaymentRecord[],
+  provider: "mercado_pago" | "paypal"
+) {
+  return payments
+    .filter((payment) => inferPaymentProvider(payment) === provider)
+    .reduce((sum, payment) => sum + Number(payment.amount ?? 0), 0);
+}
+
+function inferPaymentProvider(payment: PaymentRecord) {
+  const method = `${payment.payment_method ?? ""} ${payment.payment_type ?? ""}`.toLowerCase();
+  return method.includes("paypal") ? "paypal" : "mercado_pago";
+}
+
+function getLandingDecision(row: LandingMetric) {
+  if (row.clicks < 30 && row.cvs < 10) {
+    return {
+      label: "Esperar",
+      className: "bg-white/[0.06] text-white/62",
+    };
+  }
+
+  if (row.checkouts >= 10 && row.payments === 0) {
+    return {
+      label: "Revisar pago",
+      className: "bg-amber-400/12 text-amber-200",
+    };
+  }
+
+  if (row.cvs >= 10 && rate(row.checkouts, row.cvs) < 30) {
+    return {
+      label: "Mejorar match",
+      className: "bg-sky-400/12 text-sky-200",
+    };
+  }
+
+  if (row.payments > 0 || rate(row.checkouts, row.cvs) >= 45) {
+    return {
+      label: "Escalar",
+      className: "bg-emerald-400/12 text-emerald-200",
+    };
+  }
+
+  return {
+    label: "Observar",
+    className: "bg-violet-400/12 text-violet-200",
+  };
 }
 
 function buildFilterHref(language: FilterValue, provider: ProviderFilterValue) {
@@ -479,52 +841,123 @@ function buildFilterHref(language: FilterValue, provider: ProviderFilterValue) {
   return query ? `/abelardo/admin?${query}` : "/abelardo/admin";
 }
 
-function formatLanguage(value: "all" | "es" | "en") {
-  if (value === "es") return "ES";
-  if (value === "en") return "EN";
-  return "Todos";
+function AdminNav({
+  href,
+  label,
+  icon,
+}: {
+  href: string;
+  label: string;
+  icon: React.ReactElement<{ className?: string }>;
+}) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-white/78 transition hover:border-[#D7C8FF]/25 hover:bg-white/[0.07] hover:text-white"
+    >
+      <span className="flex items-center gap-2">
+        {React.cloneElement(icon, { className: "h-4 w-4 text-[#D7C8FF]" })}
+        {label}
+      </span>
+      <ArrowRight className="h-4 w-4 text-white/32" />
+    </Link>
+  );
 }
 
-function formatProvider(value: "all" | "mercado_pago" | "paypal") {
-  if (value === "mercado_pago") return "Mercado Pago";
-  if (value === "paypal") return "PayPal";
-  return "Todos";
-}
-
-function StatsCard({
+function MetricCard({
   title,
   value,
   helper,
+  delta,
   icon,
-  href,
 }: {
   title: string;
   value: number | string;
   helper: string;
+  delta: { label: string; tone: "up" | "down" | "flat"; raw: number };
   icon: React.ReactNode;
-  href?: string;
 }) {
-  const card = (
-    <Card className="group overflow-hidden border border-white/10 bg-[#15151A]/85 text-[#F4F4F5] shadow-xl shadow-black/10 transition-all hover:-translate-y-1 hover:border-[#38BDF8]/30">
-      <CardContent className="p-6">
-        <div className="flex justify-between gap-4">
-          <div>
-            <p className="text-sm font-medium text-[#A78BFA]">{title}</p>
-            <p className="mt-2 text-3xl font-bold">{value}</p>
-            <p className="mt-2 text-sm text-white/45">{helper}</p>
+  return (
+    <Card className="border border-white/10 bg-[#15151A]/82 text-[#F4F4F5] shadow-[0_18px_60px_rgba(0,0,0,0.16)]">
+      <CardContent className="p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5 text-[#D7C8FF]">
+            {icon}
           </div>
-          <div className="self-start rounded-2xl bg-white/[0.04] p-3">{icon}</div>
+          <span className={`rounded-full px-2 py-1 text-[11px] font-semibold ${deltaClass(delta.tone)}`}>
+            {delta.label}
+          </span>
         </div>
+        <p className="mt-4 text-[11px] font-medium uppercase tracking-[0.16em] text-white/38">
+          {title}
+        </p>
+        <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">
+          {value}
+        </p>
+        <p className="mt-2 text-xs leading-5 text-white/48">{helper}</p>
       </CardContent>
     </Card>
   );
+}
 
-  return href ? (
-    <Link href={href} className="block no-underline">
-      {card}
-    </Link>
-  ) : (
-    card
+function MiniMetric({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-3">
+      <p className="text-xl font-semibold text-white">{value}</p>
+      <p className="mt-1 text-xs text-white/42">{label}</p>
+    </div>
+  );
+}
+
+function FunnelRow({
+  label,
+  value,
+  helper,
+}: {
+  label: string;
+  value: string;
+  helper: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+      <div className="flex items-center justify-between gap-4">
+        <span className="text-sm font-medium text-white/72">{label}</span>
+        <strong className="text-white">{value}</strong>
+      </div>
+      <p className="mt-1 text-xs text-white/38">{helper}</p>
+    </div>
+  );
+}
+
+function DecisionCard({
+  title,
+  value,
+  text,
+  tone,
+  icon,
+}: {
+  title: string;
+  value: string;
+  text: string;
+  tone: "good" | "warn" | "neutral";
+  icon: React.ReactNode;
+}) {
+  return (
+    <article className={`rounded-[26px] border p-5 ${decisionClass(tone)}`}>
+      <div className="flex items-start justify-between gap-4">
+        <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
+          {icon}
+        </div>
+        {tone === "good" ? <CheckCircle2 className="h-5 w-5 text-emerald-200" /> : null}
+      </div>
+      <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.17em] text-white/42">
+        {title}
+      </p>
+      <h3 className="mt-2 line-clamp-2 text-xl font-semibold tracking-[-0.03em] text-white">
+        {value}
+      </h3>
+      <p className="mt-3 text-sm leading-6 text-white/62">{text}</p>
+    </article>
   );
 }
 
@@ -538,13 +971,22 @@ function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10">
-      <h2 className="mb-5 flex items-center gap-2 text-2xl font-semibold text-white">
-        <span className="text-[#38BDF8]">{icon}</span>
+    <section className="rounded-[30px] border border-white/10 bg-[#15151A]/82 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:p-6">
+      <h2 className="mb-5 flex items-center gap-2 text-2xl font-semibold tracking-[-0.03em] text-white">
+        <span className="text-[#D7C8FF]">{icon}</span>
         {title}
       </h2>
       {children}
     </section>
+  );
+}
+
+function RuleItem({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+      <p className="text-sm font-semibold text-white">{title}</p>
+      <p className="mt-1 text-sm leading-6 text-white/56">{text}</p>
+    </div>
   );
 }
 
@@ -560,7 +1002,7 @@ function InfoRow({
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
       <p className="line-clamp-2 text-sm font-medium text-white">{title}</p>
-      <p className="mt-1 text-xs text-white/55">{detail}</p>
+      <p className="mt-1 text-xs text-white/52">{detail}</p>
       <p className="mt-2 text-xs text-white/35">
         {new Date(date).toLocaleString("es-AR", {
           dateStyle: "short",
@@ -571,46 +1013,13 @@ function InfoRow({
   );
 }
 
-function MiniMetric({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-      <p className="text-xl font-bold text-white">{value}</p>
-      <p className="text-xs text-white/45">{label}</p>
-    </div>
-  );
-}
-
-function FunnelRow({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: number | string;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-      <div className="flex items-center gap-3">
-        <div className="rounded-xl bg-[#7C3AED]/15 p-2 text-[#A78BFA]">{icon}</div>
-        <span className="text-sm text-white/70">{label}</span>
-      </div>
-      <strong className="text-white">{value}</strong>
-    </div>
-  );
-}
-
 function BadgeLike({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-[#38BDF8]">
+    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm font-medium text-[#D7C8FF]">
       {icon}
       {text}
     </div>
   );
-}
-
-function EmptyPanel({ text }: { text: string }) {
-  return <p className="text-sm text-white/50">{text}</p>;
 }
 
 function FilterGroup({
@@ -622,7 +1031,7 @@ function FilterGroup({
 }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-2">
-      <p className="px-2 pb-2 text-[11px] uppercase tracking-[0.18em] text-white/40">
+      <p className="px-2 pb-2 text-[11px] uppercase tracking-[0.18em] text-white/38">
         {title}
       </p>
       <div className="flex flex-wrap gap-2">
@@ -630,10 +1039,10 @@ function FilterGroup({
           <Link
             key={item.href + item.label}
             href={item.href}
-            className={`rounded-xl px-3 py-2 text-sm transition ${
+            className={`rounded-xl px-3 py-2 text-sm font-medium transition ${
               item.active
-                ? "bg-[#7C3AED] text-white"
-                : "bg-white/[0.04] text-white/65 hover:text-white"
+                ? "bg-[#7A5CFF] text-white"
+                : "bg-white/[0.04] text-white/62 hover:text-white"
             }`}
           >
             {item.label}
@@ -644,8 +1053,104 @@ function FilterGroup({
   );
 }
 
+function DataQualityRow({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3">
+      <span className="text-sm text-white/58">{label}</span>
+      <strong className="text-white">{value}</strong>
+    </div>
+  );
+}
+
+function EmptyPanel({ text }: { text: string }) {
+  return <p className="rounded-2xl border border-white/10 bg-white/[0.035] p-4 text-sm text-white/50">{text}</p>;
+}
+
+function rate(part: number, total: number) {
+  if (!total) return 0;
+  return (part / total) * 100;
+}
+
+function buildDelta(current: number, previous: number) {
+  if (!previous && !current) return { label: "sin cambios", tone: "flat" as const, raw: 0 };
+  if (!previous) return { label: "nuevo", tone: "up" as const, raw: current };
+
+  const raw = ((current - previous) / previous) * 100;
+  const tone: "up" | "down" | "flat" =
+    raw > 2 ? "up" : raw < -2 ? "down" : "flat";
+  const sign = raw > 0 ? "+" : "";
+
+  return {
+    label: `${sign}${raw.toFixed(0)}%`,
+    tone,
+    raw,
+  };
+}
+
+function deltaClass(tone: "up" | "down" | "flat") {
+  if (tone === "up") return "bg-emerald-400/12 text-emerald-200";
+  if (tone === "down") return "bg-rose-400/12 text-rose-200";
+  return "bg-white/[0.06] text-white/54";
+}
+
+function decisionClass(tone: "good" | "warn" | "neutral") {
+  if (tone === "good") return "border-emerald-400/18 bg-emerald-400/[0.07]";
+  if (tone === "warn") return "border-amber-400/18 bg-amber-400/[0.07]";
+  return "border-white/10 bg-[#15151A]/82";
+}
+
+function formatLanguage(value: "all" | "es" | "en") {
+  if (value === "es") return "ES";
+  if (value === "en") return "EN";
+  return "Todos";
+}
+
+function formatProvider(value: "all" | "mercado_pago" | "paypal") {
+  if (value === "mercado_pago") return "Mercado Pago";
+  if (value === "paypal") return "PayPal";
+  return "Todos";
+}
+
+function formatSources(values: Set<string>) {
+  if (!values.size) return "sin fuente";
+  return Array.from(values).slice(0, 2).join(", ");
+}
+
+function formatPaymentAmount(payment: PaymentRecord) {
+  const provider = inferPaymentProvider(payment);
+  const amount = Number(payment.amount ?? 0);
+  return provider === "paypal" ? formatMoneyUSD(amount) : formatMoneyARS(amount);
+}
+
+function formatMoneyARS(value: number) {
+  return new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+function formatMoneyUSD(value: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
 function formatPercent(value: number) {
   return `${value.toFixed(1).replace(".", ",")}%`;
+}
+
+function isInRange(value: string, start: Date, end: Date) {
+  const date = new Date(value);
+  return date >= start && date < end;
+}
+
+function startOfDay(date: Date) {
+  const next = new Date(date);
+  next.setHours(0, 0, 0, 0);
+  return next;
 }
 
 function toDateKey(date: Date) {
