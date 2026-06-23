@@ -59,16 +59,6 @@ export async function POST(req: Request) {
     );
   }
 
-  await recordAnalyticsEventServer({
-    event_name: "payment_started",
-    user_id: profile_id,
-    language,
-    payment_provider: "mercado_pago",
-    template: paymentCv.cv.template,
-    cv_id: paymentCv.cv.id,
-    ...attribution,
-  });
-
   const mpRes = await fetch("https://api.mercadopago.com/checkout/preferences", {
     method: "POST",
     headers: {
@@ -98,8 +88,8 @@ export async function POST(req: Request) {
       notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
       back_urls: {
         success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${paymentCv.cv.id}`,
-        failure: `${process.env.NEXT_PUBLIC_SITE_URL}`,
-        pending: `${process.env.NEXT_PUBLIC_SITE_URL}`,
+        failure: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${paymentCv.cv.id}`,
+        pending: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${paymentCv.cv.id}`,
       },
       auto_return: "approved",
       metadata: {
@@ -120,7 +110,7 @@ export async function POST(req: Request) {
     }),
   });
 
-  const mpJson = await mpRes.json();
+  const mpJson = await mpRes.json().catch(() => null);
 
   if (!mpRes.ok || !mpJson.init_point) {
     console.error("Error creando preferencia de Mercado Pago:", mpJson);
@@ -129,6 +119,16 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
+
+  await recordAnalyticsEventServer({
+    event_name: "payment_started",
+    user_id: profile_id,
+    language,
+    payment_provider: "mercado_pago",
+    template: paymentCv.cv.template,
+    cv_id: paymentCv.cv.id,
+    ...attribution,
+  });
 
   return NextResponse.json({
     cvId: paymentCv.cv.id,
