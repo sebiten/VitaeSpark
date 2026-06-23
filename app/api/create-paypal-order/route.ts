@@ -2,42 +2,10 @@ import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { getOrCreatePendingPaymentCv } from "@/lib/payment-cv";
+import { getPayPalAccessToken, PAYPAL_API_BASE } from "@/lib/paypal";
 import { PRICING } from "@/lib/pricing";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
-
-const PAYPAL_API_BASE =
-  process.env.NODE_ENV === "production"
-    ? "https://api-m.paypal.com"
-    : "https://api-m.sandbox.paypal.com";
-
-async function getPayPalAccessToken(): Promise<string> {
-  const clientId = process.env.PAYPAL_CLIENT_ID;
-  const secret = process.env.PAYPAL_SECRET;
-
-  if (!clientId || !secret) {
-    throw new Error("PayPal credentials not configured");
-  }
-
-  const credentials = Buffer.from(`${clientId}:${secret}`).toString("base64");
-  const res = await fetch(`${PAYPAL_API_BASE}/v1/oauth2/token`, {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${credentials}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: "grant_type=client_credentials",
-  });
-
-  if (!res.ok) {
-    const error = await res.text();
-    console.error("PayPal auth error:", error);
-    throw new Error("Failed to get PayPal access token");
-  }
-
-  const json = await res.json();
-  return json.access_token;
-}
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -117,7 +85,7 @@ export async function POST(req: Request) {
         brand_name: "VitaeSpark",
         landing_page: "NO_PREFERENCE",
         user_action: "PAY_NOW",
-        return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${paymentCv.cv.id}&method=paypal`,
+        return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/paypal-return?cv_id=${paymentCv.cv.id}`,
         cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/crear?lang=${language}`,
       },
     };
