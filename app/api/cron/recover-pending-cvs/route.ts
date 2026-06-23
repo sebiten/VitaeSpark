@@ -93,14 +93,20 @@ async function handleRecoveryCron(req: Request) {
       continue;
     }
 
-    const { data: existing } = await supabaseAdmin
+    const { data: existing, error: existingError } = await supabaseAdmin
       .from("cv_recovery_emails")
-      .select("id")
+      .select("id, last_error")
       .eq("cv_id", cv.id)
       .eq("reminder_type", reminder.type)
       .maybeSingle();
 
-    if (existing) {
+    if (existingError) {
+      console.error("Error revisando recovery email existente:", existingError);
+      results.failed += 1;
+      continue;
+    }
+
+    if (existing && !existing.last_error) {
       results.skipped += 1;
       continue;
     }
@@ -116,18 +122,26 @@ async function handleRecoveryCron(req: Request) {
 
     const sent = await sendRecoveryEmail({ cv, reminder, email });
 
-    const { error: insertError } = await supabaseAdmin
-      .from("cv_recovery_emails")
-      .insert({
-        cv_id: cv.id,
-        profile_id: cv.profile_id,
-        reminder_type: reminder.type,
-        sent_to: email,
-        last_error: sent.ok ? null : sent.error,
-      });
+    const recoveryPayload = {
+      sent_to: email,
+      sent_at: new Date().toISOString(),
+      last_error: sent.ok ? null : sent.error,
+    };
 
-    if (insertError) {
-      console.error("Error registrando recovery email:", insertError);
+    const { error: writeError } = existing
+      ? await supabaseAdmin
+          .from("cv_recovery_emails")
+          .update(recoveryPayload)
+          .eq("id", existing.id)
+      : await supabaseAdmin.from("cv_recovery_emails").insert({
+          cv_id: cv.id,
+          profile_id: cv.profile_id,
+          reminder_type: reminder.type,
+          ...recoveryPayload,
+        });
+
+    if (writeError) {
+      console.error("Error registrando recovery email:", writeError);
       results.failed += 1;
       continue;
     }
