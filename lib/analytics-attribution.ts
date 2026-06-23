@@ -60,13 +60,22 @@ export function getCurrentCampaignParams(): Pick<
   if (typeof window === "undefined") return {};
 
   const params = new URLSearchParams(window.location.search);
+  const campaignParams: Pick<
+    LandingAttribution,
+    "utm_source" | "utm_medium" | "utm_campaign" | "utm_content"
+  > = {};
 
-  return {
-    utm_source: sanitizeCampaignParam(params.get("utm_source")),
-    utm_medium: sanitizeCampaignParam(params.get("utm_medium")),
-    utm_campaign: sanitizeCampaignParam(params.get("utm_campaign")),
-    utm_content: sanitizeCampaignParam(params.get("utm_content")),
-  };
+  const utmSource = sanitizeCampaignParam(params.get("utm_source"));
+  const utmMedium = sanitizeCampaignParam(params.get("utm_medium"));
+  const utmCampaign = sanitizeCampaignParam(params.get("utm_campaign"));
+  const utmContent = sanitizeCampaignParam(params.get("utm_content"));
+
+  if (utmSource) campaignParams.utm_source = utmSource;
+  if (utmMedium) campaignParams.utm_medium = utmMedium;
+  if (utmCampaign) campaignParams.utm_campaign = utmCampaign;
+  if (utmContent) campaignParams.utm_content = utmContent;
+
+  return campaignParams;
 }
 
 function sanitizeCampaignParam(value: string | null) {
