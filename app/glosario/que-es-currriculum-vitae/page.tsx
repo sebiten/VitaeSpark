@@ -19,6 +19,7 @@ export default function QueEsCurrriculumVitaePage() {
   return (
     <BlogArticlePage
       path="/glosario/que-es-currriculum-vitae"
+      dateModified="2026-06-28"
       title="Qué es un Currículum Vitae y Cómo Hacer uno Profesional"
       description="Un currículum vitae es el documento más importante para presentar tu perfil profesional. Conocé qué es, cómo se diferencia del CV simple y del resume, qué secciones debe tener y cómo armar uno que destaque."
       intro="El término 'currículum vitae' viene del latín y significa literalmente 'carrera de vida'. Es un documento que resume tu trayectoria profesional, académica y tus habilidades para presentarte ante un potencial empleador. En Argentina y Latinoamérica, se lo conoce comúnmente como 'CV' y es el instrumento principal para aplicar a trabajos, prácticas profesionales o oportunidades laborales."
@@ -27,8 +28,8 @@ export default function QueEsCurrriculumVitaePage() {
           title: "Definición y propósito del currículum vitae",
           paragraphs: [
             "Un currículum vitae es un documento formal que presenta tu información personal, experiencia laboral, educación, habilidades y logros de manera estructurada. Su propósito es dar a un reclutador una visión rápida y clara de tu perfil profesional para que pueda evaluar si sos candidato para el puesto.",
-            "A diferencia de una simple lista de empleos, un CV bien estructurado cuenta una historia: muestra tu evolución profesional, destaca tus logros más relevantes y comunica qué tipo de profesional sos. Un reclutador dedica en promedio solo 6 segundos a la primera lectura de un CV, según estudios de The Ladders, por eso la claridad y el impacto son fundamentales.",
-            "En el contexto laboral argentino, el CV es prácticamente obligatorio para cualquier proceso de selección formal, desde grandes empresas hastaPyMEs y organizaciones públicas.",
+            "A diferencia de una simple lista de empleos, un CV bien estructurado muestra tu evolución profesional, destaca los logros más relevantes y permite entender rápido para qué puestos encajás.",
+            "En el contexto laboral argentino, el CV es habitual en procesos de selección de grandes empresas, PyMEs y organizaciones públicas.",
           ],
         },
         {
@@ -55,7 +56,7 @@ export default function QueEsCurrriculumVitaePage() {
           paragraphs: [
             "Exceso de información: Incluir todo lo que hiciste en 20 años de carrera sin selectivity. El reclutador busca relevancia, no exhaustividad. Solo lo que se relaciona con el puesto cuenta.",
             "Diseño recargado: Fuentes decorativas, colores llamativos, columnas múltiples, iconos creativos. Todo eso dificulta la lectura y puede afectar la compatibilidad con sistemas ATS.",
-            "Perfil genérico: 'Soy una persona responsable y proactiva' no dice nada. El perfil debe ser específico y comunicar qué podés aportar al雇主.",
+            "Perfil genérico: 'Soy una persona responsable y proactiva' no dice nada concreto. El perfil debe ser específico y comunicar qué podés aportar al empleador.",
             "Errores ortográficos y de formato: Revisar siempre. Un CV con errores transmite descuido y falta de atención al detalle.",
             " Información desactualizada: Fechas que no cierran, referencias a tecnologías obsoletas, experiencia de hace 15 años como si fuera reciente. Mantener el CV actualizado es fundamental.",
           ],
@@ -74,7 +75,7 @@ export default function QueEsCurrriculumVitaePage() {
           title: "Herramientas para crear tu currículum vitae",
           paragraphs: [
             "Crear un CV desde cero puede ser difícil si no sabés por dónde empezar. VitaeSpark te permite construir tu currículum paso a paso con ayuda de inteligencia artificial que mejora la redacción de cada sección.",
-            "Podés elegir entre 5 plantillas profesionales, comparar diseños antes de pagar y descargar tu CV en formato PDF optimizado para ATS.",
+            "Podés elegir entre plantillas profesionales, comparar diseños antes de pagar y descargar tu CV en PDF con texto legible.",
             "Lo más importante es que el proceso te guía para que cada sección quede bien redactada, con palabras clave relevantes y estructura clara. No necesitás ser diseñador ni especialista en recursos humanos para tener un CV profesional.",
           ],
         },
@@ -99,7 +100,14 @@ export default function QueEsCurrriculumVitaePage() {
           question: "Cómo incluyoachievements sin parecer arrogante?",
           answer:
             "Usá datos y resultados concretos en vez de adjetivos. 'Aumenté la satisfaction del cliente en un 15%' es más creíble que 'Soy excelente en atención al cliente'. Los números hablan por sí solos.",
-          },
+        },
+      ]}
+      sources={[
+        {
+          href: "https://europass.europa.eu/es/create-europass-cv",
+          title: "Crear tu CV Europass",
+          organization: "Unión Europea",
+        },
       ]}
       relatedLinks={[
         {
@@ -124,7 +132,7 @@ export default function QueEsCurrriculumVitaePage() {
           href: "/curriculum-vitae-ejemplo",
           title: "Ejemplo de Currículum Vitae",
           description:
-            "参考 visual de currículum bien estructurado y redactado.",
+            "Referencia visual de un currículum bien estructurado y redactado.",
         },
       ]}
     />

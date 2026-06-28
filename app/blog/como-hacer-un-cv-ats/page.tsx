@@ -20,30 +20,30 @@ export default function ComoHacerUnCvAtsPage() {
     <BlogArticlePage
       path="/blog/como-hacer-un-cv-ats"
       datePublished="2025-04-12"
+      dateModified="2026-06-28"
       title="Cómo Hacer un CV ATS que Pase Filtros Automáticos y Llegue a Reclutadores"
       description="Guía práctica con pasos concretos, definiciones claras y ejemplos para crear un curriculum compatible con sistemas ATS y aumentar tus posibilidades de conseguir entrevistas."
-      intro="Un sistema ATS (Applicant Tracking System) es un software que las empresas usan para filtrar currículums antes de que un humano los lea. Según Jobscan, el 75% de los currículums enviados a ofertas都会被 sistemas automatizados descartados sin ser vistos. Esto significa que si tu CV no está optimizado para estos sistemas, estás perdiendo la mayoría de tus oportunidades antes de que empezce el juego. La buena noticia es que con la estructura correcta, contenido alineado y formato limpio podés hacer que tu CV pase esos filtros y llegue a una persona real."
+      intro="Un ATS es un software que ayuda a las empresas a recibir, ordenar y consultar postulaciones. Para reducir errores de lectura, usá secciones claras, texto seleccionable, títulos estándar y el formato solicitado en la oferta. Ningún diseño garantiza avanzar: el contenido real y su relación con la vacante siguen siendo decisivos."
       sections={[
         {
           title: "Qué es un ATS y por qué tu CV necesita estar preparado",
           paragraphs: [
-            "Un Applicant Tracking System (ATS) es un sistema de seguimiento de candidatos que permite a las empresas recibir, organizar y filtrar aplicaciones de forma automatizada. Cuando aplicás a una oferta, tu CV entra en una base de datos donde el sistema lo analiza, lo puntúa y lo compara con los requisitos del puesto.",
-            "El proceso funciona así: el reclutador crea una vacante con palabras clave y requisitos específicos. Cuando aplicás, el ATS extrae información de tu CV (experiencia, educación, habilidades, certificaciones) y la compara con esos requisitos. Si tu perfil coincide lo suficiente, avanzás al siguiente stage. Si no, tu CV queda en el limbo digital.",
-            "Según datos de la industria, el 98% de las empresas Fortune 500 utilizan algún tipo de ATS. Pero no son solo las grandes corporaciones: pequenas empresas, agencias de empleo y hasta plataformas de búsqueda como LinkedIn también usan sistemas de filtrado similares. Por eso, aprender a crear un CV compatible con ATS no es opcional si querés ser serio en tu búsqueda laboral.",
-            "La diferencia clave es esta: un CV tradicional está diseñado para ser leído por una persona. Un CV optimizado para ATS también debe ser legible por una máquina que filtra antes de que alguien te vea. Esto no significa escribir para robots, sino entender qué evalúan y cómo presentarle tu información de la forma más clara posible.",
+            "Un Applicant Tracking System (ATS) es un sistema de seguimiento de candidatos que permite recibir, organizar y buscar postulaciones. Según la configuración de cada empresa, puede extraer datos del CV, aplicar preguntas de descarte o ayudar a comparar perfiles con los requisitos del puesto.",
+            "No todos los ATS funcionan igual ni deciden por sí solos quién avanza. Por eso conviene preparar un documento que pueda ser interpretado por software y, al mismo tiempo, resulte claro para la persona que lo revisa.",
+            "La diferencia práctica es esta: además de verse profesional, el CV debe conservar una estructura reconocible cuando el sistema extrae su texto. Eso no significa escribir para robots, sino presentar la información sin obstáculos innecesarios.",
           ],
         },
         {
           title: "Estructura correcta para que el ATS lea bien tu CV",
           paragraphs: [
-            "La estructura de tu CV es el factor más importante para que el ATS pueda extraer tu información correctamente. Estos sistemas esperan encontrar secciones estándar en posições predecibles: datos de contacto, perfil profesional, experiencia laboral, educación, habilidades.",
+            "Una estructura clara facilita que el ATS extraiga tu información correctamente. Usá secciones reconocibles para datos de contacto, perfil profesional, experiencia laboral, educación y habilidades.",
             "Lo que parece intuitivo para una persona (una columna, un diseño creativo, un título artístico) puede hacer que el ATS no identifique correctamente dónde está tu experiencia laboral. Por ejemplo, si tuvieras el título 'Mi trayectoria profesional' en vez de 'Experiencia Laboral', el sistema podría no detectar esa sección y perder toda esa información.",
-            "Las mejores prácticas de estructura incluyen: usar encabezados estándar como 'Experiencia Laboral', 'Educación', 'Habilidades técnicas' y 'Idiomas'. Mantener una estructura chronological inversa (lo más reciente primero). Evitar tablas, columnas múltiples, imágenes, iconos o elementos gráficos. Guardar el archivo en PDF, que preserva el formato y es ampliamente aceptado por los ATS modernos.",
+            "Usá encabezados estándar como 'Experiencia laboral', 'Educación', 'Habilidades técnicas' e 'Idiomas'. Ordená la experiencia desde la más reciente y evitá depender de tablas, imágenes o gráficos para comunicar información esencial.",
             "Ejemplo de estructura incompatible: un CV con dos columnas, colores en los títulos, fuentes decorativas y una sección de 'Sobre mí' con tipografía especial. Ejemplo de estructura compatible: texto plano con encabezados claros, secciones bien definidas, formato consistente en cada empleo con fechas en el mismo lugar, educación en otro, habilidades en otro.",
           ],
         },
         {
-          title: "Palabras clave: cómo usarlas sin caer en el spamm",
+          title: "Palabras clave: cómo usarlas sin caer en el spam",
           paragraphs: [
             "Las palabras clave son el mecanismo principal que usa el ATS para evaluar tu CV. Cuando el reclutador configura la vacante, incluye términos que busca: habilidades técnicas, nombres de software, certificaciones, títulos, herramientas específicas. El ATS busca esas palabras en tu CV y les asigna un puntaje.",
             "Por eso el primer paso antes de enviar cualquier CV es leer la oferta detenidamente. Identificá los términos que aparecen más de una vez, los que mencionan como requisitos obligatorios y los que describen el día a día del puesto. Esas son tus palabras clave objetivo.",
@@ -54,8 +54,8 @@ export default function ComoHacerUnCvAtsPage() {
         {
           title: "Formato de archivo y errores que destruyen tu CV antes de enviarlo",
           paragraphs: [
-            "El formato de archivo es un punto ciego que mucha gente ignora. Un CV puede estar perfectamente estructurado y redactado, pero si está en un formato que el ATS no puede leer, termina en la papelera digital sin chance alguna.",
-            "PDF es el formato más seguro para la mayoría de los casos. Mantiene el diseño y garantiza que lo que ves sea lo que el sistema lee. Word (.docx) también funciona, pero algunos ATS más antiguos pueden interpretar mal el formato. Lo que nunca conviene usar: archivos de imagen (PNG, JPG), archivos de texto sin formato (.txt) que pierden toda la estructura, o formatos propietarios como .pages de Mac.",
+            "El formato de archivo importa porque un documento puede verse bien y, aun así, tener texto difícil de extraer. La primera regla es respetar el tipo de archivo solicitado por la empresa.",
+            "Un PDF con texto seleccionable conserva bien la presentación y suele ser aceptado. DOCX también es habitual. Evitá enviar una imagen del CV o formatos propietarios si la oferta no los solicita.",
             "Otros errores críticos incluyen: usar fuentes no estándar que el sistema no reconoce, incluir macros o código ejecutable (esto puede incluso bloquear el archivo), enviar el CV como enlace a Google Drive o Dropbox en vez del archivo directo (el ATS necesita el archivo, no un enlace), y dejar el archivo con un nombre genérico como 'CV.pdf' en vez de 'Juan_Perez_CV_Marketing.pdf'.",
             "Antes de enviar, hacé esta prueba: copiá todo el texto de tu CV y pegalo en un documento de texto plano (como el Bloc de notas). ¿Se mantiene toda la información en orden? ¿Las fechas están donde deberían estar? ¿Las secciones están claras? Si al pegar el texto todo se mezcla o se pierde, el ATS probablemente tendrá el mismo problema.",
           ],
@@ -65,17 +65,16 @@ export default function ComoHacerUnCvAtsPage() {
           paragraphs: [
             "No necesitás reescribir tu CV completo para cada aplicación. Lo que necesitás es ajustar las palabras clave y la descripción del perfil para cada puesto específico. Esto puede hacerse en 5 a 10 minutos si ya tenés un CV base bien estructurado.",
             "El proceso es simple: abrí la oferta, identificá las 5-7 palabras clave más importantes, revisá tu CV base y asegurate de que esas palabras aparezcan al menos una vez en contexto. Ajustá el resumen profesional para reflejar el tono y los requisitos de la vacante. Listo. No hace falta rehacer todo.",
-            "Esto no significa mentir sobre tu experiencia. Si la oferta pide 'manejo de equipos de 10 personas' y vos manejaste equipos de 5, está bien usar ese ejemplo y framing porque es real y relevante. El ATS no espera exactitud total, sino coincidencia suficiente para ponerte en el pile de 'vale la pena revisar'.",
+            "Esto no significa exagerar tu experiencia. Si la oferta pide manejo de equipos y vos coordinaste a cinco personas, describí ese dato real y el contexto. La coincidencia de términos nunca debe reemplazar la precisión.",
             "Aplicá este principio: cada palabra de tu CV debe poder justificarse con algo real de tu experiencia. Las palabras clave genéricas y forzadas no solo no suman, sino que pueden hacer que tu CV parezca inflado artificialmente, lo que juega en tu contra tanto con el ATS como con el reclutador humano que eventualmente lo lea.",
           ],
         },
         {
           title: "Testea tu CV antes de enviarlo: herramientas y técnicas",
           paragraphs: [
-            "Existen herramientas online que simulan el análisis de un ATS y te dan un puntaje aproximado de qué tan bien está preparado tu CV para pasar filtros automáticos. Jobscan, Resumeworded y similares permiten cargar tu CV y compararlo con una descripción de puesto para ver qué tan bien estás rankeando.",
-            "También podés hacer una verificación manual: copiá el contenido de tu CV y pegalo en un documento de texto plano. Si al hacerlo la información se desordena, las secciones se mezclan o las fechas quedan en lugares raros, tu CV probablemente tiene problemas de formato que el ATS detectará.",
+            "Podés hacer una verificación manual: seleccioná y copiá el contenido del CV en un documento de texto plano. Si la información se desordena, las secciones se mezclan o las fechas quedan fuera de contexto, conviene simplificar el formato.",
             "Otra opción es enviar tu CV a una cuenta de email propia y luego descargarlo desde ahí. Muchos servicios de email muestran cómo se ve el archivo adjuntado, y podés verificar si el archivo se ve bien o si llegó corrupto o en un formato inesperado.",
-            "En VitaeSpark, todos los CV generados ya vienen optimizados para ATS con estructura estándar, palabras clave en contexto y formato PDF compatible. Si todavía no probaste el creador, este es el momento de verificar cómo queda tu curriculum antes de enviarlo a tus próximas oportunidades.",
+            "VitaeSpark prioriza secciones claras, texto legible y una salida en PDF. Antes de postularte, revisá siempre el archivo final y adaptá el contenido a la vacante concreta.",
           ],
         },
       ]}
@@ -93,22 +92,29 @@ export default function ComoHacerUnCvAtsPage() {
         {
           question: "Las fotos y gráficos arruinan el CV para el ATS?",
           answer:
-            "Sí. Cualquier elemento visual (fotos, íconos, gráficos, texturas, colores) no es leído por el ATS. En el mejor caso, el sistema ignora esos elementos y solo extrae texto. En el peor, pueden romper la estructura del documento y hacer que perder información. Lo más seguro es un CV limpio, solo texto.",
+            "No necesariamente, pero la información esencial no debería depender de fotos, íconos o gráficos. Algunos sistemas los ignoran y los diseños complejos pueden alterar el orden del texto. Priorizá una estructura simple y verificable.",
         },
         {
           question: "PDF o Word: cuál formato es mejor para ATS?",
           answer:
-            "PDF es generalmente la opción más segura porque preserva el formato en cualquier sistema. Word (.docx) también funciona, pero algunos ATS más antiguos pueden tener problemas para leer correctamente el diseño. Si la empresa especifica un formato, seguí esa indicación.",
+            "Seguí siempre el formato pedido por la empresa. Si no indica uno, un PDF con texto seleccionable suele conservar bien el diseño y DOCX también es ampliamente aceptado.",
         },
         {
           question: "Cómo sé si mi CV pasó el filtro ATS?",
           answer:
-            "No hay forma segura de saber si tu CV pasó o no, excepto aplicando y esperando respuesta. Por eso es clave testearlo antes con herramientas de simulación o haciendo la prueba del documento de texto plano. Si tu CV pasa esas pruebas, tiene muchas más chances de avanzar.",
+            "No hay una prueba universal porque cada empresa configura su proceso de manera diferente. Verificar que el texto pueda copiarse en orden ayuda a detectar problemas de formato, pero no garantiza avanzar.",
         },
         {
           question: "Los ATS rechazan CV buenos por no tener palabras clave exactas?",
           answer:
             "Sí, puede pasar. El ATS busca coincidencia entre las palabras clave de la vacante y las de tu CV. Si tu experiencia es relevante pero usás términos diferentes a los de la oferta, el sistema puede puntuarte bajo aunque seas un buen candidato. Por eso es clave leer la oferta y alinear tu lenguaje con el de la vacante.",
+        },
+      ]}
+      sources={[
+        {
+          href: "https://support.greenhouse.io/hc/en-us/articles/200989175-Unsuccessful-resume-parse",
+          title: "Unsuccessful resume parse",
+          organization: "Greenhouse Support",
         },
       ]}
       relatedLinks={[
@@ -128,7 +134,7 @@ export default function ComoHacerUnCvAtsPage() {
           href: "/hacer-cv-con-ia",
           title: "Hacer CV con IA",
           description:
-            "La IA de VitaeSpark optimiza tu CV con palabras clave estratégicas automáticamente.",
+            "Usá IA para mejorar la claridad del contenido sin inventar experiencia.",
         },
         {
           href: "/crear-cv-online",
@@ -140,7 +146,7 @@ export default function ComoHacerUnCvAtsPage() {
           href: "/plantillas-curriculum",
           title: "Plantillas compatibles con ATS",
           description:
-            "5 plantillas profesionales diseñadas específicamente para pasar filtros automáticos.",
+            "Plantillas profesionales con estructura clara y texto legible.",
         },
       ]}
     />

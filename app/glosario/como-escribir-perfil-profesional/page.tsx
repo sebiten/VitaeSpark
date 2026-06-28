@@ -19,9 +19,10 @@ export default function PerfilProfesionalPage() {
   return (
     <BlogArticlePage
       path="/glosario/como-escribir-perfil-profesional"
+      dateModified="2026-06-28"
       title="Perfil Profesional para CV: Qué Es y Cómo Escribirlo Bien"
       description="El perfil profesional es la primera sección que lee un reclutador después del título. Aprendé qué poner, cómo adaptarlo a tu experiencia y ejemplos por nivel para que tu CV destaque."
-      intro="El perfil profesional (también llamado 'objetivo profesional' o 'resumen ejecutivo') es el párrafo inicial de tu CV que presenta quién sos, qué hacés y qué podés aportar a la empresa. Es la primera impresión que causás en un reclutador, y según estudios de CareerBuilder, los reclutadores pasan solo 6 segundos en la primera lectura de un CV. Por eso, un buen perfil puede ser la diferencia entre que sigan leyendo o descarten tu aplicación."
+      intro="El perfil profesional es el párrafo inicial del CV que resume quién sos, qué experiencia tenés y qué podés aportar. Debe ser breve, específico y estar adaptado al puesto para que el reclutador entienda rápido el foco de tu candidatura."
       sections={[
         {
           title: "Qué es un perfil profesional y por qué importa",
@@ -34,7 +35,7 @@ export default function PerfilProfesionalPage() {
         {
           title: "Estructura ideal de un perfil profesional",
           paragraphs: [
-            "Un perfil profesional efectivo sigue una estructura clara: mencioná tu experiencia o领域, tus habilidades principales, lo que podés aportar y tu objetivo profesional.",
+            "Un perfil profesional efectivo sigue una estructura clara: mencioná tu experiencia o área, tus habilidades principales, lo que podés aportar y tu objetivo profesional.",
             "Para perfiles con experiencia: 'Profesional con [X] años de experiencia en [área]. Especializado en [habilidades clave]. Orientado a [tipo de resultados]. Busco aplicar mi experiencia en [sector/objetivo].'",
             "Para perfiles sin experiencia: 'Egresado de [carrera] con conocimientos en [áreas]. Habilidades en [herramientas/metodologías]. Orientado a [sector/rol objetivo]. busco desarrollarme en [área específica].'",
           ],
@@ -50,7 +51,7 @@ export default function PerfilProfesionalPage() {
         {
           title: "Errores comunes al escribir el perfil profesional",
           paragraphs: [
-            "Genéricos: 'Soy una persona responsable, proactiva y con buena comunicación' no dice nada que no aplique a miles de candidatos. El perfil debe ser específico sobre tu области y resultados.",
+            "Genéricos: 'Soy una persona responsable, proactiva y con buena comunicación' no diferencia tu candidatura. El perfil debe ser específico sobre tu área y resultados.",
             "Muy largo: Más de 5-6 líneas empieza a perder impacto. El reclutador quiere escanear, no leer una introducción completa.",
             "Sin keywords: No incluir términos relevantes para el puesto. El perfil debe incluir palabras clave de la industria o del puesto al que aplicás.",
             "No adaptado: Usar el mismo perfil para todas las aplicaciones. Cada CV debería tener un perfil ligeramente ajustado al puesto específico.",
@@ -94,7 +95,14 @@ export default function PerfilProfesionalPage() {
           question: "Cuántas líneas debe tener un perfil profesional?",
           answer:
             "Entre 3 y 5 líneas es lo ideal. Menos puede ser demasiado escueto; más puede perder impacto. La clave es que cada palabra sume y comunique algo relevante.",
-          },
+        },
+      ]}
+      sources={[
+        {
+          href: "https://europass.europa.eu/es/create-europass-cv",
+          title: "Crear tu CV Europass",
+          organization: "Unión Europea",
+        },
       ]}
       relatedLinks={[
         {

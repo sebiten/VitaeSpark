@@ -91,7 +91,7 @@ export default function CvParaSeguridadSinExperienciaPage() {
         {
           question: "Qué importa más en un CV de seguridad?",
           answer:
-            "La presencia personal, la responsabilidad, la capacidad de observación y la calma bajo presión.这些东西 se pueden demonstrar a través de experiencia vital, actividad física o cursos.",
+            "La presencia personal, la responsabilidad, la capacidad de observación y la calma bajo presión. Estas cualidades se pueden demostrar mediante experiencias previas, actividad física o cursos.",
         },
       ]}
       relatedLinks={[

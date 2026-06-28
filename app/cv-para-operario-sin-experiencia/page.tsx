@@ -23,7 +23,7 @@ export default function CvParaOperarioSinExperienciaPage() {
       title="CV para operario sin experiencia: ejemplo y habilidades"
       description="Presentá tu disposición para el trabajo operativo, capacidad de aprendizaje y responsabilidad aunque sea tu primera experiencia en planta o producción."
       intro={[
-        "El trabajo operario valora especialmente la responsabilidad, la puntualidad, la capacidad de seguir instrucciones y la disposición física. Aunque no tengas experiencia en producción o planta, podés demostrar这些都是 habilidades a través de cualquier actividad previa.",
+        "El trabajo operario valora especialmente la responsabilidad, la puntualidad, la capacidad de seguir instrucciones y la disposición física. Aunque no tengas experiencia en producción o planta, podés demostrar esas habilidades a través de otras actividades previas.",
         "VitaeSpark te ayuda a crear un CV operario profesional que comunique tu potencial y disposición para el trabajo.",
       ]}
       exampleImage={{

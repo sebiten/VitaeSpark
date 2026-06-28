@@ -1,41 +1,42 @@
-# Vitae Spark
+# VitaeSpark
 
-> Generador de curriculum vitae online con inteligencia artificial, plantillas profesionales y enfoque ATS.
+> Creador de curriculum online con asistencia de inteligencia artificial, plantillas profesionales y descarga en PDF.
 
-## Que es Vitae Spark
+## Producto
 
-Vitae Spark es una herramienta web para crear curriculum vitae online. Usa inteligencia artificial para mejorar la redaccion del contenido, ofrece plantillas profesionales optimizadas para sistemas ATS (Applicant Tracking Systems), y permite descargar el resultado en PDF. Esta pensada para personas que buscan trabajo en mercados hispanohablantes, especialmente Argentina y Latinoamerica.
+VitaeSpark ayuda a redactar y ordenar un curriculum vitae desde el navegador. El usuario completa sus datos, elige una plantilla, previsualiza el resultado y puede desbloquear el PDF final sin marca de agua mediante un pago unico.
 
-## Para quien es
+La herramienta esta orientada a personas de Argentina y otros mercados hispanohablantes, especialmente quienes buscan su primer empleo o necesitan presentar mejor su experiencia en trabajos administrativos, comerciales, operativos y de servicios.
 
-- Personas que buscan primer empleo o tienen poca experiencia laboral
-- Profesionales que quieren optimizar su CV para procesos de seleccion con ATS
-- Candidatos que necesitan adaptar su curriculum a vacantes especificas
-- Usuarios que quieren crear un CV rapido sin experiencia en diseno
+## Funciones verificadas
 
-## Que ofrece
+- Asistencia de IA para mejorar claridad, estructura y redaccion.
+- Plantillas profesionales con secciones claras y texto legible.
+- Previsualizacion del CV antes del pago.
+- Descarga del CV final en PDF sin marca de agua.
+- CV guardado y editable desde el perfil con la plantilla elegida.
+- Guias, ejemplos y landings por puesto para preparar el contenido.
 
-- Generador de CV con IA: mejora redaccion, estructura y claridad del contenido
-- Plantillas profesionales: Harvard, elegante y otras opciones optimizadas para ATS
-- Enfoque ATS: estructura y formato pensados para pasar filtros automaticos
-- Descarga en PDF: curriculum listo para enviar en formato profesional
-- Landing pages especializadas: CV para atencion al cliente, programadores, medicos, estudiantes, administrativos, vendedores, recepcionistas, cajeros, seguridad, mineria, limpieza, operarios y mas
-- Blog con guias sobre como hacer un curriculum, CV ATS, perfil profesional, habilidades blandas, errores comunes y mas
+VitaeSpark no garantiza entrevistas, contrataciones ni superar un sistema ATS. La seleccion depende de la experiencia real del candidato, la vacante y el proceso de cada empresa.
 
-## Precios
+## Precio
 
-- Plan gratuito: crear y descargar un CV basico
-- Plan premium: funcionalidades completas incluyendo IA avanzada, plantillas premium y descargas ilimitadas
-- Detalles de precios disponibles en https://vitaespark.com/crear
+- Mercado Pago: ARS 1.999 por CV.
+- PayPal: USD 2.99 por CV.
+- Pago unico, sin suscripcion.
 
-## Paginas principales
+El precio desbloquea el PDF final del CV generado con la plantilla elegida. Crear otro CV con otra plantilla requiere una compra independiente.
+
+## Paginas oficiales
 
 - Inicio: https://vitaespark.com/
 - Crear CV: https://vitaespark.com/crear
-- Blog: https://vitaespark.com/blog
-- Curriculum ATS: https://vitaespark.com/curriculum-ats
-- Generador de CV con IA: https://vitaespark.com/generador-de-cv-con-ia
 - Plantillas: https://vitaespark.com/plantillas-curriculum
+- Curriculum ATS: https://vitaespark.com/curriculum-ats
+- CV con IA: https://vitaespark.com/hacer-cv-con-ia
+- Blog: https://vitaespark.com/blog
+- CV para mineria: https://vitaespark.com/cv-para-mineria
+- Curriculum sin experiencia: https://vitaespark.com/curriculum-sin-experiencia
 
 ## Contacto
 

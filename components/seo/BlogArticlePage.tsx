@@ -34,6 +34,12 @@ type ArticleRelatedLink = {
   description: string;
 };
 
+type ArticleSource = {
+  href: string;
+  title: string;
+  organization: string;
+};
+
 type BlogArticlePageProps = {
   path: string;
   title: string;
@@ -42,16 +48,20 @@ type BlogArticlePageProps = {
   sections: ArticleSection[];
   faqs: ArticleFaq[];
   relatedLinks: ArticleRelatedLink[];
+  sources?: ArticleSource[];
   datePublished?: string;
   dateModified?: string;
 };
 
 const blogLabels = {
   guiaBadge: "Guía",
-  lecturaRecomendada: "Lectura recomendada",
+  respuestaBreve: "Respuesta breve",
+  autoria: "Contenido editorial de VitaeSpark",
+  actualizado: "Actualizado",
   crearMiCv: "Crear mi CV gratis",
   verMasArticulos: "Ver más artículos",
   preguntasFrecuentes: "Preguntas frecuentes",
+  fuentesConsultadas: "Fuentes consultadas",
   tambienTePuedeServir: "También te puede servir",
   ejemploAlt: "Ejemplo de currículum",
   figcaption: "Currículum profesional creado con VitaeSpark",
@@ -70,6 +80,7 @@ export function BlogArticlePage({
   sections,
   faqs,
   relatedLinks,
+  sources = [],
   datePublished,
   dateModified,
 }: BlogArticlePageProps) {
@@ -83,14 +94,21 @@ export function BlogArticlePage({
   const midCtaIndex = Math.floor(sections.length / 2);
 
   const baseUrl = getBaseUrl();
+  const articleUrl = new URL(path, baseUrl).toString();
 
   const articleSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
+    "@id": `${articleUrl}#article`,
+    url: articleUrl,
     headline: title,
     description,
-    inLanguage: "es",
-    image: new URL("/og-image.png", baseUrl).toString(),
+    inLanguage: "es-AR",
+    image: new URL("/elegance-good.webp", baseUrl).toString(),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": articleUrl,
+    },
     author: {
       "@type": "Organization",
       name: "Vitae Spark",
@@ -157,9 +175,16 @@ export function BlogArticlePage({
             <span className="inline-flex rounded-full border border-[#7C3AED]/30 bg-[#7C3AED]/10 px-4 py-1 text-sm font-medium text-[#A78BFA]">
               {blogLabels.guiaBadge}
             </span>
-            {datePublished && (
-              <time dateTime={datePublished} className="text-sm text-white/60">
-                {new Date(datePublished).toLocaleDateString("es-AR", { year: "numeric", month: "long", day: "numeric" })}
+            {(dateModified || datePublished) && (
+              <time
+                dateTime={dateModified ?? datePublished}
+                className="text-sm text-white/60"
+              >
+                {dateModified ? `${blogLabels.actualizado} ` : ""}
+                {new Date(dateModified ?? datePublished!).toLocaleDateString(
+                  "es-AR",
+                  { year: "numeric", month: "long", day: "numeric" },
+                )}
               </time>
             )}
           </div>
@@ -169,6 +194,7 @@ export function BlogArticlePage({
           <p className="mt-6 text-base leading-8 text-white/75 sm:text-lg">
             {description}
           </p>
+          <p className="mt-3 text-sm text-white/55">{blogLabels.autoria}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <TrackedCtaLink
               href="/crear"
@@ -195,7 +221,7 @@ export function BlogArticlePage({
             <div>
               <div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-[#38BDF8]">
                 <BookOpenCheck className="h-4 w-4" aria-hidden="true" />
-                {blogLabels.lecturaRecomendada}
+                {blogLabels.respuestaBreve}
               </div>
               <p className="text-lg leading-9 text-white/82 sm:text-xl">
                 {intro}
@@ -264,6 +290,34 @@ export function BlogArticlePage({
           <div className="mt-12">
             <BlogConversionCta path={path} content={blogCta} variant="final" />
           </div>
+
+          {sources.length > 0 && (
+            <section
+              aria-labelledby="article-sources"
+              className="mt-12 border-t border-white/10 pt-8"
+            >
+              <h2
+                id="article-sources"
+                className="text-sm font-semibold uppercase tracking-[0.16em] text-white/60"
+              >
+                {blogLabels.fuentesConsultadas}
+              </h2>
+              <ul className="mt-4 space-y-3">
+                {sources.map((source) => (
+                  <li key={source.href}>
+                    <a
+                      href={source.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-sm leading-6 text-[#7DD3FC] underline decoration-white/20 underline-offset-4 transition hover:text-white"
+                    >
+                      {source.organization}: {source.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           <section className="mt-12 rounded-2xl border border-white/10 bg-white/[0.035] p-6 sm:p-8">
             <div className="mb-6 flex items-center gap-3">

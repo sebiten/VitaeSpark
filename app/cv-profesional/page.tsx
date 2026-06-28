@@ -53,8 +53,8 @@ export default function CvProfesionalPage() {
           title: "Qué hace que un CV se vea profesional",
           paragraphs: [
             "No depende solo de colores o diseño. Un CV profesional se nota cuando tiene foco, usa un lenguaje claro, evita exageraciones y hace fácil entender el recorrido laboral del candidato.",
-            "Un estudio de The Ladders con tecnología de eye-tracking encontró que los reclutadores dedican en promedio entre 6 y 7 segundos a decidir si un CV merece más atención. Por eso la claridad visual y la calidad del contenido no son opcionales: son lo que determina si pasás o no a la siguiente etapa.",
-            "También importa que cada bloque tenga peso real. Perfil, experiencia, estudios y habilidades deben colaborar para contar una historia coherente, porque en esos pocos segundos iniciales lo que se busca es entender rápido quién sos y para qué puesto encajás.",
+            "La claridad visual y la calidad del contenido permiten entender rápido si el perfil coincide con el puesto. Un diseño atractivo no compensa información genérica, desordenada o difícil de comprobar.",
+            "También importa que cada bloque tenga peso real. Perfil, experiencia, estudios y habilidades deben colaborar para contar una historia coherente sobre quién sos y para qué puesto encajás.",
           ],
         },
         {

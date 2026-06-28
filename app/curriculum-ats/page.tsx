@@ -53,7 +53,7 @@ export default function CurriculumAtsPage() {
           title: "Qué es un currículum ATS y por qué importa",
           paragraphs: [
             "Un currículum ATS es un CV preparado para que los sistemas de seguimiento de candidatos puedan interpretar correctamente tu información. Eso implica estructura ordenada, secciones claras, títulos entendibles y contenido alineado a la búsqueda laboral.",
-            "La razón es simple y está respaldada por datos: según Jobscan (2023), más del 98% de las empresas Fortune 500 utilizan sistemas ATS para gestionar candidatos, y aproximadamente 3 de cada 4 currículums (75%) son descartados antes de que una persona los vea, según investigaciones de TopResume.",
+            "Estos sistemas pueden extraer datos, ordenar postulaciones y ayudar a comparar perfiles con los requisitos de una vacante. Como su funcionamiento varía según cada empresa, conviene priorizar una estructura clara y contenido preciso.",
             "No significa llenar el documento con palabras clave sin sentido. Significa describir experiencia y habilidades de forma natural, pero usando el lenguaje profesional que también aparece en ofertas reales de empleo.",
           ],
         },

@@ -20,9 +20,10 @@ export default function ErroresEnElCurriculumPage() {
     <BlogArticlePage
       path="/blog/errores-en-el-curriculum"
       datePublished="2025-04-12"
+      dateModified="2026-06-28"
       title="Errores en el curriculum que pueden frenarte antes de una entrevista"
       description="Descubre los errores mas comunes en un curriculum vitae y como corregirlos para mejorar tus postulaciones."
-      intro="Muchos CVs no fallan porque la persona no tenga perfil, sino porque el documento comunica mal. Según encuestas de CareerBuilder, un CV con errores ortográficos reduce un 59% las posibilidades de conseguir una entrevista. Un currículum desordenado, genérico o poco claro puede hacerte perder oportunidades incluso si encajás en el puesto."
+      intro="Muchos CV no fallan por falta de experiencia, sino porque el documento comunica mal. Los errores ortográficos, el desorden y las frases genéricas dificultan que un reclutador entienda rápido el perfil, incluso cuando la persona encaja en el puesto."
       sections={[
         {
           title: "Tener un perfil demasiado generico",
@@ -61,6 +62,13 @@ export default function ErroresEnElCurriculumPage() {
           question: "Esto tambien aplica a CVs ATS?",
           answer:
             "Si. De hecho, varios de estos errores afectan tanto a filtros automatizados como a reclutadores.",
+        },
+      ]}
+      sources={[
+        {
+          href: "https://europass.europa.eu/es/create-europass-cv",
+          title: "Crear tu CV Europass",
+          organization: "Unión Europea",
         },
       ]}
       relatedLinks={[

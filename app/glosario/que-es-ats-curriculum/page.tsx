@@ -19,16 +19,17 @@ export default function QueEsAtsCurriculumPage() {
   return (
     <BlogArticlePage
       path="/glosario/que-es-ats-curriculum"
+      dateModified="2026-06-28"
       title="Qué es ATS en un Currículum y Cómo Adaptar tu CV al Sistema"
-      description="Más del 75% de los currículums son descartados por sistemas automáticos antes de ser vistos por una persona. Conocé qué es un ATS, cómo funciona y cómo hacer que tu CV pase la primera barrera."
-      intro="Un sistema ATS (Applicant Tracking System o Sistema de Seguimiento de Candidatos) es el software que las empresas usan para filtrar, clasificar y evaluar currículums antes de que un reclutador humano los vea. Si tu CV no está preparado para ser leído por estos sistemas, puede ser descartado automáticamente aunque seas el candidato perfecto para el puesto. Esta guía explica cómo funcionan, cómo evalúan tu perfil y qué podés hacer para que tu currículum llegue a la siguiente etapa."
+      description="Conocé qué es un ATS, cómo procesa la información de un currículum y qué ajustes ayudan a que tu experiencia se lea con claridad."
+      intro="Un ATS (Applicant Tracking System o Sistema de Seguimiento de Candidatos) es un software que ayuda a las empresas a recibir, organizar y consultar postulaciones. Puede extraer datos del CV y compararlos con criterios definidos para una vacante. Su funcionamiento cambia según la plataforma y la configuración de cada empresa."
       sections={[
         {
           title: "Qué es un sistema ATS y por qué importa",
           paragraphs: [
-            "Un Applicant Tracking System (ATS) es un software de reclutamiento que gestiona el proceso de selección de candidatos. Las empresas lo usan para recibir cv, escanearlos, extraer información clave y compararla con los requisitos del puesto.",
-            "Según datos de Jobscan, el 98% de las empresas Fortune 500 utilizan sistemas ATS en sus procesos de selección. Además, aproximadamente el 75% de los currículums son descartados antes de que un reclutador humano los vea, según TopResume. Esto significa que la diferencia entre que tu CV llegue o no a una persona puede depender de qué tan bien esté preparado para estos sistemas.",
-            "El objetivo del ATS no es исключить buenos candidatos, sino reducir el volumen de aplicaciones a un grupo manejable. Por eso, entender cómo funciona es clave para cualquier persona que busque empleo de forma seria.",
+            "Un Applicant Tracking System (ATS) es un software de reclutamiento que gestiona postulaciones. Las empresas pueden usarlo para recibir CV, extraer información y ordenar candidatos según criterios del proceso.",
+            "El objetivo principal es centralizar la información y facilitar el trabajo de selección. Un formato claro reduce errores de lectura, pero no existe una estructura que garantice superar todos los sistemas.",
+            "Entender esta lógica ayuda a presentar experiencia, educación y habilidades de una manera que pueda interpretar tanto el software como el reclutador.",
           ],
         },
         {
@@ -72,7 +73,7 @@ export default function QueEsAtsCurriculumPage() {
           paragraphs: [
             "Antes de enviar tu CV a una oferta, podés hacer una verificación rápida: copiá el contenido de tu CV y pegalo en un documento de texto plano. ¿Se mantiene toda la información legible y en orden? Si no, probablemente el ATS tendrá problemas para leerlo.",
             "También existen herramientas online que simulan el análisis de un ATS y te dan un puntaje aproximado de qué tan bien está preparado tu CV. Usarlas antes de enviar puede ahorrarte muchos descartes automáticos.",
-            "En VitaeSpark, todos los CV se generan en formato optimizado para ATS con estructura estándar, palabras clave relevantes y formato compatible. Probalo gratis y verificá cómo queda tu currículum.",
+            "VitaeSpark genera CV con secciones claras y texto legible. Revisá siempre el resultado y adaptá el contenido a la vacante antes de enviarlo.",
           ],
         },
       ]}
@@ -90,12 +91,12 @@ export default function QueEsAtsCurriculumPage() {
         {
           question: "Las fotos y gráficos arruinan el CV para el ATS?",
           answer:
-            "Sí. Cualquier elemento visual (fotos, íconos, gráficos, texturas, colores) no es leído por el ATS. En el mejor caso, el sistema ignora esos elementos y solo extrae texto. En el peor, pueden romper la estructura del documento y hacer que pierdas información. Lo más seguro es un CV limpio, solo texto.",
+            "No necesariamente, pero la información importante no debería depender de elementos visuales. Algunos sistemas los ignoran y un diseño complejo puede cambiar el orden del texto extraído.",
         },
         {
           question: "PDF o Word: cuál formato es mejor para ATS?",
           answer:
-            "PDF es generalmente la opción más segura porque preserva el formato en cualquier sistema. Word (.docx) también funciona, pero algunos ATS más antiguos pueden tener problemas para leer correctamente el diseño. Si la empresa especifica un formato, seguí esa indicación.",
+            "Usá el formato solicitado por la empresa. Si no indica uno, un PDF con texto seleccionable suele conservar bien el diseño y DOCX también es habitual.",
         },
         {
           question: "Cómo sé si mi CV pasó el filtro ATS?",
@@ -106,6 +107,13 @@ export default function QueEsAtsCurriculumPage() {
           question: "Los ATS rechazan CV buenos por no tener palabras clave exactas?",
           answer:
             "Sí, puede pasar. El ATS busca coincidencia entre las palabras clave de la vacante y las de tu CV. Si tu experiencia es relevante pero usás términos diferentes a los de la oferta, el sistema puede puntuarte bajo aunque seas un buen candidato. Por eso es clave leer la oferta y alinear tu lenguaje con el de la vacante.",
+        },
+      ]}
+      sources={[
+        {
+          href: "https://support.greenhouse.io/hc/en-us/articles/200989175-Unsuccessful-resume-parse",
+          title: "Unsuccessful resume parse",
+          organization: "Greenhouse Support",
         },
       ]}
       relatedLinks={[
@@ -119,7 +127,7 @@ export default function QueEsAtsCurriculumPage() {
           href: "/crear-cv-online",
           title: "Crear CV Online",
           description:
-            "Construí tu CV con estructura optimizada para ATS y descargalo en PDF.",
+            "Construí tu CV con una estructura clara y descargalo en PDF.",
         },
         {
           href: "/plantillas-curriculum",
@@ -131,7 +139,7 @@ export default function QueEsAtsCurriculumPage() {
           href: "/blog/como-hacer-un-cv-ats",
           title: "Guía para CV ATS",
           description:
-            "Aprendé los conceptos básicos para que tu CV pase filtros automáticos.",
+            "Aprendé a preparar un CV legible para software y personas.",
         },
       ]}
     />

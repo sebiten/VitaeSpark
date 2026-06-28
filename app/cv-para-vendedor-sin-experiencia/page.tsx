@@ -91,7 +91,7 @@ export default function CvParaVendedorSinExperienciaPage() {
         {
           question: "Qué tipo de empresas contratan vendedores sin experiencia?",
           answer:
-            "Retail, call center, e-commerce, empresas de servicios, tiendas y直销 direct selling suelen contratar perfiles iniciales con buena actitud y comunicación.",
+            "Retail, call center, e-commerce, empresas de servicios, tiendas y venta directa suelen contratar perfiles iniciales con buena actitud y comunicación.",
         },
       ]}
       relatedLinks={[

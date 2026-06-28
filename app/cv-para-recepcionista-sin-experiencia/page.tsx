@@ -23,7 +23,7 @@ export default function CvParaRecepcionistaSinExperienciaPage() {
       title="CV para recepcionista sin experiencia: ejemplo y habilidades"
       description="Presentá tu capacidad de atención, organización y trato cordial aunque sea tu primer empleo. Ideal para hoteles, clínicas, oficinas y empresas de servicios."
       intro={[
-        "El puesto de recepcionista valora especialmente la presencia, la comunicación clara, la organización y la capacidad de manejar múltiples tareas simultáneas. Aunque no tengas experiencia formal, podés demostrar这些都是 habilidades a través de actividades académicas, voluntariados o experiencia informal.",
+        "El puesto de recepcionista valora especialmente la presencia, la comunicación clara, la organización y la capacidad de manejar varias tareas. Aunque no tengas experiencia formal, podés demostrar esas habilidades con actividades académicas, voluntariados o experiencia informal.",
         "VitaeSpark te ayuda a crear un CV que muestre tu potencial como recepcionista desde el primer contacto.",
       ]}
       exampleImage={{
@@ -91,7 +91,7 @@ export default function CvParaRecepcionistaSinExperienciaPage() {
         {
           question: "Necesito saber idiomas para ser recepcionista?",
           answer:
-            "Depende del lugar. Hotels y oficinas国际化 usually requieren inglés. Para contextos locales, español bien escrito y buena dicción son suficientes.",
+            "Depende del lugar. Los hoteles y las oficinas con atención internacional suelen requerir inglés. Para contextos locales, un español claro y buena dicción pueden ser suficientes.",
         },
       ]}
       relatedLinks={[

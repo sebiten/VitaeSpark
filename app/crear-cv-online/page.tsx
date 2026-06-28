@@ -53,7 +53,7 @@ export default function CrearCvOnlinePage() {
         {
           title: "Por qué hacer tu currículum online",
           paragraphs: [
-            "Un editor online te permite ajustar rápidamente tu CV cada vez que cambias de puesto objetivo, agregás una experiencia o querés adaptar tu perfil a una vacante específica. Según CareerBuilder, el 40% de los gerentes de contratación dedica menos de un minuto a revisar un currículum. En ese contexto, tener un CV siempre actualizado y bien estructurado no es un lujo, es una necesidad.",
+            "Un editor online te permite ajustar rápidamente tu CV cuando cambiás de puesto objetivo, agregás una experiencia o querés adaptar tu perfil a una vacante específica. Mantenerlo actualizado y bien estructurado ayuda a que la información importante se entienda desde la primera lectura.",
             "Además, cuando el flujo está bien resuelto, también te ayuda a pensar mejor el contenido. No se trata solo del formato: un buen constructor de CV online ordena la información, prioriza lo relevante y facilita que tu propuesta profesional se entienda en segundos.",
           ],
         },

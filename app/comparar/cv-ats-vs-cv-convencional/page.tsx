@@ -20,11 +20,11 @@ export default function CvAtsVsConvencionalPage() {
       path="/comparar/cv-ats-vs-cv-convencional"
       eyebrow="Comparación"
       title="CV ATS vs CV Convencional: Guía para Elegir el Mejor Formato"
-      description="Más del 75% de los currículums son descartados antes de ser vistos por una persona. Conocé cómo un CV preparado para ATS cambia tus probabilidades de pasar la primera barrera."
+      description="Compará estructura, legibilidad y compatibilidad para elegir un CV que funcione bien en procesos con revisión automática o humana."
       intro={[
         "Un CV ATS está diseñado específicamente para ser leído por sistemas de seguimiento de candidatos, que escanean documentos en busca de palabras clave, estructura y formato. Un CV convencional no considera estos factores y puede ser difícil de procesar para el software.",
         "La diferencia clave está en la estructura y el contenido: un CV ATS usa títulos de sección estándar, evita elementos gráficos y prioriza la claridad para que un algoritmo pueda interpretar correctamente la información.",
-        "Según datos de Jobscan, el 98% de las empresas Fortune 500 usan sistemas ATS, y aproximadamente el 75% de los currículums son descartados antes de que un reclutador los vea, según TopResume.",
+        "Ningún formato garantiza avanzar. La ventaja de una estructura clara es que reduce errores de lectura y facilita la revisión posterior por parte de una persona.",
       ]}
       benefits={[
         "Mayor probabilidad de pasar filtros automáticos en procesos de selección.",
@@ -67,7 +67,7 @@ export default function CvAtsVsConvencionalPage() {
         {
           title: "Diferencias clave entre ambos formatos",
           paragraphs: [
-            "Estructura: ATS requiere títulos de sección estándar y orden predecible. Convencional permite más自由.",
+            "Estructura: un CV orientado a ATS usa títulos de sección estándar y un orden predecible. El convencional permite más libertad.",
             "Formato visual: ATS funciona mejor con texto plano, sin elementos gráficos. Convencional puede incluir diseño.",
             "Palabras clave: ATS las usa para puntuar tu perfil contra la vacante. Convencional no las prioriza.",
             "Compatibilidad: ATS funciona en todo tipo de procesos. Convencional puede fallar en empresas que usan screening automático.",
@@ -95,7 +95,7 @@ export default function CvAtsVsConvencionalPage() {
         {
           question: "Las palabras clave son lo mismo que 'llenar' el CV de términos?",
           answer:
-            "No. Las palabras clave deben aparecer de forma natural y representar habilidades o experiencia real. Forzarlas sin contexto hace que el CV pierda calidad y可能被 ATS penalizar.",
+            "No. Las palabras clave deben aparecer de forma natural y representar habilidades o experiencia real. Forzarlas sin contexto hace que el CV pierda claridad y credibilidad.",
         },
         {
           question: "Puedo usar el mismo CV para procesos con y sin ATS?",
