@@ -95,7 +95,7 @@ export default function CvParaMineriaPage() {
           title: "Ejemplo de CV para ayudante de mina",
           paragraphs: [
             "Una formula simple puede ser: 'Colabore en tareas de apoyo operativo, traslado de materiales, orden de herramientas, uso de EPP y cumplimiento de procedimientos de seguridad en entornos industriales y de terreno'.",
-            "Ese tipo de ejemplo responde mejor a busquedas como cv para ayudante de mina o cv para minera, porque deja claro el tipo de trabajo y el contexto operativo.",
+            "El ejemplo deja claro el tipo de trabajo, el entorno y las medidas de seguridad sin atribuir experiencia que la persona no tenga.",
           ],
         },
         {

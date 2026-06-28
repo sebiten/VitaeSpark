@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Curriculum Recepcionista: Ejemplo para Oficina y Consultorio",
+  title: "CV para Recepcionista: Ejemplo, Perfil y Habilidades",
   description:
-    "Arma un curriculum recepcionista con ejemplo listo, perfil profesional, agenda, llamadas, turnos, oficina, consultorio y habilidades.",
+    "Crea un CV para recepcionista con ejemplo listo, perfil profesional, agenda, llamadas, tareas administrativas y version sin experiencia.",
   path: "/cv-para-recepcionista",
   keywords: [
     "cv para recepcionista",
@@ -22,17 +22,17 @@ export default function CvParaRecepcionistaPage() {
     <MarketingPage
       path="/cv-para-recepcionista"
       eyebrow="CV por profesion"
-      title="Curriculum recepcionista: ejemplo listo para oficina o consultorio"
-      description="Ejemplo de curriculum para recepcionista con perfil profesional, agenda, llamadas, turnos, tareas administrativas y habilidades concretas."
+      title="CV para recepcionista: ejemplo listo para oficina o consultorio"
+      description="Ejemplo de curriculum recepcionista con perfil profesional, agenda, llamadas, turnos, tareas administrativas y habilidades concretas."
       intro={[
-        "Un curriculum recepcionista funciona mejor cuando muestra en pocas lineas que tareas manejaste: publico, agenda, llamadas, turnos, correo, documentacion, carga de datos o soporte administrativo. Esa precision ayuda mucho en busquedas como curriculum recepcionista, recepcionista curriculum y curriculum para recepcionista.",
-        "VitaeSpark te ayuda a convertir esa experiencia en un CV de recepcionista mas claro, con perfil profesional, habilidades utiles y una presentacion pensada para consultorios, oficinas, hoteles, restaurantes, comercios o centros de atencion.",
+        "Un curriculum recepcionista funciona mejor cuando muestra en pocas lineas que tareas manejaste: publico, agenda, llamadas, turnos, correo, documentacion, carga de datos o soporte administrativo.",
+        "VitaeSpark te ayuda a convertir esa experiencia en un CV para recepcionista mas claro, con perfil profesional, habilidades utiles y una presentacion pensada para consultorios, oficinas, hoteles, comercios o centros de atencion.",
       ]}
       conversionCta={{
-        title: "Crea tu curriculum recepcionista sin empezar de cero",
+        title: "Crea tu CV para recepcionista sin empezar de cero",
         description:
           "Escribe tus tareas de recepcion, agenda y atencion. La IA arma una version profesional, ordenada y lista para descargar en PDF.",
-        label: "Crear mi curriculum",
+        label: "Crear mi CV de recepcionista",
       }}
       benefits={[
         "Destaca atencion al publico, agenda, llamadas y tareas administrativas.",
@@ -58,14 +58,14 @@ export default function CvParaRecepcionistaPage() {
       ]}
       sections={[
         {
-          title: "Curriculum recepcionista: que destacar primero",
+          title: "CV para recepcionista: que destacar primero",
           paragraphs: [
-            "Suele sumar experiencia en atencion presencial y telefonica, gestion de agenda, recepcion de visitas, derivacion de consultas, carga de datos, manejo de documentacion y coordinacion con distintas areas. Para mejorar CTR, el contenido debe responder rapido a quien busca un ejemplo concreto de curriculum recepcionista.",
+            "Suele sumar experiencia en atencion presencial y telefonica, gestion de agenda, recepcion de visitas, derivacion de consultas, carga de datos, manejo de documentacion y coordinacion con distintas areas.",
             "Tambien conviene aclarar herramientas o sistemas usados, como planillas, calendarios, software de turnos, CRM, correo corporativo o sistemas internos.",
           ],
         },
         {
-          title: "Curriculum para recepcionista segun el lugar",
+          title: "Como adaptar el CV segun el lugar",
           paragraphs: [
             "Para oficina, conviene mencionar recepcion de visitas, llamadas, correo, agenda, documentacion, planillas y soporte administrativo. Para consultorio, suma turnos, pacientes, agenda medica, documentacion y trato claro.",
             "Para hotel o restaurante, adapta el lenguaje a reservas, ingresos, consultas, reclamos, cobros simples, coordinacion con otras areas y atencion presencial. Ese contexto hace que el CV de recepcionista parezca escrito para un puesto real.",
@@ -82,14 +82,14 @@ export default function CvParaRecepcionistaPage() {
           title: "Ejemplo de CV para recepcionista",
           paragraphs: [
             "Una frase util para experiencia puede ser: 'Atendi publico y llamadas, organice agenda, derive consultas, actualice planillas y documentacion, y mantuve coordinacion diaria con otras areas para sostener una recepcion ordenada'.",
-            "Ese tipo de ejemplo responde mejor a busquedas como cv para recepcionista, cv de recepcionista o recepcionista curriculum, porque explica tareas reales y no solo cualidades personales.",
+            "El ejemplo explica tareas reales, herramientas y coordinacion con otras areas en lugar de depender solo de cualidades personales.",
           ],
         },
         {
-          title: "Recepcionista curriculum: palabras que conviene incluir",
+          title: "Tareas y herramientas que conviene incluir",
           paragraphs: [
-            "Las busquedas y avisos suelen repetir agenda, atencion telefonica, recepcion de visitas, turnos, documentacion, correo, planillas, carga de datos y soporte administrativo.",
-            "No hace falta forzar todas las palabras. Conviene usar solo las que correspondan a tu experiencia para que el CV sea creible y facil de escanear.",
+            "Los avisos suelen pedir agenda, atencion telefonica, recepcion de visitas, turnos, documentacion, correo, planillas, carga de datos y soporte administrativo.",
+            "Incluye solo las tareas y herramientas que realmente usaste para que el CV sea creible y facil de revisar.",
           ],
         },
         {
@@ -118,13 +118,6 @@ export default function CvParaRecepcionistaPage() {
           paragraphs: [
             "En consultorios, centros medicos u oficinas, suelen importar agenda, turnos, documentacion, llamadas, correo, planillas, trato con publico y confidencialidad de la informacion.",
             "Si tu experiencia fue en hoteleria, comercio o edificios, adapta el lenguaje a reservas, ingresos, control de visitas, reclamos, cobros o coordinacion con otras areas.",
-          ],
-        },
-        {
-          title: "Curriculum recepcionista restaurante, hotel o comercio",
-          paragraphs: [
-            "En restaurante, hotel o comercio, la recepcion suele mezclar atencion presencial, reservas, consultas, reclamos simples, derivacion de pedidos y coordinacion con salon, caja o administracion.",
-            "Si ese fue tu caso, incluye el contexto en el perfil y en la experiencia. Ayuda a diferenciar un curriculum recepcionista general de uno preparado para una vacante concreta.",
           ],
         },
       ]}

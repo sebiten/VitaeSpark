@@ -24,7 +24,7 @@ export default function CvParaOperarioPage() {
       title="CV operario de produccion: ejemplo listo para fabrica o deposito"
       description="Ejemplo de curriculum operario con perfil profesional, tareas de produccion, deposito, mantenimiento, habilidades practicas y estructura clara."
       intro={[
-        "Un curriculum operario de produccion tiene que mostrar rapido que tareas sabes hacer: linea de produccion, deposito, mantenimiento, embalaje, control de calidad, carga y descarga o logistica. Esa claridad suele importar mas que un texto largo y ayuda a captar busquedas como cv operario de produccion o perfil operario.",
+        "Un curriculum operario de produccion tiene que mostrar rapido que tareas sabes hacer: linea de produccion, deposito, mantenimiento, embalaje, control de calidad, carga y descarga o logistica. Esa claridad suele importar mas que un texto largo.",
         "VitaeSpark te ayuda a ordenar esas tareas en un CV para operario mas claro, con perfil profesional, habilidades utiles y estructura ATS para empresas industriales, depositos, comercios y servicios.",
       ]}
       conversionCta={{
@@ -65,7 +65,7 @@ export default function CvParaOperarioPage() {
         {
           title: "Curriculum operario de produccion: que destacar primero",
           paragraphs: [
-            "Suele sumar experiencia en produccion, armado, embalaje, control de calidad, deposito, carga y descarga, uso de herramientas, limpieza del sector, mantenimiento basico y cumplimiento de normas de seguridad. Para Google y reclutadores, estas palabras son mas utiles que frases como 'tareas generales'.",
+            "Suele sumar experiencia en produccion, armado, embalaje, control de calidad, deposito, carga y descarga, uso de herramientas, limpieza del sector, mantenimiento basico y cumplimiento de normas de seguridad. Esas tareas explican mejor el perfil que una frase como 'trabajos generales'.",
             "Si trabajaste por objetivos, turnos rotativos, lineas de produccion o tareas fisicas, conviene incluirlo porque muestra adaptacion al ritmo del puesto.",
           ],
         },
@@ -80,7 +80,7 @@ export default function CvParaOperarioPage() {
           title: "Ejemplo de CV operario de produccion",
           paragraphs: [
             "Una redaccion concreta puede ser: 'Realice tareas de armado, embalaje y control visual en linea de produccion, manteniendo orden del sector, cumplimiento de procedimientos y apoyo a objetivos diarios'.",
-            "Si tu experiencia fue mas de deposito, cambia el foco a carga, descarga, preparacion de pedidos, stock y uso de herramientas. Ese ajuste responde mejor a las busquedas reales.",
+            "Si tu experiencia fue mas de deposito, cambia el foco a carga, descarga, preparacion de pedidos, stock y uso de herramientas.",
           ],
         },
         {
@@ -101,7 +101,7 @@ export default function CvParaOperarioPage() {
           title: "Ejemplo de perfil profesional operario",
           paragraphs: [
             "Una version directa puede ser: 'Operario de produccion con experiencia en armado, empaque, control visual, orden del sector y cumplimiento de procedimientos de seguridad en entornos de fabrica'.",
-            "Si tu experiencia viene de deposito, cambia el enfoque a carga, descarga, preparacion de pedidos, stock, orden de mercaderia y apoyo logistico. Esa adaptacion mejora el match con busquedas como perfil profesional operario ejemplos.",
+            "Si tu experiencia viene de deposito, cambia el enfoque a carga, descarga, preparacion de pedidos, stock, orden de mercaderia y apoyo logistico.",
           ],
         },
         {

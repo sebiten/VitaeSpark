@@ -76,7 +76,7 @@ export default function CvParaSeguridadPage() {
           title: "Ejemplo de CV para vigilador o seguridad",
           paragraphs: [
             "Una frase concreta puede ser: 'Realice control de ingreso y egreso de personas, registro de visitantes, rondas preventivas y reporte de novedades, manteniendo cumplimiento de protocolos y trato responsable'.",
-            "Ese tipo de ejemplo responde mejor a busquedas como cv de seguridad o curriculum vigilador, porque explica tareas y contexto sin exagerar el perfil.",
+            "El ejemplo explica tareas y contexto sin exagerar el perfil ni atribuir funciones que no correspondan.",
           ],
         },
         {

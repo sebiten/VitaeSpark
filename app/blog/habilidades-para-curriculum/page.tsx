@@ -35,7 +35,7 @@ export default function HabilidadesParaCurriculumPage() {
           title: "Ejemplos de habilidades para curriculum",
           paragraphs: [
             "Para administrativo pueden sumar Excel, carga de datos, reportes, documentacion y correo. Para atencion al cliente: comunicacion clara, CRM, resolucion de consultas y seguimiento. Para operario: herramientas, seguridad, carga y descarga, control de calidad y trabajo por turnos.",
-            "Estos ejemplos funcionan mejor que una lista universal porque conectan las habilidades con tareas reales. Google y los reclutadores entienden mejor el contenido cuando hay contexto.",
+            "Estos ejemplos funcionan mejor que una lista universal porque conectan las habilidades con tareas reales y permiten entender en que contexto las aplicaste.",
           ],
         },
         {

@@ -59,7 +59,7 @@ export default function CvParaRepositorPage() {
         {
           title: "CV para repositor: que poner para que no suene generico",
           paragraphs: [
-            "Suele sumar experiencia en reposicion de mercaderia, control de fechas, rotacion, orden de gondolas, descarga, inventario, etiquetado, limpieza del sector y apoyo a clientes. Para busquedas como cv de repositor, esas tareas tienen que aparecer rapido.",
+            "Suele sumar experiencia en reposicion de mercaderia, control de fechas, rotacion, orden de gondolas, descarga, inventario, etiquetado, limpieza del sector y apoyo a clientes. Prioriza las tareas que realizabas con mayor frecuencia.",
             "Si trabajaste con volumen alto, horarios rotativos o productos especificos, conviene aclararlo porque muestra adaptacion al ritmo del puesto.",
           ],
         },
@@ -74,13 +74,13 @@ export default function CvParaRepositorPage() {
           title: "Ejemplo de CV de repositor de supermercado",
           paragraphs: [
             "Una frase util puede ser: 'Realice reposicion de gondolas, control de stock y vencimientos, rotacion de productos, orden del sector y apoyo en descarga y atencion basica a clientes'.",
-            "Ese tipo de redaccion funciona mejor que dejar solo 'reposicion', porque explica tareas concretas y responde a busquedas como cv de repositor o curriculum repositor de supermercado.",
+            "Si tu experiencia fue principalmente en deposito, cambia el foco a recepcion de mercaderia, carga y descarga, preparacion de pedidos y control basico de stock.",
           ],
         },
         {
-          title: "CV de repositor de supermercado",
+          title: "Experiencia de repositor en supermercado",
           paragraphs: [
-            "Si apuntas a supermercado, incluye palabras como gondola, stock, vencimientos, rotacion, precios, reposicion, pasillos, limpieza del sector, deposito y atencion al cliente. Son terminos que ayudan a que el puesto se entienda rapido y mejoran el match con curriculum repositor supermercado.",
+            "Si apuntas a supermercado, detalla tareas de gondola, stock, vencimientos, rotacion, precios, reposicion, pasillos, limpieza del sector, deposito y atencion al cliente. Elige solo las que formen parte de tu experiencia.",
             "Tambien conviene aclarar disponibilidad para turnos, fines de semana o horarios rotativos si realmente la tienes, porque muchos procesos de retail filtran por ese dato.",
           ],
         },

@@ -23,7 +23,7 @@ export default function CvParaLimpiezaPage() {
       title="CV para limpieza: ejemplo listo con perfil y habilidades"
       description="Prepara un curriculum de limpieza claro para oficinas, edificios, comercios o casas, con perfil profesional, tareas, productos y disponibilidad."
       intro={[
-        "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas, y con que rutinas o productos lo hacias. Eso mejora el match con busquedas como curriculum de limpieza o curriculum de limpieza sin experiencia.",
+        "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas, y con que rutinas o productos lo hacias.",
         "VitaeSpark te ayuda a presentar esa experiencia en un curriculum limpieza mas profesional, con perfil claro, habilidades utiles y estructura ATS facil de leer para reclutadores.",
       ]}
       exampleImage={{
@@ -72,7 +72,7 @@ export default function CvParaLimpiezaPage() {
         {
           title: "Curriculum de limpieza sin experiencia",
           paragraphs: [
-            "Para busquedas de primer empleo, conviene mencionar disponibilidad, puntualidad, cuidado de espacios, seguimiento de indicaciones, tareas domesticas, referencias si tienes y voluntad para aprender rutinas del lugar.",
+            "Para un primer empleo, conviene mencionar disponibilidad, puntualidad, cuidado de espacios, seguimiento de indicaciones, tareas domesticas, referencias si tienes y voluntad para aprender rutinas del lugar.",
             "Tambien ayuda aclarar el tipo de lugar al que apuntas: oficinas, edificios, casas, comercios, escuelas, salud o limpieza industrial. Cada contexto cambia las palabras que conviene usar.",
           ],
         },
@@ -84,10 +84,10 @@ export default function CvParaLimpiezaPage() {
           ],
         },
         {
-          title: "Ejemplo de CV para limpieza",
+          title: "Ejemplos de experiencia para limpieza",
           paragraphs: [
-            "Una formula util puede ser: 'Realice limpieza y mantenimiento de espacios comunes, reposicion de insumos, orden de materiales y cumplimiento de rutinas de higiene segun indicaciones del lugar'.",
-            "Si fue en oficinas, edificios, comercios o salud, nombralos. Ese contexto mejora mucho el match con las busquedas reales.",
+            "Para oficinas o edificios puedes escribir: 'Realice limpieza de espacios comunes, sanitarios y puestos de trabajo, repuse insumos y mantuve ordenados los materiales segun la rutina del lugar'.",
+            "Para salud o gastronomia conviene aclarar los protocolos que seguias, la separacion de elementos y la frecuencia de cada tarea, siempre respetando tu experiencia real.",
           ],
         },
         {

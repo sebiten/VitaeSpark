@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { ConversionProof } from "@/components/ConversionProof";
 import { LandingCvDiagnosticCta } from "./LandingCvDiagnosticCta";
 import { TrackedCtaLink } from "./TrackedCtaLink";
 import { getBaseUrl } from "@/lib/seo";
@@ -221,10 +220,6 @@ export function MarketingPage({
             ))}
           </div>
         </div>
-      </section>
-
-      <section className="px-4 py-10 sm:px-6 lg:px-8">
-        <ConversionProof variant="landing" className="mx-auto max-w-6xl" />
       </section>
 
       <section className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-8">

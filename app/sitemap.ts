@@ -6,8 +6,6 @@ export const dynamic = "force-static";
 const publicRoutes = [
   "/",
   "/blog",
-  "/crear",
-  "/crear-curriculum-vitae",
   "/crear-cv-online",
   "/curriculum-ats",
   "/curriculum-sin-experiencia",
@@ -16,7 +14,6 @@ const publicRoutes = [
   "/cv-para-primer-empleo",
   "/generador-de-cv-con-ia",
   "/hacer-cv-con-ia",
-  "/hacer-cv-online",
   "/modelo-de-curriculum-vitae",
   "/plantilla-harvard",
   "/plantillas-curriculum",
@@ -76,7 +73,7 @@ function getChangeFrequency(route: string): MetadataRoute.Sitemap[number]["chang
 }
 
 function getPriority(route: string): number {
-  if (route === "/" || route === "/crear") return 1;
+  if (route === "/") return 1;
   if (route.startsWith("/blog/")) return 0.7;
   if (route.startsWith("/comparar/")) return 0.6;
   if (route.startsWith("/glosario/")) return 0.6;
