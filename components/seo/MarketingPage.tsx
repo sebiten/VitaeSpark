@@ -94,9 +94,8 @@ const marketingLabels = {
   visualCaption: "Currículum profesional generado",
 };
 
-const blogLabels = {
+const breadcrumbLabels = {
   inicio: "Inicio",
-  blog: "Blog",
 };
 
 export function MarketingPage({
@@ -167,8 +166,7 @@ export function MarketingPage({
         <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-20 sm:px-6 lg:px-8">
           <Breadcrumbs
             items={[
-              { label: blogLabels.inicio, href: "/" },
-              { label: blogLabels.blog, href: "/blog" },
+              { label: breadcrumbLabels.inicio, href: "/" },
               { label: eyebrow, href: path },
             ]}
           />

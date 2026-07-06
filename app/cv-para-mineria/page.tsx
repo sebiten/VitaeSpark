@@ -78,7 +78,7 @@ export default function CvParaMineriaPage() {
       ]}
       sections={[
         {
-          title: "CV para mineria: que destacar para ganar clics y entrevistas",
+          title: "Qué destacar en un CV para minería",
           paragraphs: [
             "Suele sumar experiencia en seguridad, uso de EPP, cumplimiento de procedimientos, trabajo por turnos, mantenimiento, carga y descarga, operacion de equipos, control de calidad, limpieza industrial, deposito o logistica.",
             "Tambien conviene mencionar disponibilidad para viajar, campamento, roster, turnos rotativos, altura geografica, licencias de conducir, cursos tecnicos y cualquier capacitacion vinculada a seguridad laboral.",
