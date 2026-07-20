@@ -151,6 +151,7 @@ export default function CVPreviewStepPurple({
       window.matchMedia("(min-width: 640px)").matches,
   );
   const [pendingCvId, setPendingCvId] = useState<string | null>(null);
+  const [isLikelyArgentina, setIsLikelyArgentina] = useState(language === "es");
   const checkoutViewedTracked = useRef(false);
   const copy = checkoutCopy[language];
   const cvScore = useMemo(() => calculateCvScore(cvData), [cvData]);
@@ -320,6 +321,19 @@ export default function CVPreviewStepPurple({
   }, []);
 
   useEffect(() => {
+    if (language === "en") {
+      setIsLikelyArgentina(false);
+      return;
+    }
+
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const browserLanguage = navigator.language.toLowerCase();
+    setIsLikelyArgentina(
+      timeZone.startsWith("America/Argentina/") || browserLanguage.endsWith("-ar")
+    );
+  }, [language]);
+
+  useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 640px)");
     const syncPreviewMode = () => setCanRenderInlinePreview(mediaQuery.matches);
 
@@ -355,11 +369,26 @@ export default function CVPreviewStepPurple({
   };
 
   const paymentInProgress = loading || loadingPayPal;
-  const primaryPaymentPrice =
-    language === "en" ? PRICING.paypal.label : PRICING.mercadoPago.label;
+  const paypalIsPrimary = language === "en" || !isLikelyArgentina;
+  const primaryPayment = paypalIsPrimary ? PRICING.paypal : PRICING.mercadoPago;
+  const primaryPaymentPrice = primaryPayment.label;
+  const primaryPreviousPrice =
+    paypalIsPrimary && language === "es"
+      ? "Antes US$4.99"
+      : primaryPayment.previousLabel;
+  const primaryPaymentCta = paypalIsPrimary
+    ? language === "en"
+      ? copy.unlock
+      : `Pagar ${PRICING.paypal.label}`
+    : `Pagar ${PRICING.mercadoPago.label}`;
+  const securePaymentCopy = paypalIsPrimary
+    ? language === "en"
+      ? copy.secure
+      : "Pago internacional seguro con PayPal, en USD"
+    : copy.secure;
 
   const handlePrimaryPayment = () => {
-    void (language === "en" ? handlePayPal() : handlePay());
+    void (paypalIsPrimary ? handlePayPal() : handlePay());
   };
 
   const handlePrimaryPaymentFromPreview = () => {
@@ -483,14 +512,18 @@ export default function CVPreviewStepPurple({
                   type="button"
                   onClick={handlePrimaryPaymentFromPreview}
                   disabled={paymentInProgress}
-                  className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#7C3AED] px-4 text-sm font-semibold text-white shadow-lg shadow-[#7C3AED]/20 transition hover:bg-[#6D28D9] disabled:cursor-not-allowed disabled:opacity-70"
+                  className={`flex h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-70 ${
+                    paypalIsPrimary
+                      ? "bg-[#0070BA] hover:bg-[#005EA6]"
+                      : "bg-[#009EE3] hover:bg-[#008FCC]"
+                  }`}
                 >
                   {paymentInProgress ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <LockKeyhole className="h-4 w-4" />
                   )}
-                  {copy.unlock}
+                  {primaryPaymentCta}
                 </button>
                 <DialogClose asChild>
                   <button className="flex h-12 items-center justify-center rounded-xl border border-white/12 bg-white/[0.04] px-4 text-sm font-semibold text-white/80">
@@ -551,17 +584,17 @@ export default function CVPreviewStepPurple({
                     {copy.singlePayment}
                   </p>
                   <p className="mt-1 text-xs font-medium text-white/48">
-                    <span className="line-through">{copy.previousPrice}</span>
+                    <span className="line-through">{primaryPreviousPrice}</span>
                     <span className="mx-2 text-white/25">|</span>
                     <span>{copy.noSubscription}</span>
                   </p>
                 </div>
                 <div className="flex flex-shrink-0 items-end gap-2">
                   <span className="text-4xl font-black leading-none text-white sm:text-5xl">
-                    {copy.priceValue}
+                    {primaryPayment.shortLabel}
                   </span>
                   <span className="pb-1 text-sm font-semibold text-white/62">
-                    {copy.priceCurrency}
+                    {primaryPayment.currency}
                   </span>
                 </div>
               </div>
@@ -612,7 +645,7 @@ export default function CVPreviewStepPurple({
                 disabled={paymentInProgress}
                 onClick={handlePay}
                 className={`group w-full overflow-hidden rounded-xl border transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
-                  language === "en"
+                  paypalIsPrimary
                     ? "order-3 h-12 border-[#008FCC] bg-[#009EE3] text-white shadow-none hover:border-[#007EB5] hover:bg-[#008FCC] hover:shadow-none sm:h-14"
                     : "order-1 h-14 border-[#008FCC] bg-[#009EE3] text-white shadow-none hover:border-[#007EB5] hover:bg-[#008FCC] hover:shadow-none sm:h-14"
                 }`}
@@ -659,7 +692,7 @@ export default function CVPreviewStepPurple({
                 disabled={paymentInProgress}
                 onClick={handlePayPal}
                 className={`w-full rounded-2xl border text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
-                  language === "en"
+                  paypalIsPrimary
                     ? "order-1 h-14 border-[#0070BA]/25 bg-[#0070BA] shadow-lg shadow-[#0070BA]/15 hover:bg-[#005EA6] sm:h-16"
                     : "order-3 h-12 border-white/10 bg-white/[0.045] shadow-none hover:bg-white/[0.07] sm:h-14"
                 }`}
@@ -683,7 +716,9 @@ export default function CVPreviewStepPurple({
                         {copy.paypalButton}
                       </span>
                       <span className="hidden text-[11px] font-medium text-white/60 sm:block">
-                        {copy.paypalButtonNote}
+                        {paypalIsPrimary && language === "es"
+                          ? "Pago internacional en USD"
+                          : copy.paypalButtonNote}
                       </span>
                     </span>
                     <span className="flex-shrink-0 text-sm font-semibold sm:text-base">
@@ -697,7 +732,7 @@ export default function CVPreviewStepPurple({
             <div className="flex items-start gap-2 rounded-2xl border border-emerald-500/18 bg-emerald-500/[0.08] px-4 py-3">
               <ShieldCheck className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
               <span className="text-sm font-semibold leading-5 text-emerald-300">
-                {copy.secure}
+                {securePaymentCopy}
               </span>
             </div>
 
@@ -736,14 +771,18 @@ export default function CVPreviewStepPurple({
             type="button"
             onClick={handlePrimaryPayment}
             disabled={paymentInProgress}
-            className="inline-flex h-12 min-w-[180px] items-center justify-center gap-2 rounded-xl bg-[#7C3AED] px-4 text-sm font-bold text-white shadow-lg shadow-[#7C3AED]/20 transition hover:bg-[#6D28D9] disabled:cursor-not-allowed disabled:opacity-70"
+            className={`inline-flex h-12 min-w-[180px] items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold text-white transition disabled:cursor-not-allowed disabled:opacity-70 ${
+              paypalIsPrimary
+                ? "bg-[#0070BA] hover:bg-[#005EA6]"
+                : "bg-[#009EE3] hover:bg-[#008FCC]"
+            }`}
           >
             {paymentInProgress ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <LockKeyhole className="h-4 w-4" />
             )}
-            {copy.unlock}
+            {primaryPaymentCta}
           </button>
         </div>
       </div>

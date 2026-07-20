@@ -24,10 +24,34 @@ type AnalyticsEventPayload = LandingAttribution & {
   payment_id?: string;
 };
 
+declare global {
+  interface Window {
+    gtag?: (
+      command: "event",
+      eventName: string,
+      parameters?: Record<string, string | number | boolean | undefined>
+    ) => void;
+  }
+}
+
 export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
   if (typeof window === "undefined") return;
 
-  const body = JSON.stringify({ ...getLandingAttribution(), ...payload });
+  const event = { ...getLandingAttribution(), ...payload };
+  const body = JSON.stringify(event);
+
+  window.gtag?.("event", event.event_name, {
+    landing_path: event.landing_path,
+    cta_label: event.cta_label,
+    source_type: event.source_type,
+    language: event.language,
+    payment_provider: event.payment_provider,
+    template: event.template,
+    utm_source: event.utm_source,
+    utm_medium: event.utm_medium,
+    utm_campaign: event.utm_campaign,
+    utm_content: event.utm_content,
+  });
 
   if (navigator.sendBeacon) {
     const sent = navigator.sendBeacon(

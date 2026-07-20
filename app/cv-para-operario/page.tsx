@@ -160,6 +160,11 @@ export default function CvParaOperarioPage() {
       ]}
       relatedLinks={[
         {
+          href: "/blog/errores-en-el-curriculum",
+          title: "Errores que debilitan un curriculum",
+          description: "Revisa tareas genericas, falta de contexto y problemas de lectura antes de enviarlo.",
+        },
+        {
           href: "/cv-para-repositor",
           title: "CV para repositor",
           description: "Cercano si tu experiencia incluye stock, deposito o mercaderia.",

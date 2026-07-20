@@ -5,10 +5,10 @@ export const metadata = buildMetadata({
   title: "Qué es un Currículum Vitae y Cómo Hacer uno Profesional",
   description:
     "Entendé qué es un currículum vitae, en qué se diferencia del CV y del resume, qué secciones debe tener, cómo estructurarlo y qué errores evitar para que destaque.",
-  path: "/glosario/que-es-currriculum-vitae",
+  path: "/glosario/que-es-curriculum-vitae",
   keywords: [
     "que es curriculum vitae",
-    "currriculum vitae definicion",
+    "curriculum vitae definicion",
     "diferencia cv y resume",
     "como hacer curriculum vitae",
     "secciones curriculum vitae",
@@ -18,7 +18,7 @@ export const metadata = buildMetadata({
 export default function QueEsCurrriculumVitaePage() {
   return (
     <BlogArticlePage
-      path="/glosario/que-es-currriculum-vitae"
+      path="/glosario/que-es-curriculum-vitae"
       dateModified="2026-06-28"
       title="Qué es un Currículum Vitae y Cómo Hacer uno Profesional"
       description="Un currículum vitae es el documento más importante para presentar tu perfil profesional. Conocé qué es, cómo se diferencia del CV simple y del resume, qué secciones debe tener y cómo armar uno que destaque."

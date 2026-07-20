@@ -56,7 +56,7 @@ const publicRoutes = [
   "/comparar/cv-ats-vs-cv-convencional",
   "/comparar/plantilla-harvard-vs-moderna",
   "/glosario/que-es-ats-curriculum",
-  "/glosario/que-es-currriculum-vitae",
+  "/glosario/que-es-curriculum-vitae",
   "/glosario/como-escribir-perfil-profesional",
   "/cv-para-vendedor-sin-experiencia",
   "/cv-para-recepcionista-sin-experiencia",

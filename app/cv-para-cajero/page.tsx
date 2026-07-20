@@ -64,9 +64,9 @@ export default function CvParaCajeroPage() {
       ]}
       sections={[
         {
-          title: "CV para cajero: que destacar para ganar mas clics",
+          title: "Que destacar en un CV para cajero",
           paragraphs: [
-            "Suele sumar el manejo de efectivo, tarjetas, billeteras virtuales, apertura y cierre de caja, control basico de tickets, atencion al cliente, reposicion, orden de salon y cumplimiento de procedimientos. Esas tareas hacen que el snippet y el contenido se sientan mas utiles para quien busca un ejemplo real.",
+            "Suele sumar el manejo de efectivo, tarjetas, billeteras virtuales, apertura y cierre de caja, control basico de tickets, atencion al cliente, reposicion, orden de salon y cumplimiento de procedimientos.",
             "Si ademas trabajaste con facturacion, stock o resolucion de reclamos, conviene incluirlo porque te hace ver como un perfil mas completo.",
           ],
         },
@@ -94,7 +94,7 @@ export default function CvParaCajeroPage() {
         {
           title: "Curriculum cajera: que buscan los reclutadores",
           paragraphs: [
-            "Muchas busquedas usan 'curriculum cajera', pero el contenido debe ser el mismo: caja, cobros, medios de pago, atencion al cliente, cierre, orden del sector y capacidad para resolver consultas simples.",
+            "En un curriculum para cajera o cajero conviene incluir caja, cobros, medios de pago, atencion al cliente, cierre, orden del sector y capacidad para resolver consultas simples.",
             "Si trabajaste en supermercado, farmacia, tienda o estacion de servicio, nombra ese contexto. Ayuda a que el CV parezca escrito para el puesto y no como una plantilla generica.",
           ],
         },

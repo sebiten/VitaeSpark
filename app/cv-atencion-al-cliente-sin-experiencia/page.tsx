@@ -116,6 +116,11 @@ export default function CvAtencionClienteSinExperienciaPage() {
       ]}
       relatedLinks={[
         {
+          href: "/blog/que-poner-en-un-curriculum",
+          title: "Que poner en un curriculum",
+          description: "Ordena las secciones esenciales cuando todavia no tienes experiencia formal.",
+        },
+        {
           href: "/cv-para-atencion-al-cliente",
           title: "CV para atencion al cliente",
           description: "Version general si ya tienes experiencia o quieres una guia mas amplia.",

@@ -40,6 +40,10 @@ type AnalyticsEventName =
   | "download_completed";
 
 type AnalyticsEvent = {
+  id: string;
+  user_id: string | null;
+  cv_id: string | null;
+  payment_id: string | null;
   event_name: AnalyticsEventName;
   landing_path: string | null;
   created_at: string;
@@ -57,6 +61,7 @@ type AnalyticsEvent = {
 type CvRecord = {
   created_at: string;
   status: string | null;
+  profile_id: string;
 };
 
 type PaymentRecord = {
@@ -146,8 +151,6 @@ export default async function AdminDashboardPage({
 
   const [
     { count: totalUsers },
-    { count: totalCvs },
-    { count: totalPayments },
     { count: totalFeedback },
     { data: recentFeedback },
     { data: paymentsLast60 },
@@ -156,11 +159,6 @@ export default async function AdminDashboardPage({
     { data: analyticsEvents },
   ] = await Promise.all([
     supabaseAdmin.from("profiles").select("*", { count: "exact", head: true }),
-    supabaseAdmin.from("cvs").select("*", { count: "exact", head: true }),
-    supabaseAdmin
-      .from("payments")
-      .select("*", { count: "exact", head: true })
-      .in("status", APPROVED_STATUSES),
     supabaseAdmin.from("feedback").select("*", { count: "exact", head: true }),
     supabaseAdmin
       .from("feedback")
@@ -176,28 +174,44 @@ export default async function AdminDashboardPage({
       .limit(500),
     supabaseAdmin
       .from("profiles")
-      .select("created_at")
+      .select("id, created_at")
       .gte("created_at", since60Days.toISOString())
       .limit(5000),
     supabaseAdmin
       .from("cvs")
-      .select("created_at, status")
+      .select("created_at, status, profile_id")
       .gte("created_at", since60Days.toISOString())
       .limit(5000),
     supabaseAdmin
       .from("analytics_events")
       .select(
-        "event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template, utm_source, utm_medium, utm_campaign, utm_content"
+        "id, user_id, cv_id, payment_id, event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template, utm_source, utm_medium, utm_campaign, utm_content"
       )
       .gte("created_at", since30Days.toISOString())
       .order("created_at", { ascending: false })
       .limit(3000),
   ]);
 
-  const users = recentUsers ?? [];
-  const cvs = (recentCvs ?? []) as CvRecord[];
-  const payments = (paymentsLast60 ?? []) as PaymentRecord[];
-  const events = ((analyticsEvents ?? []) as AnalyticsEvent[]).filter((event) =>
+  const users = (recentUsers ?? []).filter((profile) => profile.id !== user.id);
+  const cvs = ((recentCvs ?? []) as CvRecord[]).filter(
+    (cv) => cv.profile_id !== user.id
+  );
+  const testPaymentEmails = new Set(
+    [user.email, ...(process.env.ANALYTICS_TEST_EMAILS ?? "").split(",")]
+      .map((email) => email?.trim().toLowerCase())
+      .filter((email): email is string => Boolean(email))
+  );
+  const rawPayments = (paymentsLast60 ?? []) as PaymentRecord[];
+  const payments = rawPayments.filter(
+    (payment) =>
+      !payment.payer_email ||
+      !testPaymentEmails.has(payment.payer_email.trim().toLowerCase())
+  );
+  const excludedTestPayments = rawPayments.length - payments.length;
+  const trackedEvents = ((analyticsEvents ?? []) as AnalyticsEvent[]).filter(
+    (event) => event.user_id !== user.id
+  );
+  const events = trackedEvents.filter((event) =>
     languageFilter === "all" ? true : event.language === languageFilter
   );
 
@@ -205,7 +219,7 @@ export default async function AdminDashboardPage({
     users,
     cvs,
     payments,
-    events: analyticsEvents ?? [],
+    events: trackedEvents,
     start: since30Days,
     end: now,
   });
@@ -213,7 +227,7 @@ export default async function AdminDashboardPage({
     users,
     cvs,
     payments,
-    events: analyticsEvents ?? [],
+    events: trackedEvents,
     start: since60Days,
     end: since30Days,
   });
@@ -221,7 +235,7 @@ export default async function AdminDashboardPage({
     users,
     cvs,
     payments,
-    events: analyticsEvents ?? [],
+    events: trackedEvents,
     start: since7Days,
     end: now,
   });
@@ -235,21 +249,15 @@ export default async function AdminDashboardPage({
     ...dailyMetrics.map((day) => day.users + day.cvs + day.payments)
   );
 
-  const globalCtaClicks = countEvents(events, "landing_cta_clicked");
-  const globalTemplates = countEvents(events, "template_selected");
-  const globalGenerated = countEvents(events, "cv_generated");
-  const globalCheckouts = countEvents(events, "checkout_viewed");
-  const globalPaymentStarts = countEvents(events, "payment_started");
-  const globalCompletedEvents = countEvents(events, "payment_completed");
+  const funnel = buildFunnelMetrics(events);
 
   const insights = buildInsights({
     current30,
     previous30,
-    ctaClicks: globalCtaClicks,
-    generated: globalGenerated,
-    checkouts: globalCheckouts,
-    paymentStarts: globalPaymentStarts,
-    completedEvents: globalCompletedEvents,
+    ctaClicks: funnel.ctaClicks,
+    generated: funnel.generatedUsers,
+    cvToCheckoutRate: funnel.generatedToCheckout,
+    checkoutToPaymentRate: funnel.paymentStartToCompleted,
     topLanding,
   });
 
@@ -307,14 +315,14 @@ export default async function AdminDashboardPage({
           <MetricCard
             title="Usuarios nuevos"
             value={current30.users}
-            helper={`${totalUsers ?? 0} usuarios historicos`}
+            helper={`${Math.max(0, (totalUsers ?? 0) - 1)} usuarios historicos`}
             delta={buildDelta(current30.users, previous30.users)}
             icon={<Users className="h-5 w-5" />}
           />
           <MetricCard
             title="Pago / CV"
             value={formatPercent(rate(current30.approvedPayments, current30.cvs))}
-            helper={`${totalPayments ?? 0} pagos historicos`}
+            helper="Excluye pagos del administrador"
             delta={buildDelta(
               rate(current30.approvedPayments, current30.cvs),
               rate(previous30.approvedPayments, previous30.cvs)
@@ -382,24 +390,29 @@ export default async function AdminDashboardPage({
 
               <div className="mt-5 space-y-3">
                 <FunnelRow
-                  label="CTA a plantilla"
-                  value={formatPercent(rate(globalTemplates, globalCtaClicks))}
-                  helper={`${globalCtaClicks} clicks`}
+                  label="Clicks en CTA"
+                  value={funnel.ctaClicks.toLocaleString("es-AR")}
+                  helper="acciones registradas"
                 />
                 <FunnelRow
                   label="Plantilla a CV"
-                  value={formatPercent(rate(globalGenerated, globalTemplates))}
-                  helper={`${globalGenerated} CVs generados`}
+                  value={formatPercent(funnel.templateToGenerated)}
+                  helper={`${funnel.generatedUsers} usuarios generaron CV`}
                 />
                 <FunnelRow
                   label="CV a checkout"
-                  value={formatPercent(rate(globalCheckouts, globalGenerated))}
-                  helper={`${globalCheckouts} checkouts`}
+                  value={formatPercent(funnel.generatedToCheckout)}
+                  helper={`${funnel.checkoutUsers} usuarios llegaron`}
                 />
                 <FunnelRow
-                  label="Checkout a pago"
-                  value={formatPercent(rate(globalCompletedEvents, globalCheckouts))}
-                  helper={`${globalPaymentStarts} inicios de pago`}
+                  label="Checkout a inicio de pago"
+                  value={formatPercent(funnel.checkoutToPaymentStart)}
+                  helper={`${funnel.paymentStartUsers} usuarios iniciaron`}
+                />
+                <FunnelRow
+                  label="Inicio a pago aprobado"
+                  value={formatPercent(funnel.paymentStartToCompleted)}
+                  helper={`${funnel.paymentCompletedUsers} usuarios completaron`}
                 />
               </div>
             </CardContent>
@@ -644,8 +657,9 @@ export default async function AdminDashboardPage({
             <div className="grid gap-3">
               <DataQualityRow label="Eventos analizados" value={events.length} />
               <DataQualityRow label="Feedback total" value={totalFeedback ?? 0} />
-              <DataQualityRow label="CVs historicos" value={totalCvs ?? 0} />
-              <DataQualityRow label="Pagos historicos aprobados" value={totalPayments ?? 0} />
+              <DataQualityRow label="CVs analizados (60 dias)" value={cvs.length} />
+              <DataQualityRow label="Pagos analizados (60 dias)" value={payments.length} />
+              <DataQualityRow label="Pagos de prueba excluidos" value={excludedTestPayments} />
             </div>
             <p className="mt-4 rounded-2xl border border-white/10 bg-white/[0.035] p-4 text-sm leading-6 text-white/58">
               Para mejorar la pagina, mira la tendencia de 30 dias. Para bugs o
@@ -686,9 +700,9 @@ function buildPeriodMetrics({
     users: periodUsers.length,
     cvs: periodCvs.length,
     paidCvs: periodCvs.filter((cv) => cv.status === "paid").length,
-    checkouts: countEvents(periodEvents, "checkout_viewed"),
-    paymentStarts: countEvents(periodEvents, "payment_started"),
-    completedPaymentEvents: countEvents(periodEvents, "payment_completed"),
+    checkouts: countUniqueEvents(periodEvents, "checkout_viewed"),
+    paymentStarts: countUniqueEvents(periodEvents, "payment_started"),
+    completedPaymentEvents: countUniqueEvents(periodEvents, "payment_completed"),
     approvedPayments: periodPayments.length,
     revenueARS: sumPayments(periodPayments, "mercado_pago"),
     revenueUSD: sumPayments(periodPayments, "paypal"),
@@ -701,6 +715,7 @@ function buildLandingMetrics(
   provider: ProviderFilterValue
 ): LandingMetric[] {
   const metrics = new Map<string, LandingMetric>();
+  const seenEvents = new Set<string>();
 
   events.forEach((event) => {
     if (!event.landing_path) return;
@@ -722,19 +737,37 @@ function buildLandingMetrics(
       };
 
     if (event.source_type) current.sourceTypes.add(event.source_type);
-    if (event.event_name === "landing_cta_clicked") current.clicks += 1;
-    if (event.event_name === "template_selected") current.templates += 1;
-    if (event.event_name === "cv_generated") current.cvs += 1;
-    if (event.event_name === "checkout_viewed") current.checkouts += 1;
+    const uniqueEventKey = `${key}:${event.event_name}:${getUniqueEventIdentity(event)}`;
+    const shouldCountEvent = !seenEvents.has(uniqueEventKey);
+    seenEvents.add(uniqueEventKey);
+
+    if (shouldCountEvent && event.event_name === "landing_cta_clicked") {
+      current.clicks += 1;
+    }
+    if (shouldCountEvent && event.event_name === "template_selected") {
+      current.templates += 1;
+    }
+    if (shouldCountEvent && event.event_name === "cv_generated") current.cvs += 1;
+    if (shouldCountEvent && event.event_name === "checkout_viewed") {
+      current.checkouts += 1;
+    }
 
     const providerMatches =
       provider === "all" ? true : event.payment_provider === provider;
 
-    if (event.event_name === "payment_started" && providerMatches) {
+    if (
+      shouldCountEvent &&
+      event.event_name === "payment_started" &&
+      providerMatches
+    ) {
       current.paymentStarts += 1;
     }
 
-    if (event.event_name === "payment_completed" && providerMatches) {
+    if (
+      shouldCountEvent &&
+      event.event_name === "payment_completed" &&
+      providerMatches
+    ) {
       current.payments += 1;
     }
 
@@ -758,6 +791,7 @@ function buildCampaignMetrics(
   provider: ProviderFilterValue
 ): CampaignMetric[] {
   const metrics = new Map<string, CampaignMetric>();
+  const seenEvents = new Set<string>();
 
   events.forEach((event) => {
     if (!event.utm_source && !event.utm_campaign && !event.utm_medium) return;
@@ -783,14 +817,29 @@ function buildCampaignMetrics(
 
     const providerMatches =
       provider === "all" ? true : event.payment_provider === provider;
+    const uniqueEventKey = `${key}:${event.event_name}:${getUniqueEventIdentity(event)}`;
+    const shouldCountEvent = !seenEvents.has(uniqueEventKey);
+    seenEvents.add(uniqueEventKey);
 
-    if (event.event_name === "landing_cta_clicked") current.clicks += 1;
-    if (event.event_name === "cv_generated") current.cvs += 1;
-    if (event.event_name === "checkout_viewed") current.checkouts += 1;
-    if (event.event_name === "payment_started" && providerMatches) {
+    if (shouldCountEvent && event.event_name === "landing_cta_clicked") {
+      current.clicks += 1;
+    }
+    if (shouldCountEvent && event.event_name === "cv_generated") current.cvs += 1;
+    if (shouldCountEvent && event.event_name === "checkout_viewed") {
+      current.checkouts += 1;
+    }
+    if (
+      shouldCountEvent &&
+      event.event_name === "payment_started" &&
+      providerMatches
+    ) {
       current.paymentStarts += 1;
     }
-    if (event.event_name === "payment_completed" && providerMatches) {
+    if (
+      shouldCountEvent &&
+      event.event_name === "payment_completed" &&
+      providerMatches
+    ) {
       current.payments += 1;
     }
 
@@ -835,18 +884,16 @@ function buildInsights({
   previous30,
   ctaClicks,
   generated,
-  checkouts,
-  paymentStarts,
-  completedEvents,
+  cvToCheckoutRate,
+  checkoutToPaymentRate,
   topLanding,
 }: {
   current30: PeriodMetrics;
   previous30: PeriodMetrics;
   ctaClicks: number;
   generated: number;
-  checkouts: number;
-  paymentStarts: number;
-  completedEvents: number;
+  cvToCheckoutRate: number;
+  checkoutToPaymentRate: number;
   topLanding?: LandingMetric;
 }) {
   const insights: Array<{
@@ -858,9 +905,6 @@ function buildInsights({
   }> = [];
 
   const paymentDelta = buildDelta(current30.approvedPayments, previous30.approvedPayments);
-  const checkoutToPayment = rate(completedEvents, checkouts);
-  const cvToCheckout = rate(checkouts, generated);
-
   insights.push({
     title: "Decision principal",
     value: current30.cvs < 10 ? "Esperar muestra" : "Optimizar con foco",
@@ -879,21 +923,21 @@ function buildInsights({
     value:
       generated < 10
         ? "Antes del CV"
-        : cvToCheckout < 30
+        : cvToCheckoutRate < 30
           ? "CV a checkout"
-          : checkoutToPayment < 15
+          : checkoutToPaymentRate < 15
             ? "Checkout a pago"
             : "Funnel sano",
     text:
       generated < 10
         ? `Hay ${ctaClicks} clicks de CTA y ${generated} CVs generados. Mejora promesa, CTA y entrada al flujo.`
-        : cvToCheckout < 30
+        : cvToCheckoutRate < 30
           ? "Mucha gente genera CV pero no llega al checkout. Revisa preview, precio visible y mensaje de desbloqueo."
-          : checkoutToPayment < 15
+          : checkoutToPaymentRate < 15
             ? "Hay intencion de pago, pero no cierre. Revisa confianza, metodo de pago y errores."
             : "No hay fuga critica. Conviene escalar trafico antes de redisenar.",
     tone:
-      generated < 10 || cvToCheckout < 30 || checkoutToPayment < 15
+      generated < 10 || cvToCheckoutRate < 30 || checkoutToPaymentRate < 15
         ? "warn"
         : "good",
     icon: <AlertTriangle className="h-5 w-5" />,
@@ -912,8 +956,75 @@ function buildInsights({
   return insights;
 }
 
-function countEvents(events: AnalyticsEvent[], eventName: AnalyticsEventName) {
-  return events.filter((event) => event.event_name === eventName).length;
+function countUniqueEvents(
+  events: AnalyticsEvent[],
+  eventName: AnalyticsEventName
+) {
+  return new Set(
+    events
+      .filter((event) => event.event_name === eventName)
+      .map(getUniqueEventIdentity)
+  ).size;
+}
+
+function getUniqueEventIdentity(event: AnalyticsEvent) {
+  if (event.event_name === "landing_cta_clicked") return `event:${event.id}`;
+  if (event.event_name === "payment_completed") {
+    return event.payment_id
+      ? `payment:${event.payment_id}`
+      : event.cv_id
+        ? `cv:${event.cv_id}`
+        : event.user_id
+          ? `user:${event.user_id}`
+          : `event:${event.id}`;
+  }
+  if (event.event_name === "payment_started" && event.cv_id) {
+    return `cv:${event.cv_id}`;
+  }
+  if (event.user_id) return `user:${event.user_id}`;
+  if (event.cv_id) return `cv:${event.cv_id}`;
+  return `event:${event.id}`;
+}
+
+function buildFunnelMetrics(events: AnalyticsEvent[]) {
+  const usersFor = (eventName: AnalyticsEventName) =>
+    new Set(
+      events
+        .filter(
+          (event) => event.event_name === eventName && Boolean(event.user_id)
+        )
+        .map((event) => event.user_id as string)
+    );
+  const templateUsers = usersFor("template_selected");
+  const generatedUsers = usersFor("cv_generated");
+  const checkoutUsers = usersFor("checkout_viewed");
+  const paymentStartUsers = usersFor("payment_started");
+  const paymentCompletedUsers = usersFor("payment_completed");
+
+  return {
+    ctaClicks: countUniqueEvents(events, "landing_cta_clicked"),
+    templateUsers: templateUsers.size,
+    generatedUsers: generatedUsers.size,
+    checkoutUsers: checkoutUsers.size,
+    paymentStartUsers: paymentStartUsers.size,
+    paymentCompletedUsers: paymentCompletedUsers.size,
+    templateToGenerated: setConversionRate(templateUsers, generatedUsers),
+    generatedToCheckout: setConversionRate(generatedUsers, checkoutUsers),
+    checkoutToPaymentStart: setConversionRate(checkoutUsers, paymentStartUsers),
+    paymentStartToCompleted: setConversionRate(
+      paymentStartUsers,
+      paymentCompletedUsers
+    ),
+  };
+}
+
+function setConversionRate(from: Set<string>, to: Set<string>) {
+  if (from.size === 0) return 0;
+  let converted = 0;
+  from.forEach((identity) => {
+    if (to.has(identity)) converted += 1;
+  });
+  return rate(converted, from.size);
 }
 
 function sumPayments(
@@ -1200,7 +1311,7 @@ function EmptyPanel({ text }: { text: string }) {
 
 function rate(part: number, total: number) {
   if (!total) return 0;
-  return (part / total) * 100;
+  return Math.min(100, (part / total) * 100);
 }
 
 function buildDelta(current: number, previous: number) {

@@ -130,7 +130,7 @@ export default function CvParaMineriaPage() {
           title: "Requisitos y datos que pueden sumar",
           paragraphs: [
             "En mineria suelen ser relevantes la disponibilidad para roster o campamento, licencia de conducir, cursos de seguridad, experiencia en altura, manejo de herramientas, mantenimiento, transporte, deposito o industria pesada.",
-            "No conviene inventar requisitos. Pero si los tienes, deben aparecer de forma visible porque muchas busquedas y filtros se apoyan en palabras como minera, seguridad, turnos, campamento, maquinaria, EPP y mantenimiento.",
+            "No conviene inventar requisitos. Si realmente cuentas con ellos, menciona de forma visible experiencia en seguridad, turnos, campamento, maquinaria, EPP o mantenimiento.",
           ],
         },
         {
