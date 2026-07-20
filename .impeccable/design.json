@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-19T12:00:00-03:00",
+  "title": "Design System: VitaeSpark",
+  "extensions": {
+    "colorMeta": {
+      "canvas-deep": {
+        "role": "neutral",
+        "displayName": "Negro profundo",
+        "canonical": "#0C0C10",
+        "tonalRamp": ["#09090C", "#0C0C10", "#17171C", "#26262D", "#44444D", "#73737D", "#B3B3BA", "#F4F4F5"]
+      },
+      "violet": {
+        "role": "primary",
+        "displayName": "Violeta de criterio",
+        "canonical": "#8B5CF6",
+        "tonalRamp": ["#1F123F", "#321C66", "#4D2A9C", "#6E3FCE", "#8B5CF6", "#A78BFA", "#C4B5FD", "#EDE9FE"]
+      },
+      "warm-white": {
+        "role": "neutral",
+        "displayName": "Marfil de acción",
+        "canonical": "#F6F2EA",
+        "tonalRamp": ["#201F1C", "#37342F", "#625D54", "#918A7E", "#BBB4A9", "#D8D2C8", "#ECE7DE", "#F6F2EA"]
+      },
+      "sky": {
+        "role": "secondary",
+        "displayName": "Celeste informativo",
+        "canonical": "#38BDF8",
+        "tonalRamp": ["#082F49", "#0C4A6E", "#0369A1", "#0284C7", "#0EA5E9", "#38BDF8", "#7DD3FC", "#E0F2FE"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Heroes y mensajes decisivos."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Lectura de producto y contenido editorial."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-low",
+        "value": "0 18px 50px rgba(0,0,0,0.32)",
+        "purpose": "Controles flotantes temporales."
+      },
+      {
+        "name": "document-lift",
+        "value": "0 28px 70px rgba(0,0,0,0.34)",
+        "purpose": "Preview del CV sobre fondos oscuros."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "Entradas y cambios de estado sobrios."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Acción principal confiable, sin glow.",
+      "html": "<button class=\"ds-btn-primary\">Empezar mi CV</button>",
+      "css": ".ds-btn-primary{border:0;border-radius:999px;background:#F6F2EA;color:#121114;padding:12px 24px;font:600 14px Geist,sans-serif;transition:background .2s,transform .2s}.ds-btn-primary:hover{background:#fff;transform:translateY(-1px)}.ds-btn-primary:focus-visible{outline:4px solid rgba(139,92,246,.18);outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Acción secundaria discreta.",
+      "html": "<button class=\"ds-btn-secondary\">Ver plantillas</button>",
+      "css": ".ds-btn-secondary{border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.035);color:#F4F4F5;padding:12px 24px;font:600 14px Geist,sans-serif;transition:background .2s,border-color .2s}.ds-btn-secondary:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18)}.ds-btn-secondary:focus-visible{outline:4px solid rgba(139,92,246,.18);outline-offset:2px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo oscuro de contraste estable.",
+      "html": "<input class=\"ds-input\" placeholder=\"Tu experiencia\" />",
+      "css": ".ds-input{width:100%;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.04);color:#F4F4F5;padding:12px 16px;font:400 14px Geist,sans-serif}.ds-input:focus{border-color:rgba(139,92,246,.45);outline:4px solid rgba(139,92,246,.12)}.ds-input::placeholder{color:rgba(244,244,245,.36)}"
+    },
+    {
+      "name": "Topic Chip",
+      "kind": "chip",
+      "description": "Filtro editorial de bajo ruido.",
+      "html": "<button class=\"ds-chip\">Habilidades</button>",
+      "css": ".ds-chip{border:1px solid rgba(255,255,255,.08);border-radius:999px;background:transparent;color:rgba(244,244,245,.62);padding:8px 14px;font:500 12px Geist,sans-serif}.ds-chip:hover,.ds-chip:focus-visible{border-color:rgba(196,181,253,.35);background:rgba(167,139,250,.1);color:#fff;outline:none}"
+    },
+    {
+      "name": "CV Preview",
+      "kind": "custom",
+      "description": "Documento claro con contenido reconocible.",
+      "html": "<div class=\"ds-preview\"><strong>PERFIL PROFESIONAL</strong><p>Experiencia clara y orientada al puesto.</p></div>",
+      "css": ".ds-preview{border:8px solid #D8D2C8;border-radius:22px;background:#F6F2EA;color:#19181C;padding:24px;box-shadow:0 28px 70px rgba(0,0,0,.34);font-family:Geist,sans-serif}.ds-preview strong{font-size:10px;letter-spacing:.16em;color:#6E50E8}.ds-preview p{font-size:12px;line-height:1.6;color:rgba(25,24,28,.68)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "El escritorio del editor",
+    "overview": "VitaeSpark debe sentirse como un espacio de trabajo profesional donde la información desordenada se vuelve clara. La interfaz es oscura, contenida y precisa; transmite criterio antes que tecnología.",
+    "keyCharacteristics": [
+      "Superficies oscuras cálidas con contraste firme.",
+      "Tipografía grande y compacta para mensajes decisivos.",
+      "Bordes sutiles y profundidad principalmente tonal.",
+      "Una acción primaria clara por contexto."
+    ],
+    "rules": [
+      {
+        "name": "The One Accent Rule",
+        "body": "El violeta ocupa como máximo una pequeña fracción de cada pantalla.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flat-by-Default Rule",
+        "body": "Una superficie en reposo no necesita sombra si el tono y un borde fino ya explican su jerarquía.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do usar espacio, tipografía y divisores finos antes de agregar otra card.",
+      "Do mostrar previews de CV con contenido realista y legible."
+    ],
+    "donts": [
+      "Don't crear formularios recargados con demasiadas cards o cajas anidadas.",
+      "Don't usar un look SaaS genérico con exceso de gradientes, brillo o recursos decorativos.",
+      "Don't construir jerarquías visuales ruidosas que distraigan de completar el CV."
+    ]
+  }
+}

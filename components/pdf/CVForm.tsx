@@ -13,6 +13,11 @@ import {
 } from "@/lib/analytics-attribution";
 import { recordAnalyticsEvent } from "@/lib/analytics-events";
 import type { AppLanguage } from "@/lib/i18n";
+import {
+  getCreateIntentMessage,
+  normalizeCreateIntent,
+  type CreateIntent,
+} from "@/lib/blog-intent";
 
 type CurrentUser = {
   id: string;
@@ -21,6 +26,7 @@ type CurrentUser = {
 
 type CVFormProps = {
   initialLanguage?: AppLanguage;
+  initialIntent?: CreateIntent;
   currentUser: CurrentUser;
 };
 
@@ -48,6 +54,7 @@ const createEmptyDraft = (): DatosCVFormulario => ({
 
 export default function CVForm({
   initialLanguage = "es",
+  initialIntent = "general",
   currentUser,
 }: CVFormProps) {
   const [selectedTemplate, setSelectedTemplate] = useState("elegance");
@@ -58,6 +65,8 @@ export default function CVForm({
   const [templateFlowTarget, setTemplateFlowTarget] = useState<"form" | "preview">(
     "form",
   );
+  const [createIntent, setCreateIntent] = useState<CreateIntent>(initialIntent);
+  const intentMessage = getCreateIntentMessage(createIntent);
 
   const handleTabChange = useCallback(
     (tab: string) => {
@@ -160,6 +169,14 @@ export default function CVForm({
         source_type: sourceType,
       });
     }
+
+    const storedIntent = window.sessionStorage.getItem(
+      "vitaespark-create-intent",
+    );
+    if (storedIntent) {
+      setCreateIntent(normalizeCreateIntent(storedIntent));
+      window.sessionStorage.removeItem("vitaespark-create-intent");
+    }
   }, []);
 
   const getProgress = () => {
@@ -172,6 +189,16 @@ export default function CVForm({
   return (
     <div className="mx-auto w-full overflow-x-hidden py-1 sm:py-2">
       <div className="mx-auto w-full max-w-6xl min-w-0">
+        {intentMessage ? (
+          <div className="mx-auto mb-4 max-w-2xl border-b border-white/8 px-2 pb-4 text-center">
+            <p className="text-sm font-semibold text-[#F6F2EA]">
+              {intentMessage.title}
+            </p>
+            <p className="mx-auto mt-1 max-w-xl text-xs leading-5 text-white/48">
+              {intentMessage.description}
+            </p>
+          </div>
+        ) : null}
         <Tabs
           value={activeTab}
           onValueChange={handleTabChange}

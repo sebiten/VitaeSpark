@@ -46,6 +46,16 @@ export function TrackedCtaLink({
       href={trackedHref}
       className={className}
       onClick={() => {
+        const intent = new URL(trackedHref, window.location.origin).searchParams.get(
+          "intent",
+        );
+        if (intent) {
+          try {
+            window.sessionStorage.setItem("vitaespark-create-intent", intent);
+          } catch {
+            // La atribución sigue funcionando aunque el navegador bloquee storage.
+          }
+        }
         setLandingAttribution({
           landing_path: sourcePath,
           cta_label: ctaLabel,

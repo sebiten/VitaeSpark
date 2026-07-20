@@ -34,13 +34,21 @@ declare global {
   }
 }
 
+export function recordGaEvent(
+  eventName: string,
+  parameters?: Record<string, string | number | boolean | undefined>,
+) {
+  if (typeof window === "undefined") return;
+  window.gtag?.("event", eventName, parameters);
+}
+
 export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
   if (typeof window === "undefined") return;
 
   const event = { ...getLandingAttribution(), ...payload };
   const body = JSON.stringify(event);
 
-  window.gtag?.("event", event.event_name, {
+  recordGaEvent(event.event_name, {
     landing_path: event.landing_path,
     cta_label: event.cta_label,
     source_type: event.source_type,
