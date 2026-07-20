@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles } from "lucide-react";
+import { Sparkles, UsersRound } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { FloatingRobot } from "./floating-robot";
@@ -109,13 +109,27 @@ export default function WelcomeHero() {
 
           <motion.div
             variants={copyItem}
-            className="relative z-10 mt-4 flex w-full flex-wrap items-center justify-center gap-2 rounded-2xl border border-[#F6F2EA]/[0.08] bg-[#F6F2EA]/[0.035] px-3 py-2.5 text-[12px] font-medium text-[#D8D2C8]/[0.72] shadow-[inset_0_1px_0_rgba(246,242,234,0.04)] sm:w-fit sm:justify-start sm:rounded-full sm:px-4"
+            className="relative z-10 mt-5 max-w-[36rem] border-t border-[#F6F2EA]/[0.1] pt-4"
           >
-            <span>Pago unico</span>
-            <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/40" />
-            <span>PDF descargable</span>
-            <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/40" />
-            <span>Editable desde tu perfil</span>
+            <div className="flex items-center gap-2.5 text-[13px] text-[#D8D2C8]/[0.7] sm:text-sm">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#D7C8FF]/[0.16] bg-[#7A5CFF]/[0.1] text-[#D7C8FF]">
+                <UsersRound className="h-4 w-4" />
+              </span>
+              <p>
+                <strong className="font-semibold text-[#F6F2EA]">
+                  Más de 500 personas
+                </strong>{" "}
+                ya eligieron VitaeSpark
+              </p>
+            </div>
+
+            <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-[#D8D2C8]/[0.56] sm:text-[12px]">
+              <span>Pago único</span>
+              <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/35" />
+              <span>PDF descargable</span>
+              <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/35" />
+              <span>Editable desde tu perfil</span>
+            </div>
           </motion.div>
         </motion.div>
 
