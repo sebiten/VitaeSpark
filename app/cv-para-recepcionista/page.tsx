@@ -168,7 +168,7 @@ export default function CvParaRecepcionistaPage() {
           description: "Cercano si tu experiencia de recepcion incluye archivo, planillas o soporte de oficina.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Arma tu curriculum final en una plantilla lista para descargar.",
         },

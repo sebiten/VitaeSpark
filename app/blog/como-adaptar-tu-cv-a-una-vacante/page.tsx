@@ -75,7 +75,7 @@ export default function ComoAdaptarTuCvAUnaVacantePage() {
           description: "Primero arma una base fuerte y luego adaptala mejor.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Haz estos ajustes dentro de un flujo pensado para iterar rapido.",
         },

@@ -84,13 +84,13 @@ export default function CvProfesionalPage() {
       ]}
       relatedLinks={[
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description:
             "Usa un flujo guiado para convertir estas ideas en accion concreta.",
         },
         {
-          href: "/generador-de-cv-con-ia",
+          href: "/hacer-cv-con-ia",
           title: "Generador de CV con IA",
           description:
             "Refuerza tu redaccion y acelera la mejora del contenido.",

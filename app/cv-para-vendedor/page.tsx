@@ -118,7 +118,7 @@ export default function CvParaVendedorPage() {
           description: "Complementa perfiles comerciales con manejo de caja y atencion.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Convierte estas ideas en un curriculum listo para descargar.",
         },

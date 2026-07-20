@@ -75,7 +75,7 @@ export default function ComoMejorarMiCurriculumPage() {
           description: "Detecta primero que cosas estan frenando tu CV.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Pasa esa mejora a una version mas profesional.",
         },

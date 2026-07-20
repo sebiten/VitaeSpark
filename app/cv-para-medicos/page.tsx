@@ -98,7 +98,7 @@ export default function CvParaMedicosPage() {
           description: "Mantiene estructura clara tambien para procesos digitalizados.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Pasa tu informacion medica a un formato ordenado y descargable.",
         },

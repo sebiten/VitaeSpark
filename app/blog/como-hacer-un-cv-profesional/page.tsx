@@ -71,7 +71,7 @@ export default function ComoHacerUnCvProfesionalPage() {
             "Pasa de la guia a una pagina de conversion centrada en ese objetivo.",
         },
         {
-          href: "/generador-de-cv-con-ia",
+          href: "/hacer-cv-con-ia",
           title: "Generador de CV con IA",
           description: "Acelera la mejora del texto sin perder claridad.",
         },

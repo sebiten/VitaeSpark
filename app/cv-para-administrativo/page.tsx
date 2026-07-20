@@ -158,7 +158,7 @@ export default function CvParaAdministrativoPage() {
           description: "Util si buscas tu primer puesto administrativo.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Crea una version profesional lista para descargar.",
         },

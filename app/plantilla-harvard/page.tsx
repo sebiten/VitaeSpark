@@ -83,7 +83,7 @@ export default function PlantillaHarvardPage() {
       ]}
       relatedLinks={[
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description:
             "Prepara el contenido y llevalo a una plantilla lista para descargar.",

@@ -63,13 +63,13 @@ export function Footer() {
                 Recursos
               </h3>
               <ul className="space-y-2.5">
-                <FooterLink href="/crear-cv-online">Crear CV online</FooterLink>
+                <FooterLink href="/">Crear CV online</FooterLink>
                 <FooterLink href="/curriculum-ats">Curriculum ATS</FooterLink>
                 <FooterLink href="/curriculum-sin-experiencia">
                   CV sin experiencia
                 </FooterLink>
                 <FooterLink href="/plantilla-harvard">Plantilla Harvard</FooterLink>
-                <FooterLink href="/generador-de-cv-con-ia">
+                <FooterLink href="/hacer-cv-con-ia">
                   Generador con IA
                 </FooterLink>
               </ul>

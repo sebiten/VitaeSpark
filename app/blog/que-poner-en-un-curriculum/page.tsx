@@ -75,7 +75,7 @@ export default function QuePonerEnUnCurriculumPage() {
           description: "Prioriza mejor contenido si estas empezando.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Aplica esta estructura dentro de un flujo guiado.",
         },

@@ -6,13 +6,11 @@ export const dynamic = "force-static";
 const publicRoutes = [
   "/",
   "/blog",
-  "/crear-cv-online",
   "/curriculum-ats",
   "/curriculum-sin-experiencia",
   "/curriculum-vitae-ejemplo",
   "/curriculum-vitae-pdf",
   "/cv-para-primer-empleo",
-  "/generador-de-cv-con-ia",
   "/hacer-cv-con-ia",
   "/modelo-de-curriculum-vitae",
   "/plantilla-harvard",

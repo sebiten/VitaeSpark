@@ -147,7 +147,7 @@ export default function CvParaSeguridadPage() {
           description: "Util si estas entrando por primera vez al sector.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Pasa estas ideas a un CV listo para descargar.",
         },

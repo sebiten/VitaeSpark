@@ -113,7 +113,7 @@ export default function CurriculumVitaePdfPage() {
       ]}
       relatedLinks={[
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Primero armá una buena base antes de descargarla en PDF.",
         },

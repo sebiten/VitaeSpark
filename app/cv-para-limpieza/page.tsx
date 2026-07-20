@@ -142,7 +142,7 @@ export default function CvParaLimpiezaPage() {
           description: "Cercano si buscas puestos de servicios generales, mantenimiento o deposito.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Crea tu CV profesional en una plantilla lista para descargar.",
         },

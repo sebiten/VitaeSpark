@@ -65,7 +65,7 @@ export default function ComoHacerUnCvParaTrabajoPage() {
       ]}
       relatedLinks={[
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Aplica esta guia a un flujo ya pensado para postularte mejor.",
         },

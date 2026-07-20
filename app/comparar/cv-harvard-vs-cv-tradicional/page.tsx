@@ -120,7 +120,7 @@ export default function CvHarvardVsTradicionalPage() {
             "Guía para crear un currículum que destaque por contenido y formato.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV Online",
           description:
             "Construí tu currículum paso a paso con ayuda de inteligencia artificial.",

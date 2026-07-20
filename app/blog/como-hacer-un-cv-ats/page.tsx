@@ -137,7 +137,7 @@ export default function ComoHacerUnCvAtsPage() {
             "Usá IA para mejorar la claridad del contenido sin inventar experiencia.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description:
             "Armá tu CV con estructura optimizada para ATS desde cero con guía paso a paso.",

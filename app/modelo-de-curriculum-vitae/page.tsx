@@ -87,7 +87,7 @@ export default function ModeloDeCurriculumVitaePage() {
           description: "Pasa del modelo de referencia a una estructura lista para usar.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear curriculum vitae",
           description: "Transforma la referencia en un CV propio y profesional.",
         },

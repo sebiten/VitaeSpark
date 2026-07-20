@@ -98,7 +98,7 @@ export default function CvParaEstudiantesPage() {
           description: "Refuerza una seccion clave en perfiles iniciales.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Lleva tus estudios y proyectos a una plantilla lista para usar.",
         },

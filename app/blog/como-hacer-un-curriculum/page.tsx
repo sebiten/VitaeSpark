@@ -105,7 +105,7 @@ export default function ComoHacerUnCurriculumPage() {
             "Crea tu curriculum con IA, plantillas profesionales y descarga en PDF.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description:
             "Aplica estos consejos dentro de un flujo guiado y listo para exportar.",

@@ -196,7 +196,7 @@ export default function CvParaCajeroPage() {
           description: "Util si buscas entrar por primera vez a retail o comercio.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Pasa de estas ideas a una version lista para descargar.",
         },

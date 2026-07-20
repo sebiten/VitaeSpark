@@ -111,7 +111,7 @@ export default function QueEsCurrriculumVitaePage() {
       ]}
       relatedLinks={[
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV Online",
           description:
             "Construí tu currículum paso a paso con ayuda de inteligencia artificial.",

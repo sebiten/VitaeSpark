@@ -76,7 +76,7 @@ export default function EjemploDeCurriculumVitaePage() {
           description: "Explora otra pagina cercana para seguir comparando enfoques.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear curriculum vitae",
           description:
             "Convierte la referencia en una version propia lista para descargar.",

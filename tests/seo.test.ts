@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 
+import { CANONICAL_REDIRECTS } from "../lib/canonical-redirects";
 import { buildMetadata, getBaseUrl } from "../lib/seo";
 
 const ORIGINAL_ENV = { ...process.env };
@@ -59,5 +60,22 @@ describe("buildMetadata", () => {
       title: "CV para cajero",
       description: "Plantilla para cajeros",
     });
+  });
+});
+
+describe("CANONICAL_REDIRECTS", () => {
+  it("consolida las variantes genericas y de IA en sus paginas principales", () => {
+    expect(CANONICAL_REDIRECTS).toMatchObject({
+      "/hacer-cv-online": "/",
+      "/crear-curriculum-vitae": "/",
+      "/crear-cv-online": "/",
+      "/generador-de-cv-con-ia": "/hacer-cv-con-ia",
+    });
+  });
+
+  it("no genera cadenas de redireccion", () => {
+    for (const target of Object.values(CANONICAL_REDIRECTS)) {
+      expect(CANONICAL_REDIRECTS[target]).toBeUndefined();
+    }
   });
 });

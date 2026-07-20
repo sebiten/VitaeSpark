@@ -203,7 +203,7 @@ export default function CvCallCenterPage() {
           description: "Refuerza palabras clave y estructura para pasar mejor filtros.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Lleva estas ideas a una plantilla lista para descargar.",
         },

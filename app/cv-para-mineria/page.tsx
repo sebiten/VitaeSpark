@@ -195,7 +195,7 @@ export default function CvParaMineriaPage() {
           description: "Util si quieres entrar a mineria desde un perfil inicial o sin experiencia directa.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Arma una version profesional lista para descargar.",
         },

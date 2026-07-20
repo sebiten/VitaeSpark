@@ -106,7 +106,7 @@ export default function PerfilProfesionalPage() {
       ]}
       relatedLinks={[
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV Online",
           description:
             "Construí tu CV con un perfil profesional adaptado a tu objetivo.",

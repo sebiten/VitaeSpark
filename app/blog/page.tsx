@@ -109,7 +109,7 @@ export default function BlogIndexPage() {
                 description: "Compará formatos claros antes de empezar.",
               },
               {
-                href: "/generador-de-cv-con-ia",
+                href: "/hacer-cv-con-ia",
                 title: "Cómo funciona el creador",
                 description: "Conocé el flujo, la edición y la descarga.",
               },

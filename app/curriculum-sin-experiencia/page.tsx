@@ -95,7 +95,7 @@ export default function CurriculumSinExperienciaPage() {
             "Otra opcion frecuente para primer empleo, retail y atencion presencial.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description:
             "Empieza tu curriculum con una guia paso a paso y plantillas claras.",

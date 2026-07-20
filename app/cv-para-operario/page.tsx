@@ -185,7 +185,7 @@ export default function CvParaOperarioPage() {
           description: "Alternativa si tu experiencia operativa incluye control, planillas o soporte de oficina.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Arma una version profesional lista para descargar.",
         },

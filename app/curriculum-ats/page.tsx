@@ -107,7 +107,7 @@ export default function CurriculumAtsPage() {
             "Ejemplo concreto de como aplicar estructura ATS a un rol muy buscado.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description:
             "Construye un curriculum listo para descargar y adaptar a vacantes.",

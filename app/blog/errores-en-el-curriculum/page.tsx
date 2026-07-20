@@ -83,7 +83,7 @@ export default function ErroresEnElCurriculumPage() {
           description: "Evita errores que tambien perjudican lectura automatizada.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Pasa de teoria a una version mejor estructurada.",
         },

@@ -83,7 +83,7 @@ export default function CurriculumVitaeEjemploPage() {
       ]}
       relatedLinks={[
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear curriculum vitae",
           description: "Pasa del ejemplo a un CV propio listo para postularte.",
         },

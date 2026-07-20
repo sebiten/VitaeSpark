@@ -195,7 +195,7 @@ export default function CvParaAtencionAlClientePage() {
           description: "Enfoca experiencia con caja, clientes, cobros y orden operativo.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Ordena tu experiencia en una plantilla lista para descargar.",
         },

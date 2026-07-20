@@ -111,7 +111,7 @@ export default function CvAtsVsConvencionalPage() {
             "Guía completa para preparar tu CV paso a paso para sistemas ATS.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV Online",
           description:
             "Construí tu CV con estructura ATS automática y descarga en PDF.",

@@ -150,7 +150,7 @@ export default function CvParaRepositorPage() {
           description: "Util si quieres entrar a retail o supermercado sin experiencia formal.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear CV online",
           description: "Arma tu CV en una plantilla lista para descargar.",
         },

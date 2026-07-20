@@ -4,26 +4,19 @@ import {
   DETECTED_COUNTRY_COOKIE,
   getDetectedCountry,
 } from "./lib/market";
+import { CANONICAL_REDIRECTS } from "./lib/canonical-redirects";
 
 export default async function middleware(request: NextRequest) {
   const hostname = request.nextUrl.hostname;
   const { pathname } = request.nextUrl;
 
-  const canonicalRedirects: Record<string, string> = {
-    "/terms": "/terminos",
-    "/privacy": "/privacidad",
-    "/refund": "/reembolsos",
-    "/hacer-cv-online": "/crear-cv-online",
-    "/crear-curriculum-vitae": "/crear-cv-online",
-  };
-
   if (pathname.startsWith("/api/webhook")) {
     return NextResponse.next();
   }
 
-  if (canonicalRedirects[pathname]) {
+  if (CANONICAL_REDIRECTS[pathname]) {
     const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = canonicalRedirects[pathname];
+    redirectUrl.pathname = CANONICAL_REDIRECTS[pathname];
     return NextResponse.redirect(redirectUrl, 301);
   }
 

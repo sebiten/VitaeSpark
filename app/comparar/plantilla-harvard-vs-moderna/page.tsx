@@ -114,7 +114,7 @@ export default function PlantillaHarvardVsModernaPage() {
             "Conocé las 7 plantillas disponibles y cuál se adapta mejor a tu perfil.",
         },
         {
-          href: "/crear-cv-online",
+          href: "/",
           title: "Crear mi CV",
           description:
             "Construí tu currículum con la plantilla que prefieras y descargalo en PDF.",

@@ -2,16 +2,17 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Hacer CV con IA: Redacta, Edita y Descarga en PDF",
+  title: "Crear CV con IA Online: Editable y en PDF",
   description:
-    "Haz un CV con IA usando tus datos reales. Mejora perfil, experiencia y habilidades, edita el resultado y descarga tu curriculum en PDF.",
+    "Creá tu CV con IA usando experiencia real. VitaeSpark mejora perfil, tareas y habilidades, permite editarlo y descargar un PDF profesional.",
   path: "/hacer-cv-con-ia",
   keywords: [
+    "crear cv con ia",
     "hacer cv con ia",
+    "generador de cv con ia",
+    "generador de curriculum con ia",
     "curriculum con ia",
     "crear cv con inteligencia artificial",
-    "ia para curriculum",
-    "ia para cv",
   ],
 });
 
@@ -19,105 +20,107 @@ export default function HacerCvConIaPage() {
   return (
     <MarketingPage
       path="/hacer-cv-con-ia"
-      eyebrow="IA aplicada al CV"
-      title="Hacer CV con IA para redactar mejor, editar y descargar en PDF"
-      description="Usa inteligencia artificial para ordenar tu experiencia, mejorar el perfil profesional y crear un curriculum editable sin partir de una plantilla vacia."
+      eyebrow="Crear CV con IA"
+      title="Crear un CV con IA sin inventar experiencia"
+      description="VitaeSpark transforma tus datos reales en un currículum claro, editable y listo para descargar en PDF, sin quitarte el control del contenido."
       intro={[
-        "Hacer un CV con IA puede ahorrarte tiempo, pero la diferencia real aparece cuando la herramienta trabaja con tus datos reales y los convierte en un perfil mas claro. No se trata de rellenar frases bonitas, sino de explicar mejor que sabes hacer y por que deberian entrevistarte.",
-        "VitaeSpark combina formulario guiado, redaccion asistida, plantillas profesionales, edicion posterior y descarga en PDF para que puedas pasar de informacion suelta a un curriculum listo para enviar.",
+        "Un generador de CV con IA sirve cuando sabés qué hiciste, pero te cuesta convertirlo en un perfil profesional y experiencias fáciles de leer. La herramienta debe ayudarte a ordenar y redactar, no agregar empresas, fechas o logros que nunca existieron.",
+        "En VitaeSpark primero completás tus datos con tus propias palabras. No necesitás registrarte para empezar. Al generar el CV, la IA mejora la redacción, conserva la información importante y deja el resultado guardado para que puedas revisarlo antes de pagar.",
       ]}
       benefits={[
-        "Te ayuda a escribir mejor incluso si no sabes como describir tu experiencia.",
-        "Reduce el tiempo entre tus datos crudos y un CV listo para compartir.",
-        "Mejora la claridad del mensaje sin volverlo generico ni vacio.",
+        "Convierte tareas generales en experiencia concreta y fácil de escanear.",
+        "Mantenés el control: podés revisar y editar el contenido generado.",
+        "Combina redacción, plantilla profesional y descarga en PDF en un solo flujo.",
       ]}
       steps={[
         {
-          title: "Carga tu informacion base",
+          title: "Escribí tu experiencia real",
           description:
-            "Empiezas con tus datos reales, experiencias, estudios y habilidades.",
+            "Cargá trabajos, tareas, estudios, herramientas y el puesto que buscás, aunque todavía no esté bien redactado.",
         },
         {
-          title: "Optimiza la redaccion",
+          title: "La IA ordena y mejora",
           description:
-            "La IA propone una version mas profesional, clara y enfocada en resultados.",
+            "El generador organiza la información y propone textos más claros sin inventar experiencia.",
         },
         {
-          title: "Revisa, edita y exporta",
+          title: "Revisá, editá y descargá",
           description:
-            "Ajustas el contenido final, lo guardas en tu perfil y lo llevas a una plantilla lista para descargar.",
+            "Comprobá el resultado, ajustalo desde tu perfil y descargá el PDF con la plantilla elegida.",
         },
       ]}
       sections={[
         {
-          title: "Cuando conviene usar IA para un curriculum",
+          title: "Qué mejora el generador de CV con IA",
           paragraphs: [
-            "La inteligencia artificial es especialmente util cuando sabes lo que hiciste, pero te cuesta expresarlo con claridad. Puede ayudarte a ordenar tareas, elegir palabras mas concretas y convertir experiencia dispersa en secciones faciles de leer.",
-            "Lo importante es que la herramienta no reemplace tu experiencia real, sino que la traduzca a un lenguaje mas profesional, concreto y entendible. Esa es la diferencia entre usar IA como atajo y usarla como apoyo de verdad.",
+            "La IA trabaja sobre las secciones que más suelen costar: perfil profesional, responsabilidades, habilidades y presentación de la experiencia. Su función es reducir repeticiones, ordenar ideas y usar frases concretas que un reclutador pueda entender rápidamente.",
+            "No cambia nombres de empresas, cargos, fechas ni herramientas. Esos datos siguen siendo tuyos. Antes de descargar podés revisar que cada frase represente lo que realmente hiciste.",
           ],
         },
         {
-          title: "Hacer CV con IA vs usar una plantilla vacia",
+          title: "Ejemplo: de una tarea genérica a experiencia concreta",
           paragraphs: [
-            "Una plantilla vacia resuelve el diseño, pero te deja solo frente a lo mas dificil: explicar tu experiencia con claridad. Por eso muchas personas terminan con un CV prolijo visualmente, pero generico en contenido.",
-            "Un creador de CV con IA ayuda a transformar datos simples en secciones mas utiles: perfil profesional, experiencia, habilidades y resumen de logros. La clave es que la IA trabaje sobre informacion real, no sobre frases inventadas.",
+            "Antes: 'Hacía tareas varias y atendía clientes'. La frase no permite entender el tipo de trabajo ni las responsabilidades principales.",
+            "Después: 'Atención de consultas, reposición de productos, control visual de stock y orden del sector'. La información sigue siendo la misma, pero ahora comunica tareas concretas sin inventar resultados.",
           ],
         },
         {
-          title: "Que revisar antes de enviar un CV hecho con IA",
+          title: "Qué podés controlar antes de descargar",
           paragraphs: [
-            "Siempre conviene revisar que el texto refleje tu experiencia real, que no haya exageraciones y que el puesto objetivo este claro. La IA puede ayudarte mucho, pero la version final tiene que sonar coherente contigo y con el tipo de trabajo que buscas.",
-            "Tambien es importante confirmar nombres de herramientas, fechas, cargos y logros. Un buen CV con IA no inventa: ordena, mejora y comunica mejor lo que ya hiciste.",
+            "Podés cambiar de plantilla antes del pago sin volver a cargar los datos, revisar el CV completo con marca de agua y corregir cualquier información que no esté clara.",
+            "Después del pago, el CV queda asociado a la plantilla elegida y guardado en tu perfil. Podés editar sus datos y descargar nuevas versiones sin reconstruirlo desde cero.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "La IA inventa experiencia si no le doy detalles?",
+          question: "¿La IA puede inventar experiencia o logros?",
           answer:
-            "No deberia hacerlo. Lo ideal es trabajar con tus datos reales, revisar el resultado y ajustar cualquier frase que no represente tu experiencia.",
+            "VitaeSpark está configurado para trabajar con los datos que proporcionás y no agregar empresas, fechas, herramientas o cifras inexistentes. Siempre debés revisar el resultado final.",
         },
         {
-          question: "Puedo editar el contenido generado?",
+          question: "¿Tengo que registrarme antes de completar el CV?",
           answer:
-            "Si. La IA sirve como apoyo para mejorar redaccion, no para quitarte control. Despues podes editar el CV guardado desde tu perfil.",
+            "No. Podés elegir plantilla y completar el formulario sin registrarte. Te pediremos iniciar sesión al generar el CV para guardar el borrador y el resultado de forma segura.",
         },
         {
-          question: "Sirve para hacer mi primer CV?",
+          question: "¿Puedo editar el CV generado?",
           answer:
-            "Si. Puede ayudarte a ordenar estudios, cursos, proyectos, habilidades y experiencias informales para que el curriculum no se vea vacio.",
+            "Sí. Podés revisar el resultado antes de pagar y, después de desbloquearlo, editar los datos guardados desde tu perfil y descargar nuevas versiones.",
         },
         {
-          question: "Es mejor que bajar una plantilla gratis?",
+          question: "¿Sirve para crear un CV sin experiencia?",
           answer:
-            "Depende de lo que necesites. Una plantilla ayuda con el diseño; VitaeSpark tambien ayuda a mejorar contenido, estructura y redaccion antes de descargar el PDF.",
+            "Sí. Podés organizar estudios, cursos, proyectos, habilidades y experiencias informales para construir un primer currículum claro sin inventar empleos.",
         },
       ]}
       relatedLinks={[
         {
           href: "/",
-          title: "Creador de CV online",
-          description:
-            "Usa VitaeSpark como punto de partida para crear tu CV con IA y descargarlo en PDF.",
-        },
-        {
-          href: "/crear-cv-online",
           title: "Crear CV online",
-          description: "Combina plantilla, IA y exportacion en un solo flujo.",
+          description:
+            "Empezá en VitaeSpark, elegí una plantilla y completá tus datos sin registrarte.",
         },
         {
           href: "/curriculum-ats",
-          title: "Optimizar para ATS",
+          title: "Curriculum compatible con ATS",
           description:
-            "Alinea la redaccion mejorada con filtros de reclutamiento.",
+            "Entendé cómo ordenar el contenido para sistemas de selección y reclutadores.",
         },
         {
-          href: "/blog/habilidades-para-curriculum",
-          title: "Habilidades para curriculum",
+          href: "/plantillas-curriculum",
+          title: "Plantillas de curriculum",
           description:
-            "Ideas para completar una de las secciones mas importantes del CV.",
+            "Compará formatos profesionales antes de elegir el diseño de tu CV.",
+        },
+        {
+          href: "/blog/perfil-profesional-para-cv",
+          title: "Como escribir el perfil profesional",
+          description:
+            "Aprendé qué información necesita el primer bloque de tu currículum.",
         },
       ]}
+      ctaLabel="Crear mi CV con IA"
     />
   );
 }
