@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { getRequestCountry } from "@/lib/market";
 import { createClient } from "@/utils/supabase/server";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
@@ -73,6 +74,7 @@ export async function POST(req: Request) {
     cta_label: parsed.data.can_use_anonymously
       ? "feedback_public_anonymous"
       : "feedback_private",
+    country_code: getRequestCountry(req.headers),
   });
 
   return NextResponse.json({ ok: true });

@@ -3,15 +3,17 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { normalizeAuthRedirect } from "@/lib/auth-redirect";
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
 
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const next = normalizeAuthRedirect(formData.get("next") as string | null);
 
   if (!email || !password) {
-    redirect("/login?error=missing-fields");
+    redirect(buildLoginRedirect("missing-fields", next));
   }
 
   const { error } = await supabase.auth.signInWithPassword({
@@ -21,11 +23,11 @@ export async function login(formData: FormData) {
 
   if (error) {
     console.error("Login error:", error);
-    redirect("/login?error=invalid-credentials");
+    redirect(buildLoginRedirect("invalid-credentials", next));
   }
 
   revalidatePath("/", "layout");
-  redirect("/crear"); // ✅ Redirecciona para crear un cv
+  redirect(next);
 }
 
 export async function signup(formData: FormData) {
@@ -34,9 +36,10 @@ export async function signup(formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const next = normalizeAuthRedirect(formData.get("next") as string | null);
 
   if (!name || !email || !password) {
-    redirect("/login?error=missing-fields");
+    redirect(buildLoginRedirect("missing-fields", next));
   }
 
   // 1. Intentar registro
@@ -55,22 +58,18 @@ export async function signup(formData: FormData) {
       signupError.status === 422 &&
       signupError.code === "user_already_exists"
     ) {
-      redirect("/login?error=user-already-exists");
+      redirect(buildLoginRedirect("user-already-exists", next));
     }
 
     if (signupError.message?.toLowerCase().includes("password")) {
-      redirect("/login?error=weak_password");
+      redirect(buildLoginRedirect("weak_password", next));
     }
 
     if (signupError.message?.toLowerCase().includes("email")) {
-      redirect("/login?error=invalid-email");
+      redirect(buildLoginRedirect("invalid-email", next));
     }
 
-    redirect(
-      `/login?error=signup-failed&message=${encodeURIComponent(
-        signupError.message || "Unknown error"
-      )}`
-    );
+    redirect(buildLoginRedirect("signup-failed", next));
   }
 
   // 2. Auto login tras registro exitoso
@@ -81,11 +80,16 @@ export async function signup(formData: FormData) {
 
   if (signInError) {
     console.error("Auto sign-in failed:", signInError.message);
-    redirect("/login?message=signup-success-login-failed");
+    redirect(buildLoginRedirect("signup-success-login-failed", next));
   }
 
   // 3. Redirigir a la app principal
-  redirect("/crear");
+  redirect(next);
+}
+
+function buildLoginRedirect(error: string, next: string) {
+  const params = new URLSearchParams({ error, next });
+  return `/login?${params.toString()}`;
 }
 
 export async function logout() {

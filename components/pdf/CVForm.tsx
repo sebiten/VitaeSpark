@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
-import { Eye, FileText, Palette } from "lucide-react";
+import { Eye, FileText, LockKeyhole, Palette } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
@@ -27,8 +27,21 @@ type CurrentUser = {
 type CVFormProps = {
   initialLanguage?: AppLanguage;
   initialIntent?: CreateIntent;
-  currentUser: CurrentUser;
+  currentUser: CurrentUser | null;
+  initialCountryCode?: string | null;
 };
+
+type ResumeAction = "generate" | "photo";
+
+type StoredCreateDraft = {
+  data: DatosCVFormulario;
+  template: string;
+  language: AppLanguage;
+  intent: CreateIntent;
+  action: ResumeAction;
+};
+
+const CREATE_DRAFT_KEY = "vitaespark_create_draft";
 
 const CVFormStep = dynamic(() => import("../CVFormStep"), {
   ssr: false,
@@ -56,6 +69,7 @@ export default function CVForm({
   initialLanguage = "es",
   initialIntent = "general",
   currentUser,
+  initialCountryCode,
 }: CVFormProps) {
   const [selectedTemplate, setSelectedTemplate] = useState("elegance");
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
@@ -66,6 +80,9 @@ export default function CVForm({
     "form",
   );
   const [createIntent, setCreateIntent] = useState<CreateIntent>(initialIntent);
+  const [draftReady, setDraftReady] = useState(false);
+  const [resumeAction, setResumeAction] = useState<ResumeAction | null>(null);
+  const draftRestoredRef = useRef(false);
   const intentMessage = getCreateIntentMessage(createIntent);
 
   const handleTabChange = useCallback(
@@ -76,9 +93,17 @@ export default function CVForm({
         language: initialLanguage,
         ...getLandingAttribution(),
       });
+      if (tab === "form") {
+        recordAnalyticsEvent({
+          event_name: "form_started",
+          language: initialLanguage,
+          template: selectedTemplate,
+          ...getLandingAttribution(),
+        });
+      }
       window.scrollTo(0, 0);
     },
-    [initialLanguage],
+    [initialLanguage, selectedTemplate],
   );
 
   const handleTemplateSelected = useCallback(
@@ -96,6 +121,12 @@ export default function CVForm({
       });
       recordAnalyticsEvent({
         event_name: "template_selected",
+        language: initialLanguage,
+        template: templateId,
+        ...attribution,
+      });
+      recordAnalyticsEvent({
+        event_name: "form_started",
         language: initialLanguage,
         template: templateId,
         ...attribution,
@@ -129,6 +160,9 @@ export default function CVForm({
         ...attribution,
       });
 
+      window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
+      setResumeAction(null);
+
       setActiveTab("preview");
       track("CV Funnel Step Viewed", {
         step: "preview",
@@ -151,6 +185,34 @@ export default function CVForm({
   const handlePhotoUrlChange = useCallback((url: string | null) => {
     setDraftPhotoUrl(url);
   }, []);
+
+  const handleAuthRequired = useCallback(
+    (data: DatosCVFormulario, action: ResumeAction) => {
+      const storedDraft: StoredCreateDraft = {
+        data,
+        template: selectedTemplate,
+        language: initialLanguage,
+        intent: createIntent,
+        action,
+      };
+
+      window.sessionStorage.setItem(CREATE_DRAFT_KEY, JSON.stringify(storedDraft));
+      recordAnalyticsEvent({
+        event_name: "auth_required",
+        language: initialLanguage,
+        template: selectedTemplate,
+        ...getLandingAttribution(),
+      });
+
+      const nextParams = new URLSearchParams();
+      if (initialLanguage === "en") nextParams.set("lang", "en");
+      if (createIntent !== "general") nextParams.set("intent", createIntent);
+      nextParams.set("resume", action);
+      const nextPath = `/crear?${nextParams.toString()}`;
+      window.location.assign(`/login?next=${encodeURIComponent(nextPath)}`);
+    },
+    [createIntent, initialLanguage, selectedTemplate],
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -178,6 +240,49 @@ export default function CVForm({
       window.sessionStorage.removeItem("vitaespark-create-intent");
     }
   }, []);
+
+  useEffect(() => {
+    if (draftRestoredRef.current) return;
+    draftRestoredRef.current = true;
+
+    try {
+      const rawDraft = window.sessionStorage.getItem(CREATE_DRAFT_KEY);
+      if (!rawDraft) return;
+
+      const storedDraft = JSON.parse(rawDraft) as StoredCreateDraft;
+      if (!storedDraft.data || !storedDraft.template) {
+        window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
+        return;
+      }
+
+      draftDataRef.current = {
+        ...createEmptyDraft(),
+        ...storedDraft.data,
+        informacionAdicional: storedDraft.data.informacionAdicional ?? "",
+      };
+      setSelectedTemplate(storedDraft.template);
+      setCreateIntent(normalizeCreateIntent(storedDraft.intent));
+      setActiveTab("form");
+
+      if (currentUser) {
+        setResumeAction(storedDraft.action);
+        recordAnalyticsEvent({
+          event_name: "auth_completed",
+          language: initialLanguage,
+          template: storedDraft.template,
+          ...getLandingAttribution(),
+        });
+      }
+    } catch {
+      window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
+    } finally {
+      setDraftReady(true);
+    }
+  }, [currentUser, initialLanguage]);
+
+  if (!draftReady) {
+    return <FlowStepSkeleton label="Preparando tu espacio de trabajo..." />;
+  }
 
   const getProgress = () => {
     if (activeTab === "template") return 33;
@@ -268,10 +373,24 @@ export default function CVForm({
           </TabsContent>
 
           <TabsContent value="form" className="space-y-6">
+            {!currentUser ? (
+              <div className="mx-auto flex max-w-2xl items-start gap-3 border-b border-white/8 px-2 pb-4 text-sm text-white/62">
+                <LockKeyhole className="mt-0.5 h-4 w-4 shrink-0 text-[#C4B5FD]" />
+                <p>
+                  Completa tus datos sin registrarte. Te pediremos iniciar sesión
+                  recién al generar el CV para guardarlo de forma segura.
+                </p>
+              </div>
+            ) : resumeAction === "photo" ? (
+              <div className="mx-auto max-w-2xl border-b border-emerald-400/16 px-2 pb-4 text-center text-sm text-emerald-200/82">
+                Sesión iniciada. Tus datos siguen cargados; ya puedes seleccionar
+                la foto.
+              </div>
+            ) : null}
             {selectedTemplate ? (
               <CVFormStep
                 template={selectedTemplate}
-                currentUserId={currentUser.id}
+                currentUserId={currentUser?.id}
                 language={initialLanguage}
                 draftData={draftDataRef.current}
                 onGenerated={handleFormCompleted}
@@ -279,12 +398,14 @@ export default function CVForm({
                 fotoUrl={draftPhotoUrl}
                 onFotoUrlChange={handlePhotoUrlChange}
                 onChangeTemplate={() => setActiveTab("template")}
+                onAuthRequired={handleAuthRequired}
+                autoGenerate={Boolean(currentUser && resumeAction === "generate")}
               />
             ) : null}
           </TabsContent>
 
           <TabsContent value="preview" className="space-y-6">
-            {cvData ? (
+            {cvData && currentUser ? (
               <CVPreviewStep
                 cvData={cvData}
                 template={selectedTemplate}
@@ -295,6 +416,7 @@ export default function CVForm({
                 }}
                 currentUser={currentUser}
                 language={initialLanguage}
+                initialCountryCode={initialCountryCode}
               />
             ) : null}
           </TabsContent>

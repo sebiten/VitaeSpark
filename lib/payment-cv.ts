@@ -8,8 +8,8 @@ type PaymentCvInput = {
   supabase: SupabaseServerClient;
   cvId?: string;
   profileId: string;
-  cvData: RespuestaCV["cv"];
-  template: string;
+  cvData?: RespuestaCV["cv"];
+  template?: string;
   language: AppLanguage;
 };
 
@@ -63,8 +63,16 @@ export async function getOrCreatePendingPaymentCv({
       ok: true,
       cv: {
         id: existingCv.id,
-        template: existingCv.template || template,
+        template: existingCv.template || template || "elegance",
       },
+    };
+  }
+
+  if (!cvData || !template) {
+    return {
+      ok: false,
+      status: 400,
+      error: "Faltan datos para crear el CV pendiente",
     };
   }
 

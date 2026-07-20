@@ -18,6 +18,8 @@ import { PRICING } from "@/lib/pricing";
 import { getLandingAttribution } from "@/lib/analytics-attribution";
 import type { RespuestaCV } from "@/lib/types/cv";
 import { createClient } from "@/utils/supabase/client";
+import { MarketSelector } from "@/components/MarketSelector";
+import { useMarket } from "@/hooks/use-market";
 
 const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
   ssr: false,
@@ -77,6 +79,11 @@ export function PendingPaymentRecovery({
   const [pendingCv, setPendingCv] = useState<PendingCVRecord | null>(null);
   const [isLoadingPayment, setIsLoadingPayment] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const { market, setMarket } = useMarket();
+  const isInternational = market === "international";
+  const regionalPrice = isInternational
+    ? PRICING.paypal
+    : PRICING.mercadoPago;
 
   useEffect(() => {
     let isMounted = true;
@@ -143,27 +150,40 @@ export function PendingPaymentRecovery({
     setIsLoadingPayment(true);
 
     try {
-      const res = await fetch("/api/create-payment-for-cv", {
+      const endpoint = isInternational
+        ? "/api/create-paypal-order"
+        : "/api/create-payment-for-cv";
+      const paymentBody = isInternational
+        ? {
+            cvId: pendingCv.id,
+            language: pendingCv.cv_data?.language === "en" ? "en" : "es",
+            attribution,
+          }
+        : { cvId: pendingCv.id, attribution };
+
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvId: pendingCv.id, attribution }),
+        body: JSON.stringify(paymentBody),
       });
 
       const data = await res.json();
 
-      if (!res.ok || !data.init_point) {
+      const checkoutUrl = isInternational ? data.approveUrl : data.init_point;
+
+      if (!res.ok || !checkoutUrl) {
         toast.error(data.error || "No se pudo iniciar el pago.");
         return;
       }
 
-      window.location.href = data.init_point;
+      window.location.href = checkoutUrl;
     } catch (error) {
       console.error("Error retomando pago:", error);
       toast.error("No se pudo iniciar el pago. Intenta nuevamente.");
     } finally {
       setIsLoadingPayment(false);
     }
-  }, [attribution, pendingCv]);
+  }, [attribution, isInternational, pendingCv]);
 
   if (!pendingCv) return null;
 
@@ -198,10 +218,17 @@ export function PendingPaymentRecovery({
                   Tu CV ya esta generado. Falta desbloquear el PDF final.
                 </h3>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-[#D4D4D8]">
-                  Completalo por {PRICING.mercadoPago.label} y descargalo sin
+                  Completalo por {regionalPrice.label} y descargalo sin
                   marca de agua desde tu perfil. {PRICING.copy.singlePayment},{" "}
                   {PRICING.copy.noSubscription.toLowerCase()}.
                 </p>
+                <div className="mt-3 max-w-md">
+                  <MarketSelector
+                    market={market}
+                    onChange={setMarket}
+                    compact
+                  />
+                </div>
               </div>
             </div>
 
@@ -229,7 +256,7 @@ export function PendingPaymentRecovery({
                 ) : (
                   <>
                     <CreditCard className="mr-2 h-4 w-4" />
-                    Completar pago
+                    {isInternational ? "Completar con PayPal" : "Completar pago"}
                   </>
                 )}
               </Button>
@@ -254,9 +281,19 @@ export function PendingPaymentRecovery({
               Tenes un CV pendiente de pago.
             </p>
             <p className="mt-0.5 text-xs leading-5 text-[#D4D4D8] sm:text-sm">
-              Desbloquea el PDF final por {PRICING.mercadoPago.shortLabel}, sin
+              Desbloquea el PDF final por {regionalPrice.shortLabel}, sin
               recrearlo desde cero.
             </p>
+            <button
+              type="button"
+              onClick={() =>
+                setMarket(isInternational ? "argentina" : "international")
+              }
+              className="mt-1 text-left text-[11px] font-medium text-[#C4B5FD] transition hover:text-white"
+            >
+              {isInternational ? "Pago internacional · USD" : "Argentina · ARS"}
+              {" · Cambiar"}
+            </button>
           </div>
         </div>
 
@@ -284,7 +321,7 @@ export function PendingPaymentRecovery({
             ) : (
               <>
                 <CreditCard className="mr-2 h-4 w-4" />
-                Completar pago
+                {isInternational ? "Pagar con PayPal" : "Completar pago"}
               </>
             )}
           </Button>

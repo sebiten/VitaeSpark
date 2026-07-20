@@ -13,14 +13,16 @@ export const PRICING = {
     shortLabel: "US$2.99",
     label: "US$2.99",
     previousLabel: "Before US$4.99",
+    previousLabelEs: "Antes US$4.99",
     value: "2.99",
   },
   copy: {
     singlePayment: "Pago unico",
     noSubscription: "Sin suscripcion",
-    seoLine: "Pago unico de $1.999 ARS, sin suscripcion.",
+    seoLine:
+      "Pago unico, sin suscripcion, con precio regional disponible antes de pagar.",
     faqQuestion: "Cuanto cuesta descargar el CV?",
     faqAnswer:
-      "El desbloqueo del PDF final cuesta $1.999 ARS. Es un pago unico, sin suscripcion.",
+      "El desbloqueo cuesta $1.999 ARS en Argentina o US$2.99 para pagos internacionales. Es un pago unico, sin suscripcion.",
   },
 } as const;

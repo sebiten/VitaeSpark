@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
+import { normalizeAuthRedirect } from "@/lib/auth-redirect";
 
 type GoogleCredentialResponse = {
   credential?: string;
@@ -13,6 +14,7 @@ type OAuthButtonsProps = {
   onAuthStart?: () => void;
   onAuthSuccess?: () => void;
   onAuthError?: () => void;
+  redirectTo?: string;
 };
 
 type GoogleAccountsId = {
@@ -65,6 +67,7 @@ export function OAuthButtons({
   onAuthStart,
   onAuthSuccess,
   onAuthError,
+  redirectTo = "/crear",
 }: OAuthButtonsProps = {}) {
   const buttonRef = useRef<HTMLDivElement>(null);
   const nonceRef = useRef<string | null>(null);
@@ -120,7 +123,7 @@ export function OAuthButtons({
 
           onAuthSuccess?.();
           window.setTimeout(() => {
-            window.location.replace("/crear");
+            window.location.replace(normalizeAuthRedirect(redirectTo));
           }, 350);
         },
       });
@@ -146,7 +149,7 @@ export function OAuthButtons({
     return () => {
       isMounted = false;
     };
-  }, [isScriptReady, onAuthError, onAuthStart, onAuthSuccess]);
+  }, [isScriptReady, onAuthError, onAuthStart, onAuthSuccess, redirectTo]);
 
   if (!googleClientId) {
     return (

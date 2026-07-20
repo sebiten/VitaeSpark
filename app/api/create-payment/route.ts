@@ -5,6 +5,7 @@ import { getOrCreatePendingPaymentCv } from "@/lib/payment-cv";
 import { PRICING } from "@/lib/pricing";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
+import { getRequestCountry } from "@/lib/market";
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -26,6 +27,7 @@ export async function POST(req: Request) {
   }
 
   const { cvId, cvData, template, language, attribution } = parsed.data;
+  const countryCode = getRequestCountry(req.headers);
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
 
@@ -105,6 +107,8 @@ export async function POST(req: Request) {
         language,
         payment_provider: "mercado_pago",
         template: paymentCv.cv.template,
+        country_code: countryCode,
+        session_id: attribution?.session_id,
       },
       customization: {
         visual: {
@@ -131,6 +135,7 @@ export async function POST(req: Request) {
     payment_provider: "mercado_pago",
     template: paymentCv.cv.template,
     cv_id: paymentCv.cv.id,
+    country_code: countryCode,
     ...attribution,
   });
 

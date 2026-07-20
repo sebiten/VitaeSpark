@@ -36,11 +36,6 @@ export default function GeneradorCV() {
     url: baseUrl.toString(),
     description:
       "Creador de CV online con IA, plantillas profesionales, edición posterior, enfoque ATS y descarga en PDF.",
-    offers: {
-      "@type": "Offer",
-      price: PRICING.mercadoPago.value,
-      priceCurrency: PRICING.mercadoPago.currency,
-    },
   };
 
   const faqSchema = {

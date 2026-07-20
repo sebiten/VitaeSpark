@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import { getRequestCountry } from "@/lib/market";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -32,6 +33,7 @@ export async function GET(req: Request) {
       utm_medium: "email",
       utm_campaign: "pending_cv",
       utm_content: reminderType,
+      country_code: getRequestCountry(req.headers),
     });
   }
 

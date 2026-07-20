@@ -29,6 +29,7 @@ export const LandingAttributionSchema = z
     utm_medium: z.string().trim().max(120).optional(),
     utm_campaign: z.string().trim().max(120).optional(),
     utm_content: z.string().trim().max(120).optional(),
+    session_id: z.string().uuid().optional(),
   })
   .optional();
 
@@ -82,8 +83,24 @@ export const CVSchema = z.object({
 
 export const CreatePaymentSchema = z.object({
   cvId: z.string().uuid().optional(),
-  cvData: CVSchema,
-  template: TemplateSchema,
+  cvData: CVSchema.optional(),
+  template: TemplateSchema.optional(),
   language: z.enum(["es", "en"]).optional().default("es"),
   attribution: LandingAttributionSchema,
+}).superRefine((data, context) => {
+  if (!data.cvId && !data.cvData) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["cvData"],
+      message: "El CV es obligatorio para iniciar un pago nuevo",
+    });
+  }
+
+  if (!data.cvId && !data.template) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["template"],
+      message: "La plantilla es obligatoria para iniciar un pago nuevo",
+    });
+  }
 });

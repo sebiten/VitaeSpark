@@ -10,6 +10,7 @@ const ATTRIBUTION_KEY = "vitaespark_landing_attribution";
 describe("landing attribution", () => {
   beforeEach(() => {
     window.localStorage.clear();
+    window.sessionStorage.clear();
   });
 
   afterEach(() => {
@@ -46,13 +47,17 @@ describe("landing attribution", () => {
       })
     );
 
-    expect(getLandingAttribution()).toEqual({});
+    expect(getLandingAttribution()).toMatchObject({
+      session_id: expect.any(String),
+    });
     expect(window.localStorage.getItem(ATTRIBUTION_KEY)).toBeNull();
   });
 
   it("retorna vacio si el json guardado esta corrupto", () => {
     window.localStorage.setItem(ATTRIBUTION_KEY, "{broken");
 
-    expect(getLandingAttribution()).toEqual({});
+    expect(getLandingAttribution()).toMatchObject({
+      session_id: expect.any(String),
+    });
   });
 });

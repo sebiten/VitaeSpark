@@ -1,3 +1,5 @@
+import { getAnalyticsSessionId } from "./analytics-session";
+
 const ATTRIBUTION_KEY = "vitaespark_landing_attribution";
 const ATTRIBUTION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -10,13 +12,14 @@ export type LandingAttribution = {
   utm_medium?: string;
   utm_campaign?: string;
   utm_content?: string;
+  session_id?: string;
 };
 
 export function setLandingAttribution({
   landing_path,
   cta_label,
   source_type,
-}: Omit<LandingAttribution, "landing_ts">) {
+}: Pick<LandingAttribution, "landing_path" | "cta_label" | "source_type">) {
   if (typeof window === "undefined") return;
 
   window.localStorage.setItem(
@@ -36,7 +39,12 @@ export function getLandingAttribution(): LandingAttribution {
 
   try {
     const raw = window.localStorage.getItem(ATTRIBUTION_KEY);
-    if (!raw) return {};
+    if (!raw) {
+      return {
+        ...getCurrentCampaignParams(),
+        session_id: getAnalyticsSessionId(),
+      };
+    }
 
     const parsed = JSON.parse(raw) as LandingAttribution;
     if (
@@ -44,12 +52,19 @@ export function getLandingAttribution(): LandingAttribution {
       Date.now() - parsed.landing_ts > ATTRIBUTION_TTL_MS
     ) {
       window.localStorage.removeItem(ATTRIBUTION_KEY);
-      return {};
+      return { session_id: getAnalyticsSessionId() };
     }
 
-    return { ...parsed, ...getCurrentCampaignParams() };
+    return {
+      ...parsed,
+      ...getCurrentCampaignParams(),
+      session_id: getAnalyticsSessionId(),
+    };
   } catch {
-    return getCurrentCampaignParams();
+    return {
+      ...getCurrentCampaignParams(),
+      session_id: getAnalyticsSessionId(),
+    };
   }
 }
 

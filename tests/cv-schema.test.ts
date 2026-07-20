@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { GenerateCVInputSchema, TemplateSchema } from "../lib/schemas/cv";
+import {
+  CreatePaymentSchema,
+  GenerateCVInputSchema,
+  TemplateSchema,
+} from "../lib/schemas/cv";
 
 describe("GenerateCVInputSchema", () => {
   it("normaliza foto_url vacia y aplica language por defecto", () => {
@@ -42,5 +46,18 @@ describe("GenerateCVInputSchema", () => {
   it("acepta las nuevas plantillas ATS", () => {
     expect(TemplateSchema.parse("modern-ats")).toBe("modern-ats");
     expect(TemplateSchema.parse("operative-ats")).toBe("operative-ats");
+  });
+
+  it("permite reanudar un pago usando solo el cvId", () => {
+    const result = CreatePaymentSchema.safeParse({
+      cvId: "91f03f57-700f-42e5-906c-339238c30ca1",
+      language: "es",
+    });
+
+    expect(result.success).toBe(true);
+  });
+
+  it("rechaza un pago nuevo sin CV ni plantilla", () => {
+    expect(CreatePaymentSchema.safeParse({ language: "es" }).success).toBe(false);
   });
 });

@@ -1,5 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "./utils/supabase/middleware";
+import {
+  DETECTED_COUNTRY_COOKIE,
+  getDetectedCountry,
+} from "./lib/market";
 
 export default async function middleware(request: NextRequest) {
   const hostname = request.nextUrl.hostname;
@@ -37,10 +41,29 @@ export default async function middleware(request: NextRequest) {
     pathname.startsWith("/login");
 
   if (needsSessionRefresh) {
-    return updateSession(request);
+    return withDetectedCountry(request, await updateSession(request));
   }
 
-  return NextResponse.next();
+  return withDetectedCountry(request, NextResponse.next());
+}
+
+function withDetectedCountry(
+  request: NextRequest,
+  response: NextResponse,
+) {
+  const countryCode = getDetectedCountry(request.headers);
+  if (!countryCode || request.cookies.get(DETECTED_COUNTRY_COOKIE)?.value === countryCode) {
+    return response;
+  }
+
+  response.cookies.set(DETECTED_COUNTRY_COOKIE, countryCode, {
+    maxAge: 60 * 60 * 24 * 30,
+    path: "/",
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+
+  return response;
 }
 
 export const config = {

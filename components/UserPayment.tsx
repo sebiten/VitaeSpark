@@ -30,6 +30,7 @@ type Payment = {
   payer_email: string;
   created_at: string;
   payment_type: string;
+  payment_method?: string | null;
   cv?: {
     cv_data: {
       nombre: string;
@@ -53,10 +54,14 @@ function formatDate(value: Date | string): string {
   }
 }
 
-function formatAmount(amount: number) {
-  return new Intl.NumberFormat("es-AR", {
+function isPayPalPayment(payment: Payment) {
+  return payment.payment_method === "paypal" || payment.payment_type === "paypal";
+}
+
+function formatAmount(amount: number, currency: "ARS" | "USD") {
+  return new Intl.NumberFormat(currency === "ARS" ? "es-AR" : "en-US", {
     style: "currency",
-    currency: "ARS",
+    currency,
   }).format(amount);
 }
 
@@ -149,9 +154,15 @@ export default function UserPayments() {
     [payments],
   );
 
-  const totalPaid = useMemo(
-    () =>
-      approvedPayments.reduce((total, payment) => total + (payment.amount || 0), 0),
+  const totals = useMemo(
+    () => ({
+      ars: approvedPayments
+        .filter((payment) => !isPayPalPayment(payment))
+        .reduce((total, payment) => total + (payment.amount || 0), 0),
+      usd: approvedPayments
+        .filter(isPayPalPayment)
+        .reduce((total, payment) => total + (payment.amount || 0), 0),
+    }),
     [approvedPayments],
   );
 
@@ -194,9 +205,11 @@ export default function UserPayments() {
             <p className="text-[11px] uppercase tracking-[0.16em] text-white/36">
               Total
             </p>
-            <p className="mt-1 text-lg font-semibold text-white">
-              {formatAmount(totalPaid)}
-            </p>
+            <div className="mt-1 text-sm font-semibold leading-5 text-white">
+              {totals.ars > 0 ? <p>{formatAmount(totals.ars, "ARS")}</p> : null}
+              {totals.usd > 0 ? <p>{formatAmount(totals.usd, "USD")}</p> : null}
+              {totals.ars === 0 && totals.usd === 0 ? <p>—</p> : null}
+            </div>
           </div>
         </div>
       </div>
@@ -286,10 +299,13 @@ export default function UserPayments() {
                           {formatDate(payment.created_at)}
                         </TableCell>
                         <TableCell className="whitespace-nowrap text-sm text-white/66">
-                          {formatPaymentMethod(payment.payment_type)}
+                          {formatPaymentMethod(payment.payment_method || payment.payment_type)}
                         </TableCell>
                         <TableCell className="whitespace-nowrap text-sm font-semibold text-white">
-                          {formatAmount(payment.amount)}
+                          {formatAmount(
+                            payment.amount,
+                            isPayPalPayment(payment) ? "USD" : "ARS",
+                          )}
                         </TableCell>
                         <TableCell className="max-w-[180px] truncate font-mono text-xs text-white/40">
                           {payment.payment_id}

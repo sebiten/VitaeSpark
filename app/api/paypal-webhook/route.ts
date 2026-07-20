@@ -111,7 +111,7 @@ export async function POST(req: Request) {
   const { data: startedEvent } = await supabaseAdmin
     .from("analytics_events")
     .select(
-      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content",
+      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id",
     )
     .eq("event_name", "payment_started")
     .eq("cv_id", cvId)
@@ -127,6 +127,8 @@ export async function POST(req: Request) {
     template: startedEvent?.template ?? cv.template,
     language: startedEvent?.language,
     payment_provider: "paypal",
+    country_code: startedEvent?.country_code,
+    session_id: startedEvent?.session_id ?? undefined,
     landing_path: startedEvent?.landing_path,
     cta_label: startedEvent?.cta_label,
     source_type: startedEvent?.source_type,

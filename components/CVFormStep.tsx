@@ -1,7 +1,7 @@
 "use client";
 
 import type { ChangeEvent } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -124,6 +124,8 @@ const formCopy = {
     imageTypeError: "Subi una foto JPG, PNG o WebP.",
     imageSizeError: "La foto debe pesar menos de 3 MB.",
     imageError: "No se pudo subir la foto. Intenta con otra imagen.",
+    photoAuthRequired:
+      "Inicia sesión para subir la foto. Tus datos quedarán guardados.",
     timeout: "La generacion esta tardando demasiado. Intenta de nuevo.",
     generationError: "Error al generar el CV. Intenta nuevamente.",
     unknownError: "Error desconocido",
@@ -179,6 +181,8 @@ const formCopy = {
     imageTypeError: "Upload a JPG, PNG or WebP photo.",
     imageSizeError: "The photo must be smaller than 3 MB.",
     imageError: "Could not upload the photo. Try another image.",
+    photoAuthRequired:
+      "Sign in to upload the photo. Your details will remain saved.",
     timeout: "Generation is taking too long. Try again.",
     generationError: "Error generating the resume. Try again.",
     unknownError: "Unknown error",
@@ -187,7 +191,7 @@ const formCopy = {
 
 type Props = {
   template: string;
-  currentUserId: string;
+  currentUserId?: string;
   language: AppLanguage;
   draftData: DatosCVFormulario;
   onGenerated: (data: RespuestaCV["cv"]) => void;
@@ -195,6 +199,11 @@ type Props = {
   fotoUrl: string | null;
   onFotoUrlChange: (url: string | null) => void;
   onChangeTemplate: () => void;
+  onAuthRequired: (
+    data: DatosCVFormulario,
+    action: "generate" | "photo",
+  ) => void;
+  autoGenerate?: boolean;
 };
 
 export default function CVFormStep({
@@ -207,11 +216,14 @@ export default function CVFormStep({
   fotoUrl,
   onFotoUrlChange,
   onChangeTemplate,
+  onAuthRequired,
+  autoGenerate = false,
 }: Props) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const copy = formCopy[language];
   const formSchema = useMemo(() => createSchema(language), [language]);
+  const autoGenerationStarted = useRef(false);
 
   const form = useForm<DatosCVFormulario>({
     resolver: zodResolver(formSchema),
@@ -257,6 +269,13 @@ export default function CVFormStep({
       return;
     }
 
+    if (!currentUserId) {
+      toast.info(copy.photoAuthRequired);
+      onAuthRequired(form.getValues(), "photo");
+      event.target.value = "";
+      return;
+    }
+
     const fileExt =
       file.name.split(".").pop() || file.type.split("/")[1] || "webp";
     const fileName = `${Date.now()}.${fileExt}`;
@@ -281,6 +300,11 @@ export default function CVFormStep({
   };
 
   const onSubmit = async (data: DatosCVFormulario) => {
+    if (!currentUserId) {
+      onAuthRequired(data, "generate");
+      return;
+    }
+
     let failureTracked = false;
 
     try {
@@ -325,6 +349,13 @@ export default function CVFormStep({
       setIsGenerating(false);
     }
   };
+
+  useEffect(() => {
+    if (!autoGenerate || !currentUserId || autoGenerationStarted.current) return;
+
+    autoGenerationStarted.current = true;
+    void form.handleSubmit(onSubmit)();
+  }, [autoGenerate, currentUserId, form]);
 
   const rellenarDatosPrueba = () => {
     if (language === "en") {

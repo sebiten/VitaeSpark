@@ -2,10 +2,14 @@ import {
   getLandingAttribution,
   type LandingAttribution,
 } from "@/lib/analytics-attribution";
+import { getAnalyticsSessionId } from "@/lib/analytics-session";
 
 type AnalyticsEventName =
   | "landing_cta_clicked"
   | "template_selected"
+  | "form_started"
+  | "auth_required"
+  | "auth_completed"
   | "cv_generated"
   | "checkout_viewed"
   | "payment_started"
@@ -45,7 +49,11 @@ export function recordGaEvent(
 export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
   if (typeof window === "undefined") return;
 
-  const event = { ...getLandingAttribution(), ...payload };
+  const event = {
+    ...getLandingAttribution(),
+    ...payload,
+    session_id: payload.session_id ?? getAnalyticsSessionId(),
+  };
   const body = JSON.stringify(event);
 
   recordGaEvent(event.event_name, {
@@ -59,6 +67,7 @@ export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
     utm_medium: event.utm_medium,
     utm_campaign: event.utm_campaign,
     utm_content: event.utm_content,
+    session_id: event.session_id,
   });
 
   if (navigator.sendBeacon) {

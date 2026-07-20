@@ -31,6 +31,8 @@ import type { AppLanguage } from "@/lib/i18n";
 import { PRICING } from "@/lib/pricing";
 import { calculateCvScore } from "@/lib/cv-score";
 import { ConversionProof } from "@/components/ConversionProof";
+import { MarketSelector } from "@/components/MarketSelector";
+import { useMarket } from "@/hooks/use-market";
 
 const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ssr: false,
@@ -132,6 +134,7 @@ type Props = {
     email?: string | null;
   };
   language: AppLanguage;
+  initialCountryCode?: string | null;
 };
 
 export default function CVPreviewStepPurple({
@@ -141,6 +144,7 @@ export default function CVPreviewStepPurple({
   onChangeTemplate,
   currentUser,
   language,
+  initialCountryCode,
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [loadingPayPal, setLoadingPayPal] = useState(false);
@@ -151,7 +155,7 @@ export default function CVPreviewStepPurple({
       window.matchMedia("(min-width: 640px)").matches,
   );
   const [pendingCvId, setPendingCvId] = useState<string | null>(null);
-  const [isLikelyArgentina, setIsLikelyArgentina] = useState(language === "es");
+  const { market, setMarket } = useMarket(initialCountryCode);
   const checkoutViewedTracked = useRef(false);
   const copy = checkoutCopy[language];
   const cvScore = useMemo(() => calculateCvScore(cvData), [cvData]);
@@ -321,19 +325,6 @@ export default function CVPreviewStepPurple({
   }, []);
 
   useEffect(() => {
-    if (language === "en") {
-      setIsLikelyArgentina(false);
-      return;
-    }
-
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const browserLanguage = navigator.language.toLowerCase();
-    setIsLikelyArgentina(
-      timeZone.startsWith("America/Argentina/") || browserLanguage.endsWith("-ar")
-    );
-  }, [language]);
-
-  useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 640px)");
     const syncPreviewMode = () => setCanRenderInlinePreview(mediaQuery.matches);
 
@@ -369,12 +360,12 @@ export default function CVPreviewStepPurple({
   };
 
   const paymentInProgress = loading || loadingPayPal;
-  const paypalIsPrimary = language === "en" || !isLikelyArgentina;
+  const paypalIsPrimary = market === "international";
   const primaryPayment = paypalIsPrimary ? PRICING.paypal : PRICING.mercadoPago;
   const primaryPaymentPrice = primaryPayment.label;
   const primaryPreviousPrice =
     paypalIsPrimary && language === "es"
-      ? "Antes US$4.99"
+      ? PRICING.paypal.previousLabelEs
       : primaryPayment.previousLabel;
   const primaryPaymentCta = paypalIsPrimary
     ? language === "en"
@@ -599,6 +590,8 @@ export default function CVPreviewStepPurple({
                 </div>
               </div>
             </div>
+
+            <MarketSelector market={market} onChange={setMarket} />
 
             <div className="rounded-2xl border border-[#38BDF8]/16 bg-[#38BDF8]/[0.065] p-4">
               <div className="flex items-start justify-between gap-4">

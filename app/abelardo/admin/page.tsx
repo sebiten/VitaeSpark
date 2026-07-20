@@ -30,6 +30,9 @@ type DailyMetric = {
 type AnalyticsEventName =
   | "landing_cta_clicked"
   | "template_selected"
+  | "form_started"
+  | "auth_required"
+  | "auth_completed"
   | "cv_generated"
   | "checkout_viewed"
   | "payment_started"
@@ -56,6 +59,8 @@ type AnalyticsEvent = {
   utm_medium: string | null;
   utm_campaign: string | null;
   utm_content: string | null;
+  country_code: string | null;
+  session_id: string | null;
 };
 
 type CvRecord = {
@@ -112,6 +117,7 @@ type PeriodMetrics = {
 
 type FilterValue = "all" | "es" | "en";
 type ProviderFilterValue = "all" | "mercado_pago" | "paypal";
+type CountryFilterValue = "all" | string;
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 const APPROVED_STATUSES = ["approved", "paid"];
@@ -119,7 +125,11 @@ const APPROVED_STATUSES = ["approved", "paid"];
 export default async function AdminDashboardPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ lang?: FilterValue; provider?: ProviderFilterValue }>;
+  searchParams?: Promise<{
+    lang?: FilterValue;
+    provider?: ProviderFilterValue;
+    country?: string;
+  }>;
 }) {
   const supabase = await createClient();
   const {
@@ -143,6 +153,11 @@ export default async function AdminDashboardPage({
     params?.provider === "mercado_pago" || params?.provider === "paypal"
       ? params.provider
       : "all";
+  const countryFilter: CountryFilterValue = /^[A-Z]{2}$/.test(
+    params?.country ?? "",
+  )
+    ? (params?.country as string)
+    : "all";
 
   const now = new Date();
   const since7Days = startOfDay(new Date(Date.now() - 6 * DAY_IN_MS));
@@ -185,7 +200,7 @@ export default async function AdminDashboardPage({
     supabaseAdmin
       .from("analytics_events")
       .select(
-        "id, user_id, cv_id, payment_id, event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template, utm_source, utm_medium, utm_campaign, utm_content"
+        "id, user_id, cv_id, payment_id, event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id"
       )
       .gte("created_at", since30Days.toISOString())
       .order("created_at", { ascending: false })
@@ -211,9 +226,14 @@ export default async function AdminDashboardPage({
   const trackedEvents = ((analyticsEvents ?? []) as AnalyticsEvent[]).filter(
     (event) => event.user_id !== user.id
   );
-  const events = trackedEvents.filter((event) =>
-    languageFilter === "all" ? true : event.language === languageFilter
-  );
+  const events = trackedEvents.filter((event) => {
+    const languageMatches =
+      languageFilter === "all" ? true : event.language === languageFilter;
+    const countryMatches =
+      countryFilter === "all" ? true : event.country_code === countryFilter;
+    return languageMatches && countryMatches;
+  });
+  const countryOptions = buildCountryOptions(trackedEvents);
 
   const current30 = buildPeriodMetrics({
     users,
@@ -255,7 +275,7 @@ export default async function AdminDashboardPage({
     current30,
     previous30,
     ctaClicks: funnel.ctaClicks,
-    generated: funnel.generatedUsers,
+    generated: funnel.generatedSessions,
     cvToCheckoutRate: funnel.generatedToCheckout,
     checkoutToPaymentRate: funnel.paymentStartToCompleted,
     topLanding,
@@ -390,29 +410,34 @@ export default async function AdminDashboardPage({
 
               <div className="mt-5 space-y-3">
                 <FunnelRow
-                  label="Clicks en CTA"
-                  value={funnel.ctaClicks.toLocaleString("es-AR")}
-                  helper="acciones registradas"
+                  label="CTA a formulario"
+                  value={formatPercent(funnel.ctaToForm)}
+                  helper={`${funnel.formSessions} sesiones iniciaron el formulario`}
                 />
                 <FunnelRow
-                  label="Plantilla a CV"
-                  value={formatPercent(funnel.templateToGenerated)}
-                  helper={`${funnel.generatedUsers} usuarios generaron CV`}
+                  label="Login requerido a completado"
+                  value={formatPercent(funnel.authRequiredToCompleted)}
+                  helper={`${funnel.authCompletedSessions} sesiones retomaron el borrador`}
+                />
+                <FunnelRow
+                  label="Formulario a CV"
+                  value={formatPercent(funnel.formToGenerated)}
+                  helper={`${funnel.generatedSessions} sesiones generaron CV`}
                 />
                 <FunnelRow
                   label="CV a checkout"
                   value={formatPercent(funnel.generatedToCheckout)}
-                  helper={`${funnel.checkoutUsers} usuarios llegaron`}
+                  helper={`${funnel.checkoutSessions} sesiones llegaron`}
                 />
                 <FunnelRow
                   label="Checkout a inicio de pago"
                   value={formatPercent(funnel.checkoutToPaymentStart)}
-                  helper={`${funnel.paymentStartUsers} usuarios iniciaron`}
+                  helper={`${funnel.paymentStartSessions} sesiones iniciaron`}
                 />
                 <FunnelRow
                   label="Inicio a pago aprobado"
                   value={formatPercent(funnel.paymentStartToCompleted)}
-                  helper={`${funnel.paymentCompletedUsers} usuarios completaron`}
+                  helper={`${funnel.paymentCompletedSessions} sesiones completaron`}
                 />
               </div>
             </CardContent>
@@ -437,23 +462,23 @@ export default async function AdminDashboardPage({
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <FilterGroup
                 title="Idioma"
                 items={[
                   {
                     label: "Todos",
-                    href: buildFilterHref("all", providerFilter),
+                    href: buildFilterHref("all", providerFilter, countryFilter),
                     active: languageFilter === "all",
                   },
                   {
                     label: "ES",
-                    href: buildFilterHref("es", providerFilter),
+                    href: buildFilterHref("es", providerFilter, countryFilter),
                     active: languageFilter === "es",
                   },
                   {
                     label: "EN",
-                    href: buildFilterHref("en", providerFilter),
+                    href: buildFilterHref("en", providerFilter, countryFilter),
                     active: languageFilter === "en",
                   },
                 ]}
@@ -463,19 +488,34 @@ export default async function AdminDashboardPage({
                 items={[
                   {
                     label: "Todos",
-                    href: buildFilterHref(languageFilter, "all"),
+                    href: buildFilterHref(languageFilter, "all", countryFilter),
                     active: providerFilter === "all",
                   },
                   {
                     label: "MP",
-                    href: buildFilterHref(languageFilter, "mercado_pago"),
+                    href: buildFilterHref(languageFilter, "mercado_pago", countryFilter),
                     active: providerFilter === "mercado_pago",
                   },
                   {
                     label: "PayPal",
-                    href: buildFilterHref(languageFilter, "paypal"),
+                    href: buildFilterHref(languageFilter, "paypal", countryFilter),
                     active: providerFilter === "paypal",
                   },
+                ]}
+              />
+              <FilterGroup
+                title="País"
+                items={[
+                  {
+                    label: "Todos",
+                    href: buildFilterHref(languageFilter, providerFilter, "all"),
+                    active: countryFilter === "all",
+                  },
+                  ...countryOptions.map((country) => ({
+                    label: country,
+                    href: buildFilterHref(languageFilter, providerFilter, country),
+                    active: countryFilter === country,
+                  })),
                 ]}
               />
             </div>
@@ -968,14 +1008,14 @@ function countUniqueEvents(
 }
 
 function getUniqueEventIdentity(event: AnalyticsEvent) {
-  if (event.event_name === "landing_cta_clicked") return `event:${event.id}`;
+  if (event.session_id) return `session:${event.session_id}`;
   if (event.event_name === "payment_completed") {
-    return event.payment_id
-      ? `payment:${event.payment_id}`
+    return event.user_id
+      ? `user:${event.user_id}`
       : event.cv_id
         ? `cv:${event.cv_id}`
-        : event.user_id
-          ? `user:${event.user_id}`
+        : event.payment_id
+          ? `payment:${event.payment_id}`
           : `event:${event.id}`;
   }
   if (event.event_name === "payment_started" && event.cv_id) {
@@ -987,33 +1027,44 @@ function getUniqueEventIdentity(event: AnalyticsEvent) {
 }
 
 function buildFunnelMetrics(events: AnalyticsEvent[]) {
-  const usersFor = (eventName: AnalyticsEventName) =>
+  const identitiesFor = (eventName: AnalyticsEventName) =>
     new Set(
       events
-        .filter(
-          (event) => event.event_name === eventName && Boolean(event.user_id)
-        )
-        .map((event) => event.user_id as string)
+        .filter((event) => event.event_name === eventName)
+        .map(getUniqueEventIdentity)
     );
-  const templateUsers = usersFor("template_selected");
-  const generatedUsers = usersFor("cv_generated");
-  const checkoutUsers = usersFor("checkout_viewed");
-  const paymentStartUsers = usersFor("payment_started");
-  const paymentCompletedUsers = usersFor("payment_completed");
+  const ctaSessions = identitiesFor("landing_cta_clicked");
+  const formSessions = identitiesFor("form_started");
+  const authRequiredSessions = identitiesFor("auth_required");
+  const authCompletedSessions = identitiesFor("auth_completed");
+  const generatedSessions = identitiesFor("cv_generated");
+  const checkoutSessions = identitiesFor("checkout_viewed");
+  const paymentStartSessions = identitiesFor("payment_started");
+  const paymentCompletedSessions = identitiesFor("payment_completed");
 
   return {
-    ctaClicks: countUniqueEvents(events, "landing_cta_clicked"),
-    templateUsers: templateUsers.size,
-    generatedUsers: generatedUsers.size,
-    checkoutUsers: checkoutUsers.size,
-    paymentStartUsers: paymentStartUsers.size,
-    paymentCompletedUsers: paymentCompletedUsers.size,
-    templateToGenerated: setConversionRate(templateUsers, generatedUsers),
-    generatedToCheckout: setConversionRate(generatedUsers, checkoutUsers),
-    checkoutToPaymentStart: setConversionRate(checkoutUsers, paymentStartUsers),
+    ctaClicks: ctaSessions.size,
+    formSessions: formSessions.size,
+    authRequiredSessions: authRequiredSessions.size,
+    authCompletedSessions: authCompletedSessions.size,
+    generatedSessions: generatedSessions.size,
+    checkoutSessions: checkoutSessions.size,
+    paymentStartSessions: paymentStartSessions.size,
+    paymentCompletedSessions: paymentCompletedSessions.size,
+    ctaToForm: setConversionRate(ctaSessions, formSessions),
+    authRequiredToCompleted: setConversionRate(
+      authRequiredSessions,
+      authCompletedSessions,
+    ),
+    formToGenerated: setConversionRate(formSessions, generatedSessions),
+    generatedToCheckout: setConversionRate(generatedSessions, checkoutSessions),
+    checkoutToPaymentStart: setConversionRate(
+      checkoutSessions,
+      paymentStartSessions,
+    ),
     paymentStartToCompleted: setConversionRate(
-      paymentStartUsers,
-      paymentCompletedUsers
+      paymentStartSessions,
+      paymentCompletedSessions
     ),
   };
 }
@@ -1076,10 +1127,15 @@ function getLandingDecision(row: LandingMetric) {
   };
 }
 
-function buildFilterHref(language: FilterValue, provider: ProviderFilterValue) {
+function buildFilterHref(
+  language: FilterValue,
+  provider: ProviderFilterValue,
+  country: CountryFilterValue,
+) {
   const params = new URLSearchParams();
   if (language !== "all") params.set("lang", language);
   if (provider !== "all") params.set("provider", provider);
+  if (country !== "all") params.set("country", country);
   const query = params.toString();
   return query ? `/abelardo/admin?${query}` : "/abelardo/admin";
 }
@@ -1312,6 +1368,22 @@ function EmptyPanel({ text }: { text: string }) {
 function rate(part: number, total: number) {
   if (!total) return 0;
   return Math.min(100, (part / total) * 100);
+}
+
+function buildCountryOptions(events: AnalyticsEvent[]) {
+  const countries = new Map<string, Set<string>>();
+
+  events.forEach((event) => {
+    if (!event.country_code) return;
+    const identities = countries.get(event.country_code) ?? new Set<string>();
+    identities.add(getUniqueEventIdentity(event));
+    countries.set(event.country_code, identities);
+  });
+
+  return Array.from(countries.entries())
+    .sort((a, b) => b[1].size - a[1].size)
+    .slice(0, 6)
+    .map(([country]) => country);
 }
 
 function buildDelta(current: number, previous: number) {

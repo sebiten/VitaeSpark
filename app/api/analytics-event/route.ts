@@ -2,11 +2,15 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/utils/supabase/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { getRequestCountry } from "@/lib/market";
 
 const AnalyticsEventSchema = z.object({
   event_name: z.enum([
     "landing_cta_clicked",
     "template_selected",
+    "form_started",
+    "auth_required",
+    "auth_completed",
     "cv_generated",
     "checkout_viewed",
     "payment_started",
@@ -28,6 +32,7 @@ const AnalyticsEventSchema = z.object({
   utm_medium: z.string().trim().max(120).optional(),
   utm_campaign: z.string().trim().max(120).optional(),
   utm_content: z.string().trim().max(120).optional(),
+  session_id: z.string().uuid().optional(),
 });
 
 export async function POST(req: Request) {
@@ -51,6 +56,7 @@ export async function POST(req: Request) {
   await recordAnalyticsEventServer({
     ...parsed.data,
     user_id: user?.id ?? null,
+    country_code: getRequestCountry(req.headers),
   });
 
   return NextResponse.json({ ok: true });

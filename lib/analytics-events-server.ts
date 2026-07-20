@@ -4,6 +4,9 @@ import type { LandingAttribution } from "@/lib/analytics-attribution";
 type AnalyticsEventName =
   | "landing_cta_clicked"
   | "template_selected"
+  | "form_started"
+  | "auth_required"
+  | "auth_completed"
   | "cv_generated"
   | "checkout_viewed"
   | "payment_started"
@@ -21,6 +24,8 @@ type ServerAnalyticsEventPayload = LandingAttribution & {
   template?: string;
   cv_id?: string;
   payment_id?: string;
+  country_code?: string | null;
+  session_id?: string;
 };
 
 export async function recordAnalyticsEventServer({
@@ -38,6 +43,8 @@ export async function recordAnalyticsEventServer({
   utm_medium,
   utm_campaign,
   utm_content,
+  country_code,
+  session_id,
 }: ServerAnalyticsEventPayload) {
   const { error } = await supabaseAdmin.from("analytics_events").insert({
     user_id: user_id ?? null,
@@ -54,6 +61,8 @@ export async function recordAnalyticsEventServer({
     utm_medium: utm_medium || null,
     utm_campaign: utm_campaign || null,
     utm_content: utm_content || null,
+    country_code: country_code || null,
+    session_id: session_id || null,
   });
 
   if (error) {

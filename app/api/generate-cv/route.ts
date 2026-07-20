@@ -5,6 +5,7 @@ import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { fixedWindow, shield } from "@arcjet/next";
 import { aj } from "@/lib/arcjet";
 import { CVSchema, GenerateCVInputSchema } from "@/lib/schemas/cv";
+import { createClient } from "@/utils/supabase/server";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
@@ -56,6 +57,15 @@ const compactSkills = (skills: string[]) => {
 };
 
 export async function POST(req: Request): Promise<NextResponse> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   let body: DatosCVFormulario;
   try {
     body = await req.json();

@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createClient } from "@/utils/supabase/client";
+import { normalizeAuthRedirect } from "@/lib/auth-redirect";
 
 export function SubmitButton({
   children,
@@ -64,6 +65,9 @@ export default function AuthPageClient() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [authTransition, setAuthTransition] =
     useState<AuthTransitionState>("checking");
+  const redirectTarget = normalizeAuthRedirect(searchParams.get("next"));
+  const isResumingCv =
+    redirectTarget.startsWith("/crear") && redirectTarget.includes("resume=");
 
   const redirectToCreate = () => {
     if (redirectTimeoutRef.current) {
@@ -71,7 +75,7 @@ export default function AuthPageClient() {
     }
 
     redirectTimeoutRef.current = window.setTimeout(() => {
-      window.location.replace("/crear");
+      window.location.replace(redirectTarget);
     }, 350);
   };
 
@@ -237,12 +241,20 @@ export default function AuthPageClient() {
                   VitaeSpark
                 </div>
                 <h2 className="mt-5 text-[1.85rem] font-semibold tracking-[-0.04em] text-[#F6F2EA]">
-                  {activeTab === "login" ? "Bienvenido otra vez" : "Crea tu cuenta"}
+                  {isResumingCv
+                    ? activeTab === "login"
+                      ? "Tu CV está listo para generarse"
+                      : "Guardá tu CV antes de generarlo"
+                    : activeTab === "login"
+                      ? "Bienvenido otra vez"
+                      : "Crea tu cuenta"}
                 </h2>
                 <p className="mx-auto mt-2 max-w-[340px] text-[14px] leading-6 text-[#D8D2C8]/[0.68]">
-                  {activeTab === "login"
-                    ? "Accedé a tus CVs, descargas y ediciones desde el mismo perfil."
-                    : "Registrá tu cuenta para guardar progreso y trabajar tu CV cuando quieras."}
+                  {isResumingCv
+                    ? "Tus datos siguen guardados. Iniciá sesión y volverás al formulario para generar el CV sin cargar todo otra vez."
+                    : activeTab === "login"
+                      ? "Accedé a tus CVs, descargas y ediciones desde el mismo perfil."
+                      : "Registrá tu cuenta para guardar progreso y trabajar tu CV cuando quieras."}
                 </p>
               </div>
 
@@ -252,6 +264,7 @@ export default function AuthPageClient() {
                     onAuthStart={() => setAuthTransition("signing-in")}
                     onAuthSuccess={() => setAuthTransition("confirmed")}
                     onAuthError={() => setAuthTransition("idle")}
+                    redirectTo={redirectTarget}
                   />
 
                   <div className="my-5 flex items-center gap-3">
@@ -302,6 +315,7 @@ export default function AuthPageClient() {
                       ) : null}
 
                       <form action={login} className="space-y-4">
+                        <input type="hidden" name="next" value={redirectTarget} />
                         <Field>
                           <Label htmlFor="email-login" className={labelClassName}>
                             Correo
@@ -364,6 +378,7 @@ export default function AuthPageClient() {
                       ) : null}
 
                       <form onSubmit={handleSignup} className="space-y-4">
+                        <input type="hidden" name="next" value={redirectTarget} />
                         <Field>
                           <Label htmlFor="name-register" className={labelClassName}>
                             Nombre completo

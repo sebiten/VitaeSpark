@@ -5,6 +5,7 @@ import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { PRICING } from "@/lib/pricing";
 import { LandingAttributionSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
+import { getRequestCountry } from "@/lib/market";
 
 const PendingPaymentSchema = z.object({
   cvId: z.string().uuid(),
@@ -31,6 +32,7 @@ export async function POST(req: Request) {
   }
 
   const { cvId, attribution } = parsed.data;
+  const countryCode = getRequestCountry(req.headers);
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
 
@@ -123,6 +125,8 @@ export async function POST(req: Request) {
         language,
         payment_provider: "mercado_pago",
         template,
+        country_code: countryCode,
+        session_id: attribution?.session_id,
       },
       customization: {
         visual: {
@@ -149,6 +153,7 @@ export async function POST(req: Request) {
     payment_provider: "mercado_pago",
     template,
     cv_id: cv.id,
+    country_code: countryCode,
     ...attribution,
   });
 

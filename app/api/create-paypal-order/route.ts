@@ -6,6 +6,7 @@ import { getPayPalAccessToken, PAYPAL_API_BASE } from "@/lib/paypal";
 import { PRICING } from "@/lib/pricing";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
+import { getRequestCountry } from "@/lib/market";
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -27,6 +28,7 @@ export async function POST(req: Request) {
   }
 
   const { cvId, cvData, template, language, attribution } = parsed.data;
+  const countryCode = getRequestCountry(req.headers);
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
 
@@ -62,6 +64,12 @@ export async function POST(req: Request) {
 
   try {
     const accessToken = await getPayPalAccessToken();
+    const isPendingRecovery = attribution?.cta_label?.startsWith(
+      "pending_payment_",
+    );
+    const cancelPath = isPendingRecovery
+      ? `/perfil?cv_id=${paymentCv.cv.id}`
+      : `/crear?lang=${language}`;
     const orderPayload = {
       intent: "CAPTURE",
       purchase_units: [
@@ -86,7 +94,7 @@ export async function POST(req: Request) {
         landing_page: "NO_PREFERENCE",
         user_action: "PAY_NOW",
         return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/paypal-return?cv_id=${paymentCv.cv.id}`,
-        cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/crear?lang=${language}`,
+        cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}${cancelPath}`,
       },
     };
 
@@ -124,6 +132,7 @@ export async function POST(req: Request) {
       payment_provider: "paypal",
       template: paymentCv.cv.template,
       cv_id: paymentCv.cv.id,
+      country_code: countryCode,
       ...attribution,
     });
 

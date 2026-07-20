@@ -206,7 +206,7 @@ export async function POST(req: NextRequest) {
   const { data: startedEvent } = await supabaseAdmin
     .from("analytics_events")
     .select(
-      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content"
+      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id"
     )
     .eq("event_name", "payment_started")
     .eq("cv_id", cv_id)
@@ -216,6 +216,7 @@ export async function POST(req: NextRequest) {
 
   const metadataLanguage = metadataString(payment.metadata, "language");
   const metadataSourceType = metadataString(payment.metadata, "source_type");
+  const metadataCountry = metadataString(payment.metadata, "country_code");
 
   await recordAnalyticsEventServer({
     event_name: "payment_completed",
@@ -231,6 +232,13 @@ export async function POST(req: NextRequest) {
         ? metadataLanguage
         : startedEvent?.language,
     payment_provider: "mercado_pago",
+    country_code: /^[A-Z]{2}$/.test(metadataCountry || "")
+      ? metadataCountry
+      : startedEvent?.country_code,
+    session_id:
+      metadataString(payment.metadata, "session_id") ||
+      startedEvent?.session_id ||
+      undefined,
     landing_path:
       metadataString(payment.metadata, "landing_path") ||
       startedEvent?.landing_path,

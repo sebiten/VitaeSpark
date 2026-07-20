@@ -7,6 +7,7 @@ type Reminder = {
   type: "1h" | "24h" | "72h";
   minAgeMs: number;
   subject: string;
+  subjectEn: string;
 };
 
 type PendingCv = {
@@ -21,21 +22,30 @@ type PendingCv = {
   template: string | null;
 };
 
+type PaymentContext = {
+  cv_id: string | null;
+  country_code: string | null;
+  payment_provider: "mercado_pago" | "paypal" | null;
+};
+
 const reminders: Reminder[] = [
   {
     type: "1h",
     minAgeMs: 60 * 60 * 1000,
     subject: "Tu CV ya esta listo para desbloquear",
+    subjectEn: "Your resume is ready to unlock",
   },
   {
     type: "24h",
     minAgeMs: 24 * 60 * 60 * 1000,
     subject: "Tu CV sigue guardado en VitaeSpark",
+    subjectEn: "Your resume is still saved in VitaeSpark",
   },
   {
     type: "72h",
     minAgeMs: 72 * 60 * 60 * 1000,
     subject: "Ultimo recordatorio: tu CV quedo pendiente",
+    subjectEn: "Final reminder: your resume is still pending",
   },
 ];
 
@@ -79,6 +89,26 @@ async function handleRecoveryCron(req: Request) {
   }
 
   const pendingCvs = (data ?? []) as PendingCv[];
+  const pendingCvIds = pendingCvs.map((cv) => cv.id);
+  const { data: paymentContextRows, error: paymentContextError } = pendingCvIds.length
+    ? await supabaseAdmin
+        .from("analytics_events")
+        .select("cv_id, country_code, payment_provider")
+        .eq("event_name", "payment_started")
+        .in("cv_id", pendingCvIds)
+        .order("created_at", { ascending: false })
+    : { data: [], error: null };
+
+  if (paymentContextError) {
+    console.error("Error cargando paises de recovery:", paymentContextError);
+  }
+
+  const paymentContextByCv = new Map<string, PaymentContext>();
+  ((paymentContextRows ?? []) as PaymentContext[]).forEach((context) => {
+    if (context.cv_id && !paymentContextByCv.has(context.cv_id)) {
+      paymentContextByCv.set(context.cv_id, context);
+    }
+  });
   const results = {
     checked: pendingCvs.length,
     sent: 0,
@@ -120,7 +150,13 @@ async function handleRecoveryCron(req: Request) {
       continue;
     }
 
-    const sent = await sendRecoveryEmail({ cv, reminder, email });
+    const paymentContext = paymentContextByCv.get(cv.id);
+    const sent = await sendRecoveryEmail({
+      cv,
+      reminder,
+      email,
+      paymentContext,
+    });
 
     const recoveryPayload = {
       sent_to: email,
@@ -159,6 +195,8 @@ async function handleRecoveryCron(req: Request) {
         utm_medium: "email",
         utm_campaign: "pending_cv",
         utm_content: reminder.type,
+        country_code: paymentContext?.country_code,
+        payment_provider: paymentContext?.payment_provider ?? undefined,
       });
     } else {
       results.failed += 1;
@@ -181,10 +219,12 @@ async function sendRecoveryEmail({
   cv,
   reminder,
   email,
+  paymentContext,
 }: {
   cv: PendingCv;
   reminder: Reminder;
   email: string;
+  paymentContext?: PaymentContext;
 }) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://vitaespark.com";
   const nextPath = `/perfil?cv_id=${cv.id}&utm_source=recovery_email&utm_medium=email&utm_campaign=pending_cv&utm_content=${reminder.type}`;
@@ -197,20 +237,39 @@ async function sendRecoveryEmail({
   const role = cv.cv_data?.puesto?.trim()
     ? escapeHtml(cv.cv_data.puesto.trim())
     : "";
+  const language = cv.cv_data?.language === "en" ? "en" : "es";
+  const isInternational = paymentContext?.payment_provider
+    ? paymentContext.payment_provider === "paypal"
+    : paymentContext?.country_code
+      ? paymentContext.country_code !== "AR"
+      : language === "en";
+  const price = isInternational ? PRICING.paypal.label : PRICING.mercadoPago.label;
+  const title =
+    language === "en"
+      ? "Your resume is ready. Unlock the final PDF."
+      : "Tu CV ya esta listo. Falta desbloquear el PDF final.";
+  const description =
+    language === "en"
+      ? `You left ${name}${role ? ` for ${role}` : ""} saved with a watermark. Unlock it for ${price}, with a one-time payment and no subscription.`
+      : `Dejaste ${name}${role ? ` para ${role}` : ""} generado con marca de agua. Podes completarlo por ${price}, pago unico y sin suscripcion.`;
+  const buttonText = language === "en" ? "Unlock my resume" : "Desbloquear mi CV";
+  const footerText =
+    language === "en"
+      ? "If you already completed the payment, ignore this email."
+      : "Si ya completaste el pago, ignora este mensaje.";
 
   const html = `
     <div style="font-family:Inter,Arial,sans-serif;background:#0f0f12;color:#f4f4f5;padding:28px;border-radius:18px">
       <p style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#a78bfa;margin:0 0 14px">VitaeSpark</p>
-      <h1 style="font-size:24px;line-height:1.2;margin:0 0 12px">Tu CV ya esta listo. Falta desbloquear el PDF final.</h1>
+      <h1 style="font-size:24px;line-height:1.2;margin:0 0 12px">${title}</h1>
       <p style="font-size:15px;line-height:1.7;color:#d4d4d8;margin:0 0 18px">
-        Dejaste ${name}${role ? ` para ${role}` : ""} generado con marca de agua.
-        Podes completarlo por ${PRICING.mercadoPago.label}, pago unico y sin suscripcion.
+        ${description}
       </p>
       <a href="${recoveryUrl.toString()}" style="display:inline-block;background:#009ee3;color:white;text-decoration:none;font-weight:700;border-radius:14px;padding:14px 18px">
-        Desbloquear mi CV
+        ${buttonText}
       </a>
       <p style="font-size:12px;line-height:1.6;color:#a1a1aa;margin:20px 0 0">
-        Si ya completaste el pago, ignora este mensaje.
+        ${footerText}
       </p>
     </div>
   `;
@@ -224,7 +283,7 @@ async function sendRecoveryEmail({
     body: JSON.stringify({
       from: process.env.EMAIL_FROM,
       to: email,
-      subject: reminder.subject,
+      subject: language === "en" ? reminder.subjectEn : reminder.subject,
       html,
     }),
   });
