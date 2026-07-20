@@ -80,7 +80,7 @@ export function TrackedCtaLink({
         size={buttonSize}
         className={
           buttonClassName ||
-          "bg-[#7C3AED] text-white shadow-lg shadow-[#7C3AED]/30 hover:opacity-90"
+          "rounded-full bg-[#F6F2EA] text-[#111113] shadow-none hover:bg-[#FFFDF8] focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#111113]"
         }
       >
         {label}

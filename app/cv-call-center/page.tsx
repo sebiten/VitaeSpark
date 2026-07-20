@@ -25,9 +25,15 @@ export default function CvCallCenterPage() {
       title="CV call center: ejemplo listo para atencion, ventas o soporte"
       description="Ejemplo de curriculum call center con perfil profesional, llamadas, chat, CRM, ventas, soporte, habilidades y estructura ATS."
       intro={[
-        "Un CV call center tiene que explicar rapido el tipo de gestion: llamadas entrantes, ventas salientes, cobranzas, soporte, chat, tickets o seguimiento de casos. Si tambien usaste CRM o sistemas internos, conviene que aparezca desde el inicio porque la query perfil profesional call center ya muestra oportunidad.",
+        "Un CV call center tiene que explicar rapido el tipo de gestion: llamadas entrantes, ventas salientes, cobranzas, soporte, chat, tickets o seguimiento de casos. Si tambien usaste CRM o sistemas internos, conviene que aparezca desde el inicio para dar contexto a tu experiencia.",
         "VitaeSpark te ayuda a convertir esa experiencia en un curriculum call center mas concreto, con perfil profesional, habilidades y palabras clave utiles para contact centers, soporte y atencion multicanal.",
       ]}
+      exampleImage={{
+        src: "/cv-examples/cv-call-center.png",
+        alt: "Ejemplo completo de CV para asesora de call center",
+        caption:
+          "CV ilustrativo de call center con atención telefónica, CRM y seguimiento.",
+      }}
       conversionCta={{
         title: "Crea tu CV call center y adaptalo al puesto",
         description:

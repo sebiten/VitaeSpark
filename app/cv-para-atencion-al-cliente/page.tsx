@@ -28,6 +28,12 @@ export default function CvParaAtencionAlClientePage() {
         "Un curriculum de atencion al cliente tiene que explicar rapido que canales atendias, que tipo de consultas resolvias y como trabajabas con reclamos, CRM, pedidos o seguimiento de casos. Solo decir 'buena atencion' no alcanza para demostrar experiencia.",
         "VitaeSpark te ayuda a convertir experiencia real con clientes en un CV de atencion al cliente mas claro, con perfil profesional, habilidades y ejemplos adaptables a soporte, retail, mostrador, chat o telefono.",
       ]}
+      exampleImage={{
+        src: "/cv-examples/cv-atencion.png",
+        alt: "Ejemplo completo de CV para atención al cliente",
+        caption:
+          "CV ilustrativo de atención con consultas, reclamos, seguimiento y CRM.",
+      }}
       benefits={[
         "Mejor forma de explicar experiencia con clientes, reclamos y canales de atencion.",
         "Util para customer service, soporte, recepcion, call center y caja.",

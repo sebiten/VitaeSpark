@@ -27,10 +27,10 @@ export default function CvParaCajeroSinExperienciaPage() {
         "VitaeSpark te ayuda a convertir ese punto de partida en un CV claro para supermercados, tiendas, farmacias, estaciones de servicio y comercios.",
       ]}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv para cajero sin experiencia",
+        src: "/cv-examples/cv-cajero.png",
+        alt: "Ejemplo completo de CV para cajera de supermercado",
         caption:
-          "Ejemplo visual de CV adaptable para cajero inicial, retail y atencion al cliente.",
+          "CV ilustrativo para caja, retail y atención al cliente.",
       }}
       benefits={[
         "Enfoca responsabilidad, precision, atencion al cliente y aprendizaje rapido.",

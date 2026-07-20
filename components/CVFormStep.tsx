@@ -93,9 +93,9 @@ const formCopy = {
       "Salta, Argentina\nsebastian@email.com\n+54 9 ...\nLinkedIn o GitHub si corresponde",
     photo: "Foto opcional",
     uploadImage: "Subir imagen",
-    photoUnavailableTitle: "Harvard no usa foto",
+    photoUnavailableTitle: "Esta plantilla no usa foto",
     photoUnavailableText:
-      "Es una plantilla formal de texto. Si queres foto, cambia a Elegancia, Azul, Morado o Verde.",
+      "Su estructura prioriza el contenido. Si queres incluir foto, elegi Elegancia, Azul, Purpura o Verde.",
     summaryTitle: "Perfil profesional",
     summaryDescription: "Una base corta para que la IA construya un perfil claro.",
     summaryPlaceholder:
@@ -148,9 +148,9 @@ const formCopy = {
       "Austin, TX\nsebastian@email.com\n+1 ...\nLinkedIn or GitHub if relevant",
     photo: "Optional photo",
     uploadImage: "Upload image",
-    photoUnavailableTitle: "Harvard does not use a photo",
+    photoUnavailableTitle: "This template does not use a photo",
     photoUnavailableText:
-      "It is a formal text-first template. If you want a photo, switch to Elegant, Blue, Purple or Green.",
+      "Its structure prioritizes content. For a photo, choose Elegant, Blue, Purple or Green.",
     summaryTitle: "Professional summary",
     summaryDescription: "A short base so AI can build a clear summary.",
     summaryPlaceholder:
@@ -416,6 +416,8 @@ export default function CVFormStep({
           blue: "Blue",
           green: "Green",
           harvard: "Harvard",
+          "modern-ats": "Modern ATS",
+          "operative-ats": "Operational ATS",
         }
       : {
           elegance: "Elegante",
@@ -423,6 +425,8 @@ export default function CVFormStep({
           blue: "Azul",
           green: "Verde",
           harvard: "Harvard",
+          "modern-ats": "ATS Moderna",
+          "operative-ats": "Operativa ATS",
         })[template] || template;
 
   return (

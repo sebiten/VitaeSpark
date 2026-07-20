@@ -34,10 +34,10 @@ export default function CvParaOperarioPage() {
         label: "Crear mi CV de operario",
       }}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv para operario",
+        src: "/cv-examples/cv-operario.png",
+        alt: "Ejemplo completo de CV para operario de producción",
         caption:
-          "Ejemplo visual de CV adaptable para operario, produccion, deposito y mantenimiento.",
+          "CV ilustrativo para producción con línea, calidad, herramientas y turnos.",
       }}
       benefits={[
         "Destaca produccion, deposito, herramientas, procesos y seguridad.",

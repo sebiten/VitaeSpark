@@ -1,17 +1,11 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowRight,
   BookOpenCheck,
-  CheckCircle2,
-  FileText,
-  HelpCircle,
-  Lightbulb,
-  Link2,
-  PenLine,
-  Route,
+  Check,
+  ChevronDown,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { LandingCvDiagnosticCta } from "./LandingCvDiagnosticCta";
 import { TrackedCtaLink } from "./TrackedCtaLink";
@@ -77,26 +71,13 @@ type MarketingPageProps = {
 
 function slugify(text: string) {
   return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-");
 }
-
-const marketingLabels = {
-  crearMiCv: "Crear mi CV gratis",
-  verGuias: "Ver guías",
-  guiaPractica: "Guía práctica",
-  preguntasFrecuentes: "Preguntas frecuentes",
-  comoFunciona: "Cómo funciona",
-  tambienTePuedeServir: "También te puede servir",
-  visualAlt: "Ejemplo de CV generado con VitaeSpark",
-  visualCaption: "Currículum profesional generado",
-};
-
-const breadcrumbLabels = {
-  inicio: "Inicio",
-};
 
 export function MarketingPage({
   path,
@@ -114,14 +95,13 @@ export function MarketingPage({
   conversionCta,
   diagnosticCta,
 }: MarketingPageProps) {
-  const sectionIcons = [FileText, PenLine, Lightbulb, CheckCircle2];
   const visual = exampleImage ?? {
-    src: "/purple-hero.webp",
-    alt: marketingLabels.visualAlt,
-    caption: marketingLabels.visualCaption,
+    src: "/modern-ats.png",
+    alt: "Ejemplo de CV profesional generado con VitaeSpark",
+    caption: "Ejemplo ilustrativo de un currículum generado en VitaeSpark.",
   };
-  const cta = ctaLabel || marketingLabels.crearMiCv;
-
+  const cta = ctaLabel || "Crear mi CV";
+  const createHref = "/crear?intent=job-specific";
   const baseUrl = getBaseUrl();
 
   const faqSchema = {
@@ -162,56 +142,83 @@ export function MarketingPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howtoSchema) }}
       />
 
-      <section className="border-b border-white/10 bg-gradient-to-b from-[#1C1C22] via-[#111113] to-[#111113]">
-        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-20 sm:px-6 lg:px-8">
+      <section className="relative border-b border-white/9 bg-[#0D0D10]">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-25"
+          aria-hidden="true"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px)",
+            backgroundSize: "72px 72px",
+          }}
+        />
+
+        <div className="relative mx-auto max-w-6xl px-4 pb-12 pt-8 sm:px-6 sm:pb-16 lg:px-8 lg:pt-10">
           <Breadcrumbs
             items={[
-              { label: breadcrumbLabels.inicio, href: "/" },
+              { label: "Inicio", href: "/" },
               { label: eyebrow, href: path },
             ]}
           />
 
-          <div className="max-w-4xl space-y-6">
-            <span className="inline-flex rounded-full border border-[#38BDF8]/30 bg-[#38BDF8]/10 px-4 py-1 text-sm font-medium text-[#38BDF8]">
-              {eyebrow}
-            </span>
-            <div className="space-y-4">
-              <h1 className="text-[2.45rem] font-bold leading-tight sm:text-5xl">
+          <div className="mt-8 grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_390px] lg:gap-16">
+            <div className="max-w-3xl">
+              <p className="text-sm font-medium text-[#C4B5FD]">{eyebrow}</p>
+              <h1 className="mt-4 text-[clamp(2.5rem,5.5vw,4.15rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#F6F2EA]">
                 {title}
               </h1>
-              <p className="break-words text-base leading-8 text-white/75 sm:text-lg">
+              <p className="mt-6 max-w-[62ch] text-base leading-8 text-white/68 sm:text-lg">
                 {description}
               </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <TrackedCtaLink
-                href="/crear"
-                label={cta}
-                sourcePath={path}
-                sourceType="landing"
-              />
-              <Link href="/blog">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+
+              <div className="mt-7 flex flex-wrap items-center gap-4">
+                <TrackedCtaLink
+                  href={createHref}
+                  label={cta}
+                  sourcePath={path}
+                  sourceType="landing"
+                  trackingLabel="profession_hero_cta"
+                />
+                <Link
+                  href="#guia"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-3 text-sm font-medium text-white/72 transition-colors hover:border-white/24 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/55"
                 >
-                  {marketingLabels.verGuias}
-                </Button>
-              </Link>
+                  Ver la guía
+                  <ArrowRight className="size-4" />
+                </Link>
+              </div>
+
+              <p className="mt-4 text-xs text-white/46">
+                Pago único. PDF descargable. Editable desde tu perfil.
+              </p>
             </div>
+
+            <figure className="mx-auto w-full max-w-[390px] lg:mx-0">
+              <div className="relative aspect-[210/297] overflow-hidden rounded-[20px] bg-[#F4F4F1] shadow-[0_28px_70px_rgba(0,0,0,0.34)] ring-1 ring-white/14">
+                <Image
+                  src={visual.src}
+                  alt={visual.alt}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 390px, 84vw"
+                  className="object-cover object-top"
+                />
+              </div>
+              <figcaption className="mt-3 text-xs leading-5 text-white/48">
+                {visual.caption}
+              </figcaption>
+            </figure>
           </div>
 
-          <div className="grid gap-3 border-t border-white/10 pt-6 md:grid-cols-3">
-            {benefits.map((benefit) => (
+          <div className="mt-10 grid border-y border-white/9 md:grid-cols-3">
+            {benefits.map((benefit, index) => (
               <div
                 key={benefit}
-                className="min-w-0 w-full max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-4 sm:max-w-full sm:flex sm:gap-3"
+                className="flex gap-3 border-b border-white/9 py-4 last:border-b-0 md:border-b-0 md:border-r md:px-5 md:first:pl-0 md:last:border-r-0 md:last:pr-0"
               >
-                <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#38BDF8]/10 text-[#38BDF8]" aria-hidden="true">
-                  <CheckCircle2 className="h-4 w-4" />
-                </div>
-                <p className="mt-3 min-w-0 break-words text-sm leading-7 text-white/76 sm:mt-0">
+                <Check className="mt-1 size-4 shrink-0 text-[#A78BFA]" />
+                <p className="text-sm leading-6 text-white/66">
+                  <span className="sr-only">Beneficio {index + 1}: </span>
                   {benefit}
                 </p>
               </div>
@@ -220,100 +227,81 @@ export function MarketingPage({
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-8">
-        <article className="min-w-0 w-full max-w-[calc(100vw-2rem)] overflow-hidden sm:max-w-full">
-          <div className="mb-12 grid min-w-0 w-full max-w-[calc(100vw-2rem)] grid-cols-[minmax(0,1fr)] gap-6 border-b border-white/10 pb-10 sm:max-w-full lg:grid-cols-[minmax(0,1fr)_280px]">
-            <div className="min-w-0 w-full max-w-[calc(100vw-2rem)] sm:max-w-full">
-              <div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-[#38BDF8]">
-                <BookOpenCheck className="h-4 w-4" />
-                {marketingLabels.guiaPractica}
-              </div>
-              <div className="space-y-5">
-                {intro.map((paragraph) => (
-                  <p
-                    key={paragraph}
-                    className="min-w-0 break-words text-lg leading-9 text-white/82 sm:text-xl"
-                  >
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
+      <section
+        id="guia"
+        className="mx-auto grid max-w-6xl scroll-mt-20 gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_280px] lg:px-8 lg:py-20"
+      >
+        <article className="min-w-0 max-w-[760px]">
+          <header className="border-b border-white/9 pb-10">
+            <div className="mb-5 flex items-center gap-2 text-sm font-medium text-[#C4B5FD]">
+              <BookOpenCheck className="size-4" />
+              Guía práctica
             </div>
-
-            {visual ? (
-              <figure className="min-w-0 max-w-full overflow-hidden rounded-2xl border border-white/10 bg-[#1C1C22]">
-                <Image
-                  src={visual.src}
-                  alt={visual.alt}
-                  width={560}
-                  height={360}
-                  sizes="(min-width: 1024px) 280px, 92vw"
-                  className="block h-48 w-full max-w-full object-cover object-top"
-                />
-                <figcaption className="border-t border-white/10 px-4 py-3 text-xs leading-5 text-white/68">
-                  {visual.caption}
-                </figcaption>
-              </figure>
-            ) : null}
-          </div>
+            <div className="space-y-5">
+              {intro.map((paragraph) => (
+                <p
+                  key={paragraph}
+                  className="text-lg leading-9 text-white/78 first:text-xl first:text-white/88"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </header>
 
           {conversionCta ? (
-            <section className="mb-12 overflow-hidden rounded-3xl border border-[#7C3AED]/25 bg-gradient-to-br from-[#7C3AED]/18 via-white/[0.045] to-[#38BDF8]/10 p-6 shadow-2xl shadow-[#7C3AED]/10 sm:p-8">
-              <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
-                <div className="min-w-0">
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-[#38BDF8]">
-                    Listo para postular
-                  </p>
-                  <h2 className="text-2xl font-semibold leading-tight text-white">
+            <section className="border-b border-white/9 py-10">
+              <div className="grid gap-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+                <div>
+                  <h2 className="text-2xl font-semibold leading-tight tracking-[-0.03em] text-[#F6F2EA]">
                     {conversionCta.title}
                   </h2>
-                  <p className="mt-3 max-w-2xl text-sm leading-7 text-white/74 sm:text-base">
+                  <p className="mt-3 max-w-2xl text-base leading-7 text-white/66">
                     {conversionCta.description}
                   </p>
                 </div>
                 <TrackedCtaLink
-                  href="/crear"
+                  href={createHref}
                   label={conversionCta.label || cta}
                   sourcePath={path}
                   sourceType="landing"
+                  trackingLabel="profession_context_cta"
                 />
               </div>
             </section>
           ) : null}
 
-          <div className="space-y-12">
-            {sections.map((section, index) => {
-              const Icon = sectionIcons[index % sectionIcons.length];
-
-              return (
-                <section
-                  key={section.title}
-                  className="min-w-0 max-w-[calc(100vw-2rem)] border-b border-white/10 pb-10 last:border-b-0 sm:max-w-full"
-                >
-                  <div className="mb-5 flex items-start gap-4">
-                    <div className="mt-1 rounded-xl bg-[#38BDF8]/10 p-2.5 text-[#38BDF8] ring-1 ring-[#38BDF8]/15" aria-hidden="true">
-                      <Icon className="h-5 w-5" />
-                    </div>
+          <div>
+            {sections.map((section, index) => (
+              <section
+                key={section.title}
+                className="border-b border-white/9 py-10 last:border-b-0"
+              >
+                <div className="grid gap-4 sm:grid-cols-[36px_minmax(0,1fr)]">
+                  <span className="pt-1 text-sm tabular-nums text-white/34">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
                     <h2
                       id={slugify(section.title)}
-                      className="text-2xl font-semibold leading-snug"
+                      className="text-2xl font-semibold leading-snug tracking-[-0.025em] text-[#F4F4F5]"
                     >
                       {section.title}
                     </h2>
+                    <div className="mt-5 space-y-5">
+                      {section.paragraphs.map((paragraph) => (
+                        <p
+                          key={paragraph}
+                          className="text-[1.03rem] leading-8 text-white/70"
+                        >
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
                   </div>
-                  <div className="space-y-5 pl-0 sm:pl-[3.75rem]">
-                    {section.paragraphs.map((paragraph) => (
-                      <p
-                        key={paragraph}
-                        className="min-w-0 break-words text-[1.03rem] leading-8 text-white/76"
-                      >
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-                </section>
-              );
-            })}
+                </div>
+              </section>
+            ))}
           </div>
 
           {diagnosticCta ? (
@@ -329,79 +317,70 @@ export function MarketingPage({
             </div>
           ) : null}
 
-          <section className="mt-12 rounded-2xl border border-white/10 bg-white/[0.035] p-6 sm:p-8">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="rounded-xl bg-[#7C3AED]/15 p-2.5 text-[#A78BFA] ring-1 ring-[#A78BFA]/20" aria-hidden="true">
-                <HelpCircle className="h-5 w-5" />
-              </div>
-              <h2 className="text-2xl font-semibold">{marketingLabels.preguntasFrecuentes}</h2>
-            </div>
-            <div className="divide-y divide-white/10">
+          <section className="mt-14 border-t border-white/9 pt-10">
+            <h2 className="text-2xl font-semibold tracking-[-0.03em]">
+              Preguntas frecuentes
+            </h2>
+            <div className="mt-5 divide-y divide-white/9 border-y border-white/9">
               {faqs.map((faq) => (
-                <div key={faq.question} className="py-5 first:pt-0 last:pb-0">
-                  <h3 className="mb-2 text-base font-semibold text-white/95">
+                <details key={faq.question} className="group py-1">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-base font-semibold text-white/88 outline-none transition-colors hover:text-white focus-visible:text-white">
                     {faq.question}
-                  </h3>
-                  <p className="text-sm leading-7 text-white/75">
+                    <ChevronDown className="size-4 shrink-0 text-white/42 transition-transform duration-200 group-open:rotate-180" />
+                  </summary>
+                  <p className="max-w-[68ch] pb-5 pr-8 text-sm leading-7 text-white/66">
                     {faq.answer}
                   </p>
-                </div>
+                </details>
               ))}
             </div>
           </section>
         </article>
 
         <aside className="min-w-0 space-y-10 lg:sticky lg:top-24 lg:self-start">
-          <div className="border-l border-[#7C3AED]/30 pl-6">
-            <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#A78BFA]">
-              <Route className="h-4 w-4" aria-hidden="true" />
-              {marketingLabels.comoFunciona}
-            </div>
-            <div className="space-y-5">
+          <section>
+            <h2 className="text-sm font-semibold text-white/88">Cómo funciona</h2>
+            <ol className="mt-4 border-t border-white/9">
               {steps.map((step, index) => (
-                <div
-                  key={step.title}
-                  className="border-b border-white/10 pb-5 last:border-b-0"
-                >
-                  <div className="mb-2 flex items-center gap-3">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#7C3AED]/20 text-xs font-semibold text-[#C4B5FD]">
-                      {index + 1}
-                    </span>
-                    <h3 className="text-sm font-semibold text-white">
+                <li key={step.title} className="grid grid-cols-[28px_1fr] gap-3 border-b border-white/9 py-4">
+                  <span className="text-xs tabular-nums text-[#A78BFA]">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white/84">
                       {step.title}
                     </h3>
+                    <p className="mt-1 text-sm leading-6 text-white/55">
+                      {step.description}
+                    </p>
                   </div>
-                  <p className="min-w-0 break-words text-sm leading-7 text-white/70">
-                    {step.description}
-                  </p>
-                </div>
+                </li>
               ))}
-            </div>
-          </div>
+            </ol>
+          </section>
 
-          <div className="border-l border-[#38BDF8]/30 pl-6">
-            <div className="mb-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#38BDF8]">
-              <Link2 className="h-4 w-4" aria-hidden="true" />
-              {marketingLabels.tambienTePuedeServir}
-            </div>
-            <div className="grid gap-5">
+          <section>
+            <h2 className="text-sm font-semibold text-white/88">
+              También te puede servir
+            </h2>
+            <div className="mt-4 border-t border-white/9">
               {relatedLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="group block border-b border-white/10 pb-5 transition last:border-b-0 hover:border-[#38BDF8]/40"
+                  className="group block border-b border-white/9 py-4 outline-none transition-colors hover:border-white/18 focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/50"
                 >
-                  <h3 className="mb-2 flex items-center justify-between gap-3 text-base font-semibold">
+                  <h3 className="flex items-center justify-between gap-3 text-sm font-semibold text-white/78 transition-colors group-hover:text-white">
                     {link.title}
-                    <ArrowRight className="h-4 w-4 shrink-0 text-white/50 transition group-hover:translate-x-1 group-hover:text-[#8B5CF6]" />
+                    <ArrowRight className="size-4 shrink-0 text-white/36 transition-transform group-hover:translate-x-1" />
                   </h3>
-                  <p className="min-w-0 break-words text-sm leading-7 text-white/70">
+                  <p className="mt-2 text-sm leading-6 text-white/52">
                     {link.description}
                   </p>
                 </Link>
               ))}
             </div>
-          </div>
+          </section>
         </aside>
       </section>
     </div>

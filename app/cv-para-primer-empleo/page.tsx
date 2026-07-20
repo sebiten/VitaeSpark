@@ -26,6 +26,12 @@ export default function CvParaPrimerEmpleoPage() {
         "Un CV para primer empleo no necesita inventar experiencia. Lo que necesita es mostrar bien formacion, herramientas, actitud, proyectos y cualquier señal de que puedes aprender rapido y aportar valor.",
         "Muchas veces el problema no es la falta de experiencia, sino no saber como traducir estudios, actividades o practicas en una presentacion profesional que tenga sentido para el reclutador.",
       ]}
+      exampleImage={{
+        src: "/cv-examples/cv-primer-empleo.png",
+        alt: "Ejemplo completo de CV para primer empleo",
+        caption:
+          "CV ilustrativo de primer empleo con proyectos, estudios y habilidades transferibles.",
+      }}
       benefits={[
         "Te ayuda a destacar potencial sin exagerar experiencia.",
         "Ordena estudios, cursos y proyectos en un formato profesional.",

@@ -28,10 +28,10 @@ export default function CvAtencionClienteSinExperienciaPage() {
         "VitaeSpark te ayuda a transformar estudios, cursos, ventas informales, voluntariados, proyectos o experiencias cotidianas en un curriculum mas claro para retail, soporte, recepcion, chat o mostrador.",
       ]}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv atencion al cliente sin experiencia",
+        src: "/cv-examples/cv-atencion.png",
+        alt: "Ejemplo completo de CV para atención al cliente",
         caption:
-          "Ejemplo visual de CV adaptable para primer empleo en atencion al cliente, retail o soporte.",
+          "CV ilustrativo de atención con consultas, seguimiento y comunicación clara.",
       }}
       benefits={[
         "Te ayuda a destacar habilidades utiles aunque no tengas empleo formal previo.",

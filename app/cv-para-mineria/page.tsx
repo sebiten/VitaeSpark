@@ -49,10 +49,10 @@ export default function CvParaMineriaPage() {
         trackingLabel: "mineria_diagnostic_cta",
       }}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv para mineria",
+        src: "/cv-examples/cv-mineria.png",
+        alt: "Ejemplo completo de CV para operario de planta minera",
         caption:
-          "Ejemplo visual de CV adaptable para puestos en mineria, operaciones, mantenimiento y servicios industriales.",
+          "CV ilustrativo para minería con seguridad, turnos, mantenimiento y disponibilidad.",
       }}
       benefits={[
         "Destaca seguridad, turnos, maquinaria, mantenimiento y experiencia en terreno.",

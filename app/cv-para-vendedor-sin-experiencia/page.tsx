@@ -27,10 +27,10 @@ export default function CvParaVendedorSinExperienciaPage() {
         "VitaeSpark te ayuda a construir un CV que comunique tu potencial comercial y que se vea profesional desde el primer envío.",
       ]}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv para vendedor sin experiencia",
+        src: "/cv-examples/cv-vendedor.png",
+        alt: "Ejemplo completo de CV para vendedor de salón",
         caption:
-          "Ejemplo visual de CV adaptable para vendedor inicial en retail,telecomunicaciones o servicios.",
+          "CV ilustrativo comercial con asesoramiento, seguimiento y stock.",
       }}
       benefits={[
         "Enfoca habilidades comerciales transferibles y orientación a resultados.",

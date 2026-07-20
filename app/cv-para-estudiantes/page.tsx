@@ -25,6 +25,12 @@ export default function CvParaEstudiantesPage() {
         "Un CV para estudiantes tiene que compensar la falta de experiencia formal mostrando de manera inteligente estudios, herramientas, proyectos, idiomas y actividades relevantes.",
         "VitaeSpark te ayuda a convertir ese recorrido en un perfil mas ordenado y profesional para aplicar a pasantias, practicas o primer empleo.",
       ]}
+      exampleImage={{
+        src: "/cv-examples/cv-estudiante.png",
+        alt: "Ejemplo completo de CV para estudiante sin experiencia formal",
+        caption:
+          "CV ilustrativo de estudiante con proyectos, voluntariado y habilidades.",
+      }}
       benefits={[
         "Mejor presentacion de estudios, cursos y proyectos.",
         "Ideal para pasantias, practicas profesionales y primer empleo.",

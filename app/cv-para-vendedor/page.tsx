@@ -26,6 +26,12 @@ export default function CvParaVendedorPage() {
         "Un CV para vendedor tiene que mostrar mas que buena comunicacion. Conviene dejar claro que tipo de productos o servicios vendiste, como atendias clientes, que objetivos manejabas y que herramientas usabas para registrar o seguir oportunidades.",
         "VitaeSpark te ayuda a transformar tareas comerciales en un perfil mas concreto, con habilidades relevantes, logros mejor redactados y una estructura clara para reclutadores y filtros ATS.",
       ]}
+      exampleImage={{
+        src: "/cv-examples/cv-vendedor.png",
+        alt: "Ejemplo completo de CV para vendedor de salón",
+        caption:
+          "CV ilustrativo comercial con asesoramiento, seguimiento y cierre de ventas.",
+      }}
       benefits={[
         "Destaca ventas, atencion al cliente, objetivos y resultados comerciales.",
         "Sirve para retail, ventas consultivas, call center, ecommerce y mostrador.",

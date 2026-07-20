@@ -27,10 +27,10 @@ export default function CvParaLimpiezaPage() {
         "VitaeSpark te ayuda a presentar esa experiencia en un curriculum limpieza mas profesional, con perfil claro, habilidades utiles y estructura ATS facil de leer para reclutadores.",
       ]}
       exampleImage={{
-        src: "/elegance-good.webp",
-        alt: "ejemplo de cv para limpieza",
+        src: "/cv-examples/cv-limpieza.png",
+        alt: "Ejemplo completo de CV para operaria de limpieza",
         caption:
-          "Ejemplo visual de CV adaptable para limpieza, mantenimiento y servicios generales.",
+          "CV ilustrativo para limpieza con rutinas, productos, desinfección y disponibilidad.",
       }}
       benefits={[
         "Destaca limpieza, orden, mantenimiento, productos y procedimientos.",

@@ -30,10 +30,10 @@ export default function CvParaAdministrativoPage() {
         "Esta guía reúne ejemplos para perfiles administrativos y auxiliares en oficinas, comercios, consultorios, logística y estudios profesionales.",
       ]}
       exampleImage={{
-        src: "/elegance-good.webp",
-        alt: "ejemplo de cv para administrativo",
+        src: "/cv-examples/cv-administrativo.png",
+        alt: "Ejemplo completo de CV para auxiliar administrativa",
         caption:
-          "Ejemplo visual de CV profesional adaptable para puestos administrativos y de oficina.",
+          "CV ilustrativo administrativo con Excel, documentación, proveedores y reportes.",
       }}
       benefits={[
         "Destaca organizacion, carga de datos, documentacion y soporte de oficina.",

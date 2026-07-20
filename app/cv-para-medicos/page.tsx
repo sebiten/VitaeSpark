@@ -25,6 +25,12 @@ export default function CvParaMedicosPage() {
         "Un curriculum para medicos necesita transmitir formacion, experiencia clinica, areas de interes y trayectoria profesional con mucha claridad. En este tipo de perfiles, el orden y la jerarquia importan tanto como el contenido.",
         "VitaeSpark te ayuda a presentar experiencia asistencial, residencia, guardias, especializacion y habilidades relevantes en un formato profesional y facil de leer.",
       ]}
+      exampleImage={{
+        src: "/cv-examples/cv-medico.png",
+        alt: "Ejemplo completo de CV para médica clínica",
+        caption:
+          "CV ilustrativo médico con matrícula, experiencia clínica y protocolos.",
+      }}
       benefits={[
         "Mejor organizacion de formacion, experiencia hospitalaria y especialidades.",
         "Ideal para postulaciones clinicas, institucionales o academicas.",

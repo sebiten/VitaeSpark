@@ -40,6 +40,7 @@ import { getLandingAttribution } from "@/lib/analytics-attribution";
 import type { AppLanguage } from "@/lib/i18n";
 import type { DatosCVFormulario } from "@/lib/types/cv";
 import { cn } from "@/lib/utils";
+import { templateAllowsPhoto } from "@/lib/cv-templates";
 
 type FormCopy = {
   badge: string;
@@ -742,7 +743,7 @@ function StepFields({
   photoFormats: string;
 }) {
   if (stepId === "basic") {
-    const allowsPhoto = template !== "harvard";
+    const allowsPhoto = templateAllowsPhoto(template);
 
     return (
       <div className="space-y-5">

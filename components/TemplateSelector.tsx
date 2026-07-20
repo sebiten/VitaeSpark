@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { CheckIcon, FileText, ShieldCheck } from "lucide-react";
+import { Check, FileText, ShieldCheck } from "lucide-react";
+import { CV_TEMPLATES, type CvTemplateDefinition } from "@/lib/cv-templates";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -10,167 +10,174 @@ type Props = {
   onSelectTemplate: (id: string) => void;
 };
 
-const templates = [
-  {
-    id: "elegance",
-    name: "Elegancia",
-    description: "Clasica, clara y profesional",
-    category: "Versatil",
-    features: ["ATS", "PDF", "Editable"],
-    recommended: true,
-  },
-  {
-    id: "harvard",
-    name: "Harvard",
-    description: "Sobria para perfiles formales",
-    category: "Formal",
-    features: ["ATS", "Sin foto", "Editable"],
-    recommended: false,
-  },
-  {
-    id: "blue",
-    name: "Azul Corporativo",
-    description: "Ordenada para empresas",
-    category: "Corporativo",
-    features: ["ATS", "PDF", "Editable"],
-    recommended: false,
-  },
-  {
-    id: "purple",
-    name: "Purpura Pro",
-    description: "Moderna sin perder legibilidad",
-    category: "Moderno",
-    features: ["ATS", "PDF", "Editable"],
-    recommended: false,
-  },
-  {
-    id: "green",
-    name: "Verde Energia",
-    description: "Simple para roles operativos",
-    category: "Operativo",
-    features: ["ATS", "PDF", "Editable"],
-    recommended: false,
-  },
-] as const;
+function TemplateChoice({
+  template,
+  selected,
+  compact = false,
+  onSelect,
+}: {
+  template: CvTemplateDefinition;
+  selected: boolean;
+  compact?: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      aria-pressed={selected}
+      className={cn(
+        "group relative w-full overflow-hidden rounded-[22px] border text-left outline-none transition-[border-color,background-color,transform] duration-200 focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#111113] active:scale-[0.99]",
+        compact
+          ? "grid min-h-[138px] grid-cols-[112px_minmax(0,1fr)] bg-white/[0.025] sm:grid-cols-[128px_minmax(0,1fr)]"
+          : "flex h-full flex-col bg-[#151519]",
+        selected
+          ? "border-[#9A76ED]/70 bg-[#1A1720]"
+          : "border-white/9 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.045]",
+      )}
+    >
+      <div
+        className={cn(
+          "relative overflow-hidden bg-[#E9E9E6]",
+          compact ? "h-full min-h-[138px]" : "h-64 sm:h-72",
+        )}
+      >
+        <Image
+          src={template.image}
+          alt={`Vista previa de la plantilla ${template.name}`}
+          fill
+          sizes={
+            compact
+              ? "128px"
+              : "(min-width: 1024px) 32vw, (min-width: 640px) 50vw, 100vw"
+          }
+          className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.018]"
+        />
+      </div>
 
-const templateColors: Record<(typeof templates)[number]["id"], string> = {
-  elegance: "#0A2C7C",
-  harvard: "#E4E4E7",
-  blue: "#1E40AF",
-  purple: "#8B5CF6",
-  green: "#15803D",
-};
+      <div className={cn("min-w-0", compact ? "p-4" : "flex flex-1 flex-col p-5")}>
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-white/48">
+              {template.category}
+            </p>
+            <h3 className="mt-1 text-[17px] font-semibold tracking-[-0.025em] text-[#F4F4F5]">
+              {template.name}
+            </h3>
+          </div>
+          <span
+            className={cn(
+              "flex size-7 shrink-0 items-center justify-center rounded-full border transition-colors",
+              selected
+                ? "border-[#A78BFA] bg-[#7C3AED] text-white"
+                : "border-white/12 bg-white/[0.035] text-transparent",
+            )}
+            aria-hidden="true"
+          >
+            <Check className="size-3.5" strokeWidth={2.2} />
+          </span>
+        </div>
 
-const templateImages: Record<(typeof templates)[number]["id"], string> = {
-  elegance: "/elegance-good.webp",
-  harvard: "/harvard.webp",
-  blue: "/blue.webp",
-  purple: "/purple-hero.webp",
-  green: "/green.webp",
-};
+        <p className="mt-2 text-[13px] leading-5 text-white/62">
+          {template.description}
+        </p>
+
+        {!compact ? (
+          <div className="mt-auto flex flex-wrap gap-x-3 gap-y-1 border-t border-white/8 pt-4 text-[11px] text-white/55">
+            {template.features.map((feature) => (
+              <span key={feature}>{feature}</span>
+            ))}
+          </div>
+        ) : null}
+      </div>
+    </button>
+  );
+}
 
 export default function TemplateSelector({
   selectedTemplate,
   onSelectTemplate,
 }: Props) {
+  const recommendedTemplates = CV_TEMPLATES.slice(0, 3);
+  const alternativeTemplates = CV_TEMPLATES.slice(3);
+
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-8 sm:space-y-10">
       <div className="mx-auto max-w-3xl text-center">
-        <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-[#D8CBF7]">
-          <FileText className="h-5 w-5" />
+        <div className="mx-auto mb-4 flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.035] text-[#D8CBF7]">
+          <FileText className="size-5" />
         </div>
-        <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/48">
+        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/48">
           Paso 1 de 3
         </p>
         <h2 className="mt-2 text-2xl font-semibold tracking-[-0.035em] text-[#F5F5FA] sm:text-3xl">
-          Elegi una base para tu CV
+          Elegí la estructura, no solo el color
         </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-white/64 sm:text-base">
-          Antes de pagar podes comparar plantillas sin volver a cargar tus datos.
-          Despues, ese CV queda asociado a la plantilla elegida.
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
+          Compará cómo prioriza cada formato tu experiencia. Podés cambiarlo
+          antes de pagar sin volver a cargar los datos.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-5">
-        {templates.map((tpl) => {
-          const isSelected = selectedTemplate === tpl.id;
-
-          return (
-            <button
-              key={tpl.id}
-              type="button"
-              onClick={() => onSelectTemplate(tpl.id)}
-              className={cn(
-                "group relative flex h-full flex-col overflow-hidden rounded-[24px] border bg-[#141419] text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-white/18 hover:bg-[#17171d]",
-                isSelected
-                  ? "border-[#8B5CF6]/42 shadow-[0_18px_44px_rgba(82,43,148,0.22)]"
-                  : "border-white/8 shadow-[0_12px_30px_rgba(5,5,12,0.12)]",
-              )}
+      <section aria-labelledby="recommended-templates-title">
+        <div className="mb-4 flex items-end justify-between gap-4 border-b border-white/9 pb-3">
+          <div>
+            <h3
+              id="recommended-templates-title"
+              className="text-base font-semibold text-[#F4F4F5]"
             >
-              <div className="relative h-52 overflow-hidden bg-[#ECEAE4] sm:h-48 lg:h-56">
-                <Image
-                  src={templateImages[tpl.id]}
-                  alt={`Vista previa de plantilla ${tpl.name}`}
-                  fill
-                  sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.025]"
-                />
-                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#141419] to-transparent" />
-                {isSelected ? (
-                  <div className="absolute right-3 top-3 flex size-8 items-center justify-center rounded-full border border-white/14 bg-[#6F3CD2] text-white shadow-[0_10px_24px_rgba(70,30,140,0.28)]">
-                    <CheckIcon className="h-4 w-4" />
-                  </div>
-                ) : null}
-              </div>
+              Empezá por estas opciones
+            </h3>
+            <p className="mt-1 text-sm text-white/52">
+              Tres estructuras distintas para la mayoría de las postulaciones.
+            </p>
+          </div>
+          <span className="hidden text-xs text-white/42 sm:block">3 recomendadas</span>
+        </div>
 
-              <div className="flex flex-1 flex-col p-4">
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <Badge className="border-white/10 bg-white/[0.05] text-[10px] font-medium uppercase tracking-[0.14em] text-white/62 hover:bg-white/[0.05]">
-                    {tpl.category}
-                  </Badge>
-                  {tpl.recommended ? (
-                    <span className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#C9B8FF]">
-                      Recomendada
-                    </span>
-                  ) : null}
-                </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          {recommendedTemplates.map((template) => (
+            <TemplateChoice
+              key={template.id}
+              template={template}
+              selected={selectedTemplate === template.id}
+              onSelect={() => onSelectTemplate(template.id)}
+            />
+          ))}
+        </div>
+      </section>
 
-                <div className="flex items-start gap-3">
-                  <span
-                    className="mt-1 size-2.5 shrink-0 rounded-full"
-                    style={{ backgroundColor: templateColors[tpl.id] }}
-                  />
-                  <div className="min-w-0">
-                    <h3 className="text-[15px] font-semibold tracking-[-0.01em] text-[#F4F4F8]">
-                      {tpl.name}
-                    </h3>
-                    <p className="mt-1 text-[13px] leading-5 text-white/58">
-                      {tpl.description}
-                    </p>
-                  </div>
-                </div>
+      <section aria-labelledby="alternative-templates-title">
+        <div className="mb-4 border-b border-white/9 pb-3">
+          <h3
+            id="alternative-templates-title"
+            className="text-base font-semibold text-[#F4F4F5]"
+          >
+            Más estilos
+          </h3>
+          <p className="mt-1 text-sm text-white/52">
+            Cambian la presencia visual, pero mantienen el contenido editable.
+          </p>
+        </div>
 
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {tpl.features.map((feature) => (
-                    <span
-                      key={feature}
-                      className="rounded-full border border-white/8 bg-white/[0.035] px-2 py-1 text-[11px] text-white/58"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </button>
-          );
-        })}
-      </div>
+        <div className="grid gap-3 lg:grid-cols-2">
+          {alternativeTemplates.map((template) => (
+            <TemplateChoice
+              key={template.id}
+              template={template}
+              selected={selectedTemplate === template.id}
+              compact
+              onSelect={() => onSelectTemplate(template.id)}
+            />
+          ))}
+        </div>
+      </section>
 
-      <div className="mx-auto flex max-w-3xl items-start gap-3 rounded-[22px] border border-white/8 bg-white/[0.035] px-4 py-3 text-left text-sm leading-6 text-white/66">
-        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#A78BFA]" />
+      <div className="mx-auto flex max-w-3xl items-start gap-3 border-t border-white/9 pt-4 text-left text-sm leading-6 text-white/64">
+        <ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#A78BFA]" />
         <p>
-          Todas las plantillas generan un PDF profesional. La IA ordena el
-          contenido y vos podes editar el CV guardado desde tu perfil.
+          Todas generan un PDF profesional. Después del pago podés editar el
+          contenido y volver a descargarlo con la plantilla elegida.
         </p>
       </div>
     </div>

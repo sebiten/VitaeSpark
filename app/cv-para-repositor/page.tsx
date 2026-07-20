@@ -28,10 +28,10 @@ export default function CvParaRepositorPage() {
         "VitaeSpark te ayuda a ordenar esa experiencia en un curriculum repositor mas claro, con perfil profesional, habilidades de stock y una estructura ATS para supermercados, mayoristas, farmacias, tiendas y comercios.",
       ]}
       exampleImage={{
-        src: "/elegance-good.webp",
-        alt: "ejemplo de cv para repositor",
+        src: "/cv-examples/cv-repositor.png",
+        alt: "Ejemplo completo de CV para repositor de supermercado",
         caption:
-          "Ejemplo visual de CV adaptable para reposicion, supermercados y operaciones de retail.",
+          "CV ilustrativo de repositor con stock, rotación, depósito y góndolas.",
       }}
       benefits={[
         "Destaca reposicion, stock, orden, rotacion y control de productos.",

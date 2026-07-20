@@ -126,7 +126,7 @@ export default function QueEsCurrriculumVitaePage() {
           href: "/plantillas-curriculum",
           title: "Plantillas de CV",
           description:
-            "5 plantillas profesionales para dar formato a tu currículum.",
+            "7 plantillas profesionales para dar formato a tu currículum.",
         },
         {
           href: "/curriculum-vitae-ejemplo",

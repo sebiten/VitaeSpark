@@ -27,10 +27,10 @@ export default function CvParaSeguridadSinExperienciaPage() {
         "VitaeSpark te ayuda a crear un CV de seguridad profesional que destaque tu potencial y tu compromiso con la protección de bienes y personas.",
       ]}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv para seguridad sin experiencia",
+        src: "/cv-examples/cv-seguridad.png",
+        alt: "Ejemplo completo de CV para vigilador de seguridad privada",
         caption:
-          "Ejemplo visual de CV adaptable para puesto de seguridad en empresas, eventos y edificios.",
+          "CV ilustrativo de seguridad con accesos, rondas y protocolos.",
       }}
       benefits={[
         "Enfoca vigilancia, responsabilidad y capacidad de reacción.",

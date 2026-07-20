@@ -39,7 +39,7 @@ export function LandingCvDiagnosticCta({
       return {
         icon: ClipboardCheck,
         title: "Hay una mejora concreta para resolver",
-        text: "Corregir ese punto puede hacer que el CV se lea con mas claridad antes de enviarlo a una minera.",
+        text: "Corregir ese punto puede hacer que el CV se lea con más claridad antes de enviarlo.",
         tone: "medium" as const,
       };
     }
@@ -135,7 +135,7 @@ export function LandingCvDiagnosticCta({
           <p className="mt-2 text-sm leading-6 text-white/68">{result.text}</p>
           <div className="mt-5">
             <TrackedCtaLink
-              href="/crear"
+              href="/crear?intent=job-specific"
               label={ctaLabel}
               sourcePath={path}
               sourceType="landing"

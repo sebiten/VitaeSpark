@@ -28,6 +28,12 @@ export default function CvParaRecepcionistaPage() {
         "Un currículum de recepcionista debe permitir entender rápido qué tipo de atención realizaste y qué tareas coordinabas: agenda, llamadas, turnos, correo, documentación, carga de datos o recepción de visitas.",
         "Los ejemplos de esta guía se pueden adaptar a oficinas, consultorios, hoteles, comercios y centros de atención sin mezclar responsabilidades que no forman parte de tu experiencia.",
       ]}
+      exampleImage={{
+        src: "/cv-examples/cv-recepcionista.png",
+        alt: "Ejemplo completo de CV para recepcionista administrativa",
+        caption:
+          "CV ilustrativo de recepción con agenda, llamadas y soporte administrativo.",
+      }}
       conversionCta={{
         title: "Crea tu CV para recepcionista sin empezar de cero",
         description:

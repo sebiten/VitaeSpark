@@ -27,10 +27,10 @@ export default function CvParaOperarioSinExperienciaPage() {
         "VitaeSpark te ayuda a crear un CV operario profesional que comunique tu potencial y disposición para el trabajo.",
       ]}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv para operario sin experiencia",
+        src: "/cv-examples/cv-operario.png",
+        alt: "Ejemplo completo de CV para operario de producción",
         caption:
-          "Ejemplo visual de CV adaptable para puesto operario en fábricas, almacenes y producción.",
+          "CV ilustrativo operativo con producción, calidad y disponibilidad.",
       }}
       benefits={[
         "Enfoca responsabilidad, capacidad de aprendizaje y disposición operativa.",

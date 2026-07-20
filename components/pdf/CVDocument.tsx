@@ -10,8 +10,10 @@ import HarvardTemplateW from "./template/preview-components/harvard-template";
 import PurpleTemplateW from "./template/preview-components/purple-template";
 import EleganceTemplate from "./template/Elegance-template";
 import EleganceTemplateW from "./template/preview-components/elegance-template";
-
-// Importar las nuevas plantillas modernas
+import ModernAtsTemplate from "./template/ModernAtsTemplate";
+import ModernAtsTemplateW from "./template/preview-components/modern-ats-template";
+import OperativeAtsTemplate from "./template/OperativeAtsTemplate";
+import OperativeAtsTemplateW from "./template/preview-components/operative-ats-template";
 
 export function DocumentoCV({
   cv,
@@ -32,6 +34,10 @@ export function DocumentoCV({
       return <PurpleTemplate cv={cv} />;
     case "elegance":
       return <EleganceTemplate cv={cv} />;
+    case "modern-ats":
+      return <ModernAtsTemplate cv={cv} />;
+    case "operative-ats":
+      return <OperativeAtsTemplate cv={cv} />;
     default:
       return <PurpleTemplate cv={cv} />;
   }
@@ -56,6 +62,10 @@ export function DocumentoCVW({
       return <PurpleTemplateW cv={cv} />;
     case "elegance":
       return <EleganceTemplateW cv={cv} />;
+    case "modern-ats":
+      return <ModernAtsTemplateW cv={cv} />;
+    case "operative-ats":
+      return <OperativeAtsTemplateW cv={cv} />;
     default:
       return <PurpleTemplateW cv={cv} />;
   }

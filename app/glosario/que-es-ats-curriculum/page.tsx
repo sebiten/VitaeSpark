@@ -133,7 +133,7 @@ export default function QueEsAtsCurriculumPage() {
           href: "/plantillas-curriculum",
           title: "Plantillas de CV",
           description:
-            "5 plantillas profesionales compatibles con sistemas ATS.",
+            "7 plantillas profesionales con estructuras claras para sistemas ATS.",
         },
         {
           href: "/blog/como-hacer-un-cv-ats",

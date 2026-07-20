@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { GenerateCVInputSchema } from "../lib/schemas/cv";
+import { GenerateCVInputSchema, TemplateSchema } from "../lib/schemas/cv";
 
 describe("GenerateCVInputSchema", () => {
   it("normaliza foto_url vacia y aplica language por defecto", () => {
@@ -37,5 +37,10 @@ describe("GenerateCVInputSchema", () => {
     });
 
     expect(result.success).toBe(false);
+  });
+
+  it("acepta las nuevas plantillas ATS", () => {
+    expect(TemplateSchema.parse("modern-ats")).toBe("modern-ats");
+    expect(TemplateSchema.parse("operative-ats")).toBe("operative-ats");
   });
 });

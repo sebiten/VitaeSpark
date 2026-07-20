@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CV_TEMPLATE_IDS } from "../cv-templates";
 
 const optionalPhotoUrl = z.preprocess((value) => {
   if (
@@ -16,13 +17,7 @@ const optionalPhotoUrl = z.preprocess((value) => {
 const boundedText = (min: number, max: number) =>
   z.string().trim().min(min).max(max);
 
-export const TemplateSchema = z.enum([
-  "blue",
-  "green",
-  "purple",
-  "harvard",
-  "elegance",
-]);
+export const TemplateSchema = z.enum(CV_TEMPLATE_IDS);
 
 export const LandingAttributionSchema = z
   .object({

@@ -27,10 +27,10 @@ export default function CvParaRecepcionistaSinExperienciaPage() {
         "VitaeSpark te ayuda a crear un CV que muestre tu potencial como recepcionista desde el primer contacto.",
       ]}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv para recepcionista sin experiencia",
+        src: "/cv-examples/cv-recepcionista.png",
+        alt: "Ejemplo completo de CV para recepcionista administrativa",
         caption:
-          "Ejemplo visual de CV adaptable para recepcionista inicial en hoteles, clínicas y oficinas.",
+          "CV ilustrativo de recepción con agenda, llamadas y soporte administrativo.",
       }}
       benefits={[
         "Enfoca atención al cliente, organización y habilidades comunicacionales.",

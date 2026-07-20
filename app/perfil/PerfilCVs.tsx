@@ -39,6 +39,7 @@ import {
 import UserPayments from "@/components/UserPayment";
 import { ProfileFeedbackPrompt } from "@/components/ProfileFeedbackPrompt";
 import { CVThumbnail } from "./CvThumbnail";
+import { getCvTemplate } from "@/lib/cv-templates";
 
 const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
   ssr: false,
@@ -74,16 +75,8 @@ type ProfileInfo = {
   imgUrl?: string;
 };
 
-const templateLabels: Record<string, string> = {
-  green: "Verde Energia",
-  blue: "Azul Corporativo",
-  elegance: "Elegancia",
-  purple: "Purpura Pro",
-  harvard: "Harvard",
-};
-
 function getTemplateLabel(template: string): string {
-  return templateLabels[template || "purple"] || "Purpura Pro";
+  return getCvTemplate(template).name;
 }
 
 function getTemplateDotClass(template?: string | null) {
@@ -96,6 +89,10 @@ function getTemplateDotClass(template?: string | null) {
       return "bg-blue-300";
     case "harvard":
       return "bg-zinc-200";
+    case "modern-ats":
+      return "bg-slate-300";
+    case "operative-ats":
+      return "bg-emerald-600";
     default:
       return "bg-violet-400";
   }

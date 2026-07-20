@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { getCvTemplate, isCvTemplateId } from "@/lib/cv-templates";
 
 const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
   ssr: false,
@@ -64,19 +65,8 @@ interface SavedCVResponse {
   };
 }
 
-const templateOptions = [
-  { value: "elegance", label: "Elegante" },
-  { value: "harvard", label: "Harvard" },
-  { value: "blue", label: "Azul Corporativo" },
-  { value: "purple", label: "Purpura Pro" },
-  { value: "green", label: "Verde Energia" },
-];
-
 function getTemplateLabel(value: string) {
-  return (
-    templateOptions.find((option) => option.value === value)?.label ||
-    "Elegante"
-  );
+  return getCvTemplate(value).shortName;
 }
 
 const emptyExperience: EditableExperience = {
@@ -194,9 +184,7 @@ export function EditSavedCVForm({ cvId }: EditSavedCVFormProps) {
 
       const data = (await res.json()) as SavedCVResponse;
       const savedTemplate = data.cv.template || "elegance";
-      const safeTemplate = templateOptions.some(
-        (option) => option.value === savedTemplate,
-      )
+      const safeTemplate = isCvTemplateId(savedTemplate)
         ? savedTemplate
         : "elegance";
 

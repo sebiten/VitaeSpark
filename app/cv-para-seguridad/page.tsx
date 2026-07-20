@@ -30,10 +30,10 @@ export default function CvParaSeguridadPage() {
         "VitaeSpark te ayuda a ordenar esa experiencia en un curriculum seguridad mas claro, con perfil profesional, habilidades utiles y estructura ATS para vigilancia, control de ingreso o prevencion.",
       ]}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv para seguridad",
+        src: "/cv-examples/cv-seguridad.png",
+        alt: "Ejemplo completo de CV para vigilador de seguridad privada",
         caption:
-          "Ejemplo visual de CV profesional adaptable para vigilador y seguridad privada.",
+          "CV ilustrativo de seguridad con accesos, rondas, CCTV y protocolos.",
       }}
       benefits={[
         "Destaca control de accesos, prevencion, recorridas y registro de novedades.",

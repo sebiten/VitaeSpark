@@ -14,6 +14,7 @@ import { TrackedCtaLink } from "@/components/seo/TrackedCtaLink";
 import { PRICING } from "@/lib/pricing";
 import { buildMetadata } from "@/lib/seo";
 import { getBaseUrl } from "@/lib/seo";
+import { CV_TEMPLATES } from "@/lib/cv-templates";
 
 export const metadata = buildMetadata({
   title: "Plantillas de Curriculum Editables para Descargar en PDF | 2026",
@@ -31,58 +32,7 @@ export const metadata = buildMetadata({
   ],
 });
 
-const templates = [
-  {
-    id: "harvard",
-    name: "Harvard",
-    image: "/harvard.webp",
-    description:
-      "Formato sobrio y limpio, ideal para destacar trayectoria profesional con autoridad. Muy valorado en procesos formales y corporativos.",
-    bestFor: ["Perfiles senior", "Consultoría", "Académico", "Finanzas", "Abogacía"],
-    atsCompatible: true,
-    color: "#F4F4F5",
-  },
-  {
-    id: "elegance",
-    name: "Elegante",
-    image: "/elegance-good.webp",
-    description:
-      "Diseño moderno con estructura clara, combina profesionalismo con una presentación visual cuidada sin sacrificar legibilidad ATS.",
-    bestFor: ["Marketing", "Ventas", "RRHH", "Diseño", "Atención al cliente"],
-    atsCompatible: true,
-    color: "#0A2C7C",
-  },
-  {
-    id: "purple",
-    name: "Morado",
-    image: "/purple-hero.webp",
-    description:
-      "Estilo creativo con identidad visual marcada. Funciona bien para roles donde la presentación personal suma al perfil profesional.",
-    bestFor: ["Tecnología", "Startups", "Diseño UX/UI", "Marketing digital", "Creatividad"],
-    atsCompatible: true,
-    color: "#8B5CF6",
-  },
-  {
-    id: "blue",
-    name: "Azul",
-    image: "/blue.webp",
-    description:
-      "Tonos corporativos que proyectan confianza. Buena opción para empresas tradicionales y procesos donde la formalidad es importante.",
-    bestFor: ["Administración", "Banca", "Seguros", "Logística", "Salud"],
-    atsCompatible: true,
-    color: "#1E40AF",
-  },
-  {
-    id: "green",
-    name: "Verde",
-    image: "/green.webp",
-    description:
-      "Fresco y actual, con un equilibrio entre lo profesional y lo contemporáneo. Útil para industrias en crecimiento o roles operativos.",
-    bestFor: ["Operaciones", "Comercio", "Gastronomía", "Servicios", "Oficios"],
-    atsCompatible: true,
-    color: "#15803D",
-  },
-];
+const templates = CV_TEMPLATES;
 
 export default function PlantillasCurriculumPage() {
   const baseUrl = getBaseUrl();
@@ -97,7 +47,7 @@ export default function PlantillasCurriculumPage() {
         name: "¿Cuál es la mejor plantilla de currículum para ATS?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Todas las plantillas de VitaeSpark están diseñadas para ser compatibles con sistemas ATS. Harvard, Elegante y Azul suelen dar mejores resultados en procesos formales o corporativos, mientras que Morado y Verde funcionan bien en industrias más creativas o modernas.",
+          text: "Todas las plantillas de VitaeSpark tienen una estructura clara para lectura ATS. ATS Moderna, Operativa ATS y Harvard priorizan al máximo el contenido; Elegancia, Azul, Púrpura y Verde suman una presentación más visual.",
         },
       },
       {
@@ -129,7 +79,7 @@ export default function PlantillasCurriculumPage() {
         name: "¿Qué plantilla conviene para mi primer empleo?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Para un primer empleo, Harvard, Elegante o Azul son buenas opciones porque transmiten seriedad y orden, lo cual es importante cuando todavía no tenés mucha experiencia laboral que mostrar.",
+          text: "Para un primer empleo, ATS Moderna o Elegancia son buenas opciones porque ordenan estudios, habilidades y proyectos sin exigir una trayectoria extensa.",
         },
       },
       {
@@ -137,7 +87,7 @@ export default function PlantillasCurriculumPage() {
         name: "¿Cuántas plantillas tiene VitaeSpark?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "VitaeSpark ofrece 5 plantillas profesionales: Harvard, Elegante, Morado, Azul y Verde. Cada una está optimizada para ATS y se adapta a distintos perfiles e industrias.",
+          text: "VitaeSpark ofrece 7 plantillas profesionales con estructuras de una o dos columnas, opciones con y sin foto y formatos específicos para procesos ATS y puestos operativos.",
         },
       },
     ],
@@ -161,7 +111,7 @@ export default function PlantillasCurriculumPage() {
         "@type": "HowToStep",
         position: 2,
         name: "Evaluá tu nivel de experiencia",
-        text: "Si tenés mucha experiencia, una plantilla como Harvard ayuda a organizar bien la trayectoria. Si estás arrancando, Elegante o Azul pueden darle más presencia visual a un CV con menos contenido.",
+        text: "Si tenés mucha experiencia, Harvard o ATS Moderna ayudan a ordenar la trayectoria. Para puestos operativos, Operativa ATS prioriza experiencia, licencias y disponibilidad. Si estás arrancando, Elegancia equilibra contenido y presencia visual.",
         url: new URL(path, baseUrl).toString(),
       },
       {
@@ -226,7 +176,7 @@ export default function PlantillasCurriculumPage() {
             Comparación de plantillas
           </div>
           <h2 className="text-3xl font-bold">
-            Las 5 plantillas de VitaeSpark: cuál elegir según tu perfil
+            Las 7 plantillas de VitaeSpark: cuál elegir según tu perfil
           </h2>
           <p className="mt-4 max-w-3xl text-lg leading-8 text-white/75">
             Todas nuestras plantillas están optimizadas para sistemas ATS, se
@@ -312,14 +262,14 @@ export default function PlantillasCurriculumPage() {
                       <CheckCircle2 className="mt-1 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
                       <span className="text-[1.03rem] leading-8 text-white/76">
                         <strong className="text-white">Perfiles senior o formales:</strong>{" "}
-                        Harvard, Elegante o Azul proyectan autoridad y orden.
+                        Harvard o ATS Moderna proyectan autoridad y orden.
                       </span>
                     </li>
                     <li className="flex items-start gap-3">
                       <CheckCircle2 className="mt-1 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
                       <span className="text-[1.03rem] leading-8 text-white/76">
                         <strong className="text-white">Industrias creativas:</strong>{" "}
-                        Morado o Elegante agregan identidad visual sin perder
+                        Púrpura o Elegancia agregan identidad visual sin perder
                         legibilidad.
                       </span>
                     </li>
@@ -327,7 +277,7 @@ export default function PlantillasCurriculumPage() {
                       <CheckCircle2 className="mt-1 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
                       <span className="text-[1.03rem] leading-8 text-white/76">
                         <strong className="text-white">Primer empleo:</strong>{" "}
-                        Harvard, Elegante o Azul ayudan a que el CV se vea completo aunque
+                        ATS Moderna o Elegancia ayudan a ordenar estudios y habilidades aunque
                         tengas poca experiencia.
                       </span>
                     </li>
@@ -335,8 +285,8 @@ export default function PlantillasCurriculumPage() {
                       <CheckCircle2 className="mt-1 h-4 w-4 flex-shrink-0 text-[#38BDF8]" />
                       <span className="text-[1.03rem] leading-8 text-white/76">
                         <strong className="text-white">Roles operativos:</strong>{" "}
-                        Verde ofrece un balance entre claridad y presencia
-                        profesional.
+                        Operativa ATS prioriza experiencia, licencias,
+                        certificaciones y disponibilidad.
                       </span>
                     </li>
                   </ul>
@@ -383,7 +333,7 @@ export default function PlantillasCurriculumPage() {
                   {[
                     {
                       title: "Elegí tu plantilla",
-                      desc: "Seleccioná entre 5 opciones profesionales y mirá cómo se ve tu CV en cada una.",
+                      desc: "Seleccioná entre 7 opciones profesionales y mirá cómo se ve tu CV en cada una.",
                     },
                     {
                       title: "Completá tu información",
@@ -493,10 +443,9 @@ export default function PlantillasCurriculumPage() {
               </h3>
               <p className="text-sm leading-7 text-white/75">
                 Todas las plantillas de VitaeSpark están diseñadas para ser
-                compatibles con sistemas ATS. Harvard, Elegante y Azul suelen dar
-                mejores resultados en procesos muy formales o corporativos,
-                mientras que Morado, Azul y Verde funcionan bien en industrias
-                más creativas o modernas.
+                compatibles con sistemas ATS. ATS Moderna, Operativa ATS y
+                Harvard priorizan el contenido; Elegancia, Azul, Púrpura y
+                Verde suman una presentación más visual.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-6">
@@ -532,9 +481,9 @@ export default function PlantillasCurriculumPage() {
                 ¿Qué plantilla conviene para mi primer empleo?
               </h3>
               <p className="text-sm leading-7 text-white/75">
-                Para un primer empleo, Harvard, Elegante o Azul son buenas opciones porque
-                transmiten seriedad y orden, lo cual es importante cuando
-                todavía no tenés mucha experiencia laboral que mostrar.
+                Para un primer empleo, ATS Moderna o Elegancia funcionan bien
+                porque ordenan estudios, habilidades y proyectos sin exigir una
+                trayectoria laboral extensa.
               </p>
             </div>
           </div>

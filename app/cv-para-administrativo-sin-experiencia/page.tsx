@@ -27,10 +27,10 @@ export default function CvParaAdministrativoSinExperienciaPage() {
         "VitaeSpark te ayuda a crear un CV administrativo profesional que destaque tu potencial desde el primer envío.",
       ]}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv para administrativo sin experiencia",
+        src: "/cv-examples/cv-administrativo.png",
+        alt: "Ejemplo completo de CV para auxiliar administrativa",
         caption:
-          "Ejemplo visual de CV adaptable para puesto administrativo inicial en empresas, oficinas y estudios.",
+          "CV ilustrativo administrativo con herramientas y tareas concretas.",
       }}
       benefits={[
         "Enfoca organización, precisión y manejo de herramientas digitales.",

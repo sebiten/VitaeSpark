@@ -25,6 +25,12 @@ export default function CvParaProgramadoresPage() {
         "Un buen CV para programadores no depende solo de listar tecnologias. Tiene que explicar que construiste, en que contexto trabajaste y cual fue tu aporte real en productos, sistemas o equipos.",
         "VitaeSpark te ayuda a ordenar experiencia, stack y proyectos en una estructura profesional para que tu perfil tecnico se entienda rapido, tanto por reclutadores como por hiring managers.",
       ]}
+      exampleImage={{
+        src: "/cv-examples/cv-programador.png",
+        alt: "Ejemplo completo de CV para desarrollador Full Stack junior",
+        caption:
+          "CV ilustrativo de programación con proyectos, stack y formación técnica.",
+      }}
       benefits={[
         "Mejor presentacion de stack, responsabilidades y logros tecnicos.",
         "Ideal para perfiles frontend, backend, full stack o software en general.",

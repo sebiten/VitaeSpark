@@ -35,10 +35,10 @@ export default function CvParaCajeroPage() {
         label: "Crear mi CV de cajero",
       }}
       exampleImage={{
-        src: "/purple-hero.webp",
-        alt: "ejemplo de cv para cajero",
+        src: "/cv-examples/cv-cajero.png",
+        alt: "Ejemplo completo de CV para cajera de supermercado",
         caption:
-          "Ejemplo visual de CV profesional adaptable para puestos de cajero, retail y atencion al cliente.",
+          "CV ilustrativo para caja con medios de pago, cierre y atención al cliente.",
       }}
       benefits={[
         "Destaca cobros, medios de pago, atencion y tareas de caja reales.",
