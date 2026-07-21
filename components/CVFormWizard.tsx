@@ -90,6 +90,7 @@ type Props = {
   fotoUrl: string | null;
   isGenerating: boolean;
   isSubmitting: boolean;
+  initialStepIndex?: number;
   error: string | null;
   onSubmit: (data: DatosCVFormulario) => Promise<void>;
   onImageUpload: (event: ChangeEvent<HTMLInputElement>) => Promise<void>;
@@ -172,13 +173,16 @@ export default function CVFormWizard({
   fotoUrl,
   isGenerating,
   isSubmitting,
+  initialStepIndex = 0,
   error,
   onSubmit,
   onImageUpload,
   onClear,
   onChangeTemplate,
 }: Props) {
-  const [stepIndex, setStepIndex] = useState(0);
+  const [stepIndex, setStepIndex] = useState(() =>
+    Math.min(Math.max(initialStepIndex, 0), 4),
+  );
   const chrome = wizardChromeCopy[language];
   const {
     register,

@@ -27,6 +27,7 @@ type CurrentUser = {
 type CVFormProps = {
   initialLanguage?: AppLanguage;
   initialIntent?: CreateIntent;
+  initialResumeAction?: ResumeAction | null;
   currentUser: CurrentUser | null;
   initialCountryCode?: string | null;
 };
@@ -99,6 +100,7 @@ function hasDraftContent(data: DatosCVFormulario) {
 export default function CVForm({
   initialLanguage = "es",
   initialIntent = "general",
+  initialResumeAction = null,
   currentUser,
   initialCountryCode,
 }: CVFormProps) {
@@ -229,7 +231,6 @@ export default function CVForm({
   const handleDraftChange = useCallback(
     (data: DatosCVFormulario) => {
       draftDataRef.current = normalizeDraft(data);
-      setResumeAction(null);
 
       if (autosaveTimerRef.current) {
         clearTimeout(autosaveTimerRef.current);
@@ -249,7 +250,6 @@ export default function CVForm({
         ...draftDataRef.current,
         foto_url: url ?? undefined,
       };
-      setResumeAction(null);
       window.setTimeout(() => persistCurrentDraft(), 0);
     },
     [persistCurrentDraft],
@@ -285,6 +285,33 @@ export default function CVForm({
     },
     [draftPhotoUrl, initialLanguage],
   );
+
+  const handleResumeActionConsumed = useCallback(() => {
+    setResumeAction(null);
+
+    const rawDraft = window.sessionStorage.getItem(CREATE_DRAFT_KEY);
+    if (rawDraft) {
+      try {
+        const storedDraft = JSON.parse(rawDraft) as StoredCreateDraft;
+        window.sessionStorage.setItem(
+          CREATE_DRAFT_KEY,
+          JSON.stringify({ ...storedDraft, action: null }),
+        );
+      } catch {
+        window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
+      }
+    }
+
+    const url = new URL(window.location.href);
+    if (url.searchParams.has("resume")) {
+      url.searchParams.delete("resume");
+      window.history.replaceState(
+        {},
+        "",
+        `${url.pathname}${url.search}${url.hash}`,
+      );
+    }
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -345,22 +372,24 @@ export default function CVForm({
       setActiveTab("form");
       suspendAutosaveRef.current = false;
 
-      if (currentUser && storedDraft.action) {
-        setResumeAction(storedDraft.action);
+      const pendingAction = storedDraft.action ?? initialResumeAction;
+
+      if (currentUser && pendingAction) {
+        setResumeAction(pendingAction);
         recordAnalyticsEvent({
           event_name: "auth_completed",
           language: initialLanguage,
           template: storedDraft.template,
           ...getLandingAttribution(),
         });
-        if (storedDraft.action === "photo") {
+        if (pendingAction === "photo") {
           toast.success(
             initialLanguage === "en"
               ? "Session ready. You can upload the photo now."
               : "Sesión lista. Ya podés subir la foto.",
           );
         }
-      } else if (!storedDraft.action) {
+      } else if (!pendingAction) {
         toast.info(
           initialLanguage === "en"
             ? "We restored your saved progress."
@@ -372,7 +401,7 @@ export default function CVForm({
     } finally {
       setDraftReady(true);
     }
-  }, [currentUser, initialLanguage]);
+  }, [currentUser, initialLanguage, initialResumeAction]);
 
   useEffect(() => {
     return () => {
@@ -427,6 +456,7 @@ export default function CVForm({
                 onChangeTemplate={() => navigateToStep("template")}
                 onAuthRequired={handleAuthRequired}
                 autoGenerate={Boolean(currentUser && resumeAction === "generate")}
+                onResumeActionConsumed={handleResumeActionConsumed}
               />
             ) : null}
           </TabsContent>

@@ -2,7 +2,8 @@
 
 import type { ChangeEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Check, FileText, Loader2, ShieldCheck } from "lucide-react";
+import { type FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { track } from "@vercel/analytics";
@@ -118,6 +119,8 @@ const formCopy = {
       "Inicia sesión para subir la foto. Tus datos quedarán guardados.",
     timeout: "La generación está tardando demasiado. Intentá de nuevo.",
     generationError: "Error al generar el CV. Intenta nuevamente.",
+    restoreValidationError:
+      "Revisá los campos marcados antes de generar el CV.",
     unknownError: "Error desconocido",
   },
   en: {
@@ -174,6 +177,8 @@ const formCopy = {
       "Sign in to upload the photo. Your details will remain saved.",
     timeout: "Generation is taking too long. Try again.",
     generationError: "Error generating the resume. Try again.",
+    restoreValidationError:
+      "Review the highlighted fields before generating your resume.",
     unknownError: "Unknown error",
   },
 } as const;
@@ -193,6 +198,7 @@ type Props = {
     action: "generate" | "photo",
   ) => void;
   autoGenerate?: boolean;
+  onResumeActionConsumed: () => void;
 };
 
 export default function CVFormStep({
@@ -207,9 +213,14 @@ export default function CVFormStep({
   onChangeTemplate,
   onAuthRequired,
   autoGenerate = false,
+  onResumeActionConsumed,
 }: Props) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [autoGenerationState, setAutoGenerationState] = useState<
+    "preparing" | "generating" | null
+  >(() => (autoGenerate ? "preparing" : null));
+  const [initialStepIndex, setInitialStepIndex] = useState(0);
   const copy = formCopy[language];
   const formSchema = useMemo(() => createSchema(language), [language]);
   const autoGenerationStarted = useRef(false);
@@ -343,8 +354,29 @@ export default function CVFormStep({
     if (!autoGenerate || !currentUserId || autoGenerationStarted.current) return;
 
     autoGenerationStarted.current = true;
-    void form.handleSubmit(onSubmit)();
-  }, [autoGenerate, currentUserId, form]);
+    setAutoGenerationState("preparing");
+
+    void form.handleSubmit(
+      async (data) => {
+        onResumeActionConsumed();
+        setAutoGenerationState("generating");
+        await onSubmit(data);
+        setAutoGenerationState(null);
+      },
+      (validationErrors) => {
+        onResumeActionConsumed();
+        setInitialStepIndex(getInvalidStepIndex(validationErrors));
+        setAutoGenerationState(null);
+        toast.error(copy.restoreValidationError);
+      },
+    )();
+  }, [
+    autoGenerate,
+    copy.restoreValidationError,
+    currentUserId,
+    form,
+    onResumeActionConsumed,
+  ]);
 
   const limpiarCampos = () => {
     form.reset({
@@ -384,6 +416,16 @@ export default function CVFormStep({
           "operative-ats": "Operativa ATS",
         })[template] || template;
 
+  if (autoGenerationState) {
+    return (
+      <ResumeGenerationScreen
+        language={language}
+        templateName={templateName}
+        state={autoGenerationState}
+      />
+    );
+  }
+
   return (
     <CVFormWizard
       copy={copy}
@@ -394,11 +436,139 @@ export default function CVFormStep({
       fotoUrl={fotoUrl}
       isGenerating={isGenerating}
       isSubmitting={form.formState.isSubmitting}
+      initialStepIndex={initialStepIndex}
       error={error}
       onSubmit={onSubmit}
       onImageUpload={handleImageUpload}
       onClear={limpiarCampos}
       onChangeTemplate={onChangeTemplate}
     />
+  );
+}
+
+const invalidFieldsByStep: Array<Array<keyof DatosCVFormulario>> = [
+  ["nombre", "puesto", "contacto"],
+  ["sobreMi"],
+  ["experiencia"],
+  ["formacion"],
+  ["habilidades", "idiomas", "informacionAdicional"],
+];
+
+function getInvalidStepIndex(errors: FieldErrors<DatosCVFormulario>) {
+  const invalidStep = invalidFieldsByStep.findIndex((fields) =>
+    fields.some((field) => Boolean(errors[field])),
+  );
+
+  return invalidStep === -1 ? 0 : invalidStep;
+}
+
+function ResumeGenerationScreen({
+  language,
+  templateName,
+  state,
+}: {
+  language: AppLanguage;
+  templateName: string;
+  state: "preparing" | "generating";
+}) {
+  const isGenerating = state === "generating";
+  const content =
+    language === "en"
+      ? {
+          eyebrow: "Progress restored",
+          preparingTitle: "Checking your resume details",
+          generatingTitle: "Creating your resume",
+          preparingDescription:
+            "Your information is safe. We are validating it before generation.",
+          generatingDescription:
+            "AI is organizing the content and preparing the preview and checkout.",
+          restored: "Details restored",
+          writing: "Writing and structure",
+          checkout: "Preview and checkout",
+          safe: "You do not need to complete the form again.",
+        }
+      : {
+          eyebrow: "Avance recuperado",
+          preparingTitle: "Estamos revisando tus datos",
+          generatingTitle: "Estamos generando tu CV",
+          preparingDescription:
+            "Tu información está guardada. La validamos antes de comenzar.",
+          generatingDescription:
+            "La IA está ordenando el contenido y preparando la vista previa y el pago.",
+          restored: "Datos recuperados",
+          writing: "Redacción y estructura",
+          checkout: "Vista previa y pago",
+          safe: "No necesitás completar el formulario otra vez.",
+        };
+
+  return (
+    <section
+      role="status"
+      aria-live="polite"
+      className="mx-auto flex min-h-[calc(100dvh-8rem)] w-full max-w-3xl items-center justify-center px-2 py-10 text-[#F6F2EA]"
+    >
+      <div className="w-full border-y border-white/10 py-10 text-center sm:py-14">
+        <div className="mx-auto flex size-14 items-center justify-center rounded-full border border-[#A78BFA]/30 bg-[#A78BFA]/10 text-[#D8CBF7]">
+          {isGenerating ? (
+            <Loader2 className="size-6 animate-spin" />
+          ) : (
+            <FileText className="size-6" />
+          )}
+        </div>
+        <p className="mt-5 text-xs font-medium text-[#C4B5FD]">
+          {content.eyebrow} · {templateName}
+        </p>
+        <h1 className="mx-auto mt-2 max-w-xl text-3xl font-semibold tracking-[-0.04em] sm:text-4xl">
+          {isGenerating ? content.generatingTitle : content.preparingTitle}
+        </h1>
+        <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-white/68 sm:text-base">
+          {isGenerating
+            ? content.generatingDescription
+            : content.preparingDescription}
+        </p>
+
+        <div className="mx-auto mt-8 grid max-w-xl gap-3 text-left sm:grid-cols-3">
+          <GenerationStep label={content.restored} complete />
+          <GenerationStep label={content.writing} active={isGenerating} />
+          <GenerationStep label={content.checkout} />
+        </div>
+
+        <p className="mt-7 inline-flex items-center gap-2 text-xs text-white/58">
+          <ShieldCheck className="size-4 text-[#A78BFA]" />
+          {content.safe}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function GenerationStep({
+  label,
+  active = false,
+  complete = false,
+}: {
+  label: string;
+  active?: boolean;
+  complete?: boolean;
+}) {
+  return (
+    <div className="flex items-center gap-3 border-b border-white/8 py-3 sm:border-b-0 sm:border-l sm:py-1 sm:pl-4">
+      <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-white/12 text-white/46">
+        {complete ? (
+          <Check className="size-3.5 text-[#C4B5FD]" />
+        ) : active ? (
+          <Loader2 className="size-3.5 animate-spin text-[#C4B5FD]" />
+        ) : (
+          <span className="size-1.5 rounded-full bg-white/24" />
+        )}
+      </span>
+      <span
+        className={
+          active || complete ? "text-sm text-white/82" : "text-sm text-white/44"
+        }
+      >
+        {label}
+      </span>
+    </div>
   );
 }

@@ -176,7 +176,13 @@ export default function AuthPageClient() {
   };
 
   if (authTransition === "checking" || authTransition === "confirmed") {
-    return <AuthTransitionScreen state={authTransition} />;
+    return (
+      <AuthTransitionScreen
+        state={authTransition}
+        isResumingCv={isResumingCv}
+        redirectTarget={redirectTarget}
+      />
+    );
   }
 
   return (
@@ -251,7 +257,7 @@ export default function AuthPageClient() {
                 </h2>
                 <p className="mx-auto mt-2 max-w-[340px] text-[14px] leading-6 text-[#D8D2C8]/[0.68]">
                   {isResumingCv
-                    ? "Tus datos siguen guardados. Iniciá sesión y volverás al formulario para generar el CV sin cargar todo otra vez."
+                    ? "Tus datos siguen guardados. Iniciá sesión y generaremos tu CV automáticamente, sin volver a completar el formulario."
                     : activeTab === "login"
                       ? "Accedé a tus CVs, descargas y ediciones desde el mismo perfil."
                       : "Registrá tu cuenta para guardar progreso y trabajar tu CV cuando quieras."}
@@ -492,19 +498,31 @@ export default function AuthPageClient() {
   );
 }
 
-function AuthTransitionScreen({ state }: { state: AuthTransitionState }) {
+function AuthTransitionScreen({
+  state,
+  isResumingCv,
+  redirectTarget,
+}: {
+  state: AuthTransitionState;
+  isResumingCv: boolean;
+  redirectTarget: string;
+}) {
   const isConfirmed = state === "confirmed";
   const title =
     state === "checking"
       ? "Revisando sesión"
       : isConfirmed
-        ? "Sesión confirmada"
+        ? isResumingCv
+          ? "Datos recuperados"
+          : "Sesión confirmada"
         : "Confirmando acceso con Google";
   const description =
     state === "checking"
       ? "Estamos verificando si ya tenés una sesión activa."
       : isConfirmed
-        ? "Tu cuenta ya está lista. Te llevamos al creador de CV."
+        ? isResumingCv
+          ? "Tu cuenta ya está lista. Ahora generamos tu CV y te llevamos al pago."
+          : "Tu cuenta ya está lista. Te llevamos al creador de CV."
         : "Volvimos de Google y estamos preparando tu espacio.";
 
   return (
@@ -544,10 +562,10 @@ function AuthTransitionScreen({ state }: { state: AuthTransitionState }) {
           </div>
           {isConfirmed ? (
             <Link
-              href="/crear"
+              href={redirectTarget}
               className="mx-auto mt-4 inline-flex h-11 items-center justify-center rounded-full bg-[#F6F2EA] px-5 text-sm font-semibold text-[#121114] transition hover:bg-[#FFFCF4]"
             >
-              Continuar al creador
+              {isResumingCv ? "Generar mi CV" : "Continuar al creador"}
             </Link>
           ) : null}
         </motion.div>
