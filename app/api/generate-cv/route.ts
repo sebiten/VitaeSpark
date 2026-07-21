@@ -118,8 +118,8 @@ Reglas:
 - Varía los verbos y la estructura entre logros. No empieces todos con "Desarrollé" ni repitas la misma idea con otras palabras.
 - No uses "soluciones innovadoras", "aportando valor", "mejorando significativamente" ni expresiones vagas. Reemplázalas por resultados observables y específicos.
 - Si un proyecto es propio, freelance o institucional, dilo así. No lo presentes como empleo corporativo.
-- Formación: concisa. Sin descripciones largas salvo que el usuario las haya escrito.
-- Habilidades e idiomas: usa solo datos provistos, normaliza nombres técnicos y elimina duplicados.
+- Formación: concisa. Si el usuario no proporciona formación, responde con un array vacío.
+- Habilidades e idiomas: usa solo datos provistos, normaliza nombres técnicos y elimina duplicados. Si no proporciona idiomas, responde con un array vacío.
 - Información adicional: máximo 4 items breves. Conserva links clave provistos por el usuario, especialmente Portfolio, GitHub y LinkedIn. También puedes incluir disponibilidad, certificaciones o datos útiles sin repetir habilidades.
 - Si la información del usuario es breve, mejora la redacción sin inflar artificialmente el contenido.
 - Si faltan fechas o ubicación, deja el campo como string vacío.
@@ -142,8 +142,8 @@ Rules:
 - Start achievements with varied action verbs such as Built, Implemented, Integrated, Designed, Optimized, Managed, Automated, Created or Maintained.
 - Do not repeat the full tech stack in every experience; mention only technologies that matter for that bullet.
 - If a project is personal, freelance or institutional, label it that way. Do not present it as corporate employment.
-- Education: concise. Do not add long descriptions unless the user wrote them.
-- Skills and languages: use only user-provided data, normalize technical names and remove duplicates.
+- Education: concise. If the user provides no education, return an empty array.
+- Skills and languages: use only user-provided data, normalize technical names and remove duplicates. If no languages are provided, return an empty array.
 - Additional Information: maximum 4 brief items. Keep key links provided by the user, especially Portfolio, GitHub and LinkedIn. You may include availability, certifications or useful details without repeating skills.
 - If the user's information is brief, improve wording without artificially inflating content.
 - If dates or locations are missing, leave the field as an empty string.

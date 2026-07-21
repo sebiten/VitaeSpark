@@ -9,7 +9,6 @@ import {
   ArrowLeft,
   BookOpen,
   Briefcase,
-  CheckCircle2,
   ChevronRight,
   FileText,
   GraduationCap,
@@ -48,7 +47,6 @@ type FormCopy = {
   description: string;
   currentTemplate: string;
   changeTemplate: string;
-  fillTest: string;
   clear: string;
   basicTitle: string;
   basicDescription: string;
@@ -95,7 +93,6 @@ type Props = {
   error: string | null;
   onSubmit: (data: DatosCVFormulario) => Promise<void>;
   onImageUpload: (event: ChangeEvent<HTMLInputElement>) => Promise<void>;
-  onFillSample: () => void;
   onClear: () => void;
   onChangeTemplate: () => void;
 };
@@ -123,23 +120,20 @@ const wizardChromeCopy = {
     continue: "Continuar",
     options: "Opciones",
     stepCount: (current: number, total: number) => `${current}/${total}`,
-    wizardTitle: "Completa tus datos paso a paso",
-    wizardDescription:
-      "Escribe lo importante. Antes de pagar, tus datos se conservan dentro del flujo y podes cambiar de plantilla sin volver a cargar todo.",
+    autosave: "Tu avance se guarda en esta pestaña.",
     exampleLabel: "Ejemplo",
-    helpLabel: "Tip para esta seccion",
+    helpLabel: "Ayuda para esta sección",
     changeTemplate: "Cambiar plantilla",
-    fillSample: "Rellenar prueba",
     clear: "Limpiar",
     changeTemplateConfirm:
-      "Vas a volver al selector de plantillas. Tus datos se mantienen en esta sesion. Quieres continuar?",
+      "Vas a volver al selector de plantillas. Tus datos se mantienen en esta sesión. ¿Querés continuar?",
     photoFormats: "JPG, PNG o WebP",
-    finalHelperTitle: "Cierra con datos concretos",
+    finalHelperTitle: "Cerrá con datos concretos",
     finalHelperText:
-      "No repitas habilidades en todos los campos. Deja links, portfolio, disponibilidad o certificaciones solo en extras.",
+      "No repitas habilidades en todos los campos. Dejá links, portfolio, disponibilidad o certificaciones solo en extras.",
     continueTo: "Continuar a",
-    suggestedPreview: "Vista sugerida",
-    lockedLabel: "bloqueado",
+    suggestedPreview: "Así puede verse",
+    optional: "Opcional",
   },
   en: {
     opened: "CV Wizard Opened",
@@ -152,13 +146,10 @@ const wizardChromeCopy = {
     continue: "Continue",
     options: "Options",
     stepCount: (current: number, total: number) => `${current}/${total}`,
-    wizardTitle: "Complete your resume details step by step",
-    wizardDescription:
-      "Write the essentials. Before paying, your details stay in this flow, so you can change templates without starting over.",
+    autosave: "Your progress is saved in this tab.",
     exampleLabel: "Example",
     helpLabel: "Tip for this section",
     changeTemplate: "Change template",
-    fillSample: "Fill sample",
     clear: "Clear",
     changeTemplateConfirm:
       "You will go back to the template selector. Your details stay in this session. Do you want to continue?",
@@ -168,7 +159,7 @@ const wizardChromeCopy = {
       "Avoid repeating the same skills in every field. Use extras only for links, portfolio, availability or certifications.",
     continueTo: "Continue to",
     suggestedPreview: "Suggested preview",
-    lockedLabel: "locked",
+    optional: "Optional",
   },
 } as const;
 
@@ -184,7 +175,6 @@ export default function CVFormWizard({
   error,
   onSubmit,
   onImageUpload,
-  onFillSample,
   onClear,
   onChangeTemplate,
 }: Props) {
@@ -209,11 +199,11 @@ export default function CVFormWizard({
         helperTitle:
           language === "en"
             ? "Use real contact details"
-            : "Usa datos reales de contacto",
+            : "Usá datos reales de contacto",
         helperText:
           language === "en"
             ? "Add your city, email, phone number and one professional link such as LinkedIn or GitHub."
-            : "Agrega ciudad, email, telefono y un link profesional como LinkedIn o GitHub.",
+            : "Agregá ciudad, email, teléfono y un link profesional como LinkedIn o GitHub.",
         fields: ["nombre", "puesto", "contacto"],
       },
       {
@@ -223,11 +213,11 @@ export default function CVFormWizard({
         description: copy.summaryDescription,
         example: copy.summaryPlaceholder,
         helperTitle:
-          language === "en" ? "Write it naturally first" : "Escribelo natural primero",
+          language === "en" ? "Write it naturally first" : "Escribilo natural primero",
         helperText:
           language === "en"
             ? "Say who you are, what you do and what kind of role you are aiming for. Clarity matters more than polish here."
-            : "Cuenta quien eres, que haces y hacia que rol apuntas. Aqui importa mas la claridad que sonar perfecto.",
+            : "Contá quién sos, qué hacés y hacia qué rol apuntás. Acá importa más la claridad que sonar perfecto.",
         fields: ["sobreMi"],
       },
       {
@@ -239,11 +229,11 @@ export default function CVFormWizard({
         helperTitle:
           language === "en"
             ? "Think one role at a time"
-            : "Piensa un rol por bloque",
+            : "Pensá una experiencia por bloque",
         helperText:
           language === "en"
             ? "Start with role, dates, company or project and location. Then explain what you actually did, without wording it like a formal resume yet."
-            : "Empieza con puesto, fechas, empresa o proyecto y lugar. Luego cuenta lo que hiciste, sin preocuparte todavia por redactarlo como CV final.",
+            : "Empezá con puesto, fechas, empresa o proyecto y lugar. Luego contá lo que hiciste sin preocuparte todavía por la redacción final.",
         fields: ["experiencia"],
       },
       {
@@ -259,7 +249,7 @@ export default function CVFormWizard({
         helperText:
           language === "en"
             ? "Include studies, courses or self-taught learning if they support the role you want. It helps give context to your profile."
-            : "Incluye estudios, cursos o aprendizaje autodidacta si sostienen el rol que buscas. Eso le da contexto real a tu perfil.",
+            : "Incluí estudios, cursos o aprendizaje autodidacta si aportan al rol que buscás. Si no corresponde, podés continuar sin completar este paso.",
         fields: ["formacion"],
       },
       {
@@ -388,24 +378,24 @@ export default function CVFormWizard({
   return (
     <form
       onSubmit={handleFinalSubmit}
-      className="relative flex min-h-[calc(100dvh-8rem)] flex-col overflow-hidden rounded-[26px] border border-white/8 bg-[#101014] text-white shadow-[0_18px_58px_rgba(4,4,12,0.24)]"
+      className="relative mx-auto flex min-h-[calc(100dvh-5rem)] w-full max-w-5xl flex-col text-white"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.08),_transparent_66%)]" />
+      <div className="hidden" />
 
-      <div className="sticky top-0 z-30 border-b border-white/8 bg-[#101014]/96 px-4 py-3 backdrop-blur sm:px-5 sm:py-4">
+      <div className="border-b border-white/9 px-1 pb-4 pt-2 sm:px-0 sm:pb-5">
         <div className="relative flex items-start gap-2">
           <Button
             type="button"
             variant="outline"
             onClick={handleStepBack}
-            className="mt-0.5 h-10 rounded-2xl border-white/10 bg-white/[0.03] px-3 text-white/80 transition-all hover:border-white/15 hover:bg-white/[0.06] hover:text-white sm:min-w-[94px] sm:justify-start"
+            className="hidden"
           >
             <ArrowLeft className="h-4 w-4" />
             <span className="hidden sm:inline">{chrome.back}</span>
           </Button>
 
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="hidden">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.035] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-white/62">
                 <Wand2 className="h-3.5 w-3.5 text-[#A78BFA]" />
                 {copy.badge}
@@ -418,14 +408,18 @@ export default function CVFormWizard({
               </span>
             </div>
 
-            <div className="mt-2 flex items-end justify-between gap-4">
+            <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
-                <h2 className="truncate text-lg font-semibold tracking-[-0.03em] text-[#F4F4F8] sm:text-[1.2rem]">
-                  {chrome.wizardTitle}
-                </h2>
-                <p className="mt-1 max-w-2xl text-[13px] leading-5 text-white/60 sm:text-sm sm:leading-6">
-                  {chrome.wizardDescription}
+                <p className="text-xs font-medium text-[#C4B5FD]">
+                  {chrome.stepLabel} {stepIndex + 1} de {steps.length} · {templateName}
                 </p>
+                <h1 className="mt-1 text-2xl font-semibold tracking-[-0.035em] text-[#F6F2EA]">
+                  {currentStep.title}
+                </h1>
+                <p className="mt-1.5 max-w-2xl text-sm leading-6 text-white/66">
+                  {currentStep.description}
+                </p>
+                <p className="mt-1 text-xs text-white/52">{chrome.autosave}</p>
               </div>
               <div className="hidden min-w-[104px] text-right lg:block">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-white/34">
@@ -442,7 +436,7 @@ export default function CVFormWizard({
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="inline-flex size-10 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-white/76 transition-all hover:border-white/15 hover:bg-white/[0.06] hover:text-white"
+                className="inline-flex size-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.025] text-white/76 transition-colors hover:border-white/18 hover:bg-white/[0.05] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/45"
                 aria-label={chrome.options}
               >
                 <MoreHorizontal className="h-4 w-4" />
@@ -460,13 +454,6 @@ export default function CVFormWizard({
                 {chrome.changeTemplate}
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={onFillSample}
-                className="rounded-xl px-3 py-2.5 text-white/80 focus:bg-white/[0.06] focus:text-white"
-              >
-                <CheckCircle2 className="h-4 w-4 text-[#A78BFA]" />
-                {chrome.fillSample}
-              </DropdownMenuItem>
-              <DropdownMenuItem
                 onClick={onClear}
                 className="rounded-xl px-3 py-2.5 text-white/80 focus:bg-white/[0.06] focus:text-white"
               >
@@ -478,7 +465,7 @@ export default function CVFormWizard({
         </div>
 
         <div className="relative mt-3">
-          <div className="mb-2 flex items-center justify-between text-[11px] text-white/46">
+          <div className="hidden">
             <span>{currentStep.title}</span>
             <span className="font-medium text-white/64">
               {chrome.stepCount(stepIndex + 1, steps.length)}
@@ -486,9 +473,10 @@ export default function CVFormWizard({
           </div>
           <Progress
             value={progressValue}
+            aria-label={`${chrome.progressLabel}: ${Math.round(progressValue)}%`}
             className="h-1 rounded-full bg-white/[0.06] [&_[data-slot=progress-indicator]]:bg-[#7c4dd4]"
           />
-          <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="mt-3 grid grid-cols-5 gap-2" aria-label={chrome.progressLabel}>
             {steps.map((step, index) => {
               const isActive = index === stepIndex;
               const isDone = index < stepIndex;
@@ -501,7 +489,7 @@ export default function CVFormWizard({
                   onClick={() => handleStepSelect(index)}
                   disabled={isLocked}
                   className={cn(
-                    "group inline-flex shrink-0 items-center gap-2 rounded-2xl border px-3 py-2 text-left transition-colors duration-200",
+                    "group inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-2xl border px-2 py-2 text-left transition-colors duration-200 lg:justify-start lg:px-3",
                     isActive
                       ? "border-[#8b5cf6]/28 bg-[#1a1723] text-white"
                       : isDone
@@ -509,6 +497,7 @@ export default function CVFormWizard({
                         : "border-white/8 bg-white/[0.018] text-white/45",
                     isLocked && "cursor-not-allowed",
                   )}
+                  aria-current={isActive ? "step" : undefined}
                 >
                   <span
                     className={cn(
@@ -522,7 +511,7 @@ export default function CVFormWizard({
                   >
                     <step.icon className="h-3.5 w-3.5" />
                   </span>
-                  <span className="hidden min-w-0 flex-col sm:flex">
+                  <span className="hidden min-w-0 flex-col lg:flex">
                     <span className="text-[10px] uppercase tracking-[0.14em] text-white/32">
                       {chrome.stepLabel} {index + 1}
                     </span>
@@ -535,8 +524,8 @@ export default function CVFormWizard({
         </div>
       </div>
 
-      <div className="min-h-0 flex-1 px-4 pb-4 pt-4 sm:px-5 sm:pb-5">
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_292px]">
+      <div className="min-h-0 flex-1 py-5 sm:py-6">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_268px] lg:gap-10">
           <AnimatePresence mode="wait">
             <motion.section
               key={currentStep.id}
@@ -544,25 +533,8 @@ export default function CVFormWizard({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.99 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
-              className="rounded-[24px] border border-white/8 bg-white/[0.025] p-4 sm:p-5"
+              className="min-w-0"
             >
-              <div className="mb-5 flex items-start gap-3 sm:mb-6">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl border border-white/8 bg-white/[0.035] text-[#d8cbf7]">
-                  <currentStep.icon className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-white/42">
-                    {chrome.stepLabel} {chrome.stepCount(stepIndex + 1, steps.length)}
-                  </p>
-                  <h3 className="mt-1 text-xl font-semibold tracking-[-0.03em] text-[#F5F5FA] sm:text-[1.35rem]">
-                    {currentStep.title}
-                  </h3>
-                  <p className="mt-1.5 max-w-2xl text-[14px] leading-6 text-white/64">
-                    {currentStep.description}
-                  </p>
-                </div>
-              </div>
-
               <StepFields
                 stepId={currentStep.id}
                 copy={copy}
@@ -574,11 +546,12 @@ export default function CVFormWizard({
                 fieldClass={FIELD_CLASS}
                 textareaClass={TEXTAREA_CLASS}
                 photoFormats={chrome.photoFormats}
+                optionalLabel={chrome.optional}
               />
             </motion.section>
           </AnimatePresence>
 
-          <aside className="rounded-[24px] border border-white/8 bg-white/[0.025] p-4 lg:sticky lg:top-4 lg:self-start">
+          <aside className="border-t border-white/9 pt-6 lg:sticky lg:top-20 lg:self-start lg:border-t-0 lg:border-l lg:border-white/9 lg:pl-6 lg:pt-0">
             <section>
               <div className="mb-3 flex items-center gap-2">
                 <div className="flex size-8 items-center justify-center rounded-xl bg-white/[0.04] text-[#A78BFA]">
@@ -611,7 +584,7 @@ export default function CVFormWizard({
             </section>
 
             {error ? (
-              <div className="mt-4 rounded-2xl border border-red-500/24 bg-red-500/10 p-3 text-sm text-red-200">
+              <div role="alert" aria-live="polite" className="mt-4 rounded-2xl border border-red-500/24 bg-red-500/10 p-3 text-sm text-red-200">
                 <div className="flex items-start gap-2">
                   <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                   <span>{error}</span>
@@ -622,20 +595,20 @@ export default function CVFormWizard({
         </div>
       </div>
 
-      <div className="pointer-events-none sticky bottom-0 z-30 border-t border-white/8 bg-[#101014]/96 px-4 py-3 backdrop-blur sm:px-5">
-        <div className="pointer-events-auto flex flex-col gap-2 sm:flex-row sm:items-center">
+      <div className="pointer-events-none sticky bottom-0 z-30 mt-auto border-t border-white/9 bg-[#111113]/96 py-3 backdrop-blur-md">
+        <div className="pointer-events-auto flex items-end gap-2">
           <Button
             type="button"
             variant="outline"
             onClick={handleStepBack}
-            className="h-11 rounded-2xl border-white/10 bg-white/[0.03] px-4 text-white/80 transition-all hover:border-white/15 hover:bg-white/[0.06] hover:text-white"
+            className="h-11 rounded-full border-white/10 bg-white/[0.025] px-4 text-white/80 transition-colors hover:border-white/18 hover:bg-white/[0.05] hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>{chrome.back}</span>
           </Button>
 
           <div className="min-w-0 flex-1">
-            <div className="mb-2 flex items-center justify-between px-1 text-[11px] text-white/44">
+            <div className="hidden">
               <span>{currentStep.title}</span>
               <span>{chrome.stepCount(stepIndex + 1, steps.length)}</span>
             </div>
@@ -644,7 +617,7 @@ export default function CVFormWizard({
                 key={`next-${currentStep.id}`}
                 type="button"
                 onClick={handleNext}
-                className="h-12 w-full rounded-2xl bg-[#6f3cd2] px-5 text-[15px] font-semibold text-white shadow-[0_12px_26px_rgba(109,40,217,0.18)] transition-all hover:-translate-y-px hover:bg-[#7a47dd] hover:shadow-[0_16px_30px_rgba(109,40,217,0.24)]"
+                className="h-12 w-full rounded-full bg-[#F6F2EA] px-5 text-[15px] font-semibold text-[#111113] shadow-none transition-colors hover:bg-[#EDE8DE] focus-visible:ring-[#A78BFA]/55"
               >
                 <span>{nextButtonLabel}</span>
                 <ChevronRight className="h-4 w-4" />
@@ -654,7 +627,7 @@ export default function CVFormWizard({
                 key={`submit-${currentStep.id}`}
                 type="submit"
                 disabled={isGenerating || isSubmitting}
-                className="h-12 w-full rounded-2xl bg-[#6f3cd2] px-5 text-[15px] font-semibold text-white shadow-[0_12px_26px_rgba(109,40,217,0.18)] transition-all hover:-translate-y-px hover:bg-[#7a47dd] hover:shadow-[0_16px_30px_rgba(109,40,217,0.24)] disabled:translate-y-0 disabled:bg-[#5f34b0] disabled:shadow-none"
+                className="h-12 w-full rounded-full bg-[#F6F2EA] px-5 text-[15px] font-semibold text-[#111113] shadow-none transition-colors hover:bg-[#EDE8DE] focus-visible:ring-[#A78BFA]/55 disabled:bg-[#8D8982] disabled:text-[#27262A]"
               >
                 <Sparkles className="h-4 w-4" />
                 {isGenerating || isSubmitting ? copy.generating : copy.generate}
@@ -679,7 +652,7 @@ function ExamplePreview({
 }) {
   if (step.id === "basic") {
     return (
-      <div className="rounded-[20px] bg-[#0d0d11] p-4">
+      <div className="border-y border-white/9 py-4">
         <p className="text-lg font-semibold tracking-[-0.02em] text-[#F4F4F8]">
           Sebastian Lopez
         </p>
@@ -701,18 +674,21 @@ function ExamplePreview({
     .filter(Boolean);
 
   return (
-    <div className="rounded-[20px] bg-[#0d0d11] p-4">
+    <div className="border-y border-white/9 py-4">
       <p className="text-[11px] uppercase tracking-[0.16em] text-white/42">
         {previewLabel}
       </p>
       <div className="mt-3 space-y-2">
-        {exampleLines.map((line) => (
-          <div
+        {exampleLines.map((line, index) => (
+          <p
             key={line}
-            className="rounded-2xl bg-white/[0.035] px-3 py-2 text-[13px] leading-6 text-white/70"
+            className={cn(
+              "text-[13px] leading-6 text-white/72",
+              index > 0 && "border-t border-white/8 pt-2",
+            )}
           >
             {line}
-          </div>
+          </p>
         ))}
       </div>
     </div>
@@ -730,6 +706,7 @@ function StepFields({
   fieldClass,
   textareaClass,
   photoFormats,
+  optionalLabel,
 }: {
   stepId: WizardStep["id"];
   copy: FormCopy;
@@ -741,6 +718,7 @@ function StepFields({
   fieldClass: string;
   textareaClass: string;
   photoFormats: string;
+  optionalLabel: string;
 }) {
   if (stepId === "basic") {
     const allowsPhoto = templateAllowsPhoto(template);
@@ -748,21 +726,27 @@ function StepFields({
     return (
       <div className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
-          <FieldError message={errors.nombre?.message}>
-            <FieldLabel>{copy.fullName}</FieldLabel>
+          <FieldError id="nombre-error" message={errors.nombre?.message}>
+            <FieldLabel htmlFor="nombre">{copy.fullName}</FieldLabel>
             <input
+              id="nombre"
               {...register("nombre")}
               className={fieldClass}
               placeholder={copy.fullNamePlaceholder}
+              aria-invalid={Boolean(errors.nombre)}
+              aria-describedby={errors.nombre ? "nombre-error" : undefined}
             />
           </FieldError>
 
-          <FieldError message={errors.puesto?.message}>
-            <FieldLabel>{copy.role}</FieldLabel>
+          <FieldError id="puesto-error" message={errors.puesto?.message}>
+            <FieldLabel htmlFor="puesto">{copy.role}</FieldLabel>
             <input
+              id="puesto"
               {...register("puesto")}
               className={fieldClass}
               placeholder={copy.rolePlaceholder}
+              aria-invalid={Boolean(errors.puesto)}
+              aria-describedby={errors.puesto ? "puesto-error" : undefined}
             />
           </FieldError>
         </div>
@@ -773,23 +757,27 @@ function StepFields({
             allowsPhoto ? "md:grid-cols-[minmax(0,1fr)_228px]" : "",
           )}
         >
-          <FieldError message={errors.contacto?.message}>
-            <FieldLabel icon={Mail}>{copy.contact}</FieldLabel>
+          <FieldError id="contacto-error" message={errors.contacto?.message}>
+            <FieldLabel htmlFor="contacto" icon={Mail}>{copy.contact}</FieldLabel>
             <textarea
+              id="contacto"
               {...register("contacto")}
               rows={6}
               className={textareaClass}
               placeholder={copy.contactPlaceholder}
+              aria-invalid={Boolean(errors.contacto)}
+              aria-describedby={errors.contacto ? "contacto-error" : undefined}
             />
           </FieldError>
 
           {allowsPhoto ? (
             <div>
-              <FieldLabel icon={Upload}>{copy.photo}</FieldLabel>
+              <FieldLabel htmlFor="foto-cv" icon={Upload}>{copy.photo}</FieldLabel>
               <label className="group flex min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-white/12 bg-white/[0.025] px-4 py-4 text-center transition-all hover:border-[#8B5CF6]/24 hover:bg-white/[0.045]">
                 <input
+                  id="foto-cv"
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/png,image/webp"
                   onChange={onImageUpload}
                   className="sr-only"
                 />
@@ -826,12 +814,16 @@ function StepFields({
 
   if (stepId === "summary") {
     return (
-      <FieldError message={errors.sobreMi?.message}>
+      <FieldError id="sobre-mi-error" message={errors.sobreMi?.message}>
+        <FieldLabel htmlFor="sobre-mi">{copy.summaryTitle}</FieldLabel>
         <textarea
+          id="sobre-mi"
           {...register("sobreMi")}
           rows={7}
           className={textareaClass}
           placeholder={copy.summaryPlaceholder}
+          aria-invalid={Boolean(errors.sobreMi)}
+          aria-describedby={errors.sobreMi ? "sobre-mi-error" : undefined}
         />
       </FieldError>
     );
@@ -839,12 +831,16 @@ function StepFields({
 
   if (stepId === "experience") {
     return (
-      <FieldError message={errors.experiencia?.message}>
+      <FieldError id="experiencia-error" message={errors.experiencia?.message}>
+        <FieldLabel htmlFor="experiencia">{copy.experienceTitle}</FieldLabel>
         <textarea
+          id="experiencia"
           {...register("experiencia")}
           rows={11}
           className={textareaClass}
           placeholder={copy.experiencePlaceholder}
+          aria-invalid={Boolean(errors.experiencia)}
+          aria-describedby={errors.experiencia ? "experiencia-error" : undefined}
         />
       </FieldError>
     );
@@ -852,12 +848,19 @@ function StepFields({
 
   if (stepId === "education") {
     return (
-      <FieldError message={errors.formacion?.message}>
+      <FieldError id="formacion-error" message={errors.formacion?.message}>
+        <FieldLabel htmlFor="formacion">
+          {copy.educationTitle}
+          <span className="font-normal text-white/52">({optionalLabel})</span>
+        </FieldLabel>
         <textarea
+          id="formacion"
           {...register("formacion")}
           rows={9}
           className={textareaClass}
           placeholder={copy.educationPlaceholder}
+          aria-invalid={Boolean(errors.formacion)}
+          aria-describedby={errors.formacion ? "formacion-error" : undefined}
         />
       </FieldError>
     );
@@ -866,30 +869,43 @@ function StepFields({
   return (
     <div className="space-y-5">
       <div className="grid gap-4 md:grid-cols-2">
-        <FieldError message={errors.habilidades?.message}>
-          <FieldLabel icon={Hammer}>{copy.skills}</FieldLabel>
+        <FieldError id="habilidades-error" message={errors.habilidades?.message}>
+          <FieldLabel htmlFor="habilidades" icon={Hammer}>{copy.skills}</FieldLabel>
           <textarea
+            id="habilidades"
             {...register("habilidades")}
             rows={6}
             className={textareaClass}
             placeholder={copy.skillsPlaceholder}
+            aria-invalid={Boolean(errors.habilidades)}
+            aria-describedby={errors.habilidades ? "habilidades-error" : undefined}
           />
         </FieldError>
 
-        <FieldError message={errors.idiomas?.message}>
-          <FieldLabel icon={Languages}>{copy.languages}</FieldLabel>
+        <FieldError id="idiomas-error" message={errors.idiomas?.message}>
+          <FieldLabel htmlFor="idiomas" icon={Languages}>
+            {copy.languages}
+            <span className="font-normal text-white/52">({optionalLabel})</span>
+          </FieldLabel>
           <textarea
+            id="idiomas"
             {...register("idiomas")}
             rows={6}
             className={textareaClass}
             placeholder={copy.languagesPlaceholder}
+            aria-invalid={Boolean(errors.idiomas)}
+            aria-describedby={errors.idiomas ? "idiomas-error" : undefined}
           />
         </FieldError>
       </div>
 
       <div>
-        <FieldLabel icon={FileText}>{copy.additional}</FieldLabel>
+        <FieldLabel htmlFor="informacion-adicional" icon={FileText}>
+          {copy.additional}
+          <span className="font-normal text-white/52">({optionalLabel})</span>
+        </FieldLabel>
         <textarea
+          id="informacion-adicional"
           {...register("informacionAdicional")}
           rows={5}
           className={textareaClass}
@@ -903,12 +919,14 @@ function StepFields({
 function FieldLabel({
   children,
   icon: Icon,
+  htmlFor,
 }: {
   children: ReactNode;
   icon?: LucideIcon;
+  htmlFor?: string;
 }) {
   return (
-    <Label className="mb-2 flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.16em] text-white/54">
+    <Label htmlFor={htmlFor} className="mb-2 flex items-center gap-2 text-xs font-medium text-white/72">
       {Icon ? <Icon className="h-3.5 w-3.5 text-[#A78BFA]" /> : null}
       {children}
     </Label>
@@ -917,16 +935,18 @@ function FieldLabel({
 
 function FieldError({
   children,
+  id,
   message,
 }: {
   children: ReactNode;
+  id?: string;
   message?: string;
 }) {
   return (
     <div>
       {children}
       {message ? (
-        <p className="mt-2 flex items-center text-xs text-red-300">
+        <p id={id} role="alert" className="mt-2 flex items-center text-xs text-red-300">
           <AlertCircle className="mr-1.5 h-3.5 w-3.5 shrink-0" />
           {message}
         </p>
@@ -936,6 +956,6 @@ function FieldError({
 }
 
 const FIELD_CLASS =
-  "h-11 w-full rounded-2xl border border-white/10 bg-white/[0.035] px-4 text-[15px] text-[#F3F3F7] outline-none transition-all placeholder:text-white/42 focus:border-[#8B5CF6]/32 focus:bg-white/[0.055] focus:shadow-[0_0_0_3px_rgba(124,58,237,0.08)] sm:text-sm";
+  "h-12 w-full rounded-2xl border border-white/12 bg-white/[0.04] px-4 text-[16px] text-[#F3F3F7] outline-none transition-colors placeholder:text-white/52 focus:border-[#A78BFA]/48 focus:bg-white/[0.06] focus:ring-4 focus:ring-[#8B5CF6]/10 aria-invalid:border-red-400/60 sm:text-sm";
 const TEXTAREA_CLASS =
-  "w-full min-h-[150px] resize-y rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 text-[15px] leading-7 text-[#F3F3F7] outline-none transition-all placeholder:text-white/42 focus:border-[#8B5CF6]/32 focus:bg-white/[0.055] focus:shadow-[0_0_0_3px_rgba(124,58,237,0.08)] sm:text-sm";
+  "w-full min-h-[140px] resize-y rounded-2xl border border-white/12 bg-white/[0.04] px-4 py-3.5 text-[16px] leading-7 text-[#F3F3F7] outline-none transition-colors placeholder:text-white/52 focus:border-[#A78BFA]/48 focus:bg-white/[0.06] focus:ring-4 focus:ring-[#8B5CF6]/10 aria-invalid:border-red-400/60 sm:text-sm";

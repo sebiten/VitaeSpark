@@ -3,8 +3,8 @@
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
-import { Eye, FileText, LockKeyhole, Palette } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
 import {
@@ -32,13 +32,14 @@ type CVFormProps = {
 };
 
 type ResumeAction = "generate" | "photo";
+type FlowStep = "template" | "form" | "preview";
 
 type StoredCreateDraft = {
   data: DatosCVFormulario;
   template: string;
   language: AppLanguage;
   intent: CreateIntent;
-  action: ResumeAction;
+  action: ResumeAction | null;
 };
 
 const CREATE_DRAFT_KEY = "vitaespark_create_draft";
@@ -65,6 +66,36 @@ const createEmptyDraft = (): DatosCVFormulario => ({
   informacionAdicional: "",
 });
 
+const draftFieldNames: Array<keyof DatosCVFormulario> = [
+  "nombre",
+  "puesto",
+  "contacto",
+  "sobreMi",
+  "experiencia",
+  "formacion",
+  "habilidades",
+  "idiomas",
+  "informacionAdicional",
+];
+
+function normalizeDraft(data: DatosCVFormulario): DatosCVFormulario {
+  return {
+    ...createEmptyDraft(),
+    ...data,
+    informacionAdicional: data.informacionAdicional ?? "",
+  };
+}
+
+function hasDraftContent(data: DatosCVFormulario) {
+  return (
+    Boolean(data.foto_url) ||
+    draftFieldNames.some((field) => {
+      const value = data[field];
+      return typeof value === "string" && value.trim().length > 0;
+    })
+  );
+}
+
 export default function CVForm({
   initialLanguage = "es",
   initialIntent = "general",
@@ -73,7 +104,7 @@ export default function CVForm({
 }: CVFormProps) {
   const [selectedTemplate, setSelectedTemplate] = useState("elegance");
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
-  const [activeTab, setActiveTab] = useState("template");
+  const [activeTab, setActiveTab] = useState<FlowStep>("template");
   const draftDataRef = useRef<DatosCVFormulario>(createEmptyDraft());
   const [draftPhotoUrl, setDraftPhotoUrl] = useState<string | null>(null);
   const [templateFlowTarget, setTemplateFlowTarget] = useState<"form" | "preview">(
@@ -83,32 +114,63 @@ export default function CVForm({
   const [draftReady, setDraftReady] = useState(false);
   const [resumeAction, setResumeAction] = useState<ResumeAction | null>(null);
   const draftRestoredRef = useRef(false);
+  const selectedTemplateRef = useRef(selectedTemplate);
+  const createIntentRef = useRef(createIntent);
+  const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const suspendAutosaveRef = useRef(false);
   const intentMessage = getCreateIntentMessage(createIntent);
 
-  const handleTabChange = useCallback(
-    (tab: string) => {
-      setActiveTab(tab);
+  const persistCurrentDraft = useCallback(
+    (action: ResumeAction | null = null) => {
+      if (suspendAutosaveRef.current) return;
+
+      const data = normalizeDraft(draftDataRef.current);
+
+      if (!hasDraftContent(data)) {
+        window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
+        return;
+      }
+
+      const storedDraft: StoredCreateDraft = {
+        data,
+        template: selectedTemplateRef.current,
+        language: initialLanguage,
+        intent: createIntentRef.current,
+        action,
+      };
+
+      window.sessionStorage.setItem(CREATE_DRAFT_KEY, JSON.stringify(storedDraft));
+    },
+    [initialLanguage],
+  );
+
+  const navigateToStep = useCallback(
+    (step: FlowStep) => {
+      if (step === "form") {
+        suspendAutosaveRef.current = false;
+      }
+      setActiveTab(step);
       track("CV Funnel Step Viewed", {
-        step: tab,
+        step,
         language: initialLanguage,
         ...getLandingAttribution(),
       });
-      if (tab === "form") {
-        recordAnalyticsEvent({
-          event_name: "form_started",
-          language: initialLanguage,
-          template: selectedTemplate,
-          ...getLandingAttribution(),
-        });
-      }
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    [initialLanguage, selectedTemplate],
+    [initialLanguage],
   );
 
-  const handleTemplateSelected = useCallback(
+  const handleTemplateChoice = useCallback(
     (templateId: string) => {
+      selectedTemplateRef.current = templateId;
       setSelectedTemplate(templateId);
+      persistCurrentDraft();
+    },
+    [persistCurrentDraft],
+  );
+
+  const handleTemplateContinue = useCallback(() => {
+      const templateId = selectedTemplateRef.current;
       const attribution = getLandingAttribution();
       const nextStep =
         templateFlowTarget === "preview" && cvData ? "preview" : "form";
@@ -125,24 +187,19 @@ export default function CVForm({
         template: templateId,
         ...attribution,
       });
-      recordAnalyticsEvent({
-        event_name: "form_started",
-        language: initialLanguage,
-        template: templateId,
-        ...attribution,
-      });
 
-      setActiveTab(nextStep);
-      track("CV Funnel Step Viewed", {
-        step: nextStep,
-        language: initialLanguage,
-        ...attribution,
-      });
+      if (nextStep === "form") {
+        recordAnalyticsEvent({
+          event_name: "form_started",
+          language: initialLanguage,
+          template: templateId,
+          ...attribution,
+        });
+      }
+
+      navigateToStep(nextStep);
       setTemplateFlowTarget("form");
-      window.scrollTo(0, 0);
-    },
-    [cvData, initialLanguage, templateFlowTarget],
-  );
+    }, [cvData, initialLanguage, navigateToStep, templateFlowTarget]);
 
   const handleFormCompleted = useCallback(
     (data: RespuestaCV["cv"]) => {
@@ -161,38 +218,51 @@ export default function CVForm({
       });
 
       window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
+      suspendAutosaveRef.current = true;
       setResumeAction(null);
 
-      setActiveTab("preview");
-      track("CV Funnel Step Viewed", {
-        step: "preview",
-        language: initialLanguage,
-        ...attribution,
-      });
-      window.scrollTo(0, 0);
+      navigateToStep("preview");
     },
-    [initialLanguage, selectedTemplate],
+    [initialLanguage, navigateToStep, selectedTemplate],
   );
 
-  const handleDraftChange = useCallback((data: DatosCVFormulario) => {
-    draftDataRef.current = {
-      ...createEmptyDraft(),
-      ...data,
-      informacionAdicional: data.informacionAdicional ?? "",
-    };
-  }, []);
+  const handleDraftChange = useCallback(
+    (data: DatosCVFormulario) => {
+      draftDataRef.current = normalizeDraft(data);
+      setResumeAction(null);
 
-  const handlePhotoUrlChange = useCallback((url: string | null) => {
-    setDraftPhotoUrl(url);
-  }, []);
+      if (autosaveTimerRef.current) {
+        clearTimeout(autosaveTimerRef.current);
+      }
+
+      autosaveTimerRef.current = setTimeout(() => {
+        persistCurrentDraft();
+      }, 300);
+    },
+    [persistCurrentDraft],
+  );
+
+  const handlePhotoUrlChange = useCallback(
+    (url: string | null) => {
+      setDraftPhotoUrl(url);
+      draftDataRef.current = {
+        ...draftDataRef.current,
+        foto_url: url ?? undefined,
+      };
+      setResumeAction(null);
+      window.setTimeout(() => persistCurrentDraft(), 0);
+    },
+    [persistCurrentDraft],
+  );
 
   const handleAuthRequired = useCallback(
     (data: DatosCVFormulario, action: ResumeAction) => {
+      suspendAutosaveRef.current = true;
       const storedDraft: StoredCreateDraft = {
-        data,
-        template: selectedTemplate,
+        data: normalizeDraft({ ...data, foto_url: draftPhotoUrl ?? undefined }),
+        template: selectedTemplateRef.current,
         language: initialLanguage,
-        intent: createIntent,
+        intent: createIntentRef.current,
         action,
       };
 
@@ -200,18 +270,20 @@ export default function CVForm({
       recordAnalyticsEvent({
         event_name: "auth_required",
         language: initialLanguage,
-        template: selectedTemplate,
+        template: selectedTemplateRef.current,
         ...getLandingAttribution(),
       });
 
       const nextParams = new URLSearchParams();
       if (initialLanguage === "en") nextParams.set("lang", "en");
-      if (createIntent !== "general") nextParams.set("intent", createIntent);
+      if (createIntentRef.current !== "general") {
+        nextParams.set("intent", createIntentRef.current);
+      }
       nextParams.set("resume", action);
       const nextPath = `/crear?${nextParams.toString()}`;
       window.location.assign(`/login?next=${encodeURIComponent(nextPath)}`);
     },
-    [createIntent, initialLanguage, selectedTemplate],
+    [draftPhotoUrl, initialLanguage],
   );
 
   useEffect(() => {
@@ -236,7 +308,9 @@ export default function CVForm({
       "vitaespark-create-intent",
     );
     if (storedIntent) {
-      setCreateIntent(normalizeCreateIntent(storedIntent));
+      const normalizedIntent = normalizeCreateIntent(storedIntent);
+      createIntentRef.current = normalizedIntent;
+      setCreateIntent(normalizedIntent);
       window.sessionStorage.removeItem("vitaespark-create-intent");
     }
   }, []);
@@ -255,16 +329,23 @@ export default function CVForm({
         return;
       }
 
-      draftDataRef.current = {
-        ...createEmptyDraft(),
-        ...storedDraft.data,
-        informacionAdicional: storedDraft.data.informacionAdicional ?? "",
-      };
-      setSelectedTemplate(storedDraft.template);
-      setCreateIntent(normalizeCreateIntent(storedDraft.intent));
-      setActiveTab("form");
+      const restoredData = normalizeDraft(storedDraft.data);
+      if (!hasDraftContent(restoredData)) {
+        window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
+        return;
+      }
 
-      if (currentUser) {
+      draftDataRef.current = restoredData;
+      selectedTemplateRef.current = storedDraft.template;
+      setSelectedTemplate(storedDraft.template);
+      setDraftPhotoUrl(restoredData.foto_url ?? null);
+      const restoredIntent = normalizeCreateIntent(storedDraft.intent);
+      createIntentRef.current = restoredIntent;
+      setCreateIntent(restoredIntent);
+      setActiveTab("form");
+      suspendAutosaveRef.current = false;
+
+      if (currentUser && storedDraft.action) {
         setResumeAction(storedDraft.action);
         recordAnalyticsEvent({
           event_name: "auth_completed",
@@ -272,6 +353,19 @@ export default function CVForm({
           template: storedDraft.template,
           ...getLandingAttribution(),
         });
+        if (storedDraft.action === "photo") {
+          toast.success(
+            initialLanguage === "en"
+              ? "Session ready. You can upload the photo now."
+              : "Sesión lista. Ya podés subir la foto.",
+          );
+        }
+      } else if (!storedDraft.action) {
+        toast.info(
+          initialLanguage === "en"
+            ? "We restored your saved progress."
+            : "Recuperamos el avance guardado en esta pestaña.",
+        );
       }
     } catch {
       window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
@@ -280,21 +374,23 @@ export default function CVForm({
     }
   }, [currentUser, initialLanguage]);
 
+  useEffect(() => {
+    return () => {
+      if (autosaveTimerRef.current) {
+        clearTimeout(autosaveTimerRef.current);
+      }
+      persistCurrentDraft();
+    };
+  }, [persistCurrentDraft]);
+
   if (!draftReady) {
     return <FlowStepSkeleton label="Preparando tu espacio de trabajo..." />;
   }
 
-  const getProgress = () => {
-    if (activeTab === "template") return 33;
-    if (activeTab === "form") return 66;
-    if (activeTab === "preview") return 100;
-    return 0;
-  };
-
   return (
     <div className="mx-auto w-full overflow-x-hidden py-1 sm:py-2">
       <div className="mx-auto w-full max-w-6xl min-w-0">
-        {intentMessage ? (
+        {activeTab === "template" && intentMessage ? (
           <div className="mx-auto mb-4 max-w-2xl border-b border-white/8 px-2 pb-4 text-center">
             <p className="text-sm font-semibold text-[#F6F2EA]">
               {intentMessage.title}
@@ -306,87 +402,18 @@ export default function CVForm({
         ) : null}
         <Tabs
           value={activeTab}
-          onValueChange={handleTabChange}
+          onValueChange={(step) => navigateToStep(step as FlowStep)}
           className="min-w-0 space-y-4"
         >
-          <div className="mx-0 rounded-[22px] border border-white/8 bg-[#101014]/72 p-1.5 sm:mx-auto sm:max-w-2xl">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-              <TabsList className="grid h-auto w-full grid-cols-3 rounded-[18px] border border-white/8 bg-white/[0.025] p-1 sm:flex-1">
-                <TabsTrigger
-                  value="template"
-                  className="flex min-w-0 items-center justify-center gap-2 rounded-[14px] px-3 py-2 text-xs text-white/68 transition-colors data-[state=active]:bg-white/[0.08] data-[state=active]:text-white"
-                >
-                  <Palette className="h-4 w-4" />
-                  <span className="hidden sm:inline">
-                    {initialLanguage === "en" ? "Template" : "Plantilla"}
-                  </span>
-                  <span className="sm:hidden">1</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="form"
-                  className="flex min-w-0 items-center justify-center gap-2 rounded-[14px] px-3 py-2 text-xs text-white/68 transition-colors data-[state=active]:bg-white/[0.08] data-[state=active]:text-white"
-                  disabled={!selectedTemplate}
-                >
-                  <FileText className="h-4 w-4" />
-                  <span className="hidden sm:inline">
-                    {initialLanguage === "en" ? "Details" : "Datos"}
-                  </span>
-                  <span className="sm:hidden">2</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="preview"
-                  className="flex min-w-0 items-center justify-center gap-2 rounded-[14px] px-3 py-2 text-xs text-white/68 transition-colors data-[state=active]:bg-white/[0.08] data-[state=active]:text-white"
-                  disabled={!cvData}
-                >
-                  <Eye className="h-4 w-4" />
-                  <span className="hidden sm:inline">
-                    {initialLanguage === "en" ? "Preview" : "Vista previa"}
-                  </span>
-                  <span className="sm:hidden">3</span>
-                </TabsTrigger>
-              </TabsList>
-
-              <div className="flex items-center gap-3 px-1 sm:w-32">
-                <div className="h-1 flex-1 rounded-full bg-white/10">
-                  <div
-                    className="h-1 rounded-full bg-[#7C3AED]"
-                    style={{ width: `${getProgress()}%` }}
-                  />
-                </div>
-                <span className="w-8 text-right text-xs font-semibold text-[#A78BFA]">
-                  {getProgress()}%
-                </span>
-              </div>
-            </div>
-            <p className="px-2 pb-1 pt-2 text-center text-[11px] leading-5 text-white/48">
-              {initialLanguage === "en"
-                ? "Before paying, you can switch templates without reloading your details."
-                : "Antes de pagar, podes cambiar de plantilla sin volver a cargar tus datos."}
-            </p>
-          </div>
-
           <TabsContent value="template" className="space-y-6">
             <TemplateSelector
               selectedTemplate={selectedTemplate}
-              onSelectTemplate={handleTemplateSelected}
+              onSelectTemplate={handleTemplateChoice}
+              onContinue={handleTemplateContinue}
             />
           </TabsContent>
 
           <TabsContent value="form" className="space-y-6">
-            {!currentUser ? (
-              <div className="mx-auto flex max-w-2xl items-start gap-3 border-b border-white/8 px-2 pb-4 text-sm text-white/62">
-                <LockKeyhole className="mt-0.5 h-4 w-4 shrink-0 text-[#C4B5FD]" />
-                <p>
-                  Completa tus datos sin registrarte. Te pediremos iniciar sesión
-                  recién al generar el CV para guardarlo de forma segura.
-                </p>
-              </div>
-            ) : resumeAction === "photo" ? (
-              <div className="mx-auto max-w-2xl border-b border-emerald-400/16 px-2 pb-4 text-center text-sm text-emerald-200/82">
-                Sesión iniciada. Tus datos siguen cargados; ya puedes seleccionar
-                la foto.
-              </div>
-            ) : null}
             {selectedTemplate ? (
               <CVFormStep
                 template={selectedTemplate}
@@ -397,7 +424,7 @@ export default function CVForm({
                 onDraftChange={handleDraftChange}
                 fotoUrl={draftPhotoUrl}
                 onFotoUrlChange={handlePhotoUrlChange}
-                onChangeTemplate={() => setActiveTab("template")}
+                onChangeTemplate={() => navigateToStep("template")}
                 onAuthRequired={handleAuthRequired}
                 autoGenerate={Boolean(currentUser && resumeAction === "generate")}
               />
@@ -409,10 +436,10 @@ export default function CVForm({
               <CVPreviewStep
                 cvData={cvData}
                 template={selectedTemplate}
-                onBack={() => setActiveTab("form")}
+                onBack={() => navigateToStep("form")}
                 onChangeTemplate={() => {
                   setTemplateFlowTarget("preview");
-                  setActiveTab("template");
+                  navigateToStep("template");
                 }}
                 currentUser={currentUser}
                 language={initialLanguage}
@@ -428,9 +455,9 @@ export default function CVForm({
 
 function FlowStepSkeleton({ label }: { label: string }) {
   return (
-    <div className="min-h-[420px] rounded-[26px] border border-white/8 bg-[#101014] p-6 text-white">
+    <div className="min-h-[320px] border-y border-white/8 text-white">
       <div className="mx-auto flex max-w-xl flex-col items-center justify-center gap-4 py-20 text-center">
-        <div className="h-10 w-10 animate-pulse rounded-2xl bg-white/[0.06]" />
+        <div className="size-8 animate-pulse rounded-full border border-white/12 bg-white/[0.04]" />
         <p className="text-sm font-medium text-white/58">{label}</p>
       </div>
     </div>

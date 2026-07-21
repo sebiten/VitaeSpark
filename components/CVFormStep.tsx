@@ -28,7 +28,7 @@ const createSchema = (language: AppLanguage) =>
         1,
         language === "en"
           ? "Contact information is required"
-          : "La informacion de contacto es obligatoria",
+          : "La información de contacto es obligatoria",
       ),
     sobreMi: z
       .string()
@@ -36,36 +36,24 @@ const createSchema = (language: AppLanguage) =>
         10,
         language === "en"
           ? "Add a short professional summary"
-          : "Describe un poco sobre ti",
+          : "Contá brevemente quién sos y qué puesto buscás",
       ),
     experiencia: z
       .string()
       .min(
         20,
         language === "en"
-          ? "Describe your work experience"
-          : "Describe tu experiencia profesional",
+            ? "Describe work experience, a project or practical experience"
+            : "Contá una experiencia, proyecto, práctica o trabajo informal",
       ),
-    formacion: z
-      .string()
-      .min(
-        10,
-        language === "en"
-          ? "Describe your education"
-          : "Describe tu formacion academica",
-      ),
+    formacion: z.string(),
     habilidades: z
       .string()
       .min(
         1,
         language === "en" ? "Add at least one skill" : "Incluye al menos una habilidad",
       ),
-    idiomas: z
-      .string()
-      .min(
-        1,
-        language === "en" ? "Add at least one language" : "Incluye al menos un idioma",
-      ),
+    idiomas: z.string(),
     informacionAdicional: z.string().optional(),
   });
 
@@ -75,17 +63,16 @@ const ALLOWED_PHOTO_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const formCopy = {
   es: {
     badge: "Datos para tu CV",
-    title: "Completalo simple. La IA lo ordena despues.",
+    title: "Completalo simple. La IA lo ordena después.",
     description:
-      "Escribi con tus palabras: trabajos, estudios, herramientas y contacto. No hace falta que suene perfecto en esta etapa.",
+      "Escribí con tus palabras: trabajos, estudios, herramientas y contacto. No hace falta que suene perfecto en esta etapa.",
     currentTemplate: "Plantilla actual",
     changeTemplate: "Cambiar plantilla",
-    fillTest: "Rellenar prueba",
     clear: "Limpiar",
-    basicTitle: "Datos basicos",
+    basicTitle: "Datos básicos",
     basicDescription: "Lo primero que va a leer una empresa.",
     fullName: "Nombre completo",
-    fullNamePlaceholder: "Ej: Sebastian Lopez",
+    fullNamePlaceholder: "Ej: Sebastián López",
     role: "Puesto o perfil",
     rolePlaceholder: "Ej: Desarrollador web junior",
     contact: "Contacto",
@@ -95,26 +82,29 @@ const formCopy = {
     uploadImage: "Subir imagen",
     photoUnavailableTitle: "Esta plantilla no usa foto",
     photoUnavailableText:
-      "Su estructura prioriza el contenido. Si queres incluir foto, elegi Elegancia, Azul, Purpura o Verde.",
+      "Su estructura prioriza el contenido. Si querés incluir foto, elegí Elegancia, Azul, Púrpura o Verde.",
     summaryTitle: "Perfil profesional",
     summaryDescription: "Una base corta para que la IA construya un perfil claro.",
     summaryPlaceholder:
-      "Ej: Soy estudiante de programacion, trabajo con proyectos web propios y busco mi primera experiencia como desarrollador junior.",
-    experienceTitle: "Experiencia",
-    experienceDescription: "Separa cada trabajo o proyecto con una linea en blanco.",
+      "Ej: Soy estudiante de programación, desarrollo proyectos web propios y busco mi primera experiencia como desarrollador junior.",
+    experienceTitle: "Experiencia o proyectos",
+    experienceDescription:
+      "Incluí empleos, prácticas, proyectos o trabajos informales. Separá cada experiencia con una línea en blanco.",
     experiencePlaceholder:
-      "Desarrollador web, 2024-Actualidad, proyectos propios, Salta\nCree apps con login, base de datos, pagos, panel admin y generacion de PDF.\n\nVendedor, 2021-2023, Tienda XYZ, Salta\nAtencion al cliente, caja, reposicion y control de stock.",
+      "Desarrollador web, 2024-Actualidad, proyectos propios, Salta\nCreé apps con login, base de datos, pagos, panel admin y generación de PDF.\n\nVendedor, 2021-2023, Tienda XYZ, Salta\nAtención al cliente, caja, reposición y control de stock.",
     educationTitle: "Estudios",
-    educationDescription: "Inclui carrera, institucion, fechas y ciudad si las tenes.",
+    educationDescription:
+      "Incluí carrera, cursos o formación autodidacta si aportan al puesto. Este paso es opcional.",
     educationPlaceholder:
-      "Programacion / Desarrollo de Software, 2025-Actualidad, Universidad Nacional de Salta\n\nDesarrollo Web Full Stack, 2023-Actualidad, formacion autodidacta, online",
+      "Programación / Desarrollo de Software, 2025-Actualidad, Universidad Nacional de Salta\n\nDesarrollo Web Full Stack, 2023-Actualidad, formación autodidacta, online",
     skillsTitle: "Habilidades, idiomas y extras",
-    skillsDescription: "Listas simples. La IA se encarga de normalizar y ordenar.",
+    skillsDescription:
+      "Agregá habilidades concretas. Idiomas y datos adicionales son opcionales.",
     skills: "Habilidades",
-    skillsPlaceholder: "Ej: Excel, ventas, atencion al cliente, Next.js, Supabase",
+    skillsPlaceholder: "Ej: Excel, ventas, atención al cliente, Next.js, Supabase",
     languages: "Idiomas",
-    languagesPlaceholder: "Espanol nativo\nIngles B2",
-    additional: "Informacion adicional",
+    languagesPlaceholder: "Español nativo\nInglés B2",
+    additional: "Información adicional",
     additionalPlaceholder:
       "Ej: portfolio, certificaciones, disponibilidad, licencia de conducir o enlaces importantes.",
     generate: "Generar CV",
@@ -126,7 +116,7 @@ const formCopy = {
     imageError: "No se pudo subir la foto. Intenta con otra imagen.",
     photoAuthRequired:
       "Inicia sesión para subir la foto. Tus datos quedarán guardados.",
-    timeout: "La generacion esta tardando demasiado. Intenta de nuevo.",
+    timeout: "La generación está tardando demasiado. Intentá de nuevo.",
     generationError: "Error al generar el CV. Intenta nuevamente.",
     unknownError: "Error desconocido",
   },
@@ -137,7 +127,6 @@ const formCopy = {
       "Write in your own words: jobs, education, tools and contact details. It does not need to sound perfect yet.",
     currentTemplate: "Current template",
     changeTemplate: "Change template",
-    fillTest: "Fill sample",
     clear: "Clear",
     basicTitle: "Basic details",
     basicDescription: "The first information a recruiter will read.",
@@ -357,71 +346,6 @@ export default function CVFormStep({
     void form.handleSubmit(onSubmit)();
   }, [autoGenerate, currentUserId, form]);
 
-  const rellenarDatosPrueba = () => {
-    if (language === "en") {
-      form.reset({
-        nombre: "Sebastian Lopez",
-        puesto: "Junior Full Stack Developer",
-        contacto:
-          "Austin, TX\nsebastian@example.com\nGitHub: https://github.com/sebiten\nPortfolio: https://sebdevspace.me\nLinkedIn: https://www.linkedin.com/in/sebdevspace",
-        sobreMi:
-          "I am a web developer building full stack projects with Next.js, React, TypeScript, Supabase and Tailwind CSS. I focus on complete products that include authentication, databases, payments, admin panels, SEO, PDF generation and AI integrations.",
-        experiencia:
-          "Web Developer, 2024-Present, freelance and personal projects, Remote\n" +
-          "Built complete web applications with login, databases, admin dashboards, payments, webhooks, SEO, PDF generation and OpenAI integration.\n\n" +
-          "Developer of VitaeSpark, 2026-Present, personal project, Remote\n" +
-          "Created an AI resume builder that lets users register, complete a guided form, generate resume content, choose a template, preview the document, pay with PayPal or Mercado Pago and download a PDF.\n\n" +
-          "Developer of Romi Tienda, 2026, e-commerce project, Remote\n" +
-          "Built an online clothing store with product catalog, product pages, shopping cart, user profile, authentication, admin panel, order management, stock updates, shipping calculation and checkout.\n\n" +
-          "Developer of Lumi People, 2024-2026, institutional website, Remote\n" +
-          "Built the website for a human resources consulting firm, including landing page, services, team, jobs, news and blog sections using Next.js, TypeScript, Tailwind, MDX, metadata and Schema.org.",
-        formacion:
-          "Software Development, 2025-Present, National University of Salta, Remote\n" +
-          "Studying programming fundamentals, logic and C language.\n\n" +
-          "Full Stack Web Development, 2023-Present, self-directed learning and personal projects, online\n" +
-          "Learned web development by building real projects and reading official documentation. Practiced HTML, CSS, JavaScript, React, Next.js, TypeScript, Supabase, MongoDB, Tailwind, Git, GitHub, Vercel, APIs, authentication, payments and AI integrations.",
-        habilidades:
-          "Next.js, React, TypeScript, JavaScript, HTML, CSS, Tailwind CSS, shadcn/ui, Radix UI, Node.js, Supabase, MongoDB, OpenAI API, Mercado Pago, PayPal, Zod, Git, GitHub, Vercel, pnpm, npm, Framer Motion, technical SEO, REST APIs, authentication, webhooks, PDF generation",
-        idiomas: "Spanish native\nEnglish B2",
-        informacionAdicional:
-          "Portfolio: https://sebdevspace.me\nGitHub: https://github.com/sebiten\nLinkedIn: https://www.linkedin.com/in/sebdevspace\nOwn product: https://vitaespark.com\nAvailable for remote freelance or full-time work",
-      });
-      onDraftChange(form.getValues());
-      setError(null);
-      return;
-    }
-
-    form.reset({
-      nombre: "Sebastian",
-      puesto: "Desarrollador Full Stack",
-      contacto:
-        "Salta, Argentina\nsebdevspace@gmail.com\nGitHub: https://github.com/sebiten\nPortfolio: https://sebdevspace.me\nLinkedIn: https://www.linkedin.com/in/sebdevspace",
-      sobreMi:
-        "Soy de Salta, Argentina. Me dedico al desarrollo web y estoy creando proyectos propios con Next.js, React, TypeScript, Supabase y Tailwind. Me gusta hacer productos completos: login, base de datos, pagos, panel admin, SEO, generacion de PDF e integraciones con IA.",
-      experiencia:
-        "Desarrollador web, 2024-Actualidad, proyectos propios / freelance, Salta, Argentina\n" +
-        "Hice varios proyectos web completos usando Next.js, React, TypeScript, Supabase, Tailwind y Vercel. Los mas importantes son VitaeSpark, Romi Tienda y Lumi People. En esos proyectos trabaje con login, bases de datos, paneles de administracion, pagos, webhooks, SEO, blogs, generacion de PDF e integracion con OpenAI.\n\n" +
-        "Desarrollador de VitaeSpark, 2026-Actualidad, proyecto propio, Salta, Argentina\n" +
-        "Cree VitaeSpark, una app para generar curriculums con inteligencia artificial. La app permite registrarse, completar un formulario, generar contenido con OpenAI, elegir plantilla, ver preview, pagar con Mercado Pago y descargar el CV en PDF. Tambien tiene perfil de usuario, CVs guardados, webhook de pago y panel interno.\n\n" +
-        "Desarrollador de Romi Tienda, 2026, proyecto ecommerce, Salta, Argentina\n" +
-        "Desarrolle una tienda online de indumentaria con Next.js, Supabase y Mercado Pago. Tiene catalogo, producto individual, carrito, perfil, login, panel admin para productos e imagenes, pedidos, stock, calculo de envio y checkout.\n\n" +
-        "Desarrollador de Lumi People, 2024-2026, proyecto institucional, Salta, Argentina\n" +
-        "Trabaje en el sitio web de Lumi People, una consultora de recursos humanos de Salta. Hice landing, servicios, equipo, vacantes, noticias y blog. Use Next.js, TypeScript, Tailwind, MDX, sitemap, metadata, Open Graph y Schema.org para SEO.",
-      formacion:
-        "Estudiante de Programacion / Desarrollo de Software, 2025-Actualidad, Universidad Nacional de Salta, Salta, Argentina\n" +
-        "Estoy estudiando fundamentos de programacion, logica y lenguaje C.\n\n" +
-        "Desarrollo Web Full Stack, 2023-Actualidad, formacion autodidacta / proyectos propios, online\n" +
-        "Aprendi desarrollo web construyendo proyectos reales y leyendo documentacion oficial. Practique HTML, CSS, JavaScript, React, Next.js, TypeScript, Supabase, MongoDB, Tailwind, Git, GitHub, Vercel, APIs, autenticacion, pagos e integracion con inteligencia artificial.",
-      habilidades:
-        "Next.js, React, TypeScript, JavaScript, HTML, CSS, Tailwind CSS, shadcn/ui, Radix UI, Node.js, Supabase, MongoDB, OpenAI API, Mercado Pago, Stripe, Zod, Git, GitHub, Vercel, pnpm, npm, Framer Motion, SEO tecnico, APIs REST, autenticacion, webhooks, generacion de PDF, C",
-      idiomas: "Espanol nativo\nIngles B2",
-      informacionAdicional:
-        "Portfolio: https://sebdevspace.me\nGitHub: https://github.com/sebiten\nLinkedIn: https://www.linkedin.com/in/sebdevspace\nProducto propio: https://vitaespark.com\nDisponibilidad para trabajo remoto, freelance o presencial en Salta",
-    });
-    onDraftChange(form.getValues());
-    setError(null);
-  };
-
   const limpiarCampos = () => {
     form.reset({
       nombre: "",
@@ -473,7 +397,6 @@ export default function CVFormStep({
       error={error}
       onSubmit={onSubmit}
       onImageUpload={handleImageUpload}
-      onFillSample={rellenarDatosPrueba}
       onClear={limpiarCampos}
       onChangeTemplate={onChangeTemplate}
     />

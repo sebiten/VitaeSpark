@@ -43,6 +43,22 @@ describe("GenerateCVInputSchema", () => {
     expect(result.success).toBe(false);
   });
 
+  it("permite omitir formacion e idiomas", () => {
+    const result = GenerateCVInputSchema.safeParse({
+      nombre: "Juan Perez",
+      puesto: "Operario",
+      contacto: "Salta, Argentina - juan@example.com",
+      sobreMi: "Perfil responsable con experiencia en tareas operativas.",
+      experiencia:
+        "Realice tareas de deposito, control de stock y orden del sector.",
+      formacion: "",
+      habilidades: "Trabajo en equipo, orden y puntualidad",
+      idiomas: "",
+    });
+
+    expect(result.success).toBe(true);
+  });
+
   it("acepta las nuevas plantillas ATS", () => {
     expect(TemplateSchema.parse("modern-ats")).toBe("modern-ats");
     expect(TemplateSchema.parse("operative-ats")).toBe("operative-ats");

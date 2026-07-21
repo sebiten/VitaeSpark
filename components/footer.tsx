@@ -3,10 +3,15 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Instagram } from "lucide-react";
 import { FloatingRobot } from "@/components/floating-robot";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  if (pathname === "/crear") return null;
+
   return (
     <footer className="relative border-t border-white/10 bg-[#111113] px-4 py-14 md:py-16">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />

@@ -42,9 +42,9 @@ export const GenerateCVInputSchema = z.object({
   contacto: boundedText(1, 1200),
   sobreMi: boundedText(10, 1600),
   experiencia: boundedText(20, 5000),
-  formacion: boundedText(10, 2400),
+  formacion: z.string().trim().max(2400).optional().default(""),
   habilidades: boundedText(1, 1800),
-  idiomas: boundedText(1, 600),
+  idiomas: z.string().trim().max(600).optional().default(""),
   informacionAdicional: z.string().trim().max(1600).optional().default(""),
 });
 
