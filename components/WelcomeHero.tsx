@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FloatingRobot } from "./floating-robot";
 import HeroShowcase from "./HeroShowcase";
 import { TrackedCtaLink } from "./seo/TrackedCtaLink";
+import { PRICING } from "@/lib/pricing";
 
 export default function WelcomeHero() {
   const reduceMotion = useReducedMotion();
@@ -119,16 +120,18 @@ export default function WelcomeHero() {
                 <strong className="font-semibold text-[#F6F2EA]">
                   Más de 500 personas
                 </strong>{" "}
-                ya eligieron VitaeSpark
+                ya crearon su cuenta en VitaeSpark
               </p>
             </div>
 
-            <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-[#D8D2C8]/[0.56] sm:text-[12px]">
-              <span>Pago único</span>
+            <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-[#D8D2C8]/[0.62] sm:text-[12px]">
+              <span>
+                PDF final: {PRICING.mercadoPago.label} en Argentina
+              </span>
               <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/35" />
-              <span>PDF descargable</span>
+              <span>{PRICING.paypal.label} otros países</span>
               <span className="h-1 w-1 rounded-full bg-[#D7C8FF]/35" />
-              <span>Editable desde tu perfil</span>
+              <span>Pago único, sin suscripción</span>
             </div>
           </motion.div>
         </motion.div>

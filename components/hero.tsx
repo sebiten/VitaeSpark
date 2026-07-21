@@ -12,7 +12,6 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { PRICING } from "@/lib/pricing";
-import { ConversionProof } from "@/components/ConversionProof";
 import { TrackedCtaLink } from "@/components/seo/TrackedCtaLink";
 import WelcomeHero from "./WelcomeHero";
 
@@ -118,10 +117,6 @@ export default function Home() {
   return (
     <div className="min-h-screen overflow-hidden bg-[#0D0D10] text-[#F6F2EA]">
       <WelcomeHero />
-
-      <section className="px-4 pb-12 pt-0 sm:px-6 sm:pb-16">
-        <ConversionProof variant="home" className="mx-auto max-w-7xl" />
-      </section>
 
       <section className="relative border-y border-[#F6F2EA]/8 bg-[#111014] px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
@@ -391,6 +386,9 @@ export default function Home() {
             <p className="mt-4 max-w-xl text-base leading-8 text-[#D8D2C8]/66">
               Carga tus datos, deja que la IA los ordene, editalo cuando haga
               falta y descarga un PDF listo para postular.
+            </p>
+            <p className="mt-3 text-sm font-medium text-[#D8D2C8]/58">
+              PDF final por {PRICING.mercadoPago.label} en Argentina o {PRICING.paypal.label} en otros países. Pago único.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <TrackedCtaLink

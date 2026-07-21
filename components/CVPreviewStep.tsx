@@ -159,6 +159,7 @@ export default function CVPreviewStepPurple({
   const checkoutViewedTracked = useRef(false);
   const copy = checkoutCopy[language];
   const cvScore = useMemo(() => calculateCvScore(cvData), [cvData]);
+  const passedChecks = cvScore.items.filter((item) => item.passed).length;
 
   const handlePayPal = async () => {
     if (!currentUser.id) return;
@@ -593,23 +594,18 @@ export default function CVPreviewStepPurple({
 
             <MarketSelector market={market} onChange={setMarket} />
 
-            <div className="rounded-2xl border border-[#38BDF8]/16 bg-[#38BDF8]/[0.065] p-4">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7DD3FC]">
-                    Revision del CV
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/46">
+                    Chequeo de claridad
                   </p>
                   <h4 className="mt-1 text-base font-semibold text-white">
-                    {cvScore.label}
+                    Lo que ya está resuelto en tu CV
                   </h4>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-2 text-right">
-                  <p className="text-2xl font-black leading-none text-white">
-                    {cvScore.score}
-                  </p>
-                  <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.14em] text-white/42">
-                    score
-                  </p>
+                <div className="shrink-0 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-semibold text-white/72">
+                  {passedChecks}/{cvScore.items.length} claros
                 </div>
               </div>
               <div className="mt-4 grid gap-2">

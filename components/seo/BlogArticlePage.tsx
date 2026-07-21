@@ -13,11 +13,7 @@ import {
   BlogContextualAction,
   BlogReadingExperience,
 } from "./BlogReadingExperience";
-import { TrackedCtaLink } from "./TrackedCtaLink";
-import {
-  getBlogCreateHref,
-  getBlogCtaContent,
-} from "@/lib/blog-intent";
+import { getBlogCtaContent } from "@/lib/blog-intent";
 import { getBaseUrl } from "@/lib/seo";
 
 type ArticleSection = {
@@ -89,6 +85,7 @@ export function BlogArticlePage({
   const contextualLabel = getContextualLabel(
     sectionItems[contextualIndex]?.title ?? "",
   );
+  const showContextualAction = sectionItems.length >= 5;
 
   const baseUrl = getBaseUrl();
   const articleUrl = new URL(path, baseUrl).toString();
@@ -187,29 +184,13 @@ export function BlogArticlePage({
             ) : null}
           </div>
 
-          <div className="mt-5 grid gap-7 lg:grid-cols-[minmax(0,760px)_1fr] lg:items-end">
-            <div>
-              <h1 className="text-balance text-[2.35rem] font-semibold leading-[1.03] tracking-[-0.055em] text-[#F6F2EA] sm:text-5xl lg:text-[3.45rem]">
-                {title}
-              </h1>
-              <p className="mt-5 max-w-3xl text-base leading-7 text-white/64 sm:text-lg sm:leading-8">
-                {description}
-              </p>
-            </div>
-
-            <div className="lg:justify-self-end lg:text-right">
-              <TrackedCtaLink
-                href={getBlogCreateHref(path)}
-                label="Empezar mi CV"
-                sourcePath={path}
-                sourceType="blog"
-                trackingLabel="blog_hero_cta"
-                buttonClassName="w-full rounded-full bg-[#F6F2EA] text-[#121114] shadow-none hover:bg-white sm:w-auto"
-              />
-              <p className="mt-3 text-xs leading-5 text-white/44">
-                Crealo y revisalo gratis. Pagás solo si descargás el PDF final.
-              </p>
-            </div>
+          <div className="mt-5 max-w-[820px]">
+            <h1 className="text-balance text-[2.35rem] font-semibold leading-[1.03] tracking-[-0.055em] text-[#F6F2EA] sm:text-5xl lg:text-[3.45rem]">
+              {title}
+            </h1>
+            <p className="mt-5 max-w-3xl text-base leading-7 text-white/64 sm:text-lg sm:leading-8">
+              {description}
+            </p>
           </div>
         </div>
       </header>
@@ -255,7 +236,7 @@ export function BlogArticlePage({
                   </div>
                 </section>
 
-                {index === contextualIndex ? (
+                {showContextualAction && index === contextualIndex ? (
                   <BlogContextualAction path={path} label={contextualLabel} />
                 ) : null}
 
@@ -354,7 +335,6 @@ export function BlogArticlePage({
             id,
             title: sectionTitle,
           }))}
-          content={blogCta}
         />
       </div>
     </div>

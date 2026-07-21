@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, CheckCircle2, X } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import { TrackedCtaLink } from "./TrackedCtaLink";
-import { getBlogCreateHref, type BlogCtaContent } from "@/lib/blog-intent";
+import { getBlogCreateHref } from "@/lib/blog-intent";
 import { recordGaEvent } from "@/lib/analytics-events";
 import { cn } from "@/lib/utils";
 
 type BlogReadingExperienceProps = {
   path: string;
   sections: Array<{ id: string; title: string }>;
-  content: BlogCtaContent;
 };
 
 const DEPTH_THRESHOLDS = [25, 50, 75, 90] as const;
@@ -18,7 +17,6 @@ const DEPTH_THRESHOLDS = [25, 50, 75, 90] as const;
 export function BlogReadingExperience({
   path,
   sections,
-  content,
 }: BlogReadingExperienceProps) {
   const [progress, setProgress] = useState(0);
   const [activeSection, setActiveSection] = useState(sections[0]?.id ?? "");
@@ -141,24 +139,6 @@ export function BlogReadingExperience({
             </ol>
           </nav>
 
-          <div className="mt-7 border-t border-white/10 pt-5">
-            <div className="flex items-start gap-2 text-xs leading-5 text-white/58">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#A78BFA]" />
-              {content.proof}
-            </div>
-            <TrackedCtaLink
-              href={createHref}
-              label="Empezar mi CV"
-              sourcePath={path}
-              sourceType="blog"
-              trackingLabel="blog_sidebar_cta"
-              buttonSize="sm"
-              buttonClassName="mt-4 w-full rounded-full bg-[#F6F2EA] text-[#121114] shadow-none hover:bg-white"
-            />
-            <p className="mt-3 text-[11px] leading-5 text-white/42">
-              Crealo y revisalo gratis. Pagás solo si querés descargar el PDF final.
-            </p>
-          </div>
         </div>
       </aside>
 

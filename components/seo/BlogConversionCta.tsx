@@ -5,6 +5,7 @@ import {
   getBlogCreateHref,
   type BlogCtaContent,
 } from "@/lib/blog-intent";
+import { PRICING } from "@/lib/pricing";
 
 export { getBlogCtaContent } from "@/lib/blog-intent";
 export type { BlogCtaContent } from "@/lib/blog-intent";
@@ -48,7 +49,7 @@ export function BlogConversionCta({ path, content }: BlogConversionCtaProps) {
             buttonClassName="w-full rounded-full bg-[#F6F2EA] text-[#121114] shadow-none hover:bg-white md:w-auto"
           />
           <p className="mt-3 text-xs leading-5 text-white/46">
-            Crealo y revisalo gratis. Pagás solo si querés descargar el PDF final.
+            Revisalo gratis. El PDF final cuesta {PRICING.mercadoPago.label} en Argentina o {PRICING.paypal.label} en otros países, sin suscripción.
           </p>
           <Link
             href={content.secondaryHref}

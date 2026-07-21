@@ -7,8 +7,6 @@ type ScoreItem = {
 };
 
 export type CvScoreResult = {
-  score: number;
-  label: string;
   items: ScoreItem[];
 };
 
@@ -64,17 +62,7 @@ export function calculateCvScore(cv: RespuestaCV["cv"]): CvScoreResult {
     },
   ];
 
-  const passed = items.filter((item) => item.passed).length;
-  const score = Math.min(96, 64 + passed * 8);
-
   return {
-    score,
-    label:
-      score >= 88
-        ? "Muy buen punto de partida"
-        : score >= 80
-          ? "Listo para pulir"
-          : "Conviene revisarlo antes de enviar",
     items,
   };
 }
