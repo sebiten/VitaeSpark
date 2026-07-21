@@ -1,7 +1,8 @@
 "use client";
 
 import type React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { preconnect, preload } from "react-dom";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
@@ -56,8 +57,14 @@ export function SubmitButton({
 type AuthTransitionState = "checking" | "idle" | "signing-in" | "confirmed";
 
 export default function AuthPageClient() {
+  preconnect("https://accounts.google.com", { crossOrigin: "anonymous" });
+  preconnect("https://accounts.googleusercontent.com", {
+    crossOrigin: "anonymous",
+  });
+  preload("https://accounts.google.com/gsi/client", { as: "script" });
+
   const searchParams = useSearchParams();
-  const redirectTimeoutRef = useRef<number | null>(null);
+  const redirectStartedRef = useRef(false);
   const [activeTab, setActiveTab] = useState<string>("login");
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -69,15 +76,12 @@ export default function AuthPageClient() {
   const isResumingCv =
     redirectTarget.startsWith("/crear") && redirectTarget.includes("resume=");
 
-  const redirectToCreate = () => {
-    if (redirectTimeoutRef.current) {
-      window.clearTimeout(redirectTimeoutRef.current);
-    }
+  const redirectToCreate = useCallback(() => {
+    if (redirectStartedRef.current) return;
 
-    redirectTimeoutRef.current = window.setTimeout(() => {
-      window.location.replace(redirectTarget);
-    }, 350);
-  };
+    redirectStartedRef.current = true;
+    window.location.replace(redirectTarget);
+  }, [redirectTarget]);
 
   useEffect(() => {
     let isMounted = true;
@@ -107,11 +111,8 @@ export default function AuthPageClient() {
     return () => {
       isMounted = false;
       subscription.unsubscribe();
-      if (redirectTimeoutRef.current) {
-        window.clearTimeout(redirectTimeoutRef.current);
-      }
     };
-  }, []);
+  }, [redirectToCreate]);
 
   useEffect(() => {
     const errorParam = searchParams.get("error");
@@ -268,7 +269,10 @@ export default function AuthPageClient() {
                 <div className="rounded-[28px] border border-[#F6F2EA]/[0.08] bg-[#F6F2EA]/[0.035] p-3.5 shadow-[inset_0_1px_0_rgba(246,242,234,0.04)] sm:p-4">
                   <OAuthButtons
                     onAuthStart={() => setAuthTransition("signing-in")}
-                    onAuthSuccess={() => setAuthTransition("confirmed")}
+                    onAuthSuccess={() => {
+                      setAuthTransition("confirmed");
+                      redirectToCreate();
+                    }}
                     onAuthError={() => setAuthTransition("idle")}
                     redirectTo={redirectTarget}
                   />

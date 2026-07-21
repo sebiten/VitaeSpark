@@ -22,7 +22,9 @@ type GoogleAccountsId = {
     client_id: string;
     callback: (response: GoogleCredentialResponse) => void;
     nonce?: string;
-    use_fedcm_for_prompt?: boolean;
+    use_fedcm_for_button?: boolean;
+    button_auto_select?: boolean;
+    itp_support?: boolean;
   }) => void;
   renderButton: (
     parent: HTMLElement,
@@ -71,9 +73,19 @@ export function OAuthButtons({
 }: OAuthButtonsProps = {}) {
   const buttonRef = useRef<HTMLDivElement>(null);
   const nonceRef = useRef<string | null>(null);
+  const noncePromiseRef = useRef<ReturnType<typeof generateNoncePair> | null>(
+    null,
+  );
+  const callbacksRef = useRef({ onAuthStart, onAuthSuccess, onAuthError });
   const [isScriptReady, setIsScriptReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  callbacksRef.current = { onAuthStart, onAuthSuccess, onAuthError };
+
+  useEffect(() => {
+    noncePromiseRef.current ??= generateNoncePair();
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -86,7 +98,9 @@ export function OAuthButtons({
       setErrorMessage(null);
       buttonRef.current.innerHTML = "";
 
-      const { nonce, hashedNonce } = await generateNoncePair();
+      const { nonce, hashedNonce } = await (
+        noncePromiseRef.current ?? generateNoncePair()
+      );
       if (!isMounted) return;
 
       nonceRef.current = nonce;
@@ -94,15 +108,17 @@ export function OAuthButtons({
       window.google.accounts.id.initialize({
         client_id: googleClientId,
         nonce: hashedNonce,
-        use_fedcm_for_prompt: true,
+        use_fedcm_for_button: true,
+        button_auto_select: true,
+        itp_support: true,
         callback: async (response) => {
           if (!response.credential) {
             setErrorMessage("Google no devolvió credenciales. Probá de nuevo.");
-            onAuthError?.();
+            callbacksRef.current.onAuthError?.();
             return;
           }
 
-          onAuthStart?.();
+          callbacksRef.current.onAuthStart?.();
           setIsLoading(true);
           setErrorMessage(null);
 
@@ -117,14 +133,16 @@ export function OAuthButtons({
             console.error("Google sign in error:", error.message);
             setErrorMessage("No se pudo iniciar sesión con Google.");
             setIsLoading(false);
-            onAuthError?.();
+            callbacksRef.current.onAuthError?.();
             return;
           }
 
-          onAuthSuccess?.();
-          window.setTimeout(() => {
+          const successHandler = callbacksRef.current.onAuthSuccess;
+          successHandler?.();
+
+          if (!successHandler) {
             window.location.replace(normalizeAuthRedirect(redirectTo));
-          }, 350);
+          }
         },
       });
 
@@ -149,7 +167,7 @@ export function OAuthButtons({
     return () => {
       isMounted = false;
     };
-  }, [isScriptReady, onAuthError, onAuthStart, onAuthSuccess, redirectTo]);
+  }, [isScriptReady, redirectTo]);
 
   if (!googleClientId) {
     return (
@@ -177,6 +195,7 @@ export function OAuthButtons({
         />
         {!isScriptReady ? (
           <div className="absolute inset-0 flex items-center justify-center rounded-[18px] bg-[#F7F7F5] text-sm font-semibold text-[#27272A]/60">
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             Cargando Google...
           </div>
         ) : null}
