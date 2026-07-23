@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
 import type { CVRecord } from "@/lib/types/cv";
-import { PendingPaymentRecovery } from "@/components/PendingPaymentRecovery";
+import {
+  PendingPaymentRecovery,
+  type PendingCVRecord,
+} from "@/components/PendingPaymentRecovery";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,13 +27,14 @@ import {
   ArrowRight,
   CheckCircle2,
   Eye,
-  Loader2,
   Pencil,
   Plus,
   Sparkles,
   X,
 } from "lucide-react";
-import UserPayments from "@/components/UserPayment";
+import UserPayments, {
+  type ProfilePayment,
+} from "@/components/UserPayment";
 import { ProfileFeedbackPrompt } from "@/components/ProfileFeedbackPrompt";
 import { CVThumbnail } from "./CvThumbnail";
 import { getCvTemplate } from "@/lib/cv-templates";
@@ -60,11 +63,11 @@ const PDFDownloadButton = dynamic(
   },
 );
 
-type ProfileCVRecord = CVRecord & {
+export type ProfileCVRecord = CVRecord & {
   created_at?: string | null;
 };
 
-type ProfileInfo = {
+export type ProfileInfo = {
   name: string;
   email: string;
   imgUrl?: string;
@@ -107,102 +110,58 @@ function formatShortDate(value?: string | null) {
   }
 }
 
-export default function PerfilCVs() {
-  const [cvs, setCvs] = useState<ProfileCVRecord[]>([]);
-  const [loading, setLoading] = useState(true);
+type PerfilCVsProps = {
+  initialCvs: ProfileCVRecord[];
+  initialProfileInfo: ProfileInfo;
+  initialPayments: ProfilePayment[];
+  initialPendingCv: PendingCVRecord | null;
+};
+
+export default function PerfilCVs({
+  initialCvs,
+  initialProfileInfo,
+  initialPayments,
+  initialPendingCv,
+}: PerfilCVsProps) {
+  const cvs = initialCvs;
   const [showCongrats, setShowCongrats] = useState(false);
   const [paidCv, setPaidCv] = useState<ProfileCVRecord | null>(null);
   const [selectedCV, setSelectedCV] = useState<ProfileCVRecord | null>(null);
-  const [profileInfo, setProfileInfo] = useState<ProfileInfo | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const supabase = createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+    const cvId = searchParams.get("cv_id");
+    if (!cvId) return;
 
-      if (!user) {
-        router.replace("/login");
-        return;
-      }
+    const found = cvs.find((cv) => cv.id === cvId);
+    if (!found) return;
 
-      const { data: profileData, error: profileError } = await supabase
-        .from("profiles")
-        .select("full_name")
-        .eq("id", user.id)
-        .single();
-
-      if (!profileError && profileData) {
-        setProfileInfo({
-          name: profileData.full_name || user.email?.split("@")[0] || "Usuario",
-          email: user.email || "No disponible",
-          imgUrl: user.user_metadata?.avatar_url,
-        });
-      }
-
-      const { data, error } = await supabase
-        .from("cvs")
-        .select("id, cv_data, template, created_at")
-        .eq("profile_id", user.id)
-        .eq("status", "paid")
-        .order("created_at", { ascending: false });
-
-      if (!error && data) {
-        const paidCvs = data as ProfileCVRecord[];
-        setCvs(paidCvs);
-
-        const cvId = searchParams.get("cv_id");
-        if (cvId) {
-          const found = paidCvs.find((cv) => cv.id === cvId);
-          if (found) {
-            setPaidCv(found);
-            setShowCongrats(true);
-            router.replace("/perfil");
-          }
-        }
-      }
-
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [router, searchParams]);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-[#0F0F12] px-4">
-        <div className="flex items-center gap-3 rounded-3xl border border-white/10 bg-[#15151A] px-5 py-4 text-white shadow-2xl shadow-black/20">
-          <Loader2 className="h-5 w-5 animate-spin text-[#A78BFA]" />
-          <span className="text-sm font-medium text-white/78">
-            Cargando tu perfil...
-          </span>
-        </div>
-      </div>
-    );
-  }
+    setPaidCv(found);
+    setShowCongrats(true);
+    router.replace("/perfil");
+  }, [cvs, router, searchParams]);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0F0F12] px-4 py-8 text-[#F4F4F5] sm:px-6 sm:py-10">
       <div className="pointer-events-none absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-[#7C3AED]/8 blur-[140px]" />
 
       <div className="relative mx-auto max-w-6xl space-y-6">
-        {profileInfo ? (
-          <ProfileHeader
-            profileInfo={profileInfo}
-            paidCount={cvs.length}
-            onCreate={() => router.push("/crear")}
-          />
-        ) : null}
+        <ProfileHeader
+          profileInfo={initialProfileInfo}
+          paidCount={cvs.length}
+          onCreate={() => router.push("/crear")}
+        />
 
         {showCongrats && paidCv ? <PaymentSuccessNotice cv={paidCv} /> : null}
         {showCongrats && paidCv ? (
           <ProfileFeedbackPrompt cvId={paidCv.id} />
         ) : null}
 
-        <PendingPaymentRecovery variant="profile" />
+        <PendingPaymentRecovery
+          variant="profile"
+          initialPendingCv={initialPendingCv}
+        />
 
         <section className="border-t border-white/10 pt-7 sm:pt-8">
           <div className="mb-5">
@@ -233,7 +192,7 @@ export default function PerfilCVs() {
           )}
         </section>
 
-        <UserPayments />
+        <UserPayments initialPayments={initialPayments} />
       </div>
 
       <PreviewDialog

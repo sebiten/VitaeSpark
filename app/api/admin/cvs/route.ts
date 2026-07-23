@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import { supabaseAdmin } from "@/utils/supabase/admin";
+import { loadAdminCvs } from "@/lib/admin-cvs";
 
 export const runtime = "nodejs";
 
@@ -31,49 +31,21 @@ export async function GET(req: Request) {
     Math.max(6, Number(url.searchParams.get("pageSize")) || 12)
   );
   const template = url.searchParams.get("template") || "all";
-  const search = (url.searchParams.get("search") || "").trim().toLowerCase();
-  const from = (page - 1) * pageSize;
-  const to = from + pageSize - 1;
+  const status = url.searchParams.get("status") || "all";
+  const search = url.searchParams.get("search") || "";
 
-  let query = supabaseAdmin
-    .from("cvs")
-    .select("id, profile_id, cv_data, created_at, template, status", {
-      count: "exact",
-    })
-    .order("created_at", { ascending: false });
+  try {
+    const result = await loadAdminCvs({
+      page,
+      pageSize,
+      template,
+      status,
+      search,
+    });
 
-  if (template !== "all") {
-    query = query.eq("template", template);
-  }
-
-  if (!search) {
-    query = query.range(from, to);
-  } else {
-    query = query.limit(250);
-  }
-
-  const { data, error, count } = await query;
-
-  if (error) {
+    return NextResponse.json(result);
+  } catch (error) {
     console.error("Error cargando CVs de admin:", error);
     return NextResponse.json({ error: "Error cargando CVs" }, { status: 500 });
   }
-
-  const filtered = search
-    ? (data ?? []).filter((cv) => {
-        const cvData = cv.cv_data as Record<string, unknown>;
-        return [cvData?.nombre, cvData?.puesto, cvData?.titulo, cv.template]
-          .filter(Boolean)
-          .some((value) => String(value).toLowerCase().includes(search));
-      })
-    : data ?? [];
-
-  const paginated = search ? filtered.slice(from, from + pageSize) : filtered;
-
-  return NextResponse.json({
-    cvs: paginated,
-    total: search ? filtered.length : count ?? paginated.length,
-    page,
-    pageSize,
-  });
 }

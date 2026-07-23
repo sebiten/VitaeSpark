@@ -32,7 +32,7 @@ const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
 
 type PendingPaymentRecoveryVariant = "global" | "profile";
 
-type PendingCVRecord = {
+export type PendingCVRecord = {
   id: string;
   cv_data?: RespuestaCV["cv"] | null;
   template?: string | null;
@@ -42,6 +42,7 @@ type PendingCVRecord = {
 
 type PendingPaymentRecoveryProps = {
   variant?: PendingPaymentRecoveryVariant;
+  initialPendingCv?: PendingCVRecord | null;
 };
 
 const hiddenGlobalPathPrefixes = [
@@ -73,10 +74,13 @@ function getCtaLabel(variant: PendingPaymentRecoveryVariant) {
 
 export function PendingPaymentRecovery({
   variant = "global",
+  initialPendingCv,
 }: PendingPaymentRecoveryProps) {
   const pathname = usePathname() || "/";
   const shouldHideGlobal = variant === "global" && isHiddenGlobalPath(pathname);
-  const [pendingCv, setPendingCv] = useState<PendingCVRecord | null>(null);
+  const [pendingCv, setPendingCv] = useState<PendingCVRecord | null>(
+    initialPendingCv ?? null,
+  );
   const [isLoadingPayment, setIsLoadingPayment] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const { market, setMarket } = useMarket();
@@ -89,6 +93,11 @@ export function PendingPaymentRecovery({
     let isMounted = true;
 
     async function fetchPendingCv() {
+      if (initialPendingCv !== undefined) {
+        setPendingCv(initialPendingCv);
+        return;
+      }
+
       if (shouldHideGlobal) {
         setPendingCv(null);
         return;
@@ -132,7 +141,7 @@ export function PendingPaymentRecovery({
     return () => {
       isMounted = false;
     };
-  }, [shouldHideGlobal, pathname]);
+  }, [initialPendingCv, shouldHideGlobal, pathname]);
 
   const attribution = useMemo(
     () => ({

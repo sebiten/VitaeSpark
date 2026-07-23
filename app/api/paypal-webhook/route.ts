@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { completeCvPayment } from "@/lib/payment-checkout-session";
+import { isExpectedPayPalPayment } from "@/lib/payment-validation";
 import { verifyPayPalWebhookSignature } from "@/lib/paypal";
-import { PRICING } from "@/lib/pricing";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
 type PayPalWebhookPayload = {
@@ -47,20 +48,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid capture" }, { status: 400 });
   }
 
+  if (
+    !isExpectedPayPalPayment({
+      amount: resource.amount?.value,
+      currency: resource.amount?.currency_code,
+    })
+  ) {
+    console.error("PayPal capture con monto o moneda inesperados:", {
+      payment_id: resource.id,
+      amount: resource.amount,
+    });
+    return NextResponse.json({ error: "Invalid payment amount" }, { status: 400 });
+  }
+
   const cvId = resource.custom_id;
   if (!cvId) {
     console.error("PayPal capture sin custom_id:", resource);
     return NextResponse.json({ error: "Invalid CV" }, { status: 400 });
-  }
-
-  const { data: existingPayment } = await supabaseAdmin
-    .from("payments")
-    .select("id")
-    .eq("payment_id", resource.id)
-    .maybeSingle();
-
-  if (existingPayment) {
-    return NextResponse.json({ received: true, duplicate: true });
   }
 
   const { data: cv } = await supabaseAdmin
@@ -74,38 +78,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "CV not found" }, { status: 404 });
   }
 
-  const amount = Number(resource.amount?.value || PRICING.paypal.value);
+  const amount = Number(resource.amount?.value);
   const payerEmail = resource.payer?.email_address || null;
 
-  const { error: insertError } = await supabaseAdmin.from("payments").insert({
-    cv_id: cvId,
-    payment_id: resource.id,
-    amount,
-    status: "approved",
-    payer_email: payerEmail,
-    payment_type: "paypal",
-    payment_method: "paypal",
-    user_id: cv.profile_id,
-  });
-
-  if (insertError) {
-    if (insertError.code === "23505") {
-      return NextResponse.json({ received: true, duplicate: true });
-    }
-
-    console.error("Error inserting PayPal payment:", insertError);
+  let completion: Awaited<ReturnType<typeof completeCvPayment>>;
+  try {
+    completion = await completeCvPayment({
+      cvId,
+      profileId: cv.profile_id,
+      paymentId: resource.id,
+      amount,
+      payerEmail,
+      paymentType: "paypal",
+      provider: "paypal",
+    });
+  } catch (error) {
+    console.error("Error completing PayPal payment:", error);
     return NextResponse.json({ error: "Database error" }, { status: 500 });
   }
 
-  const { error: updateError } = await supabaseAdmin
-    .from("cvs")
-    .update({ status: "paid" })
-    .eq("id", cvId)
-    .eq("profile_id", cv.profile_id);
-
-  if (updateError) {
-    console.error("Error updating PayPal CV:", updateError);
-    return NextResponse.json({ error: "Database error" }, { status: 500 });
+  if (!completion.payment_inserted) {
+    return NextResponse.json({ received: true, duplicate: true });
   }
 
   const { data: startedEvent } = await supabaseAdmin

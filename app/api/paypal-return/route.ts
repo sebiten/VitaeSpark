@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { completeCvPayment } from "@/lib/payment-checkout-session";
+import { isExpectedPayPalPayment } from "@/lib/payment-validation";
 import { capturePayPalOrder } from "@/lib/paypal";
-import { PRICING } from "@/lib/pricing";
 import { createClient } from "@/utils/supabase/server";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
@@ -75,12 +76,20 @@ export async function GET(req: Request) {
       capture?.custom_id ||
       purchaseUnit?.reference_id?.replace(/^cv_/, "");
 
-    if (referenceCvId !== cv.id || capture?.status !== "COMPLETED") {
+    if (
+      referenceCvId !== cv.id ||
+      capture?.status !== "COMPLETED" ||
+      !isExpectedPayPalPayment({
+        amount: capture.amount?.value,
+        currency: capture.amount?.currency_code,
+      })
+    ) {
       console.error("PayPal capture invalida:", {
         orderId,
         cvId: cv.id,
         referenceCvId,
         status: capture?.status,
+        amount: capture?.amount,
       });
 
       return NextResponse.redirect(
@@ -89,34 +98,25 @@ export async function GET(req: Request) {
     }
 
     const paymentId = capture.id || capturedOrder.id || orderId;
-    const amount = Number(capture.amount?.value || PRICING.paypal.value);
-
-    const { error: insertError } = await supabaseAdmin.from("payments").insert({
-      cv_id: cv.id,
-      payment_id: paymentId,
+    const amount = Number(capture.amount?.value);
+    const completion = await completeCvPayment({
+      cvId: cv.id,
+      profileId: user.id,
+      paymentId,
       amount,
-      status: "approved",
-      payer_email: capturedOrder.payer?.email_address ?? user.email ?? null,
-      payment_type: "paypal",
-      payment_method: "paypal",
-      user_id: user.id,
+      payerEmail: capturedOrder.payer?.email_address ?? user.email,
+      paymentType: "paypal",
+      provider: "paypal",
     });
 
-    if (insertError && insertError.code !== "23505") {
-      console.error("Error insertando pago PayPal:", insertError);
+    if (!completion.payment_inserted) {
       return NextResponse.redirect(
-        new URL(`/perfil?cv_id=${cv.id}&paypal=db_error`, siteUrl),
+        new URL(`/perfil?cv_id=${cv.id}&method=paypal`, siteUrl),
       );
     }
 
-    const { error: updateError } = await supabaseAdmin
-      .from("cvs")
-      .update({ status: "paid" })
-      .eq("id", cv.id)
-      .eq("profile_id", user.id);
-
-    if (updateError) {
-      console.error("Error actualizando CV PayPal:", updateError);
+    if (completion.cv_status !== "paid") {
+      console.error("El CV no quedó pagado después de capturar PayPal");
       return NextResponse.redirect(
         new URL(`/perfil?cv_id=${cv.id}&paypal=db_error`, siteUrl),
       );

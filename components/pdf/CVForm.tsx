@@ -18,6 +18,21 @@ import {
   normalizeCreateIntent,
   type CreateIntent,
 } from "@/lib/blog-intent";
+import {
+  CREATE_DRAFT_KEY,
+  CREATE_DRAFT_VERSION,
+  parseStoredCreateDraft,
+  type FlowStep,
+  type ResumeAction,
+  type StoredCreateDraft,
+} from "@/lib/create-flow-state";
+import {
+  getGuestPhoto,
+  guestPhotoExtension,
+  isEphemeralPhotoUrl,
+  removeGuestPhoto,
+  type PhotoSyncState,
+} from "@/lib/guest-photo";
 
 type CurrentUser = {
   id: string;
@@ -31,19 +46,6 @@ type CVFormProps = {
   currentUser: CurrentUser | null;
   initialCountryCode?: string | null;
 };
-
-type ResumeAction = "generate" | "photo";
-type FlowStep = "template" | "form" | "preview";
-
-type StoredCreateDraft = {
-  data: DatosCVFormulario;
-  template: string;
-  language: AppLanguage;
-  intent: CreateIntent;
-  action: ResumeAction | null;
-};
-
-const CREATE_DRAFT_KEY = "vitaespark_create_draft";
 
 const CVFormStep = dynamic(() => import("../CVFormStep"), {
   ssr: false,
@@ -115,43 +117,90 @@ export default function CVForm({
   const [createIntent, setCreateIntent] = useState<CreateIntent>(initialIntent);
   const [draftReady, setDraftReady] = useState(false);
   const [resumeAction, setResumeAction] = useState<ResumeAction | null>(null);
+  const [guestPhotoKey, setGuestPhotoKey] = useState<string | null>(null);
+  const [photoSyncState, setPhotoSyncState] =
+    useState<PhotoSyncState>("idle");
+  const [photoSyncRetry, setPhotoSyncRetry] = useState(0);
   const draftRestoredRef = useRef(false);
   const selectedTemplateRef = useRef(selectedTemplate);
   const createIntentRef = useRef(createIntent);
+  const generatedCvRef = useRef<RespuestaCV["cv"] | null>(null);
+  const activeTabRef = useRef<FlowStep>(activeTab);
+  const guestPhotoKeyRef = useRef<string | null>(null);
+  const guestPhotoObjectUrlRef = useRef<string | null>(null);
+  const guestPhotoHydrationRef = useRef<Promise<void> | null>(null);
   const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const suspendAutosaveRef = useRef(false);
   const intentMessage = getCreateIntentMessage(createIntent);
 
-  const persistCurrentDraft = useCallback(
-    (action: ResumeAction | null = null) => {
-      if (suspendAutosaveRef.current) return;
+  const writeStoredDraft = useCallback(
+    (
+      action: ResumeAction | null = null,
+      flowStep: FlowStep = activeTabRef.current,
+    ) => {
+      const currentData = normalizeDraft(draftDataRef.current);
 
-      const data = normalizeDraft(draftDataRef.current);
-
-      if (!hasDraftContent(data)) {
+      if (!hasDraftContent(currentData)) {
         window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
         return;
       }
 
+      const data = {
+        ...currentData,
+        foto_url: isEphemeralPhotoUrl(currentData.foto_url)
+          ? undefined
+          : currentData.foto_url,
+      };
+      const generatedCv = generatedCvRef.current
+        ? {
+            ...generatedCvRef.current,
+            foto_url: isEphemeralPhotoUrl(generatedCvRef.current.foto_url)
+              ? undefined
+              : generatedCvRef.current.foto_url,
+          }
+        : undefined;
+
       const storedDraft: StoredCreateDraft = {
+        version: CREATE_DRAFT_VERSION,
         data,
         template: selectedTemplateRef.current,
         language: initialLanguage,
         intent: createIntentRef.current,
         action,
+        flowStep,
+        generatedCv,
+        guestPhotoKey: guestPhotoKeyRef.current ?? undefined,
       };
 
-      window.sessionStorage.setItem(CREATE_DRAFT_KEY, JSON.stringify(storedDraft));
+      window.sessionStorage.setItem(
+        CREATE_DRAFT_KEY,
+        JSON.stringify(storedDraft),
+      );
     },
     [initialLanguage],
   );
 
+  const persistCurrentDraft = useCallback(
+    (action: ResumeAction | null = null) => {
+      if (suspendAutosaveRef.current) return;
+      writeStoredDraft(action);
+    },
+    [writeStoredDraft],
+  );
+
   const navigateToStep = useCallback(
     (step: FlowStep) => {
-      if (step === "form") {
+      if (step !== "preview") {
         suspendAutosaveRef.current = false;
       }
+      activeTabRef.current = step;
       setActiveTab(step);
+      if (
+        generatedCvRef.current &&
+        (!currentUser || step !== "preview")
+      ) {
+        writeStoredDraft(null, step);
+      }
       track("CV Funnel Step Viewed", {
         step,
         language: initialLanguage,
@@ -159,7 +208,7 @@ export default function CVForm({
       });
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    [initialLanguage],
+    [currentUser, initialLanguage, writeStoredDraft],
   );
 
   const handleTemplateChoice = useCallback(
@@ -205,27 +254,27 @@ export default function CVForm({
 
   const handleFormCompleted = useCallback(
     (data: RespuestaCV["cv"]) => {
+      generatedCvRef.current = data;
       setCvData(data);
       const attribution = getLandingAttribution();
       track("CV Generated", {
-        template: selectedTemplate,
+        template: selectedTemplateRef.current,
         language: initialLanguage,
         ...attribution,
       });
-      recordAnalyticsEvent({
-        event_name: "cv_generated",
-        language: initialLanguage,
-        template: selectedTemplate,
-        ...attribution,
-      });
-
-      window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
       suspendAutosaveRef.current = true;
       setResumeAction(null);
+      activeTabRef.current = "preview";
+
+      if (currentUser) {
+        window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
+      } else {
+        writeStoredDraft(null, "preview");
+      }
 
       navigateToStep("preview");
     },
-    [initialLanguage, navigateToStep, selectedTemplate],
+    [currentUser, initialLanguage, navigateToStep, writeStoredDraft],
   );
 
   const handleDraftChange = useCallback(
@@ -255,18 +304,79 @@ export default function CVForm({
     [persistCurrentDraft],
   );
 
+  const handleGuestPhotoPrepared = useCallback(
+    (key: string, objectUrl: string) => {
+      const previousKey = guestPhotoKeyRef.current;
+      const previousObjectUrl = guestPhotoObjectUrlRef.current;
+
+      if (previousKey && previousKey !== key) {
+        void removeGuestPhoto(previousKey);
+      }
+      if (previousObjectUrl && previousObjectUrl !== objectUrl) {
+        URL.revokeObjectURL(previousObjectUrl);
+      }
+
+      guestPhotoKeyRef.current = key;
+      guestPhotoObjectUrlRef.current = objectUrl;
+      setGuestPhotoKey(key);
+      setPhotoSyncState("idle");
+      handlePhotoUrlChange(objectUrl);
+      window.setTimeout(() => persistCurrentDraft(), 0);
+    },
+    [handlePhotoUrlChange, persistCurrentDraft],
+  );
+
+  const handleGuestPhotoDiscarded = useCallback(() => {
+    const key = guestPhotoKeyRef.current;
+    const objectUrl = guestPhotoObjectUrlRef.current;
+
+    guestPhotoKeyRef.current = null;
+    guestPhotoObjectUrlRef.current = null;
+    setGuestPhotoKey(null);
+    setPhotoSyncState("idle");
+
+    if (key) void removeGuestPhoto(key);
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
+  }, []);
+
+  const handleContinueWithoutGuestPhoto = useCallback(() => {
+    handleGuestPhotoDiscarded();
+    setDraftPhotoUrl(null);
+    draftDataRef.current = {
+      ...draftDataRef.current,
+      foto_url: undefined,
+    };
+
+    if (generatedCvRef.current) {
+      generatedCvRef.current = {
+        ...generatedCvRef.current,
+        foto_url: undefined,
+      };
+      setCvData(generatedCvRef.current);
+    }
+
+    window.setTimeout(
+      () => writeStoredDraft(null, activeTabRef.current),
+      0,
+    );
+  }, [handleGuestPhotoDiscarded, writeStoredDraft]);
+
+  const handleRetryGuestPhotoSync = useCallback(() => {
+    setPhotoSyncState("uploading");
+    setPhotoSyncRetry((value) => value + 1);
+  }, []);
+
   const handleAuthRequired = useCallback(
     (data: DatosCVFormulario, action: ResumeAction) => {
       suspendAutosaveRef.current = true;
-      const storedDraft: StoredCreateDraft = {
-        data: normalizeDraft({ ...data, foto_url: draftPhotoUrl ?? undefined }),
-        template: selectedTemplateRef.current,
-        language: initialLanguage,
-        intent: createIntentRef.current,
+      draftDataRef.current = normalizeDraft({
+        ...data,
+        foto_url: draftPhotoUrl ?? undefined,
+      });
+      writeStoredDraft(
         action,
-      };
-
-      window.sessionStorage.setItem(CREATE_DRAFT_KEY, JSON.stringify(storedDraft));
+        action === "checkout" ? "preview" : "form",
+      );
       recordAnalyticsEvent({
         event_name: "auth_required",
         language: initialLanguage,
@@ -283,8 +393,12 @@ export default function CVForm({
       const nextPath = `/crear?${nextParams.toString()}`;
       window.location.assign(`/login?next=${encodeURIComponent(nextPath)}`);
     },
-    [draftPhotoUrl, initialLanguage],
+    [draftPhotoUrl, initialLanguage, writeStoredDraft],
   );
+
+  const handleCheckoutAuthRequired = useCallback(() => {
+    handleAuthRequired(draftDataRef.current, "checkout");
+  }, [handleAuthRequired]);
 
   const handleResumeActionConsumed = useCallback(() => {
     setResumeAction(null);
@@ -348,10 +462,19 @@ export default function CVForm({
 
     try {
       const rawDraft = window.sessionStorage.getItem(CREATE_DRAFT_KEY);
-      if (!rawDraft) return;
+      if (!rawDraft) {
+        if (initialResumeAction === "checkout") {
+          toast.error(
+            initialLanguage === "en"
+              ? "We could not recover that preview. Your saved details are still available if you return to the form."
+              : "No pudimos recuperar ese preview. Volvé al formulario para generar el CV nuevamente.",
+          );
+        }
+        return;
+      }
 
-      const storedDraft = JSON.parse(rawDraft) as StoredCreateDraft;
-      if (!storedDraft.data || !storedDraft.template) {
+      const storedDraft = parseStoredCreateDraft(rawDraft);
+      if (!storedDraft) {
         window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
         return;
       }
@@ -366,13 +489,69 @@ export default function CVForm({
       selectedTemplateRef.current = storedDraft.template;
       setSelectedTemplate(storedDraft.template);
       setDraftPhotoUrl(restoredData.foto_url ?? null);
+      guestPhotoKeyRef.current = storedDraft.guestPhotoKey ?? null;
+      setGuestPhotoKey(storedDraft.guestPhotoKey ?? null);
+      setPhotoSyncState(
+        currentUser && storedDraft.guestPhotoKey
+          ? "uploading"
+          : "idle",
+      );
       const restoredIntent = normalizeCreateIntent(storedDraft.intent);
       createIntentRef.current = restoredIntent;
       setCreateIntent(restoredIntent);
+
+      const pendingAction = storedDraft.action ?? initialResumeAction;
+      const shouldRestorePreview =
+        Boolean(storedDraft.generatedCv) &&
+        (storedDraft.flowStep === "preview" || pendingAction === "checkout");
+
+      if (shouldRestorePreview && storedDraft.generatedCv) {
+        generatedCvRef.current = storedDraft.generatedCv;
+        setCvData(storedDraft.generatedCv);
+        activeTabRef.current = "preview";
+        setActiveTab("preview");
+        suspendAutosaveRef.current = true;
+
+        if (currentUser && pendingAction === "checkout") {
+          recordAnalyticsEvent({
+            event_name: "auth_completed",
+            language: initialLanguage,
+            template: storedDraft.template,
+            ...getLandingAttribution(),
+          });
+          handleResumeActionConsumed();
+          toast.success(
+            initialLanguage === "en"
+              ? "Your resume is back. You can complete the payment now."
+              : "Recuperamos tu CV. Ya podés completar el pago.",
+          );
+        } else if (!pendingAction) {
+          toast.info(
+            initialLanguage === "en"
+              ? "We restored your generated resume."
+              : "Recuperamos el CV generado en esta pestaña.",
+          );
+        }
+
+        return;
+      }
+
+      generatedCvRef.current = null;
+      setCvData(null);
+      activeTabRef.current = "form";
       setActiveTab("form");
       suspendAutosaveRef.current = false;
 
-      const pendingAction = storedDraft.action ?? initialResumeAction;
+      if (storedDraft.generatedCvInvalid || pendingAction === "checkout") {
+        handleResumeActionConsumed();
+        writeStoredDraft(null, "form");
+        toast.error(
+          initialLanguage === "en"
+            ? "The preview could not be recovered, but your original details are still here."
+            : "No pudimos recuperar el preview, pero conservamos tus datos originales.",
+        );
+        return;
+      }
 
       if (currentUser && pendingAction) {
         setResumeAction(pendingAction);
@@ -401,7 +580,130 @@ export default function CVForm({
     } finally {
       setDraftReady(true);
     }
-  }, [currentUser, initialLanguage, initialResumeAction]);
+  }, [
+    currentUser,
+    handleResumeActionConsumed,
+    initialLanguage,
+    initialResumeAction,
+    writeStoredDraft,
+  ]);
+
+  useEffect(() => {
+    if (!draftReady || !guestPhotoKey || guestPhotoHydrationRef.current) {
+      return;
+    }
+    if (!currentUser && guestPhotoObjectUrlRef.current) return;
+
+    const hydrateAndSyncPhoto = async () => {
+      const blob = await getGuestPhoto(guestPhotoKey);
+      if (guestPhotoKeyRef.current !== guestPhotoKey) return;
+
+      if (!blob) {
+        guestPhotoKeyRef.current = null;
+        setGuestPhotoKey(null);
+        setPhotoSyncState("idle");
+        writeStoredDraft(null, activeTabRef.current);
+        toast.error(
+          initialLanguage === "en"
+            ? "The temporary photo expired. Your resume details are still saved."
+            : "La foto temporal venció, pero conservamos todos los datos del CV.",
+        );
+        return;
+      }
+
+      let objectUrl = guestPhotoObjectUrlRef.current;
+      if (!objectUrl) {
+        objectUrl = URL.createObjectURL(blob);
+        guestPhotoObjectUrlRef.current = objectUrl;
+      }
+
+      setDraftPhotoUrl(objectUrl);
+      draftDataRef.current = {
+        ...draftDataRef.current,
+        foto_url: objectUrl,
+      };
+
+      if (generatedCvRef.current) {
+        generatedCvRef.current = {
+          ...generatedCvRef.current,
+          foto_url: objectUrl,
+        };
+        setCvData(generatedCvRef.current);
+      }
+
+      if (!currentUser) {
+        setPhotoSyncState("idle");
+        return;
+      }
+
+      setPhotoSyncState("uploading");
+      const { createClient } = await import("@/utils/supabase/client");
+      const supabase = createClient();
+      const extension = guestPhotoExtension(blob);
+      const filePath =
+        `fotos/user-${currentUser.id}/` +
+        `${Date.now()}-${crypto.randomUUID()}.${extension}`;
+      const { error: uploadError } = await supabase.storage
+        .from("fotos-perfil")
+        .upload(filePath, blob, {
+          contentType: blob.type,
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
+      if (guestPhotoKeyRef.current !== guestPhotoKey) return;
+
+      const { data: publicPhoto } = supabase.storage
+        .from("fotos-perfil")
+        .getPublicUrl(filePath);
+      const publicUrl = publicPhoto.publicUrl;
+
+      setDraftPhotoUrl(publicUrl);
+      draftDataRef.current = {
+        ...draftDataRef.current,
+        foto_url: publicUrl,
+      };
+
+      if (generatedCvRef.current) {
+        generatedCvRef.current = {
+          ...generatedCvRef.current,
+          foto_url: publicUrl,
+        };
+        setCvData(generatedCvRef.current);
+      }
+
+      guestPhotoKeyRef.current = null;
+      guestPhotoObjectUrlRef.current = null;
+      setGuestPhotoKey(null);
+      setPhotoSyncState("idle");
+      await removeGuestPhoto(guestPhotoKey);
+      URL.revokeObjectURL(objectUrl);
+      writeStoredDraft(null, activeTabRef.current);
+    };
+
+    const hydration = hydrateAndSyncPhoto()
+      .catch((photoError) => {
+        console.error("No se pudo sincronizar la foto temporal", photoError);
+        setPhotoSyncState("error");
+        toast.error(
+          initialLanguage === "en"
+            ? "We could not save the photo yet. You can retry without losing your resume."
+            : "Todavía no pudimos guardar la foto. Podés reintentar sin perder el CV.",
+        );
+      })
+      .finally(() => {
+        guestPhotoHydrationRef.current = null;
+      });
+
+    guestPhotoHydrationRef.current = hydration;
+  }, [
+    currentUser,
+    draftReady,
+    guestPhotoKey,
+    initialLanguage,
+    photoSyncRetry,
+    writeStoredDraft,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -409,6 +711,9 @@ export default function CVForm({
         clearTimeout(autosaveTimerRef.current);
       }
       persistCurrentDraft();
+      if (guestPhotoObjectUrlRef.current) {
+        URL.revokeObjectURL(guestPhotoObjectUrlRef.current);
+      }
     };
   }, [persistCurrentDraft]);
 
@@ -453,8 +758,9 @@ export default function CVForm({
                 onDraftChange={handleDraftChange}
                 fotoUrl={draftPhotoUrl}
                 onFotoUrlChange={handlePhotoUrlChange}
+                onGuestPhotoPrepared={handleGuestPhotoPrepared}
+                onGuestPhotoDiscarded={handleGuestPhotoDiscarded}
                 onChangeTemplate={() => navigateToStep("template")}
-                onAuthRequired={handleAuthRequired}
                 autoGenerate={Boolean(currentUser && resumeAction === "generate")}
                 onResumeActionConsumed={handleResumeActionConsumed}
               />
@@ -462,7 +768,7 @@ export default function CVForm({
           </TabsContent>
 
           <TabsContent value="preview" className="space-y-6">
-            {cvData && currentUser ? (
+            {cvData ? (
               <CVPreviewStep
                 cvData={cvData}
                 template={selectedTemplate}
@@ -472,6 +778,10 @@ export default function CVForm({
                   navigateToStep("template");
                 }}
                 currentUser={currentUser}
+                onAuthRequired={handleCheckoutAuthRequired}
+                photoSyncState={photoSyncState}
+                onRetryPhotoSync={handleRetryGuestPhotoSync}
+                onContinueWithoutPhoto={handleContinueWithoutGuestPhoto}
                 language={initialLanguage}
                 initialCountryCode={initialCountryCode}
               />

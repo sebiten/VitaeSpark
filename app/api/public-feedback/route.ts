@@ -12,10 +12,24 @@ export async function GET() {
 
   if (error) {
     console.error("Error cargando feedback publico:", error);
-    return NextResponse.json({ feedback: [] });
+    return NextResponse.json(
+      { feedback: [] },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        },
+      },
+    );
   }
 
-  return NextResponse.json({
-    feedback: (data ?? []).filter((item) => item.message),
-  });
+  return NextResponse.json(
+    {
+      feedback: (data ?? []).filter((item) => item.message),
+    },
+    {
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=86400",
+      },
+    },
+  );
 }

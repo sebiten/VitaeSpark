@@ -12,7 +12,14 @@ const optionalPhotoUrl = z.preprocess((value) => {
   }
 
   return value;
-}, z.string().url().optional());
+}, z
+  .string()
+  .url()
+  .refine((value) => {
+    const protocol = new URL(value).protocol;
+    return protocol === "https:" || protocol === "http:";
+  }, "La foto debe usar una URL remota segura")
+  .optional());
 
 const boundedText = (min: number, max: number) =>
   z.string().trim().min(min).max(max);
@@ -37,6 +44,7 @@ export const GenerateCVInputSchema = z.object({
   language: z.enum(["es", "en"]).optional().default("es"),
   foto_url: optionalPhotoUrl,
   template: TemplateSchema.optional(),
+  attribution: LandingAttributionSchema,
   nombre: boundedText(1, 120),
   puesto: boundedText(1, 140),
   contacto: boundedText(1, 1200),

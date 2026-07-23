@@ -1,365 +1,303 @@
-"use client";
-import { useState, useEffect, useMemo, useCallback, memo, useRef } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  FileSearch,
   FileText,
-  Filter,
+  FilterX,
   Search,
-  AlertCircle,
 } from "lucide-react";
-import { createClient } from "@/utils/supabase/client";
-
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { CVCard } from "@/components/cvCard";
 import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { CVCard, CVprofile } from "../../../../components/cvCard";
+import { CV_TEMPLATES } from "@/lib/cv-templates";
+import { loadAdminCvs } from "@/lib/admin-cvs";
+import { createClient } from "@/utils/supabase/server";
 
-export default function Page() {
-  const router = useRouter();
-  const supabase = useMemo(() => createClient(), []);
+const PAGE_SIZE = 12;
+const STATUS_OPTIONS = [
+  { value: "all", label: "Todos los estados" },
+  { value: "pending", label: "Pendientes" },
+  { value: "paid", label: "Pagados" },
+] as const;
 
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
-  const [cvs, setCvs] = useState<CVprofile[]>([]);
-  const [totalCvs, setTotalCvs] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedTemplate, setSelectedTemplate] = useState<string>("all");
-  const [error, setError] = useState<string | null>(null);
+type SearchParams = {
+  page?: string;
+  template?: string;
+  status?: string;
+  search?: string;
+};
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(12);
-  const skipNextCvLoad = useRef(false);
+function parsePage(value?: string) {
+  const page = Number(value);
+  return Number.isInteger(page) && page > 0 ? page : 1;
+}
 
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+function buildHref(params: SearchParams, page: number) {
+  const query = new URLSearchParams();
+  if (page > 1) query.set("page", String(page));
+  if (params.template && params.template !== "all") {
+    query.set("template", params.template);
+  }
+  if (params.status && params.status !== "all") {
+    query.set("status", params.status);
+  }
+  if (params.search?.trim()) query.set("search", params.search.trim());
 
-        const {
-          data: { user },
-          error: userError,
-        } = await supabase.auth.getUser();
+  const serialized = query.toString();
+  return serialized
+    ? `/abelardo/admin/cv?${serialized}`
+    : "/abelardo/admin/cv";
+}
 
-        if (userError || !user) return router.push("/login");
+export default async function AdminCvsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<SearchParams>;
+}) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-        setUser(user);
+  if (!user) redirect("/login");
 
-        const { data: profile, error: profileError } = await supabase
-          .from("profiles")
-          .select("isadmin")
-          .eq("id", user.id)
-          .single();
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("isadmin")
+    .eq("id", user.id)
+    .single();
 
-        if (profileError || !profile?.isadmin) {
-          setError("No tienes permisos para acceder a esta página");
-          return setTimeout(() => router.push("/"), 3000);
-        }
+  if (profileError || !profile?.isadmin) redirect("/");
 
-        skipNextCvLoad.current = true;
-        await loadCVs(1, selectedTemplate, searchTerm);
-      } catch (err) {
-        console.error("Error al cargar datos de usuario:", err);
-        setError("Error al cargar los datos del usuario");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const params = (await searchParams) ?? {};
+  const page = parsePage(params.page);
+  const template = CV_TEMPLATES.some((item) => item.id === params.template)
+    ? params.template!
+    : "all";
+  const status = STATUS_OPTIONS.some((item) => item.value === params.status)
+    ? params.status!
+    : "all";
+  const search = params.search?.trim() ?? "";
 
-    loadUserData();
-  }, [router, supabase]);
+  const { cvs, total } = await loadAdminCvs({
+    page,
+    pageSize: PAGE_SIZE,
+    template,
+    status,
+    search,
+  });
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const normalizedParams = { template, status, search };
 
-  useEffect(() => {
-    if (!user) return;
-    if (skipNextCvLoad.current) {
-      skipNextCvLoad.current = false;
-      return;
-    }
-    loadCVs(currentPage, selectedTemplate, searchTerm);
-  }, [currentPage, selectedTemplate, searchTerm, user]);
+  if (total > 0 && page > totalPages) {
+    redirect(buildHref(normalizedParams, totalPages));
+  }
 
-  const loadCVs = async (
-    page = currentPage,
-    template = selectedTemplate,
-    search = searchTerm
-  ) => {
-    try {
-      const params = new URLSearchParams({
-        page: String(page),
-        pageSize: String(itemsPerPage),
-        template,
-      });
-
-      if (search.trim()) params.set("search", search.trim());
-
-      const res = await fetch(`/api/admin/cvs?${params.toString()}`, {
-        method: "GET",
-        credentials: "same-origin",
-      });
-
-      if (!res.ok) throw new Error("No se pudieron cargar los CVs");
-
-      const { cvs, total } = (await res.json()) as {
-        cvs: CVprofile[];
-        total: number;
-      };
-      const enriched = cvs.map((cv: any) => ({
-        ...cv,
-        user_name: cv.profiles?.name || "Usuario desconocido",
-        user_email: cv.profiles?.email || "Email no disponible",
-      }));
-
-      setCvs(enriched);
-      setTotalCvs(total ?? enriched.length);
-    } catch (err) {
-      console.error("Error al cargar CVs:", err);
-      setError("Error al cargar los CVs");
-    }
-  };
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedTemplate, searchTerm]);
-
-  const totalPages = Math.max(1, Math.ceil(totalCvs / itemsPerPage));
-  const uniqueTemplates = useMemo(
-    () => ["elegance", "purple", "blue", "green", "harvard"],
-    []
+  const currentPage = Math.min(page, totalPages);
+  const hasFilters = Boolean(
+    search || template !== "all" || status !== "all",
   );
 
-  const handleSearchChange = useCallback((e: any) => {
-    setSearchTerm(e.target.value);
-  }, []);
-
-  const handleTemplateChange = useCallback((value: string) => {
-    setSelectedTemplate(value);
-  }, []);
-
-  const handleClearFilters = useCallback(() => {
-    setSearchTerm("");
-    setSelectedTemplate("all");
-  }, []);
-
-  const handlePageChange = useCallback((page: number) => {
-    setCurrentPage(page);
-  }, []);
-
-  if (loading)
-    return (
-      <main className="bg-[#0F0F10] min-h-screen flex justify-center items-center text-[#F4F4F5]">
-        <div className="text-center">
-          <div className="animate-spin h-12 w-12 border-t-2 border-b-2 border-[#7C3AED] rounded-full mx-auto mb-4" />
-          <p>Cargando currículums...</p>
-        </div>
-      </main>
-    );
-
-  if (error)
-    return (
-      <main className="bg-[#0F0F10] min-h-screen flex justify-center items-center">
-        <Alert className="bg-red-900/20 border-red-500/50 max-w-md">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="text-red-200">{error}</AlertDescription>
-        </Alert>
-      </main>
-    );
-
   return (
-    <main className="relative overflow-hidden bg-[#0F0F10] min-h-screen py-12 px-4 text-[#F4F4F5]">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-[#7C3AED]/10 blur-[130px]" />
-      <div className="relative container mx-auto max-w-7xl">
-        <header className="mb-10 rounded-3xl border border-white/10 bg-[#15151A]/80 p-6 shadow-2xl shadow-black/10">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-[#38BDF8]">
-            <FileText className="h-4 w-4" />
-            Admin CVs
-          </div>
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Currículums Generados
-          </h1>
-          <p className="text-[#F4F4F5]/70">
-            Visualiza y gestiona todos los CVs creados por los usuarios en la
-            plataforma.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2 text-sm text-[#F4F4F5]/70">
-            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
-              Total: {totalCvs}
-            </span>
-            <span>•</span>
-            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
-              En esta pagina: {cvs.length}
-            </span>
-            <span>•</span>
-            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
-              Página {currentPage} de {totalPages}
-            </span>
+    <main className="min-h-screen bg-[#0C0C10] px-4 py-8 text-[#F6F2EA] sm:px-6 lg:py-12">
+      <div className="mx-auto w-full max-w-[1440px]">
+        <Link
+          href="/abelardo/admin"
+          className="inline-flex items-center gap-2 text-sm text-white/52 transition-colors hover:text-white"
+        >
+          <ArrowLeft className="size-4" />
+          Volver al panel
+        </Link>
+
+        <header className="mt-6 border-b border-white/8 pb-7">
+          <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+            <div>
+              <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#A78BFA]">
+                <FileText className="size-4" />
+                Biblioteca de CVs
+              </div>
+              <h1 className="max-w-3xl text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">
+                Currículums generados
+              </h1>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-white/54">
+                Revisá el contenido, la plantilla, la foto y el estado de cada
+                CV sin salir del panel.
+              </p>
+            </div>
+
+            <div className="flex items-baseline gap-2 lg:text-right">
+              <strong className="text-3xl font-semibold tabular-nums text-white">
+                {total}
+              </strong>
+              <span className="text-sm text-white/46">
+                {total === 1 ? "resultado" : "resultados"}
+              </span>
+            </div>
           </div>
         </header>
 
-        {/* Controles */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 rounded-3xl border border-white/10 bg-[#15151A]/80 p-4 shadow-xl shadow-black/10">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#F4F4F5]/40" />
-            <Input
-              placeholder="Buscar por nombre, email o título..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="pl-10 bg-[#0F0F10]/70 border-white/10 text-[#F4F4F5] placeholder:text-[#F4F4F5]/40"
+        <form
+          action="/abelardo/admin/cv"
+          className="mt-6 grid gap-3 border-b border-white/8 pb-6 md:grid-cols-[minmax(260px,1fr)_220px_190px_auto]"
+        >
+          <label className="relative">
+            <span className="sr-only">Buscar currículums</span>
+            <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-white/35" />
+            <input
+              type="search"
+              name="search"
+              defaultValue={search}
+              placeholder="Nombre, puesto, usuario o ID"
+              className="h-11 w-full rounded-xl border border-white/10 bg-white/[0.035] pl-10 pr-4 text-sm text-white outline-none transition-colors placeholder:text-white/32 focus:border-[#8B5CF6]/55"
             />
+          </label>
+
+          <label>
+            <span className="sr-only">Filtrar por plantilla</span>
+            <select
+              name="template"
+              defaultValue={template}
+              className="h-11 w-full rounded-xl border border-white/10 bg-[#15151A] px-3 text-sm text-white/78 outline-none focus:border-[#8B5CF6]/55"
+            >
+              <option value="all">Todas las plantillas</option>
+              {CV_TEMPLATES.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label>
+            <span className="sr-only">Filtrar por estado</span>
+            <select
+              name="status"
+              defaultValue={status}
+              className="h-11 w-full rounded-xl border border-white/10 bg-[#15151A] px-3 text-sm text-white/78 outline-none focus:border-[#8B5CF6]/55"
+            >
+              {STATUS_OPTIONS.map((item) => (
+                <option key={item.value} value={item.value}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <div className="flex gap-2">
+            <Button
+              type="submit"
+              className="h-11 flex-1 bg-[#F6F2EA] px-5 text-[#111115] hover:bg-white"
+            >
+              Buscar
+            </Button>
+            {hasFilters ? (
+              <Button
+                asChild
+                type="button"
+                variant="outline"
+                className="size-11 border-white/10 bg-transparent px-0 text-white/58 hover:bg-white/[0.05] hover:text-white"
+              >
+                <Link href="/abelardo/admin/cv" aria-label="Limpiar filtros">
+                  <FilterX className="size-4" />
+                </Link>
+              </Button>
+            ) : null}
+          </div>
+        </form>
+
+        <section className="mt-7" aria-labelledby="cv-results-title">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 id="cv-results-title" className="text-sm font-semibold text-white/88">
+                {hasFilters ? "Resultados filtrados" : "CVs más recientes"}
+              </h2>
+              <p className="mt-1 text-xs text-white/40">
+                Página {currentPage} de {totalPages}
+              </p>
+            </div>
           </div>
 
-          <Select value={selectedTemplate} onValueChange={handleTemplateChange}>
-            <SelectTrigger className="bg-[#0F0F10]/70 border-white/10 text-[#F4F4F5]">
-              <SelectValue placeholder="Filtrar por plantilla" />
-            </SelectTrigger>
-            <SelectContent className="bg-[#1F1F22] border-[#7C3AED]/20 text-[#F4F4F5]">
-              <SelectItem value="all">Todas las plantillas</SelectItem>
-              {uniqueTemplates.map((tpl) => (
-                <SelectItem key={tpl} value={tpl}>
-                  {tpl.charAt(0).toUpperCase() + tpl.slice(1)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <Button
-            variant="outline"
-            onClick={handleClearFilters}
-            className="bg-[#0F0F10]/70 border-white/10 text-[#F4F4F5] hover:bg-[#7C3AED]/10"
-          >
-            <Filter className="h-4 w-4 mr-2" />
-            Limpiar filtros
-          </Button>
-        </div>
-
-        {cvs.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {cvs.length > 0 ? (
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {cvs.map((cv) => (
                 <CVCard key={cv.id} cv={cv} />
               ))}
             </div>
-
-            {/* Pagination Controls */}
-            {totalPages > 1 && (
-              <div className="flex justify-center mt-8">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (currentPage > 1)
-                            handlePageChange(currentPage - 1);
-                        }}
-                        className={`${
-                          currentPage === 1
-                            ? "pointer-events-none opacity-50"
-                            : "hover:bg-[#7C3AED]/10 hover:text-[#7C3AED]"
-                        } bg-[#1F1F22] border-[#7C3AED]/20 text-[#F4F4F5]`}
-                      />
-                    </PaginationItem>
-
-                    {/* Page Numbers */}
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      let pageNum;
-                      if (totalPages <= 5) {
-                        pageNum = i + 1;
-                      } else if (currentPage <= 3) {
-                        pageNum = i + 1;
-                      } else if (currentPage >= totalPages - 2) {
-                        pageNum = totalPages - 4 + i;
-                      } else {
-                        pageNum = currentPage - 2 + i;
-                      }
-
-                      return (
-                        <PaginationItem key={pageNum}>
-                          <PaginationLink
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handlePageChange(pageNum);
-                            }}
-                            isActive={currentPage === pageNum}
-                            className={`${
-                              currentPage === pageNum
-                                ? "bg-[#7C3AED] text-white"
-                                : "bg-[#1F1F22] border-[#7C3AED]/20 text-[#F4F4F5] hover:bg-[#7C3AED]/10 hover:text-[#7C3AED]"
-                            }`}
-                          >
-                            {pageNum}
-                          </PaginationLink>
-                        </PaginationItem>
-                      );
-                    })}
-
-                    {/* Ellipsis for large page counts */}
-                    {totalPages > 5 && currentPage < totalPages - 2 && (
-                      <PaginationItem>
-                        <PaginationEllipsis className="text-[#F4F4F5]/40" />
-                      </PaginationItem>
-                    )}
-
-                    <PaginationItem>
-                      <PaginationNext
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (currentPage < totalPages)
-                            handlePageChange(currentPage + 1);
-                        }}
-                        className={`${
-                          currentPage === totalPages
-                            ? "pointer-events-none opacity-50"
-                            : "hover:bg-[#7C3AED]/10 hover:text-[#7C3AED]"
-                        } bg-[#1F1F22] border-[#7C3AED]/20 text-[#F4F4F5]`}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
+          ) : (
+            <div className="flex min-h-72 flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/[0.018] px-6 text-center">
+              <div className="flex size-11 items-center justify-center rounded-xl border border-white/8 bg-white/[0.035] text-white/42">
+                <FileSearch className="size-5" />
               </div>
-            )}
-          </>
-        ) : (
-          <div className="text-center py-16">
-            <FileText className="h-20 w-20 mx-auto text-[#7C3AED]/30 mb-6" />
-            <h3 className="text-xl font-medium mb-2">
-              {searchTerm || selectedTemplate !== "all"
-                ? "No se encontraron CVs"
-                : "No hay CVs generados"}
-            </h3>
-            <p className="text-[#F4F4F5]/60">
-              {searchTerm || selectedTemplate !== "all"
-                ? "Intenta ajustar los filtros para encontrar resultados."
-                : "Aún no se han creado currículums en la plataforma."}
-            </p>
-            {(searchTerm || selectedTemplate !== "all") && (
-              <Button
-                onClick={handleClearFilters}
-                className="mt-4 bg-[#1F1F22] border-[#7C3AED]/20 text-[#F4F4F5]"
-              >
-                Limpiar filtros
-              </Button>
-            )}
-          </div>
-        )}
+              <h2 className="mt-4 text-base font-semibold">
+                No encontramos currículums
+              </h2>
+              <p className="mt-2 max-w-sm text-sm leading-6 text-white/48">
+                {hasFilters
+                  ? "Probá con otro nombre, plantilla o estado."
+                  : "Todavía no hay CVs registrados en la plataforma."}
+              </p>
+              {hasFilters ? (
+                <Link
+                  href="/abelardo/admin/cv"
+                  className="mt-4 text-sm font-semibold text-[#A78BFA] hover:text-[#C4B5FD]"
+                >
+                  Ver todos los CVs
+                </Link>
+              ) : null}
+            </div>
+          )}
+        </section>
+
+        {totalPages > 1 ? (
+          <nav
+            className="mt-8 flex items-center justify-between border-t border-white/8 pt-5"
+            aria-label="Paginación de currículums"
+          >
+            <Button
+              asChild={currentPage > 1}
+              variant="outline"
+              disabled={currentPage <= 1}
+              className="border-white/10 bg-transparent text-white/68 hover:bg-white/[0.05] hover:text-white"
+            >
+              {currentPage > 1 ? (
+                <Link href={buildHref(normalizedParams, currentPage - 1)}>
+                  <ChevronLeft className="mr-2 size-4" />
+                  Anterior
+                </Link>
+              ) : (
+                <span>
+                  <ChevronLeft className="mr-2 size-4" />
+                  Anterior
+                </span>
+              )}
+            </Button>
+
+            <span className="text-xs tabular-nums text-white/42">
+              {currentPage} / {totalPages}
+            </span>
+
+            <Button
+              asChild={currentPage < totalPages}
+              variant="outline"
+              disabled={currentPage >= totalPages}
+              className="border-white/10 bg-transparent text-white/68 hover:bg-white/[0.05] hover:text-white"
+            >
+              {currentPage < totalPages ? (
+                <Link href={buildHref(normalizedParams, currentPage + 1)}>
+                  Siguiente
+                  <ChevronRight className="ml-2 size-4" />
+                </Link>
+              ) : (
+                <span>
+                  Siguiente
+                  <ChevronRight className="ml-2 size-4" />
+                </span>
+              )}
+            </Button>
+          </nav>
+        ) : null}
       </div>
     </main>
   );

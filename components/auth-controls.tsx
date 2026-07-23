@@ -117,6 +117,9 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
   const display = user ? getUserDisplay(user) : cachedDisplay;
 
   const handleLogout = async () => {
+    const previousUser = user;
+    const previousDisplay = display;
+
     setIsLoggingOut(true);
     setUser(null);
     setCachedDisplay(null);
@@ -128,6 +131,9 @@ export function AuthControls({ mobile = false, onNavigate }: AuthControlsProps) 
 
     if (error) {
       console.error("Logout error:", error.message);
+      setUser(previousUser ?? null);
+      setCachedDisplay(previousDisplay ?? null);
+      writeCachedDisplay(previousDisplay ?? null);
       setIsLoggingOut(false);
       return;
     }

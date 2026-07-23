@@ -3,29 +3,14 @@ import {
   type LandingAttribution,
 } from "@/lib/analytics-attribution";
 import { getAnalyticsSessionId } from "@/lib/analytics-session";
-
-type AnalyticsEventName =
-  | "landing_cta_clicked"
-  | "template_selected"
-  | "form_started"
-  | "auth_required"
-  | "auth_completed"
-  | "cv_generated"
-  | "checkout_viewed"
-  | "payment_started"
-  | "payment_completed"
-  | "recovery_email_sent"
-  | "recovery_email_clicked"
-  | "feedback_submitted"
-  | "download_completed";
+import type { ClientAnalyticsEventName } from "@/lib/analytics-event-policy";
 
 type AnalyticsEventPayload = LandingAttribution & {
-  event_name: AnalyticsEventName;
+  event_name: ClientAnalyticsEventName;
   language?: "es" | "en";
   payment_provider?: "mercado_pago" | "paypal";
   template?: string;
   cv_id?: string;
-  payment_id?: string;
 };
 
 declare global {

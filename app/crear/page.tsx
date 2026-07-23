@@ -17,7 +17,9 @@ const Page = async ({
   const language = normalizeLanguage(params?.lang);
   const initialIntent = normalizeCreateIntent(params?.intent);
   const initialResumeAction =
-    params?.resume === "generate" || params?.resume === "photo"
+    params?.resume === "generate" ||
+    params?.resume === "photo" ||
+    params?.resume === "checkout"
       ? params.resume
       : null;
   const currentUser = data.user

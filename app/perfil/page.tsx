@@ -1,5 +1,12 @@
 import { Suspense } from "react";
-import PerfilCVs from "./PerfilCVs";
+import { redirect } from "next/navigation";
+import type { PendingCVRecord } from "@/components/PendingPaymentRecovery";
+import type { ProfilePayment } from "@/components/UserPayment";
+import { createClient } from "@/utils/supabase/server";
+import PerfilCVs, {
+  type ProfileCVRecord,
+  type ProfileInfo,
+} from "./PerfilCVs";
 
 function PerfilFallback() {
   return (
@@ -16,10 +23,80 @@ function PerfilFallback() {
   );
 }
 
-export default function PerfilPage() {
+export default async function PerfilPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect("/login");
+
+  const [profileResult, cvsResult, paymentsResult, pendingResult] =
+    await Promise.all([
+      supabase
+        .from("profiles")
+        .select("full_name, avatar_url")
+        .eq("id", user.id)
+        .maybeSingle(),
+      supabase
+        .from("cvs")
+        .select("id, cv_data, template, created_at")
+        .eq("profile_id", user.id)
+        .eq("status", "paid")
+        .order("created_at", { ascending: false }),
+      supabase
+        .from("payments")
+        .select(
+          `
+          *,
+          cv:cvs(
+            cv_data,
+            template
+          )
+        `,
+        )
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false }),
+      supabase
+        .from("cvs")
+        .select("id, cv_data, template, created_at, status")
+        .eq("profile_id", user.id)
+        .eq("status", "pending")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+    ]);
+
+  const firstError =
+    profileResult.error ||
+    cvsResult.error ||
+    paymentsResult.error ||
+    pendingResult.error;
+
+  if (firstError) {
+    throw new Error(`No se pudo cargar el perfil: ${firstError.message}`);
+  }
+
+  const profileInfo: ProfileInfo = {
+    name:
+      profileResult.data?.full_name ||
+      user.email?.split("@")[0] ||
+      "Usuario",
+    email: user.email || "No disponible",
+    imgUrl:
+      profileResult.data?.avatar_url || user.user_metadata?.avatar_url,
+  };
+
   return (
     <Suspense fallback={<PerfilFallback />}>
-      <PerfilCVs />
+      <PerfilCVs
+        initialCvs={(cvsResult.data ?? []) as ProfileCVRecord[]}
+        initialProfileInfo={profileInfo}
+        initialPayments={(paymentsResult.data ?? []) as ProfilePayment[]}
+        initialPendingCv={
+          (pendingResult.data as PendingCVRecord | null) ?? null
+        }
+      />
     </Suspense>
   );
 }

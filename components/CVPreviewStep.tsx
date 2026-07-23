@@ -33,6 +33,7 @@ import { calculateCvScore } from "@/lib/cv-score";
 import { ConversionProof } from "@/components/ConversionProof";
 import { MarketSelector } from "@/components/MarketSelector";
 import { useMarket } from "@/hooks/use-market";
+import type { PhotoSyncState } from "@/lib/guest-photo";
 
 const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ssr: false,
@@ -82,6 +83,20 @@ const checkoutCopy = {
     mpError: "No se pudo iniciar el pago. Intenta nuevamente.",
     paypalError: "No se pudo iniciar el pago con PayPal. Intenta nuevamente.",
     paymentError: "Error al procesar el pago. Intenta nuevamente.",
+    signInToPay: `Iniciá sesión para pagar ${PRICING.mercadoPago.label}`,
+    signInToPayInternational: `Iniciá sesión para pagar ${PRICING.paypal.label}`,
+    signInReturn:
+      "Después volvés a este mismo CV para completar el pago, sin generarlo otra vez.",
+    paymentMethodsAfterLogin:
+      "Mercado Pago y PayPal se habilitan después de iniciar sesión.",
+    photoSyncing: "Guardando tu foto de forma segura...",
+    photoSyncingDetail:
+      "El CV ya está listo. El pago se habilita apenas termina esta carga.",
+    photoSyncError: "No pudimos guardar la foto todavía.",
+    photoSyncErrorDetail:
+      "Reintentá la carga o continuá sin foto. El resto del CV está guardado.",
+    retryPhoto: "Reintentar",
+    continueWithoutPhoto: "Continuar sin foto",
   },
   en: {
     loadingPreview: "Preparing preview...",
@@ -121,6 +136,20 @@ const checkoutCopy = {
     mpError: "Could not start Mercado Pago checkout. Try again.",
     paypalError: "Could not start PayPal checkout. Try again.",
     paymentError: "Payment error. Try again.",
+    signInToPay: `Sign in to pay ${PRICING.mercadoPago.label}`,
+    signInToPayInternational: `Sign in to pay ${PRICING.paypal.label}`,
+    signInReturn:
+      "You will return to this same resume to complete payment without generating it again.",
+    paymentMethodsAfterLogin:
+      "Mercado Pago and PayPal become available after you sign in.",
+    photoSyncing: "Saving your photo securely...",
+    photoSyncingDetail:
+      "Your resume is ready. Payment becomes available when this upload finishes.",
+    photoSyncError: "We could not save the photo yet.",
+    photoSyncErrorDetail:
+      "Retry the upload or continue without a photo. The rest of your resume is saved.",
+    retryPhoto: "Retry",
+    continueWithoutPhoto: "Continue without photo",
   },
 } as const;
 
@@ -132,7 +161,11 @@ type Props = {
   currentUser: {
     id: string;
     email?: string | null;
-  };
+  } | null;
+  onAuthRequired: () => void;
+  photoSyncState: PhotoSyncState;
+  onRetryPhotoSync: () => void;
+  onContinueWithoutPhoto: () => void;
   language: AppLanguage;
   initialCountryCode?: string | null;
 };
@@ -143,6 +176,10 @@ export default function CVPreviewStepPurple({
   onBack,
   onChangeTemplate,
   currentUser,
+  onAuthRequired,
+  photoSyncState,
+  onRetryPhotoSync,
+  onContinueWithoutPhoto,
   language,
   initialCountryCode,
 }: Props) {
@@ -162,7 +199,11 @@ export default function CVPreviewStepPurple({
   const passedChecks = cvScore.items.filter((item) => item.passed).length;
 
   const handlePayPal = async () => {
-    if (!currentUser.id) return;
+    if (photoSyncState !== "idle") return;
+    if (!currentUser?.id) {
+      onAuthRequired();
+      return;
+    }
 
     let failureTracked = false;
     const attribution = getLandingAttribution();
@@ -235,7 +276,11 @@ export default function CVPreviewStepPurple({
   };
 
   const handlePay = async () => {
-    if (!currentUser.id) return;
+    if (photoSyncState !== "idle") return;
+    if (!currentUser?.id) {
+      onAuthRequired();
+      return;
+    }
 
     let failureTracked = false;
     const attribution = getLandingAttribution();
@@ -338,6 +383,7 @@ export default function CVPreviewStepPurple({
   }, []);
 
   useEffect(() => {
+    if (!currentUser?.id) return;
     if (checkoutViewedTracked.current) return;
     checkoutViewedTracked.current = true;
     const attribution = getLandingAttribution();
@@ -352,7 +398,7 @@ export default function CVPreviewStepPurple({
       template,
       ...attribution,
     });
-  }, [language, template]);
+  }, [currentUser?.id, language, template]);
 
   const scrollToCheckout = () => {
     document
@@ -361,6 +407,9 @@ export default function CVPreviewStepPurple({
   };
 
   const paymentInProgress = loading || loadingPayPal;
+  const paymentUnavailable =
+    paymentInProgress || photoSyncState !== "idle";
+  const isAuthenticated = Boolean(currentUser?.id);
   const paypalIsPrimary = market === "international";
   const primaryPayment = paypalIsPrimary ? PRICING.paypal : PRICING.mercadoPago;
   const primaryPaymentPrice = primaryPayment.label;
@@ -368,11 +417,15 @@ export default function CVPreviewStepPurple({
     paypalIsPrimary && language === "es"
       ? PRICING.paypal.previousLabelEs
       : primaryPayment.previousLabel;
-  const primaryPaymentCta = paypalIsPrimary
-    ? language === "en"
-      ? copy.unlock
-      : `Pagar ${PRICING.paypal.label}`
-    : `Pagar ${PRICING.mercadoPago.label}`;
+  const primaryPaymentCta = isAuthenticated
+    ? paypalIsPrimary
+      ? language === "en"
+        ? copy.unlock
+        : `Pagar ${PRICING.paypal.label}`
+      : `Pagar ${PRICING.mercadoPago.label}`
+    : paypalIsPrimary
+      ? copy.signInToPayInternational
+      : copy.signInToPay;
   const securePaymentCopy = paypalIsPrimary
     ? language === "en"
       ? copy.secure
@@ -380,6 +433,11 @@ export default function CVPreviewStepPurple({
     : copy.secure;
 
   const handlePrimaryPayment = () => {
+    if (photoSyncState !== "idle") return;
+    if (!isAuthenticated) {
+      onAuthRequired();
+      return;
+    }
     void (paypalIsPrimary ? handlePayPal() : handlePay());
   };
 
@@ -503,19 +561,21 @@ export default function CVPreviewStepPurple({
                 <button
                   type="button"
                   onClick={handlePrimaryPaymentFromPreview}
-                  disabled={paymentInProgress}
+                  disabled={paymentUnavailable}
                   className={`flex h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-70 ${
                     paypalIsPrimary
                       ? "bg-[#0070BA] hover:bg-[#005EA6]"
                       : "bg-[#009EE3] hover:bg-[#008FCC]"
                   }`}
                 >
-                  {paymentInProgress ? (
+                  {paymentInProgress || photoSyncState === "uploading" ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <LockKeyhole className="h-4 w-4" />
                   )}
-                  {primaryPaymentCta}
+                  {photoSyncState === "uploading"
+                    ? copy.photoSyncing
+                    : primaryPaymentCta}
                 </button>
                 <DialogClose asChild>
                   <button className="flex h-12 items-center justify-center rounded-xl border border-white/12 bg-white/[0.04] px-4 text-sm font-semibold text-white/80">
@@ -629,9 +689,57 @@ export default function CVPreviewStepPurple({
               </div>
             </div>
 
-            <div className="flex flex-col gap-2.5">
+            {photoSyncState === "uploading" ? (
+              <div
+                role="status"
+                className="flex items-start gap-3 rounded-2xl border border-[#67D2FF]/18 bg-[#67D2FF]/[0.07] p-4"
+              >
+                <Loader2 className="mt-0.5 h-4 w-4 shrink-0 animate-spin text-[#67D2FF]" />
+                <div>
+                  <p className="text-sm font-semibold text-white">
+                    {copy.photoSyncing}
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-white/58">
+                    {copy.photoSyncingDetail}
+                  </p>
+                </div>
+              </div>
+            ) : null}
+
+            {photoSyncState === "error" ? (
+              <div
+                role="alert"
+                className="rounded-2xl border border-amber-400/20 bg-amber-400/[0.07] p-4"
+              >
+                <p className="text-sm font-semibold text-amber-100">
+                  {copy.photoSyncError}
+                </p>
+                <p className="mt-1 text-xs leading-5 text-white/58">
+                  {copy.photoSyncErrorDetail}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={onRetryPhotoSync}
+                    className="inline-flex h-9 items-center justify-center rounded-full bg-[#F6F2EA] px-4 text-xs font-semibold text-[#121114]"
+                  >
+                    {copy.retryPhoto}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onContinueWithoutPhoto}
+                    className="inline-flex h-9 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] px-4 text-xs font-semibold text-white/72"
+                  >
+                    {copy.continueWithoutPhoto}
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
+            {isAuthenticated ? (
+              <div className="flex flex-col gap-2.5">
               <Button
-                disabled={paymentInProgress}
+                disabled={paymentUnavailable}
                 onClick={handlePay}
                 className={`group w-full overflow-hidden rounded-xl border transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
                   paypalIsPrimary
@@ -678,7 +786,7 @@ export default function CVPreviewStepPurple({
               </div>
 
               <Button
-                disabled={paymentInProgress}
+                disabled={paymentUnavailable}
                 onClick={handlePayPal}
                 className={`w-full rounded-2xl border text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
                   paypalIsPrimary
@@ -716,7 +824,26 @@ export default function CVPreviewStepPurple({
                   </div>
                 )}
               </Button>
-            </div>
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-[#D7C8FF]/18 bg-[#D7C8FF]/[0.055] p-3.5">
+                <Button
+                  onClick={onAuthRequired}
+                  className="h-14 w-full rounded-xl border border-[#F6F2EA]/15 bg-[#F6F2EA] px-4 text-sm font-bold text-[#121114] shadow-none transition hover:bg-white sm:text-base"
+                >
+                  <LockKeyhole className="mr-2 h-4 w-4" />
+                  {paypalIsPrimary
+                    ? copy.signInToPayInternational
+                    : copy.signInToPay}
+                </Button>
+                <p className="mt-3 text-center text-xs leading-5 text-white/64 sm:text-sm">
+                  {copy.signInReturn}
+                </p>
+                <p className="mt-1.5 text-center text-[11px] leading-5 text-white/42">
+                  {copy.paymentMethodsAfterLogin}
+                </p>
+              </div>
+            )}
 
             <div className="flex items-start gap-2 rounded-2xl border border-emerald-500/18 bg-emerald-500/[0.08] px-4 py-3">
               <ShieldCheck className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" />
@@ -759,19 +886,21 @@ export default function CVPreviewStepPurple({
           <button
             type="button"
             onClick={handlePrimaryPayment}
-            disabled={paymentInProgress}
+            disabled={paymentUnavailable}
             className={`inline-flex h-12 min-w-[180px] items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold text-white transition disabled:cursor-not-allowed disabled:opacity-70 ${
               paypalIsPrimary
                 ? "bg-[#0070BA] hover:bg-[#005EA6]"
                 : "bg-[#009EE3] hover:bg-[#008FCC]"
             }`}
           >
-            {paymentInProgress ? (
+            {paymentInProgress || photoSyncState === "uploading" ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <LockKeyhole className="h-4 w-4" />
             )}
-            {primaryPaymentCta}
+            {photoSyncState === "uploading"
+              ? copy.photoSyncing
+              : primaryPaymentCta}
           </button>
         </div>
       </div>

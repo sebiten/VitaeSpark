@@ -12,6 +12,13 @@ import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { createClient } from "@/utils/supabase/client";
 import { getLandingAttribution } from "@/lib/analytics-attribution";
 import type { AppLanguage } from "@/lib/i18n";
+import {
+  ALLOWED_GUEST_PHOTO_TYPES,
+  guestPhotoExtension,
+  MAX_GUEST_PHOTO_INPUT_BYTES,
+  prepareGuestPhoto,
+  preparePhotoBlob,
+} from "@/lib/guest-photo";
 import CVFormWizard from "./CVFormWizard";
 
 const createSchema = (language: AppLanguage) =>
@@ -57,9 +64,6 @@ const createSchema = (language: AppLanguage) =>
     idiomas: z.string(),
     informacionAdicional: z.string().optional(),
   });
-
-const MAX_PHOTO_SIZE_BYTES = 3 * 1024 * 1024;
-const ALLOWED_PHOTO_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 const formCopy = {
   es: {
@@ -117,8 +121,18 @@ const formCopy = {
     imageError: "No se pudo subir la foto. Intenta con otra imagen.",
     photoAuthRequired:
       "Inicia sesión para subir la foto. Tus datos quedarán guardados.",
+    photoLocalSuccess:
+      "Foto lista. Queda guardada temporalmente en este navegador.",
+    photoLocalError:
+      "No pudimos preparar la foto. Probá con otra imagen.",
     timeout: "La generación está tardando demasiado. Intentá de nuevo.",
     generationError: "Error al generar el CV. Intenta nuevamente.",
+    guestGenerationLimit:
+      "Ya generaste un CV gratis en este navegador. Podés volver a intentarlo en 24 horas.",
+    guestIpGenerationLimit:
+      "Esta red alcanzó el límite diario de CVs gratuitos. Probá nuevamente mañana.",
+    authenticatedGenerationLimit:
+      "Alcanzaste el límite diario de generaciones. Tu CV guardado sigue disponible.",
     restoreValidationError:
       "Revisá los campos marcados antes de generar el CV.",
     unknownError: "Error desconocido",
@@ -175,8 +189,18 @@ const formCopy = {
     imageError: "Could not upload the photo. Try another image.",
     photoAuthRequired:
       "Sign in to upload the photo. Your details will remain saved.",
+    photoLocalSuccess:
+      "Photo ready. It is temporarily stored only in this browser.",
+    photoLocalError:
+      "We could not prepare the photo. Try another image.",
     timeout: "Generation is taking too long. Try again.",
     generationError: "Error generating the resume. Try again.",
+    guestGenerationLimit:
+      "You already generated a free resume in this browser. Try again in 24 hours.",
+    guestIpGenerationLimit:
+      "This network reached its daily free resume limit. Try again tomorrow.",
+    authenticatedGenerationLimit:
+      "You reached the daily generation limit. Your saved resume remains available.",
     restoreValidationError:
       "Review the highlighted fields before generating your resume.",
     unknownError: "Unknown error",
@@ -192,11 +216,9 @@ type Props = {
   onDraftChange: (data: DatosCVFormulario) => void;
   fotoUrl: string | null;
   onFotoUrlChange: (url: string | null) => void;
+  onGuestPhotoPrepared: (key: string, objectUrl: string) => void;
+  onGuestPhotoDiscarded: () => void;
   onChangeTemplate: () => void;
-  onAuthRequired: (
-    data: DatosCVFormulario,
-    action: "generate" | "photo",
-  ) => void;
   autoGenerate?: boolean;
   onResumeActionConsumed: () => void;
 };
@@ -210,8 +232,9 @@ export default function CVFormStep({
   onDraftChange,
   fotoUrl,
   onFotoUrlChange,
+  onGuestPhotoPrepared,
+  onGuestPhotoDiscarded,
   onChangeTemplate,
-  onAuthRequired,
   autoGenerate = false,
   onResumeActionConsumed,
 }: Props) {
@@ -257,33 +280,54 @@ export default function CVFormStep({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    if (!ALLOWED_PHOTO_TYPES.has(file.type)) {
+    if (!ALLOWED_GUEST_PHOTO_TYPES.has(file.type)) {
       toast.error(copy.imageTypeError);
       event.target.value = "";
       return;
     }
 
-    if (file.size > MAX_PHOTO_SIZE_BYTES) {
+    if (file.size > MAX_GUEST_PHOTO_INPUT_BYTES) {
       toast.error(copy.imageSizeError);
       event.target.value = "";
       return;
     }
 
     if (!currentUserId) {
-      toast.info(copy.photoAuthRequired);
-      onAuthRequired(form.getValues(), "photo");
+      try {
+        const { key, blob } = await prepareGuestPhoto(file);
+        const objectUrl = URL.createObjectURL(blob);
+        form.setValue("foto_url", objectUrl, { shouldDirty: true });
+        onGuestPhotoPrepared(key, objectUrl);
+        toast.success(copy.photoLocalSuccess);
+      } catch (photoError) {
+        console.error("No se pudo preparar la foto local", photoError);
+        toast.error(copy.photoLocalError);
+      } finally {
+        event.target.value = "";
+      }
+      return;
+    }
+
+    let uploadBlob: Blob;
+    try {
+      uploadBlob = await preparePhotoBlob(file);
+    } catch (photoError) {
+      console.error("No se pudo comprimir la foto", photoError);
+      toast.error(copy.photoLocalError);
       event.target.value = "";
       return;
     }
 
-    const fileExt =
-      file.name.split(".").pop() || file.type.split("/")[1] || "webp";
+    const fileExt = guestPhotoExtension(uploadBlob);
     const fileName = `${Date.now()}.${fileExt}`;
     const filePath = `fotos/user-${currentUserId}/${fileName}`;
+    const previousPhotoUrl = form.getValues("foto_url");
 
     const { error: uploadError } = await supabase.storage
       .from("fotos-perfil")
-      .upload(filePath, file);
+      .upload(filePath, uploadBlob, {
+        contentType: uploadBlob.type,
+      });
 
     if (uploadError) {
       console.error("Error al subir la imagen", uploadError);
@@ -296,15 +340,40 @@ export default function CVFormStep({
       .getPublicUrl(filePath);
 
     onFotoUrlChange(publicUrl.publicUrl);
+    form.setValue("foto_url", publicUrl.publicUrl, { shouldDirty: true });
+    onGuestPhotoDiscarded();
+
+    if (previousPhotoUrl && previousPhotoUrl !== publicUrl.publicUrl) {
+      const publicPathMarker =
+        "/storage/v1/object/public/fotos-perfil/";
+      const previousPath = previousPhotoUrl.split(publicPathMarker)[1];
+      let decodedPreviousPath: string | null = null;
+
+      if (previousPath) {
+        try {
+          decodedPreviousPath = decodeURIComponent(previousPath);
+        } catch {
+          decodedPreviousPath = null;
+        }
+      }
+
+      if (
+        decodedPreviousPath?.startsWith(`fotos/user-${currentUserId}/`)
+      ) {
+        const { error: removeError } = await supabase.storage
+          .from("fotos-perfil")
+          .remove([decodedPreviousPath]);
+
+        if (removeError) {
+          console.error("No se pudo eliminar la foto anterior", removeError);
+        }
+      }
+    }
+
     toast.success(copy.imageSuccess);
   };
 
   const onSubmit = async (data: DatosCVFormulario) => {
-    if (!currentUserId) {
-      onAuthRequired(data, "generate");
-      return;
-    }
-
     let failureTracked = false;
 
     try {
@@ -316,10 +385,20 @@ export default function CVFormStep({
       const response = await fetch("/api/generate-cv", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, template, language, foto_url: fotoUrl }),
+        body: JSON.stringify({
+          ...data,
+          template,
+          language,
+          foto_url: currentUserId ? fotoUrl : undefined,
+          attribution,
+        }),
       });
 
       if (!response.ok) {
+        const errorBody = (await response.json().catch(() => null)) as {
+          error?: string;
+          code?: string;
+        } | null;
         const isTimeout = response.status === 504;
         track("CV Generation Failed", {
           status: response.status,
@@ -328,11 +407,28 @@ export default function CVFormStep({
           ...attribution,
         });
         failureTracked = true;
-        throw new Error(isTimeout ? copy.timeout : copy.generationError);
+        throw new Error(
+          isTimeout
+            ? copy.timeout
+            : errorBody?.code === "guest_generation_limit"
+              ? copy.guestGenerationLimit
+              : errorBody?.code === "guest_ip_generation_limit"
+                ? copy.guestIpGenerationLimit
+                : errorBody?.code === "authenticated_generation_limit"
+                  ? copy.authenticatedGenerationLimit
+                : copy.generationError,
+        );
       }
 
       const json = (await response.json()) as RespuestaCV;
-      onGenerated(json.cv);
+      onGenerated(
+        fotoUrl
+          ? {
+              ...json.cv,
+              foto_url: fotoUrl,
+            }
+          : json.cv,
+      );
       toast.success(copy.success);
     } catch (submitError) {
       if (!failureTracked) {
@@ -392,6 +488,7 @@ export default function CVFormStep({
     });
     onDraftChange(form.getValues());
     onFotoUrlChange(null);
+    onGuestPhotoDiscarded();
     setError(null);
   };
 

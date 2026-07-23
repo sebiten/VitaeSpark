@@ -1,7 +1,11 @@
-import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { getOrCreatePendingPaymentCv } from "@/lib/payment-cv";
+import {
+  failCheckoutSession,
+  getOrCreateCheckoutSession,
+  saveCheckoutSession,
+} from "@/lib/payment-checkout-session";
 import { getPayPalAccessToken, PAYPAL_API_BASE } from "@/lib/paypal";
 import { PRICING } from "@/lib/pricing";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
@@ -62,6 +66,32 @@ export async function POST(req: Request) {
     );
   }
 
+  const checkoutSession = await getOrCreateCheckoutSession({
+    cvId: paymentCv.cv.id,
+    profileId: profile_id,
+    provider: "paypal",
+    attribution,
+  });
+
+  if (checkoutSession.checkout_url) {
+    await recordAnalyticsEventServer({
+      event_name: "payment_started",
+      user_id: profile_id,
+      language,
+      payment_provider: "paypal",
+      template: paymentCv.cv.template,
+      cv_id: paymentCv.cv.id,
+      country_code: countryCode,
+      ...checkoutSession.attribution,
+    });
+
+    return NextResponse.json({
+      cvId: paymentCv.cv.id,
+      orderId: checkoutSession.provider_checkout_id,
+      approveUrl: checkoutSession.checkout_url,
+    });
+  }
+
   try {
     const accessToken = await getPayPalAccessToken();
     const isPendingRecovery = attribution?.cta_label?.startsWith(
@@ -103,7 +133,7 @@ export async function POST(req: Request) {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
-        "PayPal-Request-Id": randomUUID(),
+        "PayPal-Request-Id": checkoutSession.idempotency_key,
       },
       body: JSON.stringify(orderPayload),
     });
@@ -112,6 +142,13 @@ export async function POST(req: Request) {
 
     if (!paypalRes.ok || !paypalJson.id) {
       console.error("PayPal order error:", paypalJson);
+      if (
+        paypalRes.status >= 400 &&
+        paypalRes.status < 500 &&
+        paypalRes.status !== 429
+      ) {
+        await failCheckoutSession(checkoutSession.id);
+      }
       return NextResponse.json(
         {
           cvId: paymentCv.cv.id,
@@ -125,6 +162,22 @@ export async function POST(req: Request) {
       (link: { rel: string; href: string }) => link.rel === "approve"
     )?.href;
 
+    if (!approveUrl) {
+      await failCheckoutSession(checkoutSession.id);
+      return NextResponse.json(
+        {
+          cvId: paymentCv.cv.id,
+          error: "PayPal no devolvio un enlace de aprobacion",
+        },
+        { status: 502 },
+      );
+    }
+
+    await saveCheckoutSession(checkoutSession.id, {
+      providerCheckoutId: paypalJson.id,
+      checkoutUrl: approveUrl,
+    });
+
     await recordAnalyticsEventServer({
       event_name: "payment_started",
       user_id: profile_id,
@@ -133,13 +186,13 @@ export async function POST(req: Request) {
       template: paymentCv.cv.template,
       cv_id: paymentCv.cv.id,
       country_code: countryCode,
-      ...attribution,
+      ...checkoutSession.attribution,
     });
 
     return NextResponse.json({
       cvId: paymentCv.cv.id,
       orderId: paypalJson.id,
-      approveUrl: approveUrl || null,
+      approveUrl,
     });
   } catch (error) {
     console.error("PayPal error:", error);

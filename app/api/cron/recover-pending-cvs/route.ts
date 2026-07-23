@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { PRICING } from "@/lib/pricing";
+import { signRecoveryLink } from "@/lib/recovery-token";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
 type Reminder = {
@@ -125,7 +126,7 @@ async function handleRecoveryCron(req: Request) {
 
     const { data: existing, error: existingError } = await supabaseAdmin
       .from("cv_recovery_emails")
-      .select("id, last_error")
+      .select("id, last_error, sent_at")
       .eq("cv_id", cv.id)
       .eq("reminder_type", reminder.type)
       .maybeSingle();
@@ -136,7 +137,16 @@ async function handleRecoveryCron(req: Request) {
       continue;
     }
 
-    if (existing && !existing.last_error) {
+    const staleSendingClaim =
+      existing?.last_error === "__sending__" &&
+      Boolean(existing.sent_at) &&
+      Date.now() - new Date(existing.sent_at).getTime() >= 30 * 60 * 1000;
+
+    if (
+      existing &&
+      (!existing.last_error ||
+        (existing.last_error === "__sending__" && !staleSendingClaim))
+    ) {
       results.skipped += 1;
       continue;
     }
@@ -147,6 +157,54 @@ async function handleRecoveryCron(req: Request) {
 
     if (userError || !email) {
       results.failed += 1;
+      continue;
+    }
+
+    const claimTimestamp = new Date().toISOString();
+    let claim;
+
+    if (existing) {
+      let claimQuery = supabaseAdmin
+        .from("cv_recovery_emails")
+        .update({
+          last_error: "__sending__",
+          sent_at: claimTimestamp,
+        })
+        .eq("id", existing.id)
+        .eq("last_error", existing.last_error);
+
+      if (existing.sent_at) {
+        claimQuery = claimQuery.eq("sent_at", existing.sent_at);
+      }
+
+      claim = await claimQuery.select("id").maybeSingle();
+    } else {
+      claim = await supabaseAdmin
+        .from("cv_recovery_emails")
+        .insert({
+          cv_id: cv.id,
+          profile_id: cv.profile_id,
+          reminder_type: reminder.type,
+          sent_to: email,
+          sent_at: claimTimestamp,
+          last_error: "__sending__",
+        })
+        .select("id")
+        .maybeSingle();
+    }
+
+    if (claim.error) {
+      if (claim.error.code === "23505") {
+        results.skipped += 1;
+      } else {
+        console.error("Error reclamando recovery email:", claim.error);
+        results.failed += 1;
+      }
+      continue;
+    }
+
+    if (!claim.data) {
+      results.skipped += 1;
       continue;
     }
 
@@ -164,17 +222,10 @@ async function handleRecoveryCron(req: Request) {
       last_error: sent.ok ? null : sent.error,
     };
 
-    const { error: writeError } = existing
-      ? await supabaseAdmin
-          .from("cv_recovery_emails")
-          .update(recoveryPayload)
-          .eq("id", existing.id)
-      : await supabaseAdmin.from("cv_recovery_emails").insert({
-          cv_id: cv.id,
-          profile_id: cv.profile_id,
-          reminder_type: reminder.type,
-          ...recoveryPayload,
-        });
+    const { error: writeError } = await supabaseAdmin
+      .from("cv_recovery_emails")
+      .update(recoveryPayload)
+      .eq("id", claim.data.id);
 
     if (writeError) {
       console.error("Error registrando recovery email:", writeError);
@@ -232,6 +283,7 @@ async function sendRecoveryEmail({
   recoveryUrl.searchParams.set("cv_id", cv.id);
   recoveryUrl.searchParams.set("type", reminder.type);
   recoveryUrl.searchParams.set("next", nextPath);
+  recoveryUrl.searchParams.set("signature", signRecoveryLink(cv.id, reminder.type));
 
   const name = escapeHtml(cv.cv_data?.nombre?.trim() || "tu CV");
   const role = cv.cv_data?.puesto?.trim()
@@ -279,6 +331,7 @@ async function sendRecoveryEmail({
     headers: {
       Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
       "Content-Type": "application/json",
+      "Idempotency-Key": `pending-cv/${cv.id}/${reminder.type}`,
     },
     body: JSON.stringify({
       from: process.env.EMAIL_FROM,

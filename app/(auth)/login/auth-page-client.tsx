@@ -75,6 +75,9 @@ export default function AuthPageClient() {
   const redirectTarget = normalizeAuthRedirect(searchParams.get("next"));
   const isResumingCv =
     redirectTarget.startsWith("/crear") && redirectTarget.includes("resume=");
+  const isResumingCheckout =
+    redirectTarget.startsWith("/crear") &&
+    redirectTarget.includes("resume=checkout");
 
   const redirectToCreate = useCallback(() => {
     if (redirectStartedRef.current) return;
@@ -181,6 +184,7 @@ export default function AuthPageClient() {
       <AuthTransitionScreen
         state={authTransition}
         isResumingCv={isResumingCv}
+        isResumingCheckout={isResumingCheckout}
         redirectTarget={redirectTarget}
       />
     );
@@ -248,7 +252,11 @@ export default function AuthPageClient() {
                   VitaeSpark
                 </div>
                 <h2 className="mt-5 text-[1.85rem] font-semibold tracking-[-0.04em] text-[#F6F2EA]">
-                  {isResumingCv
+                  {isResumingCheckout
+                    ? activeTab === "login"
+                      ? "Tu CV ya está listo"
+                      : "Creá tu cuenta para desbloquearlo"
+                    : isResumingCv
                     ? activeTab === "login"
                       ? "Tu CV está listo para generarse"
                       : "Guardá tu CV antes de generarlo"
@@ -257,7 +265,9 @@ export default function AuthPageClient() {
                       : "Crea tu cuenta"}
                 </h2>
                 <p className="mx-auto mt-2 max-w-[340px] text-[14px] leading-6 text-[#D8D2C8]/[0.68]">
-                  {isResumingCv
+                  {isResumingCheckout
+                    ? "Iniciá sesión para volver al mismo preview y completar el pago, sin generar el CV otra vez."
+                    : isResumingCv
                     ? "Tus datos siguen guardados. Iniciá sesión y generaremos tu CV automáticamente, sin volver a completar el formulario."
                     : activeTab === "login"
                       ? "Accedé a tus CVs, descargas y ediciones desde el mismo perfil."
@@ -505,10 +515,12 @@ export default function AuthPageClient() {
 function AuthTransitionScreen({
   state,
   isResumingCv,
+  isResumingCheckout,
   redirectTarget,
 }: {
   state: AuthTransitionState;
   isResumingCv: boolean;
+  isResumingCheckout: boolean;
   redirectTarget: string;
 }) {
   const isConfirmed = state === "confirmed";
@@ -516,16 +528,20 @@ function AuthTransitionScreen({
     state === "checking"
       ? "Revisando sesión"
       : isConfirmed
-        ? isResumingCv
-          ? "Datos recuperados"
+        ? isResumingCheckout
+          ? "CV recuperado"
+          : isResumingCv
+            ? "Datos recuperados"
           : "Sesión confirmada"
         : "Confirmando acceso con Google";
   const description =
     state === "checking"
       ? "Estamos verificando si ya tenés una sesión activa."
       : isConfirmed
-        ? isResumingCv
-          ? "Tu cuenta ya está lista. Ahora generamos tu CV y te llevamos al pago."
+        ? isResumingCheckout
+          ? "Volvemos a tu preview para que completes el pago sin generar el CV otra vez."
+          : isResumingCv
+            ? "Tu cuenta ya está lista. Ahora generamos tu CV y te llevamos al pago."
           : "Tu cuenta ya está lista. Te llevamos al creador de CV."
         : "Volvimos de Google y estamos preparando tu espacio.";
 
@@ -569,7 +585,11 @@ function AuthTransitionScreen({
               href={redirectTarget}
               className="mx-auto mt-4 inline-flex h-11 items-center justify-center rounded-full bg-[#F6F2EA] px-5 text-sm font-semibold text-[#121114] transition hover:bg-[#FFFCF4]"
             >
-              {isResumingCv ? "Generar mi CV" : "Continuar al creador"}
+              {isResumingCheckout
+                ? "Volver a mi CV"
+                : isResumingCv
+                  ? "Generar mi CV"
+                  : "Continuar al creador"}
             </Link>
           ) : null}
         </motion.div>

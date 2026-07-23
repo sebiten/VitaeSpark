@@ -1,8 +1,7 @@
-import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
-import { PRICING } from "@/lib/pricing";
+import { createMercadoPagoCheckout } from "@/lib/mercado-pago-checkout";
 import { LandingAttributionSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
 import { getRequestCountry } from "@/lib/market";
@@ -79,67 +78,19 @@ export async function POST(req: Request) {
   const language = cvData?.language === "en" ? "en" : "es";
   const template = cv.template || "purple";
 
-  const mpRes = await fetch("https://api.mercadopago.com/checkout/preferences", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`,
-      "Content-Type": "application/json",
-      "X-Idempotency-Key": randomUUID(),
-    },
-    body: JSON.stringify({
-      items: [
-        {
-          id: `cv-${cv.id}`,
-          title:
-            language === "en"
-              ? "ATS-friendly resume in PDF"
-              : "CV optimizado con IA",
-          description:
-            language === "en"
-              ? "Professional resume with AI writing and PDF download"
-              : "Curriculum profesional con diseno moderno y textos persuasivos",
-          category_id: "services",
-          quantity: 1,
-          unit_price: PRICING.mercadoPago.amount,
-        },
-      ],
-      payer: { email },
-      external_reference: `cv_${cv.id}`,
-      notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook`,
-      back_urls: {
-        success: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
-        failure: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
-        pending: `${process.env.NEXT_PUBLIC_SITE_URL}/perfil?cv_id=${cv.id}`,
-      },
-      auto_return: "approved",
-      metadata: {
-        cv_id: cv.id,
-        profile_id: profileId,
-        landing_path: attribution?.landing_path,
-        cta_label: attribution?.cta_label,
-        source_type: attribution?.source_type,
-        utm_source: attribution?.utm_source,
-        utm_medium: attribution?.utm_medium,
-        utm_campaign: attribution?.utm_campaign,
-        utm_content: attribution?.utm_content,
-        language,
-        payment_provider: "mercado_pago",
-        template,
-        country_code: countryCode,
-        session_id: attribution?.session_id,
-      },
-      customization: {
-        visual: {
-          showExternalReference: true,
-        },
-      },
-    }),
-  });
-
-  const mpJson = await mpRes.json().catch(() => null);
-
-  if (!mpRes.ok || !mpJson.init_point) {
-    console.error("Error creando preferencia de Mercado Pago:", mpJson);
+  let checkout: Awaited<ReturnType<typeof createMercadoPagoCheckout>>;
+  try {
+    checkout = await createMercadoPagoCheckout({
+      cvId: cv.id,
+      profileId,
+      email,
+      language,
+      template,
+      countryCode,
+      attribution,
+    });
+  } catch (error) {
+    console.error("Error creando preferencia de Mercado Pago:", error);
     return NextResponse.json(
       { error: "No se pudo generar link de pago" },
       { status: 500 }
@@ -154,8 +105,8 @@ export async function POST(req: Request) {
     template,
     cv_id: cv.id,
     country_code: countryCode,
-    ...attribution,
+    ...checkout.attribution,
   });
 
-  return NextResponse.json({ init_point: mpJson.init_point });
+  return NextResponse.json({ cvId: cv.id, init_point: checkout.initPoint });
 }

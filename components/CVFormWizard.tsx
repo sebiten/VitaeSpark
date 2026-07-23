@@ -129,6 +129,7 @@ const wizardChromeCopy = {
     changeTemplateConfirm:
       "Vas a volver al selector de plantillas. Tus datos se mantienen en esta sesión. ¿Querés continuar?",
     photoFormats: "JPG, PNG o WebP",
+    temporaryPhoto: "Se guarda al iniciar sesión",
     finalHelperTitle: "Cerrá con datos concretos",
     finalHelperText:
       "No repitas habilidades en todos los campos. Dejá links, portfolio, disponibilidad o certificaciones solo en extras.",
@@ -155,6 +156,7 @@ const wizardChromeCopy = {
     changeTemplateConfirm:
       "You will go back to the template selector. Your details stay in this session. Do you want to continue?",
     photoFormats: "JPG, PNG or WebP",
+    temporaryPhoto: "Saved after you sign in",
     finalHelperTitle: "Finish with specific details",
     finalHelperText:
       "Avoid repeating the same skills in every field. Use extras only for links, portfolio, availability or certifications.",
@@ -550,6 +552,7 @@ export default function CVFormWizard({
                 fieldClass={FIELD_CLASS}
                 textareaClass={TEXTAREA_CLASS}
                 photoFormats={chrome.photoFormats}
+                temporaryPhotoLabel={chrome.temporaryPhoto}
                 optionalLabel={chrome.optional}
               />
             </motion.section>
@@ -710,6 +713,7 @@ function StepFields({
   fieldClass,
   textareaClass,
   photoFormats,
+  temporaryPhotoLabel,
   optionalLabel,
 }: {
   stepId: WizardStep["id"];
@@ -722,6 +726,7 @@ function StepFields({
   fieldClass: string;
   textareaClass: string;
   photoFormats: string;
+  temporaryPhotoLabel: string;
   optionalLabel: string;
 }) {
   if (stepId === "basic") {
@@ -786,11 +791,18 @@ function StepFields({
                   className="sr-only"
                 />
                 {fotoUrl ? (
-                  <img
-                    src={fotoUrl}
-                    alt={copy.photo}
-                    className="size-20 rounded-2xl border border-white/10 object-cover"
-                  />
+                  <>
+                    <img
+                      src={fotoUrl}
+                      alt={copy.photo}
+                      className="size-20 rounded-2xl border border-white/10 object-cover"
+                    />
+                    {fotoUrl.startsWith("blob:") ? (
+                      <span className="mt-2 text-[11px] font-medium text-[#C4B5FD]">
+                        {temporaryPhotoLabel}
+                      </span>
+                    ) : null}
+                  </>
                 ) : (
                   <>
                     <div className="mb-2 flex size-10 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white/62 transition-colors group-hover:text-white/86">

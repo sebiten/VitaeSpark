@@ -2,6 +2,8 @@ import { createHmac, timingSafeEqual } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import { completeCvPayment } from "@/lib/payment-checkout-session";
+import { isExpectedMercadoPagoPayment } from "@/lib/payment-validation";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
 const MercadoPagoWebhookSchema = z.object({
@@ -21,6 +23,7 @@ type MercadoPagoPayment = {
   metadata?: MercadoPagoMetadata;
   external_reference?: string | null;
   transaction_amount?: number;
+  currency_id?: string | null;
   payer?: {
     email?: string | null;
   };
@@ -50,7 +53,10 @@ function parseSignatureHeader(signature: string) {
 
 function verifyMercadoPagoSignature(req: NextRequest, dataId: string) {
   const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
-  if (!secret) return true;
+  if (!secret) {
+    console.error("MERCADOPAGO_WEBHOOK_SECRET no está configurado");
+    return false;
+  }
 
   const signature = req.headers.get("x-signature");
   const requestId = req.headers.get("x-request-id");
@@ -127,6 +133,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Payment not approved" }, { status: 200 });
   }
 
+  if (
+    payment.id === undefined ||
+    !isExpectedMercadoPagoPayment({
+      amount: payment.transaction_amount,
+      currency: payment.currency_id,
+    })
+  ) {
+    console.error("Pago Mercado Pago con monto o moneda inesperados:", {
+      payment_id: payment.id,
+      amount: payment.transaction_amount,
+      currency: payment.currency_id,
+    });
+    return NextResponse.json({ error: "Invalid payment amount" }, { status: 400 });
+  }
+
   const cv_id =
     metadataString(payment.metadata, "cv_id") ||
     parseCvIdFromExternalReference(payment.external_reference);
@@ -162,45 +183,24 @@ export async function POST(req: NextRequest) {
 
   const profile_id = cv.profile_id;
 
-  const { data: existing } = await supabaseAdmin
-    .from("payments")
-    .select("id")
-    .eq("payment_id", payment.id)
-    .maybeSingle();
+  let completion: Awaited<ReturnType<typeof completeCvPayment>>;
+  try {
+    completion = await completeCvPayment({
+      cvId: cv_id,
+      profileId: profile_id,
+      paymentId: String(payment.id),
+      amount: payment.transaction_amount!,
+      payerEmail: payment.payer?.email,
+      paymentType: payment.payment_type_id,
+      provider: "mercado_pago",
+    });
+  } catch (error) {
+    console.error("Error completando pago Mercado Pago:", error);
+    return NextResponse.json({ error: "DB error" }, { status: 500 });
+  }
 
-  if (existing) {
+  if (!completion.payment_inserted) {
     return NextResponse.json({ message: "Already processed" }, { status: 200 });
-  }
-
-  const { error: insertError } = await supabaseAdmin.from("payments").insert({
-    user_id: profile_id,
-    cv_id,
-    payment_id: payment.id,
-    amount: payment.transaction_amount,
-    status: payment.status,
-    payer_email: payment.payer?.email ?? null,
-    payment_type: payment.payment_type_id,
-    payment_method: "mercado_pago",
-  });
-
-  if (insertError) {
-    if (insertError.code === "23505") {
-      return NextResponse.json({ message: "Already processed" }, { status: 200 });
-    }
-
-    console.error("Error insertando pago:", insertError);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
-  }
-
-  const { error: updateError } = await supabaseAdmin
-    .from("cvs")
-    .update({ status: "paid" })
-    .eq("id", cv_id)
-    .eq("profile_id", profile_id);
-
-  if (updateError) {
-    console.error("Error actualizando CV:", updateError);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
   }
 
   const { data: startedEvent } = await supabaseAdmin

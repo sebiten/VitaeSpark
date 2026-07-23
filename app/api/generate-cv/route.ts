@@ -1,10 +1,20 @@
 ﻿export const runtime = "nodejs"; // Fuerza Node.js en lugar de Edge Runtime
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
+import type { RespuestaCV } from "@/lib/types/cv";
 import { fixedWindow, shield } from "@arcjet/next";
-import { aj } from "@/lib/arcjet";
+import { aj, authenticatedGenerationAj } from "@/lib/arcjet";
 import { CVSchema, GenerateCVInputSchema } from "@/lib/schemas/cv";
+import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
+import {
+  GUEST_CV_GENERATION_COOKIE,
+  GUEST_CV_GENERATION_IP_LIMIT,
+  GUEST_CV_GENERATION_MAX_AGE_SECONDS,
+  AUTHENTICATED_CV_GENERATION_IP_LIMIT,
+  AUTHENTICATED_CV_GENERATION_USER_LIMIT,
+  hasGuestCvGeneration,
+} from "@/lib/guest-cv-generation";
+import { getRequestCountry } from "@/lib/market";
 import { createClient } from "@/utils/supabase/server";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
@@ -56,19 +66,29 @@ const compactSkills = (skills: string[]) => {
     .slice(0, 22);
 };
 
-export async function POST(req: Request): Promise<NextResponse> {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const isGuest = !user;
 
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (
+    isGuest &&
+    hasGuestCvGeneration(req.cookies.get(GUEST_CV_GENERATION_COOKIE)?.value)
+  ) {
+    return NextResponse.json(
+      {
+        error: "Ya generaste un CV gratis durante las últimas 24 horas.",
+        code: "guest_generation_limit",
+      },
+      { status: 429 },
+    );
   }
 
-  let body: DatosCVFormulario;
+  let rawBody: unknown;
   try {
-    body = await req.json();
+    rawBody = await req.json();
   } catch {
     return NextResponse.json(
       { error: "JSON inválido en la solicitud" },
@@ -76,7 +96,7 @@ export async function POST(req: Request): Promise<NextResponse> {
     );
   }
 
-  const input = GenerateCVInputSchema.safeParse(body);
+  const input = GenerateCVInputSchema.safeParse(rawBody);
   if (!input.success) {
     return NextResponse.json(
       { error: "Datos inválidos", issues: input.error.flatten().fieldErrors },
@@ -84,20 +104,57 @@ export async function POST(req: Request): Promise<NextResponse> {
     );
   }
 
-  body = input.data;
+  const body = isGuest
+    ? { ...input.data, foto_url: undefined }
+    : input.data;
 
-  const decision = await aj
-    .withRule(shield({ mode: "LIVE" }))
-    .withRule(fixedWindow({ mode: "LIVE", max: 85, window: "86400s" }))
-    .protect(req);
+  const decision = isGuest
+    ? await aj
+        .withRule(shield({ mode: "LIVE" }))
+        .withRule(
+          fixedWindow({
+            mode: "LIVE",
+            max: GUEST_CV_GENERATION_IP_LIMIT,
+            window: "86400s",
+          }),
+        )
+        .protect(req)
+    : await authenticatedGenerationAj
+        .withRule(shield({ mode: "LIVE" }))
+        .withRule(
+          fixedWindow({
+            mode: "LIVE",
+            max: AUTHENTICATED_CV_GENERATION_USER_LIMIT,
+            window: "86400s",
+          }),
+        )
+        .withRule(
+          fixedWindow({
+            mode: "LIVE",
+            max: AUTHENTICATED_CV_GENERATION_IP_LIMIT,
+            window: "86400s",
+            characteristics: ["ip.src"],
+          }),
+        )
+        .protect(req, { userId: user.id });
 
   if (decision.isDenied()) {
+    const rateLimited = decision.reason.isRateLimit();
     return NextResponse.json(
       {
-        error: "Too Many Requests or Suspicious Activity",
+        error: rateLimited
+          ? isGuest
+            ? "Se alcanzó el límite diario de generaciones gratuitas desde esta red."
+            : "Alcanzaste el límite diario de generaciones."
+          : "Actividad sospechosa bloqueada.",
+        code: rateLimited
+          ? isGuest
+            ? "guest_ip_generation_limit"
+            : "authenticated_generation_limit"
+          : "suspicious_activity",
         reason: decision.reason,
       },
-      { status: 403 }
+      { status: rateLimited ? 429 : 403 },
     );
   }
 
@@ -228,6 +285,8 @@ Respond exclusively with valid JSON using this exact structure:
   const cv: RespuestaCV["cv"] = {
     ...parsed.data,
     language: body.language,
+    // La foto es un dato del usuario; no debe depender de que el modelo la repita.
+    foto_url: body.foto_url,
     sobreMi: limitWords(parsed.data.sobreMi.replace(/\s+/g, " "), 70),
     experiencia: parsed.data.experiencia.map((item) => ({
       ...item,
@@ -244,5 +303,26 @@ Respond exclusively with valid JSON using this exact structure:
   };
 
   const response: RespuestaCV = { cv };
-  return NextResponse.json(response);
+  await recordAnalyticsEventServer({
+    event_name: "cv_generated",
+    user_id: user?.id ?? null,
+    language: body.language,
+    template: body.template,
+    country_code: getRequestCountry(req.headers),
+    ...body.attribution,
+  });
+
+  const nextResponse = NextResponse.json(response);
+
+  if (isGuest) {
+    nextResponse.cookies.set(GUEST_CV_GENERATION_COOKIE, "1", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: GUEST_CV_GENERATION_MAX_AGE_SECONDS,
+    });
+  }
+
+  return nextResponse;
 }

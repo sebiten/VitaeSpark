@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { AlertCircle, CheckCircle2, CreditCard, Loader2 } from "lucide-react";
+import { useMemo } from "react";
+import { AlertCircle, CheckCircle2, CreditCard } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -20,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-type Payment = {
+export type ProfilePayment = {
   id: string;
   cv_id: string;
   user_id: string;
@@ -54,7 +53,7 @@ function formatDate(value: Date | string): string {
   }
 }
 
-function isPayPalPayment(payment: Payment) {
+function isPayPalPayment(payment: ProfilePayment) {
   return payment.payment_method === "paypal" || payment.payment_type === "paypal";
 }
 
@@ -98,53 +97,12 @@ function formatPaymentMethod(paymentType?: string) {
   return normalized.charAt(0).toUpperCase() + normalized.slice(1);
 }
 
-export default function UserPayments() {
-  const [payments, setPayments] = useState<Payment[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchPayments = async () => {
-      try {
-        const supabase = createClient();
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-
-        if (!user) {
-          setLoading(false);
-          return;
-        }
-
-        const { data: paymentsData, error: paymentsError } = await supabase
-          .from("payments")
-          .select(
-            `
-            *,
-            cv:cvs(
-              cv_data,
-              template
-            )
-          `,
-          )
-          .eq("user_id", user.id)
-          .order("created_at", { ascending: false });
-
-        if (paymentsError) {
-          console.error("Error obteniendo pagos:", paymentsError);
-          setLoading(false);
-          return;
-        }
-
-        setPayments((paymentsData || []) as Payment[]);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error general:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchPayments();
-  }, []);
+export default function UserPayments({
+  initialPayments,
+}: {
+  initialPayments: ProfilePayment[];
+}) {
+  const payments = initialPayments;
 
   const approvedPayments = useMemo(
     () =>
@@ -165,17 +123,6 @@ export default function UserPayments() {
     }),
     [approvedPayments],
   );
-
-  if (loading) {
-    return (
-      <div className="rounded-[30px] border border-white/8 bg-[#141419] p-6">
-        <div className="flex items-center justify-center gap-3 text-white/72">
-          <Loader2 className="h-5 w-5 animate-spin text-[#A78BFA]" />
-          <span className="text-sm font-medium">Cargando pagos realizados...</span>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <section className="rounded-[30px] border border-white/8 bg-[#141419] p-4 shadow-[0_18px_48px_rgba(4,4,10,0.18)] sm:p-5">
