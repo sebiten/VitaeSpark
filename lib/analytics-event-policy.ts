@@ -6,6 +6,10 @@ export const CLIENT_ANALYTICS_EVENTS = [
   "auth_completed",
   "checkout_viewed",
   "download_completed",
+  "tool_started",
+  "tool_result_generated",
+  "tool_ai_refined",
+  "tool_result_copied",
 ] as const;
 
 export type ClientAnalyticsEventName =

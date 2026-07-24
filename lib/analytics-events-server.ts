@@ -14,7 +14,11 @@ type AnalyticsEventName =
   | "recovery_email_sent"
   | "recovery_email_clicked"
   | "feedback_submitted"
-  | "download_completed";
+  | "download_completed"
+  | "tool_started"
+  | "tool_result_generated"
+  | "tool_ai_refined"
+  | "tool_result_copied";
 
 type ServerAnalyticsEventPayload = LandingAttribution & {
   event_name: AnalyticsEventName;

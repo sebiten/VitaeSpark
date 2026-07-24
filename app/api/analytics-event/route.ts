@@ -14,7 +14,7 @@ const AnalyticsEventSchema = z.object({
   event_name: z.enum(CLIENT_ANALYTICS_EVENTS),
   landing_path: z.string().trim().max(240).optional(),
   cta_label: z.string().trim().max(120).optional(),
-  source_type: z.enum(["landing", "blog"]).optional(),
+  source_type: z.enum(["landing", "blog", "tool"]).optional(),
   language: z.enum(["es", "en"]).optional(),
   payment_provider: z.enum(["mercado_pago", "paypal"]).optional(),
   template: z.string().trim().max(80).optional(),

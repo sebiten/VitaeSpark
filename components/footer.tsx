@@ -68,6 +68,9 @@ export function Footer() {
                 Recursos
               </h3>
               <ul className="space-y-2.5">
+                <FooterLink href="/herramientas/generador-habilidades-cv">
+                  Generador de habilidades
+                </FooterLink>
                 <FooterLink href="/">Crear CV online</FooterLink>
                 <FooterLink href="/curriculum-ats">Curriculum ATS</FooterLink>
                 <FooterLink href="/curriculum-sin-experiencia">

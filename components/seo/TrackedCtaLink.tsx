@@ -11,7 +11,7 @@ type TrackedCtaLinkProps = {
   href: string;
   label: string;
   sourcePath: string;
-  sourceType: "landing" | "blog";
+  sourceType: "landing" | "blog" | "tool";
   language?: "es" | "en";
   trackingLabel?: string;
   className?: string;

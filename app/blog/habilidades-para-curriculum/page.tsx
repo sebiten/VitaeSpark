@@ -82,6 +82,12 @@ export default function HabilidadesParaCurriculumPage() {
       ]}
       relatedLinks={[
         {
+          href: "/herramientas/generador-habilidades-cv",
+          title: "Generador gratuito de habilidades",
+          description:
+            "Crea una lista por puesto y pasa la seleccion a tu CV.",
+        },
+        {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",
           description:

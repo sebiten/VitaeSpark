@@ -33,6 +33,11 @@ import {
   removeGuestPhoto,
   type PhotoSyncState,
 } from "@/lib/guest-photo";
+import {
+  mergeSkillsToolTransfer,
+  parseSkillsToolTransfer,
+  SKILLS_TOOL_TRANSFER_KEY,
+} from "@/lib/skills-tool";
 
 type CurrentUser = {
   id: string;
@@ -436,7 +441,9 @@ export default function CVForm({
     if (
       landingPath &&
       ctaLabel &&
-      (sourceType === "landing" || sourceType === "blog")
+      (sourceType === "landing" ||
+        sourceType === "blog" ||
+        sourceType === "tool")
     ) {
       setLandingAttribution({
         landing_path: landingPath,
@@ -461,8 +468,36 @@ export default function CVForm({
     draftRestoredRef.current = true;
 
     try {
+      const rawSkillsTransfer = window.sessionStorage.getItem(
+        SKILLS_TOOL_TRANSFER_KEY,
+      );
+      const skillsTransfer = parseSkillsToolTransfer(rawSkillsTransfer);
+      if (rawSkillsTransfer) {
+        window.sessionStorage.removeItem(SKILLS_TOOL_TRANSFER_KEY);
+      }
+
       const rawDraft = window.sessionStorage.getItem(CREATE_DRAFT_KEY);
       if (!rawDraft) {
+        if (skillsTransfer) {
+          const restoredData = mergeSkillsToolTransfer(
+            createEmptyDraft(),
+            skillsTransfer,
+          );
+          draftDataRef.current = restoredData;
+          createIntentRef.current = "skills";
+          setCreateIntent("skills");
+          generatedCvRef.current = null;
+          setCvData(null);
+          activeTabRef.current = "template";
+          setActiveTab("template");
+          suspendAutosaveRef.current = false;
+          writeStoredDraft(null, "template");
+          toast.success(
+            "Cargamos tu puesto y habilidades. Elegí una plantilla para continuar.",
+          );
+          return;
+        }
+
         if (initialResumeAction === "checkout") {
           toast.error(
             initialLanguage === "en"
@@ -479,7 +514,10 @@ export default function CVForm({
         return;
       }
 
-      const restoredData = normalizeDraft(storedDraft.data);
+      const normalizedStoredData = normalizeDraft(storedDraft.data);
+      const restoredData = skillsTransfer
+        ? mergeSkillsToolTransfer(normalizedStoredData, skillsTransfer)
+        : normalizedStoredData;
       if (!hasDraftContent(restoredData)) {
         window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
         return;
@@ -496,9 +534,26 @@ export default function CVForm({
           ? "uploading"
           : "idle",
       );
-      const restoredIntent = normalizeCreateIntent(storedDraft.intent);
+      const restoredIntent = skillsTransfer
+        ? "skills"
+        : normalizeCreateIntent(storedDraft.intent);
       createIntentRef.current = restoredIntent;
       setCreateIntent(restoredIntent);
+
+      if (skillsTransfer) {
+        generatedCvRef.current = null;
+        setCvData(null);
+        setResumeAction(null);
+        activeTabRef.current = "template";
+        setActiveTab("template");
+        setTemplateFlowTarget("form");
+        suspendAutosaveRef.current = false;
+        writeStoredDraft(null, "template");
+        toast.success(
+          "Sumamos las nuevas habilidades sin borrar los datos que ya tenías.",
+        );
+        return;
+      }
 
       const pendingAction = storedDraft.action ?? initialResumeAction;
       const shouldRestorePreview =

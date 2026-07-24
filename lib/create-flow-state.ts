@@ -133,7 +133,10 @@ export function parseStoredCreateDraft(
     language,
     intent: normalizeCreateIntent(readString(value.intent)),
     action,
-    flowStep: generatedCv ? requestedStep : "form",
+    flowStep:
+      generatedCv || requestedStep !== "preview"
+        ? requestedStep
+        : "form",
     generatedCv,
     guestPhotoKey: isGuestPhotoKey(readString(value.guestPhotoKey))
       ? readString(value.guestPhotoKey)

@@ -104,14 +104,15 @@ export default function BlogIndexPage() {
           <div className="mt-6 grid gap-x-8 md:grid-cols-3">
             {[
               {
+                href: "/herramientas/generador-habilidades-cv",
+                title: "Generar habilidades para tu CV",
+                description:
+                  "Obtené una selección por puesto, gratis y sin registro.",
+              },
+              {
                 href: "/plantillas-curriculum",
                 title: "Ver plantillas",
                 description: "Compará formatos claros antes de empezar.",
-              },
-              {
-                href: "/hacer-cv-con-ia",
-                title: "Cómo funciona el creador",
-                description: "Conocé el flujo, la edición y la descarga.",
               },
               {
                 href: "/cv-profesional",

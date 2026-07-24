@@ -9,8 +9,8 @@ type LegalContent = {
   sections: LegalSection[];
 };
 
-export const legalUpdatedAt = "13 de mayo de 2026";
-export const legalUpdatedAtEn = "May 13, 2026";
+export const legalUpdatedAt = "23 de julio de 2026";
+export const legalUpdatedAtEn = "July 23, 2026";
 
 export const termsContent: LegalContent = {
   title: "Terminos de servicio",
@@ -104,6 +104,7 @@ export const privacyContent: LegalContent = {
       paragraphs: [
         "Podemos utilizar servicios de infraestructura, autenticacion, analitica, seguridad, almacenamiento y generacion de contenido para operar la plataforma.",
         "Estos proveedores solo reciben la informacion necesaria para cumplir su funcion dentro del servicio.",
+        "Si eliges personalizar una herramienta gratuita con inteligencia artificial, el puesto, nivel de experiencia, contexto opcional y habilidades base se envian temporalmente a OpenAI para generar el resultado. El contexto libre no se guarda en nuestra base de datos ni en los eventos de analitica.",
       ],
     },
     {
@@ -260,6 +261,7 @@ export const privacyContentEn: LegalContent = {
       paragraphs: [
         "We may use infrastructure, authentication, analytics, security, storage and content-generation services to operate the platform.",
         "These providers only receive the information needed to perform their role within the service.",
+        "If you choose to personalize a free tool with artificial intelligence, the role, experience level, optional context and base skills are sent temporarily to OpenAI to generate the result. The free-text context is not stored in our database or analytics events.",
       ],
     },
     {

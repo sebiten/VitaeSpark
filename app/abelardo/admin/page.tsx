@@ -40,7 +40,11 @@ type AnalyticsEventName =
   | "recovery_email_sent"
   | "recovery_email_clicked"
   | "feedback_submitted"
-  | "download_completed";
+  | "download_completed"
+  | "tool_started"
+  | "tool_result_generated"
+  | "tool_ai_refined"
+  | "tool_result_copied";
 
 type AnalyticsEvent = {
   id: string;
@@ -270,6 +274,7 @@ export default async function AdminDashboardPage({
   );
 
   const funnel = buildFunnelMetrics(events);
+  const skillsToolFunnel = buildSkillsToolFunnel(events);
 
   const insights = buildInsights({
     current30,
@@ -448,6 +453,76 @@ export default async function AdminDashboardPage({
           {insights.map((insight) => (
             <DecisionCard key={insight.title} {...insight} />
           ))}
+        </section>
+
+        <section className="mb-7 rounded-[30px] border border-white/10 bg-[#15151A]/82 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:p-6">
+          <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#B8A7FF]">
+                <Sparkles className="h-4 w-4" />
+                Herramienta gratuita
+              </div>
+              <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">
+                Generador de habilidades
+              </h2>
+              <p className="mt-1 max-w-2xl text-sm leading-6 text-white/50">
+                Mide el recorrido desde el primer uso hasta el pago atribuido.
+                Espera al menos 100 inicios antes de cambiar la herramienta.
+              </p>
+            </div>
+            <Link
+              href="/herramientas/generador-habilidades-cv"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#CFC3FF] transition hover:text-white"
+            >
+              Abrir herramienta
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="mt-6 grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <MiniMetric label="Inicios" value={skillsToolFunnel.starts} />
+              <MiniMetric
+                label="Resultados"
+                value={skillsToolFunnel.results}
+              />
+              <MiniMetric
+                label="Personalizaciones IA"
+                value={skillsToolFunnel.aiRefinements}
+              />
+              <MiniMetric label="Copias" value={skillsToolFunnel.copies} />
+              <MiniMetric
+                label="Continúan al CV"
+                value={skillsToolFunnel.continues}
+              />
+              <MiniMetric
+                label="CVs generados"
+                value={skillsToolFunnel.generated}
+              />
+              <MiniMetric
+                label="Checkouts"
+                value={skillsToolFunnel.checkouts}
+              />
+              <MiniMetric label="Pagos" value={skillsToolFunnel.payments} />
+            </div>
+            <div className="space-y-3">
+              <FunnelRow
+                label="Inicio a resultado"
+                value={formatPercent(skillsToolFunnel.startToResult)}
+                helper="Detecta si la propuesta se entiende y se completa."
+              />
+              <FunnelRow
+                label="Resultado a continuar"
+                value={formatPercent(skillsToolFunnel.resultToContinue)}
+                helper="Mide intención real de llevar la selección al CV."
+              />
+              <FunnelRow
+                label="Continuar a CV generado"
+                value={formatPercent(skillsToolFunnel.continueToGenerated)}
+                helper="Mide si el traspaso ayuda a completar el formulario."
+              />
+            </div>
+          </div>
         </section>
 
         <section className="mb-7 rounded-[30px] border border-white/10 bg-[#15151A]/82 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:p-6">
@@ -1066,6 +1141,59 @@ function buildFunnelMetrics(events: AnalyticsEvent[]) {
       paymentStartSessions,
       paymentCompletedSessions
     ),
+  };
+}
+
+function buildSkillsToolFunnel(events: AnalyticsEvent[]) {
+  const toolEvents = events.filter(
+    (event) =>
+      event.source_type === "tool" ||
+      event.landing_path === "/herramientas/generador-habilidades-cv",
+  );
+  const identitiesFor = (predicate: (event: AnalyticsEvent) => boolean) =>
+    new Set(
+      toolEvents.filter(predicate).map(getUniqueEventIdentity),
+    );
+
+  const starts = identitiesFor(
+    (event) => event.event_name === "tool_started",
+  );
+  const results = identitiesFor(
+    (event) => event.event_name === "tool_result_generated",
+  );
+  const aiRefinements = identitiesFor(
+    (event) => event.event_name === "tool_ai_refined",
+  );
+  const copies = identitiesFor(
+    (event) => event.event_name === "tool_result_copied",
+  );
+  const continues = identitiesFor(
+    (event) =>
+      event.event_name === "landing_cta_clicked" &&
+      event.cta_label === "skills_tool_continue",
+  );
+  const generated = identitiesFor(
+    (event) => event.event_name === "cv_generated",
+  );
+  const checkouts = identitiesFor(
+    (event) => event.event_name === "checkout_viewed",
+  );
+  const payments = identitiesFor(
+    (event) => event.event_name === "payment_completed",
+  );
+
+  return {
+    starts: starts.size,
+    results: results.size,
+    aiRefinements: aiRefinements.size,
+    copies: copies.size,
+    continues: continues.size,
+    generated: generated.size,
+    checkouts: checkouts.size,
+    payments: payments.size,
+    startToResult: setConversionRate(starts, results),
+    resultToContinue: setConversionRate(results, continues),
+    continueToGenerated: setConversionRate(continues, generated),
   };
 }
 
