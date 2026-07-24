@@ -3,6 +3,7 @@
 import {
   ArrowRight,
   BookOpenCheck,
+  CheckCircle2,
   ChevronDown,
   FileText,
   PenLine,
@@ -12,6 +13,7 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { PRICING } from "@/lib/pricing";
+import { SKILLS_TOOL_PATH } from "@/lib/skills-tool";
 import { TrackedCtaLink } from "@/components/seo/TrackedCtaLink";
 import WelcomeHero from "./WelcomeHero";
 
@@ -173,6 +175,77 @@ export default function Home() {
               </motion.article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="relative px-4 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 border-y border-[#F6F2EA]/10 py-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:py-14">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.48 }}
+          >
+            <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#D7C8FF]/76">
+              Herramienta gratuita
+            </p>
+            <h2 className="mt-4 max-w-xl text-balance text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
+              Si no sabés qué habilidades poner, empezá por ahí.
+            </h2>
+            <p className="mt-5 max-w-[36rem] text-base leading-8 text-[#D8D2C8]/66">
+              Elegí el puesto que buscás y obtené una selección concreta para
+              revisar, copiar o llevar directo al creador de CV.
+            </p>
+            <TrackedCtaLink
+              href={SKILLS_TOOL_PATH}
+              label="Generar mis habilidades gratis"
+              sourcePath="/"
+              sourceType="landing"
+              trackingLabel="home_skills_tool_cta"
+              className="mt-7 inline-flex"
+              buttonClassName="h-12 rounded-full bg-[#F6F2EA] px-6 text-sm font-semibold text-[#121114] shadow-none transition hover:-translate-y-0.5 hover:bg-white"
+            />
+            <p className="mt-3 text-xs text-[#D8D2C8]/46">
+              Resultado inmediato, sin registro.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+            className="lg:border-l lg:border-[#F6F2EA]/10 lg:pl-10"
+          >
+            <div className="flex items-end justify-between gap-4 border-b border-[#F6F2EA]/10 pb-5">
+              <div>
+                <p className="text-xs text-[#D8D2C8]/44">Ejemplo para</p>
+                <p className="mt-1 text-lg font-semibold text-[#F6F2EA]/90">
+                  Operario de producción
+                </p>
+              </div>
+              <span className="text-xs font-medium text-[#A997FF]">
+                6 sugerencias
+              </span>
+            </div>
+            {[
+              "Control visual de calidad",
+              "Cumplimiento de normas de seguridad",
+              "Preparación de materiales",
+              "Registro de producción",
+            ].map((skill) => (
+              <div
+                key={skill}
+                className="flex items-center gap-3 border-b border-[#F6F2EA]/8 py-4 text-sm text-[#F6F2EA]/72"
+              >
+                <CheckCircle2
+                  className="h-4 w-4 shrink-0 text-[#A997FF]"
+                  aria-hidden="true"
+                />
+                {skill}
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 

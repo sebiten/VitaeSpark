@@ -45,24 +45,33 @@ const faqs = [
     answer:
       "Seleccioná hasta diez habilidades y elegí usar el resultado en tu CV. Se abrirá el creador con el puesto y las habilidades cargados para que completes el resto.",
   },
+  {
+    question: "¿Cómo genera VitaeSpark estas sugerencias?",
+    answer:
+      "La selección inicial parte de un catálogo organizado por puesto y nivel de experiencia. Después podés agregar contexto para personalizarla con IA. En ambos casos, vos decidís qué habilidades conservar.",
+  },
 ];
 
-const occupationExamples = [
+const quickAnswers = [
   {
-    role: "Administración",
-    skills: "Excel, carga de datos, documentación y reportes.",
+    question: "¿Qué habilidades poner en un CV sin experiencia?",
+    answer:
+      "Aprendizaje de procedimientos, organización, herramientas digitales básicas, comunicación clara y trabajo en equipo, siempre que puedas respaldarlas con estudios, proyectos o actividades reales.",
   },
   {
-    role: "Operario",
-    skills: "Producción, control de calidad y normas de seguridad.",
+    question: "¿Qué habilidades administrativas conviene destacar?",
+    answer:
+      "Excel, carga de datos, gestión de documentación, elaboración de reportes, correo electrónico y seguimiento de tareas.",
   },
   {
-    role: "Atención al cliente",
-    skills: "Gestión de consultas, CRM y seguimiento de casos.",
+    question: "¿Qué habilidades sirven para un CV de operario?",
+    answer:
+      "Producción, control visual de calidad, preparación de materiales, normas de seguridad, registro de producción y seguimiento de procedimientos.",
   },
   {
-    role: "Minería",
-    skills: "EPP, procedimientos, reporte de riesgos y trabajo por roster.",
+    question: "¿Qué habilidades incluir para trabajar en minería?",
+    answer:
+      "Uso de EPP, cumplimiento de procedimientos, inspección del área, reporte de riesgos, disciplina operativa y adaptación a turnos o roster.",
   },
 ];
 
@@ -79,6 +88,12 @@ export default function SkillsGeneratorPage() {
     inLanguage: "es",
     description:
       "Herramienta gratuita para elegir habilidades técnicas y transferibles según el puesto y el nivel de experiencia.",
+    dateModified: "2026-07-23",
+    creator: {
+      "@type": "Organization",
+      name: "VitaeSpark",
+      url: baseUrl.toString(),
+    },
     offers: {
       "@type": "Offer",
       price: "0",
@@ -145,32 +160,55 @@ export default function SkillsGeneratorPage() {
           </p>
         </header>
 
+        <section
+          aria-labelledby="skills-direct-answer"
+          className="mx-auto max-w-6xl px-4 pb-10 sm:px-6 sm:pb-12"
+        >
+          <div className="grid gap-4 border-y border-white/10 py-6 md:grid-cols-[0.52fr_1.48fr] md:items-start md:gap-10">
+            <h2
+              id="skills-direct-answer"
+              className="text-lg font-semibold tracking-[-0.025em] text-white/88"
+            >
+              ¿Qué habilidades poner en un CV?
+            </h2>
+            <p className="max-w-3xl text-sm leading-7 text-white/58">
+              Incluí habilidades relacionadas con el puesto que puedas demostrar
+              con tareas, estudios o proyectos reales. Combiná herramientas y
+              conocimientos concretos con pocas capacidades transferibles, como
+              organización o comunicación. Evitá listas genéricas y priorizá
+              entre seis y diez habilidades relevantes.
+            </p>
+          </div>
+        </section>
+
         <SkillsGenerator />
 
         <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
           <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
               <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9F8BFF]">
-                Ejemplos por puesto
+                Respuestas rápidas
               </span>
               <h2 className="mt-4 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
-                Una buena lista se entiende sin adjetivos vacíos
+                Habilidades según tu búsqueda
               </h2>
               <p className="mt-4 text-sm leading-7 text-white/52">
-                “Responsable” o “proactivo” dicen poco por sí solos. Una
-                habilidad útil muestra una tarea, herramienta o forma concreta
-                de trabajar.
+                Una buena selección cambia con el trabajo y la experiencia. Estas
+                respuestas sirven como punto de partida, no como una lista para
+                copiar sin revisar.
               </p>
             </div>
             <div className="border-t border-white/10">
-              {occupationExamples.map((example) => (
+              {quickAnswers.map((item) => (
                 <div
-                  key={example.role}
-                  className="grid gap-2 border-b border-white/10 py-5 sm:grid-cols-[0.4fr_1fr] sm:gap-6"
+                  key={item.question}
+                  className="border-b border-white/10 py-5"
                 >
-                  <h3 className="font-semibold text-white/84">{example.role}</h3>
-                  <p className="text-sm leading-6 text-white/50">
-                    {example.skills}
+                  <h3 className="font-semibold leading-6 text-white/84">
+                    {item.question}
+                  </h3>
+                  <p className="mt-2 max-w-2xl text-sm leading-7 text-white/50">
+                    {item.answer}
                   </p>
                 </div>
               ))}
@@ -207,6 +245,53 @@ export default function SkillsGeneratorPage() {
                 </p>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9F8BFF]">
+                Criterio de selección
+              </span>
+              <h2 className="mt-4 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
+                Cómo armamos cada sugerencia
+              </h2>
+              <p className="mt-4 max-w-lg text-sm leading-7 text-white/52">
+                La herramienta busca relevancia, claridad y honestidad. No
+                reemplaza tu experiencia ni agrega conocimientos que no tenés.
+              </p>
+              <p className="mt-5 text-xs text-white/34">
+                Última revisión de contenido: 23 de julio de 2026.
+              </p>
+            </div>
+            <div className="border-t border-white/10">
+              {[
+                {
+                  title: "Catálogo por puesto",
+                  text: "La selección base reúne tareas, herramientas y capacidades habituales de cada área.",
+                },
+                {
+                  title: "Contexto opcional con IA",
+                  text: "Si agregás información propia, la IA adapta la selección sin inventar experiencia laboral.",
+                },
+                {
+                  title: "Control final de la persona",
+                  text: "Vos elegís qué conservar y deberías incluir únicamente lo que puedas explicar en una entrevista.",
+                },
+              ].map((item, index) => (
+                <div
+                  key={item.title}
+                  className="grid gap-3 border-b border-white/10 py-5 sm:grid-cols-[42px_0.45fr_1fr] sm:items-start sm:gap-6"
+                >
+                  <span className="text-sm font-semibold text-[#A997FF]">
+                    0{index + 1}
+                  </span>
+                  <h3 className="font-semibold text-white/82">{item.title}</h3>
+                  <p className="text-sm leading-7 text-white/50">{item.text}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

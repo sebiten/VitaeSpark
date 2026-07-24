@@ -118,9 +118,8 @@ export default function WelcomeHero() {
               </span>
               <p>
                 <strong className="font-semibold text-[#F6F2EA]">
-                  Más de 500 personas
-                </strong>{" "}
-                ya crearon su cuenta en VitaeSpark
+                  Más de 500 personas ya eligieron VitaeSpark
+                </strong>
               </p>
             </div>
 
