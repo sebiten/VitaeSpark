@@ -3,6 +3,19 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
+  async rewrites() {
+    const indexNowKey = process.env.INDEXNOW_KEY?.trim();
+    if (!indexNowKey || !/^[A-Za-z0-9-]{8,128}$/.test(indexNowKey)) {
+      return [];
+    }
+
+    return [
+      {
+        source: `/${indexNowKey}.txt`,
+        destination: `/api/indexnow-key?verification=${indexNowKey}`,
+      },
+    ];
+  },
   async headers() {
     return [
       {

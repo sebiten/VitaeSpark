@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "cron:setup": "node scripts/setup-cronjob-org.mjs",
+    "indexnow:submit": "node scripts/submit-indexnow.mjs",
     "social:posts": "node scripts/generate-facebook-posts.mjs",
     "test": "vitest run",
     "test:watch": "vitest"

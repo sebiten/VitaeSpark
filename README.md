@@ -59,6 +59,7 @@ MERCADOPAGO_ACCESS_TOKEN=
 
 ARCJET_KEY=
 CRON_SECRET=
+INDEXNOW_KEY=
 ```
 
 ### Que usa cada variable
@@ -73,6 +74,7 @@ CRON_SECRET=
 - `MERCADOPAGO_ACCESS_TOKEN`: creacion de preferencias y consulta de pagos
 - `ARCJET_KEY`: proteccion de endpoints como la generacion de CV
 - `CRON_SECRET`: autorizacion del endpoint `/api/keepalive`
+- `INDEXNOW_KEY`: clave publica de verificacion para notificar cambios a Bing
 
 ## Instalacion local
 
@@ -109,6 +111,7 @@ npm run dev
 npm run build
 npm run start
 npm run lint
+npm run indexnow:submit -- /ruta-modificada
 npm run social:posts
 ```
 
@@ -133,6 +136,29 @@ npm run social:posts
 - `/api/create-payment`: creacion del checkout
 - `/api/webhook`: confirmacion de pagos
 - `/api/keepalive`: endpoint de verificacion protegido por `CRON_SECRET`
+- `/api/indexnow`: envio de URLs canonicas a IndexNow, protegido por `CRON_SECRET`
+
+## IndexNow
+
+Configura `INDEXNOW_KEY` en el entorno Production de Vercel. Puedes agregarla
+tambien en Development si necesitas probarla localmente. La app publica la
+verificacion en `/{INDEXNOW_KEY}.txt` y solo permite enviar URLs canonicas
+incluidas en el sitemap.
+
+Después de desplegar un cambio de contenido:
+
+```bash
+pnpm indexnow:submit -- /cv-para-mineria /blog/habilidades-para-curriculum
+```
+
+Para el primer envío, una sola vez:
+
+```bash
+pnpm indexnow:submit -- --all
+```
+
+No ejecutes `--all` en cada despliegue. IndexNow debe recibir únicamente URLs
+nuevas, modificadas o eliminadas.
 
 ## Notas de desarrollo
 
