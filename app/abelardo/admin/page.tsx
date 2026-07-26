@@ -17,6 +17,7 @@ import {
   Users,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { FLYER_QR_SCAN_LABEL } from "@/lib/analytics-event-labels";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 
@@ -100,6 +101,7 @@ type CampaignMetric = {
   medium: string;
   campaign: string;
   content: string;
+  visits: number;
   clicks: number;
   cvs: number;
   checkouts: number;
@@ -661,26 +663,27 @@ export default async function AdminDashboardPage({
               Campanas y UTMs
             </h2>
             <p className="mt-1 text-sm text-white/50">
-              Lee links de blog, emails de recuperacion y publicaciones con UTM.
-              Actua cuando una campana tenga muestra, no por un solo click.
+              Flyers, emails y publicaciones con UTM. Los QR muestran visitas
+              unicas por ubicacion antes de CVs y pagos.
             </p>
           </div>
 
           {campaignMetrics.length > 0 ? (
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[980px] text-left text-sm">
+              <table className="w-full min-w-[1080px] text-left text-sm">
                 <thead className="text-[11px] uppercase tracking-[0.16em] text-white/38">
                   <tr className="border-b border-white/10">
                     <th className="py-3 pr-4 font-medium">Campana</th>
                     <th className="px-3 py-3 font-medium">Fuente</th>
                     <th className="px-3 py-3 font-medium">Medio</th>
                     <th className="px-3 py-3 font-medium">Contenido</th>
-                    <th className="px-3 py-3 font-medium">Clicks</th>
+                    <th className="px-3 py-3 font-medium">Visitas</th>
+                    <th className="px-3 py-3 font-medium">Clicks CTA</th>
                     <th className="px-3 py-3 font-medium">CVs</th>
                     <th className="px-3 py-3 font-medium">Checkout</th>
                     <th className="px-3 py-3 font-medium">Inicio pago</th>
                     <th className="px-3 py-3 font-medium">Pagos</th>
-                    <th className="px-3 py-3 font-medium">CV / click</th>
+                    <th className="px-3 py-3 font-medium">CV / visita</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/10 text-white/70">
@@ -692,13 +695,16 @@ export default async function AdminDashboardPage({
                       <td className="px-3 py-4">{row.source}</td>
                       <td className="px-3 py-4">{row.medium}</td>
                       <td className="px-3 py-4">{row.content}</td>
+                      <td className="px-3 py-4">{row.visits}</td>
                       <td className="px-3 py-4">{row.clicks}</td>
                       <td className="px-3 py-4">{row.cvs}</td>
                       <td className="px-3 py-4">{row.checkouts}</td>
                       <td className="px-3 py-4">{row.paymentStarts}</td>
                       <td className="px-3 py-4">{row.payments}</td>
                       <td className="px-3 py-4 text-[#38BDF8]">
-                        {formatPercent(rate(row.cvs, row.clicks))}
+                        {row.visits > 0
+                          ? formatPercent(rate(row.cvs, row.visits))
+                          : "-"}
                       </td>
                     </tr>
                   ))}
@@ -923,6 +929,7 @@ function buildCampaignMetrics(
         medium,
         campaign,
         content,
+        visits: 0,
         clicks: 0,
         cvs: 0,
         checkouts: 0,
@@ -936,7 +943,18 @@ function buildCampaignMetrics(
     const shouldCountEvent = !seenEvents.has(uniqueEventKey);
     seenEvents.add(uniqueEventKey);
 
-    if (shouldCountEvent && event.event_name === "landing_cta_clicked") {
+    const isFlyerVisit =
+      event.event_name === "landing_cta_clicked" &&
+      event.cta_label === FLYER_QR_SCAN_LABEL;
+
+    if (shouldCountEvent && isFlyerVisit) {
+      current.visits += 1;
+    }
+    if (
+      shouldCountEvent &&
+      event.event_name === "landing_cta_clicked" &&
+      !isFlyerVisit
+    ) {
       current.clicks += 1;
     }
     if (shouldCountEvent && event.event_name === "cv_generated") current.cvs += 1;
@@ -968,6 +986,7 @@ function buildCampaignMetrics(
         b.paymentStarts - a.paymentStarts ||
         b.checkouts - a.checkouts ||
         b.cvs - a.cvs ||
+        b.visits - a.visits ||
         b.clicks - a.clicks
     )
     .slice(0, 12);

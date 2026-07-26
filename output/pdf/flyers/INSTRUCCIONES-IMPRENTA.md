@@ -33,3 +33,15 @@ comparar escaneos, CVs generados y pagos por ubicación.
 
 Los QR no vencen y no dependen de un servicio externo. Las rutas deben permanecer
 publicadas en VitaeSpark.
+
+## Medicion en el panel
+
+En `/abelardo/admin`, la seccion `Campanas y UTMs` muestra:
+
+- Campana: `ledesma`.
+- Fuente: `flyer`.
+- Medio: `offline`.
+- Contenido: `mostrador`, `reparto` o `cartelera`.
+- Visitas unicas, CVs generados, checkouts e inicios de pago.
+
+Una misma persona cuenta como una visita por ubicacion cada 24 horas.
