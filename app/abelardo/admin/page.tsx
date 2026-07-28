@@ -4,29 +4,19 @@ import { redirect } from "next/navigation";
 import {
   AlertTriangle,
   ArrowRight,
-  BarChart3,
   CheckCircle2,
   CreditCard,
   FileText,
   MessageSquare,
   MousePointerClick,
-  ShieldCheck,
   Sparkles,
   Target,
-  TrendingUp,
   Users,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { FLYER_QR_SCAN_LABEL } from "@/lib/analytics-event-labels";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
-
-type DailyMetric = {
-  label: string;
-  users: number;
-  cvs: number;
-  payments: number;
-};
 
 type AnalyticsEventName =
   | "landing_cta_clicked"
@@ -68,12 +58,6 @@ type AnalyticsEvent = {
   session_id: string | null;
 };
 
-type CvRecord = {
-  created_at: string;
-  status: string | null;
-  profile_id: string;
-};
-
 type PaymentRecord = {
   amount: number | null;
   status: string | null;
@@ -111,14 +95,29 @@ type CampaignMetric = {
 
 type PeriodMetrics = {
   users: number;
-  cvs: number;
-  paidCvs: number;
-  checkouts: number;
-  paymentStarts: number;
-  completedPaymentEvents: number;
+  generated: number;
   approvedPayments: number;
   revenueARS: number;
   revenueUSD: number;
+};
+
+type PreRegistrationJourney = {
+  sessionId: string;
+  generatedAt: string;
+  registeredAt: string | null;
+  registeredUserId: string | null;
+  landingPath: string | null;
+  language: "es" | "en" | null;
+  template: string | null;
+  countryCode: string | null;
+  reachedCheckout: boolean;
+  startedPayment: boolean;
+  completedPayment: boolean;
+};
+
+type LinkedProfile = {
+  id: string;
+  full_name: string | null;
 };
 
 type FilterValue = "all" | "es" | "en";
@@ -166,21 +165,17 @@ export default async function AdminDashboardPage({
     : "all";
 
   const now = new Date();
-  const since7Days = startOfDay(new Date(Date.now() - 6 * DAY_IN_MS));
   const since30Days = startOfDay(new Date(Date.now() - 29 * DAY_IN_MS));
   const since60Days = startOfDay(new Date(Date.now() - 59 * DAY_IN_MS));
 
   const [
     { count: totalUsers },
-    { count: totalFeedback },
     { data: recentFeedback },
     { data: paymentsLast60 },
     { data: recentUsers },
-    { data: recentCvs },
     { data: analyticsEvents },
   ] = await Promise.all([
     supabaseAdmin.from("profiles").select("*", { count: "exact", head: true }),
-    supabaseAdmin.from("feedback").select("*", { count: "exact", head: true }),
     supabaseAdmin
       .from("feedback")
       .select("message, created_at")
@@ -199,24 +194,16 @@ export default async function AdminDashboardPage({
       .gte("created_at", since60Days.toISOString())
       .limit(5000),
     supabaseAdmin
-      .from("cvs")
-      .select("created_at, status, profile_id")
-      .gte("created_at", since60Days.toISOString())
-      .limit(5000),
-    supabaseAdmin
       .from("analytics_events")
       .select(
         "id, user_id, cv_id, payment_id, event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id"
       )
-      .gte("created_at", since30Days.toISOString())
+      .gte("created_at", since60Days.toISOString())
       .order("created_at", { ascending: false })
       .limit(3000),
   ]);
 
   const users = (recentUsers ?? []).filter((profile) => profile.id !== user.id);
-  const cvs = ((recentCvs ?? []) as CvRecord[]).filter(
-    (cv) => cv.profile_id !== user.id
-  );
   const testPaymentEmails = new Set(
     [user.email, ...(process.env.ANALYTICS_TEST_EMAILS ?? "").split(",")]
       .map((email) => email?.trim().toLowerCase())
@@ -228,22 +215,55 @@ export default async function AdminDashboardPage({
       !payment.payer_email ||
       !testPaymentEmails.has(payment.payer_email.trim().toLowerCase())
   );
-  const excludedTestPayments = rawPayments.length - payments.length;
-  const trackedEvents = ((analyticsEvents ?? []) as AnalyticsEvent[]).filter(
-    (event) => event.user_id !== user.id
+  const rawEvents = (analyticsEvents ?? []) as AnalyticsEvent[];
+  const adminSessionIds = new Set(
+    rawEvents
+      .filter((event) => event.user_id === user.id && event.session_id)
+      .map((event) => event.session_id as string),
   );
-  const events = trackedEvents.filter((event) => {
+  const trackedEvents = rawEvents.filter(
+    (event) =>
+      event.user_id !== user.id &&
+      (!event.session_id || !adminSessionIds.has(event.session_id)),
+  );
+  const currentEvents = trackedEvents.filter((event) =>
+    isInRange(event.created_at, since30Days, now),
+  );
+  const preRegistrationJourneys =
+    buildPreRegistrationJourneys(currentEvents);
+  const linkedUserIds = Array.from(
+    new Set(
+      preRegistrationJourneys
+        .map((journey) => journey.registeredUserId)
+        .filter((id): id is string => Boolean(id)),
+    ),
+  );
+  let linkedProfiles: LinkedProfile[] = [];
+  if (linkedUserIds.length > 0) {
+    const { data } = await supabaseAdmin
+      .from("profiles")
+      .select("id, full_name")
+      .in("id", linkedUserIds);
+    linkedProfiles = (data ?? []) as LinkedProfile[];
+  }
+  const linkedProfileMap = new Map(
+    linkedProfiles.map((profile) => [profile.id, profile]),
+  );
+  const preRegistrationSummary = summarizePreRegistration(
+    preRegistrationJourneys,
+    currentEvents,
+  );
+  const events = currentEvents.filter((event) => {
     const languageMatches =
       languageFilter === "all" ? true : event.language === languageFilter;
     const countryMatches =
       countryFilter === "all" ? true : event.country_code === countryFilter;
     return languageMatches && countryMatches;
   });
-  const countryOptions = buildCountryOptions(trackedEvents);
+  const countryOptions = buildCountryOptions(currentEvents);
 
   const current30 = buildPeriodMetrics({
     users,
-    cvs,
     payments,
     events: trackedEvents,
     start: since30Days,
@@ -251,32 +271,16 @@ export default async function AdminDashboardPage({
   });
   const previous30 = buildPeriodMetrics({
     users,
-    cvs,
     payments,
     events: trackedEvents,
     start: since60Days,
     end: since30Days,
   });
-  const current7 = buildPeriodMetrics({
-    users,
-    cvs,
-    payments,
-    events: trackedEvents,
-    start: since7Days,
-    end: now,
-  });
-
-  const dailyMetrics = buildDailyMetrics(users, cvs, payments, since7Days);
   const landingMetrics = buildLandingMetrics(events, languageFilter, providerFilter);
   const campaignMetrics = buildCampaignMetrics(events, providerFilter);
   const topLanding = landingMetrics[0];
-  const maxDailyValue = Math.max(
-    1,
-    ...dailyMetrics.map((day) => day.users + day.cvs + day.payments)
-  );
 
-  const funnel = buildFunnelMetrics(events);
-  const skillsToolFunnel = buildSkillsToolFunnel(events);
+  const funnel = buildFunnelMetrics(currentEvents);
 
   const insights = buildInsights({
     current30,
@@ -333,10 +337,10 @@ export default async function AdminDashboardPage({
             icon={<CreditCard className="h-5 w-5" />}
           />
           <MetricCard
-            title="CVs generados"
-            value={current30.cvs}
-            helper={`${current7.cvs} en los ultimos 7 dias`}
-            delta={buildDelta(current30.cvs, previous30.cvs)}
+            title="Generaciones únicas"
+            value={current30.generated}
+            helper={`${preRegistrationSummary.anonymousGenerated} se generaron antes del registro`}
+            delta={buildDelta(current30.generated, previous30.generated)}
             icon={<FileText className="h-5 w-5" />}
           />
           <MetricCard
@@ -347,184 +351,195 @@ export default async function AdminDashboardPage({
             icon={<Users className="h-5 w-5" />}
           />
           <MetricCard
-            title="Pago / CV"
-            value={formatPercent(rate(current30.approvedPayments, current30.cvs))}
-            helper="Excluye pagos del administrador"
+            title="Pago / generación"
+            value={formatPercent(
+              rate(current30.approvedPayments, current30.generated),
+            )}
+            helper="Pagos aprobados sobre generaciones reales"
             delta={buildDelta(
-              rate(current30.approvedPayments, current30.cvs),
-              rate(previous30.approvedPayments, previous30.cvs)
+              rate(current30.approvedPayments, current30.generated),
+              rate(previous30.approvedPayments, previous30.generated)
             )}
             icon={<Target className="h-5 w-5" />}
           />
         </section>
 
-        <section className="mb-7 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-          <Card className="overflow-hidden rounded-[30px] border border-white/10 bg-[#15151A]/82 text-white shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-            <CardContent className="p-5 sm:p-6">
-              <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                <div>
-                  <h2 className="text-2xl font-semibold tracking-[-0.03em]">
-                    Movimiento real, 7 dias
-                  </h2>
-                  <p className="mt-1 text-sm text-white/50">
-                    Usuarios, CVs y pagos aprobados desde tablas reales.
-                  </p>
-                </div>
-                <BadgeLike
-                  icon={<TrendingUp className="h-4 w-4" />}
-                  text={`${current7.approvedPayments} pagos aprobados`}
-                />
+        <section className="mb-7 overflow-hidden rounded-[28px] border border-white/10 bg-[#15151A]/82">
+          <div className="border-b border-white/10 p-5 sm:p-6">
+            <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#B8A7FF]">
+                  Antes de crear una cuenta
+                </p>
+                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">
+                  Visitantes que ya generaron un CV
+                </h2>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-white/52">
+                  Se identifican por una sesión aleatoria. Si luego se registran
+                  en la misma pestaña, el recorrido queda vinculado al perfil.
+                </p>
               </div>
+              <span className="text-sm text-white/42">
+                Cobertura de sesión:{" "}
+                <strong className="text-white">
+                  {formatPercent(preRegistrationSummary.sessionCoverage)}
+                </strong>
+              </span>
+            </div>
 
-              <div className="grid h-56 grid-cols-7 items-end gap-2 sm:gap-3">
-                {dailyMetrics.map((day) => {
-                  const total = day.users + day.cvs + day.payments;
+            <div className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2 xl:grid-cols-4">
+              <JourneyMetric
+                label="Generaron sin cuenta"
+                value={preRegistrationSummary.anonymousGenerated}
+                helper="Sesiones únicas en 30 días"
+              />
+              <JourneyMetric
+                label="Se registraron después"
+                value={preRegistrationSummary.registeredAfter}
+                helper={formatPercent(preRegistrationSummary.registrationRate)}
+              />
+              <JourneyMetric
+                label="Llegaron al checkout"
+                value={preRegistrationSummary.reachedCheckout}
+                helper="Luego de registrarse"
+              />
+              <JourneyMetric
+                label="Completaron el pago"
+                value={preRegistrationSummary.completedPayment}
+                helper="Conversión atribuida"
+              />
+            </div>
+          </div>
 
-                  return (
-                    <div key={day.label} className="flex h-full flex-col justify-end gap-2">
-                      <div className="flex flex-1 items-end rounded-2xl border border-white/8 bg-white/[0.03] p-1.5">
-                        <div
-                          className="w-full rounded-xl bg-[#7A5CFF]"
-                          style={{
-                            height: `${Math.max(8, (total / maxDailyValue) * 100)}%`,
-                          }}
-                        />
-                      </div>
-                      <p className="text-center text-[11px] font-medium text-white/42">
-                        {day.label}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
+          {preRegistrationJourneys.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[900px] text-left text-sm">
+                <thead className="text-[11px] uppercase tracking-[0.15em] text-white/38">
+                  <tr className="border-b border-white/10">
+                    <th className="px-5 py-3 font-medium sm:px-6">Visitante</th>
+                    <th className="px-4 py-3 font-medium">Origen</th>
+                    <th className="px-4 py-3 font-medium">CV</th>
+                    <th className="px-4 py-3 font-medium">Resultado</th>
+                    <th className="px-5 py-3 text-right font-medium sm:px-6">
+                      Generado
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10 text-white/68">
+                  {preRegistrationJourneys.slice(0, 12).map((journey) => {
+                    const profile = journey.registeredUserId
+                      ? linkedProfileMap.get(journey.registeredUserId)
+                      : null;
 
-              <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                <MiniMetric label="Usuarios" value={current7.users} />
-                <MiniMetric label="CVs" value={current7.cvs} />
-                <MiniMetric label="Pagos" value={current7.approvedPayments} />
-              </div>
-            </CardContent>
-          </Card>
+                    return (
+                      <tr key={journey.sessionId}>
+                        <td className="px-5 py-4 sm:px-6">
+                          {journey.registeredUserId ? (
+                            <Link
+                              href={`/abelardo/admin/users?q=${journey.registeredUserId}`}
+                              className="font-medium text-white transition hover:text-[#CFC3FF]"
+                            >
+                              {profile?.full_name || "Usuario registrado"}
+                            </Link>
+                          ) : (
+                            <span className="font-medium text-white">
+                              Sin registro todavía
+                            </span>
+                          )}
+                          <span className="mt-1 block font-mono text-xs text-white/34">
+                            {shortSession(journey.sessionId)}
+                          </span>
+                        </td>
+                        <td className="max-w-[250px] px-4 py-4">
+                          <span className="block truncate text-white/74">
+                            {journey.landingPath || "Entrada directa"}
+                          </span>
+                          <span className="mt-1 block text-xs text-white/36">
+                            {journey.countryCode || "País desconocido"}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4">
+                          <span className="block text-white/74">
+                            {journey.template || "Sin plantilla"}
+                          </span>
+                          <span className="mt-1 block text-xs uppercase text-white/36">
+                            {journey.language || "sin idioma"}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4">
+                          <JourneyStatus journey={journey} />
+                          {journey.registeredAt ? (
+                            <span className="mt-1.5 block text-xs text-white/34">
+                              {formatElapsed(
+                                journey.generatedAt,
+                                journey.registeredAt,
+                              )}{" "}
+                              hasta registrarse
+                            </span>
+                          ) : null}
+                        </td>
+                        <td className="px-5 py-4 text-right text-xs text-white/46 sm:px-6">
+                          {formatDateTime(journey.generatedAt)}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="p-5 sm:p-6">
+              <EmptyPanel text="Todavía no hay generaciones anónimas con sesión identificable." />
+            </div>
+          )}
+        </section>
 
-          <Card className="overflow-hidden rounded-[30px] border border-white/10 bg-[#15151A]/82 text-white shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-            <CardContent className="p-5 sm:p-6">
-              <h2 className="text-2xl font-semibold tracking-[-0.03em]">
-                Salud del funnel
-              </h2>
-              <p className="mt-1 text-sm text-white/50">
-                Basado en eventos de analytics de los ultimos 30 dias.
-              </p>
+        <section className="mb-7 rounded-[28px] border border-white/10 bg-[#15151A]/82 p-5 sm:p-6">
+          <h2 className="text-2xl font-semibold tracking-[-0.03em]">
+            Salud del funnel
+          </h2>
+          <p className="mt-1 text-sm text-white/50">
+            Conversiones por sesión durante los últimos 30 días.
+          </p>
 
-              <div className="mt-5 space-y-3">
-                <FunnelRow
-                  label="CTA a formulario"
-                  value={formatPercent(funnel.ctaToForm)}
-                  helper={`${funnel.formSessions} sesiones iniciaron el formulario`}
-                />
-                <FunnelRow
-                  label="Login requerido a completado"
-                  value={formatPercent(funnel.authRequiredToCompleted)}
-                  helper={`${funnel.authCompletedSessions} sesiones retomaron el borrador`}
-                />
-                <FunnelRow
-                  label="Formulario a CV"
-                  value={formatPercent(funnel.formToGenerated)}
-                  helper={`${funnel.generatedSessions} sesiones generaron CV`}
-                />
-                <FunnelRow
-                  label="CV a checkout"
-                  value={formatPercent(funnel.generatedToCheckout)}
-                  helper={`${funnel.checkoutSessions} sesiones llegaron`}
-                />
-                <FunnelRow
-                  label="Checkout a inicio de pago"
-                  value={formatPercent(funnel.checkoutToPaymentStart)}
-                  helper={`${funnel.paymentStartSessions} sesiones iniciaron`}
-                />
-                <FunnelRow
-                  label="Inicio a pago aprobado"
-                  value={formatPercent(funnel.paymentStartToCompleted)}
-                  helper={`${funnel.paymentCompletedSessions} sesiones completaron`}
-                />
-              </div>
-            </CardContent>
-          </Card>
+          <div className="mt-5 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-2 xl:grid-cols-3">
+            <FunnelRow
+              label="CTA a formulario"
+              value={formatPercent(funnel.ctaToForm)}
+              helper={`${funnel.formSessions} sesiones iniciaron el formulario`}
+            />
+            <FunnelRow
+              label="Formulario a CV"
+              value={formatPercent(funnel.formToGenerated)}
+              helper={`${funnel.generatedSessions} sesiones generaron CV`}
+            />
+            <FunnelRow
+              label="CV a registro"
+              value={formatPercent(preRegistrationSummary.registrationRate)}
+              helper={`${preRegistrationSummary.registeredAfter} usuarios identificados`}
+            />
+            <FunnelRow
+              label="CV a checkout"
+              value={formatPercent(funnel.generatedToCheckout)}
+              helper={`${funnel.checkoutSessions} sesiones llegaron`}
+            />
+            <FunnelRow
+              label="Checkout a inicio de pago"
+              value={formatPercent(funnel.checkoutToPaymentStart)}
+              helper={`${funnel.paymentStartSessions} sesiones iniciaron`}
+            />
+            <FunnelRow
+              label="Inicio a pago aprobado"
+              value={formatPercent(funnel.paymentStartToCompleted)}
+              helper={`${funnel.paymentCompletedSessions} sesiones completaron`}
+            />
+          </div>
         </section>
 
         <section className="mb-7 grid gap-4 lg:grid-cols-3">
           {insights.map((insight) => (
             <DecisionCard key={insight.title} {...insight} />
           ))}
-        </section>
-
-        <section className="mb-7 rounded-[30px] border border-white/10 bg-[#15151A]/82 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:p-6">
-          <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#B8A7FF]">
-                <Sparkles className="h-4 w-4" />
-                Herramienta gratuita
-              </div>
-              <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">
-                Generador de habilidades
-              </h2>
-              <p className="mt-1 max-w-2xl text-sm leading-6 text-white/50">
-                Mide el recorrido desde el primer uso hasta el pago atribuido.
-                Espera al menos 100 inicios antes de cambiar la herramienta.
-              </p>
-            </div>
-            <Link
-              href="/herramientas/generador-habilidades-cv"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#CFC3FF] transition hover:text-white"
-            >
-              Abrir herramienta
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="mt-6 grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <MiniMetric label="Inicios" value={skillsToolFunnel.starts} />
-              <MiniMetric
-                label="Resultados"
-                value={skillsToolFunnel.results}
-              />
-              <MiniMetric
-                label="Personalizaciones IA"
-                value={skillsToolFunnel.aiRefinements}
-              />
-              <MiniMetric label="Copias" value={skillsToolFunnel.copies} />
-              <MiniMetric
-                label="Continúan al CV"
-                value={skillsToolFunnel.continues}
-              />
-              <MiniMetric
-                label="CVs generados"
-                value={skillsToolFunnel.generated}
-              />
-              <MiniMetric
-                label="Checkouts"
-                value={skillsToolFunnel.checkouts}
-              />
-              <MiniMetric label="Pagos" value={skillsToolFunnel.payments} />
-            </div>
-            <div className="space-y-3">
-              <FunnelRow
-                label="Inicio a resultado"
-                value={formatPercent(skillsToolFunnel.startToResult)}
-                helper="Detecta si la propuesta se entiende y se completa."
-              />
-              <FunnelRow
-                label="Resultado a continuar"
-                value={formatPercent(skillsToolFunnel.resultToContinue)}
-                helper="Mide intención real de llevar la selección al CV."
-              />
-              <FunnelRow
-                label="Continuar a CV generado"
-                value={formatPercent(skillsToolFunnel.continueToGenerated)}
-                helper="Mide si el traspaso ayuda a completar el formulario."
-              />
-            </div>
-          </div>
         </section>
 
         <section className="mb-7 rounded-[30px] border border-white/10 bg-[#15151A]/82 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:p-6">
@@ -657,18 +672,16 @@ export default async function AdminDashboardPage({
           )}
         </section>
 
-        <section className="mb-7 rounded-[30px] border border-white/10 bg-[#15151A]/82 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:p-6">
-          <div className="mb-6">
-            <h2 className="text-2xl font-semibold tracking-[-0.03em] text-white">
-              Campanas y UTMs
-            </h2>
-            <p className="mt-1 text-sm text-white/50">
-              Flyers, emails y publicaciones con UTM. Los QR muestran visitas
-              unicas por ubicacion antes de CVs y pagos.
-            </p>
-          </div>
-
-          {campaignMetrics.length > 0 ? (
+        {campaignMetrics.length > 0 ? (
+          <section className="mb-7 rounded-[30px] border border-white/10 bg-[#15151A]/82 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:p-6">
+            <div className="mb-6">
+              <h2 className="text-2xl font-semibold tracking-[-0.03em] text-white">
+                Campañas y UTMs
+              </h2>
+              <p className="mt-1 text-sm text-white/50">
+                Rendimiento atribuido de flyers, emails y publicaciones.
+              </p>
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[1080px] text-left text-sm">
                 <thead className="text-[11px] uppercase tracking-[0.16em] text-white/38">
@@ -711,33 +724,10 @@ export default async function AdminDashboardPage({
                 </tbody>
               </table>
             </div>
-          ) : (
-            <EmptyPanel text="Todavia no hay eventos con UTM en esta ventana." />
-          )}
-        </section>
+          </section>
+        ) : null}
 
-        <section className="mb-7 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-          <Panel title="Como medir y cuando actuar" icon={<BarChart3 className="h-5 w-5" />}>
-            <div className="grid gap-3">
-              <RuleItem
-                title="No decidas con poca muestra"
-                text="Esperar si una landing tiene menos de 30 clicks de CTA o menos de 10 CVs generados en 30 dias."
-              />
-              <RuleItem
-                title="Actua si hay friccion clara"
-                text="Si hay 20 o mas checkouts y menos de 15% termina en pago, revisar precio, copy del checkout o metodos de pago."
-              />
-              <RuleItem
-                title="Escala lo que ya convierte"
-                text="Si una pagina genera pagos o supera 35% de CV a checkout, mejorar enlaces internos y llevar mas trafico a esa pagina."
-              />
-              <RuleItem
-                title="No optimices todo al mismo tiempo"
-                text="Cambiar una sola variable fuerte por semana: hero, CTA, precio, checkout o formulario. Si cambias todo, no sabes que funciono."
-              />
-            </div>
-          </Panel>
-
+        <section className="mb-7 grid gap-4 lg:grid-cols-2">
           <Panel title="Ultimos pagos aprobados" icon={<CreditCard className="h-5 w-5" />}>
             <div className="space-y-3">
               {payments.length > 0 ? (
@@ -754,9 +744,7 @@ export default async function AdminDashboardPage({
               )}
             </div>
           </Panel>
-        </section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
           <Panel title="Ultimos comentarios" icon={<MessageSquare className="h-5 w-5" />}>
             <div className="space-y-3">
               {recentFeedback && recentFeedback.length > 0 ? (
@@ -774,19 +762,6 @@ export default async function AdminDashboardPage({
             </div>
           </Panel>
 
-          <Panel title="Calidad de datos" icon={<ShieldCheck className="h-5 w-5" />}>
-            <div className="grid gap-3">
-              <DataQualityRow label="Eventos analizados" value={events.length} />
-              <DataQualityRow label="Feedback total" value={totalFeedback ?? 0} />
-              <DataQualityRow label="CVs analizados (60 dias)" value={cvs.length} />
-              <DataQualityRow label="Pagos analizados (60 dias)" value={payments.length} />
-              <DataQualityRow label="Pagos de prueba excluidos" value={excludedTestPayments} />
-            </div>
-            <p className="mt-4 rounded-2xl border border-white/10 bg-white/[0.035] p-4 text-sm leading-6 text-white/58">
-              Para mejorar la pagina, mira la tendencia de 30 dias. Para bugs o
-              problemas de pago, actua en el dia. Para conversion, espera muestra.
-            </p>
-          </Panel>
         </section>
       </div>
     </main>
@@ -795,21 +770,18 @@ export default async function AdminDashboardPage({
 
 function buildPeriodMetrics({
   users,
-  cvs,
   payments,
   events,
   start,
   end,
 }: {
   users: Array<{ created_at: string }>;
-  cvs: CvRecord[];
   payments: PaymentRecord[];
   events: AnalyticsEvent[];
   start: Date;
   end: Date;
 }): PeriodMetrics {
   const periodUsers = users.filter((item) => isInRange(item.created_at, start, end));
-  const periodCvs = cvs.filter((item) => isInRange(item.created_at, start, end));
   const periodPayments = payments.filter((item) =>
     isInRange(item.created_at, start, end)
   );
@@ -819,11 +791,7 @@ function buildPeriodMetrics({
 
   return {
     users: periodUsers.length,
-    cvs: periodCvs.length,
-    paidCvs: periodCvs.filter((cv) => cv.status === "paid").length,
-    checkouts: countUniqueEvents(periodEvents, "checkout_viewed"),
-    paymentStarts: countUniqueEvents(periodEvents, "payment_started"),
-    completedPaymentEvents: countUniqueEvents(periodEvents, "payment_completed"),
+    generated: countUniqueEvents(periodEvents, "cv_generated"),
     approvedPayments: periodPayments.length,
     revenueARS: sumPayments(periodPayments, "mercado_pago"),
     revenueUSD: sumPayments(periodPayments, "paypal"),
@@ -992,25 +960,94 @@ function buildCampaignMetrics(
     .slice(0, 12);
 }
 
-function buildDailyMetrics(
-  users: Array<{ created_at: string }>,
-  cvs: CvRecord[],
-  payments: PaymentRecord[],
-  since: Date
-): DailyMetric[] {
-  return Array.from({ length: 7 }).map((_, index) => {
-    const date = new Date(since.getTime() + index * DAY_IN_MS);
-    const key = toDateKey(date);
+function buildPreRegistrationJourneys(
+  events: AnalyticsEvent[],
+): PreRegistrationJourney[] {
+  const sessions = new Map<string, PreRegistrationJourney>();
 
-    return {
-      label: date.toLocaleDateString("es-AR", { weekday: "short" }),
-      users: users.filter((item) => toDateKey(new Date(item.created_at)) === key)
-        .length,
-      cvs: cvs.filter((item) => toDateKey(new Date(item.created_at)) === key).length,
-      payments: payments.filter((item) => toDateKey(new Date(item.created_at)) === key)
-        .length,
-    };
+  events.forEach((event) => {
+    if (
+      event.event_name !== "cv_generated" ||
+      event.user_id ||
+      !event.session_id
+    ) {
+      return;
+    }
+
+    const current = sessions.get(event.session_id);
+    if (current && current.generatedAt <= event.created_at) return;
+
+    sessions.set(event.session_id, {
+      sessionId: event.session_id,
+      generatedAt: event.created_at,
+      registeredAt: null,
+      registeredUserId: null,
+      landingPath: event.landing_path,
+      language: event.language,
+      template: event.template,
+      countryCode: event.country_code,
+      reachedCheckout: false,
+      startedPayment: false,
+      completedPayment: false,
+    });
   });
+
+  events.forEach((event) => {
+    if (!event.session_id) return;
+    const journey = sessions.get(event.session_id);
+    if (!journey || event.created_at < journey.generatedAt) return;
+
+    if (
+      event.event_name === "auth_completed" &&
+      event.user_id &&
+      !journey.registeredUserId
+    ) {
+      journey.registeredUserId = event.user_id;
+      journey.registeredAt = event.created_at;
+    }
+    if (event.event_name === "checkout_viewed") journey.reachedCheckout = true;
+    if (event.event_name === "payment_started") journey.startedPayment = true;
+    if (event.event_name === "payment_completed") {
+      journey.completedPayment = true;
+    }
+  });
+
+  return Array.from(sessions.values()).sort(
+    (a, b) =>
+      new Date(b.generatedAt).getTime() - new Date(a.generatedAt).getTime(),
+  );
+}
+
+function summarizePreRegistration(
+  journeys: PreRegistrationJourney[],
+  events: AnalyticsEvent[],
+) {
+  const anonymousGenerated = countUniqueAnonymousGenerations(events);
+  const generatedEventsWithSession = journeys.length;
+  const registeredAfter = journeys.filter(
+    (journey) => journey.registeredUserId,
+  ).length;
+
+  return {
+    anonymousGenerated,
+    registeredAfter,
+    reachedCheckout: journeys.filter((journey) => journey.reachedCheckout)
+      .length,
+    completedPayment: journeys.filter((journey) => journey.completedPayment)
+      .length,
+    registrationRate: rate(registeredAfter, anonymousGenerated),
+    sessionCoverage: rate(generatedEventsWithSession, anonymousGenerated),
+  };
+}
+
+function countUniqueAnonymousGenerations(events: AnalyticsEvent[]) {
+  return new Set(
+    events
+      .filter(
+        (event) => event.event_name === "cv_generated" && !event.user_id,
+      )
+      .map(getUniqueEventIdentity),
+  ).size;
 }
 
 function buildInsights({
@@ -1041,14 +1078,14 @@ function buildInsights({
   const paymentDelta = buildDelta(current30.approvedPayments, previous30.approvedPayments);
   insights.push({
     title: "Decision principal",
-    value: current30.cvs < 10 ? "Esperar muestra" : "Optimizar con foco",
+    value: generated < 10 ? "Esperar muestra" : "Optimizar con foco",
     text:
-      current30.cvs < 10
+      generated < 10
         ? "Todavia hay poca muestra para concluir conversion. Prioriza trafico y registro de eventos."
         : paymentDelta.raw < 0
           ? "Los pagos bajaron contra el periodo anterior. Revisa landings con checkout pero sin pago."
           : "Hay muestra suficiente para priorizar la mejor landing y reducir friccion del checkout.",
-    tone: current30.cvs < 10 ? "neutral" : paymentDelta.raw < 0 ? "warn" : "good",
+    tone: generated < 10 ? "neutral" : paymentDelta.raw < 0 ? "warn" : "good",
     icon: <Target className="h-5 w-5" />,
   });
 
@@ -1129,8 +1166,6 @@ function buildFunnelMetrics(events: AnalyticsEvent[]) {
     );
   const ctaSessions = identitiesFor("landing_cta_clicked");
   const formSessions = identitiesFor("form_started");
-  const authRequiredSessions = identitiesFor("auth_required");
-  const authCompletedSessions = identitiesFor("auth_completed");
   const generatedSessions = identitiesFor("cv_generated");
   const checkoutSessions = identitiesFor("checkout_viewed");
   const paymentStartSessions = identitiesFor("payment_started");
@@ -1139,17 +1174,11 @@ function buildFunnelMetrics(events: AnalyticsEvent[]) {
   return {
     ctaClicks: ctaSessions.size,
     formSessions: formSessions.size,
-    authRequiredSessions: authRequiredSessions.size,
-    authCompletedSessions: authCompletedSessions.size,
     generatedSessions: generatedSessions.size,
     checkoutSessions: checkoutSessions.size,
     paymentStartSessions: paymentStartSessions.size,
     paymentCompletedSessions: paymentCompletedSessions.size,
     ctaToForm: setConversionRate(ctaSessions, formSessions),
-    authRequiredToCompleted: setConversionRate(
-      authRequiredSessions,
-      authCompletedSessions,
-    ),
     formToGenerated: setConversionRate(formSessions, generatedSessions),
     generatedToCheckout: setConversionRate(generatedSessions, checkoutSessions),
     checkoutToPaymentStart: setConversionRate(
@@ -1160,59 +1189,6 @@ function buildFunnelMetrics(events: AnalyticsEvent[]) {
       paymentStartSessions,
       paymentCompletedSessions
     ),
-  };
-}
-
-function buildSkillsToolFunnel(events: AnalyticsEvent[]) {
-  const toolEvents = events.filter(
-    (event) =>
-      event.source_type === "tool" ||
-      event.landing_path === "/herramientas/generador-habilidades-cv",
-  );
-  const identitiesFor = (predicate: (event: AnalyticsEvent) => boolean) =>
-    new Set(
-      toolEvents.filter(predicate).map(getUniqueEventIdentity),
-    );
-
-  const starts = identitiesFor(
-    (event) => event.event_name === "tool_started",
-  );
-  const results = identitiesFor(
-    (event) => event.event_name === "tool_result_generated",
-  );
-  const aiRefinements = identitiesFor(
-    (event) => event.event_name === "tool_ai_refined",
-  );
-  const copies = identitiesFor(
-    (event) => event.event_name === "tool_result_copied",
-  );
-  const continues = identitiesFor(
-    (event) =>
-      event.event_name === "landing_cta_clicked" &&
-      event.cta_label === "skills_tool_continue",
-  );
-  const generated = identitiesFor(
-    (event) => event.event_name === "cv_generated",
-  );
-  const checkouts = identitiesFor(
-    (event) => event.event_name === "checkout_viewed",
-  );
-  const payments = identitiesFor(
-    (event) => event.event_name === "payment_completed",
-  );
-
-  return {
-    starts: starts.size,
-    results: results.size,
-    aiRefinements: aiRefinements.size,
-    copies: copies.size,
-    continues: continues.size,
-    generated: generated.size,
-    checkouts: checkouts.size,
-    payments: payments.size,
-    startToResult: setConversionRate(starts, results),
-    resultToContinue: setConversionRate(results, continues),
-    continueToGenerated: setConversionRate(continues, generated),
   };
 }
 
@@ -1346,11 +1322,24 @@ function MetricCard({
   );
 }
 
-function MiniMetric({ label, value }: { label: string; value: number }) {
+function JourneyMetric({
+  label,
+  value,
+  helper,
+}: {
+  label: string;
+  value: number;
+  helper: string;
+}) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-3">
-      <p className="text-xl font-semibold text-white">{value}</p>
-      <p className="mt-1 text-xs text-white/42">{label}</p>
+    <div className="bg-[#15151A] p-4 sm:p-5">
+      <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-white/38">
+        {label}
+      </p>
+      <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">
+        {value}
+      </p>
+      <p className="mt-1 text-xs text-white/42">{helper}</p>
     </div>
   );
 }
@@ -1365,13 +1354,53 @@ function FunnelRow({
   helper: string;
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+    <div className="bg-[#15151A] p-4">
       <div className="flex items-center justify-between gap-4">
         <span className="text-sm font-medium text-white/72">{label}</span>
         <strong className="text-white">{value}</strong>
       </div>
       <p className="mt-1 text-xs text-white/38">{helper}</p>
     </div>
+  );
+}
+
+function JourneyStatus({
+  journey,
+}: {
+  journey: PreRegistrationJourney;
+}) {
+  if (journey.completedPayment) {
+    return (
+      <span className="inline-flex rounded-full bg-emerald-400/12 px-2.5 py-1 text-xs font-semibold text-emerald-200">
+        Pago completado
+      </span>
+    );
+  }
+  if (journey.startedPayment) {
+    return (
+      <span className="inline-flex rounded-full bg-amber-400/12 px-2.5 py-1 text-xs font-semibold text-amber-200">
+        Inició pago
+      </span>
+    );
+  }
+  if (journey.reachedCheckout) {
+    return (
+      <span className="inline-flex rounded-full bg-sky-400/12 px-2.5 py-1 text-xs font-semibold text-sky-200">
+        Vio checkout
+      </span>
+    );
+  }
+  if (journey.registeredUserId) {
+    return (
+      <span className="inline-flex rounded-full bg-violet-400/12 px-2.5 py-1 text-xs font-semibold text-violet-200">
+        Se registró
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex rounded-full bg-white/[0.06] px-2.5 py-1 text-xs font-semibold text-white/58">
+      Solo generó
+    </span>
   );
 }
 
@@ -1424,15 +1453,6 @@ function Panel({
       </h2>
       {children}
     </section>
-  );
-}
-
-function RuleItem({ title, text }: { title: string; text: string }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-      <p className="text-sm font-semibold text-white">{title}</p>
-      <p className="mt-1 text-sm leading-6 text-white/56">{text}</p>
-    </div>
   );
 }
 
@@ -1495,15 +1515,6 @@ function FilterGroup({
           </Link>
         ))}
       </div>
-    </div>
-  );
-}
-
-function DataQualityRow({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3">
-      <span className="text-sm text-white/58">{label}</span>
-      <strong className="text-white">{value}</strong>
     </div>
   );
 }
@@ -1604,6 +1615,28 @@ function formatPercent(value: number) {
   return `${value.toFixed(1).replace(".", ",")}%`;
 }
 
+function shortSession(sessionId: string) {
+  return `sesión ${sessionId.slice(0, 8)}`;
+}
+
+function formatDateTime(value: string) {
+  return new Date(value).toLocaleString("es-AR", {
+    dateStyle: "short",
+    timeStyle: "short",
+  });
+}
+
+function formatElapsed(from: string, to: string) {
+  const minutes = Math.max(
+    1,
+    Math.round((new Date(to).getTime() - new Date(from).getTime()) / 60000),
+  );
+  if (minutes < 60) return `${minutes} min`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) return `${hours} h`;
+  return `${Math.round(hours / 24)} d`;
+}
+
 function isInRange(value: string, start: Date, end: Date) {
   const date = new Date(value);
   return date >= start && date < end;
@@ -1613,8 +1646,4 @@ function startOfDay(date: Date) {
   const next = new Date(date);
   next.setHours(0, 0, 0, 0);
   return next;
-}
-
-function toDateKey(date: Date) {
-  return date.toISOString().slice(0, 10);
 }
