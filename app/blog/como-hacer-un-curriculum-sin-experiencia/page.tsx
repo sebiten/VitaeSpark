@@ -13,6 +13,11 @@ export const metadata = buildMetadata({
     "curriculum sin experiencia laboral",
   ],
   type: "article",
+  image: "/social/cv-sin-experiencia-og.png",
+  imageAlt: "Cinco elementos para un CV sin experiencia laboral",
+  socialTitle: "¿Sin experiencia? Tu CV no esta vacio",
+  socialDescription:
+    "Estudios, proyectos, cursos, voluntariados y habilidades tambien pueden demostrar lo que sabes hacer.",
 });
 
 export default function ComoHacerUnCurriculumSinExperienciaPage() {
@@ -20,6 +25,8 @@ export default function ComoHacerUnCurriculumSinExperienciaPage() {
     <BlogArticlePage
       path="/blog/como-hacer-un-curriculum-sin-experiencia"
       datePublished="2025-04-12"
+      dateModified="2026-07-28"
+      image="/social/cv-sin-experiencia-og.png"
       title="Como hacer un curriculum sin experiencia y aun asi mostrar potencial"
       description="Guia para hacer un curriculum sin experiencia laboral destacando estudios, proyectos, cursos y habilidades."
       intro="No tener experiencia laboral formal no significa no tener nada para mostrar. Un buen CV sin experiencia puede transmitir potencial, direccion profesional y capacidades reales si esta bien construido."

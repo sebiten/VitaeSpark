@@ -13,6 +13,11 @@ export const metadata = buildMetadata({
     "pasar filtros ats",
   ],
   type: "article",
+  image: "/social/cv-ats-filtro-og.png",
+  imageAlt: "Cinco reglas para que un CV pueda superar filtros ATS",
+  socialTitle: "Un CV lindo tambien puede fallar el filtro ATS",
+  socialDescription:
+    "Revisa estructura, texto, palabras clave, diseño y archivo antes de enviar tu CV.",
 });
 
 export default function ComoHacerUnCvAtsPage() {
@@ -20,7 +25,8 @@ export default function ComoHacerUnCvAtsPage() {
     <BlogArticlePage
       path="/blog/como-hacer-un-cv-ats"
       datePublished="2025-04-12"
-      dateModified="2026-06-28"
+      dateModified="2026-07-28"
+      image="/social/cv-ats-filtro-og.png"
       title="Cómo Hacer un CV ATS que Pase Filtros Automáticos y Llegue a Reclutadores"
       description="Guía práctica con pasos concretos, definiciones claras y ejemplos para crear un curriculum compatible con sistemas ATS y aumentar tus posibilidades de conseguir entrevistas."
       intro="Un ATS es un software que ayuda a las empresas a recibir, ordenar y consultar postulaciones. Para reducir errores de lectura, usá secciones claras, texto seleccionable, títulos estándar y el formato solicitado en la oferta. Ningún diseño garantiza avanzar: el contenido real y su relación con la vacante siguen siendo decisivos."

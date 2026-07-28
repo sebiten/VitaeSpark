@@ -13,6 +13,11 @@ export const metadata = buildMetadata({
     "perfil para curriculum vitae",
   ],
   type: "article",
+  image: "/social/perfil-profesional-antes-despues-og.png",
+  imageAlt: "Ejemplo de perfil profesional antes y despues",
+  socialTitle: "Tu perfil profesional: antes vs. despues",
+  socialDescription:
+    "Aprende a reemplazar frases genericas por un perfil claro, concreto y alineado con el puesto.",
 });
 
 export default function PerfilProfesionalParaCvPage() {
@@ -20,6 +25,8 @@ export default function PerfilProfesionalParaCvPage() {
     <BlogArticlePage
       path="/blog/perfil-profesional-para-cv"
       datePublished="2025-04-12"
+      dateModified="2026-07-28"
+      image="/social/perfil-profesional-antes-despues-og.png"
       title="Perfil profesional para CV: ejemplos y como escribirlo"
       description="Aprende como escribir un perfil profesional para CV con ejemplos concretos para administrativo, call center, operario y perfiles iniciales."
       intro="El perfil profesional suele ser una de las primeras cosas que se leen en un curriculum. Cuando esta bien escrito, ordena toda la lectura. Cuando es generico, hace que el CV pierda fuerza desde el inicio."

@@ -16,6 +16,12 @@ export const metadata = buildMetadata({
     "cv para ayudante de mina",
     "ejemplo cv mineria",
   ],
+  image: "/social/cv-mineria-checklist-og.png",
+  imageAlt:
+    "Cinco datos importantes para preparar un CV orientado a mineria",
+  socialTitle: "¿Querés trabajar en minería? Tu CV debería mostrar esto",
+  socialDescription:
+    "Revisa puesto objetivo, seguridad, turnos, licencias y experiencia relacionada antes de postularte a una minera.",
 });
 
 export default function CvParaMineriaPage() {
