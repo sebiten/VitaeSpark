@@ -43,6 +43,7 @@ type BlogArticlePageProps = {
   title: string;
   description: string;
   intro: string;
+  image?: string;
   sections: ArticleSection[];
   faqs: ArticleFaq[];
   relatedLinks: ArticleRelatedLink[];
@@ -56,6 +57,7 @@ export function BlogArticlePage({
   title,
   description,
   intro,
+  image = "/elegance-good.webp",
   sections,
   faqs,
   relatedLinks,
@@ -97,7 +99,7 @@ export function BlogArticlePage({
     headline: title,
     description,
     inLanguage: "es-AR",
-    image: new URL("/elegance-good.webp", baseUrl).toString(),
+    image: new URL(image, baseUrl).toString(),
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": articleUrl,

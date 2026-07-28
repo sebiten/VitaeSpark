@@ -18,6 +18,12 @@ type MetadataInput = {
   type?: "website" | "article";
   locale?: string;
   languages?: Record<string, string>;
+  image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  socialTitle?: string;
+  socialDescription?: string;
 };
 
 export function buildMetadata({
@@ -28,10 +34,18 @@ export function buildMetadata({
   type = "website",
   locale = "es_AR",
   languages,
+  image = "/logotab.webp",
+  imageAlt = "Vitae Spark",
+  imageWidth = 1200,
+  imageHeight = 630,
+  socialTitle,
+  socialDescription,
 }: MetadataInput): Metadata {
   const baseUrl = getBaseUrl();
   const url = new URL(path, baseUrl);
-  const ogImage = new URL("/logotab.webp", baseUrl);
+  const ogImage = new URL(image, baseUrl);
+  const shareTitle = socialTitle ?? title;
+  const shareDescription = socialDescription ?? description;
 
   return {
     title,
@@ -44,23 +58,23 @@ export function buildMetadata({
     openGraph: {
       type,
       url,
-      title,
-      description,
+      title: shareTitle,
+      description: shareDescription,
       siteName: "Vitae Spark",
       locale,
       images: [
         {
           url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: "Vitae Spark",
+          width: imageWidth,
+          height: imageHeight,
+          alt: imageAlt,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
+      title: shareTitle,
+      description: shareDescription,
       images: [ogImage],
     },
   };

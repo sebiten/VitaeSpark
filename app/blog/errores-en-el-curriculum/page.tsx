@@ -2,9 +2,9 @@ import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Errores en el Currículum: Los Más Comunes y Cómo Evitarlos",
+  title: "Errores en el Currículum: 5 Fallos que Debes Evitar",
   description:
-    "Descubre los errores más comunes en un currículum vitae y cómo corregirlos para mejorar tus postulaciones.",
+    "Descubre cinco errores comunes en un currículum y cómo corregirlos para mejorar tus postulaciones y entrevistas.",
   path: "/blog/errores-en-el-curriculum",
   keywords: [
     "errores en el curriculum",
@@ -13,6 +13,11 @@ export const metadata = buildMetadata({
     "fallos curriculum",
   ],
   type: "article",
+  image: "/social/errores-cv-facebook-og.png",
+  imageAlt: "Cinco errores que pueden hacer que descarten tu CV",
+  socialTitle: "5 errores que pueden hacer que descarten tu CV",
+  socialDescription:
+    "Revisá diseño, perfil, experiencia, datos y adaptación antes de tu próxima postulación.",
 });
 
 export default function ErroresEnElCurriculumPage() {
@@ -20,11 +25,19 @@ export default function ErroresEnElCurriculumPage() {
     <BlogArticlePage
       path="/blog/errores-en-el-curriculum"
       datePublished="2025-04-12"
-      dateModified="2026-06-28"
-      title="Errores en el curriculum que pueden frenarte antes de una entrevista"
-      description="Descubre los errores mas comunes en un curriculum vitae y como corregirlos para mejorar tus postulaciones."
+      dateModified="2026-07-28"
+      title="5 errores en el curriculum que pueden frenarte antes de una entrevista"
+      description="Descubre los errores mas comunes en un curriculum vitae y como corregirlos antes de tu proxima postulacion."
       intro="Muchos CV no fallan por falta de experiencia, sino porque el documento comunica mal. Los errores ortográficos, el desorden y las frases genéricas dificultan que un reclutador entienda rápido el perfil, incluso cuando la persona encaja en el puesto."
+      image="/social/errores-cv-facebook-og.png"
       sections={[
+        {
+          title: "Usar un diseño demasiado cargado",
+          paragraphs: [
+            "Demasiados colores, gráficos, columnas o adornos compiten con la información importante. El reclutador necesita identificar rápido tu perfil, experiencia, estudios y habilidades.",
+            "También conviene evitar estructuras complejas que puedan dificultar la lectura de los sistemas ATS. Priorizá una jerarquía clara, tipografía legible y secciones fáciles de recorrer.",
+          ],
+        },
         {
           title: "Tener un perfil demasiado generico",
           paragraphs: [
@@ -40,10 +53,17 @@ export default function ErroresEnElCurriculumPage() {
           ],
         },
         {
-          title: "Descuidar formato y legibilidad",
+          title: "Dejar errores o datos desactualizados",
           paragraphs: [
-            "Otro error frecuente es usar estructuras confusas, exceso de bloques o textos muy comprimidos. Eso dificulta la lectura y hace que el CV se vea menos profesional.",
-            "Un formato claro, con buena jerarquia y secciones bien ordenadas, casi siempre funciona mejor.",
+            "Una falta de ortografía, un teléfono incorrecto o un enlace que ya no funciona pueden generar una mala primera impresión y dificultar que la empresa se comunique con vos.",
+            "Antes de enviar el archivo, comprobá los datos de contacto, las fechas, los nombres de empresas y la redacción. Una revisión breve puede evitar errores simples pero costosos.",
+          ],
+        },
+        {
+          title: "Enviar el mismo CV a todas las ofertas",
+          paragraphs: [
+            "Cada búsqueda laboral prioriza responsabilidades, herramientas y palabras clave diferentes. Un CV completamente genérico puede ocultar la experiencia que mejor responde a la vacante.",
+            "No hace falta rehacer todo desde cero. Ajustá el perfil profesional, el orden de las habilidades y los logros destacados para que la relación con el puesto sea evidente.",
           ],
         },
       ]}
