@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { PendingPaymentRecovery } from "@/components/PendingPaymentRecovery";
+import { CampaignAttributionCapture } from "@/components/CampaignAttributionCapture";
 import { Toaster } from "sonner";
 import { getBaseUrl } from "@/lib/seo";
 import "./globals.css";
@@ -186,6 +188,9 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-black/90  flex min-h-screen flex-col`}
       >
+        <Suspense fallback={null}>
+          <CampaignAttributionCapture />
+        </Suspense>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-SZY8XLM2G1"
           strategy="afterInteractive"

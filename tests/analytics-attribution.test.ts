@@ -15,6 +15,7 @@ describe("landing attribution", () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    window.history.replaceState({}, "", "/");
   });
 
   it("guarda y recupera attribution desde localStorage", () => {
@@ -58,6 +59,28 @@ describe("landing attribution", () => {
 
     expect(getLandingAttribution()).toMatchObject({
       session_id: expect.any(String),
+    });
+  });
+
+  it("conserva los parametros UTM al registrar la landing", () => {
+    window.history.replaceState(
+      {},
+      "",
+      "/cv-para-mineria?utm_source=facebook&utm_medium=organic_social&utm_campaign=grupos_facebook&utm_content=cv_mineria_checklist",
+    );
+
+    setLandingAttribution({
+      landing_path: "/cv-para-mineria",
+      cta_label: "campaign_landing_view",
+      source_type: "landing",
+    });
+
+    expect(getLandingAttribution()).toMatchObject({
+      landing_path: "/cv-para-mineria",
+      utm_source: "facebook",
+      utm_medium: "organic_social",
+      utm_campaign: "grupos_facebook",
+      utm_content: "cv_mineria_checklist",
     });
   });
 });

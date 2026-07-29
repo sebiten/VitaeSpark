@@ -14,7 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { FLYER_QR_SCAN_LABEL } from "@/lib/analytics-event-labels";
+import { isAttributedVisitLabel } from "@/lib/analytics-event-labels";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 
@@ -830,7 +830,11 @@ function buildLandingMetrics(
     const shouldCountEvent = !seenEvents.has(uniqueEventKey);
     seenEvents.add(uniqueEventKey);
 
-    if (shouldCountEvent && event.event_name === "landing_cta_clicked") {
+    if (
+      shouldCountEvent &&
+      event.event_name === "landing_cta_clicked" &&
+      !isAttributedVisitLabel(event.cta_label)
+    ) {
       current.clicks += 1;
     }
     if (shouldCountEvent && event.event_name === "template_selected") {
@@ -911,17 +915,17 @@ function buildCampaignMetrics(
     const shouldCountEvent = !seenEvents.has(uniqueEventKey);
     seenEvents.add(uniqueEventKey);
 
-    const isFlyerVisit =
+    const isAttributedVisit =
       event.event_name === "landing_cta_clicked" &&
-      event.cta_label === FLYER_QR_SCAN_LABEL;
+      isAttributedVisitLabel(event.cta_label);
 
-    if (shouldCountEvent && isFlyerVisit) {
+    if (shouldCountEvent && isAttributedVisit) {
       current.visits += 1;
     }
     if (
       shouldCountEvent &&
       event.event_name === "landing_cta_clicked" &&
-      !isFlyerVisit
+      !isAttributedVisit
     ) {
       current.clicks += 1;
     }
@@ -1164,7 +1168,15 @@ function buildFunnelMetrics(events: AnalyticsEvent[]) {
         .filter((event) => event.event_name === eventName)
         .map(getUniqueEventIdentity)
     );
-  const ctaSessions = identitiesFor("landing_cta_clicked");
+  const ctaSessions = new Set(
+    events
+      .filter(
+        (event) =>
+          event.event_name === "landing_cta_clicked" &&
+          !isAttributedVisitLabel(event.cta_label),
+      )
+      .map(getUniqueEventIdentity),
+  );
   const formSessions = identitiesFor("form_started");
   const generatedSessions = identitiesFor("cv_generated");
   const checkoutSessions = identitiesFor("checkout_viewed");
