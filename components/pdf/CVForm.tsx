@@ -11,7 +11,10 @@ import {
   getLandingAttribution,
   setLandingAttribution,
 } from "@/lib/analytics-attribution";
-import { recordAnalyticsEvent } from "@/lib/analytics-events";
+import {
+  recordAnalyticsEvent,
+  recordGaFunnelEvent,
+} from "@/lib/analytics-events";
 import type { AppLanguage } from "@/lib/i18n";
 import {
   getCreateIntentMessage,
@@ -263,6 +266,11 @@ export default function CVForm({
       setCvData(data);
       const attribution = getLandingAttribution();
       track("CV Generated", {
+        template: selectedTemplateRef.current,
+        language: initialLanguage,
+        ...attribution,
+      });
+      recordGaFunnelEvent("cv_generated", {
         template: selectedTemplateRef.current,
         language: initialLanguage,
         ...attribution,

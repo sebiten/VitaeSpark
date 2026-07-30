@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { PRICING } from "@/lib/pricing";
 import { getLandingAttribution } from "@/lib/analytics-attribution";
+import { recordGaFunnelEvent } from "@/lib/analytics-events";
 import type { RespuestaCV } from "@/lib/types/cv";
 import { createClient } from "@/utils/supabase/client";
 import { MarketSelector } from "@/components/MarketSelector";
@@ -185,6 +186,13 @@ export function PendingPaymentRecovery({
         return;
       }
 
+      recordGaFunnelEvent("payment_started", {
+        template: pendingCv.template ?? undefined,
+        value: regionalPrice.amount,
+        currency: regionalPrice.currency,
+        payment_type: isInternational ? "paypal" : "mercado_pago",
+        ...attribution,
+      });
       window.location.href = checkoutUrl;
     } catch (error) {
       console.error("Error retomando pago:", error);
@@ -192,7 +200,7 @@ export function PendingPaymentRecovery({
     } finally {
       setIsLoadingPayment(false);
     }
-  }, [attribution, isInternational, pendingCv]);
+  }, [attribution, isInternational, pendingCv, regionalPrice]);
 
   if (!pendingCv) return null;
 

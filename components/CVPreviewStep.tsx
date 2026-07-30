@@ -26,7 +26,10 @@ import {
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import { getLandingAttribution } from "@/lib/analytics-attribution";
-import { recordAnalyticsEvent } from "@/lib/analytics-events";
+import {
+  recordAnalyticsEvent,
+  recordGaFunnelEvent,
+} from "@/lib/analytics-events";
 import type { AppLanguage } from "@/lib/i18n";
 import { PRICING } from "@/lib/pricing";
 import { calculateCvScore } from "@/lib/cv-score";
@@ -258,6 +261,14 @@ export default function CVPreviewStepPurple({
           language,
           ...attribution,
         });
+        recordGaFunnelEvent("payment_started", {
+          template,
+          language,
+          value: PRICING.paypal.amount,
+          currency: PRICING.paypal.currency,
+          payment_type: "paypal",
+          ...attribution,
+        });
         window.location.href = approveUrl;
       } else {
         track("PayPal Order Failed", { template, ...attribution });
@@ -333,6 +344,14 @@ export default function CVPreviewStepPurple({
           currency: PRICING.mercadoPago.currency,
           method: "mercado_pago",
           language,
+          ...attribution,
+        });
+        recordGaFunnelEvent("payment_started", {
+          template,
+          language,
+          value: PRICING.mercadoPago.amount,
+          currency: PRICING.mercadoPago.currency,
+          payment_type: "mercado_pago",
           ...attribution,
         });
         window.location.href = init_point;

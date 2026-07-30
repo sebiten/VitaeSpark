@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-import Script from "next/script";
 import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { PendingPaymentRecovery } from "@/components/PendingPaymentRecovery";
 import { CampaignAttributionCapture } from "@/components/CampaignAttributionCapture";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Toaster } from "sonner";
 import { getBaseUrl } from "@/lib/seo";
 import "./globals.css";
@@ -191,16 +191,9 @@ export default async function RootLayout({
         <Suspense fallback={null}>
           <CampaignAttributionCapture />
         </Suspense>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-SZY8XLM2G1"
-          strategy="afterInteractive"
-        />
-        <Script id="gtag-config">{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-SZY8XLM2G1');
-        `}</Script>
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-black focus:shadow-lg"

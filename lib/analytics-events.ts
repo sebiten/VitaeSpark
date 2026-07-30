@@ -4,6 +4,9 @@ import {
 } from "@/lib/analytics-attribution";
 import { getAnalyticsSessionId } from "@/lib/analytics-session";
 import type { ClientAnalyticsEventName } from "@/lib/analytics-event-policy";
+import { recordGaFunnelEvent } from "@/lib/ga-events";
+
+export { recordGaEvent, recordGaFunnelEvent } from "@/lib/ga-events";
 
 type AnalyticsEventPayload = LandingAttribution & {
   event_name: ClientAnalyticsEventName;
@@ -12,24 +15,6 @@ type AnalyticsEventPayload = LandingAttribution & {
   template?: string;
   cv_id?: string;
 };
-
-declare global {
-  interface Window {
-    gtag?: (
-      command: "event",
-      eventName: string,
-      parameters?: Record<string, string | number | boolean | undefined>
-    ) => void;
-  }
-}
-
-export function recordGaEvent(
-  eventName: string,
-  parameters?: Record<string, string | number | boolean | undefined>,
-) {
-  if (typeof window === "undefined") return;
-  window.gtag?.("event", eventName, parameters);
-}
 
 export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
   if (typeof window === "undefined") return;
@@ -41,7 +26,7 @@ export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
   };
   const body = JSON.stringify(event);
 
-  recordGaEvent(event.event_name, {
+  recordGaFunnelEvent(event.event_name, {
     landing_path: event.landing_path,
     cta_label: event.cta_label,
     source_type: event.source_type,

@@ -38,6 +38,7 @@ import UserPayments, {
 import { ProfileFeedbackPrompt } from "@/components/ProfileFeedbackPrompt";
 import { CVThumbnail } from "./CvThumbnail";
 import { getCvTemplate } from "@/lib/cv-templates";
+import { recordGaFunnelEvent } from "@/lib/analytics-events";
 
 const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
   ssr: false,
@@ -137,10 +138,48 @@ export default function PerfilCVs({
     const found = cvs.find((cv) => cv.id === cvId);
     if (!found) return;
 
+    const payment = initialPayments.find(
+      (candidate) =>
+        candidate.cv_id === cvId &&
+        ["approved", "paid"].includes(candidate.status.toLowerCase()),
+    );
+
+    if (payment) {
+      const transactionId = payment.payment_id || payment.id;
+      const storageKey = `vitaespark_ga_purchase_${transactionId}`;
+      let wasTracked = false;
+
+      try {
+        wasTracked = window.localStorage.getItem(storageKey) === "1";
+      } catch {
+        // GA4 also deduplicates purchases by transaction_id.
+      }
+
+      if (!wasTracked) {
+        const isPayPal =
+          payment.payment_method === "paypal" ||
+          payment.payment_type === "paypal";
+
+        recordGaFunnelEvent("payment_completed", {
+          transaction_id: transactionId,
+          cv_id: cvId,
+          value: Number(payment.amount),
+          currency: isPayPal ? "USD" : "ARS",
+          payment_type: isPayPal ? "paypal" : "mercado_pago",
+        });
+
+        try {
+          window.localStorage.setItem(storageKey, "1");
+        } catch {
+          // Storage can be unavailable in strict privacy modes.
+        }
+      }
+    }
+
     setPaidCv(found);
     setShowCongrats(true);
     router.replace("/perfil");
-  }, [cvs, router, searchParams]);
+  }, [cvs, initialPayments, router, searchParams]);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0F0F12] px-4 py-8 text-[#F4F4F5] sm:px-6 sm:py-10">
