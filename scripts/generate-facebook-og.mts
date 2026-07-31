@@ -59,10 +59,10 @@ const cards: OgCard[] = [
   {
     output: "cv-atencion-sin-experiencia-og.png",
     document: "cv-examples/cv-atencion.png",
-    eyebrow: "PRIMER EMPLEO",
-    title: ["Tu experiencia", "sí cuenta para", "atención al cliente"],
-    subtitle: ["Aunque nunca hayas tenido", "un empleo formal."],
-    cta: "VER EJEMPLOS Y CREAR MI CV",
+    eyebrow: "ATENCIÓN AL CLIENTE",
+    title: ["Tu experiencia cuenta", "aunque no sea formal"],
+    subtitle: ["Mirá cómo convertirla en un CV", "listo para postularte."],
+    cta: "CREAR MI CV",
     chips: ["WhatsApp", "Mostrador", "Consultas"],
     accent: "#22D3EE",
   },
@@ -70,9 +70,9 @@ const cards: OgCard[] = [
     output: "generador-habilidades-cv-og.png",
     document: "modern-ats.png",
     eyebrow: "HERRAMIENTA GRATUITA",
-    title: ["¿Qué habilidades", "poner en tu CV?"],
-    subtitle: ["Elegí el puesto y obtené", "una lista personalizada."],
-    cta: "GENERAR MIS HABILIDADES",
+    title: ["Habilidades para tu CV", "según el puesto"],
+    subtitle: ["Generá una lista personalizada", "gratis y sin registro."],
+    cta: "PROBAR GRATIS",
     chips: ["Por puesto", "Editable", "Gratis"],
     accent: "#8B5CF6",
   },
@@ -82,18 +82,18 @@ const cards: OgCard[] = [
     eyebrow: "CV PARA MINERÍA",
     title: ["¿Querés entrar", "a minería?"],
     subtitle: ["Mostrá seguridad, turnos", "y experiencia relacionada."],
-    cta: "VER EJEMPLO COMPLETO",
-    chips: ["Seguridad y EPP", "Turnos", "Licencias"],
+    cta: "VER EJEMPLO",
+    chips: ["EPP", "Turnos", "Licencias"],
     accent: "#38BDF8",
   },
   {
     output: "cv-limpieza-ejemplo-og.png",
     document: "cv-examples/cv-limpieza.png",
     eyebrow: "CV PARA LIMPIEZA",
-    title: ["No pongas solo", "“tareas de limpieza”"],
+    title: ["Tu experiencia en", "limpieza vale más"],
     subtitle: ["Mostrá ambientes, protocolos", "y responsabilidades reales."],
-    cta: "VER EJEMPLO Y CREAR MI CV",
-    chips: ["Protocolos", "Desinfección", "Rutinas"],
+    cta: "VER EJEMPLO",
+    chips: ["Protocolos", "Higiene", "Rutinas"],
     accent: "#2DD4BF",
   },
 ];
@@ -127,7 +127,7 @@ function textLines(
 }
 
 function chipsMarkup(chips: string[], accent: string) {
-  let x = 804;
+  let x = 750;
 
   return chips
     .map((chip) => {
@@ -146,6 +146,8 @@ function baseOverlay(card: OgCard) {
   const eyebrowWidth = Math.max(176, card.eyebrow.length * 10 + 48);
   const titleEnd = 199 + (card.title.length - 1) * 67;
   const subtitleY = titleEnd + 57;
+  const ctaWidth = Math.max(240, card.cta.length * 12 + 76);
+  const ctaRight = 150 + ctaWidth;
 
   return Buffer.from(`
     <svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg">
@@ -163,12 +165,12 @@ function baseOverlay(card: OgCard) {
       <rect width="760" height="${HEIGHT}" fill="url(#fade)"/>
       <rect x="1" y="1" width="1198" height="628" rx="2" fill="none" stroke="#FFFFFF" stroke-opacity="0.08"/>
 
-      <rect x="58" y="112" width="${eyebrowWidth}" height="38" rx="19" fill="#FFFFFF" fill-opacity="0.055" stroke="#FFFFFF" stroke-opacity="0.14"/>
-      <circle cx="79" cy="131" r="4" fill="${card.accent}"/>
-      <text x="94" y="137" fill="#D9D6E6" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="2">${escapeXml(card.eyebrow)}</text>
+      <rect x="150" y="112" width="${eyebrowWidth}" height="38" rx="19" fill="#FFFFFF" fill-opacity="0.055" stroke="#FFFFFF" stroke-opacity="0.14"/>
+      <circle cx="171" cy="131" r="4" fill="${card.accent}"/>
+      <text x="186" y="137" fill="#D9D6E6" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="2">${escapeXml(card.eyebrow)}</text>
 
       ${textLines(card.title, {
-        x: 58,
+        x: 150,
         y: 199,
         size: 58,
         lineHeight: 67,
@@ -176,7 +178,7 @@ function baseOverlay(card: OgCard) {
         color: "#F8F7F2",
       })}
       ${textLines(card.subtitle, {
-        x: 60,
+        x: 152,
         y: subtitleY,
         size: 24,
         lineHeight: 34,
@@ -184,17 +186,17 @@ function baseOverlay(card: OgCard) {
         color: "#B9B6C2",
       })}
 
-      <rect x="58" y="528" width="${Math.max(300, card.cta.length * 10.5 + 76)}" height="52" rx="26" fill="#F5F2EA"/>
-      <text x="84" y="561" fill="#111116" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="750" letter-spacing="0.5">${escapeXml(card.cta)}</text>
-      <path d="M${Math.max(330, card.cta.length * 10.5 + 95)} 548H${Math.max(344, card.cta.length * 10.5 + 109)}M${Math.max(338, card.cta.length * 10.5 + 103)} 542L${Math.max(344, card.cta.length * 10.5 + 109)} 548L${Math.max(338, card.cta.length * 10.5 + 103)} 554" stroke="#111116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="150" y="528" width="${ctaWidth}" height="52" rx="26" fill="#F5F2EA"/>
+      <text x="176" y="561" fill="#111116" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="750" letter-spacing="0.4">${escapeXml(card.cta)}</text>
+      <path d="M${ctaRight - 50} 548H${ctaRight - 36}M${ctaRight - 42} 542L${ctaRight - 36} 548L${ctaRight - 42} 554" stroke="#111116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 
       <g filter="url(#shadow)">
-        <rect x="789" y="60" width="366" height="518" rx="20" fill="none" stroke="#EEEAE1" stroke-width="24"/>
+        <rect x="738" y="60" width="314" height="518" rx="20" fill="none" stroke="#EEEAE1" stroke-width="24"/>
       </g>
-      <rect x="789" y="60" width="366" height="518" rx="20" fill="none" stroke="#DAD6CF" stroke-width="2"/>
-      <rect x="968" y="70" width="160" height="34" rx="17" fill="#101117"/>
-      <circle cx="988" cy="87" r="4" fill="${card.accent}"/>
-      <text x="1002" y="92" fill="#F6F4EE" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="750" letter-spacing="1.2">EJEMPLO REAL</text>
+      <rect x="738" y="60" width="314" height="518" rx="20" fill="none" stroke="#DAD6CF" stroke-width="2"/>
+      <rect x="886" y="70" width="148" height="34" rx="17" fill="#101117"/>
+      <circle cx="904" cy="87" r="4" fill="${card.accent}"/>
+      <text x="918" y="92" fill="#F6F4EE" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="750" letter-spacing="1.1">EJEMPLO REAL</text>
       ${chipsMarkup(card.chips, card.accent)}
     </svg>
   `);
@@ -205,8 +207,8 @@ async function renderCard(card: OgCard) {
     backgroundPromise,
     sharp(path.join(ROOT, "public", card.document))
       .resize({
-        width: scale(342),
-        height: scale(478),
+        width: scale(290),
+        height: scale(444),
         fit: "cover",
         position: "top",
         kernel: sharp.kernel.lanczos3,
@@ -219,9 +221,9 @@ async function renderCard(card: OgCard) {
 
   const composed = await sharp(background)
     .composite([
-      { input: document, left: scale(801), top: scale(82) },
+      { input: document, left: scale(750), top: scale(82) },
       { input: overlay, left: 0, top: 0 },
-      { input: logo, left: scale(48), top: scale(18) },
+      { input: logo, left: scale(150), top: scale(18) },
     ])
     .png()
     .toBuffer();
@@ -237,8 +239,8 @@ async function renderComparison() {
     backgroundPromise,
     sharp(path.join(ROOT, "public", "harvard.webp"))
       .resize({
-        width: scale(216),
-        height: scale(416),
+        width: scale(170),
+        height: scale(400),
         fit: "cover",
         position: "top",
         kernel: sharp.kernel.lanczos3,
@@ -247,8 +249,8 @@ async function renderComparison() {
       .toBuffer(),
     sharp(path.join(ROOT, "public", "elegance-good.webp"))
       .resize({
-        width: scale(216),
-        height: scale(416),
+        width: scale(170),
+        height: scale(438),
         fit: "cover",
         position: "top",
         kernel: sharp.kernel.lanczos3,
@@ -266,35 +268,35 @@ async function renderComparison() {
       </defs>
       <rect width="700" height="${HEIGHT}" fill="url(#fade)"/>
       <rect x="1" y="1" width="1198" height="628" fill="none" stroke="#FFF" stroke-opacity="0.08"/>
-      <rect x="58" y="112" width="300" height="38" rx="19" fill="#FFF" fill-opacity="0.055" stroke="#FFF" stroke-opacity="0.14"/>
-      <circle cx="79" cy="131" r="4" fill="#8B5CF6"/>
-      <text x="94" y="137" fill="#D9D6E6" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="2">COMPARACIÓN DE FORMATOS</text>
-      ${textLines(["Harvard o", "tradicional:", "¿cuál te conviene?"], { x: 58, y: 199, size: 58, lineHeight: 67, weight: 760, color: "#F8F7F2" })}
-      ${textLines(["Compará estructura, lectura", "y presentación."], { x: 60, y: 391, size: 24, lineHeight: 34, weight: 430, color: "#B9B6C2" })}
-      <rect x="58" y="528" width="356" height="52" rx="26" fill="#F5F2EA"/>
-      <text x="84" y="561" fill="#111116" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="750" letter-spacing="0.5">COMPARAR LOS DOS FORMATOS</text>
-      <path d="M380 548H394M388 542L394 548L388 554" stroke="#111116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="150" y="112" width="300" height="38" rx="19" fill="#FFF" fill-opacity="0.055" stroke="#FFF" stroke-opacity="0.14"/>
+      <circle cx="171" cy="131" r="4" fill="#8B5CF6"/>
+      <text x="186" y="137" fill="#D9D6E6" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="2">COMPARACIÓN DE FORMATOS</text>
+      ${textLines(["Harvard o tradicional", "¿cuál te conviene?"], { x: 150, y: 199, size: 52, lineHeight: 62, weight: 760, color: "#F8F7F2" })}
+      ${textLines(["Compará ambos formatos", "antes de elegir."], { x: 152, y: 323, size: 24, lineHeight: 34, weight: 430, color: "#B9B6C2" })}
+      <rect x="150" y="528" width="300" height="52" rx="26" fill="#F5F2EA"/>
+      <text x="176" y="561" fill="#111116" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="750" letter-spacing="0.4">COMPARAR FORMATOS</text>
+      <path d="M416 548H430M424 542L430 548L424 554" stroke="#111116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 
       <g filter="url(#shadow)">
-        <rect x="718" y="125" width="214" height="438" rx="14" fill="none" stroke="#EEEAE1" stroke-width="28"/>
-        <rect x="948" y="93" width="214" height="470" rx="14" fill="none" stroke="#EEEAE1" stroke-width="28"/>
+        <rect x="695" y="140" width="190" height="420" rx="14" fill="none" stroke="#EEEAE1" stroke-width="20"/>
+        <rect x="865" y="102" width="190" height="458" rx="14" fill="none" stroke="#EEEAE1" stroke-width="20"/>
       </g>
-      <rect x="718" y="125" width="214" height="438" rx="14" fill="none" stroke="#D7D2C9"/>
-      <rect x="948" y="93" width="214" height="470" rx="14" fill="none" stroke="#D7D2C9"/>
-      <rect x="744" y="93" width="158" height="34" rx="17" fill="#101117"/>
-      <text x="823" y="115" fill="#F6F4EE" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="750" text-anchor="middle" letter-spacing="1.1">HARVARD</text>
-      <rect x="974" y="61" width="158" height="34" rx="17" fill="#101117"/>
-      <text x="1053" y="83" fill="#F6F4EE" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="750" text-anchor="middle" letter-spacing="1.1">TRADICIONAL</text>
+      <rect x="695" y="140" width="190" height="420" rx="14" fill="none" stroke="#D7D2C9"/>
+      <rect x="865" y="102" width="190" height="458" rx="14" fill="none" stroke="#D7D2C9"/>
+      <rect x="710" y="108" width="160" height="34" rx="17" fill="#101117"/>
+      <text x="790" y="130" fill="#F6F4EE" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="750" text-anchor="middle" letter-spacing="1.1">HARVARD</text>
+      <rect x="880" y="70" width="160" height="34" rx="17" fill="#101117"/>
+      <text x="960" y="92" fill="#F6F4EE" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="750" text-anchor="middle" letter-spacing="1.1">TRADICIONAL</text>
     </svg>
   `);
   const renderedOverlay = await renderSvg(overlay);
 
   const composed = await sharp(background)
     .composite([
-      { input: harvard, left: scale(718), top: scale(131) },
-      { input: traditional, left: scale(948), top: scale(99) },
+      { input: harvard, left: scale(705), top: scale(150) },
+      { input: traditional, left: scale(875), top: scale(112) },
       { input: renderedOverlay, left: 0, top: 0 },
-      { input: logo, left: scale(48), top: scale(18) },
+      { input: logo, left: scale(150), top: scale(18) },
     ])
     .png()
     .toBuffer();
