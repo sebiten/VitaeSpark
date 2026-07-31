@@ -4,6 +4,9 @@ import sharp from "sharp";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
+const RENDER_SCALE = 2;
+const RENDER_WIDTH = WIDTH * RENDER_SCALE;
+const RENDER_HEIGHT = HEIGHT * RENDER_SCALE;
 const ROOT = process.cwd();
 const OUTPUT_DIR = path.join(ROOT, "public", "social");
 const BACKGROUND = path.join(
@@ -12,6 +15,34 @@ const BACKGROUND = path.join(
   "assets",
   "facebook-og-background.png",
 );
+const LOGO = path.join(ROOT, "public", "logoreal.webp");
+
+const scale = (value: number) => value * RENDER_SCALE;
+
+const logoPromise = sharp(LOGO)
+  .extract({ left: 104, top: 333, width: 777, height: 350 })
+  .resize({ width: scale(200), kernel: sharp.kernel.lanczos3 })
+  .png()
+  .toBuffer();
+
+const backgroundPromise = sharp(BACKGROUND)
+  .resize(RENDER_WIDTH, RENDER_HEIGHT, {
+    fit: "cover",
+    kernel: sharp.kernel.lanczos3,
+  })
+  .modulate({ brightness: 0.82, saturation: 0.88 })
+  .png()
+  .toBuffer();
+
+function renderSvg(svg: Buffer) {
+  return sharp(svg, { density: 72 * RENDER_SCALE })
+    .resize(RENDER_WIDTH, RENDER_HEIGHT, {
+      fit: "fill",
+      kernel: sharp.kernel.lanczos3,
+    })
+    .png()
+    .toBuffer();
+}
 
 type OgCard = {
   output: string;
@@ -119,10 +150,6 @@ function baseOverlay(card: OgCard) {
   return Buffer.from(`
     <svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#8B5CF6"/>
-          <stop offset="1" stop-color="#22D3EE"/>
-        </linearGradient>
         <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stop-color="#08090D" stop-opacity="0.96"/>
           <stop offset="0.58" stop-color="#08090D" stop-opacity="0.82"/>
@@ -135,8 +162,6 @@ function baseOverlay(card: OgCard) {
 
       <rect width="760" height="${HEIGHT}" fill="url(#fade)"/>
       <rect x="1" y="1" width="1198" height="628" rx="2" fill="none" stroke="#FFFFFF" stroke-opacity="0.08"/>
-      <path d="M69 43L75 67L99 73L75 79L69 103L63 79L39 73L63 67L69 43Z" fill="url(#spark)"/>
-      <text x="110" y="82" fill="#F8F7F2" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="720" letter-spacing="-0.8">VitaeSpark</text>
 
       <rect x="58" y="112" width="${eyebrowWidth}" height="38" rx="19" fill="#FFFFFF" fill-opacity="0.055" stroke="#FFFFFF" stroke-opacity="0.14"/>
       <circle cx="79" cy="131" r="4" fill="${card.accent}"/>
@@ -176,45 +201,71 @@ function baseOverlay(card: OgCard) {
 }
 
 async function renderCard(card: OgCard) {
-  const document = await sharp(path.join(ROOT, "public", card.document))
-    .resize({ width: 342, height: 478, fit: "cover", position: "top" })
+  const [background, document, logo, overlay] = await Promise.all([
+    backgroundPromise,
+    sharp(path.join(ROOT, "public", card.document))
+      .resize({
+        width: scale(342),
+        height: scale(478),
+        fit: "cover",
+        position: "top",
+        kernel: sharp.kernel.lanczos3,
+      })
+      .png()
+      .toBuffer(),
+    logoPromise,
+    renderSvg(baseOverlay(card)),
+  ]);
+
+  const composed = await sharp(background)
+    .composite([
+      { input: document, left: scale(801), top: scale(82) },
+      { input: overlay, left: 0, top: 0 },
+      { input: logo, left: scale(48), top: scale(18) },
+    ])
     .png()
     .toBuffer();
 
-  await sharp(BACKGROUND)
-    .resize(WIDTH, HEIGHT, { fit: "cover" })
-    .modulate({ brightness: 0.82, saturation: 0.88 })
-    .composite([
-      { input: document, left: 801, top: 82 },
-      { input: baseOverlay(card), left: 0, top: 0 },
-    ])
-    .png({ compressionLevel: 9, palette: true, quality: 95 })
+  await sharp(composed)
+    .resize(WIDTH, HEIGHT, { kernel: sharp.kernel.lanczos3 })
+    .png({ compressionLevel: 9, adaptiveFiltering: true, palette: false })
     .toFile(path.join(OUTPUT_DIR, card.output));
 }
 
 async function renderComparison() {
-  const harvard = await sharp(path.join(ROOT, "public", "harvard.webp"))
-    .resize({ width: 216, height: 416, fit: "cover", position: "top" })
-    .png()
-    .toBuffer();
-  const traditional = await sharp(
-    path.join(ROOT, "public", "elegance-good.webp"),
-  )
-    .resize({ width: 216, height: 416, fit: "cover", position: "top" })
-    .png()
-    .toBuffer();
+  const [background, harvard, traditional, logo] = await Promise.all([
+    backgroundPromise,
+    sharp(path.join(ROOT, "public", "harvard.webp"))
+      .resize({
+        width: scale(216),
+        height: scale(416),
+        fit: "cover",
+        position: "top",
+        kernel: sharp.kernel.lanczos3,
+      })
+      .png()
+      .toBuffer(),
+    sharp(path.join(ROOT, "public", "elegance-good.webp"))
+      .resize({
+        width: scale(216),
+        height: scale(416),
+        fit: "cover",
+        position: "top",
+        kernel: sharp.kernel.lanczos3,
+      })
+      .png()
+      .toBuffer(),
+    logoPromise,
+  ]);
 
   const overlay = Buffer.from(`
     <svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#22D3EE"/></linearGradient>
         <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#08090D" stop-opacity="0.97"/><stop offset="0.56" stop-color="#08090D" stop-opacity="0.86"/><stop offset="1" stop-color="#08090D" stop-opacity="0"/></linearGradient>
         <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity="0.6"/></filter>
       </defs>
       <rect width="700" height="${HEIGHT}" fill="url(#fade)"/>
       <rect x="1" y="1" width="1198" height="628" fill="none" stroke="#FFF" stroke-opacity="0.08"/>
-      <path d="M69 43L75 67L99 73L75 79L69 103L63 79L39 73L63 67L69 43Z" fill="url(#spark)"/>
-      <text x="110" y="82" fill="#F8F7F2" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="720">VitaeSpark</text>
       <rect x="58" y="112" width="300" height="38" rx="19" fill="#FFF" fill-opacity="0.055" stroke="#FFF" stroke-opacity="0.14"/>
       <circle cx="79" cy="131" r="4" fill="#8B5CF6"/>
       <text x="94" y="137" fill="#D9D6E6" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="2">COMPARACIÓN DE FORMATOS</text>
@@ -236,16 +287,21 @@ async function renderComparison() {
       <text x="1053" y="83" fill="#F6F4EE" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="750" text-anchor="middle" letter-spacing="1.1">TRADICIONAL</text>
     </svg>
   `);
+  const renderedOverlay = await renderSvg(overlay);
 
-  await sharp(BACKGROUND)
-    .resize(WIDTH, HEIGHT, { fit: "cover" })
-    .modulate({ brightness: 0.82, saturation: 0.88 })
+  const composed = await sharp(background)
     .composite([
-      { input: harvard, left: 718, top: 131 },
-      { input: traditional, left: 948, top: 99 },
-      { input: overlay, left: 0, top: 0 },
+      { input: harvard, left: scale(718), top: scale(131) },
+      { input: traditional, left: scale(948), top: scale(99) },
+      { input: renderedOverlay, left: 0, top: 0 },
+      { input: logo, left: scale(48), top: scale(18) },
     ])
-    .png({ compressionLevel: 9, palette: true, quality: 95 })
+    .png()
+    .toBuffer();
+
+  await sharp(composed)
+    .resize(WIDTH, HEIGHT, { kernel: sharp.kernel.lanczos3 })
+    .png({ compressionLevel: 9, adaptiveFiltering: true, palette: false })
     .toFile(path.join(OUTPUT_DIR, "cv-harvard-vs-tradicional-og.png"));
 }
 
