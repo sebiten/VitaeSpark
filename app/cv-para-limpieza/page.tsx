@@ -13,6 +13,12 @@ export const metadata = buildMetadata({
     "habilidades limpieza curriculum",
     "cv operario limpieza",
   ],
+  image: "/social/cv-limpieza-ejemplo-og.png",
+  imageAlt:
+    "Ejemplo de CV de limpieza con ambientes, protocolos y responsabilidades",
+  socialTitle: "No pongas solo “tareas de limpieza” en tu CV",
+  socialDescription:
+    "Mirá cómo presentar ambientes, rutinas, productos y responsabilidades en un CV de limpieza profesional.",
 });
 
 export default function CvParaLimpiezaPage() {

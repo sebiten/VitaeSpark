@@ -15,6 +15,12 @@ const pageMetadata = buildMetadata({
     "habilidades para curriculum",
     "que habilidades poner en un cv",
   ],
+  image: "/social/generador-habilidades-cv-og.png",
+  imageAlt:
+    "Generador gratuito de habilidades para elegir qué poner en un CV",
+  socialTitle: "¿Qué habilidades poner en tu CV? Generá una lista gratis",
+  socialDescription:
+    "Elegí el puesto, obtené habilidades relevantes y pasalas a tu CV sin registrarte.",
 });
 
 export const metadata = {

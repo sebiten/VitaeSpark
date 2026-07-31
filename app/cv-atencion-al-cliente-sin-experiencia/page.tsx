@@ -14,6 +14,12 @@ export const metadata = buildMetadata({
     "ejemplo cv atencion al cliente sin experiencia",
     "primer empleo atencion al cliente",
   ],
+  image: "/social/cv-atencion-sin-experiencia-og.png",
+  imageAlt:
+    "Ejemplo de CV para atención al cliente aunque no exista experiencia formal",
+  socialTitle: "Tu experiencia sí cuenta para atención al cliente",
+  socialDescription:
+    "Aprendé a presentar ventas informales, ayuda familiar o atención por redes y convertí esa experiencia en un CV claro.",
 });
 
 export default function CvAtencionClienteSinExperienciaPage() {

@@ -12,6 +12,12 @@ export const metadata = buildMetadata({
     "curriculum tradicional vs moderno",
     "mejor formato cv",
   ],
+  image: "/social/cv-harvard-vs-tradicional-og.png",
+  imageAlt:
+    "Comparación visual entre un CV Harvard y un currículum tradicional",
+  socialTitle: "CV Harvard o tradicional: ¿cuál te conviene?",
+  socialDescription:
+    "Compará estructura, lectura y presentación antes de elegir el formato de tu próximo CV.",
 });
 
 export default function CvHarvardVsTradicionalPage() {
