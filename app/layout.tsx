@@ -51,6 +51,11 @@ export const metadata: Metadata = {
   authors: [{ name: "Vitae Spark", url: baseUrl.href }],
   creator: "Vitae Spark",
   publisher: "Vitae Spark",
+  verification: {
+    other: {
+      "p:domain_verify": "c3beb8929fff172485256fd744115627",
+    },
+  },
   robots: {
     index: true,
     follow: true,
