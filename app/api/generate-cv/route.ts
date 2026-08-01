@@ -1,6 +1,7 @@
 ﻿export const runtime = "nodejs"; // Fuerza Node.js en lugar de Edge Runtime
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+import type { ChatCompletionCreateParamsNonStreaming } from "openai/resources/chat/completions";
 import type { RespuestaCV } from "@/lib/types/cv";
 import { fixedWindow, shield } from "@arcjet/next";
 import { aj, authenticatedGenerationAj } from "@/lib/arcjet";
@@ -17,8 +18,16 @@ import {
 import { getRequestCountry } from "@/lib/market";
 import { createClient } from "@/utils/supabase/server";
 import { recordAiGenerationUsage } from "@/lib/ai-generation-usage";
+import { CV_GENERATION_MODEL } from "@/lib/ai-generation-model";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
+
+type Gpt56CompletionParams = Omit<
+  ChatCompletionCreateParamsNonStreaming,
+  "reasoning_effort"
+> & {
+  reasoning_effort: "none";
+};
 
 const limitWords = (text: string, maxWords: number) => {
   const words = text.trim().split(/\s+/).filter(Boolean);
@@ -162,13 +171,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const compactSystemMessage = `Redacta un CV profesional en español neutro, optimizado para ATS y fácil de escanear.
 
 Reglas:
-- No copies literal el texto del usuario: reescribe responsabilidades como logros claros.
+- No copies literalmente el texto del usuario: mejora claridad y concisión. Convierte responsabilidades en logros solo cuando la entrada incluya un resultado comprobable.
 - No inventes cifras, empresas, seniority, fechas, ubicaciones ni tecnologías.
 - Perfil profesional: un único párrafo de 45 a 60 palabras, con perfil, stack/habilidades clave, tipo de proyectos y valor profesional concreto.
 - Evita clichés y adjetivos vacíos: no uses "apasionado", "innovador", "eficiente", "proactivo", "responsable", "dinámico", "excelente", "gran capacidad" ni frases similares salvo que el usuario lo haya escrito explícitamente.
 - El perfil debe sonar como resumen profesional real: qué hace, con qué herramientas, en qué tipo de productos y qué problema ayuda a resolver.
 - Experiencia: 2 logros por experiencia. Usa 3 solo si la entrada tiene mucha información real. Cada logro debe ser una sola oración de 20 a 36 palabras.
-- Cada logro debe mostrar impacto evidente sin inventar métricas: producto entregado, flujo resuelto, integración realizada, proceso ordenado, mejora de experiencia, gestión de datos, automatización o funcionalidad concreta.
+- Cada logro debe describir una contribución concreta. Incluye impacto solo cuando esté respaldado por la entrada; de lo contrario, expresa la acción y su alcance sin adjudicar mejoras no informadas.
 - Prioriza frases con estructura "acción + alcance + resultado": qué hizo, dónde se aplicó y qué permitió mejorar, ordenar, integrar o resolver.
 - Los logros deben empezar con verbos en pasado correcto: Desarrollé, Implementé, Integré, Construí, Optimicé, Diseñé, Gestioné, Automaticé o Mantengo.
 - No uses "Automatizé", "Cree", "Implemente" ni verbos sin tilde cuando correspondan.
@@ -182,6 +191,16 @@ Reglas:
 - Si la información del usuario es breve, mejora la redacción sin inflar artificialmente el contenido.
 - Si faltan fechas o ubicación, deja el campo como string vacío.
 - Compatible con ATS: sin markdown, emojis, tablas ni adornos.
+
+Reglas prioritarias de fidelidad:
+- Cada afirmación debe poder rastrearse a un dato explícito del usuario.
+- No conviertas una responsabilidad en un resultado o mejora si el usuario no indicó ese resultado.
+- No atribuyas experiencia en el sector objetivo, licencias, herramientas, cursos, jerarquía, liderazgo ni disponibilidad ausentes en la entrada.
+- No agregues habilidades solo porque suelen pedirse para el puesto buscado.
+- Conserva la naturaleza real de cada antecedente: empleo, trabajo informal, proyecto, práctica, voluntariado o curso.
+- En perfiles de primer empleo, destaca evidencia real transferible sin contradecir la falta de experiencia formal.
+- Antes de responder, verifica que nombres, empresas, fechas, ubicaciones, herramientas y alcances provengan de la entrada.
+- La precisión factual tiene prioridad sobre hacer que el CV suene más impactante.
 
 Responde exclusivamente JSON válido con esta estructura:
 {"foto_url"?:string,"nombre":string,"puesto":string,"sobreMi":string,"contacto":string[],"experiencia":[{"cargo":string,"empresa":string,"fechas":string,"ubicacion":string,"logros":string[]}],"formacion":[{"institucion":string,"titulo":string,"fechas":string,"ubicacion":string}],"habilidades":string[],"idiomas":string[],"informacionAdicional":string[]}`;
@@ -208,6 +227,16 @@ Rules:
 - ATS-compatible: no markdown, emojis, tables or decorative characters.
 - Output section concepts should use U.S. resume language, but keep the JSON keys exactly as requested.
 
+Priority fidelity rules:
+- Every resume claim must be traceable to explicit user input.
+- Do not turn a responsibility into a result unless the user provided that result. Use action plus scope when impact is unknown.
+- Do not infer industry experience, licenses, tools, courses, seniority, leadership or availability from the target role.
+- Do not add skills merely because they are commonly requested for the target role.
+- Preserve whether an item was employment, informal work, a project, internship, volunteer work or a course.
+- For first-job profiles, highlight real transferable evidence without contradicting the lack of formal experience.
+- Verify that names, companies, dates, locations, tools and scope come from the input.
+- Factual accuracy takes priority over making the resume sound more impressive.
+
 Respond exclusively with valid JSON using this exact structure:
 {"foto_url"?:string,"nombre":string,"puesto":string,"sobreMi":string,"contacto":string[],"experiencia":[{"cargo":string,"empresa":string,"fechas":string,"ubicacion":string,"logros":string[]}],"formacion":[{"institucion":string,"titulo":string,"fechas":string,"ubicacion":string}],"habilidades":string[],"idiomas":string[],"informacionAdicional":string[]}`;
 
@@ -223,22 +252,40 @@ Respond exclusively with valid JSON using this exact structure:
     idiomas: body.idiomas,
     informacionAdicional: body.informacionAdicional,
   });
-  const makeCompletion = () =>
-    openai.chat.completions.create({
-      model: "gpt-4o",
-      temperature: 0.2,
-      max_tokens: 1800,
-      response_format: { type: "json_object" },
-      messages: [
-        {
-          role: "system",
-          content: body.language === "en" ? englishSystemMessage : compactSystemMessage,
-        },
-        { role: "user", content: userMessage },
-      ],
-    });
+  const messages: ChatCompletionCreateParamsNonStreaming["messages"] = [
+    {
+      role: "system",
+      content: body.language === "en" ? englishSystemMessage : compactSystemMessage,
+    },
+    { role: "user", content: userMessage },
+  ];
+  const makeCompletion = () => {
+    if (CV_GENERATION_MODEL === "gpt-4o") {
+      return openai.chat.completions.create({
+        model: CV_GENERATION_MODEL,
+        temperature: 0.2,
+        max_tokens: 1800,
+        response_format: { type: "json_object" },
+        messages,
+      });
+    }
 
-  let completion;
+    const params: Gpt56CompletionParams = {
+      model: CV_GENERATION_MODEL,
+      reasoning_effort: "none",
+      max_completion_tokens: 1800,
+      response_format: { type: "json_object" },
+      messages,
+    };
+
+    // El SDK instalado aún no incluye "none" en su unión de tipos, pero la API
+    // de GPT-5.6 lo soporta y evita tokens de razonamiento en esta tarea estructurada.
+    return openai.chat.completions.create(
+      params as unknown as ChatCompletionCreateParamsNonStreaming,
+    );
+  };
+
+  let completion: Awaited<ReturnType<typeof makeCompletion>> | undefined;
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
       completion = await makeCompletion();
@@ -253,7 +300,7 @@ Respond exclusively with valid JSON using this exact structure:
       await recordAiGenerationUsage({
         userId: user?.id,
         sessionId: body.attribution?.session_id,
-        model: "gpt-4o",
+        model: CV_GENERATION_MODEL,
         success: false,
         errorCode: status ? `openai_${status}` : "openai_request_failed",
       });
@@ -269,7 +316,7 @@ Respond exclusively with valid JSON using this exact structure:
     await recordAiGenerationUsage({
       userId: user?.id,
       sessionId: body.attribution?.session_id,
-      model: "gpt-4o",
+      model: CV_GENERATION_MODEL,
       success: false,
       errorCode: "empty_model_response",
     });
@@ -286,7 +333,7 @@ Respond exclusively with valid JSON using this exact structure:
     await recordAiGenerationUsage({
       userId: user?.id,
       sessionId: body.attribution?.session_id,
-      model: "gpt-4o",
+      model: CV_GENERATION_MODEL,
       success: false,
       errorCode: "invalid_model_json",
     });
@@ -301,7 +348,7 @@ Respond exclusively with valid JSON using this exact structure:
     await recordAiGenerationUsage({
       userId: user?.id,
       sessionId: body.attribution?.session_id,
-      model: "gpt-4o",
+      model: CV_GENERATION_MODEL,
       success: false,
       errorCode: "invalid_model_schema",
     });
@@ -332,13 +379,16 @@ Respond exclusively with valid JSON using this exact structure:
   };
 
   const response: RespuestaCV = { cv };
+  const promptTokenDetails = completion?.usage?.prompt_tokens_details as
+    | { cached_tokens?: number; cache_write_tokens?: number }
+    | undefined;
   await recordAiGenerationUsage({
     userId: user?.id,
     sessionId: body.attribution?.session_id,
-    model: "gpt-4o",
+    model: CV_GENERATION_MODEL,
     inputTokens: completion?.usage?.prompt_tokens,
-    cachedInputTokens:
-      completion?.usage?.prompt_tokens_details?.cached_tokens,
+    cachedInputTokens: promptTokenDetails?.cached_tokens,
+    cacheWriteTokens: promptTokenDetails?.cache_write_tokens,
     outputTokens: completion?.usage?.completion_tokens,
     success: true,
   });

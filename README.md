@@ -55,6 +55,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET=
 
 OPENAI_API_KEY=
+OPENAI_CV_MODEL=gpt-5.6-luna
 MERCADOPAGO_ACCESS_TOKEN=
 MERCADOPAGO_WEBHOOK_SECRET=
 
@@ -76,6 +77,7 @@ INDEXNOW_KEY=
 - `NEXT_PUBLIC_BASE_URL`: base usada para metadata SEO
 - `NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET`: bucket usado por acciones administrativas
 - `OPENAI_API_KEY`: generacion de contenido del CV
+- `OPENAI_CV_MODEL`: modelo de generacion; usa `gpt-5.6-luna` por defecto y permite volver a `gpt-4o`
 - `MERCADOPAGO_ACCESS_TOKEN`: creacion de preferencias y consulta de pagos
 - `MERCADOPAGO_WEBHOOK_SECRET`: validacion criptografica de webhooks de pago
 - `RESEND_API_KEY` y `EMAIL_FROM`: acceso permanente y recuperacion por email
