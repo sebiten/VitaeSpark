@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import type { RespuestaCV } from "@/lib/types/cv";
 import { recordAnalyticsEvent } from "@/lib/analytics-events";
 import { DocumentoCV } from "./CVDocument";
+import { useCompatibleCvPhoto } from "./useCompatibleCvPhoto";
 
 type Props = {
   cv: RespuestaCV["cv"];
@@ -22,9 +23,27 @@ export default function PDFDownloadButton({
   className,
   label,
 }: Props) {
+  const { compatibleCv, isPreparingPhoto } = useCompatibleCvPhoto(cv);
+
+  if (isPreparingPhoto) {
+    return (
+      <div className={className}>
+        <Button
+          className="w-full border border-[#2A2A2D] bg-[#1A1A1D] text-[#F4F4F5]"
+          disabled
+        >
+          <Loader2 className="h-4 w-4 animate-spin" />
+          <span className="ml-2">Preparando foto...</span>
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <PDFDownloadLink
-      document={<DocumentoCV cv={cv} template={template || undefined} />}
+      document={
+        <DocumentoCV cv={compatibleCv} template={template || undefined} />
+      }
       fileName={`CV-${(cv.nombre || "documento").replace(/\s+/g, "-")}.pdf`}
       className={className}
     >
