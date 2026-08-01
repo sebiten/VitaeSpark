@@ -4,6 +4,7 @@ import { completeCvPayment } from "@/lib/payment-checkout-session";
 import { isExpectedPayPalPayment } from "@/lib/payment-validation";
 import { verifyPayPalWebhookSignature } from "@/lib/paypal";
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import { ensurePurchaseAccessForCv } from "@/lib/purchase-access";
 
 type PayPalWebhookPayload = {
   event_type?: string;
@@ -97,6 +98,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Database error" }, { status: 500 });
   }
 
+  await ensurePurchaseAccessForCv(cvId).catch((accessError) => {
+    console.error("No se pudo preparar el acceso postcompra:", accessError);
+  });
+
   if (!completion.payment_inserted) {
     return NextResponse.json({ received: true, duplicate: true });
   }
@@ -104,7 +109,7 @@ export async function POST(req: Request) {
   const { data: startedEvent } = await supabaseAdmin
     .from("analytics_events")
     .select(
-      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id",
+      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id, is_guest",
     )
     .eq("event_name", "payment_started")
     .eq("cv_id", cvId)
@@ -120,6 +125,7 @@ export async function POST(req: Request) {
     template: startedEvent?.template ?? cv.template,
     language: startedEvent?.language,
     payment_provider: "paypal",
+    is_guest: startedEvent?.is_guest === true,
     country_code: startedEvent?.country_code,
     session_id: startedEvent?.session_id ?? undefined,
     landing_path: startedEvent?.landing_path,

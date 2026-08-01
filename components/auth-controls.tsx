@@ -75,7 +75,10 @@ function useAuthUser() {
     }
 
     supabase.auth.getSession().then(({ data }) => {
-      const sessionUser = data.session?.user ?? null;
+      const sessionUser =
+        data.session?.user?.is_anonymous === true
+          ? null
+          : data.session?.user ?? null;
       setUser(sessionUser);
 
       if (sessionUser) {
@@ -91,7 +94,8 @@ function useAuthUser() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      const sessionUser = session?.user ?? null;
+      const sessionUser =
+        session?.user?.is_anonymous === true ? null : session?.user ?? null;
       setUser(sessionUser);
 
       if (sessionUser) {

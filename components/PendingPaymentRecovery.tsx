@@ -55,6 +55,8 @@ const hiddenGlobalPathPrefixes = [
   "/editar-cv",
   "/abelardo",
   "/auth",
+  "/pago",
+  "/acceso-cv",
 ];
 
 function isHiddenGlobalPath(pathname: string) {
@@ -111,7 +113,8 @@ export function PendingPaymentRecovery({
 
       if (!isMounted) return;
 
-      const userId = session?.user.id;
+      const userId =
+        session?.user.is_anonymous === true ? null : session?.user.id;
 
       if (!userId) {
         setPendingCv(null);

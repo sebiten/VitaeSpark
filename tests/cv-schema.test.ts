@@ -73,6 +73,26 @@ describe("GenerateCVInputSchema", () => {
     expect(result.success).toBe(true);
   });
 
+  it("acepta un email de entrega válido para checkout invitado", () => {
+    const result = CreatePaymentSchema.safeParse({
+      cvId: "91f03f57-700f-42e5-906c-339238c30ca1",
+      contactEmail: "persona@example.com",
+      language: "es",
+    });
+
+    expect(result.success).toBe(true);
+  });
+
+  it("rechaza un email de entrega inválido", () => {
+    const result = CreatePaymentSchema.safeParse({
+      cvId: "91f03f57-700f-42e5-906c-339238c30ca1",
+      contactEmail: "email-invalido",
+      language: "es",
+    });
+
+    expect(result.success).toBe(false);
+  });
+
   it("rechaza un pago nuevo sin CV ni plantilla", () => {
     expect(CreatePaymentSchema.safeParse({ language: "es" }).success).toBe(false);
   });

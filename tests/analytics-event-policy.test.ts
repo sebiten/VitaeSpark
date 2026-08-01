@@ -14,7 +14,9 @@ describe("analytics event policy", () => {
   });
 
   it("requires a session for sensitive product events", () => {
-    expect(analyticsEventRequiresUser("checkout_viewed")).toBe(true);
+    expect(analyticsEventRequiresUser("preview_viewed")).toBe(false);
+    expect(analyticsEventRequiresUser("checkout_viewed")).toBe(false);
+    expect(analyticsEventRequiresUser("guest_email_submitted")).toBe(false);
     expect(analyticsEventRequiresUser("download_completed")).toBe(true);
     expect(analyticsEventRequiresUser("landing_cta_clicked")).toBe(false);
   });

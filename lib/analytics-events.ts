@@ -14,6 +14,7 @@ type AnalyticsEventPayload = LandingAttribution & {
   payment_provider?: "mercado_pago" | "paypal";
   template?: string;
   cv_id?: string;
+  is_guest?: boolean;
 };
 
 export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
@@ -38,6 +39,7 @@ export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
     utm_campaign: event.utm_campaign,
     utm_content: event.utm_content,
     session_id: event.session_id,
+    is_guest: event.is_guest,
   });
 
   if (navigator.sendBeacon) {

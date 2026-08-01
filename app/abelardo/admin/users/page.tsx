@@ -83,8 +83,13 @@ export default async function AdminUsersPage({
 
   const authUsers = authResult.data.users ?? [];
   const profileMap = await getProfilesMap(authUsers.map((user) => user.id));
+  const { count: permanentUserCount } = await supabaseAdmin
+    .from("profiles")
+    .select("*", { count: "exact", head: true })
+    .eq("is_temporary", false);
 
   const filteredUsers = authUsers.filter((user) => {
+    if (user.is_anonymous === true) return false;
     const profile = profileMap.get(user.id) ?? null;
     const matchesQuery = query
       ? [user.email, profile?.full_name, user.id]
@@ -107,7 +112,7 @@ export default async function AdminUsersPage({
 
   const totalUsers = hasFilters
     ? filteredUsers.length
-    : authResult.data.total ?? filteredUsers.length;
+    : permanentUserCount ?? filteredUsers.length;
   const totalPages = Math.max(1, Math.ceil(totalUsers / PAGE_SIZE));
   const visibleUsers = hasFilters
     ? filteredUsers.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)

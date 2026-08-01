@@ -16,6 +16,7 @@ type MercadoPagoCheckoutInput = {
   template: string;
   countryCode: string | null;
   attribution?: LandingAttribution;
+  isGuest?: boolean;
 };
 
 export async function createMercadoPagoCheckout(
@@ -33,6 +34,8 @@ export async function createMercadoPagoCheckout(
     profileId: input.profileId,
     provider: "mercado_pago",
     attribution: input.attribution,
+    contactEmail: input.email,
+    isGuest: input.isGuest,
   });
 
   if (session.checkout_url) {
@@ -75,9 +78,9 @@ export async function createMercadoPagoCheckout(
         external_reference: `cv_${input.cvId}`,
         notification_url: `${siteUrl}/api/webhook`,
         back_urls: {
-          success: `${siteUrl}/perfil?cv_id=${input.cvId}`,
-          failure: `${siteUrl}/perfil?cv_id=${input.cvId}`,
-          pending: `${siteUrl}/perfil?cv_id=${input.cvId}`,
+          success: `${siteUrl}/pago/resultado?cv_id=${input.cvId}&provider=mercado_pago&status=approved`,
+          failure: `${siteUrl}/pago/resultado?cv_id=${input.cvId}&provider=mercado_pago&status=failure`,
+          pending: `${siteUrl}/pago/resultado?cv_id=${input.cvId}&provider=mercado_pago&status=pending`,
         },
         auto_return: "approved",
         metadata: {
@@ -85,6 +88,7 @@ export async function createMercadoPagoCheckout(
           profile_id: input.profileId,
           language: input.language,
           payment_provider: "mercado_pago",
+          is_guest: input.isGuest === true,
           template: input.template,
           country_code: input.countryCode,
           landing_path: attribution.landing_path,

@@ -16,6 +16,7 @@ import {
 } from "@/lib/guest-cv-generation";
 import { getRequestCountry } from "@/lib/market";
 import { createClient } from "@/utils/supabase/server";
+import { recordAiGenerationUsage } from "@/lib/ai-generation-usage";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
@@ -71,7 +72,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const isGuest = !user;
+  const isGuest = !user || user.is_anonymous === true;
 
   if (
     isGuest &&
@@ -249,6 +250,13 @@ Respond exclusively with valid JSON using this exact structure:
         await new Promise((r) => setTimeout(r, 500 * attempt));
         continue;
       }
+      await recordAiGenerationUsage({
+        userId: user?.id,
+        sessionId: body.attribution?.session_id,
+        model: "gpt-4o",
+        success: false,
+        errorCode: status ? `openai_${status}` : "openai_request_failed",
+      });
       return NextResponse.json(
         { error: "Error interno generando CV" },
         { status: 502 }
@@ -258,6 +266,13 @@ Respond exclusively with valid JSON using this exact structure:
 
   const raw = completion?.choices?.[0]?.message?.content;
   if (!raw) {
+    await recordAiGenerationUsage({
+      userId: user?.id,
+      sessionId: body.attribution?.session_id,
+      model: "gpt-4o",
+      success: false,
+      errorCode: "empty_model_response",
+    });
     return NextResponse.json(
       { error: "Respuesta inválida del modelo" },
       { status: 500 }
@@ -268,6 +283,13 @@ Respond exclusively with valid JSON using this exact structure:
   try {
     result = JSON.parse(raw);
   } catch (e) {
+    await recordAiGenerationUsage({
+      userId: user?.id,
+      sessionId: body.attribution?.session_id,
+      model: "gpt-4o",
+      success: false,
+      errorCode: "invalid_model_json",
+    });
     return NextResponse.json(
       { error: "JSON inválido del modelo" },
       { status: 500 }
@@ -276,6 +298,13 @@ Respond exclusively with valid JSON using this exact structure:
 
   const parsed = await CVSchema.safeParseAsync(result);
   if (!parsed.success) {
+    await recordAiGenerationUsage({
+      userId: user?.id,
+      sessionId: body.attribution?.session_id,
+      model: "gpt-4o",
+      success: false,
+      errorCode: "invalid_model_schema",
+    });
     return NextResponse.json(
       { error: "Estructura inesperada" },
       { status: 500 }
@@ -303,12 +332,23 @@ Respond exclusively with valid JSON using this exact structure:
   };
 
   const response: RespuestaCV = { cv };
+  await recordAiGenerationUsage({
+    userId: user?.id,
+    sessionId: body.attribution?.session_id,
+    model: "gpt-4o",
+    inputTokens: completion?.usage?.prompt_tokens,
+    cachedInputTokens:
+      completion?.usage?.prompt_tokens_details?.cached_tokens,
+    outputTokens: completion?.usage?.completion_tokens,
+    success: true,
+  });
   await recordAnalyticsEventServer({
     event_name: "cv_generated",
     user_id: user?.id ?? null,
     language: body.language,
     template: body.template,
     country_code: getRequestCountry(req.headers),
+    is_guest: isGuest,
     ...body.attribution,
   });
 

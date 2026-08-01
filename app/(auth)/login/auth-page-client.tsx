@@ -93,7 +93,7 @@ export default function AuthPageClient() {
     supabase.auth.getSession().then(({ data }) => {
       if (!isMounted) return;
 
-      if (data.session) {
+      if (data.session && data.session.user.is_anonymous !== true) {
         setAuthTransition("confirmed");
         redirectToCreate();
         return;
@@ -105,7 +105,11 @@ export default function AuthPageClient() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" && session) {
+      if (
+        event === "SIGNED_IN" &&
+        session &&
+        session.user.is_anonymous !== true
+      ) {
         setAuthTransition("confirmed");
         redirectToCreate();
       }

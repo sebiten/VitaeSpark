@@ -56,6 +56,11 @@ NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET=
 
 OPENAI_API_KEY=
 MERCADOPAGO_ACCESS_TOKEN=
+MERCADOPAGO_WEBHOOK_SECRET=
+
+RESEND_API_KEY=
+EMAIL_FROM=
+GUEST_CHECKOUT_ENABLED=false
 
 ARCJET_KEY=
 CRON_SECRET=
@@ -72,9 +77,18 @@ INDEXNOW_KEY=
 - `NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET`: bucket usado por acciones administrativas
 - `OPENAI_API_KEY`: generacion de contenido del CV
 - `MERCADOPAGO_ACCESS_TOKEN`: creacion de preferencias y consulta de pagos
+- `MERCADOPAGO_WEBHOOK_SECRET`: validacion criptografica de webhooks de pago
+- `RESEND_API_KEY` y `EMAIL_FROM`: acceso permanente y recuperacion por email
+- `GUEST_CHECKOUT_ENABLED`: habilita pago sin registro solo cuando vale `true`
 - `ARCJET_KEY`: proteccion de endpoints como la generacion de CV
 - `CRON_SECRET`: autorizacion del endpoint `/api/keepalive`
 - `INDEXNOW_KEY`: clave publica de verificacion para notificar cambios a Bing
+
+Antes de desplegar esta version, aplica la migracion
+`20260801120000_guest_checkout_conversion.sql`. Despues habilita Anonymous
+Sign-Ins en Supabase Auth y cambia `GUEST_CHECKOUT_ENABLED` a `true`. Si la
+variable queda ausente o en `false`, se conserva el flujo anterior con login
+antes del pago.
 
 ## Instalacion local
 

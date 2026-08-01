@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { normalizeLanguage } from "@/lib/i18n";
 import { normalizeCreateIntent } from "@/lib/blog-intent";
 import { getRequestCountry } from "@/lib/market";
+import { isGuestCheckoutEnabled } from "@/lib/guest-checkout-server";
 
 const Page = async ({
   searchParams,
@@ -26,6 +27,7 @@ const Page = async ({
     ? {
         id: data.user.id,
         email: data.user.email ?? null,
+        isAnonymous: data.user.is_anonymous === true,
       }
     : null;
 
@@ -37,6 +39,7 @@ const Page = async ({
           initialIntent={initialIntent}
           initialResumeAction={initialResumeAction}
           currentUser={currentUser}
+          guestCheckoutEnabled={isGuestCheckoutEnabled()}
           initialCountryCode={getRequestCountry(requestHeaders)}
         />
       </div>

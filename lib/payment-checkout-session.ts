@@ -15,6 +15,8 @@ export type PaymentCheckoutSession = {
   checkout_url: string | null;
   status: "pending" | "completed" | "failed" | "expired";
   attribution: LandingAttribution;
+  contact_email: string | null;
+  is_guest: boolean;
 };
 
 type CreateCheckoutSessionInput = {
@@ -22,7 +24,12 @@ type CreateCheckoutSessionInput = {
   profileId: string;
   provider: PaymentProvider;
   attribution?: LandingAttribution;
+  contactEmail?: string | null;
+  isGuest?: boolean;
 };
+
+const checkoutSessionColumns =
+  "id, cv_id, profile_id, provider, idempotency_key, provider_checkout_id, checkout_url, status, attribution, contact_email, is_guest";
 
 async function findPendingCheckoutSession({
   cvId,
@@ -31,9 +38,7 @@ async function findPendingCheckoutSession({
 }: CreateCheckoutSessionInput) {
   const { data, error } = await supabaseAdmin
     .from("payment_checkout_sessions")
-    .select(
-      "id, cv_id, profile_id, provider, idempotency_key, provider_checkout_id, checkout_url, status, attribution",
-    )
+    .select(checkoutSessionColumns)
     .eq("cv_id", cvId)
     .eq("profile_id", profileId)
     .eq("provider", provider)
@@ -57,10 +62,10 @@ export async function getOrCreateCheckoutSession(
       profile_id: input.profileId,
       provider: input.provider,
       attribution: input.attribution ?? {},
+      contact_email: input.contactEmail ?? null,
+      is_guest: input.isGuest ?? false,
     })
-    .select(
-      "id, cv_id, profile_id, provider, idempotency_key, provider_checkout_id, checkout_url, status, attribution",
-    )
+    .select(checkoutSessionColumns)
     .single();
 
   if (!error) return data as PaymentCheckoutSession;

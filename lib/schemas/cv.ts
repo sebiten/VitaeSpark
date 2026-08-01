@@ -93,6 +93,7 @@ export const CreatePaymentSchema = z.object({
   cvId: z.string().uuid().optional(),
   cvData: CVSchema.optional(),
   template: TemplateSchema.optional(),
+  contactEmail: z.string().trim().email().max(320).optional(),
   language: z.enum(["es", "en"]).optional().default("es"),
   attribution: LandingAttributionSchema,
 }).superRefine((data, context) => {

@@ -13,6 +13,7 @@ import {
   LockKeyhole,
   Maximize2,
   Palette,
+  Mail,
   X,
 } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
@@ -37,6 +38,11 @@ import { ConversionProof } from "@/components/ConversionProof";
 import { MarketSelector } from "@/components/MarketSelector";
 import { useMarket } from "@/hooks/use-market";
 import type { PhotoSyncState } from "@/lib/guest-photo";
+import {
+  GUEST_CHECKOUT_EMAIL_KEY,
+  normalizeCheckoutEmail,
+  type CheckoutUser,
+} from "@/lib/guest-checkout";
 
 const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
   ssr: false,
@@ -100,6 +106,16 @@ const checkoutCopy = {
       "Reintentá la carga o continuá sin foto. El resto del CV está guardado.",
     retryPhoto: "Reintentar",
     continueWithoutPhoto: "Continuar sin foto",
+    emailTitle: "¿Dónde te enviamos tu CV?",
+    emailText:
+      "Usaremos este email para identificar la compra y enviarte el acceso permanente después del pago.",
+    emailLabel: "Email de entrega",
+    emailPlaceholder: "tu@email.com",
+    emailContinue: "Continuar al pago",
+    emailPrivacy: "Sin suscripción ni mensajes promocionales.",
+    emailInvalid: "Ingresá un email válido para recibir tu CV.",
+    guestAccess:
+      "Después del pago podés descargarlo en este navegador y te enviamos un acceso permanente por email.",
   },
   en: {
     loadingPreview: "Preparing preview...",
@@ -153,6 +169,16 @@ const checkoutCopy = {
       "Retry the upload or continue without a photo. The rest of your resume is saved.",
     retryPhoto: "Retry",
     continueWithoutPhoto: "Continue without photo",
+    emailTitle: "Where should we send your resume?",
+    emailText:
+      "We use this email to identify the purchase and send your permanent access after payment.",
+    emailLabel: "Delivery email",
+    emailPlaceholder: "you@email.com",
+    emailContinue: "Continue to payment",
+    emailPrivacy: "No subscription or promotional emails.",
+    emailInvalid: "Enter a valid email to receive your resume.",
+    guestAccess:
+      "After payment, download it in this browser and receive permanent access by email.",
   },
 } as const;
 
@@ -161,10 +187,11 @@ type Props = {
   template: string;
   onBack: () => void;
   onChangeTemplate: () => void;
-  currentUser: {
-    id: string;
-    email?: string | null;
-  } | null;
+  currentUser: CheckoutUser | null;
+  guestCheckoutEnabled: boolean;
+  onPrepareGuestCheckout: (
+    contactEmail: string,
+  ) => Promise<RespuestaCV["cv"]>;
   onAuthRequired: () => void;
   photoSyncState: PhotoSyncState;
   onRetryPhotoSync: () => void;
@@ -179,6 +206,8 @@ export default function CVPreviewStepPurple({
   onBack,
   onChangeTemplate,
   currentUser,
+  guestCheckoutEnabled,
+  onPrepareGuestCheckout,
   onAuthRequired,
   photoSyncState,
   onRetryPhotoSync,
@@ -195,18 +224,24 @@ export default function CVPreviewStepPurple({
       window.matchMedia("(min-width: 640px)").matches,
   );
   const [pendingCvId, setPendingCvId] = useState<string | null>(null);
+  const [guestEmailOpen, setGuestEmailOpen] = useState(false);
+  const [guestEmail, setGuestEmail] = useState("");
+  const [guestEmailError, setGuestEmailError] = useState("");
+  const [preparingGuestCheckout, setPreparingGuestCheckout] = useState(false);
+  const [pendingPaymentMethod, setPendingPaymentMethod] = useState<
+    "mercado_pago" | "paypal" | null
+  >(null);
   const { market, setMarket } = useMarket(initialCountryCode);
   const checkoutViewedTracked = useRef(false);
   const copy = checkoutCopy[language];
   const cvScore = useMemo(() => calculateCvScore(cvData), [cvData]);
   const passedChecks = cvScore.items.filter((item) => item.passed).length;
 
-  const handlePayPal = async () => {
+  const handlePayPal = async (
+    paymentCv: RespuestaCV["cv"] = cvData,
+    contactEmail?: string,
+  ) => {
     if (photoSyncState !== "idle") return;
-    if (!currentUser?.id) {
-      onAuthRequired();
-      return;
-    }
 
     let failureTracked = false;
     const attribution = getLandingAttribution();
@@ -226,9 +261,10 @@ export default function CVPreviewStepPurple({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           cvId: pendingCvId ?? undefined,
-          cvData,
+          cvData: paymentCv,
           template,
           language,
+          contactEmail,
           attribution,
         }),
       });
@@ -286,12 +322,11 @@ export default function CVPreviewStepPurple({
     }
   };
 
-  const handlePay = async () => {
+  const handlePay = async (
+    paymentCv: RespuestaCV["cv"] = cvData,
+    contactEmail?: string,
+  ) => {
     if (photoSyncState !== "idle") return;
-    if (!currentUser?.id) {
-      onAuthRequired();
-      return;
-    }
 
     let failureTracked = false;
     const attribution = getLandingAttribution();
@@ -311,9 +346,10 @@ export default function CVPreviewStepPurple({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           cvId: pendingCvId ?? undefined,
-          cvData,
+          cvData: paymentCv,
           template,
           language,
+          contactEmail,
           attribution,
         }),
       });
@@ -402,22 +438,38 @@ export default function CVPreviewStepPurple({
   }, []);
 
   useEffect(() => {
-    if (!currentUser?.id) return;
+    const storedEmail = window.sessionStorage.getItem(
+      GUEST_CHECKOUT_EMAIL_KEY,
+    );
+    if (storedEmail) setGuestEmail(storedEmail);
+  }, []);
+
+  useEffect(() => {
     if (checkoutViewedTracked.current) return;
     checkoutViewedTracked.current = true;
     const attribution = getLandingAttribution();
+    const isGuest = !currentUser || currentUser.isAnonymous;
     track("Checkout Viewed", {
       template,
       language,
+      is_guest: isGuest,
+      ...attribution,
+    });
+    recordAnalyticsEvent({
+      event_name: "preview_viewed",
+      language,
+      template,
+      is_guest: isGuest,
       ...attribution,
     });
     recordAnalyticsEvent({
       event_name: "checkout_viewed",
       language,
       template,
+      is_guest: isGuest,
       ...attribution,
     });
-  }, [currentUser?.id, language, template]);
+  }, [currentUser, language, template]);
 
   const scrollToCheckout = () => {
     document
@@ -425,10 +477,11 @@ export default function CVPreviewStepPurple({
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const paymentInProgress = loading || loadingPayPal;
+  const paymentInProgress = loading || loadingPayPal || preparingGuestCheckout;
   const paymentUnavailable =
     paymentInProgress || photoSyncState !== "idle";
-  const isAuthenticated = Boolean(currentUser?.id);
+  const isPermanentUser = Boolean(currentUser && !currentUser.isAnonymous);
+  const showDirectCheckout = isPermanentUser || guestCheckoutEnabled;
   const paypalIsPrimary = market === "international";
   const primaryPayment = paypalIsPrimary ? PRICING.paypal : PRICING.mercadoPago;
   const primaryPaymentPrice = primaryPayment.label;
@@ -436,7 +489,7 @@ export default function CVPreviewStepPurple({
     paypalIsPrimary && language === "es"
       ? PRICING.paypal.previousLabelEs
       : primaryPayment.previousLabel;
-  const primaryPaymentCta = isAuthenticated
+  const primaryPaymentCta = showDirectCheckout
     ? paypalIsPrimary
       ? language === "en"
         ? copy.unlock
@@ -451,13 +504,80 @@ export default function CVPreviewStepPurple({
       : "Pago internacional seguro con PayPal, en USD"
     : copy.secure;
 
-  const handlePrimaryPayment = () => {
+  const openGuestEmail = (method: "mercado_pago" | "paypal") => {
+    setPendingPaymentMethod(method);
+    setGuestEmailError("");
+    setGuestEmailOpen(true);
+  };
+
+  const requestPayment = (method: "mercado_pago" | "paypal") => {
     if (photoSyncState !== "idle") return;
-    if (!isAuthenticated) {
+    if (!currentUser && guestCheckoutEnabled) {
+      openGuestEmail(method);
+      return;
+    }
+    if (currentUser?.isAnonymous) {
+      if (!guestCheckoutEnabled) {
+        onAuthRequired();
+        return;
+      }
+      const email = normalizeCheckoutEmail(guestEmail);
+      if (!email) {
+        openGuestEmail(method);
+        return;
+      }
+      void (method === "paypal"
+        ? handlePayPal(cvData, email)
+        : handlePay(cvData, email));
+      return;
+    }
+    if (!currentUser) {
       onAuthRequired();
       return;
     }
-    void (paypalIsPrimary ? handlePayPal() : handlePay());
+    void (method === "paypal" ? handlePayPal() : handlePay());
+  };
+
+  const handleGuestEmailSubmit = async () => {
+    const email = normalizeCheckoutEmail(guestEmail);
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setGuestEmailError(copy.emailInvalid);
+      return;
+    }
+
+    const method = pendingPaymentMethod ?? (paypalIsPrimary ? "paypal" : "mercado_pago");
+    setGuestEmailError("");
+    setPreparingGuestCheckout(true);
+    recordAnalyticsEvent({
+      event_name: "guest_email_submitted",
+      language,
+      template,
+      is_guest: true,
+      ...getLandingAttribution(),
+    });
+
+    try {
+      const preparedCv = await onPrepareGuestCheckout(email);
+      setGuestEmail(email);
+      setGuestEmailOpen(false);
+      if (method === "paypal") {
+        await handlePayPal(preparedCv, email);
+      } else {
+        await handlePay(preparedCv, email);
+      }
+    } catch (error) {
+      console.error("No se pudo preparar el checkout invitado", error);
+      toast.error(
+        error instanceof Error ? error.message : copy.paymentError,
+      );
+    } finally {
+      setPreparingGuestCheckout(false);
+      setPendingPaymentMethod(null);
+    }
+  };
+
+  const handlePrimaryPayment = () => {
+    requestPayment(paypalIsPrimary ? "paypal" : "mercado_pago");
   };
 
   const handlePrimaryPaymentFromPreview = () => {
@@ -644,7 +764,7 @@ export default function CVPreviewStepPurple({
                     {copy.finalTitle}
                   </h3>
                   <p className="mt-2 text-sm leading-6 text-white/68">
-                    {copy.finalText}
+                    {isPermanentUser ? copy.finalText : copy.guestAccess}
                   </p>
                 </div>
               </div>
@@ -755,11 +875,11 @@ export default function CVPreviewStepPurple({
               </div>
             ) : null}
 
-            {isAuthenticated ? (
+            {showDirectCheckout ? (
               <div className="flex flex-col gap-2.5">
               <Button
                 disabled={paymentUnavailable}
-                onClick={handlePay}
+                onClick={() => requestPayment("mercado_pago")}
                 className={`group w-full overflow-hidden rounded-xl border transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
                   paypalIsPrimary
                     ? "order-3 h-12 border-[#008FCC] bg-[#009EE3] text-white shadow-none hover:border-[#007EB5] hover:bg-[#008FCC] hover:shadow-none sm:h-14"
@@ -806,7 +926,7 @@ export default function CVPreviewStepPurple({
 
               <Button
                 disabled={paymentUnavailable}
-                onClick={handlePayPal}
+                onClick={() => requestPayment("paypal")}
                 className={`w-full rounded-2xl border text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70 ${
                   paypalIsPrimary
                     ? "order-1 h-14 border-[#0070BA]/25 bg-[#0070BA] shadow-lg shadow-[#0070BA]/15 hover:bg-[#005EA6] sm:h-16"
@@ -843,6 +963,18 @@ export default function CVPreviewStepPurple({
                   </div>
                 )}
               </Button>
+              {!isPermanentUser ? (
+                <p className="order-4 text-center text-[11px] leading-5 text-white/48">
+                  {copy.emailPrivacy}{" "}
+                  <button
+                    type="button"
+                    onClick={onAuthRequired}
+                    className="font-semibold text-[#C4B5FD] underline-offset-4 hover:underline"
+                  >
+                    {language === "en" ? "I already have an account" : "Ya tengo cuenta"}
+                  </button>
+                </p>
+              ) : null}
               </div>
             ) : (
               <div className="rounded-2xl border border-[#D7C8FF]/18 bg-[#D7C8FF]/[0.055] p-3.5">
@@ -891,6 +1023,79 @@ export default function CVPreviewStepPurple({
           </CardContent>
         </Card>
       </div>
+
+      <Dialog
+        open={guestEmailOpen}
+        onOpenChange={(open) => {
+          if (!preparingGuestCheckout) setGuestEmailOpen(open);
+        }}
+      >
+        <DialogContent className="w-[calc(100vw-2rem)] max-w-md rounded-[1.75rem] border-white/10 bg-[#15151A] p-0 text-white shadow-2xl shadow-black/50 [&>button]:text-white/55">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              void handleGuestEmailSubmit();
+            }}
+          >
+            <div className="border-b border-white/8 px-5 py-5 sm:px-6">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#67D2FF]/20 bg-[#67D2FF]/10 text-[#67D2FF]">
+                <Mail className="h-5 w-5" />
+              </div>
+              <DialogTitle className="mt-4 text-xl font-bold tracking-[-0.02em]">
+                {copy.emailTitle}
+              </DialogTitle>
+              <DialogDescription className="mt-2 text-sm leading-6 text-white/58">
+                {copy.emailText}
+              </DialogDescription>
+            </div>
+
+            <div className="space-y-4 px-5 py-5 sm:px-6">
+              <label className="block">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/48">
+                  {copy.emailLabel}
+                </span>
+                <input
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  autoFocus
+                  value={guestEmail}
+                  onChange={(event) => {
+                    setGuestEmail(event.target.value);
+                    if (guestEmailError) setGuestEmailError("");
+                  }}
+                  placeholder={copy.emailPlaceholder}
+                  aria-invalid={Boolean(guestEmailError)}
+                  className="mt-2 h-12 w-full rounded-xl border border-white/12 bg-[#0F0F12] px-4 text-sm text-white outline-none transition placeholder:text-white/28 focus:border-[#67D2FF]/55 focus:ring-2 focus:ring-[#67D2FF]/12"
+                />
+              </label>
+              {guestEmailError ? (
+                <p className="text-xs font-medium text-rose-300">
+                  {guestEmailError}
+                </p>
+              ) : null}
+
+              <Button
+                type="submit"
+                disabled={preparingGuestCheckout}
+                className="h-13 w-full rounded-xl bg-[#F6F2EA] text-sm font-bold text-[#121114] shadow-none hover:bg-white disabled:cursor-wait"
+              >
+                {preparingGuestCheckout ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <LockKeyhole className="mr-2 h-4 w-4" />
+                )}
+                {preparingGuestCheckout
+                  ? copy.processing
+                  : copy.emailContinue}
+              </Button>
+              <p className="text-center text-[11px] leading-5 text-white/42">
+                {copy.emailPrivacy}
+              </p>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#101013]/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-2xl shadow-black/40 backdrop-blur sm:hidden">
         <div className="mx-auto flex max-w-md items-center gap-3">

@@ -11,6 +11,11 @@ import { PRICING } from "@/lib/pricing";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
 import { getRequestCountry } from "@/lib/market";
+import {
+  ensureCheckoutProfile,
+  isGuestCheckoutEnabled,
+  resolveCheckoutEmail,
+} from "@/lib/guest-checkout-server";
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -31,17 +36,27 @@ export async function POST(req: Request) {
     );
   }
 
-  const { cvId, cvData, template, language, attribution } = parsed.data;
+  const { cvId, cvData, template, contactEmail, language, attribution } =
+    parsed.data;
   const countryCode = getRequestCountry(req.headers);
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
 
-  if (!user.data.user) {
+  const checkoutUser = user.data.user;
+  if (!checkoutUser) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const profile_id = user.data.user.id;
-  const email = user.data.user.email;
+  const isGuest = checkoutUser.is_anonymous === true;
+  if (isGuest && !isGuestCheckoutEnabled()) {
+    return NextResponse.json(
+      { error: "El pago invitado no esta habilitado" },
+      { status: 401 },
+    );
+  }
+
+  const profile_id = checkoutUser.id;
+  const email = resolveCheckoutEmail(checkoutUser, contactEmail);
 
   if (!profile_id || !email) {
     return NextResponse.json(
@@ -49,6 +64,8 @@ export async function POST(req: Request) {
       { status: 400 }
     );
   }
+
+  await ensureCheckoutProfile(checkoutUser);
 
   const paymentCv = await getOrCreatePendingPaymentCv({
     supabase,
@@ -71,6 +88,8 @@ export async function POST(req: Request) {
     profileId: profile_id,
     provider: "paypal",
     attribution,
+    contactEmail: email,
+    isGuest,
   });
 
   if (checkoutSession.checkout_url) {
@@ -82,6 +101,7 @@ export async function POST(req: Request) {
       template: paymentCv.cv.template,
       cv_id: paymentCv.cv.id,
       country_code: countryCode,
+      is_guest: isGuest,
       ...checkoutSession.attribution,
     });
 
@@ -97,9 +117,9 @@ export async function POST(req: Request) {
     const isPendingRecovery = attribution?.cta_label?.startsWith(
       "pending_payment_",
     );
-    const cancelPath = isPendingRecovery
+    const cancelPath = isPendingRecovery && !isGuest
       ? `/perfil?cv_id=${paymentCv.cv.id}`
-      : `/crear?lang=${language}`;
+      : `/pago/resultado?cv_id=${paymentCv.cv.id}&provider=paypal&status=cancelled`;
     const orderPayload = {
       intent: "CAPTURE",
       purchase_units: [
@@ -186,8 +206,23 @@ export async function POST(req: Request) {
       template: paymentCv.cv.template,
       cv_id: paymentCv.cv.id,
       country_code: countryCode,
+      is_guest: isGuest,
       ...checkoutSession.attribution,
     });
+
+    if (isGuest) {
+      await recordAnalyticsEventServer({
+        event_name: "guest_checkout_created",
+        user_id: profile_id,
+        language,
+        payment_provider: "paypal",
+        template: paymentCv.cv.template,
+        cv_id: paymentCv.cv.id,
+        country_code: countryCode,
+        is_guest: true,
+        ...checkoutSession.attribution,
+      });
+    }
 
     return NextResponse.json({
       cvId: paymentCv.cv.id,

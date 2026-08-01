@@ -24,6 +24,7 @@ const AnalyticsEventSchema = z.object({
   utm_campaign: z.string().trim().max(120).optional(),
   utm_content: z.string().trim().max(120).optional(),
   session_id: z.string().uuid().optional(),
+  is_guest: z.boolean().optional(),
 });
 
 export async function POST(req: NextRequest) {

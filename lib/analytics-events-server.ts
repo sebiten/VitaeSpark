@@ -8,9 +8,14 @@ type AnalyticsEventName =
   | "auth_required"
   | "auth_completed"
   | "cv_generated"
+  | "preview_viewed"
   | "checkout_viewed"
+  | "guest_email_submitted"
+  | "guest_checkout_created"
   | "payment_started"
   | "payment_completed"
+  | "purchase_access_sent"
+  | "purchase_claimed"
   | "recovery_email_sent"
   | "recovery_email_clicked"
   | "feedback_submitted"
@@ -30,6 +35,7 @@ type ServerAnalyticsEventPayload = LandingAttribution & {
   payment_id?: string;
   country_code?: string | null;
   session_id?: string;
+  is_guest?: boolean;
 };
 
 export async function recordAnalyticsEventServer({
@@ -49,6 +55,7 @@ export async function recordAnalyticsEventServer({
   utm_content,
   country_code,
   session_id,
+  is_guest,
 }: ServerAnalyticsEventPayload) {
   const { error } = await supabaseAdmin.from("analytics_events").insert({
     user_id: user_id ?? null,
@@ -67,6 +74,7 @@ export async function recordAnalyticsEventServer({
     utm_content: utm_content || null,
     country_code: country_code || null,
     session_id: session_id || null,
+    is_guest: typeof is_guest === "boolean" ? is_guest : null,
   });
 
   if (error) {

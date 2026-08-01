@@ -3,6 +3,10 @@ import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { PRICING } from "@/lib/pricing";
 import { signRecoveryLink } from "@/lib/recovery-token";
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import {
+  cleanupExpiredTemporaryUsers,
+  retryPendingPurchaseAccess,
+} from "@/lib/purchase-access";
 
 type Reminder = {
   type: "1h" | "24h" | "72h";
@@ -104,6 +108,17 @@ async function handleRecoveryCron(req: Request) {
     console.error("Error cargando paises de recovery:", paymentContextError);
   }
 
+  const [purchaseAccess, temporaryUsers] = await Promise.all([
+    retryPendingPurchaseAccess().catch((error) => {
+      console.error("Error reintentando accesos postcompra:", error);
+      return { checked: 0, sent: 0, failed: 1 };
+    }),
+    cleanupExpiredTemporaryUsers().catch((error) => {
+      console.error("Error limpiando usuarios temporales:", error);
+      return { checked: 0, deleted: 0 };
+    }),
+  ]);
+
   const paymentContextByCv = new Map<string, PaymentContext>();
   ((paymentContextRows ?? []) as PaymentContext[]).forEach((context) => {
     if (context.cv_id && !paymentContextByCv.has(context.cv_id)) {
@@ -155,8 +170,13 @@ async function handleRecoveryCron(req: Request) {
       await supabaseAdmin.auth.admin.getUserById(cv.profile_id);
     const email = userData?.user?.email;
 
-    if (userError || !email) {
+    if (userError) {
       results.failed += 1;
+      continue;
+    }
+
+    if (userData.user?.is_anonymous === true || !email) {
+      results.skipped += 1;
       continue;
     }
 
@@ -254,7 +274,12 @@ async function handleRecoveryCron(req: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, ...results });
+  return NextResponse.json({
+    ok: true,
+    ...results,
+    purchaseAccess,
+    temporaryUsers,
+  });
 }
 
 function getDueReminder(cv: PendingCv) {

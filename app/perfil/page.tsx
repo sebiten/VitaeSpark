@@ -31,6 +31,22 @@ export default async function PerfilPage() {
 
   if (!user) redirect("/login");
 
+  if (user.is_anonymous === true) {
+    const { data: temporaryCv } = await supabase
+      .from("cvs")
+      .select("id")
+      .eq("profile_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    redirect(
+      temporaryCv
+        ? `/pago/resultado?cv_id=${temporaryCv.id}`
+        : "/crear",
+    );
+  }
+
   const [profileResult, cvsResult, paymentsResult, pendingResult] =
     await Promise.all([
       supabase

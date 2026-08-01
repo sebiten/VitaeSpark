@@ -4,7 +4,9 @@ export const CLIENT_ANALYTICS_EVENTS = [
   "form_started",
   "auth_required",
   "auth_completed",
+  "preview_viewed",
   "checkout_viewed",
+  "guest_email_submitted",
   "download_completed",
   "tool_started",
   "tool_result_generated",
@@ -17,7 +19,6 @@ export type ClientAnalyticsEventName =
 
 const AUTHENTICATED_CLIENT_EVENTS = new Set<ClientAnalyticsEventName>([
   "auth_completed",
-  "checkout_viewed",
   "download_completed",
 ]);
 

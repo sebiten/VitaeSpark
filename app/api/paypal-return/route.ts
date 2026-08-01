@@ -5,6 +5,7 @@ import { isExpectedPayPalPayment } from "@/lib/payment-validation";
 import { capturePayPalOrder } from "@/lib/paypal";
 import { createClient } from "@/utils/supabase/server";
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import { ensurePurchaseAccessForCv } from "@/lib/purchase-access";
 
 type PayPalCaptureResponse = {
   id?: string;
@@ -36,7 +37,9 @@ export async function GET(req: Request) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://vitaespark.com";
 
   if (!orderId || !cvId) {
-    return NextResponse.redirect(new URL("/perfil?paypal=missing", siteUrl));
+    return NextResponse.redirect(
+      new URL("/pago/resultado?provider=paypal&status=missing", siteUrl),
+    );
   }
 
   const supabase = await createClient();
@@ -44,24 +47,28 @@ export async function GET(req: Request) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    return NextResponse.redirect(new URL("/login", siteUrl));
-  }
-
   const { data: cv } = await supabaseAdmin
     .from("cvs")
     .select("id, profile_id, status, template")
     .eq("id", cvId)
-    .eq("profile_id", user.id)
     .maybeSingle();
 
-  if (!cv) {
-    return NextResponse.redirect(new URL("/perfil?paypal=cv_not_found", siteUrl));
+  if (!cv || (user && cv.profile_id !== user.id)) {
+    return NextResponse.redirect(
+      new URL(
+        `/pago/resultado?cv_id=${cvId}&provider=paypal&status=cv_not_found`,
+        siteUrl,
+      ),
+    );
   }
 
   if (cv.status === "paid") {
+    await ensurePurchaseAccessForCv(cv.id).catch(() => null);
     return NextResponse.redirect(
-      new URL(`/perfil?cv_id=${cv.id}&method=paypal`, siteUrl),
+      new URL(
+        `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=approved`,
+        siteUrl,
+      ),
     );
   }
 
@@ -93,7 +100,10 @@ export async function GET(req: Request) {
       });
 
       return NextResponse.redirect(
-        new URL(`/perfil?cv_id=${cv.id}&paypal=not_completed`, siteUrl),
+        new URL(
+          `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=failure`,
+          siteUrl,
+        ),
       );
     }
 
@@ -101,31 +111,38 @@ export async function GET(req: Request) {
     const amount = Number(capture.amount?.value);
     const completion = await completeCvPayment({
       cvId: cv.id,
-      profileId: user.id,
+      profileId: cv.profile_id,
       paymentId,
       amount,
-      payerEmail: capturedOrder.payer?.email_address ?? user.email,
+      payerEmail: capturedOrder.payer?.email_address ?? user?.email,
       paymentType: "paypal",
       provider: "paypal",
     });
 
     if (!completion.payment_inserted) {
+      await ensurePurchaseAccessForCv(cv.id).catch(() => null);
       return NextResponse.redirect(
-        new URL(`/perfil?cv_id=${cv.id}&method=paypal`, siteUrl),
+        new URL(
+          `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=approved`,
+          siteUrl,
+        ),
       );
     }
 
     if (completion.cv_status !== "paid") {
       console.error("El CV no quedó pagado después de capturar PayPal");
       return NextResponse.redirect(
-        new URL(`/perfil?cv_id=${cv.id}&paypal=db_error`, siteUrl),
+        new URL(
+          `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=pending`,
+          siteUrl,
+        ),
       );
     }
 
     const { data: startedEvent } = await supabaseAdmin
       .from("analytics_events")
       .select(
-        "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id",
+        "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id, is_guest",
       )
       .eq("event_name", "payment_started")
       .eq("cv_id", cv.id)
@@ -135,12 +152,13 @@ export async function GET(req: Request) {
 
     await recordAnalyticsEventServer({
       event_name: "payment_completed",
-      user_id: user.id,
+      user_id: cv.profile_id,
       cv_id: cv.id,
       payment_id: paymentId,
       template: startedEvent?.template ?? cv.template,
       language: startedEvent?.language,
       payment_provider: "paypal",
+      is_guest: startedEvent?.is_guest === true,
       country_code: startedEvent?.country_code,
       session_id: startedEvent?.session_id ?? undefined,
       landing_path: startedEvent?.landing_path,
@@ -152,13 +170,23 @@ export async function GET(req: Request) {
       utm_content: startedEvent?.utm_content,
     });
 
+    await ensurePurchaseAccessForCv(cv.id).catch((accessError) => {
+      console.error("No se pudo preparar el acceso postcompra:", accessError);
+    });
+
     return NextResponse.redirect(
-      new URL(`/perfil?cv_id=${cv.id}&method=paypal`, siteUrl),
+      new URL(
+        `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=approved`,
+        siteUrl,
+      ),
     );
   } catch (error) {
     console.error("Error capturando PayPal:", error);
     return NextResponse.redirect(
-      new URL(`/perfil?cv_id=${cv.id}&paypal=capture_error`, siteUrl),
+      new URL(
+        `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=pending`,
+        siteUrl,
+      ),
     );
   }
 }

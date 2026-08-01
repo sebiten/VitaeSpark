@@ -6,6 +6,7 @@ import {
   ArrowRight,
   CheckCircle2,
   CreditCard,
+  Cpu,
   FileText,
   MessageSquare,
   MousePointerClick,
@@ -25,9 +26,14 @@ type AnalyticsEventName =
   | "auth_required"
   | "auth_completed"
   | "cv_generated"
+  | "preview_viewed"
   | "checkout_viewed"
+  | "guest_email_submitted"
+  | "guest_checkout_created"
   | "payment_started"
   | "payment_completed"
+  | "purchase_access_sent"
+  | "purchase_claimed"
   | "recovery_email_sent"
   | "recovery_email_clicked"
   | "feedback_submitted"
@@ -56,6 +62,7 @@ type AnalyticsEvent = {
   utm_content: string | null;
   country_code: string | null;
   session_id: string | null;
+  is_guest: boolean | null;
 };
 
 type PaymentRecord = {
@@ -101,6 +108,23 @@ type PeriodMetrics = {
   revenueUSD: number;
 };
 
+type AiGenerationUsage = {
+  user_id: string | null;
+  input_tokens: number | null;
+  cached_input_tokens: number | null;
+  output_tokens: number | null;
+  estimated_cost_usd: number | null;
+  success: boolean;
+  created_at: string;
+};
+
+type AiUsageMetrics = {
+  requests: number;
+  successful: number;
+  tokens: number;
+  costUsd: number;
+};
+
 type PreRegistrationJourney = {
   sessionId: string;
   generatedAt: string;
@@ -111,6 +135,7 @@ type PreRegistrationJourney = {
   template: string | null;
   countryCode: string | null;
   reachedCheckout: boolean;
+  submittedEmail: boolean;
   startedPayment: boolean;
   completedPayment: boolean;
 };
@@ -174,8 +199,12 @@ export default async function AdminDashboardPage({
     { data: paymentsLast60 },
     { data: recentUsers },
     { data: analyticsEvents },
+    { data: aiUsageLast60 },
   ] = await Promise.all([
-    supabaseAdmin.from("profiles").select("*", { count: "exact", head: true }),
+    supabaseAdmin
+      .from("profiles")
+      .select("*", { count: "exact", head: true })
+      .eq("is_temporary", false),
     supabaseAdmin
       .from("feedback")
       .select("message, created_at")
@@ -191,16 +220,25 @@ export default async function AdminDashboardPage({
     supabaseAdmin
       .from("profiles")
       .select("id, created_at")
+      .eq("is_temporary", false)
       .gte("created_at", since60Days.toISOString())
       .limit(5000),
     supabaseAdmin
       .from("analytics_events")
       .select(
-        "id, user_id, cv_id, payment_id, event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id"
+        "id, user_id, cv_id, payment_id, event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id, is_guest"
       )
       .gte("created_at", since60Days.toISOString())
       .order("created_at", { ascending: false })
       .limit(3000),
+    supabaseAdmin
+      .from("ai_generation_usage")
+      .select(
+        "user_id, input_tokens, cached_input_tokens, output_tokens, estimated_cost_usd, success, created_at",
+      )
+      .gte("created_at", since60Days.toISOString())
+      .order("created_at", { ascending: false })
+      .limit(5000),
   ]);
 
   const users = (recentUsers ?? []).filter((profile) => profile.id !== user.id);
@@ -216,6 +254,9 @@ export default async function AdminDashboardPage({
       !testPaymentEmails.has(payment.payer_email.trim().toLowerCase())
   );
   const rawEvents = (analyticsEvents ?? []) as AnalyticsEvent[];
+  const aiUsage = ((aiUsageLast60 ?? []) as AiGenerationUsage[]).filter(
+    (usage) => usage.user_id !== user.id,
+  );
   const adminSessionIds = new Set(
     rawEvents
       .filter((event) => event.user_id === user.id && event.session_id)
@@ -276,6 +317,7 @@ export default async function AdminDashboardPage({
     start: since60Days,
     end: since30Days,
   });
+  const currentAiUsage = buildAiUsageMetrics(aiUsage, since30Days, now);
   const landingMetrics = buildLandingMetrics(events, languageFilter, providerFilter);
   const campaignMetrics = buildCampaignMetrics(events, providerFilter);
   const topLanding = landingMetrics[0];
@@ -287,8 +329,8 @@ export default async function AdminDashboardPage({
     previous30,
     ctaClicks: funnel.ctaClicks,
     generated: funnel.generatedSessions,
-    cvToCheckoutRate: funnel.generatedToCheckout,
-    checkoutToPaymentRate: funnel.paymentStartToCompleted,
+    cvToCheckoutRate: funnel.generatedToPreview,
+    checkoutToPaymentRate: funnel.previewToPaymentStart,
     topLanding,
   });
 
@@ -321,7 +363,7 @@ export default async function AdminDashboardPage({
           </div>
         </header>
 
-        <section className="mb-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+        <section className="mb-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
           <MetricCard
             title="Ingresos ARS 30d"
             value={formatMoneyARS(current30.revenueARS)}
@@ -362,6 +404,17 @@ export default async function AdminDashboardPage({
             )}
             icon={<Target className="h-5 w-5" />}
           />
+          <MetricCard
+            title="Costo IA 30d"
+            value={formatMoneyUSD(currentAiUsage.costUsd)}
+            helper={`${currentAiUsage.tokens.toLocaleString("es-AR")} tokens · ${currentAiUsage.successful}/${currentAiUsage.requests} exitosas`}
+            delta={{
+              label: `${currentAiUsage.requests} solicitudes`,
+              tone: "flat",
+              raw: 0,
+            }}
+            icon={<Cpu className="h-5 w-5" />}
+          />
         </section>
 
         <section className="mb-7 overflow-hidden rounded-[28px] border border-white/10 bg-[#15151A]/82">
@@ -369,14 +422,14 @@ export default async function AdminDashboardPage({
             <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#B8A7FF]">
-                  Antes de crear una cuenta
+                  Compra sin cuenta previa
                 </p>
                 <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">
-                  Visitantes que ya generaron un CV
+                  Visitantes que llegaron al resultado real
                 </h2>
                 <p className="mt-2 max-w-3xl text-sm leading-6 text-white/52">
-                  Se identifican por una sesión aleatoria. Si luego se registran
-                  en la misma pestaña, el recorrido queda vinculado al perfil.
+                  El recorrido se identifica por sesión y separa el email de
+                  entrega, el inicio del pago y la aprobación final.
                 </p>
               </div>
               <span className="text-sm text-white/42">
@@ -394,14 +447,14 @@ export default async function AdminDashboardPage({
                 helper="Sesiones únicas en 30 días"
               />
               <JourneyMetric
-                label="Se registraron después"
-                value={preRegistrationSummary.registeredAfter}
-                helper={formatPercent(preRegistrationSummary.registrationRate)}
+                label="Dejaron su email"
+                value={preRegistrationSummary.submittedEmail}
+                helper={formatPercent(preRegistrationSummary.emailRate)}
               />
               <JourneyMetric
-                label="Llegaron al checkout"
-                value={preRegistrationSummary.reachedCheckout}
-                helper="Luego de registrarse"
+                label="Iniciaron el pago"
+                value={preRegistrationSummary.startedPayment}
+                helper="Mercado Pago o PayPal"
               />
               <JourneyMetric
                 label="Completaron el pago"
@@ -502,7 +555,7 @@ export default async function AdminDashboardPage({
             Conversiones por sesión durante los últimos 30 días.
           </p>
 
-          <div className="mt-5 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-5 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-2 xl:grid-cols-4">
             <FunnelRow
               label="CTA a formulario"
               value={formatPercent(funnel.ctaToForm)}
@@ -514,24 +567,34 @@ export default async function AdminDashboardPage({
               helper={`${funnel.generatedSessions} sesiones generaron CV`}
             />
             <FunnelRow
-              label="CV a registro"
-              value={formatPercent(preRegistrationSummary.registrationRate)}
-              helper={`${preRegistrationSummary.registeredAfter} usuarios identificados`}
+              label="CV a preview"
+              value={formatPercent(funnel.generatedToPreview)}
+              helper={`${funnel.previewSessions} resultados visibles`}
             />
             <FunnelRow
-              label="CV a checkout"
-              value={formatPercent(funnel.generatedToCheckout)}
-              helper={`${funnel.checkoutSessions} sesiones llegaron`}
+              label="Preview invitado a email"
+              value={formatPercent(funnel.guestPreviewToEmail)}
+              helper={`${funnel.guestEmailSessions} emails ingresados`}
             />
             <FunnelRow
-              label="Checkout a inicio de pago"
-              value={formatPercent(funnel.checkoutToPaymentStart)}
+              label="Preview a inicio de pago"
+              value={formatPercent(funnel.previewToPaymentStart)}
               helper={`${funnel.paymentStartSessions} sesiones iniciaron`}
             />
             <FunnelRow
               label="Inicio a pago aprobado"
               value={formatPercent(funnel.paymentStartToCompleted)}
               helper={`${funnel.paymentCompletedSessions} sesiones completaron`}
+            />
+            <FunnelRow
+              label="Pago invitado a acceso enviado"
+              value={formatPercent(funnel.guestPaymentToAccessSent)}
+              helper={`${funnel.purchaseAccessSentCvs} accesos enviados`}
+            />
+            <FunnelRow
+              label="Acceso enviado a reclamado"
+              value={formatPercent(funnel.accessSentToClaimed)}
+              helper={`${funnel.purchaseClaimedCvs} compras guardadas`}
             />
           </div>
         </section>
@@ -991,6 +1054,7 @@ function buildPreRegistrationJourneys(
       template: event.template,
       countryCode: event.country_code,
       reachedCheckout: false,
+      submittedEmail: false,
       startedPayment: false,
       completedPayment: false,
     });
@@ -1010,6 +1074,9 @@ function buildPreRegistrationJourneys(
       journey.registeredAt = event.created_at;
     }
     if (event.event_name === "checkout_viewed") journey.reachedCheckout = true;
+    if (event.event_name === "guest_email_submitted") {
+      journey.submittedEmail = true;
+    }
     if (event.event_name === "payment_started") journey.startedPayment = true;
     if (event.event_name === "payment_completed") {
       journey.completedPayment = true;
@@ -1031,17 +1098,49 @@ function summarizePreRegistration(
   const registeredAfter = journeys.filter(
     (journey) => journey.registeredUserId,
   ).length;
+  const submittedEmail = journeys.filter(
+    (journey) => journey.submittedEmail,
+  ).length;
+  const startedPayment = journeys.filter(
+    (journey) => journey.startedPayment,
+  ).length;
 
   return {
     anonymousGenerated,
     registeredAfter,
+    submittedEmail,
+    startedPayment,
     reachedCheckout: journeys.filter((journey) => journey.reachedCheckout)
       .length,
     completedPayment: journeys.filter((journey) => journey.completedPayment)
       .length,
     registrationRate: rate(registeredAfter, anonymousGenerated),
+    emailRate: rate(submittedEmail, anonymousGenerated),
     sessionCoverage: rate(generatedEventsWithSession, anonymousGenerated),
   };
+}
+
+function buildAiUsageMetrics(
+  usage: AiGenerationUsage[],
+  start: Date,
+  end: Date,
+): AiUsageMetrics {
+  const periodUsage = usage.filter((item) =>
+    isInRange(item.created_at, start, end),
+  );
+
+  return periodUsage.reduce<AiUsageMetrics>(
+    (metrics, item) => ({
+      requests: metrics.requests + 1,
+      successful: metrics.successful + (item.success ? 1 : 0),
+      tokens:
+        metrics.tokens +
+        Number(item.input_tokens ?? 0) +
+        Number(item.output_tokens ?? 0),
+      costUsd: metrics.costUsd + Number(item.estimated_cost_usd ?? 0),
+    }),
+    { requests: 0, successful: 0, tokens: 0, costUsd: 0 },
+  );
 }
 
 function countUniqueAnonymousGenerations(events: AnalyticsEvent[]) {
@@ -1179,20 +1278,66 @@ function buildFunnelMetrics(events: AnalyticsEvent[]) {
   );
   const formSessions = identitiesFor("form_started");
   const generatedSessions = identitiesFor("cv_generated");
+  const previewSessions = identitiesFor("preview_viewed");
   const checkoutSessions = identitiesFor("checkout_viewed");
+  const guestPreviewSessions = new Set(
+    events
+      .filter(
+        (event) => event.event_name === "preview_viewed" && event.is_guest,
+      )
+      .map(getUniqueEventIdentity),
+  );
+  const guestEmailSessions = identitiesFor("guest_email_submitted");
   const paymentStartSessions = identitiesFor("payment_started");
   const paymentCompletedSessions = identitiesFor("payment_completed");
+  const guestPaymentCvs = new Set(
+    events
+      .filter(
+        (event) =>
+          event.event_name === "payment_completed" &&
+          event.is_guest === true &&
+          event.cv_id,
+      )
+      .map((event) => event.cv_id as string),
+  );
+  const purchaseAccessSentCvs = new Set(
+    events
+      .filter(
+        (event) => event.event_name === "purchase_access_sent" && event.cv_id,
+      )
+      .map((event) => event.cv_id as string),
+  );
+  const purchaseClaimedCvs = new Set(
+    events
+      .filter(
+        (event) => event.event_name === "purchase_claimed" && event.cv_id,
+      )
+      .map((event) => event.cv_id as string),
+  );
 
   return {
     ctaClicks: ctaSessions.size,
     formSessions: formSessions.size,
     generatedSessions: generatedSessions.size,
+    previewSessions: previewSessions.size,
     checkoutSessions: checkoutSessions.size,
+    guestEmailSessions: guestEmailSessions.size,
     paymentStartSessions: paymentStartSessions.size,
     paymentCompletedSessions: paymentCompletedSessions.size,
+    purchaseAccessSentCvs: purchaseAccessSentCvs.size,
+    purchaseClaimedCvs: purchaseClaimedCvs.size,
     ctaToForm: setConversionRate(ctaSessions, formSessions),
     formToGenerated: setConversionRate(formSessions, generatedSessions),
+    generatedToPreview: setConversionRate(generatedSessions, previewSessions),
     generatedToCheckout: setConversionRate(generatedSessions, checkoutSessions),
+    guestPreviewToEmail: setConversionRate(
+      guestPreviewSessions,
+      guestEmailSessions,
+    ),
+    previewToPaymentStart: setConversionRate(
+      previewSessions,
+      paymentStartSessions,
+    ),
     checkoutToPaymentStart: setConversionRate(
       checkoutSessions,
       paymentStartSessions,
@@ -1200,6 +1345,14 @@ function buildFunnelMetrics(events: AnalyticsEvent[]) {
     paymentStartToCompleted: setConversionRate(
       paymentStartSessions,
       paymentCompletedSessions
+    ),
+    guestPaymentToAccessSent: setConversionRate(
+      guestPaymentCvs,
+      purchaseAccessSentCvs,
+    ),
+    accessSentToClaimed: setConversionRate(
+      purchaseAccessSentCvs,
+      purchaseClaimedCvs,
     ),
   };
 }
@@ -1392,6 +1545,13 @@ function JourneyStatus({
     return (
       <span className="inline-flex rounded-full bg-amber-400/12 px-2.5 py-1 text-xs font-semibold text-amber-200">
         Inició pago
+      </span>
+    );
+  }
+  if (journey.submittedEmail) {
+    return (
+      <span className="inline-flex rounded-full bg-violet-400/12 px-2.5 py-1 text-xs font-semibold text-violet-200">
+        Dejó email
       </span>
     );
   }

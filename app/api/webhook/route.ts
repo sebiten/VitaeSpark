@@ -5,6 +5,7 @@ import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { completeCvPayment } from "@/lib/payment-checkout-session";
 import { isExpectedMercadoPagoPayment } from "@/lib/payment-validation";
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import { ensurePurchaseAccessForCv } from "@/lib/purchase-access";
 
 const MercadoPagoWebhookSchema = z.object({
   type: z.string().optional(),
@@ -199,6 +200,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "DB error" }, { status: 500 });
   }
 
+  await ensurePurchaseAccessForCv(cv_id).catch((accessError) => {
+    console.error("No se pudo preparar el acceso postcompra:", accessError);
+  });
+
   if (!completion.payment_inserted) {
     return NextResponse.json({ message: "Already processed" }, { status: 200 });
   }
@@ -206,7 +211,7 @@ export async function POST(req: NextRequest) {
   const { data: startedEvent } = await supabaseAdmin
     .from("analytics_events")
     .select(
-      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id"
+      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id, is_guest"
     )
     .eq("event_name", "payment_started")
     .eq("cv_id", cv_id)
@@ -232,6 +237,9 @@ export async function POST(req: NextRequest) {
         ? metadataLanguage
         : startedEvent?.language,
     payment_provider: "mercado_pago",
+    is_guest:
+      metadataString(payment.metadata, "is_guest") === "true" ||
+      startedEvent?.is_guest === true,
     country_code: /^[A-Z]{2}$/.test(metadataCountry || "")
       ? metadataCountry
       : startedEvent?.country_code,
@@ -245,7 +253,9 @@ export async function POST(req: NextRequest) {
     cta_label:
       metadataString(payment.metadata, "cta_label") || startedEvent?.cta_label,
     source_type:
-      metadataSourceType === "landing" || metadataSourceType === "blog"
+      metadataSourceType === "landing" ||
+      metadataSourceType === "blog" ||
+      metadataSourceType === "tool"
         ? metadataSourceType
         : startedEvent?.source_type,
     utm_source:
