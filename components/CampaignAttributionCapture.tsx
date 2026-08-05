@@ -43,9 +43,12 @@ export function CampaignAttributionCapture() {
       landing_path: landingPath,
       cta_label: CAMPAIGN_LANDING_VIEW_LABEL,
       source_type: sourceType,
-      language: landingPath === "/en" || landingPath.startsWith("/en/")
-        ? "en"
-        : "es",
+      language:
+        landingPath === "/resume-ready" ||
+        landingPath === "/en" ||
+        landingPath.startsWith("/en/")
+          ? "en"
+          : "es",
       ...campaign,
     });
   }, [campaignQuery, pathname]);

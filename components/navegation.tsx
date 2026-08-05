@@ -3,8 +3,9 @@
 import type React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { FileText, HomeIcon, Menu, Paperclip, X } from "lucide-react";
+import { ArrowRight, FileText, HomeIcon, Menu, Paperclip, X } from "lucide-react";
 import { AuthControls } from "@/components/auth-controls";
 
 interface CustomButtonProps {
@@ -93,7 +94,44 @@ function CustomLinkButton({
 }
 
 export function Navegation() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const campaignLanguage =
+    pathname === "/cv-listo-argentina"
+      ? "es"
+      : pathname === "/resume-ready"
+        ? "en"
+        : null;
+
+  if (campaignLanguage) {
+    const isEnglish = campaignLanguage === "en";
+    const createHref = isEnglish ? "/crear?lang=en" : "/crear";
+
+    return (
+      <header className="sticky top-0 z-50 w-full border-b border-[#27272A]/50 bg-[#111113]/90 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+          <Link href="/" className="flex items-center transition-opacity hover:opacity-85">
+            <Image
+              src="/logoreal.webp"
+              alt="VitaeSpark"
+              width={112}
+              height={112}
+              sizes="112px"
+              className="h-24 w-24 rounded-lg object-cover"
+              priority
+            />
+          </Link>
+          <Link
+            href={createHref}
+            className="inline-flex h-10 items-center gap-2 rounded-full bg-[#F6F2EA] px-4 text-sm font-semibold text-[#111113] transition hover:-translate-y-0.5 hover:bg-white"
+          >
+            {isEnglish ? "Create resume" : "Crear mi CV"}
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#27272A]/50 bg-[#111113]/80 backdrop-blur-md">

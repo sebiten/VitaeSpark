@@ -57,6 +57,8 @@ const hiddenGlobalPathPrefixes = [
   "/auth",
   "/pago",
   "/acceso-cv",
+  "/cv-listo-argentina",
+  "/resume-ready",
 ];
 
 function isHiddenGlobalPath(pathname: string) {

@@ -10,7 +10,13 @@ import { FloatingRobot } from "@/components/floating-robot";
 export function Footer() {
   const pathname = usePathname();
 
-  if (pathname === "/crear") return null;
+  if (
+    pathname === "/crear" ||
+    pathname === "/cv-listo-argentina" ||
+    pathname === "/resume-ready"
+  ) {
+    return null;
+  }
 
   return (
     <footer className="relative border-t border-white/10 bg-[#111113] px-4 py-14 md:py-16">
