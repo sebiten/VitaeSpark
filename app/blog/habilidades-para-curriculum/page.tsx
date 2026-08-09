@@ -20,6 +20,7 @@ export default function HabilidadesParaCurriculumPage() {
     <BlogArticlePage
       path="/blog/habilidades-para-curriculum"
       datePublished="2025-04-12"
+      dateModified="2026-08-09"
       title="Habilidades para curriculum: ejemplos y que poner en tu CV"
       description="Aprende que habilidades poner en un curriculum segun el puesto, con ejemplos concretos para evitar listas genericas y reforzar tu perfil."
       intro="La seccion de habilidades suele parecer facil, pero muchas veces termina llena de frases demasiado amplias o poco utiles. Elegir bien que habilidades poner en un curriculum puede ayudarte a alinear mejor tu perfil con la busqueda laboral y a mostrar de forma rapida que sabes hacer."
@@ -39,10 +40,24 @@ export default function HabilidadesParaCurriculumPage() {
           ],
         },
         {
+          title: "Como sacar habilidades de una oferta de trabajo",
+          paragraphs: [
+            "Lee la vacante y separa tres tipos de informacion: tareas que vas a realizar, herramientas que piden y condiciones del puesto. Si la oferta menciona preparar reportes, usar Excel y atender proveedores, esas son señales mas utiles que copiar adjetivos como dinamico o proactivo.",
+            "Elige solo habilidades que realmente puedas sostener con estudios, proyectos o experiencia. No necesitas coincidir con toda la oferta: alcanza con priorizar las capacidades mas relevantes y explicar donde las aplicaste.",
+          ],
+        },
+        {
           title: "Combina habilidades tecnicas y blandas",
           paragraphs: [
             "Las habilidades tecnicas muestran herramientas, conocimientos o procesos concretos. Las habilidades blandas ayudan a completar el perfil, pero deben usarse con criterio. Frases como 'responsable' o 'proactivo' suelen quedar vacias si no estan respaldadas por experiencia o contexto.",
             "En general conviene que la parte tecnica tenga bastante peso y que las habilidades blandas aparezcan solo cuando realmente aportan valor al tipo de rol.",
+          ],
+        },
+        {
+          title: "Donde poner las habilidades dentro del CV",
+          paragraphs: [
+            "Puedes usar una seccion breve de habilidades para facilitar la lectura, pero las mas importantes tambien deberian aparecer dentro del perfil o la experiencia. Por ejemplo, Excel aporta mas cuando explicas que lo usabas para actualizar stock, preparar reportes o controlar pagos.",
+            "Ordena primero las habilidades tecnicas y especificas del puesto. Despues agrega dos o tres habilidades blandas que puedas respaldar con situaciones reales, como coordinacion de tareas, atencion de reclamos o cumplimiento de procedimientos.",
           ],
         },
         {
@@ -73,6 +88,11 @@ export default function HabilidadesParaCurriculumPage() {
           question: "Puedo poner habilidades blandas?",
           answer:
             "Si, pero con moderacion y de forma coherente con el resto del CV y el tipo de rol que buscas.",
+        },
+        {
+          question: "Como adapto las habilidades a una vacante?",
+          answer:
+            "Identifica tareas, herramientas y requisitos del aviso. Prioriza las habilidades que realmente tienes y muestra en experiencia, estudios o proyectos donde las aplicaste.",
         },
         {
           question: "Sirve esta seccion si no tengo experiencia?",

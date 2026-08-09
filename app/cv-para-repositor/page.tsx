@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV de Repositor: Ejemplo para Supermercado y Stock",
   description:
-    "Arma un CV de repositor con ejemplo listo, perfil profesional, stock, gondolas, supermercado, deposito, habilidades y formato ATS.",
+    "Arma un CV de repositor o reponedor con ejemplos de stock, góndolas, supermercado, depósito, rotación de productos y formato ATS.",
   path: "/cv-para-repositor",
   keywords: [
     "cv para repositor",
@@ -13,6 +13,8 @@ export const metadata = buildMetadata({
     "habilidades repositor curriculum",
     "cv repositor supermercado",
     "cv de repositor",
+    "curriculum reponedor",
+    "cv reponedor supermercado",
   ],
 });
 
@@ -25,7 +27,7 @@ export default function CvParaRepositorPage() {
       description="Prepara un curriculum repositor con ejemplo listo, perfil profesional, reposicion, gondolas, stock, vencimientos, deposito y ritmo operativo."
       intro={[
         "Un CV de repositor debe transmitir responsabilidad, orden y capacidad operativa. Conviene mostrar experiencia en reposicion, control de stock, rotacion de productos, limpieza de sector, descarga, inventario y atencion basica al cliente.",
-        "VitaeSpark te ayuda a ordenar esa experiencia en un curriculum repositor mas claro, con perfil profesional, habilidades de stock y una estructura ATS para supermercados, mayoristas, farmacias, tiendas y comercios.",
+        "En algunos países el puesto se publica como reponedor. VitaeSpark te ayuda a ordenar la misma experiencia en un currículum claro para supermercados, mayoristas, farmacias, tiendas y comercios.",
       ]}
       exampleImage={{
         src: "/cv-examples/cv-repositor.png",
@@ -85,6 +87,13 @@ export default function CvParaRepositorPage() {
           ],
         },
         {
+          title: "Repositor o reponedor: cómo adaptar el currículum",
+          paragraphs: [
+            "Repositor y reponedor describen funciones muy parecidas. Usa en el título del CV la palabra que aparece en la oferta y conserva tareas reconocibles como reposición, rotación, stock, vencimientos y orden de góndolas.",
+            "Si la vacante combina salón y depósito, menciona también recepción de mercadería, carga y descarga, preparación de pedidos o inventario cuando formen parte de tu experiencia real.",
+          ],
+        },
+        {
           title: "CV para repositor sin experiencia",
           paragraphs: [
             "Si no tienes experiencia directa, puedes destacar disponibilidad horaria, responsabilidad, puntualidad, buena condicion para tareas operativas, estudios, cursos o trabajos informales donde hayas demostrado orden y constancia.",
@@ -136,6 +145,11 @@ export default function CvParaRepositorPage() {
           question: "Como hacer un CV de repositor sin experiencia?",
           answer:
             "Destaca disponibilidad horaria, responsabilidad, puntualidad, condicion para tareas operativas, estudios, atencion al publico, tareas informales y ganas de aprender procesos de stock o reposicion.",
+        },
+        {
+          question: "Repositor y reponedor significan lo mismo?",
+          answer:
+            "En la mayoría de las ofertas describen funciones similares. Conviene usar el término de la vacante y detallar reposición, stock, vencimientos, góndolas y depósito según corresponda.",
         },
       ]}
       relatedLinks={[

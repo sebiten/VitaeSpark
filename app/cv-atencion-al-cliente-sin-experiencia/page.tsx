@@ -33,6 +33,12 @@ export default function CvAtencionClienteSinExperienciaPage() {
         "Para postularte a atencion al cliente sin experiencia, el CV no tiene que inventar trabajo previo. Tiene que mostrar que sabes comunicarte, aprender procesos, tratar con personas y sostener una atencion ordenada desde el primer dia.",
         "VitaeSpark te ayuda a transformar estudios, cursos, ventas informales, voluntariados, proyectos o experiencias cotidianas en un curriculum mas claro para retail, soporte, recepcion, chat o mostrador.",
       ]}
+      conversionCta={{
+        title: "Tu experiencia informal también puede convertirse en un CV",
+        description:
+          "Incluye ventas por redes, ayuda familiar, estudios, cursos o voluntariado. VitaeSpark te ayuda a presentarlos sin inventar empleos.",
+        label: "Crear mi primer CV",
+      }}
       exampleImage={{
         src: "/cv-examples/cv-atencion.png",
         alt: "Ejemplo completo de CV para atención al cliente",

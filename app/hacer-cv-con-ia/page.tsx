@@ -25,7 +25,7 @@ export default function HacerCvConIaPage() {
       description="VitaeSpark transforma tus datos reales en un currículum claro, editable y listo para descargar en PDF, sin quitarte el control del contenido."
       intro={[
         "Un generador de CV con IA sirve cuando sabés qué hiciste, pero te cuesta convertirlo en un perfil profesional y experiencias fáciles de leer. La herramienta debe ayudarte a ordenar y redactar, no agregar empresas, fechas o logros que nunca existieron.",
-        "En VitaeSpark primero completás tus datos con tus propias palabras. No necesitás registrarte para empezar. Al generar el CV, la IA mejora la redacción, conserva la información importante y deja el resultado guardado para que puedas revisarlo antes de pagar.",
+        "En VitaeSpark completás tus datos con tus propias palabras y podés generar y revisar el CV completo sin registrarte. La IA mejora la redacción, conserva la información importante y muestra el resultado con marca de agua antes del pago.",
       ]}
       benefits={[
         "Convierte tareas generales en experiencia concreta y fácil de escanear.",
@@ -68,7 +68,7 @@ export default function HacerCvConIaPage() {
           title: "Qué podés controlar antes de descargar",
           paragraphs: [
             "Podés cambiar de plantilla antes del pago sin volver a cargar los datos, revisar el CV completo con marca de agua y corregir cualquier información que no esté clara.",
-            "Después del pago, el CV queda asociado a la plantilla elegida y guardado en tu perfil. Podés editar sus datos y descargar nuevas versiones sin reconstruirlo desde cero.",
+            "Después del pago podés descargar el PDF sin marca de agua. Si pagás como invitado, recibís por email un acceso seguro para guardar el CV en una cuenta, editar sus datos y descargar nuevas versiones con la plantilla elegida.",
           ],
         },
       ]}
@@ -81,7 +81,12 @@ export default function HacerCvConIaPage() {
         {
           question: "¿Tengo que registrarme antes de completar el CV?",
           answer:
-            "No. Podés elegir plantilla y completar el formulario sin registrarte. Te pediremos iniciar sesión al generar el CV para guardar el borrador y el resultado de forma segura.",
+            "No. Podés completar, generar, previsualizar y pagar el CV como invitado. Al pagar te pedimos un email para enviarte un acceso seguro y conservar el documento en una cuenta.",
+        },
+        {
+          question: "¿Puedo descargar el CV apenas se aprueba el pago?",
+          answer:
+            "Sí. Al volver del pago aprobado podés descargar el PDF sin marca de agua. El enlace enviado por email sirve para conservarlo y editarlo desde otros dispositivos.",
         },
         {
           question: "¿Puedo editar el CV generado?",

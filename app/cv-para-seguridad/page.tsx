@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Seguridad: Ejemplo, Perfil y Habilidades de Vigilador",
+  title: "CV para Seguridad: Ejemplo de Vigilante o Guardia",
   description:
-    "Crea un CV para seguridad o vigilador con ejemplo, perfil profesional, control de accesos, rondas, camaras, protocolos y formato ATS.",
+    "Crea un CV para vigilante, guardia o vigilador con ejemplos de control de accesos, rondas, cámaras, protocolos y registro de novedades.",
   path: "/cv-para-seguridad",
   keywords: [
     "cv para seguridad",
@@ -12,6 +12,8 @@ export const metadata = buildMetadata({
     "cv vigilador",
     "cv para vigilador",
     "curriculum vigilador",
+    "curriculum vigilante de seguridad",
+    "curriculum guardia de seguridad",
     "ejemplo cv seguridad",
     "habilidades seguridad curriculum",
     "cv de seguridad",
@@ -23,11 +25,11 @@ export default function CvParaSeguridadPage() {
     <MarketingPage
       path="/cv-para-seguridad"
       eyebrow="CV por profesion"
-      title="CV para seguridad: ejemplo, perfil y habilidades de vigilador"
-      description="Arma un curriculum para seguridad o vigilador destacando control de accesos, recorridas, prevencion, camaras, registro de novedades y responsabilidad."
+      title="CV para seguridad: ejemplo de vigilante o guardia"
+      description="Presenta control de accesos, recorridas, prevención, cámaras, registro de novedades y protocolos en un currículum claro."
       intro={[
-        "Un CV para seguridad debe transmitir confianza, atencion al detalle y criterio para actuar ante situaciones sensibles. Conviene mostrar experiencia en control de accesos, monitoreo, recorridas, registro de novedades y trato con personas.",
-        "VitaeSpark te ayuda a ordenar esa experiencia en un curriculum seguridad mas claro, con perfil profesional, habilidades utiles y estructura ATS para vigilancia, control de ingreso o prevencion.",
+        "Un CV para seguridad debe transmitir confianza, atención al detalle y criterio para actuar ante situaciones sensibles. Conviene mostrar experiencia en control de accesos, monitoreo, recorridas, registro de novedades y trato con personas.",
+        "El puesto puede llamarse vigilante, guardia, vigilador o personal de seguridad según el país y la empresa. Usa el nombre de la vacante y conserva tareas concretas que permitan entender tu experiencia.",
       ]}
       exampleImage={{
         src: "/cv-examples/cv-seguridad.png",
@@ -80,17 +82,10 @@ export default function CvParaSeguridadPage() {
           ],
         },
         {
-          title: "CV para vigilador privado",
+          title: "Currículum de vigilante, guardia o vigilador privado",
           paragraphs: [
-            "Para vigilador privado conviene usar terminos concretos: control de accesos, rondas, registro de visitantes, monitoreo de camaras, parte diario, prevencion, custodia de instalaciones y cumplimiento de protocolos.",
-            "Si trabajaste en consorcios, comercios, eventos, empresas o depositos, mencionalo. El contexto ayuda al reclutador a entender el nivel de exposicion, trato con personas y responsabilidad del puesto.",
-          ],
-        },
-        {
-          title: "CV para seguridad sin experiencia",
-          paragraphs: [
-            "Si estas empezando, puedes destacar responsabilidad, puntualidad, disponibilidad horaria, buen trato, atencion al detalle, estudios, cursos o experiencias donde hayas cuidado espacios, personas o procedimientos.",
-            "Tambien ayuda mencionar si puedes trabajar de noche, fines de semana o turnos rotativos, siempre que sea real.",
+            "Usa términos concretos: control de accesos, rondas, registro de visitantes, monitoreo de cámaras, parte diario, prevención, custodia de instalaciones y cumplimiento de protocolos.",
+            "Si trabajaste en consorcios, comercios, eventos, empresas o depósitos, menciónalo. El contexto ayuda a entender el nivel de exposición, trato con personas y responsabilidad del puesto.",
           ],
         },
         {

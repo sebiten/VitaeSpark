@@ -2,15 +2,14 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Curriculum Atencion al Cliente: Ejemplo, Perfil y Habilidades",
+  title: "Currículum de Atención al Cliente: Perfil y Ejemplos",
   description:
-    "Crea un curriculum de atencion al cliente con ejemplo listo, perfil profesional, habilidades, reclamos, CRM, soporte y estructura ATS.",
+    "Presenta tu experiencia en atención al cliente con ejemplos de perfil, reclamos, CRM, soporte, retail y habilidades en un formato claro para ATS.",
   path: "/cv-para-atencion-al-cliente",
   keywords: [
     "cv para atencion al cliente",
     "curriculum atencion al cliente",
     "cv atencion al cliente",
-    "curriculum atencion al cliente sin experiencia",
     "curriculum para atencion al cliente",
     "ejemplo cv atencion al cliente",
     "habilidades atencion al cliente curriculum",
@@ -22,12 +21,18 @@ export default function CvParaAtencionAlClientePage() {
     <MarketingPage
       path="/cv-para-atencion-al-cliente"
       eyebrow="CV por profesion"
-      title="Curriculum atencion al cliente: ejemplo, perfil y habilidades"
-      description="Prepara un CV de atencion al cliente con perfil profesional, reclamos, CRM, canales de contacto, soporte, comercio y estructura ATS."
+      title="Currículum de atención al cliente: perfil y ejemplos"
+      description="Presenta tu experiencia con clientes, reclamos, CRM, soporte, comercio y canales de contacto en un CV claro y fácil de leer."
       intro={[
-        "Un curriculum de atencion al cliente tiene que explicar rapido que canales atendias, que tipo de consultas resolvias y como trabajabas con reclamos, CRM, pedidos o seguimiento de casos. Solo decir 'buena atencion' no alcanza para demostrar experiencia.",
-        "VitaeSpark te ayuda a convertir experiencia real con clientes en un CV de atencion al cliente mas claro, con perfil profesional, habilidades y ejemplos adaptables a soporte, retail, mostrador, chat o telefono.",
+        "Un currículum de atención al cliente tiene que explicar rápido qué canales atendías, qué consultas resolvías y cómo trabajabas con reclamos, CRM, pedidos o seguimiento de casos. Decir solamente 'buena atención' no demuestra el alcance de tu experiencia.",
+        "Esta guía está pensada para personas que ya atendieron clientes en soporte, retail, mostrador, chat o teléfono. Si buscas tu primer puesto, tienes una guía específica de atención al cliente sin experiencia entre los enlaces relacionados.",
       ]}
+      conversionCta={{
+        title: "Convierte tu experiencia con clientes en un CV concreto",
+        description:
+          "Describe tus canales, tareas y herramientas con tus palabras. VitaeSpark los ordena en un perfil y una experiencia listos para revisar.",
+        label: "Crear mi CV de atención al cliente",
+      }}
       exampleImage={{
         src: "/cv-examples/cv-atencion.png",
         alt: "Ejemplo completo de CV para atención al cliente",
@@ -58,66 +63,45 @@ export default function CvParaAtencionAlClientePage() {
       ]}
       sections={[
         {
-          title: "Curriculum atencion al cliente: que destacar primero",
+          title: "Qué destacar en un currículum de atención al cliente",
           paragraphs: [
-            "Suele sumar experiencia con clientes, resolucion de consultas, manejo de reclamos, uso de CRM o sistemas internos, seguimiento de casos y coordinacion con otras areas. Presenta primero las tareas mas cercanas al puesto que buscas.",
-            "Lo ideal es que esas cualidades no aparezcan solas, sino respaldadas por contexto laboral, tipo de canal, volumen gestionado y responsabilidades concretas.",
+            "Prioriza la resolución de consultas, el manejo de reclamos, el uso de CRM o sistemas internos, el seguimiento de casos y la coordinación con otras áreas. Presenta primero las tareas más cercanas al puesto que buscas.",
+            "Aclara el contexto: atención presencial, teléfono, correo, chat, redes o soporte posventa. Si conoces el volumen aproximado de consultas o los tiempos de respuesta, puedes sumarlos sin inventar cifras.",
           ],
         },
         {
-          title: "Curriculum atencion al cliente sin experiencia",
+          title: "Perfil profesional de atención al cliente",
           paragraphs: [
-            "Si buscas un puesto inicial, puedes destacar estudios, cursos, atencion informal, ventas por redes, voluntariado, manejo de herramientas digitales y disponibilidad para aprender procesos.",
-            "En ese caso conviene usar un perfil breve que muestre comunicacion, responsabilidad y trato con personas, sin exagerar experiencia laboral que todavia no tienes.",
+            "Para soporte: 'Perfil de atención al cliente con experiencia en gestión de consultas, seguimiento de casos y resolución de reclamos por canales telefónicos y digitales'.",
+            "Para comercio: 'Perfil de atención al cliente con experiencia en asesoramiento presencial, cambios, reclamos, cobros simples y apoyo a tareas operativas de tienda'.",
           ],
         },
         {
-          title: "Como evitar un perfil demasiado generico",
+          title: "Ejemplos de experiencia para soporte, retail y call center",
           paragraphs: [
-            "Muchas veces estos CVs repiten frases como 'buen trato con el cliente' o 'excelente comunicacion' sin explicar nada mas. Mejora mucho cuando cuentas en que contexto trabajabas, que tipo de consultas atendias, que herramientas usabas o que volumen manejabas por dia.",
-            "Ese nivel de detalle hace que el perfil se vea mas profesional, mas creible y mejor alineado a lo que buscan tanto un ATS como un reclutador.",
+            "Soporte o call center: 'Atendí consultas telefónicas y digitales, registré casos en CRM, derivé reclamos al área correspondiente y realicé seguimiento hasta completar la respuesta'.",
+            "Retail o mostrador: 'Asesoré clientes, resolví consultas sobre productos, gestioné cambios y reclamos simples, y colaboré con caja, stock y orden del sector'.",
           ],
         },
         {
-          title: "Perfil profesional atencion al cliente: ejemplos",
+          title: "Cómo evitar un CV demasiado genérico",
           paragraphs: [
-            "Para soporte: 'Perfil orientado a atencion al cliente con experiencia en gestion de consultas, seguimiento de casos y resolucion de reclamos por canales telefonicos y digitales'.",
-            "Para comercio: 'Perfil de atencion al cliente con experiencia en trato presencial, asesoramiento, gestion de reclamos, cobros simples y apoyo a tareas operativas de tienda'.",
+            "Frases como 'buen trato' o 'excelente comunicación' dicen poco si no están acompañadas por tareas, herramientas o situaciones concretas.",
+            "Incluye el tipo de cliente, canal, consulta y sistema utilizado. Ese contexto permite que un reclutador entienda dónde trabajaste y evita que el documento parezca una plantilla general.",
           ],
         },
         {
-          title: "Ejemplo de CV de atencion al cliente",
+          title: "Habilidades y resultados que sí aportan",
           paragraphs: [
-            "Una redaccion concreta puede ser: 'Atendi consultas por telefono, mostrador y canales digitales, registre casos en sistema, resolvi reclamos frecuentes y derive gestiones complejas al area correspondiente'.",
-            "La frase deja claro el canal, la tarea y el nivel de responsabilidad sin depender de adjetivos generales.",
+            "Prioriza habilidades que puedas demostrar: manejo de reclamos, CRM, seguimiento de pedidos, soporte por chat, caja, facturación o coordinación con otras áreas.",
+            "Si dispones de datos reales, agrega volumen de consultas, cumplimiento de objetivos o mejoras en tiempos de respuesta. Si no los recuerdas, describe alcance y responsabilidad sin estimarlos.",
           ],
         },
         {
-          title: "Ejemplos de experiencia en atencion al cliente",
+          title: "Formato ATS para atención al cliente",
           paragraphs: [
-            "Para call center puedes escribir: 'Atendi consultas telefonicas, registre casos en sistema, derive reclamos al area correspondiente y realice seguimiento hasta completar la respuesta al cliente'.",
-            "Para comercio o mostrador, una frase util seria: 'Asesore clientes, resolvi consultas sobre productos, gestione cambios o reclamos simples y colabore con caja, stock u orden del sector cuando fue necesario'.",
-          ],
-        },
-        {
-          title: "Como evitar que el CV quede demasiado general",
-          paragraphs: [
-            "Frases como 'buen trato' o 'excelente comunicacion' dicen poco si no estan acompanadas por tareas, herramientas o situaciones concretas.",
-            "Incluye el contexto real: call center, retail, soporte, recepcion, reclamos, chat, telefono, CRM, caja o seguimiento de pedidos. Eso permite entender donde y como trabajaste.",
-          ],
-        },
-        {
-          title: "Habilidades y logros que si suman",
-          paragraphs: [
-            "En habilidades, prioriza las que realmente aparecen en avisos del sector: atencion al cliente, manejo de reclamos, CRM, ventas cruzadas, seguimiento de pedidos, soporte por chat, caja, facturacion o coordinacion con otras areas.",
-            "En experiencia, intenta sumar logros medibles como tiempos de respuesta, cantidad de consultas diarias, nivel de satisfaccion, cumplimiento de objetivos o mejora en procesos. Aunque no tengas numeros perfectos, cualquier contexto concreto ayuda mucho.",
-          ],
-        },
-        {
-          title: "Formato ATS para este tipo de puestos",
-          paragraphs: [
-            "Para atencion al cliente conviene un formato simple: titulo claro, perfil breve, experiencia en orden cronologico, habilidades especificas y educacion. Evita disenos demasiado decorativos, tablas innecesarias o bloques de texto largos.",
-            "Un CV ATS no garantiza entrevistas, pero si mejora la lectura del documento y ayuda a que las palabras clave correctas aparezcan en el lugar adecuado.",
+            "Conviene un formato simple: título claro, perfil breve, experiencia en orden cronológico inverso, habilidades específicas y educación. Evita tablas innecesarias o bloques de texto largos.",
+            "La estructura no garantiza una entrevista, pero facilita que el sistema y el reclutador encuentren canales, herramientas y responsabilidades relevantes.",
           ],
         },
       ]}

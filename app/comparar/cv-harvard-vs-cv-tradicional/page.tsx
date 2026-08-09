@@ -31,6 +31,12 @@ export default function CvHarvardVsTradicionalPage() {
         "El formato Harvard es uno de los más reconocidos a nivel mundial para presentar trayectoria profesional. Su estructura clara y jerárquica lo hace fácil de leer tanto para personas como para sistemas automatizados. El CV tradicional, en cambio, tiene variantes muy diversas y no siempre garantiza la misma legibilidad.",
         "La diferencia entre ambos formatos no es solo visual: afecta cómo un reclutador interpreta tu experiencia, qué peso da a cada sección y qué tan rápido puede encontrar la información que busca.",
       ]}
+      conversionCta={{
+        title: "Mira tu experiencia en una plantilla Harvard",
+        description:
+          "Carga tus datos, revisa el CV completo antes de pagar y compara la estructura con otras plantillas disponibles.",
+        label: "Crear mi CV Harvard",
+      }}
       benefits={[
         "Estructura clara que facilita la lectura rápida por parte de recruiters.",
         "Mejor compatibilidad con sistemas ATS por su formato estandarizado.",

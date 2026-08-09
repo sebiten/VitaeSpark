@@ -29,18 +29,27 @@ El precio desbloquea el PDF final del CV generado con la plantilla elegida. Crea
 
 ## Paginas oficiales
 
-- Inicio: https://vitaespark.com/
-- Crear CV: https://vitaespark.com/crear
-- Plantillas: https://vitaespark.com/plantillas-curriculum
-- Curriculum ATS: https://vitaespark.com/curriculum-ats
-- CV con IA: https://vitaespark.com/hacer-cv-con-ia
-- Blog: https://vitaespark.com/blog
-- CV para mineria: https://vitaespark.com/cv-para-mineria
-- Curriculum sin experiencia: https://vitaespark.com/curriculum-sin-experiencia
+- [Inicio y creador de CV](https://vitaespark.com/)
+- [Crear CV](https://vitaespark.com/crear)
+- [Plantillas de curriculum](https://vitaespark.com/plantillas-curriculum)
+- [Curriculum compatible con ATS](https://vitaespark.com/curriculum-ats)
+- [Crear CV con IA](https://vitaespark.com/hacer-cv-con-ia)
+- [Generador gratuito de habilidades para CV](https://vitaespark.com/herramientas/generador-habilidades-cv)
+- [Blog y guias de curriculum](https://vitaespark.com/blog)
+
+## Guias principales
+
+- [CV para mineria](https://vitaespark.com/cv-para-mineria)
+- [CV para atencion al cliente sin experiencia](https://vitaespark.com/cv-atencion-al-cliente-sin-experiencia)
+- [CV administrativo](https://vitaespark.com/cv-para-administrativo)
+- [CV de operario de produccion](https://vitaespark.com/cv-para-operario)
+- [Curriculum sin experiencia](https://vitaespark.com/curriculum-sin-experiencia)
+- [CV Harvard frente a CV tradicional](https://vitaespark.com/comparar/cv-harvard-vs-cv-tradicional)
+- [Habilidades para el curriculum](https://vitaespark.com/blog/habilidades-para-curriculum)
 
 ## Contacto
 
-- Email: soporte@vitaespark.com
-- Instagram: https://www.instagram.com/vitae.spark/
-- Facebook: https://www.facebook.com/profile.php?id=61572162699853
-- TikTok: https://www.tiktok.com/@vitaesapark
+- Email: [soporte@vitaespark.com](mailto:soporte@vitaespark.com)
+- [Instagram](https://www.instagram.com/vitae.spark/)
+- [Facebook](https://www.facebook.com/profile.php?id=61572162699853)
+- [TikTok](https://www.tiktok.com/@vitaesapark)

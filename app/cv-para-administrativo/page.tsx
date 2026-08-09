@@ -29,6 +29,12 @@ export default function CvParaAdministrativoPage() {
         "Un buen CV administrativo permite entender rápido qué procesos manejaste: carga de datos, documentación, facturación, agenda, reportes o soporte a otras áreas. Las tareas concretas aportan más que una lista de cualidades generales.",
         "Esta guía reúne ejemplos de perfil, experiencia y habilidades para puestos administrativos y auxiliares en oficinas, comercios, consultorios, logística y estudios profesionales.",
       ]}
+      conversionCta={{
+        title: "Convierte tus tareas administrativas en experiencia clara",
+        description:
+          "Escribe qué procesos, documentos y herramientas manejaste. VitaeSpark los organiza en un CV profesional listo para revisar.",
+        label: "Crear mi CV administrativo",
+      }}
       exampleImage={{
         src: "/cv-examples/cv-administrativo.png",
         alt: "Ejemplo completo de CV para auxiliar administrativa",
@@ -98,13 +104,6 @@ export default function CvParaAdministrativoPage() {
           paragraphs: [
             "Elige habilidades que puedas respaldar con tareas reales: Excel, Google Sheets, sistemas de gestión, facturación, archivo, redacción de correos, atención telefónica y elaboración de reportes.",
             "También puedes incluir organización documental, seguimiento de vencimientos o coordinación entre áreas. Evita listas demasiado largas y prioriza lo que pide el puesto.",
-          ],
-        },
-        {
-          title: "Cómo armar un CV administrativo sin experiencia",
-          paragraphs: [
-            "Puedes destacar estudios, cursos, manejo de Excel, atención al público, proyectos académicos o experiencias informales donde hayas organizado información y dado seguimiento a tareas.",
-            "En lugar de afirmar que eres organizado, muestra una situación concreta: preparación de planillas, control de entregas, coordinación de un proyecto o administración de pedidos en un negocio familiar.",
           ],
         },
       ]}

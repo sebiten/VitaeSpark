@@ -59,6 +59,7 @@ interface CustomLinkButtonProps {
   size?: "sm" | "md";
   className?: string;
   onClick?: () => void;
+  "aria-label"?: string;
 }
 
 function CustomLinkButton({
@@ -68,6 +69,7 @@ function CustomLinkButton({
   size = "md",
   className = "",
   onClick,
+  ...props
 }: CustomLinkButtonProps) {
   const baseStyles =
     "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#111113] no-underline";
@@ -87,6 +89,7 @@ function CustomLinkButton({
       href={href}
       onClick={onClick}
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      {...props}
     >
       {children}
     </Link>
@@ -167,16 +170,31 @@ export function Navegation() {
         </nav>
 
         <div className="flex items-center gap-4 md:hidden">
-          <CustomLinkButton href="/crear" variant="primary" size="sm">
-            <Paperclip className="h-4 w-4" />
+          <CustomLinkButton
+            href="/crear"
+            variant="primary"
+            size="sm"
+            aria-label="Crear CV"
+          >
+            <Paperclip className="h-4 w-4" aria-hidden="true" />
             <span className="hidden xs:inline">Crear CV</span>
           </CustomLinkButton>
-          <CustomLinkButton href="/" variant="ghost" size="sm">
-            <HomeIcon className="h-4 w-4" />
+          <CustomLinkButton
+            href="/"
+            variant="ghost"
+            size="sm"
+            aria-label="Ir al inicio"
+          >
+            <HomeIcon className="h-4 w-4" aria-hidden="true" />
             <span className="hidden xs:inline">Inicio</span>
           </CustomLinkButton>
-          <CustomLinkButton href="/blog" variant="ghost" size="sm">
-            <FileText className="h-4 w-4" />
+          <CustomLinkButton
+            href="/blog"
+            variant="ghost"
+            size="sm"
+            aria-label="Abrir guías de currículum"
+          >
+            <FileText className="h-4 w-4" aria-hidden="true" />
             <span className="hidden xs:inline">Guía</span>
           </CustomLinkButton>
           <CustomButton

@@ -19,7 +19,7 @@ export default function QueEsCurrriculumVitaePage() {
   return (
     <BlogArticlePage
       path="/glosario/que-es-curriculum-vitae"
-      dateModified="2026-06-28"
+      dateModified="2026-08-09"
       title="Qué es un Currículum Vitae y Cómo Hacer uno Profesional"
       description="Un currículum vitae es el documento más importante para presentar tu perfil profesional. Conocé qué es, cómo se diferencia del CV simple y del resume, qué secciones debe tener y cómo armar uno que destaque."
       intro="El término 'currículum vitae' viene del latín y significa literalmente 'carrera de vida'. Es un documento que resume tu trayectoria profesional, académica y tus habilidades para presentarte ante un potencial empleador. En Argentina y Latinoamérica, se lo conoce comúnmente como 'CV' y es el instrumento principal para aplicar a trabajos, prácticas profesionales o oportunidades laborales."
@@ -54,7 +54,7 @@ export default function QueEsCurrriculumVitaePage() {
         {
           title: "Errores comunes en los currículums vitae",
           paragraphs: [
-            "Exceso de información: Incluir todo lo que hiciste en 20 años de carrera sin selectivity. El reclutador busca relevancia, no exhaustividad. Solo lo que se relaciona con el puesto cuenta.",
+            "Exceso de información: incluir toda la trayectoria sin un criterio de selección. El reclutador busca relevancia, no exhaustividad. Prioriza lo que se relaciona con el puesto.",
             "Diseño recargado: Fuentes decorativas, colores llamativos, columnas múltiples, iconos creativos. Todo eso dificulta la lectura y puede afectar la compatibilidad con sistemas ATS.",
             "Perfil genérico: 'Soy una persona responsable y proactiva' no dice nada concreto. El perfil debe ser específico y comunicar qué podés aportar al empleador.",
             "Errores ortográficos y de formato: Revisar siempre. Un CV con errores transmite descuido y falta de atención al detalle.",
@@ -67,7 +67,7 @@ export default function QueEsCurrriculumVitaePage() {
             "Comenzá con un perfil claro y específico. No uses frases genéricas: indicá qué hacés, en qué sector, con qué herramientas o metodologías, y qué tipo de resultados lograste.",
             "Usá verbos de acción y logros medibles: 'Lideré equipo de 5 personas' > 'Responsable del equipo'. 'Aumenté ventas un 20%' > 'Mejoré performance'. Los números hablan más que las descripciones vagas.",
             "Adaptá el CV a cada puesto: No existe un CV único que sirva para todo. Revisá la oferta, identificá las palabras clave y ajustá tu contenido para maximizar coincidencias.",
-            "Mantenelo conciso: 1 a 2 páginas es el rango ideal. Cada línea debe aportar información relevante. Si podés eliminate una frase sin perder sentido, eliminarla.",
+            "Mantenelo conciso: 1 a 2 páginas es un rango habitual. Cada línea debe aportar información relevante. Si podés eliminar una frase sin perder sentido, probablemente no sea necesaria.",
             "Usá formato profesional y limpio: Fuente sans-serif tamaño 11-12, títulos claros, espacio en blanco suficiente. Que se vea fácil de escanear.",
           ],
         },
@@ -97,9 +97,9 @@ export default function QueEsCurrriculumVitaePage() {
             "Depende de tu trayectoria. El cronológico funciona mejor para perfiles con experiencia lineal y consistente. El funcional funciona mejor para transiciones de carrera o perfiles con lagunas. VitaeSpark permite elegir el formato que mejor se adapte.",
           },
         {
-          question: "Cómo incluyoachievements sin parecer arrogante?",
+          question: "¿Cómo incluyo logros sin parecer arrogante?",
           answer:
-            "Usá datos y resultados concretos en vez de adjetivos. 'Aumenté la satisfaction del cliente en un 15%' es más creíble que 'Soy excelente en atención al cliente'. Los números hablan por sí solos.",
+            "Usá datos y resultados concretos en vez de adjetivos. 'Aumenté la satisfacción del cliente en un 15%' es más creíble que 'Soy excelente en atención al cliente'. Incluí cifras solo cuando sean reales y verificables.",
         },
       ]}
       sources={[

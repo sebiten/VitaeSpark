@@ -8,6 +8,7 @@ import { PendingPaymentRecovery } from "@/components/PendingPaymentRecovery";
 import { CampaignAttributionCapture } from "@/components/CampaignAttributionCapture";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Toaster } from "sonner";
+import { PRICING } from "@/lib/pricing";
 import { getBaseUrl } from "@/lib/seo";
 import "./globals.css";
 
@@ -161,7 +162,8 @@ export default async function RootLayout({
               name: "Vitae Spark",
               alternateName: "Creador de currículum online",
               description:
-                "Crea tu currículum vitae online con inteligencia artificial, plantillas profesionales, edición posterior y enfoque ATS para conseguir más entrevistas.",
+                "Crea tu currículum vitae online con inteligencia artificial, plantillas profesionales, edición posterior y estructura clara para ATS y reclutadores.",
+              inLanguage: "es",
             }),
           }}
         />
@@ -174,9 +176,33 @@ export default async function RootLayout({
               name: "Vitae Spark",
               applicationCategory: "BusinessApplication",
               operatingSystem: "Web",
+              inLanguage: "es",
               url: baseUrl.href,
               description:
                 "Herramienta web para crear, editar y descargar currículum vitae online con IA, plantillas profesionales y enfoque ATS.",
+              featureList: [
+                "Generación y vista previa sin registro",
+                "Redacción asistida con IA",
+                "Plantillas profesionales",
+                "Edición posterior del CV",
+                "Descarga en PDF sin marca de agua después del pago",
+              ],
+              offers: [
+                {
+                  "@type": "Offer",
+                  name: "Desbloqueo de CV en Argentina",
+                  price: PRICING.mercadoPago.value,
+                  priceCurrency: PRICING.mercadoPago.currency,
+                  url: baseUrl.href,
+                },
+                {
+                  "@type": "Offer",
+                  name: "Desbloqueo internacional de CV",
+                  price: PRICING.paypal.value,
+                  priceCurrency: PRICING.paypal.currency,
+                  url: baseUrl.href,
+                },
+              ],
               publisher: {
                 "@type": "Organization",
                 name: "Vitae Spark",

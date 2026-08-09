@@ -32,6 +32,12 @@ export default function CvParaLimpiezaPage() {
         "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas, y con que rutinas o productos lo hacias.",
         "VitaeSpark te ayuda a presentar esa experiencia en un curriculum limpieza mas profesional, con perfil claro, habilidades utiles y estructura ATS facil de leer para reclutadores.",
       ]}
+      conversionCta={{
+        title: "Presenta tus tareas de limpieza con más claridad",
+        description:
+          "Indica lugares, rutinas, productos y responsabilidades. VitaeSpark los convierte en experiencia concreta para tu CV.",
+        label: "Crear mi CV de limpieza",
+      }}
       exampleImage={{
         src: "/cv-examples/cv-limpieza.png",
         alt: "Ejemplo completo de CV para operaria de limpieza",
@@ -71,15 +77,8 @@ export default function CvParaLimpiezaPage() {
         {
           title: "CV para limpieza sin experiencia",
           paragraphs: [
-            "Si no tienes experiencia formal, puedes destacar responsabilidad, puntualidad, orden, tareas domesticas, trabajos informales, disponibilidad horaria y capacidad para seguir instrucciones.",
-            "Lo importante es mostrar confianza y claridad. Un perfil simple pero concreto suele funcionar mejor que frases muy generales.",
-          ],
-        },
-        {
-          title: "Curriculum de limpieza sin experiencia",
-          paragraphs: [
-            "Para un primer empleo, conviene mencionar disponibilidad, puntualidad, cuidado de espacios, seguimiento de indicaciones, tareas domesticas, referencias si tienes y voluntad para aprender rutinas del lugar.",
-            "Tambien ayuda aclarar el tipo de lugar al que apuntas: oficinas, edificios, casas, comercios, escuelas, salud o limpieza industrial. Cada contexto cambia las palabras que conviene usar.",
+            "Si no tienes experiencia formal, puedes destacar responsabilidad, puntualidad, tareas domésticas o informales, disponibilidad horaria, cuidado de espacios y capacidad para seguir instrucciones.",
+            "Aclara el tipo de lugar al que apuntas: oficinas, edificios, casas, comercios, escuelas, salud o limpieza industrial. Un perfil simple y concreto funciona mejor que una lista de cualidades generales.",
           ],
         },
         {
@@ -93,7 +92,7 @@ export default function CvParaLimpiezaPage() {
           title: "Ejemplos de experiencia para limpieza",
           paragraphs: [
             "Para oficinas o edificios puedes escribir: 'Realice limpieza de espacios comunes, sanitarios y puestos de trabajo, repuse insumos y mantuve ordenados los materiales segun la rutina del lugar'.",
-            "Para salud o gastronomia conviene aclarar los protocolos que seguias, la separacion de elementos y la frecuencia de cada tarea, siempre respetando tu experiencia real.",
+            "Para salud o gastronomía: 'Apliqué rutinas de limpieza y desinfección por sector, separé elementos de trabajo, repuse insumos y cumplí los protocolos y frecuencias indicados'. Usa esta estructura solo si representa tus tareas reales.",
           ],
         },
         {
