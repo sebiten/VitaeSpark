@@ -18,6 +18,7 @@ import {
 import { getRequestCountry } from "@/lib/market";
 import { createClient } from "@/utils/supabase/server";
 import { recordAiGenerationUsage } from "@/lib/ai-generation-usage";
+import { normalizeCvGenerationOutput } from "@/lib/cv-generation-output";
 import { CV_GENERATION_MODEL } from "@/lib/ai-generation-model";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
@@ -343,8 +344,18 @@ Respond exclusively with valid JSON using this exact structure:
     );
   }
 
-  const parsed = await CVSchema.safeParseAsync(result);
+  const directParse = await CVSchema.safeParseAsync(result);
+  const parsed = directParse.success
+    ? directParse
+    : await CVSchema.safeParseAsync(normalizeCvGenerationOutput(result, body));
   if (!parsed.success) {
+    console.error(
+      "La respuesta del modelo no pudo normalizarse:",
+      parsed.error.issues.map((issue) => ({
+        code: issue.code,
+        path: issue.path.join("."),
+      })),
+    );
     await recordAiGenerationUsage({
       userId: user?.id,
       sessionId: body.attribution?.session_id,
@@ -391,6 +402,7 @@ Respond exclusively with valid JSON using this exact structure:
     cacheWriteTokens: promptTokenDetails?.cache_write_tokens,
     outputTokens: completion?.usage?.completion_tokens,
     success: true,
+    errorCode: directParse.success ? null : "schema_repaired",
   });
   await recordAnalyticsEventServer({
     event_name: "cv_generated",

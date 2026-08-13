@@ -50,6 +50,7 @@ import {
 type CVFormProps = {
   initialLanguage?: AppLanguage;
   initialIntent?: CreateIntent;
+  initialRole?: string | null;
   initialResumeAction?: ResumeAction | null;
   currentUser: CheckoutUser | null;
   guestCheckoutEnabled: boolean;
@@ -111,6 +112,7 @@ function hasDraftContent(data: DatosCVFormulario) {
 export default function CVForm({
   initialLanguage = "es",
   initialIntent = "general",
+  initialRole = null,
   initialResumeAction = null,
   currentUser,
   guestCheckoutEnabled,
@@ -510,6 +512,16 @@ export default function CVForm({
           return;
         }
 
+        if (initialRole) {
+          draftDataRef.current = {
+            ...createEmptyDraft(),
+            puesto: initialRole,
+          };
+          createIntentRef.current = "job-specific";
+          setCreateIntent("job-specific");
+          writeStoredDraft(null, "template");
+        }
+
         if (initialResumeAction === "checkout") {
           toast.error(
             initialLanguage === "en"
@@ -648,6 +660,7 @@ export default function CVForm({
   }, [
     handleResumeActionConsumed,
     initialLanguage,
+    initialRole,
     initialResumeAction,
     isPermanentUser,
     runtimeUser,

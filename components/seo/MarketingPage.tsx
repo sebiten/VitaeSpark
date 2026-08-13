@@ -10,6 +10,7 @@ import { Breadcrumbs } from "./Breadcrumbs";
 import { LandingCvDiagnosticCta } from "./LandingCvDiagnosticCta";
 import { TrackedCtaLink } from "./TrackedCtaLink";
 import { getBaseUrl } from "@/lib/seo";
+import { getJobCreateHref } from "@/lib/job-landing";
 
 type Faq = {
   question: string;
@@ -101,7 +102,7 @@ export function MarketingPage({
     caption: "Ejemplo ilustrativo de un currículum generado en VitaeSpark.",
   };
   const cta = ctaLabel || "Crear mi CV";
-  const createHref = "/crear?intent=job-specific";
+  const createHref = getJobCreateHref(path);
   const baseUrl = getBaseUrl();
 
   const faqSchema = {

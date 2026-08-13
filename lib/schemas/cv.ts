@@ -66,7 +66,7 @@ export const CVSchema = z.object({
     .array(
       z.object({
         cargo: boundedText(1, 140),
-        empresa: boundedText(1, 140),
+        empresa: z.string().trim().max(140),
         fechas: z.string().trim().max(80),
         ubicacion: z.string().trim().max(120),
         logros: z.array(boundedText(1, 320)).min(1).max(4),
@@ -77,7 +77,7 @@ export const CVSchema = z.object({
   formacion: z
     .array(
       z.object({
-        institucion: boundedText(1, 180),
+        institucion: z.string().trim().max(180),
         titulo: z.string().trim().max(180),
         fechas: z.string().trim().max(80),
         ubicacion: z.string().trim().max(120),

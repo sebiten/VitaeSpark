@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { AlertCircle, CheckCircle2, ClipboardCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TrackedCtaLink } from "./TrackedCtaLink";
+import { getJobCreateHref } from "@/lib/job-landing";
 
 type LandingCvDiagnosticCtaProps = {
   path: string;
@@ -135,7 +136,7 @@ export function LandingCvDiagnosticCta({
           <p className="mt-2 text-sm leading-6 text-white/68">{result.text}</p>
           <div className="mt-5">
             <TrackedCtaLink
-              href="/crear?intent=job-specific"
+              href={getJobCreateHref(path)}
               label={ctaLabel}
               sourcePath={path}
               sourceType="landing"

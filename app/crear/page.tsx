@@ -5,11 +5,17 @@ import { normalizeLanguage } from "@/lib/i18n";
 import { normalizeCreateIntent } from "@/lib/blog-intent";
 import { getRequestCountry } from "@/lib/market";
 import { isGuestCheckoutEnabled } from "@/lib/guest-checkout-server";
+import { normalizeCreateRole } from "@/lib/job-landing";
 
 const Page = async ({
   searchParams,
 }: {
-  searchParams?: Promise<{ lang?: string; intent?: string; resume?: string }>;
+  searchParams?: Promise<{
+    lang?: string;
+    intent?: string;
+    resume?: string;
+    role?: string;
+  }>;
 }) => {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
@@ -17,6 +23,7 @@ const Page = async ({
   const params = await searchParams;
   const language = normalizeLanguage(params?.lang);
   const initialIntent = normalizeCreateIntent(params?.intent);
+  const initialRole = normalizeCreateRole(params?.role);
   const initialResumeAction =
     params?.resume === "generate" ||
     params?.resume === "photo" ||
@@ -37,6 +44,7 @@ const Page = async ({
         <CVForm
           initialLanguage={language}
           initialIntent={initialIntent}
+          initialRole={initialRole}
           initialResumeAction={initialResumeAction}
           currentUser={currentUser}
           guestCheckoutEnabled={isGuestCheckoutEnabled()}
