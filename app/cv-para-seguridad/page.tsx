@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Seguridad: Ejemplo de Vigilante o Guardia",
+  title: "CV para Seguridad: Ejemplo, Perfil y Habilidades de Vigilador",
   description:
-    "Crea un CV para vigilante, guardia o vigilador con ejemplos de control de accesos, rondas, cámaras, protocolos y registro de novedades.",
+    "Crea un CV para seguridad o vigilador con ejemplo, perfil profesional, control de accesos, rondas, cámaras, protocolos y formato ATS.",
   path: "/cv-para-seguridad",
   keywords: [
     "cv para seguridad",
@@ -12,8 +12,6 @@ export const metadata = buildMetadata({
     "cv vigilador",
     "cv para vigilador",
     "curriculum vigilador",
-    "curriculum vigilante de seguridad",
-    "curriculum guardia de seguridad",
     "ejemplo cv seguridad",
     "habilidades seguridad curriculum",
     "cv de seguridad",
@@ -25,11 +23,11 @@ export default function CvParaSeguridadPage() {
     <MarketingPage
       path="/cv-para-seguridad"
       eyebrow="CV por profesion"
-      title="CV para seguridad: ejemplo de vigilante o guardia"
-      description="Presenta control de accesos, recorridas, prevención, cámaras, registro de novedades y protocolos en un currículum claro."
+      title="CV para seguridad: ejemplo, perfil y habilidades de vigilador"
+      description="Armá un currículum para seguridad o vigilador destacando control de accesos, recorridas, prevención, cámaras, registro de novedades y responsabilidad."
       intro={[
         "Un CV para seguridad debe transmitir confianza, atención al detalle y criterio para actuar ante situaciones sensibles. Conviene mostrar experiencia en control de accesos, monitoreo, recorridas, registro de novedades y trato con personas.",
-        "El puesto puede llamarse vigilante, guardia, vigilador o personal de seguridad según el país y la empresa. Usa el nombre de la vacante y conserva tareas concretas que permitan entender tu experiencia.",
+        "VitaeSpark te ayuda a ordenar esa experiencia en un currículum de seguridad más claro, con perfil profesional, habilidades útiles y estructura ATS para vigilancia, control de ingreso o prevención.",
       ]}
       exampleImage={{
         src: "/cv-examples/cv-seguridad.png",
@@ -82,10 +80,17 @@ export default function CvParaSeguridadPage() {
           ],
         },
         {
-          title: "Currículum de vigilante, guardia o vigilador privado",
+          title: "CV para vigilador privado",
           paragraphs: [
             "Usa términos concretos: control de accesos, rondas, registro de visitantes, monitoreo de cámaras, parte diario, prevención, custodia de instalaciones y cumplimiento de protocolos.",
             "Si trabajaste en consorcios, comercios, eventos, empresas o depósitos, menciónalo. El contexto ayuda a entender el nivel de exposición, trato con personas y responsabilidad del puesto.",
+          ],
+        },
+        {
+          title: "CV para seguridad sin experiencia",
+          paragraphs: [
+            "Si estás empezando, podés destacar responsabilidad, puntualidad, disponibilidad horaria, buen trato, atención al detalle, estudios, cursos o experiencias donde hayas cuidado espacios, personas o procedimientos.",
+            "También ayuda mencionar si podés trabajar de noche, fines de semana o turnos rotativos, siempre que sea real.",
           ],
         },
         {
