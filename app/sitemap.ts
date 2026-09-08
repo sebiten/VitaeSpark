@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getBaseUrl } from "@/lib/seo";
-import { publicSeoRoutes } from "@/lib/seo-routes";
+import { publicSeoRoutes, seoContentLastModified } from "@/lib/seo-routes";
 
 export const dynamic = "force-static";
 
@@ -40,6 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return publicSeoRoutes.map((route) => ({
     url: new URL(route, baseUrl).toString(),
+    lastModified: seoContentLastModified[route],
     changeFrequency: getChangeFrequency(route),
     priority: getPriority(route),
     ...getLanguageAlternate(route, baseUrl),

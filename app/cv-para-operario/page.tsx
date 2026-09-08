@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Operario de Produccion: Ejemplo, Perfil y Habilidades",
+  title: "CV de Operario de Producción: Ejemplo y Perfil Profesional",
   description:
-    "Arma un CV de operario de produccion con ejemplo listo, perfil profesional, tareas de fabrica, deposito, habilidades y formato ATS.",
+    "Ejemplo completo de currículum de operario de producción con perfil profesional, experiencia y habilidades. Adáptalo a fábrica, empaque o depósito.",
   path: "/cv-para-operario",
   keywords: [
     "cv para operario",
@@ -21,8 +21,8 @@ export default function CvParaOperarioPage() {
     <MarketingPage
       path="/cv-para-operario"
       eyebrow="CV por profesion"
-      title="CV operario de produccion: ejemplo listo para fabrica o deposito"
-      description="Ejemplo de curriculum operario con perfil profesional, tareas de produccion, deposito, mantenimiento, habilidades practicas y estructura clara."
+      title="Currículum de operario de producción: ejemplo y perfil profesional"
+      description="Adapta un modelo completo con tareas de línea, controles, herramientas y turnos. Incluye ejemplos de perfil para producción y depósito."
       intro={[
         "Un curriculum operario de produccion tiene que mostrar rapido que tareas sabes hacer: linea de produccion, deposito, mantenimiento, embalaje, control de calidad, carga y descarga o logistica. Esa claridad suele importar mas que un texto largo.",
         "VitaeSpark te ayuda a ordenar esas tareas en un CV para operario mas claro, con perfil profesional, habilidades utiles y estructura ATS para empresas industriales, depositos, comercios y servicios.",
@@ -63,6 +63,18 @@ export default function CvParaOperarioPage() {
       ]}
       sections={[
         {
+          title: "Ejemplo completo de currículum de operario de producción",
+          paragraphs: [
+            "Modelo ficticio para adaptar a tu experiencia. Sustituye los campos entre corchetes y elimina cualquier tarea que no hayas realizado.",
+            "[Nombre y apellido] · Operario de producción · [Ciudad] · [Teléfono] · [Correo electrónico].",
+            "Perfil profesional: Operario con experiencia en armado, control visual y embalaje de productos en línea. Manejo de registros de producción, identificación de unidades defectuosas y preparación del puesto para el siguiente turno.",
+            "Experiencia: Operario de producción · [Empresa y rubro] · [Mes/año de inicio–mes/año de fin]. Realicé el armado y empaque según la orden de trabajo; separé unidades con defectos visibles; registré las cantidades terminadas e informé incidencias al encargado de línea.",
+            "Formación: [Estudios y estado: completos o en curso] · [Institución] · [Año]. Capacitación: [Curso relacionado con el puesto, entidad y fecha], si corresponde.",
+            "Habilidades: interpretación de órdenes de trabajo, control visual, etiquetado, embalaje y registro de producción. Herramientas o máquinas: [Nombre y tareas que sabes realizar con cada una].",
+            "Disponibilidad: [Horarios o turnos que puedes cubrir] · [Fecha de incorporación]. No incluyas cifras de productividad ni certificaciones que no puedas respaldar.",
+          ],
+        },
+        {
           title: "Curriculum operario de produccion: que destacar primero",
           paragraphs: [
             "Suele sumar experiencia en produccion, armado, embalaje, control de calidad, deposito, carga y descarga, uso de herramientas, limpieza del sector, mantenimiento basico y cumplimiento de normas de seguridad. Esas tareas explican mejor el perfil que una frase como 'trabajos generales'.",
@@ -70,17 +82,18 @@ export default function CvParaOperarioPage() {
           ],
         },
         {
-          title: "Perfil profesional para operario",
+          title: "Perfil profesional de operario de producción: ejemplos",
           paragraphs: [
-            "Una base posible es: 'Perfil operativo con experiencia en tareas de produccion, deposito y cumplimiento de procesos, con enfoque en responsabilidad, orden, seguridad y trabajo en equipo'.",
-            "Lo ideal es adaptar el texto a tu experiencia real: fabrica, deposito, mantenimiento, logistica o servicios generales.",
+            "Producción: 'Operario con experiencia en armado, empaque y control visual en línea. Acostumbrado a registrar cantidades, detectar desvíos y coordinar la entrega del puesto entre turnos'.",
+            "Depósito o almacén: 'Operario con experiencia en recepción de mercadería, preparación de pedidos y control de stock. Manejo de remitos, ubicación de productos y registro de diferencias para su revisión'.",
+            "Elige la versión cercana a tu recorrido y concreta el rubro y las herramientas que utilizaste. El perfil puede ocupar tres o cuatro líneas; las tareas detalladas van en experiencia.",
           ],
         },
         {
-          title: "Ejemplo de CV operario de produccion",
+          title: "Cómo convertir una tarea general en experiencia concreta",
           paragraphs: [
-            "Una redaccion concreta puede ser: 'Realice tareas de armado, embalaje y control visual en linea de produccion, manteniendo orden del sector, cumplimiento de procedimientos y apoyo a objetivos diarios'.",
-            "Si tu experiencia fue mas de deposito, cambia el foco a carga, descarga, preparacion de pedidos, stock y uso de herramientas.",
+            "En lugar de 'tareas de fábrica', escribe la acción, el producto o proceso y el control realizado: 'Embalé piezas terminadas según la orden de trabajo, verifiqué cantidades y etiqueté los bultos para despacho'.",
+            "Si puedes comprobar un resultado, añade el dato y su contexto. Si no tienes registros, describe tu alcance sin inventar porcentajes: sector atendido, tipo de producto, frecuencia del control o coordinación con otro turno.",
           ],
         },
         {
@@ -91,17 +104,17 @@ export default function CvParaOperarioPage() {
           ],
         },
         {
-          title: "Curriculum operario de produccion",
+          title: "Qué cambiar según el tipo de fábrica",
           paragraphs: [
-            "Para operario de produccion conviene mencionar linea de produccion, armado, empaque, control visual, control de calidad, limpieza del puesto, cumplimiento de normas, uso de herramientas y apoyo a procesos de fabrica.",
-            "Si trabajaste con maquinas, turnos rotativos o objetivos diarios, agregalo de forma concreta. Esos datos ayudan a diferenciar un CV generico de uno orientado a produccion real.",
+            "En alimentos, puedes describir envasado, identificación de lotes y registros de limpieza si realizabas esas tareas. En metalurgia, detalla las piezas, herramientas y controles de medidas que conoces.",
+            "En empaque o logística, prioriza armado de pedidos, etiquetado, control de cantidades y preparación de despachos. No copies una lista de máquinas de una oferta: diferencia las que operabas de aquellas con las que solo colaborabas.",
           ],
         },
         {
-          title: "Ejemplo de perfil profesional operario",
+          title: "Cómo indicar herramientas, maquinaria y turnos",
           paragraphs: [
-            "Una version directa puede ser: 'Operario de produccion con experiencia en armado, empaque, control visual, orden del sector y cumplimiento de procedimientos de seguridad en entornos de fabrica'.",
-            "Si tu experiencia viene de deposito, cambia el enfoque a carga, descarga, preparacion de pedidos, stock, orden de mercaderia y apoyo logistico.",
+            "Relaciona cada herramienta con una tarea: 'Lectura de medidas con calibre para control de piezas' aporta más información que 'manejo de herramientas'. Indica si tu función era operar, abastecer, limpiar o asistir en el equipo.",
+            "Separa experiencia de disponibilidad. 'Trabajé en turno nocturno' describe un antecedente; 'disponibilidad para turnos rotativos' indica lo que puedes aceptar ahora. Si una habilitación es relevante, anota su nombre y vigencia reales.",
           ],
         },
         {
@@ -159,6 +172,11 @@ export default function CvParaOperarioPage() {
         },
       ]}
       relatedLinks={[
+        {
+          href: "/blog/como-hacer-un-curriculum",
+          title: "Cómo redactar tu currículum paso a paso",
+          description: "Convierte tus tareas en experiencia y revisa el documento antes de enviarlo.",
+        },
         {
           href: "/blog/errores-en-el-curriculum",
           title: "Errores que debilitan un curriculum",

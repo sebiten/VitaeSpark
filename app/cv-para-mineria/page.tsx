@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Mineria: Ejemplo Listo para Minera y Ayudante",
+  title: "CV para Minería: Modelo, Perfil y Ejemplo para Minera",
   description:
-    "Arma tu CV para mineria con ejemplo, perfil profesional, seguridad, turnos, campamento y formato claro para postular a mineras.",
+    "Consulta un modelo de CV para minería con perfil, experiencia, cursos y disponibilidad. Adáptalo a ayudante de mina y prepara tu versión en PDF.",
   path: "/cv-para-mineria",
   keywords: [
     "cv para mineria",
@@ -29,8 +29,8 @@ export default function CvParaMineriaPage() {
     <MarketingPage
       path="/cv-para-mineria"
       eyebrow="CV por profesion"
-      title="CV para mineria listo para postular a mineras"
-      description="Ejemplo de curriculum para mineria con perfil profesional, experiencia operativa, seguridad, turnos y datos que suelen mirar las empresas."
+      title="CV para minería: modelo y ejemplo para postular a una minera"
+      description="Usa un ejemplo completo en texto para ordenar tu perfil, experiencia, cursos y disponibilidad antes de preparar tu CV en PDF."
       intro={[
         "Si buscas trabajo en mineria, el CV tiene que mostrar rapido puesto objetivo, experiencia operativa, seguridad, disponibilidad y antecedentes cercanos al rubro. El reclutador no deberia tener que adivinar si apuntas a planta, mina, mantenimiento, transporte, deposito o campamento.",
         "VitaeSpark te ayuda a ordenar esa informacion en un curriculum para mineria claro, con perfil profesional, habilidades utiles y estructura ATS para mineras, contratistas y servicios industriales.",
@@ -84,6 +84,18 @@ export default function CvParaMineriaPage() {
       ]}
       sections={[
         {
+          title: "Modelo de currículum vitae para minera: ejemplo completo",
+          paragraphs: [
+            "Ejemplo ficticio de un ayudante con experiencia industrial que busca ingresar a minería. Reemplaza los campos entre corchetes y conserva solo las tareas y capacitaciones que puedas acreditar.",
+            "[Nombre y apellido] · Ayudante operativo para minería · [Ciudad, provincia] · [Teléfono] · [Correo electrónico].",
+            "Perfil profesional: Ayudante con experiencia en traslado de materiales, preparación de herramientas y apoyo a mantenimiento en un taller industrial. Acostumbrado a seguir instrucciones de seguridad, utilizar elementos de protección personal y comunicar novedades al responsable del sector.",
+            "Experiencia: Ayudante de taller · [Empresa] · [Mes/año de inicio–mes/año de fin]. Preparé herramientas y materiales para las reparaciones; colaboré con el movimiento y orden de piezas; registré faltantes y mantuve despejada el área de trabajo según las indicaciones del encargado.",
+            "Formación: [Título o estudios cursados] · [Institución] · [Estado y año]. Cursos: [Capacitación de seguridad o técnica] · [Entidad] · [Fecha], únicamente si la realizaste.",
+            "Habilidades: organización de herramientas, identificación de materiales, registro de novedades y trabajo con procedimientos. Detalla equipos o instrumentos solo si sabes utilizarlos.",
+            "Información adicional: [Disponibilidad real para viajar y trabajar por turnos] · [Licencia de conducir y categoría, si corresponde]. Si no trabajaste en una mina, presenta tu experiencia como industrial; no la conviertas en experiencia minera.",
+          ],
+        },
+        {
           title: "Qué destacar en un CV para minería",
           paragraphs: [
             "Suele sumar experiencia en seguridad, uso de EPP, cumplimiento de procedimientos, trabajo por turnos, mantenimiento, carga y descarga, operacion de equipos, control de calidad, limpieza industrial, deposito o logistica.",
@@ -98,10 +110,10 @@ export default function CvParaMineriaPage() {
           ],
         },
         {
-          title: "Ejemplo de CV para ayudante de mina",
+          title: "Cómo describir experiencia como ayudante de mina",
           paragraphs: [
-            "Una formula simple puede ser: 'Colabore en tareas de apoyo operativo, traslado de materiales, orden de herramientas, uso de EPP y cumplimiento de procedimientos de seguridad en entornos industriales y de terreno'.",
-            "El ejemplo deja claro el tipo de trabajo, el entorno y las medidas de seguridad sin atribuir experiencia que la persona no tenga.",
+            "Si ya trabajaste en mina, especifica el sector, a quién asistías y qué tareas realizabas. Por ejemplo: 'Preparé y trasladé materiales para el equipo de mantenimiento, mantuve ordenadas las herramientas y comuniqué faltantes al supervisor al cierre del turno'.",
+            "Distingue asistencia de operación: ayudar a un operador no equivale a estar habilitado para manejar su equipo. Añade el nombre de la maquinaria y tu responsabilidad concreta solo cuando formen parte de tu experiencia.",
           ],
         },
         {
@@ -119,17 +131,17 @@ export default function CvParaMineriaPage() {
           ],
         },
         {
-          title: "CV para ayudante de mina: que poner",
+          title: "Cómo adaptar el modelo a planta, mantenimiento o campamento",
           paragraphs: [
-            "Para ayudante de mina conviene enfocar el CV en apoyo operativo, orden de herramientas, asistencia a tecnicos, carga y descarga, limpieza de sector, cumplimiento de indicaciones y disponibilidad para turnos o campamento.",
-            "Si no tienes experiencia directa, usa antecedentes cercanos: construccion, deposito, mantenimiento, transporte, industria o cursos de seguridad. La clave es mostrar que puedes integrarte a una operacion con disciplina y cuidado.",
+            "Para planta, desarrolla las tareas de operación, controles y registros que conoces. Para mantenimiento, especifica la especialidad, las herramientas y si hacías inspecciones, reparaciones o asistencia a técnicos.",
+            "Para servicios de campamento, prioriza tu experiencia real en limpieza, cocina, depósito o atención. Cambia el puesto objetivo y el perfil para esa vacante: un mismo currículum no tiene que presentarte como candidato a todas las áreas.",
           ],
         },
         {
-          title: "Modelo de curriculum para minera en PDF",
+          title: "Cómo pasar este modelo de currículum para minera a PDF",
           paragraphs: [
-            "Quien busca un modelo de curriculum para minera suele necesitar un documento simple, claro y listo para enviar. Lo mas importante es que el PDF mantenga buena lectura y no esconda requisitos clave.",
-            "Antes de descargarlo, revisa que aparezcan puesto objetivo, experiencia operativa, cursos, licencias, disponibilidad, seguridad, EPP y cualquier antecedente industrial relacionado.",
+            "Puedes copiar la estructura del ejemplo en tu editor de documentos, completar tus datos y exportarla como PDF. Comprueba que el texto se pueda seleccionar y que teléfono, correo, fechas y cursos se lean correctamente en el celular.",
+            "Si prefieres usar VitaeSpark, crea tu CV con tus propios datos, revisa el contenido y realiza el pago único para descargar el PDF. El modelo en texto de esta guía se puede consultar sin pagar; la descarga del CV generado en la plataforma es de pago.",
           ],
         },
         {
@@ -149,9 +161,9 @@ export default function CvParaMineriaPage() {
       ]}
       faqs={[
         {
-          question: "Conviene usar 'CV para mineria' o 'CV para minera'?",
+          question: "¿Puedo usar este modelo de CV para minera en PDF?",
           answer:
-            "Ambas busquedas pueden servir. 'Mineria' apunta al rubro y 'minera' suele usarse cuando la persona quiere postularse a una empresa minera.",
+            "Sí. Copia la estructura en un editor, reemplaza los datos y exporta tu documento como PDF. También puedes crear tu versión en VitaeSpark, donde la descarga del CV generado requiere un pago único.",
         },
         {
           question: "Que habilidades poner para trabajar en mineria?",
@@ -175,6 +187,16 @@ export default function CvParaMineriaPage() {
         },
       ]}
       relatedLinks={[
+        {
+          href: "/modelo-de-curriculum-vitae",
+          title: "Modelo de currículum para completar",
+          description: "Copia la estructura en texto y reemplaza cada sección con tus datos.",
+        },
+        {
+          href: "/curriculum-vitae-pdf",
+          title: "Cómo preparar tu currículum en PDF",
+          description: "Revisa el formato y la lectura del documento antes de enviarlo a una minera.",
+        },
         {
           href: "/cv-para-operario",
           title: "CV para operario",

@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Cajero: Ejemplo, Perfil y Habilidades",
+  title: "Currículum de Cajero o Cajera: Ejemplo para Supermercado",
   description:
-    "Armá un CV para cajero o cajera con ejemplo listo, perfil profesional, caja, medios de pago, supermercado, retail y opción sin experiencia.",
+    "Ejemplo completo de CV para cajero o cajera de supermercado. Adapta el perfil profesional, los cobros, el arqueo y la atención al cliente a tu experiencia.",
   path: "/cv-para-cajero",
   keywords: [
     "cv para cajero",
@@ -22,8 +22,8 @@ export default function CvParaCajeroPage() {
     <MarketingPage
       path="/cv-para-cajero"
       eyebrow="CV por profesion"
-      title="CV para cajero: ejemplo listo para supermercado o comercio"
-      description="Ejemplo de currículum para cajero o cajera con perfil profesional, experiencia de caja, medios de pago, atención, retail y tareas de comercio."
+      title="Currículum para cajero o cajera: ejemplo de supermercado"
+      description="Consulta un CV completo en texto, un perfil profesional y ejemplos de tareas de caja para adaptar a supermercado o comercio."
       intro={[
         "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa desde el primer vistazo. No alcanza con poner 'manejo de caja': conviene mostrar medios de pago, cierre, atencion, control basico y ritmo de trabajo.",
         "VitaeSpark te ayuda a convertir esa experiencia en un curriculum cajero mas claro, con perfil profesional, habilidades y ejemplos para supermercados, farmacias, tiendas, estaciones de servicio o comercios de cercania.",
@@ -64,6 +64,18 @@ export default function CvParaCajeroPage() {
       ]}
       sections={[
         {
+          title: "Ejemplo de currículum de cajera de supermercado",
+          paragraphs: [
+            "Este ejemplo es ficticio. Puedes adaptar la estructura a un cajero o una cajera, sustituyendo los campos entre corchetes y las tareas por tus datos reales.",
+            "[Nombre y apellido] · Cajera de supermercado · [Ciudad] · [Teléfono] · [Correo electrónico].",
+            "Perfil profesional: Cajera con experiencia en cobros en efectivo, tarjetas y billeteras virtuales. Atención de consultas sobre precios y promociones, control de comprobantes y cierre de caja conforme al procedimiento del comercio.",
+            "Experiencia: Cajera · [Supermercado] · [Mes/año de inicio–mes/año de fin]. Registré productos y procesé cobros; verifiqué precios y promociones con el sector correspondiente; entregué comprobantes y comuniqué diferencias de caja al supervisor.",
+            "Otras responsabilidades, si las realizaste: preparé el fondo de apertura, colaboré en el arqueo al cierre del turno y gestioné cambios o devoluciones con autorización del responsable.",
+            "Formación: [Estudios, institución y año]. Habilidades: manejo de [sistema de caja utilizado], verificación de medios de pago, atención al público y control de comprobantes.",
+            "Disponibilidad: [Horarios y días que puedes cubrir]. Incluye reposición o atención en salón si formaban parte de tu puesto, sin desplazar la experiencia principal en caja.",
+          ],
+        },
+        {
           title: "Que destacar en un CV para cajero",
           paragraphs: [
             "Suele sumar el manejo de efectivo, tarjetas, billeteras virtuales, apertura y cierre de caja, control basico de tickets, atencion al cliente, reposicion, orden de salon y cumplimiento de procedimientos.",
@@ -78,24 +90,25 @@ export default function CvParaCajeroPage() {
           ],
         },
         {
-          title: "Perfil profesional para cajero o cajera",
+          title: "Perfil profesional de una cajera o un cajero: ejemplo",
           paragraphs: [
-            "Una base util puede ser: 'Perfil orientado a atencion al cliente y operacion de caja, con experiencia en cobros, manejo de distintos medios de pago, cierre diario y trabajo en entornos dinamicos'.",
-            "Si todavia no trabajaste en caja, puedes apoyarte en experiencia de atencion al publico, ventas o tareas operativas donde hayas demostrado responsabilidad y trato con clientes.",
+            "Con experiencia: 'Cajero con experiencia en supermercado, procesamiento de cobros y control de comprobantes. Manejo de efectivo, tarjetas y cierre de turno, con atención de consultas y comunicación de incidencias al supervisor'.",
+            "Con experiencia en ventas, pero sin un puesto previo en caja: 'Vendedora con experiencia en atención al público, registro de pedidos y organización de productos. Busco incorporarme al área de caja y aportar trato cordial, orden y disposición para aprender el sistema del comercio'.",
+            "El segundo ejemplo no atribuye arqueos ni cierres a alguien que nunca los realizó. Elige el punto de partida que puedas sostener en una entrevista.",
           ],
         },
         {
-          title: "Ejemplo de CV para cajero",
+          title: "Cómo describir apertura, arqueo y cierre de caja",
           paragraphs: [
-            "Una frase concreta puede ser: 'Procese cobros en efectivo, tarjeta y billeteras virtuales, mantuve orden y control en caja, y colabore con atencion al cliente y reposicion en horarios de alta demanda'.",
-            "El ejemplo explica tareas reales, nivel de responsabilidad y contacto con clientes sin dejar el perfil en abstracto.",
+            "Indica tu responsabilidad concreta: 'Verifiqué el fondo de apertura, registré los cobros y contrasté el efectivo y los comprobantes con el reporte al cierre del turno'. Usa esta redacción únicamente si participabas en esas tareas.",
+            "Si el cierre lo hacía otra persona, puedes escribir: 'Entregué comprobantes y comuniqué incidencias al responsable para el cierre de caja'. No es necesario presentarte como responsable del arqueo para describir una experiencia útil.",
           ],
         },
         {
-          title: "Currículum de cajera: qué buscan los reclutadores",
+          title: "Cómo adaptar el CV a supermercado o comercio minorista",
           paragraphs: [
-            "En un currículum para cajera o cajero conviene incluir caja, cobros, medios de pago, atención al cliente, cierre, orden del sector y capacidad para resolver consultas simples.",
-            "Si trabajaste en supermercado, farmacia, tienda o estación de servicio, nombrá ese contexto. Ayuda a que el CV se entienda como una postulación para el puesto y no como una plantilla genérica.",
+            "En supermercado, describe el registro de productos, la verificación de promociones y la coordinación ante diferencias de precio. En una tienda, puede ser más relevante explicar cómo combinabas cobros, asesoramiento sobre productos y cambios.",
+            "Elige las tareas que coincidan con el aviso. Si también reponías mercadería, aclara cuándo y en qué sector; si utilizabas un sistema de facturación, escribe su nombre y qué operaciones hacías con él.",
           ],
         },
         {
@@ -165,6 +178,11 @@ export default function CvParaCajeroPage() {
         },
       ]}
       relatedLinks={[
+        {
+          href: "/modelo-de-curriculum-vitae",
+          title: "Modelo de currículum para completar",
+          description: "Usa una estructura en texto para ordenar contacto, experiencia y formación.",
+        },
         {
           href: "/cv-para-cajero-sin-experiencia",
           title: "CV para cajero sin experiencia",

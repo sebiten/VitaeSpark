@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Administrativo: Ejemplo, Perfil Profesional y Habilidades",
+  title: "Currículum Administrativo: Ejemplo Completo y Perfil",
   description:
-    "Crea un CV administrativo claro con ejemplos de perfil profesional, experiencia, habilidades de oficina, Excel y tareas para auxiliar administrativo.",
+    "Modelo de currículum para auxiliar administrativo con ejemplo completo, perfil profesional, experiencia y habilidades de Excel, documentación y facturación.",
   path: "/cv-para-administrativo",
   keywords: [
     "cv para administrativo",
@@ -23,8 +23,8 @@ export default function CvParaAdministrativoPage() {
     <MarketingPage
       path="/cv-para-administrativo"
       eyebrow="CV por profesion"
-      title="CV administrativo: ejemplo, perfil profesional y habilidades"
-      description="Presenta tareas de oficina, documentación, Excel, facturación y soporte operativo en un CV administrativo claro."
+      title="Currículum administrativo: ejemplo completo y perfil profesional"
+      description="Adapta un modelo para auxiliar administrativo con experiencia de oficina, gestión documental y ejemplos concretos de habilidades en Excel."
       intro={[
         "Un buen CV administrativo permite entender rápido qué procesos manejaste: carga de datos, documentación, facturación, agenda, reportes o soporte a otras áreas. Las tareas concretas aportan más que una lista de cualidades generales.",
         "Esta guía reúne ejemplos de perfil, experiencia y habilidades para puestos administrativos y auxiliares en oficinas, comercios, consultorios, logística y estudios profesionales.",
@@ -65,6 +65,19 @@ export default function CvParaAdministrativoPage() {
       ]}
       sections={[
         {
+          title: "Ejemplo completo de currículum de auxiliar administrativo",
+          paragraphs: [
+            "Modelo ficticio de una auxiliar administrativa con experiencia de oficina. Sustituye los campos entre corchetes y adapta cada responsabilidad a tu recorrido.",
+            "[Nombre y apellido] · Auxiliar administrativa · [Ciudad] · [Teléfono] · [Correo electrónico].",
+            "Perfil profesional: Auxiliar administrativa con experiencia en registro de comprobantes, archivo digital y seguimiento de documentación de proveedores. Manejo de Excel para actualizar planillas, filtrar información y controlar vencimientos.",
+            "Experiencia: Auxiliar administrativa · [Empresa y sector] · [Mes/año de inicio–mes/año de fin]. Registré facturas y comprobantes; actualicé datos de proveedores; organicé documentación por período y preparé el listado de pendientes para revisión del responsable.",
+            "Coordinación: respondí consultas por correo, solicité documentación faltante y mantuve actualizada la planilla de seguimiento para las áreas de compras y administración.",
+            "Formación: [Título o estudios en curso] · [Institución] · [Año o avance]. Cursos: [Curso, entidad y fecha], si corresponde.",
+            "Herramientas: Excel — filtros, fórmulas básicas y control de vencimientos; [sistema de gestión utilizado] — [operaciones que realizabas]. Incluye solo funciones que puedas demostrar.",
+            "Información adicional: [Disponibilidad horaria] · [Idiomas y nivel, cuando sean relevantes]. Para un puesto de mayor responsabilidad, añade los procesos que gestionabas de forma autónoma.",
+          ],
+        },
+        {
           title: "Qué debe mostrar un CV administrativo",
           paragraphs: [
             "Prioriza las tareas relacionadas con el puesto: carga y actualización de datos, archivo, facturación, atención telefónica, agenda, control de documentación, reportes y coordinación interna.",
@@ -74,8 +87,9 @@ export default function CvParaAdministrativoPage() {
         {
           title: "Ejemplo de perfil profesional administrativo",
           paragraphs: [
-            "Ejemplo: 'Auxiliar administrativo con experiencia en gestión documental, carga de datos, atención interna y seguimiento de tareas operativas. Manejo de Excel, correo corporativo y sistemas de gestión'.",
-            "Adapta la última parte al entorno donde trabajaste. En salud puedes mencionar turnos y documentación de pacientes; en comercio, facturación y proveedores; en logística, remitos, stock y entregas.",
+            "Administración general: 'Administrativo con experiencia en gestión documental, registro de comprobantes y seguimiento de proveedores. Manejo de Excel y correo corporativo para organizar pendientes y coordinar entregas de documentación'.",
+            "Facturación y cobranzas: 'Administrativa con experiencia en emisión de comprobantes, actualización de cuentas y seguimiento de vencimientos. Coordinación con ventas y registro de consultas para su resolución por el área responsable'.",
+            "Para adaptar el perfil, combina el puesto, dos procesos que conozcas y una herramienta que utilices. Evita atribuirte tareas contables o decisiones sobre pagos si tu función era cargar información o asistir a otro responsable.",
           ],
         },
         {
@@ -102,8 +116,16 @@ export default function CvParaAdministrativoPage() {
         {
           title: "Habilidades para un CV administrativo",
           paragraphs: [
-            "Elige habilidades que puedas respaldar con tareas reales: Excel, Google Sheets, sistemas de gestión, facturación, archivo, redacción de correos, atención telefónica y elaboración de reportes.",
-            "También puedes incluir organización documental, seguimiento de vencimientos o coordinación entre áreas. Evita listas demasiado largas y prioriza lo que pide el puesto.",
+            "Escribe la herramienta junto con su aplicación: 'Excel: filtros y fórmulas para controlar vencimientos'; 'Google Sheets: actualización compartida de pedidos'; '[Sistema de gestión]: carga de comprobantes y consulta de proveedores'.",
+            "En vez de indicar 'Excel avanzado' sin explicación, nombra las funciones que manejas. Tablas dinámicas, búsquedas o automatizaciones solo deben aparecer si puedes usarlas y explicar un caso concreto.",
+            "Vincula las habilidades de organización y comunicación con una tarea: archivo de documentación por período, seguimiento de solicitudes o redacción de correos para pedir datos faltantes. Selecciona las más relevantes para la vacante.",
+          ],
+        },
+        {
+          title: "Cómo mostrar resultados sin inventar cifras",
+          paragraphs: [
+            "Una responsabilidad puede ser concreta aunque no tenga un porcentaje: 'Organicé el archivo digital por proveedor y período para facilitar la consulta de comprobantes'. Describe qué cambiaste y para qué se utilizaba.",
+            "Si conservas datos verificables, añade el volumen y el período: '[Cantidad real] de comprobantes registrados por mes'. No incluyas importes, clientes ni documentos confidenciales como prueba dentro del currículum.",
           ],
         },
       ]}
@@ -140,6 +162,11 @@ export default function CvParaAdministrativoPage() {
         },
       ]}
       relatedLinks={[
+        {
+          href: "/blog/como-hacer-un-curriculum",
+          title: "Cómo hacer un currículum desde una oferta",
+          description: "Sigue un ejemplo de postulación administrativa para seleccionar tus antecedentes.",
+        },
         {
           href: "/blog/que-poner-en-un-curriculum",
           title: "Qué poner en un currículum",
