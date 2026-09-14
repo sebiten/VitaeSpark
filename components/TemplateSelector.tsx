@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { ArrowRight, Check, ChevronDown, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CV_TEMPLATES, type CvTemplateDefinition } from "@/lib/cv-templates";
+import { CV_TEMPLATES, type CvTemplateDefinition, type CvTemplateId } from "@/lib/cv-templates";
 import { cn } from "@/lib/utils";
 
 type Props = {
   selectedTemplate: string;
+  recommendedTemplate?: CvTemplateId;
   onSelectTemplate: (id: string) => void;
   onContinue: () => void;
 };
@@ -16,11 +17,13 @@ function TemplateChoice({
   template,
   selected,
   compact = false,
+  recommended = false,
   onSelect,
 }: {
   template: CvTemplateDefinition;
   selected: boolean;
   compact?: boolean;
+  recommended?: boolean;
   onSelect: () => void;
 }) {
   return (
@@ -64,6 +67,9 @@ function TemplateChoice({
             <h3 className="mt-1 text-[17px] font-semibold tracking-[-0.025em] text-[#F4F4F5]">
               {template.name}
             </h3>
+            {recommended ? (
+              <p className="mt-2 text-xs font-semibold text-[#C4B5FD]">Recomendada para tu puesto</p>
+            ) : null}
           </div>
           <span
             className={cn(
@@ -96,11 +102,16 @@ function TemplateChoice({
 
 export default function TemplateSelector({
   selectedTemplate,
+  recommendedTemplate = "elegance",
   onSelectTemplate,
   onContinue,
 }: Props) {
-  const recommendedTemplates = CV_TEMPLATES.slice(0, 3);
-  const alternativeTemplates = CV_TEMPLATES.slice(3);
+  const orderedTemplates = [
+    ...CV_TEMPLATES.filter((template) => template.id === recommendedTemplate),
+    ...CV_TEMPLATES.filter((template) => template.id !== recommendedTemplate),
+  ];
+  const recommendedTemplates = orderedTemplates.slice(0, 3);
+  const alternativeTemplates = orderedTemplates.slice(3);
   const selected =
     CV_TEMPLATES.find((template) => template.id === selectedTemplate) ??
     CV_TEMPLATES[0];
@@ -144,7 +155,9 @@ export default function TemplateSelector({
             Recomendadas
           </h2>
           <p className="mt-1 text-sm text-white/58">
-            Tres opciones para la mayoría de las postulaciones.
+            {recommendedTemplate === "operative-ats"
+              ? "Para tu puesto, Operativa ATS destaca experiencia, licencias y disponibilidad. Podés elegir otra plantilla."
+              : "Tres opciones para la mayoría de las postulaciones."}
           </p>
         </div>
 
@@ -154,6 +167,7 @@ export default function TemplateSelector({
               key={template.id}
               template={template}
               selected={selectedTemplate === template.id}
+              recommended={recommendedTemplate === "operative-ats" && template.id === recommendedTemplate}
               onSelect={() => onSelectTemplate(template.id)}
             />
           ))}

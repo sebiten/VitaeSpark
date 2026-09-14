@@ -36,6 +36,7 @@ import { PRICING } from "@/lib/pricing";
 import { calculateCvScore } from "@/lib/cv-score";
 import { ConversionProof } from "@/components/ConversionProof";
 import { MarketSelector } from "@/components/MarketSelector";
+import { MobileCvPreview } from "@/components/MobileCvPreview";
 import { useMarket } from "@/hooks/use-market";
 import type { PhotoSyncState } from "@/lib/guest-photo";
 import {
@@ -56,12 +57,12 @@ const PDFViewerPane = dynamic(() => import("./pdf/PDFViewerPane"), {
 const checkoutCopy = {
   es: {
     loadingPreview: "Preparando vista previa...",
-    title: "Tu CV ya esta generado",
+    title: "Tu CV está listo para revisar",
     subtitle:
-      "Pagas una vez, descargas el PDF limpio y queda editable desde tu perfil.",
-    protectedTitle: "Vista previa protegida",
+      "Revisa lo que escribió la IA y edita lo que necesites antes de pagar la descarga del PDF sin marca de agua.",
+    protectedTitle: "Tu CV, antes de descargarlo",
     protectedText: "La marca de agua se elimina despues del pago.",
-    viewCv: "Ver CV",
+    viewCv: "Ampliar CV",
     unlock: "Desbloquear PDF",
     close: "Cerrar",
     closePreview: "Seguir viendo",
@@ -119,12 +120,12 @@ const checkoutCopy = {
   },
   en: {
     loadingPreview: "Preparing preview...",
-    title: "Your resume is generated",
+    title: "Your resume is ready to review",
     subtitle:
-      "Pay once, download the clean PDF, and keep it editable from your profile.",
-    protectedTitle: "Protected resume preview",
+      "Review the AI-written content and edit anything you need before paying to download the PDF without a watermark.",
+    protectedTitle: "Your resume, before downloading",
     protectedText: "The watermark is removed after payment.",
-    viewCv: "View resume",
+    viewCv: "Expand resume",
     unlock: "Unlock PDF",
     close: "Close",
     closePreview: "Keep viewing",
@@ -218,11 +219,8 @@ export default function CVPreviewStepPurple({
   const [loading, setLoading] = useState(false);
   const [loadingPayPal, setLoadingPayPal] = useState(false);
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
-  const [canRenderInlinePreview, setCanRenderInlinePreview] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia("(min-width: 640px)").matches,
-  );
+  const [mobilePdfView, setMobilePdfView] = useState(false);
+  const [canRenderInlinePreview, setCanRenderInlinePreview] = useState(false);
   const [pendingCvId, setPendingCvId] = useState<string | null>(null);
   const [guestEmailOpen, setGuestEmailOpen] = useState(false);
   const [guestEmail, setGuestEmail] = useState("");
@@ -427,7 +425,10 @@ export default function CVPreviewStepPurple({
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 640px)");
-    const syncPreviewMode = () => setCanRenderInlinePreview(mediaQuery.matches);
+    const syncPreviewMode = () => {
+      setCanRenderInlinePreview(mediaQuery.matches);
+      if (mediaQuery.matches) setMobilePreviewOpen(false);
+    };
 
     syncPreviewMode();
     mediaQuery.addEventListener("change", syncPreviewMode);
@@ -605,10 +606,16 @@ export default function CVPreviewStepPurple({
                 {copy.protectedText}
               </p>
             </div>
-            <LockKeyhole className="h-5 w-5 flex-shrink-0 text-[#38BDF8]" />
+            <button type="button" onClick={onBack} className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-lg px-2 text-xs font-semibold text-[#C4B5FD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78BFA]">
+              <ArrowLeft className="h-4 w-4" />
+              {language === "en" ? "Edit details" : "Editar datos"}
+            </button>
           </div>
           <div
-            className="pointer-events-none relative mx-auto h-[360px] w-full max-w-full overflow-hidden sm:pointer-events-auto sm:aspect-[1/1.414] sm:h-auto sm:min-h-0"
+            className="relative mx-auto h-[min(62dvh,540px)] min-h-[320px] w-full max-w-full overflow-y-auto overscroll-contain sm:aspect-[1/1.414] sm:h-auto sm:min-h-0 sm:overflow-hidden"
+            tabIndex={canRenderInlinePreview ? undefined : 0}
+            role="region"
+            aria-label={language === "en" ? "Resume preview" : "Vista previa del CV"}
             style={{
               display: "flex",
               alignItems: "center",
@@ -618,22 +625,12 @@ export default function CVPreviewStepPurple({
             {canRenderInlinePreview ? (
               renderTemplate
             ) : (
-              <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#15151A] px-6 text-center text-white">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-[#C4B5FD]">
-                  <LockKeyhole className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold">{copy.protectedTitle}</p>
-                  <p className="mt-1 text-xs leading-5 text-white/60">
-                    {language === "en"
-                      ? "Tap View resume to load the full preview."
-                      : "Toca Ver CV para cargar la vista completa."}
-                  </p>
-                </div>
+              <div className="h-full w-full">
+                <MobileCvPreview cv={cvData} template={template} language={language} />
               </div>
             )}
           </div>
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/55 to-transparent px-4 pb-4 pt-12 text-center sm:block">
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 hidden bg-gradient-to-t from-black/80 via-black/55 to-transparent px-4 pb-4 pt-12 text-center sm:block">
             <p className="hidden text-sm font-medium text-white sm:block">
               {language === "en"
                 ? "Swipe to preview the resume"
@@ -645,10 +642,14 @@ export default function CVPreviewStepPurple({
           </div>
         </div>
 
-        <div className="-mt-3 grid grid-cols-[0.9fr_1.1fr] gap-2 sm:hidden">
+        <div className="-mt-3 space-y-3 sm:hidden">
+          <p className="text-center text-xs text-white/60">
+            {language === "en" ? "Scroll through your resume to review every section." : "Desliza dentro del CV para revisar todas las secciones."}
+          </p>
+          <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
-            onClick={() => setMobilePreviewOpen(true)}
+            onClick={() => { setMobilePdfView(false); setMobilePreviewOpen(true); }}
             className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/15 bg-[#111113] px-3 text-sm font-bold text-white shadow-lg shadow-black/25 transition hover:bg-[#1C1C22]"
           >
             <Maximize2 className="h-4 w-4" />
@@ -656,23 +657,33 @@ export default function CVPreviewStepPurple({
           </button>
           <button
             type="button"
-            onClick={scrollToCheckout}
-            className="inline-flex h-12 items-center justify-center rounded-xl bg-[#7C3AED] px-3 text-sm font-bold text-white shadow-lg shadow-[#7C3AED]/25 transition hover:bg-[#6D28D9]"
+            onClick={() => { setMobilePdfView(true); setMobilePreviewOpen(true); }}
+            className="inline-flex h-12 items-center justify-center rounded-xl border border-white/15 bg-[#111113] px-3 text-sm font-bold text-white transition hover:bg-[#1C1C22]"
           >
-            {copy.unlock}
+            {language === "en" ? "View PDF layout" : "Ver diseño PDF"}
           </button>
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#15151A] p-3">
+            <div>
+              <p className="text-base font-bold text-white">{primaryPaymentPrice}</p>
+              <p className="text-xs text-white/60">{copy.singlePayment} · {copy.noSubscription}</p>
+            </div>
+            <button type="button" onClick={scrollToCheckout} className="min-h-12 rounded-xl bg-[#7C3AED] px-4 text-sm font-bold text-white transition hover:bg-[#6D28D9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+              {language === "en" ? "Download PDF" : "Descargar PDF"}
+            </button>
+          </div>
         </div>
 
         <Dialog open={mobilePreviewOpen} onOpenChange={setMobilePreviewOpen}>
-          <DialogContent className="fixed inset-0 left-0 top-0 z-50 h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 bg-[#0F0F10] p-0 text-white shadow-none sm:hidden [&>button]:hidden">
+          <DialogContent className="fixed inset-0 left-0 top-0 z-50 flex h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 flex-col gap-0 overflow-hidden rounded-none border-0 bg-[#0F0F10] p-0 text-white shadow-none sm:hidden [&>button]:hidden">
             <DialogTitle className="sr-only">{copy.protectedTitle}</DialogTitle>
             <DialogDescription className="sr-only">
               {language === "en"
-                ? "Partial watermarked resume preview before unlocking."
-                : "Muestra parcial del curriculum con marca de agua antes del desbloqueo."}
+                ? "Review your generated resume before paying for the download."
+                : "Revisa tu CV generado antes de pagar la descarga."}
             </DialogDescription>
 
-            <div className="sticky top-0 z-20 border-b border-white/10 bg-[#111113]/95 px-4 py-3 backdrop-blur">
+            <div className="z-20 shrink-0 border-b border-white/10 bg-[#111113]/95 px-4 py-3 backdrop-blur">
               <div className="mb-3 flex items-center justify-between gap-3">
                 <div>
                   <p className="text-sm font-semibold">{copy.protectedTitle}</p>
@@ -687,15 +698,32 @@ export default function CVPreviewStepPurple({
                   </button>
                 </DialogClose>
               </div>
-            </div>
-
-            <div className="h-[calc(100dvh-96px)] touch-pan-x touch-pan-y overflow-auto bg-[#2A2A2D] px-3 py-4">
-              <div className="mx-auto h-[82vh] min-h-[620px] w-[94vw] overflow-hidden rounded-xl bg-white shadow-2xl shadow-black/40">
-                {renderTemplate}
+              <div className="flex flex-wrap items-center gap-2">
+                <button type="button" onClick={() => setMobilePdfView(!mobilePdfView)} className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78BFA]">
+                  {mobilePdfView
+                    ? language === "en" ? "Back to reading view" : "Volver a la vista de lectura"
+                    : language === "en" ? "View PDF layout" : "Ver diseño PDF"}
+                </button>
+                <button type="button" onClick={() => { setMobilePreviewOpen(false); onBack(); }} className="min-h-11 rounded-lg px-3 text-xs font-semibold text-[#C4B5FD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78BFA]">
+                  {language === "en" ? "Edit details" : "Editar datos"}
+                </button>
               </div>
             </div>
 
-            <div className="sticky bottom-0 z-20 border-t border-white/10 bg-[#111113]/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur">
+            <div className="min-h-0 flex-1 overflow-auto overscroll-contain bg-[#2A2A2D] px-3 py-4">
+              {mobilePdfView ? (
+                <div className="mx-auto h-full min-h-[400px] w-full overflow-hidden rounded-xl bg-white">
+                  {renderTemplate}
+                </div>
+              ) : (
+                <div className="mx-auto w-full max-w-lg overflow-hidden rounded-xl bg-white">
+                  <MobileCvPreview cv={cvData} template={template} language={language} />
+                </div>
+              )}
+            </div>
+
+            <div className="z-20 shrink-0 border-t border-white/10 bg-[#111113]/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur">
+              <p className="mb-3 text-center text-sm font-semibold">{primaryPaymentPrice} · {copy.noSubscription}</p>
               <div className="grid grid-cols-[1fr_auto] gap-2">
                 <button
                   type="button"

@@ -1,9 +1,11 @@
+import type { CvTemplateId } from "./cv-templates";
+
 const JOB_ROLE_BY_PATH: Record<string, string> = {
   "/cv-call-center": "Call center",
   "/cv-para-administrativo": "Administrativo/a",
   "/cv-para-administrativo-sin-experiencia": "Administrativo/a",
   "/cv-para-atencion-al-cliente": "Atención al cliente",
-  "/cv-para-atencion-al-cliente-sin-experiencia": "Atención al cliente",
+  "/cv-atencion-al-cliente-sin-experiencia": "Atención al cliente",
   "/cv-para-cajero": "Cajero/a",
   "/cv-para-cajero-sin-experiencia": "Cajero/a",
   "/cv-para-estudiantes": "Primer empleo",
@@ -31,6 +33,19 @@ export function normalizeCreateRole(value?: string | null) {
 
 export function getJobRoleForLanding(path: string) {
   return JOB_ROLE_BY_PATH[path] ?? null;
+}
+
+const OPERATIVE_ROLES = new Set([
+  "minería",
+  "operario/a de producción",
+  "personal de seguridad",
+]);
+
+export function getRecommendedTemplateForRole(role?: string | null): CvTemplateId {
+  const normalizedRole = normalizeCreateRole(role)?.toLowerCase();
+  return normalizedRole && OPERATIVE_ROLES.has(normalizedRole)
+    ? "operative-ats"
+    : "elegance";
 }
 
 export function getJobCreateHref(path: string) {

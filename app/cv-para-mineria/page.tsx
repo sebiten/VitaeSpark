@@ -1,4 +1,5 @@
 import { MarketingPage } from "@/components/seo/MarketingPage";
+import { LandingOffer } from "@/components/seo/LandingOffer";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -30,7 +31,9 @@ export default function CvParaMineriaPage() {
       path="/cv-para-mineria"
       eyebrow="CV por profesion"
       title="CV para minería: modelo y ejemplo para postular a una minera"
-      description="Usa un ejemplo completo en texto para ordenar tu perfil, experiencia, cursos y disponibilidad antes de preparar tu CV en PDF."
+      description="Convierte tu experiencia, cursos y disponibilidad en un CV para minería. Revisa el resultado antes de pagar la descarga."
+      ctaLabel="Crear mi CV para minería"
+      offer={<LandingOffer />}
       intro={[
         "Si buscas trabajo en mineria, el CV tiene que mostrar rapido puesto objetivo, experiencia operativa, seguridad, disponibilidad y antecedentes cercanos al rubro. El reclutador no deberia tener que adivinar si apuntas a planta, mina, mantenimiento, transporte, deposito o campamento.",
         "VitaeSpark te ayuda a ordenar esa informacion en un curriculum para mineria claro, con perfil profesional, habilidades utiles y estructura ATS para mineras, contratistas y servicios industriales.",

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
+import { getRecommendedTemplateForRole } from "@/lib/job-landing";
 import {
   getLandingAttribution,
   setLandingAttribution,
@@ -119,7 +120,10 @@ export default function CVForm({
   initialCountryCode,
 }: CVFormProps) {
   const [runtimeUser, setRuntimeUser] = useState<CheckoutUser | null>(currentUser);
-  const [selectedTemplate, setSelectedTemplate] = useState("elegance");
+  const [recommendedTemplate, setRecommendedTemplate] = useState(() =>
+    getRecommendedTemplateForRole(initialRole),
+  );
+  const [selectedTemplate, setSelectedTemplate] = useState<string>(recommendedTemplate);
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
   const [activeTab, setActiveTab] = useState<FlowStep>("template");
   const draftDataRef = useRef<DatosCVFormulario>(createEmptyDraft());
@@ -498,6 +502,7 @@ export default function CVForm({
             skillsTransfer,
           );
           draftDataRef.current = restoredData;
+          setRecommendedTemplate(getRecommendedTemplateForRole(restoredData.puesto));
           createIntentRef.current = "skills";
           setCreateIntent("skills");
           generatedCvRef.current = null;
@@ -550,6 +555,7 @@ export default function CVForm({
       draftDataRef.current = restoredData;
       selectedTemplateRef.current = storedDraft.template;
       setSelectedTemplate(storedDraft.template);
+      setRecommendedTemplate(getRecommendedTemplateForRole(restoredData.puesto));
       setDraftPhotoUrl(restoredData.foto_url ?? null);
       guestPhotoKeyRef.current = storedDraft.guestPhotoKey ?? null;
       setGuestPhotoKey(storedDraft.guestPhotoKey ?? null);
@@ -908,6 +914,7 @@ export default function CVForm({
           <TabsContent value="template" className="space-y-6">
             <TemplateSelector
               selectedTemplate={selectedTemplate}
+              recommendedTemplate={recommendedTemplate}
               onSelectTemplate={handleTemplateChoice}
               onContinue={handleTemplateContinue}
             />

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import {
   ArrowRight,
   BookOpenCheck,
@@ -66,6 +67,7 @@ type MarketingPageProps = {
   relatedLinks: RelatedLink[];
   exampleImage?: ExampleImage;
   ctaLabel?: string;
+  offer?: ReactNode;
   conversionCta?: ConversionCta;
   diagnosticCta?: DiagnosticCta;
 };
@@ -93,6 +95,7 @@ export function MarketingPage({
   relatedLinks,
   exampleImage,
   ctaLabel,
+  offer,
   conversionCta,
   diagnosticCta,
 }: MarketingPageProps) {
@@ -189,9 +192,13 @@ export function MarketingPage({
                 </Link>
               </div>
 
-              <p className="mt-4 text-xs text-white/46">
-                Pago único. PDF descargable. Editable desde tu perfil.
-              </p>
+              {offer ? (
+                <div className="mt-4">{offer}</div>
+              ) : (
+                <p className="mt-4 text-xs text-white/46">
+                  Pago único. PDF descargable. Editable desde tu perfil.
+                </p>
+              )}
             </div>
 
             <figure className="mx-auto w-full max-w-[390px] lg:mx-0">
