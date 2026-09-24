@@ -1,3 +1,4 @@
+import { getCheckoutInsight } from "@/lib/checkout-insight";
 import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -327,10 +328,11 @@ export default async function AdminDashboardPage({
   const insights = buildInsights({
     current30,
     previous30,
-    ctaClicks: funnel.ctaClicks,
     generated: funnel.generatedSessions,
     cvToCheckoutRate: funnel.generatedToPreview,
     checkoutToPaymentRate: funnel.previewToPaymentStart,
+    paymentStarts: funnel.paymentStartSessions,
+    paymentStartToCompleted: funnel.paymentStartToCompleted,
     topLanding,
   });
 
@@ -1156,18 +1158,20 @@ function countUniqueAnonymousGenerations(events: AnalyticsEvent[]) {
 function buildInsights({
   current30,
   previous30,
-  ctaClicks,
   generated,
   cvToCheckoutRate,
   checkoutToPaymentRate,
+  paymentStarts,
+  paymentStartToCompleted,
   topLanding,
 }: {
   current30: PeriodMetrics;
   previous30: PeriodMetrics;
-  ctaClicks: number;
   generated: number;
   cvToCheckoutRate: number;
   checkoutToPaymentRate: number;
+  paymentStarts: number;
+  paymentStartToCompleted: number;
   topLanding?: LandingMetric;
 }) {
   const insights: Array<{
@@ -1181,39 +1185,26 @@ function buildInsights({
   const paymentDelta = buildDelta(current30.approvedPayments, previous30.approvedPayments);
   insights.push({
     title: "Decision principal",
-    value: generated < 10 ? "Esperar muestra" : "Optimizar con foco",
+    value: generated < 30 || paymentStarts < 10 ? "Esperar muestra" : "Optimizar con foco",
     text:
-      generated < 10
-        ? "Todavia hay poca muestra para concluir conversion. Prioriza trafico y registro de eventos."
+      generated < 30 || paymentStarts < 10
+        ? "Todavía hay poca muestra para concluir conversión. Verifica el pago y la medición antes de aumentar tráfico."
         : paymentDelta.raw < 0
           ? "Los pagos bajaron contra el periodo anterior. Revisa landings con checkout pero sin pago."
-          : "Hay muestra suficiente para priorizar la mejor landing y reducir friccion del checkout.",
-    tone: generated < 10 ? "neutral" : paymentDelta.raw < 0 ? "warn" : "good",
+          : "Compara por país y proveedor, y valida el recorrido antes de atribuir cambios de conversión.",
+    tone: generated < 30 || paymentStarts < 10 ? "neutral" : paymentDelta.raw < 0 ? "warn" : "good",
     icon: <Target className="h-5 w-5" />,
   });
 
   insights.push({
     title: "Punto de fuga",
-    value:
-      generated < 10
-        ? "Antes del CV"
-        : cvToCheckoutRate < 30
-          ? "CV a checkout"
-          : checkoutToPaymentRate < 15
-            ? "Checkout a pago"
-            : "Funnel sano",
-    text:
-      generated < 10
-        ? `Hay ${ctaClicks} clicks de CTA y ${generated} CVs generados. Mejora promesa, CTA y entrada al flujo.`
-        : cvToCheckoutRate < 30
-          ? "Mucha gente genera CV pero no llega al checkout. Revisa preview, precio visible y mensaje de desbloqueo."
-          : checkoutToPaymentRate < 15
-            ? "Hay intencion de pago, pero no cierre. Revisa confianza, metodo de pago y errores."
-            : "No hay fuga critica. Conviene escalar trafico antes de redisenar.",
-    tone:
-      generated < 10 || cvToCheckoutRate < 30 || checkoutToPaymentRate < 15
-        ? "warn"
-        : "good",
+    ...getCheckoutInsight({
+      generated,
+      paymentStarts,
+      paymentStartToCompleted,
+      generatedToPreview: cvToCheckoutRate,
+      previewToPaymentStart: checkoutToPaymentRate,
+    }),
     icon: <AlertTriangle className="h-5 w-5" />,
   });
 

@@ -112,7 +112,7 @@ const checkoutCopy = {
       "Usaremos este email para identificar la compra y enviarte el acceso permanente después del pago.",
     emailLabel: "Email de entrega",
     emailPlaceholder: "tu@email.com",
-    emailContinue: "Continuar al pago",
+    emailContinue: "Continuar a",
     emailPrivacy: "Sin suscripción ni mensajes promocionales.",
     emailInvalid: "Ingresá un email válido para recibir tu CV.",
     guestAccess:
@@ -175,7 +175,7 @@ const checkoutCopy = {
       "We use this email to identify the purchase and send your permanent access after payment.",
     emailLabel: "Delivery email",
     emailPlaceholder: "you@email.com",
-    emailContinue: "Continue to payment",
+    emailContinue: "Continue to",
     emailPrivacy: "No subscription or promotional emails.",
     emailInvalid: "Enter a valid email to receive your resume.",
     guestAccess:
@@ -230,6 +230,7 @@ export default function CVPreviewStepPurple({
     "mercado_pago" | "paypal" | null
   >(null);
   const { market, setMarket } = useMarket(initialCountryCode);
+  const previewViewedTracked = useRef(false);
   const checkoutViewedTracked = useRef(false);
   const copy = checkoutCopy[language];
   const cvScore = useMemo(() => calculateCvScore(cvData), [cvData]);
@@ -446,11 +447,11 @@ export default function CVPreviewStepPurple({
   }, []);
 
   useEffect(() => {
-    if (checkoutViewedTracked.current) return;
-    checkoutViewedTracked.current = true;
+    if (previewViewedTracked.current) return;
+    previewViewedTracked.current = true;
     const attribution = getLandingAttribution();
     const isGuest = !currentUser || currentUser.isAnonymous;
-    track("Checkout Viewed", {
+    track("Preview Viewed", {
       template,
       language,
       is_guest: isGuest,
@@ -463,13 +464,36 @@ export default function CVPreviewStepPurple({
       is_guest: isGuest,
       ...attribution,
     });
-    recordAnalyticsEvent({
-      event_name: "checkout_viewed",
-      language,
-      template,
-      is_guest: isGuest,
-      ...attribution,
+  }, [currentUser, language, template]);
+
+  useEffect(() => {
+    if (checkoutViewedTracked.current || typeof IntersectionObserver === "undefined") {
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const offerVisible = entries.some(
+          (entry) => entry.isIntersecting && entry.intersectionRatio >= 0.5,
+        );
+        if (checkoutViewedTracked.current || !offerVisible) return;
+        checkoutViewedTracked.current = true;
+        const payload = {
+          language,
+          template,
+          is_guest: !currentUser || currentUser.isAnonymous,
+          ...getLandingAttribution(),
+        };
+        track("Checkout Viewed", payload);
+        recordAnalyticsEvent({ event_name: "checkout_viewed", ...payload });
+        observer.disconnect();
+      },
+      { threshold: 0.5 },
+    );
+    // Includes the mobile purchase bar; hidden desktop/mobile controls do not intersect.
+    document.querySelectorAll("[data-checkout-offer]").forEach((element) => {
+      observer.observe(element);
     });
+    return () => observer.disconnect();
   }, [currentUser, language, template]);
 
   const scrollToCheckout = () => {
@@ -505,14 +529,20 @@ export default function CVPreviewStepPurple({
       : "Pago internacional seguro con PayPal, en USD"
     : copy.secure;
 
+  const selectedPayment =
+    pendingPaymentMethod === "paypal" ? PRICING.paypal : PRICING.mercadoPago;
+  const selectedProvider = pendingPaymentMethod === "paypal" ? "PayPal" : "Mercado Pago";
+
   const openGuestEmail = (method: "mercado_pago" | "paypal") => {
     setPendingPaymentMethod(method);
     setGuestEmailError("");
     setGuestEmailOpen(true);
+    track("Checkout Email Opened", { method, template, language, ...getLandingAttribution() });
   };
 
   const requestPayment = (method: "mercado_pago" | "paypal") => {
-    if (photoSyncState !== "idle") return;
+    if (paymentUnavailable) return;
+    track("Checkout Payment Clicked", { method, template, language, ...getLandingAttribution() });
     if (!currentUser && guestCheckoutEnabled) {
       openGuestEmail(method);
       return;
@@ -821,41 +851,6 @@ export default function CVPreviewStepPurple({
 
             <MarketSelector market={market} onChange={setMarket} />
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/46">
-                    Chequeo de claridad
-                  </p>
-                  <h4 className="mt-1 text-base font-semibold text-white">
-                    Lo que ya está resuelto en tu CV
-                  </h4>
-                </div>
-                <div className="shrink-0 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-semibold text-white/72">
-                  {passedChecks}/{cvScore.items.length} claros
-                </div>
-              </div>
-              <div className="mt-4 grid gap-2">
-                {cvScore.items.map((item) => (
-                  <div key={item.label} className="flex items-start gap-2">
-                    <CheckCircle
-                      className={`mt-0.5 h-4 w-4 flex-shrink-0 ${
-                        item.passed ? "text-emerald-300" : "text-white/28"
-                      }`}
-                    />
-                    <div>
-                      <p className="text-xs font-semibold text-white/82">
-                        {item.label}
-                      </p>
-                      <p className="mt-0.5 text-xs leading-5 text-white/52">
-                        {item.detail}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {photoSyncState === "uploading" ? (
               <div
                 role="status"
@@ -904,7 +899,7 @@ export default function CVPreviewStepPurple({
             ) : null}
 
             {showDirectCheckout ? (
-              <div className="flex flex-col gap-2.5">
+              <div data-checkout-offer className="flex flex-col gap-2.5">
               <Button
                 disabled={paymentUnavailable}
                 onClick={() => requestPayment("mercado_pago")}
@@ -1005,7 +1000,7 @@ export default function CVPreviewStepPurple({
               ) : null}
               </div>
             ) : (
-              <div className="rounded-2xl border border-[#D7C8FF]/18 bg-[#D7C8FF]/[0.055] p-3.5">
+              <div data-checkout-offer className="rounded-2xl border border-[#D7C8FF]/18 bg-[#D7C8FF]/[0.055] p-3.5">
                 <Button
                   onClick={onAuthRequired}
                   className="h-14 w-full rounded-xl border border-[#F6F2EA]/15 bg-[#F6F2EA] px-4 text-sm font-bold text-[#121114] shadow-none transition hover:bg-white sm:text-base"
@@ -1032,6 +1027,41 @@ export default function CVPreviewStepPurple({
             </div>
 
             <ConversionProof variant="checkout" />
+
+            <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/46">
+                    Chequeo de claridad
+                  </p>
+                  <h4 className="mt-1 text-base font-semibold text-white">
+                    Lo que ya está resuelto en tu CV
+                  </h4>
+                </div>
+                <div className="shrink-0 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-semibold text-white/72">
+                  {passedChecks}/{cvScore.items.length} claros
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2">
+                {cvScore.items.map((item) => (
+                  <div key={item.label} className="flex items-start gap-2">
+                    <CheckCircle
+                      className={`mt-0.5 h-4 w-4 flex-shrink-0 ${
+                        item.passed ? "text-emerald-300" : "text-white/28"
+                      }`}
+                    />
+                    <div>
+                      <p className="text-xs font-semibold text-white/82">
+                        {item.label}
+                      </p>
+                      <p className="mt-0.5 text-xs leading-5 text-white/52">
+                        {item.detail}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-3.5">
               <p className="mb-3 text-sm font-semibold text-white">
@@ -1078,6 +1108,15 @@ export default function CVPreviewStepPurple({
             </div>
 
             <div className="space-y-4 px-5 py-5 sm:px-6">
+              <div className="flex items-center justify-between gap-3 rounded-xl bg-white/[0.04] p-3 text-sm">
+                <span>{copy.singlePayment} · {selectedProvider}</span>
+                <strong>{selectedPayment.label}</strong>
+              </div>
+              <p className="text-xs leading-5 text-white/60">
+                {language === "en"
+                  ? "No VitaeSpark account needed. You will complete payment securely on the provider’s website."
+                  : "No necesitás crear una cuenta en VitaeSpark. Completarás el pago en el sitio seguro del proveedor."}
+              </p>
               <label className="block">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/48">
                   {copy.emailLabel}
@@ -1115,7 +1154,7 @@ export default function CVPreviewStepPurple({
                 )}
                 {preparingGuestCheckout
                   ? copy.processing
-                  : copy.emailContinue}
+                  : `${copy.emailContinue} ${selectedProvider}`}
               </Button>
               <p className="text-center text-[11px] leading-5 text-white/42">
                 {copy.emailPrivacy}
@@ -1125,7 +1164,7 @@ export default function CVPreviewStepPurple({
         </DialogContent>
       </Dialog>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#101013]/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-2xl shadow-black/40 backdrop-blur sm:hidden">
+      <div data-checkout-offer className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#101013]/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-2xl shadow-black/40 backdrop-blur sm:hidden">
         <div className="mx-auto flex max-w-md items-center gap-3">
           <div className="min-w-0 flex-1">
             <p className="text-sm font-bold leading-none text-white">
