@@ -99,6 +99,15 @@ export default function CvParaMineriaPage() {
           ],
         },
         {
+          title: "CV para ayudante de mina sin experiencia minera: ejemplo",
+          paragraphs: [
+            "Si buscas tu primera oportunidad en una mina, presenta el puesto como objetivo y tu experiencia anterior como lo que realmente fue. Una tarea de taller, depósito o construcción puede ser relevante sin describirla como trabajo minero.",
+            "Perfil profesional: Ayudante operativo con experiencia en preparación de herramientas y traslado de materiales en [taller, depósito u obra]. Conozco procedimientos de orden y uso de EPP en ese entorno; busco aplicar esa base en un puesto inicial de apoyo en minería.",
+            "Experiencia: Ayudante de [sector real] · [Empresa] · [Fechas]. Preparé materiales según indicaciones, mantuve despejada el área de trabajo y comuniqué faltantes al encargado. Añade maquinaria, licencias, cursos y disponibilidad para turnos solo si corresponden a tu caso.",
+            "Para un puesto de operario de planta minera, cambia el foco hacia controles de proceso, registros, equipos y seguridad que conozcas. No presentes una tarea de asistencia como operación autónoma de maquinaria.",
+          ],
+        },
+        {
           title: "Qué destacar en un CV para minería",
           paragraphs: [
             "Suele sumar experiencia en seguridad, uso de EPP, cumplimiento de procedimientos, trabajo por turnos, mantenimiento, carga y descarga, operacion de equipos, control de calidad, limpieza industrial, deposito o logistica.",

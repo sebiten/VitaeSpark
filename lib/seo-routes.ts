@@ -63,10 +63,11 @@ export type PublicSeoRoute = (typeof publicSeoRoutes)[number];
 
 // Fechas de cambios sustanciales de contenido, no de cada despliegue.
 export const seoContentLastModified: Partial<Record<PublicSeoRoute, string>> = {
-  "/cv-para-mineria": "2026-09-08",
-  "/cv-para-operario": "2026-09-08",
-  "/cv-para-cajero": "2026-09-08",
-  "/cv-para-administrativo": "2026-09-08",
+  "/cv-para-mineria": "2026-10-02",
+  "/cv-para-operario": "2026-10-02",
+  "/cv-para-cajero": "2026-10-02",
+  "/cv-para-administrativo": "2026-10-02",
+  "/cv-para-atencion-al-cliente": "2026-10-02",
   "/modelo-de-curriculum-vitae": "2026-09-08",
   "/blog/como-hacer-un-curriculum": "2026-09-08",
 };

@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Currículum Administrativo: Ejemplo Completo y Perfil",
+  title: "Currículum administrativo: ejemplo para auxiliar",
   description:
-    "Modelo de currículum para auxiliar administrativo con ejemplo completo, perfil profesional, experiencia y habilidades de Excel, documentación y facturación.",
+    "Modelo completo de currículum administrativo y auxiliar: perfil profesional, experiencia de oficina, Excel, documentación y facturación para adaptar a tu puesto.",
   path: "/cv-para-administrativo",
   keywords: [
     "cv para administrativo",
@@ -23,8 +23,8 @@ export default function CvParaAdministrativoPage() {
     <MarketingPage
       path="/cv-para-administrativo"
       eyebrow="CV por profesion"
-      title="Currículum administrativo: ejemplo completo y perfil profesional"
-      description="Adapta un modelo para auxiliar administrativo con experiencia de oficina, gestión documental y ejemplos concretos de habilidades en Excel."
+      title="Currículum administrativo: ejemplo completo para auxiliar"
+      description="Adapta un modelo de auxiliar administrativo con perfil, experiencia de oficina y ejemplos concretos de Excel, documentación y facturación."
       intro={[
         "Un buen CV administrativo permite entender rápido qué procesos manejaste: carga de datos, documentación, facturación, agenda, reportes o soporte a otras áreas. Las tareas concretas aportan más que una lista de cualidades generales.",
         "Esta guía reúne ejemplos de perfil, experiencia y habilidades para puestos administrativos y auxiliares en oficinas, comercios, consultorios, logística y estudios profesionales.",
@@ -90,6 +90,14 @@ export default function CvParaAdministrativoPage() {
             "Administración general: 'Administrativo con experiencia en gestión documental, registro de comprobantes y seguimiento de proveedores. Manejo de Excel y correo corporativo para organizar pendientes y coordinar entregas de documentación'.",
             "Facturación y cobranzas: 'Administrativa con experiencia en emisión de comprobantes, actualización de cuentas y seguimiento de vencimientos. Coordinación con ventas y registro de consultas para su resolución por el área responsable'.",
             "Para adaptar el perfil, combina el puesto, dos procesos que conozcas y una herramienta que utilices. Evita atribuirte tareas contables o decisiones sobre pagos si tu función era cargar información o asistir a otro responsable.",
+          ],
+        },
+        {
+          title: "Cómo adaptar el ejemplo a una vacante de auxiliar administrativo",
+          paragraphs: [
+            "Lee las tareas del aviso y selecciona dos o tres que hayas realizado. Si piden control de facturas, archivo y Excel, muestra dónde registrabas comprobantes, cómo ordenabas los documentos y qué planilla utilizabas; no copies una lista de requisitos sin evidencia.",
+            "Ejemplo para una vacante de auxiliar: 'Registré comprobantes de proveedores en [sistema], controlé que tuvieran la documentación requerida y actualicé una planilla de vencimientos para revisión del responsable'. Cambia el sistema y el proceso por los tuyos.",
+            "Si el puesto es de asistente administrativo con agenda y atención interna, prioriza coordinación de reuniones, respuesta a consultas y seguimiento de solicitudes. Si es de facturación, explica qué comprobantes emitías o verificabas y quién aprobaba las operaciones.",
           ],
         },
         {

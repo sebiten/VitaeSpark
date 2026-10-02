@@ -134,8 +134,8 @@ export default function CvAtencionClienteSinExperienciaPage() {
         },
         {
           href: "/cv-para-atencion-al-cliente",
-          title: "CV para atencion al cliente",
-          description: "Version general si ya tienes experiencia o quieres una guia mas amplia.",
+          title: "Currículum de atención al cliente con experiencia",
+          description: "Modelo completo para describir canales, reclamos, herramientas y resultados de un trabajo previo.",
         },
         {
           href: "/cv-call-center",

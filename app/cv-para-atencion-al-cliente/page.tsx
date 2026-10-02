@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Currículum de Atención al Cliente: Perfil y Ejemplos",
+  title: "Currículum de atención al cliente: ejemplo completo",
   description:
-    "Presenta tu experiencia en atención al cliente con ejemplos de perfil, reclamos, CRM, soporte, retail y habilidades en un formato claro para ATS.",
+    "Ejemplo completo de currículum de atención al cliente con perfil, experiencia, habilidades y versiones para soporte, comercio y call center.",
   path: "/cv-para-atencion-al-cliente",
   keywords: [
     "cv para atencion al cliente",
@@ -21,8 +21,8 @@ export default function CvParaAtencionAlClientePage() {
     <MarketingPage
       path="/cv-para-atencion-al-cliente"
       eyebrow="CV por profesion"
-      title="Currículum de atención al cliente: perfil y ejemplos"
-      description="Presenta tu experiencia con clientes, reclamos, CRM, soporte, comercio y canales de contacto en un CV claro y fácil de leer."
+      title="Currículum de atención al cliente: ejemplo completo y perfil"
+      description="Mira un modelo completo para adaptar tu experiencia en soporte, comercio o call center, con ejemplos de perfil, tareas y habilidades."
       intro={[
         "Un currículum de atención al cliente tiene que explicar rápido qué canales atendías, qué consultas resolvías y cómo trabajabas con reclamos, CRM, pedidos o seguimiento de casos. Decir solamente 'buena atención' no demuestra el alcance de tu experiencia.",
         "Esta guía está pensada para personas que ya atendieron clientes en soporte, retail, mostrador, chat o teléfono. Si buscas tu primer puesto, tienes una guía específica de atención al cliente sin experiencia entre los enlaces relacionados.",
@@ -63,6 +63,17 @@ export default function CvParaAtencionAlClientePage() {
       ]}
       sections={[
         {
+          title: "Ejemplo completo de currículum de atención al cliente",
+          paragraphs: [
+            "Este modelo es ficticio y está pensado para alguien que ya atendió clientes. Sustituye los campos entre corchetes y conserva únicamente tareas y herramientas que hayas utilizado.",
+            "[Nombre y apellido] · Atención al cliente · [Ciudad] · [Teléfono] · [Correo electrónico].",
+            "Perfil profesional: Asesora de atención al cliente con experiencia en consultas por chat, correo y teléfono. Registré casos en [CRM utilizado], di seguimiento a reclamos y coordiné respuestas con los equipos de ventas y logística.",
+            "Experiencia: Asesora de atención al cliente · [Empresa y sector] · [Mes/año de inicio–mes/año de fin]. Atendí consultas sobre pedidos y entregas; registré cada caso en el sistema; derivé incidencias al área responsable y confirmé la respuesta con el cliente.",
+            "Resultado, solo si puedes comprobarlo: [Número real] consultas atendidas por [período] o [mejora verificable] en tiempos de respuesta. Si no tienes ese dato, describe el tipo de casos y tu responsabilidad sin inventar cifras.",
+            "Formación: [Estudios, institución y año]. Herramientas: [CRM o sistema de tickets utilizado], correo, chat y planillas, indicando para qué usabas cada uno. Habilidades: seguimiento de casos, comunicación escrita y resolución de reclamos.",
+          ],
+        },
+        {
           title: "Qué destacar en un currículum de atención al cliente",
           paragraphs: [
             "Prioriza la resolución de consultas, el manejo de reclamos, el uso de CRM o sistemas internos, el seguimiento de casos y la coordinación con otras áreas. Presenta primero las tareas más cercanas al puesto que buscas.",
@@ -81,6 +92,13 @@ export default function CvParaAtencionAlClientePage() {
           paragraphs: [
             "Soporte o call center: 'Atendí consultas telefónicas y digitales, registré casos en CRM, derivé reclamos al área correspondiente y realicé seguimiento hasta completar la respuesta'.",
             "Retail o mostrador: 'Asesoré clientes, resolví consultas sobre productos, gestioné cambios y reclamos simples, y colaboré con caja, stock y orden del sector'.",
+          ],
+        },
+        {
+          title: "Cómo adaptar el ejemplo al canal donde trabajaste",
+          paragraphs: [
+            "Si atendías en comercio, reemplaza los tickets y el CRM por asesoramiento presencial, cambios, disponibilidad de productos y coordinación con caja. Si trabajabas por teléfono, explica cómo registrabas llamadas, escalabas reclamos y cerrabas cada caso.",
+            "Para soporte por chat o correo, muestra cómo ordenabas consultas simultáneas y redactabas respuestas claras. Elige un canal principal en el perfil y deja los demás para la experiencia: así el CV explica tu especialidad sin parecer una lista de palabras clave.",
           ],
         },
         {
@@ -110,6 +128,11 @@ export default function CvParaAtencionAlClientePage() {
           question: "Como hacer un curriculum de atencion al cliente?",
           answer:
             "Usa un perfil breve, experiencia con canales de atencion, reclamos, CRM, habilidades de comunicacion y ejemplos concretos de tareas o volumen atendido.",
+        },
+        {
+          question: "Que poner en un curriculum de atencion al cliente con experiencia?",
+          answer:
+            "Incluye los canales atendidos, el tipo de consultas o reclamos, las herramientas que usaste, ejemplos concretos de seguimiento y resultados comprobables si los tienes.",
         },
         {
           question: "Sirve para roles de call center?",

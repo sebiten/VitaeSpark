@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV de Operario de Producción: Ejemplo y Perfil Profesional",
+  title: "Currículum de operario de producción: ejemplo completo",
   description:
-    "Ejemplo completo de currículum de operario de producción con perfil profesional, experiencia y habilidades. Adáptalo a fábrica, empaque o depósito.",
+    "Modelo de currículum de operario de producción con perfil, experiencia, herramientas y habilidades. Incluye una versión para depósito y logística.",
   path: "/cv-para-operario",
   keywords: [
     "cv para operario",
@@ -72,6 +72,15 @@ export default function CvParaOperarioPage() {
             "Formación: [Estudios y estado: completos o en curso] · [Institución] · [Año]. Capacitación: [Curso relacionado con el puesto, entidad y fecha], si corresponde.",
             "Habilidades: interpretación de órdenes de trabajo, control visual, etiquetado, embalaje y registro de producción. Herramientas o máquinas: [Nombre y tareas que sabes realizar con cada una].",
             "Disponibilidad: [Horarios o turnos que puedes cubrir] · [Fecha de incorporación]. No incluyas cifras de productividad ni certificaciones que no puedas respaldar.",
+          ],
+        },
+        {
+          title: "Ejemplo de CV de operario de depósito y logística",
+          paragraphs: [
+            "Si tu experiencia fue en depósito, cambia el puesto objetivo y las tareas. No describas controles de línea de producción si en realidad preparabas pedidos o recibías mercadería.",
+            "Perfil profesional: Operario de depósito con experiencia en recepción de mercadería, preparación de pedidos y control de cantidades. Registré diferencias en [sistema o planilla utilizada] y coordiné la entrega de bultos para despacho.",
+            "Experiencia: Operario de depósito · [Empresa] · [Fechas]. Verifiqué productos contra remitos, ubiqué mercadería según indicaciones, preparé pedidos y comuniqué faltantes antes del despacho.",
+            "Habilidades: lectura de remitos, control de stock, etiquetado y orden del depósito. Añade autoelevador, maquinaria o licencia solo si cuentas con experiencia o habilitación real.",
           ],
         },
         {

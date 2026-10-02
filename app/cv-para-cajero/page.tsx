@@ -76,6 +76,15 @@ export default function CvParaCajeroPage() {
           ],
         },
         {
+          title: "Ejemplo de currículum de cajero para tienda o farmacia",
+          paragraphs: [
+            "Si trabajaste en un comercio más pequeño, no copies tareas de supermercado que no hiciste. Este segundo modelo muestra cómo combinar caja y atención en salón sin presentar la reposición o el arqueo como responsabilidades automáticas.",
+            "Perfil profesional: Cajero de tienda con experiencia en cobros en efectivo y tarjeta, emisión de comprobantes y atención presencial. Acostumbrado a consultar disponibilidad de productos y comunicar diferencias de precios al responsable.",
+            "Experiencia: Cajero y atención en salón · [Comercio] · [Fechas]. Procesé pagos en [sistema utilizado], entregué comprobantes, respondí consultas sobre productos y coordiné cambios o devoluciones según el procedimiento del local.",
+            "Habilidades: medios de pago que realmente manejaste, sistema de caja, consulta de stock y trato con clientes. Si también abrías o cerrabas caja, agrega esa tarea con el nivel de responsabilidad que tenías.",
+          ],
+        },
+        {
           title: "Que destacar en un CV para cajero",
           paragraphs: [
             "Suele sumar el manejo de efectivo, tarjetas, billeteras virtuales, apertura y cierre de caja, control basico de tickets, atencion al cliente, reposicion, orden de salon y cumplimiento de procedimientos.",
