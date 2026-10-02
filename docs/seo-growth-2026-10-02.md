@@ -1,6 +1,6 @@
 # SEO: recuperación y crecimiento, 2 de octubre de 2026
 
-Estado: cambios locales de contenido, todavía no publicados. Fuente: propiedad `sc-domain:vitaespark.com` en Google Search Console mediante GSC Wizard, búsqueda Web. Datos completos hasta el 29 de septiembre.
+Estado: publicado en GitHub y GitLab con el commit `ae27266` el 2 de octubre. Vercel marcó el despliegue de producción como listo y las cinco páginas modificadas respondieron HTTP 200 con el contenido nuevo, canonical propio e indexabilidad. Fuente: propiedad `sc-domain:vitaespark.com` en Google Search Console mediante GSC Wizard, búsqueda Web. Datos completos hasta el 29 de septiembre.
 
 ## Referencia de medición
 
@@ -32,11 +32,12 @@ En los 90 días hasta el 29 de septiembre, `curriculum atencion al cliente` regi
 - Minería: ejemplo de ayudante sin experiencia minera directa dentro de la misma URL. La posición se mantuvo estable, por lo que no se abre otra página casi idéntica.
 - Sitemap: `lastModified` del 2 de octubre solo en las cinco URLs cuyo contenido cambió de forma sustancial.
 
-## Después de publicar
+## Seguimiento
 
-1. Registrar fecha y revisión realmente desplegada; comprobar HTML, canonical y sitemap públicos. No tratar la fecha del archivo como fecha de publicación.
-2. Comparar 28 días completos posteriores al rastreo con 28 días anteriores a la publicación, por URL y por consulta, manteniendo país, dispositivo y tipo Web constantes.
-3. Vigilar en particular `curriculum atencion al cliente`, `curriculum operario de produccion`, `curriculum cajera`, `curriculum auxiliar administrativo` y `cv para ayudante de mina`.
-4. Si las páginas prioritarias no recuperan impresiones y posiciones, revisar los resultados de búsqueda y la utilidad real de cada ejemplo antes de crear más URLs. Limpieza y recepcionista son la siguiente tanda potencial, según sus impresiones y posiciones actuales.
+El sitemap existente se reenvió a Search Console el 2 de octubre a las 15:42 UTC. Google aceptó el envío y su lectura quedó pendiente; esto no confirma que haya indexado la nueva versión.
+
+1. Comparar 28 días completos posteriores al nuevo rastreo con 28 días anteriores a la publicación, por URL y por consulta, manteniendo país, dispositivo y tipo Web constantes.
+2. Vigilar en particular `curriculum atencion al cliente`, `curriculum operario de produccion`, `curriculum cajera`, `curriculum auxiliar administrativo` y `cv para ayudante de mina`.
+3. Si las páginas prioritarias no recuperan impresiones y posiciones, revisar los resultados de búsqueda y la utilidad real de cada ejemplo antes de crear más URLs. Limpieza y recepcionista son la siguiente tanda potencial, según sus impresiones y posiciones actuales.
 
 No se puede garantizar una subida de tráfico por estos cambios. Google puede tardar semanas en reevaluar contenido y la demanda puede variar por país y temporada.
