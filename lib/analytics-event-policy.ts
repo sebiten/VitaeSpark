@@ -1,4 +1,11 @@
 export const CLIENT_ANALYTICS_EVENTS = [
+  "landing_viewed",
+  "creator_entered",
+  "form_step_completed",
+  "generation_failed",
+  "payment_clicked",
+  "checkout_email_opened",
+  "payment_failed",
   "landing_cta_clicked",
   "template_selected",
   "form_started",

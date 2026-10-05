@@ -5,10 +5,11 @@ import {
 import { getAnalyticsSessionId } from "@/lib/analytics-session";
 import type { ClientAnalyticsEventName } from "@/lib/analytics-event-policy";
 import { recordGaFunnelEvent } from "@/lib/ga-events";
+import { sanitizeAnalyticsPayload, type AnalyticsDiagnostics } from "@/lib/analytics-diagnostics";
 
 export { recordGaEvent, recordGaFunnelEvent } from "@/lib/ga-events";
 
-type AnalyticsEventPayload = LandingAttribution & {
+type AnalyticsEventPayload = LandingAttribution & AnalyticsDiagnostics & {
   event_name: ClientAnalyticsEventName;
   language?: "es" | "en";
   payment_provider?: "mercado_pago" | "paypal";
@@ -19,12 +20,12 @@ type AnalyticsEventPayload = LandingAttribution & {
 
 export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
   if (typeof window === "undefined") return;
-
-  const event = {
+  try {
+  const event = sanitizeAnalyticsPayload({
     ...getLandingAttribution(),
     ...payload,
     session_id: payload.session_id ?? getAnalyticsSessionId(),
-  };
+  });
   const body = JSON.stringify(event);
 
   recordGaFunnelEvent(event.event_name, {
@@ -40,6 +41,10 @@ export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
     utm_content: event.utm_content,
     session_id: event.session_id,
     is_guest: event.is_guest,
+    step_id: event.step_id,
+    stage: event.stage,
+    error_code: event.error_code,
+    attempt_id: event.attempt_id,
   });
 
   if (navigator.sendBeacon) {
@@ -56,4 +61,7 @@ export function recordAnalyticsEvent(payload: AnalyticsEventPayload) {
     body,
     keepalive: true,
   }).catch(() => {});
+  } catch {
+    // Analytics must not interrupt the form or checkout if browser storage is blocked.
+  }
 }

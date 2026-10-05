@@ -1,3 +1,6 @@
+import { ANALYTICS_EVENT_LABELS, isGuestAnalyticsEvent } from "@/lib/analytics-diagnostics";
+import type { ClientAnalyticsEventName } from "@/lib/analytics-event-policy";
+import { matchesConfirmedPayment, reconcileFunnel, sessionProgression, sessionTimelines, type CheckoutAttempt } from "@/lib/analytics-funnel";
 import { getCheckoutInsight } from "@/lib/checkout-insight";
 import React from "react";
 import Link from "next/link";
@@ -21,6 +24,7 @@ import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 
 type AnalyticsEventName =
+  | ClientAnalyticsEventName
   | "landing_cta_clicked"
   | "template_selected"
   | "form_started"
@@ -45,6 +49,10 @@ type AnalyticsEventName =
   | "tool_result_copied";
 
 type AnalyticsEvent = {
+  step_id?: string | null;
+  stage?: string | null;
+  error_code?: string | null;
+  attempt_id?: string | null;
   id: string;
   user_id: string | null;
   cv_id: string | null;
@@ -67,6 +75,9 @@ type AnalyticsEvent = {
 };
 
 type PaymentRecord = {
+  id: string;
+  cv_id: string | null;
+  payment_id: string | null;
   amount: number | null;
   status: string | null;
   created_at: string;
@@ -197,10 +208,11 @@ export default async function AdminDashboardPage({
   const [
     { count: totalUsers },
     { data: recentFeedback },
-    { data: paymentsLast60 },
+    { data: paymentsLast60, error: paymentsError, count: paymentCount },
     { data: recentUsers },
-    { data: analyticsEvents },
+    { data: analyticsEvents, error: analyticsError, count: eventCount },
     { data: aiUsageLast60 },
+    { data: checkoutSessions, error: attemptsError, count: attemptCount },
   ] = await Promise.all([
     supabaseAdmin
       .from("profiles")
@@ -213,7 +225,7 @@ export default async function AdminDashboardPage({
       .limit(5),
     supabaseAdmin
       .from("payments")
-      .select("amount, status, created_at, payment_type, payment_method, payer_email")
+      .select("id, cv_id, payment_id, amount, status, created_at, payment_type, payment_method, payer_email", { count: "exact" })
       .in("status", APPROVED_STATUSES)
       .gte("created_at", since60Days.toISOString())
       .order("created_at", { ascending: false })
@@ -227,7 +239,7 @@ export default async function AdminDashboardPage({
     supabaseAdmin
       .from("analytics_events")
       .select(
-        "id, user_id, cv_id, payment_id, event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id, is_guest"
+        "id, user_id, cv_id, payment_id, event_name, landing_path, created_at, language, payment_provider, source_type, cta_label, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id, is_guest, step_id, stage, error_code, attempt_id", { count: "exact" }
       )
       .gte("created_at", since60Days.toISOString())
       .order("created_at", { ascending: false })
@@ -240,6 +252,10 @@ export default async function AdminDashboardPage({
       .gte("created_at", since60Days.toISOString())
       .order("created_at", { ascending: false })
       .limit(5000),
+    supabaseAdmin.from("payment_checkout_sessions")
+      .select("id, cv_id, profile_id, provider, provider_checkout_id, status, created_at, attribution", { count: "exact" })
+      .gte("created_at", since60Days.toISOString())
+      .order("created_at", { ascending: false }).limit(3000),
   ]);
 
   const users = (recentUsers ?? []).filter((profile) => profile.id !== user.id);
@@ -263,10 +279,13 @@ export default async function AdminDashboardPage({
       .filter((event) => event.user_id === user.id && event.session_id)
       .map((event) => event.session_id as string),
   );
-  const trackedEvents = rawEvents.filter(
+  const observedEvents = rawEvents.filter(
     (event) =>
       event.user_id !== user.id &&
       (!event.session_id || !adminSessionIds.has(event.session_id)),
+  );
+  const trackedEvents = observedEvents.filter(event =>
+    event.event_name !== "payment_completed" || payments.some(payment => matchesConfirmedPayment(event, payment)),
   );
   const currentEvents = trackedEvents.filter((event) =>
     isInRange(event.created_at, since30Days, now),
@@ -324,6 +343,19 @@ export default async function AdminDashboardPage({
   const topLanding = landingMetrics[0];
 
   const funnel = buildFunnelMetrics(currentEvents);
+  const currentPayments = payments.filter(p => isInRange(p.created_at, since30Days, now));
+  const attempts = ((checkoutSessions ?? []) as CheckoutAttempt[]).filter(a => a.profile_id !== user.id && (!a.attribution?.session_id || !adminSessionIds.has(a.attribution.session_id)));
+  const currentObservedEvents = observedEvents.filter(event => isInRange(event.created_at, since30Days, now));
+  const reconciliation = reconcileFunnel(currentObservedEvents, currentPayments, attempts);
+  const currentAttemptCount = attempts.filter(a => isInRange(a.created_at, since30Days, now)).length;
+  const visitToCreator = sessionProgression(currentEvents, "landing_viewed", "creator_entered");
+  const creatorToGenerated = sessionProgression(currentEvents, "creator_entered", "cv_generated");
+  const generatedToClick = sessionProgression(currentEvents, "cv_generated", "payment_clicked");
+  const clickToCheckout = sessionProgression(currentEvents, "payment_clicked", "payment_started");
+  const paidToDownload = sessionProgression(currentEvents, "payment_completed", "download_completed");
+  const timelines = sessionTimelines(currentObservedEvents);
+  const diagnosticError = paymentsError || analyticsError || attemptsError;
+  const diagnosticTruncated = (eventCount ?? 0) > rawEvents.length || (paymentCount ?? 0) > rawPayments.length || (attemptCount ?? 0) > (checkoutSessions?.length ?? 0);
 
   const insights = buildInsights({
     current30,
@@ -395,15 +427,10 @@ export default async function AdminDashboardPage({
             icon={<Users className="h-5 w-5" />}
           />
           <MetricCard
-            title="Pago / generación"
-            value={formatPercent(
-              rate(current30.approvedPayments, current30.generated),
-            )}
-            helper="Pagos aprobados sobre generaciones reales"
-            delta={buildDelta(
-              rate(current30.approvedPayments, current30.generated),
-              rate(previous30.approvedPayments, previous30.generated)
-            )}
+            title="Transacciones aprobadas"
+            value={current30.approvedPayments}
+            helper="Pagos confirmados; una sesión puede tener más de uno"
+            delta={buildDelta(current30.approvedPayments, previous30.approvedPayments)}
             icon={<Target className="h-5 w-5" />}
           />
           <MetricCard
@@ -454,12 +481,12 @@ export default async function AdminDashboardPage({
                 helper={formatPercent(preRegistrationSummary.emailRate)}
               />
               <JourneyMetric
-                label="Iniciaron el pago"
+                label="Crearon checkout"
                 value={preRegistrationSummary.startedPayment}
                 helper="Mercado Pago o PayPal"
               />
               <JourneyMetric
-                label="Completaron el pago"
+                label="Sesiones con pago atribuido"
                 value={preRegistrationSummary.completedPayment}
                 helper="Conversión atribuida"
               />
@@ -579,12 +606,12 @@ export default async function AdminDashboardPage({
               helper={`${funnel.guestEmailSessions} emails ingresados`}
             />
             <FunnelRow
-              label="Preview a inicio de pago"
+              label="Preview a checkout creado"
               value={formatPercent(funnel.previewToPaymentStart)}
-              helper={`${funnel.paymentStartSessions} sesiones iniciaron`}
+              helper={`${funnel.paymentStartSessions} sesiones con enlace creado o recuperado`}
             />
             <FunnelRow
-              label="Inicio a pago aprobado"
+              label="Checkout creado a pago atribuido"
               value={formatPercent(funnel.paymentStartToCompleted)}
               helper={`${funnel.paymentCompletedSessions} sesiones completaron`}
             />
@@ -601,6 +628,42 @@ export default async function AdminDashboardPage({
           </div>
         </section>
 
+        <section className="mb-7 rounded-[28px] border border-white/10 bg-[#15151A]/82 p-5">
+          <h2 className="text-2xl font-semibold">Medición y conciliación · 30 días</h2>
+          <p className="mt-2 text-sm text-white/60">Los filtros inferiores aplican a landings y campañas. Estas cifras son globales y excluyen la cuenta administradora y pagos de prueba configurados.</p>
+          {diagnosticError ? <p role="alert" className="mt-3 text-amber-200">No se pudieron cargar todos los datos. Las cifras siguientes están incompletas; no interpretarlas como cero ventas. Verificar acceso y migración de analítica.</p> : null}
+          {diagnosticTruncated ? <p role="alert" className="mt-3 text-amber-200">Se alcanzó el límite de lectura. Ventana incompleta: no usar estos totales para conciliación contable.</p> : null}
+          <div className="mt-4 grid gap-px sm:grid-cols-2 xl:grid-cols-4">
+            <JourneyMetric label="Sesiones convertidas" value={reconciliation.convertedSessions} helper="Vinculadas a payments confirmados" />
+            <JourneyMetric label="Intentos de checkout" value={currentAttemptCount} helper="Registros internos; reutilizar enlace no suma otro intento" />
+            <JourneyMetric label="Transacciones aprobadas" value={reconciliation.confirmedTransactions} helper="payments; misma fuente que ingresos" />
+            <JourneyMetric label="Pagos sin evento atribuido" value={reconciliation.unattributedTransactions} helper={reconciliation.attributedTransactions + " transacciones con payment_completed"} />
+          </div>
+          <p className="mt-2 text-xs text-white/50">{reconciliation.historicalAttemptsWithoutRecord} referencias históricas sin intento interno enlazado · {reconciliation.unmatchedCompletionEvents} eventos de aprobación sin transacción en esta ventana. No equivalen a pagos adicionales.</p>
+          <div className="mt-4 grid gap-px sm:grid-cols-2">
+            <FunnelRow label="Visita comercial → creador" value={formatPercent(visitToCreator.rate)} helper={visitToCreator.converted + " / " + visitToCreator.total + " sesiones con visita real"} />
+            <FunnelRow label="Creador → CV generado" value={formatPercent(creatorToGenerated.rate)} helper={creatorToGenerated.converted + " / " + creatorToGenerated.total + " sesiones"} />
+            <FunnelRow label="CV generado → clic en pagar" value={formatPercent(generatedToClick.rate)} helper={generatedToClick.converted + " / " + generatedToClick.total + " sesiones"} />
+            <FunnelRow label="Clic en pagar → checkout creado" value={formatPercent(clickToCheckout.rate)} helper={clickToCheckout.converted + " / " + clickToCheckout.total + " sesiones"} />
+            <FunnelRow label="Pago atribuido → descarga solicitada" value={formatPercent(paidToDownload.rate)} helper={paidToDownload.converted + " / " + paidToDownload.total + " sesiones"} />
+          </div>
+          <p className="mt-3 text-xs text-white/50">Las nuevas etapas se miden desde su despliegue. No se reconstruyen visitas a partir de clics históricos. Ausencia de eventos indica último punto observado, no prueba abandono ni fallo del proveedor.</p>
+          <details className="mt-5">
+            <summary className="cursor-pointer">Recorridos por sesión ({timelines.length})</summary>
+            {timelines.map(timeline => <details key={timeline.sessionId} className="mt-3 border-t border-white/10 pt-3">
+              <summary className="cursor-pointer text-sm">{shortSession(timeline.sessionId)} · último: {ANALYTICS_EVENT_LABELS[timeline.events.at(-1)!.event_name] ?? timeline.events.at(-1)!.event_name}</summary>
+              <ol className="mt-2 space-y-2 text-xs text-white/65">
+                {timeline.events.map(event => <li key={event.id}>{formatDateTime(event.created_at)} · {ANALYTICS_EVENT_LABELS[event.event_name] ?? event.event_name}{event.step_id ? " · paso: " + event.step_id : ""}{event.stage ? " · etapa: " + event.stage : ""}{event.error_code ? " · código: " + event.error_code : ""}{event.payment_provider ? " · " + event.payment_provider : ""}{event.attempt_id ? " · intento: " + event.attempt_id : ""}{event.cv_id ? " · CV: " + event.cv_id : ""}</li>)}
+              </ol>
+            </details>)}
+          </details>
+          <details className="mt-5">
+            <summary className="cursor-pointer">Órdenes e intentos internos (hasta 60 días)</summary>
+            <ul className="mt-2 space-y-2 text-xs text-white/65">{attempts.map(attempt => <li key={attempt.id}>{attempt.id} · {attempt.provider} · orden: {attempt.provider_checkout_id ?? "no creada"} · estado interno: {attempt.status} · sesión: {attempt.attribution?.session_id ?? "sin atribución"} · CV: {attempt.cv_id}</li>)}</ul>
+            <p className="mt-2 text-xs text-white/50">El estado interno pendiente no verifica el estado real de Mercado Pago o PayPal.</p>
+          </details>
+        </section>
+
         <section className="mb-7 grid gap-4 lg:grid-cols-3">
           {insights.map((insight) => (
             <DecisionCard key={insight.title} {...insight} />
@@ -615,7 +678,7 @@ export default async function AdminDashboardPage({
               </h2>
               <p className="mt-1 text-sm text-white/50">
                 Prioriza paginas con suficiente muestra. Los pagos por landing salen de
-                `analytics_events`; los ingresos reales salen de `payments`.
+                eventos contrastados con `payments`; los ingresos salen de pagos confirmados.
               </p>
             </div>
 
@@ -688,11 +751,11 @@ export default async function AdminDashboardPage({
                     <th className="px-3 py-3 font-medium">Clicks</th>
                     <th className="px-3 py-3 font-medium">Plantilla</th>
                     <th className="px-3 py-3 font-medium">CVs</th>
-                    <th className="px-3 py-3 font-medium">Checkout</th>
-                    <th className="px-3 py-3 font-medium">Inicio pago</th>
+                    <th className="px-3 py-3 font-medium">Vio oferta de pago</th>
+                    <th className="px-3 py-3 font-medium">Checkout creado</th>
                     <th className="px-3 py-3 font-medium">Pagos</th>
                     <th className="px-3 py-3 font-medium">Click a CV</th>
-                    <th className="px-3 py-3 font-medium">CV a checkout</th>
+                    <th className="px-3 py-3 font-medium">CV a oferta de pago</th>
                     <th className="px-3 py-3 font-medium">Decision</th>
                   </tr>
                 </thead>
@@ -758,8 +821,8 @@ export default async function AdminDashboardPage({
                     <th className="px-3 py-3 font-medium">Visitas</th>
                     <th className="px-3 py-3 font-medium">Clicks CTA</th>
                     <th className="px-3 py-3 font-medium">CVs</th>
-                    <th className="px-3 py-3 font-medium">Checkout</th>
-                    <th className="px-3 py-3 font-medium">Inicio pago</th>
+                    <th className="px-3 py-3 font-medium">Vio oferta de pago</th>
+                    <th className="px-3 py-3 font-medium">Checkout creado</th>
                     <th className="px-3 py-3 font-medium">Pagos</th>
                     <th className="px-3 py-3 font-medium">CV / visita</th>
                   </tr>
@@ -976,13 +1039,12 @@ function buildCampaignMetrics(
 
     const providerMatches =
       provider === "all" ? true : event.payment_provider === provider;
-    const uniqueEventKey = `${key}:${event.event_name}:${getUniqueEventIdentity(event)}`;
+    const isAttributedVisit = event.event_name === "landing_viewed" || (
+      event.event_name === "landing_cta_clicked" && isAttributedVisitLabel(event.cta_label)
+    );
+    const uniqueEventKey = `${key}:${isAttributedVisit ? "visit" : event.event_name}:${getUniqueEventIdentity(event)}`;
     const shouldCountEvent = !seenEvents.has(uniqueEventKey);
     seenEvents.add(uniqueEventKey);
-
-    const isAttributedVisit =
-      event.event_name === "landing_cta_clicked" &&
-      isAttributedVisitLabel(event.cta_label);
 
     if (shouldCountEvent && isAttributedVisit) {
       current.visits += 1;
@@ -1037,7 +1099,7 @@ function buildPreRegistrationJourneys(
   events.forEach((event) => {
     if (
       event.event_name !== "cv_generated" ||
-      event.user_id ||
+      !isGuestAnalyticsEvent(event) ||
       !event.session_id
     ) {
       return;
@@ -1149,7 +1211,7 @@ function countUniqueAnonymousGenerations(events: AnalyticsEvent[]) {
   return new Set(
     events
       .filter(
-        (event) => event.event_name === "cv_generated" && !event.user_id,
+        (event) => event.event_name === "cv_generated" && isGuestAnalyticsEvent(event),
       )
       .map(getUniqueEventIdentity),
   ).size;
@@ -1212,7 +1274,7 @@ function buildInsights({
     title: "Landing a mirar",
     value: topLanding?.landing ?? "Sin datos",
     text: topLanding
-      ? `${topLanding.cvs} CVs, ${topLanding.checkouts} checkouts y ${topLanding.payments} pagos atribuidos. Decision: ${getLandingDecision(topLanding).label}.`
+      ? `${topLanding.cvs} CVs, ${topLanding.checkouts} sesiones vieron la oferta y ${topLanding.payments} sesiones tienen pago confirmado atribuido. Decision: ${getLandingDecision(topLanding).label}.`
       : "Todavia no hay landings con eventos en la ventana actual.",
     tone: topLanding?.payments ? "good" : "neutral",
     icon: <MousePointerClick className="h-5 w-5" />,
@@ -1267,7 +1329,7 @@ function buildFunnelMetrics(events: AnalyticsEvent[]) {
       )
       .map(getUniqueEventIdentity),
   );
-  const formSessions = identitiesFor("form_started");
+  const formSessions = new Set([...identitiesFor("form_started"), ...identitiesFor("form_step_completed")]);
   const generatedSessions = identitiesFor("cv_generated");
   const previewSessions = identitiesFor("preview_viewed");
   const checkoutSessions = identitiesFor("checkout_viewed");
@@ -1535,7 +1597,7 @@ function JourneyStatus({
   if (journey.startedPayment) {
     return (
       <span className="inline-flex rounded-full bg-amber-400/12 px-2.5 py-1 text-xs font-semibold text-amber-200">
-        Inició pago
+        Checkout creado
       </span>
     );
   }
@@ -1549,7 +1611,7 @@ function JourneyStatus({
   if (journey.reachedCheckout) {
     return (
       <span className="inline-flex rounded-full bg-sky-400/12 px-2.5 py-1 text-xs font-semibold text-sky-200">
-        Vio checkout
+        Vio oferta de pago
       </span>
     );
   }

@@ -36,6 +36,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { getLandingAttribution } from "@/lib/analytics-attribution";
+import { recordAnalyticsEvent } from "@/lib/analytics-events";
 import type { AppLanguage } from "@/lib/i18n";
 import type { DatosCVFormulario } from "@/lib/types/cv";
 import { cn } from "@/lib/utils";
@@ -350,6 +351,8 @@ export default function CVFormWizard({
     const isValid = await trigger(currentStep.fields, { shouldFocus: true });
     if (!isValid) return;
 
+    recordAnalyticsEvent({ event_name: "form_step_completed", step_id: currentStep.id, stage: "form", template, language });
+
     track(chrome.stepCompleted, {
       template,
       language,
@@ -369,6 +372,7 @@ export default function CVFormWizard({
   };
 
   const handleFinalSubmit = handleSubmit(async (data) => {
+    recordAnalyticsEvent({ event_name: "form_step_completed", step_id: currentStep.id, stage: "form", template, language });
     track(chrome.stepCompleted, {
       template,
       language,

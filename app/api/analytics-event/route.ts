@@ -9,8 +9,9 @@ import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { aj } from "@/lib/arcjet";
 import { getRequestCountry } from "@/lib/market";
 import { createClient } from "@/utils/supabase/server";
+import { analyticsDiagnosticSchema } from "@/lib/analytics-diagnostics";
 
-const AnalyticsEventSchema = z.object({
+const AnalyticsEventSchema = analyticsDiagnosticSchema.extend({
   event_name: z.enum(CLIENT_ANALYTICS_EVENTS),
   landing_path: z.string().trim().max(240).optional(),
   cta_label: z.string().trim().max(120).optional(),

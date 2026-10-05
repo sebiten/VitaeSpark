@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { PendingPaymentRecovery } from "@/components/PendingPaymentRecovery";
 import { CampaignAttributionCapture } from "@/components/CampaignAttributionCapture";
+import { FunnelPageCapture } from "@/components/FunnelPageCapture";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Toaster } from "sonner";
 import { PRICING } from "@/lib/pricing";
@@ -221,6 +222,7 @@ export default async function RootLayout({
       >
         <Suspense fallback={null}>
           <CampaignAttributionCapture />
+          <FunnelPageCapture />
         </Suspense>
         <Suspense fallback={null}>
           <GoogleAnalytics />

@@ -1,7 +1,10 @@
 import { supabaseAdmin } from "@/utils/supabase/admin";
 import type { LandingAttribution } from "@/lib/analytics-attribution";
+import { sanitizeAnalyticsPayload, type AnalyticsDiagnostics } from "@/lib/analytics-diagnostics";
+import type { ClientAnalyticsEventName } from "@/lib/analytics-event-policy";
 
 type AnalyticsEventName =
+  | ClientAnalyticsEventName
   | "landing_cta_clicked"
   | "template_selected"
   | "form_started"
@@ -25,7 +28,7 @@ type AnalyticsEventName =
   | "tool_ai_refined"
   | "tool_result_copied";
 
-type ServerAnalyticsEventPayload = LandingAttribution & {
+type ServerAnalyticsEventPayload = LandingAttribution & AnalyticsDiagnostics & {
   event_name: AnalyticsEventName;
   user_id?: string | null;
   language?: "es" | "en";
@@ -56,8 +59,13 @@ export async function recordAnalyticsEventServer({
   country_code,
   session_id,
   is_guest,
+  step_id,
+  stage,
+  error_code,
+  attempt_id,
 }: ServerAnalyticsEventPayload) {
-  const { error } = await supabaseAdmin.from("analytics_events").insert({
+  try {
+  const { error } = await supabaseAdmin.from("analytics_events").insert(sanitizeAnalyticsPayload({
     user_id: user_id ?? null,
     event_name,
     landing_path: landing_path || null,
@@ -75,9 +83,16 @@ export async function recordAnalyticsEventServer({
     country_code: country_code || null,
     session_id: session_id || null,
     is_guest: typeof is_guest === "boolean" ? is_guest : null,
-  });
+    step_id: step_id ?? null,
+    stage: stage ?? null,
+    error_code: error_code ?? null,
+    attempt_id: attempt_id ?? null,
+  }));
 
   if (error) {
-    console.error("Error guardando analytics event:", error);
+    console.error("Error guardando analytics event", error.code);
+  }
+  } catch {
+    console.error("No se pudo registrar analytics event");
   }
 }

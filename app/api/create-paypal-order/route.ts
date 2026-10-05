@@ -1,3 +1,4 @@
+import { recordPaymentFailure } from "@/lib/payment-analytics";
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { getOrCreatePendingPaymentCv } from "@/lib/payment-cv";
@@ -95,6 +96,8 @@ export async function POST(req: Request) {
   if (checkoutSession.checkout_url) {
     await recordAnalyticsEventServer({
       event_name: "payment_started",
+      attempt_id: checkoutSession.id,
+      stage: "checkout",
       user_id: profile_id,
       language,
       payment_provider: "paypal",
@@ -161,6 +164,7 @@ export async function POST(req: Request) {
     const paypalJson = await paypalRes.json();
 
     if (!paypalRes.ok || !paypalJson.id) {
+      await recordPaymentFailure({ cvId: paymentCv.cv.id, provider: "paypal", stage: "checkout", errorCode: "provider_error" });
       console.error("PayPal order error:", paypalJson);
       if (
         paypalRes.status >= 400 &&
@@ -183,6 +187,7 @@ export async function POST(req: Request) {
     )?.href;
 
     if (!approveUrl) {
+      await recordPaymentFailure({ cvId: paymentCv.cv.id, provider: "paypal", stage: "checkout", errorCode: "checkout_missing_url" });
       await failCheckoutSession(checkoutSession.id);
       return NextResponse.json(
         {
@@ -200,6 +205,8 @@ export async function POST(req: Request) {
 
     await recordAnalyticsEventServer({
       event_name: "payment_started",
+      attempt_id: checkoutSession.id,
+      stage: "checkout",
       user_id: profile_id,
       language,
       payment_provider: "paypal",
@@ -213,6 +220,8 @@ export async function POST(req: Request) {
     if (isGuest) {
       await recordAnalyticsEventServer({
         event_name: "guest_checkout_created",
+        attempt_id: checkoutSession.id,
+        stage: "checkout",
         user_id: profile_id,
         language,
         payment_provider: "paypal",
@@ -230,6 +239,7 @@ export async function POST(req: Request) {
       approveUrl,
     });
   } catch (error) {
+    await recordPaymentFailure({ cvId: paymentCv.cv.id, provider: "paypal", stage: "checkout", errorCode: "provider_error" });
     console.error("PayPal error:", error);
     return NextResponse.json(
       { cvId: paymentCv.cv.id, error: "Error comunicandose con PayPal" },

@@ -5,6 +5,7 @@ import { isExpectedPayPalPayment } from "@/lib/payment-validation";
 import { verifyPayPalWebhookSignature } from "@/lib/paypal";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 import { ensurePurchaseAccessForCv } from "@/lib/purchase-access";
+import { getPaymentAnalyticsContext } from "@/lib/payment-analytics";
 
 type PayPalWebhookPayload = {
   event_type?: string;
@@ -106,26 +107,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true, duplicate: true });
   }
 
-  const { data: startedEvent } = await supabaseAdmin
-    .from("analytics_events")
-    .select(
-      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id, is_guest",
-    )
-    .eq("event_name", "payment_started")
-    .eq("cv_id", cvId)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+  const startedEvent = await getPaymentAnalyticsContext({
+    cvId, provider: "paypal", orderId: resource.supplementary_data?.related_ids?.order_id,
+  });
 
   await recordAnalyticsEventServer({
     event_name: "payment_completed",
+    attempt_id: startedEvent.attempt_id,
+    stage: "webhook",
     user_id: cv.profile_id,
     cv_id: cvId,
     payment_id: resource.id,
     template: startedEvent?.template ?? cv.template,
     language: startedEvent?.language,
     payment_provider: "paypal",
-    is_guest: startedEvent?.is_guest === true,
+    is_guest: startedEvent.is_guest,
     country_code: startedEvent?.country_code,
     session_id: startedEvent?.session_id ?? undefined,
     landing_path: startedEvent?.landing_path,

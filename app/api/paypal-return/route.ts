@@ -6,6 +6,7 @@ import { capturePayPalOrder } from "@/lib/paypal";
 import { createClient } from "@/utils/supabase/server";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 import { ensurePurchaseAccessForCv } from "@/lib/purchase-access";
+import { getPaymentAnalyticsContext, recordPaymentFailure } from "@/lib/payment-analytics";
 
 type PayPalCaptureResponse = {
   id?: string;
@@ -98,6 +99,7 @@ export async function GET(req: Request) {
         status: capture?.status,
         amount: capture?.amount,
       });
+      await recordPaymentFailure({ cvId: cv.id, provider: "paypal", orderId, stage: "capture", errorCode: "invalid_capture" });
 
       return NextResponse.redirect(
         new URL(
@@ -139,26 +141,21 @@ export async function GET(req: Request) {
       );
     }
 
-    const { data: startedEvent } = await supabaseAdmin
-      .from("analytics_events")
-      .select(
-        "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id, is_guest",
-      )
-      .eq("event_name", "payment_started")
-      .eq("cv_id", cv.id)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    const startedEvent = await getPaymentAnalyticsContext({
+      cvId: cv.id, provider: "paypal", orderId,
+    });
 
     await recordAnalyticsEventServer({
       event_name: "payment_completed",
+      attempt_id: startedEvent?.attempt_id ?? undefined,
+      stage: "capture",
       user_id: cv.profile_id,
       cv_id: cv.id,
       payment_id: paymentId,
       template: startedEvent?.template ?? cv.template,
       language: startedEvent?.language,
       payment_provider: "paypal",
-      is_guest: startedEvent?.is_guest === true,
+      is_guest: startedEvent.is_guest,
       country_code: startedEvent?.country_code,
       session_id: startedEvent?.session_id ?? undefined,
       landing_path: startedEvent?.landing_path,
@@ -182,6 +179,7 @@ export async function GET(req: Request) {
     );
   } catch (error) {
     console.error("Error capturando PayPal:", error);
+    await recordPaymentFailure({ cvId: cv.id, provider: "paypal", orderId, stage: "capture", errorCode: "capture_error" });
     return NextResponse.redirect(
       new URL(
         `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=pending`,

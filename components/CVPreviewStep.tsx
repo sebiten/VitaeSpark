@@ -236,6 +236,10 @@ export default function CVPreviewStepPurple({
   const cvScore = useMemo(() => calculateCvScore(cvData), [cvData]);
   const passedChecks = cvScore.items.filter((item) => item.passed).length;
 
+  const recordPaymentFailure = (provider: "mercado_pago" | "paypal", code: "checkout_http_error" | "checkout_network_error" | "checkout_missing_url", cvId: string | null = pendingCvId) => {
+    recordAnalyticsEvent({ event_name: "payment_failed", stage: "checkout", error_code: code, payment_provider: provider, template, language, is_guest: !currentUser || currentUser.isAnonymous, cv_id: cvId ?? undefined });
+  };
+
   const handlePayPal = async (
     paymentCv: RespuestaCV["cv"] = cvData,
     contactEmail?: string,
@@ -271,6 +275,7 @@ export default function CVPreviewStepPurple({
       if (!res.ok) {
         const errorData = await res.json();
         if (errorData?.cvId) setPendingCvId(errorData.cvId);
+        recordPaymentFailure("paypal", "checkout_http_error", errorData?.cvId ?? pendingCvId);
         track("PayPal Order Failed", {
           status: res.status,
           template,
@@ -306,12 +311,14 @@ export default function CVPreviewStepPurple({
         });
         window.location.href = approveUrl;
       } else {
+        recordPaymentFailure("paypal", "checkout_missing_url", cvId ?? pendingCvId);
         track("PayPal Order Failed", { template, ...attribution });
         failureTracked = true;
         toast.error(copy.paypalError);
       }
     } catch (error) {
       if (!failureTracked) {
+        recordPaymentFailure("paypal", "checkout_network_error");
         track("PayPal Order Failed", { template, ...attribution });
       }
       console.error("Error en handlePayPal:", error);
@@ -356,6 +363,7 @@ export default function CVPreviewStepPurple({
       if (!res.ok) {
         const errorData = await res.json();
         if (errorData?.cvId) setPendingCvId(errorData.cvId);
+        recordPaymentFailure("mercado_pago", "checkout_http_error", errorData?.cvId ?? pendingCvId);
         track("Payment Preference Failed", {
           status: res.status,
           template,
@@ -391,12 +399,14 @@ export default function CVPreviewStepPurple({
         });
         window.location.href = init_point;
       } else {
+        recordPaymentFailure("mercado_pago", "checkout_missing_url", cvId ?? pendingCvId);
         track("Payment Preference Failed", { template, ...attribution });
         failureTracked = true;
         toast.error(copy.mpError);
       }
     } catch (error) {
       if (!failureTracked) {
+        recordPaymentFailure("mercado_pago", "checkout_network_error");
         track("Payment Preference Failed", {
           template,
           ...getLandingAttribution(),
@@ -534,6 +544,7 @@ export default function CVPreviewStepPurple({
   const selectedProvider = pendingPaymentMethod === "paypal" ? "PayPal" : "Mercado Pago";
 
   const openGuestEmail = (method: "mercado_pago" | "paypal") => {
+    recordAnalyticsEvent({ event_name: "checkout_email_opened", stage: "email", payment_provider: method, template, language, is_guest: true });
     setPendingPaymentMethod(method);
     setGuestEmailError("");
     setGuestEmailOpen(true);
@@ -542,6 +553,7 @@ export default function CVPreviewStepPurple({
 
   const requestPayment = (method: "mercado_pago" | "paypal") => {
     if (paymentUnavailable) return;
+    recordAnalyticsEvent({ event_name: "payment_clicked", stage: "checkout", payment_provider: method, template, language, is_guest: !currentUser || currentUser.isAnonymous, cv_id: pendingCvId ?? undefined });
     track("Checkout Payment Clicked", { method, template, language, ...getLandingAttribution() });
     if (!currentUser && guestCheckoutEnabled) {
       openGuestEmail(method);
@@ -598,6 +610,7 @@ export default function CVPreviewStepPurple({
       }
     } catch (error) {
       console.error("No se pudo preparar el checkout invitado", error);
+      recordAnalyticsEvent({ event_name: "payment_failed", stage: "email", error_code: "guest_session_error", payment_provider: method, template, language, is_guest: true });
       toast.error(
         error instanceof Error ? error.message : copy.paymentError,
       );

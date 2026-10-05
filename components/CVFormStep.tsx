@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import { createClient } from "@/utils/supabase/client";
 import { getLandingAttribution } from "@/lib/analytics-attribution";
+import { recordAnalyticsEvent } from "@/lib/analytics-events";
 import type { AppLanguage } from "@/lib/i18n";
 import {
   ALLOWED_GUEST_PHOTO_TYPES,
@@ -400,6 +401,10 @@ export default function CVFormStep({
           code?: string;
         } | null;
         const isTimeout = response.status === 504;
+        recordAnalyticsEvent({
+          event_name: "generation_failed", stage: "generation", template, language,
+          error_code: response.status === 429 ? "generation_limit" : "generation_http_error",
+        });
         track("CV Generation Failed", {
           status: response.status,
           template,
@@ -432,6 +437,7 @@ export default function CVFormStep({
       toast.success(copy.success);
     } catch (submitError) {
       if (!failureTracked) {
+        recordAnalyticsEvent({ event_name: "generation_failed", stage: "generation", template, language, error_code: "generation_network_error" });
         track("CV Generation Failed", {
           template,
           language,

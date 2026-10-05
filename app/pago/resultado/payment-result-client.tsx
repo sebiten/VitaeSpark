@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import type { RespuestaCV } from "@/lib/types/cv";
 import { CREATE_DRAFT_KEY } from "@/lib/create-flow-state";
+import { recordAnalyticsEvent } from "@/lib/analytics-events";
 
 const PDFDownloadButton = dynamic(
   () => import("@/components/pdf/PDFDownloadButton"),
@@ -53,6 +54,17 @@ export default function PaymentResultClient({
 }) {
   const [result, setResult] = useState<ResultState>({ kind: "checking" });
   const attemptsRef = useRef(0);
+  const observedFailures = useRef(new Set<string>());
+  useEffect(() => {
+    const code = result.kind === "session_lost" ? "session_lost"
+      : result.kind === "error" ? "verification_error"
+      : result.kind === "pending" && returnStatus === "cancelled" ? "return_cancelled"
+      : result.kind === "pending" && returnStatus === "failure" ? "return_failure"
+      : null;
+    if (!code || observedFailures.current.has(code) || !cvId) return;
+    observedFailures.current.add(code);
+    recordAnalyticsEvent({ event_name: "payment_failed", stage: "return", error_code: code, cv_id: cvId, payment_provider: provider });
+  }, [cvId, provider, result.kind, returnStatus]);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const checkPayment = useCallback(async () => {

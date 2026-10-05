@@ -225,6 +225,8 @@ export async function POST(req: NextRequest) {
 
   await recordAnalyticsEventServer({
     event_name: "payment_completed",
+    attempt_id: z.string().uuid().safeParse(metadataString(payment.metadata, "attempt_id")).success ? metadataString(payment.metadata, "attempt_id") : undefined,
+    stage: "webhook",
     user_id: profile_id,
     cv_id,
     payment_id: String(payment.id),

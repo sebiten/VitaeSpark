@@ -1,3 +1,4 @@
+import { recordPaymentFailure } from "@/lib/payment-analytics";
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { getOrCreatePendingPaymentCv } from "@/lib/payment-cv";
@@ -90,6 +91,7 @@ export async function POST(req: Request) {
       isGuest,
     });
   } catch (error) {
+    await recordPaymentFailure({ cvId: paymentCv.cv.id, provider: "mercado_pago", stage: "checkout", errorCode: "provider_error" });
     console.error("Error creando preferencia de Mercado Pago:", error);
     return NextResponse.json(
       { cvId: paymentCv.cv.id, error: "No se pudo generar link de pago" },
@@ -99,6 +101,8 @@ export async function POST(req: Request) {
 
   await recordAnalyticsEventServer({
     event_name: "payment_started",
+    attempt_id: checkout.attemptId,
+    stage: "checkout",
     user_id: profile_id,
     language,
     payment_provider: "mercado_pago",
@@ -112,6 +116,8 @@ export async function POST(req: Request) {
   if (isGuest && !checkout.reused) {
     await recordAnalyticsEventServer({
       event_name: "guest_checkout_created",
+      attempt_id: checkout.attemptId,
+      stage: "checkout",
       user_id: profile_id,
       language,
       payment_provider: "mercado_pago",

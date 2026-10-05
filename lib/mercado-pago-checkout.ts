@@ -43,6 +43,7 @@ export async function createMercadoPagoCheckout(
       initPoint: session.checkout_url,
       attribution: session.attribution,
       reused: true,
+      attemptId: session.id,
     };
   }
 
@@ -85,6 +86,7 @@ export async function createMercadoPagoCheckout(
         auto_return: "approved",
         metadata: {
           cv_id: input.cvId,
+          attempt_id: session.id,
           profile_id: input.profileId,
           language: input.language,
           payment_provider: "mercado_pago",
@@ -130,5 +132,6 @@ export async function createMercadoPagoCheckout(
     initPoint: payload.init_point,
     attribution,
     reused: false,
+    attemptId: session.id,
   };
 }
