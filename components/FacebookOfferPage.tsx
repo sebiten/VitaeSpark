@@ -5,7 +5,6 @@ import {
   FilePenLine,
   ShieldCheck,
   Sparkles,
-  UsersRound,
 } from "lucide-react";
 import { TrackedCtaLink } from "@/components/seo/TrackedCtaLink";
 import { PRICING } from "@/lib/pricing";
@@ -22,14 +21,12 @@ const offerCopy = {
     subtitle:
       "Cargá tus datos, revisá el resultado completo y pagá recién cuando estés conforme.",
     price: PRICING.mercadoPago.label,
-    previousPrice: PRICING.mercadoPago.previousLabel,
     payment: "Pago seguro con Mercado Pago",
     cta: `Crear mi CV por ${PRICING.mercadoPago.shortLabel}`,
     previewLabel: "Vista previa real",
     previewTitle: "Primero mirás el resultado",
     previewText:
       "La marca de agua se elimina después del pago. No comprás una plantilla vacía.",
-    socialProof: "Más de 500 personas ya eligieron VitaeSpark",
     footer: "Pago único · Sin suscripción · Sin registro para empezar",
     benefits: [
       {
@@ -58,14 +55,12 @@ const offerCopy = {
     subtitle:
       "Enter your experience, review the complete result, and pay only when you are ready.",
     price: PRICING.paypal.label,
-    previousPrice: PRICING.paypal.previousLabel,
     payment: "Secure international checkout with PayPal",
     cta: `Create my resume for ${PRICING.paypal.label}`,
     previewLabel: "Real preview",
     previewTitle: "See the result before paying",
     previewText:
       "The watermark is removed after payment. You are not buying an empty template.",
-    socialProof: "More than 500 people have chosen VitaeSpark",
     footer: "One-time payment · No subscription · No sign-up to start",
     benefits: [
       {
@@ -117,9 +112,6 @@ export function FacebookOfferPage({ market }: { market: OfferMarket }) {
                 {copy.price}
               </strong>
               <div className="pb-1">
-                <span className="block text-sm text-white/32 line-through">
-                  {copy.previousPrice}
-                </span>
                 <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#A997FF]">
                   {market === "argentina" ? "Pago único" : "One-time payment"}
                 </span>
@@ -142,13 +134,6 @@ export function FacebookOfferPage({ market }: { market: OfferMarket }) {
             buttonClassName="h-14 w-full rounded-full bg-[#F6F2EA] px-7 text-[15px] font-semibold text-[#121114] shadow-[0_18px_45px_rgba(246,242,234,0.13)] transition hover:-translate-y-0.5 hover:bg-white sm:w-auto"
           />
           <p className="mt-4 text-xs font-medium text-white/46">{copy.footer}</p>
-
-          <div className="mt-8 flex items-center gap-3 border-t border-white/8 pt-5 text-sm text-white/66">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D7C8FF]/15 bg-[#7A5CFF]/10 text-[#D7C8FF]">
-              <UsersRound className="h-4 w-4" aria-hidden="true" />
-            </span>
-            <strong className="font-semibold text-white/82">{copy.socialProof}</strong>
-          </div>
         </section>
 
         <section className="relative mx-auto w-full max-w-[470px]">

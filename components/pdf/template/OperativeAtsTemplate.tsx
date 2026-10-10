@@ -211,23 +211,25 @@ export function OperativeAtsDocument({
           <Text style={styles.summary}>{cv.sobreMi}</Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{labels.experience}</Text>
-          {cv.experiencia.map((item, index) => (
-            <View key={index} style={styles.item}>
-              <View style={styles.itemHeader} wrap={false}>
-                <View style={styles.itemMain}>
-                  <Text style={styles.itemTitle}>{item.cargo}</Text>
-                  <Text style={styles.itemSubtitle}>{item.empresa}</Text>
+        {cv.experiencia.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>{labels.experience}</Text>
+            {cv.experiencia.map((item, index) => (
+              <View key={index} style={styles.item}>
+                <View style={styles.itemHeader} wrap={false}>
+                  <View style={styles.itemMain}>
+                    <Text style={styles.itemTitle}>{item.cargo}</Text>
+                    <Text style={styles.itemSubtitle}>{item.empresa}</Text>
+                  </View>
+                  <Text style={styles.itemMeta}>
+                    {[item.fechas, item.ubicacion].filter(Boolean).join(" · ")}
+                  </Text>
                 </View>
-                <Text style={styles.itemMeta}>
-                  {[item.fechas, item.ubicacion].filter(Boolean).join(" · ")}
-                </Text>
+                <BulletList items={item.logros} />
               </View>
-              <BulletList items={item.logros} />
-            </View>
-          ))}
-        </View>
+            ))}
+          </View>
+        )}
 
         {cv.informacionAdicional.length > 0 ? (
           <View style={styles.section}>

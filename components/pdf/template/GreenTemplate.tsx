@@ -188,39 +188,43 @@ export default function GreenTemplateW({ cv }: { cv: RespuestaCV["cv"] }) {
               </View>
             )}
 
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{getCvLabels(cv).experience}</Text>
-              {cv.experiencia.map((item, index) => (
-                <View key={index} style={{ marginBottom: 10 }}>
-                  <View
-                    wrap={false}
-                    style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 2 }}
-                  >
-                    <Text style={styles.titleText}>{item.cargo}</Text>
-                    <Text style={styles.subtitleText}>
-                      {[item.fechas, item.ubicacion].filter(Boolean).join(" • ")}
-                    </Text>
+            {cv.experiencia.length > 0 && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>{getCvLabels(cv).experience}</Text>
+                {cv.experiencia.map((item, index) => (
+                  <View key={index} style={{ marginBottom: 10 }}>
+                    <View
+                      wrap={false}
+                      style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 2 }}
+                    >
+                      <Text style={styles.titleText}>{item.cargo}</Text>
+                      <Text style={styles.subtitleText}>
+                        {[item.fechas, item.ubicacion].filter(Boolean).join(" • ")}
+                      </Text>
+                    </View>
+                    <Text style={{ fontSize: 9.5, marginBottom: 3 }}>{item.empresa}</Text>
+                    <BulletList items={item.logros} />
                   </View>
-                  <Text style={{ fontSize: 9.5, marginBottom: 3 }}>{item.empresa}</Text>
-                  <BulletList items={item.logros} />
-                </View>
-              ))}
-            </View>
+                ))}
+              </View>
+            )}
 
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{getCvLabels(cv).education}</Text>
-              {cv.formacion.map((item, index) => (
-                <View key={index} style={{ marginBottom: 9 }} wrap={false}>
-                  <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                    <Text style={styles.titleText}>{item.institucion}</Text>
-                    <Text style={styles.subtitleText}>
-                      {[item.fechas, item.ubicacion].filter(Boolean).join(" • ")}
-                    </Text>
+            {cv.formacion.length > 0 && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>{getCvLabels(cv).education}</Text>
+                {cv.formacion.map((item, index) => (
+                  <View key={index} style={{ marginBottom: 9 }} wrap={false}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                      <Text style={styles.titleText}>{item.institucion}</Text>
+                      <Text style={styles.subtitleText}>
+                        {[item.fechas, item.ubicacion].filter(Boolean).join(" • ")}
+                      </Text>
+                    </View>
+                    {item.titulo ? <Text style={styles.subtitleText}>{item.titulo}</Text> : null}
                   </View>
-                  {item.titulo ? <Text style={styles.subtitleText}>{item.titulo}</Text> : null}
-                </View>
-              ))}
-            </View>
+                ))}
+              </View>
+            )}
           </View>
         </View>
       </Page>

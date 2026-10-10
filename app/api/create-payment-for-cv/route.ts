@@ -1,4 +1,5 @@
 import { recordPaymentFailure } from "@/lib/payment-analytics";
+import { checkoutErrorResponse } from "@/lib/checkout-response";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
@@ -93,10 +94,7 @@ export async function POST(req: Request) {
   } catch (error) {
     await recordPaymentFailure({ cvId: cv.id, provider: "mercado_pago", stage: "checkout", errorCode: "provider_error" });
     console.error("Error creando preferencia de Mercado Pago:", error);
-    return NextResponse.json(
-      { error: "No se pudo generar link de pago" },
-      { status: 500 }
-    );
+    return checkoutErrorResponse(error, cv.id);
   }
 
   await recordAnalyticsEventServer({

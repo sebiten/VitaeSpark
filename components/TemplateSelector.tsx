@@ -1,12 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import { CommercialOffer } from "./CommercialOffer";
+import type { AppLanguage } from "@/lib/i18n";
 import { ArrowRight, Check, ChevronDown, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CV_TEMPLATES, type CvTemplateDefinition, type CvTemplateId } from "@/lib/cv-templates";
 import { cn } from "@/lib/utils";
 
 type Props = {
+  language?: AppLanguage;
+  guestCheckoutEnabled?: boolean;
+  initialCountryCode?: string | null;
   selectedTemplate: string;
   recommendedTemplate?: CvTemplateId;
   onSelectTemplate: (id: string) => void;
@@ -101,6 +106,9 @@ function TemplateChoice({
 }
 
 export default function TemplateSelector({
+  language = "es",
+  guestCheckoutEnabled = false,
+  initialCountryCode,
   selectedTemplate,
   recommendedTemplate = "elegance",
   onSelectTemplate,
@@ -145,6 +153,8 @@ export default function TemplateSelector({
           <ArrowRight className="size-4" />
         </Button>
       </div>
+
+      <CommercialOffer language={language} initialCountryCode={initialCountryCode} className="mx-auto max-w-3xl text-sm leading-6 text-white/70" />
 
       <section aria-labelledby="recommended-templates-title">
         <div className="mb-4 border-b border-white/9 pb-3">
@@ -195,8 +205,9 @@ export default function TemplateSelector({
       <div className="mx-auto flex max-w-3xl items-start gap-3 text-left text-sm leading-6 text-white/66">
         <ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#A78BFA]" />
         <p>
-          Podés completar todo sin registrarte. El inicio de sesión aparece recién
-          cuando generás el CV para guardar el resultado de forma segura.
+          {language === "en"
+            ? `You can create and preview without signing in. ${guestCheckoutEnabled ? "To pay as a guest, we ask for your email to recover your purchase." : "Sign in to pay and save your purchase."}`
+            : `Podés crear y ver el CV sin registrarte. ${guestCheckoutEnabled ? "Para pagar como invitado, te pedimos un email para recuperar tu compra." : "Para pagar y guardar la compra, necesitás iniciar sesión."}`}
         </p>
       </div>
     </div>

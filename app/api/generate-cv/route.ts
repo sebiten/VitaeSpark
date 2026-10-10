@@ -199,6 +199,8 @@ Reglas prioritarias de fidelidad:
 - No atribuyas experiencia en el sector objetivo, licencias, herramientas, cursos, jerarquía, liderazgo ni disponibilidad ausentes en la entrada.
 - No agregues habilidades solo porque suelen pedirse para el puesto buscado.
 - Conserva la naturaleza real de cada antecedente: empleo, trabajo informal, proyecto, práctica, voluntariado o curso.
+- Si experienceMode es no-experience, devuelve experiencia: []. No conviertas habilidades, objetivos o estudios en trabajos ni proyectos. Si formación está vacía, devuelve formacion: [].
+- No agregues habilidades que el usuario no haya indicado.
 - En perfiles de primer empleo, destaca evidencia real transferible sin contradecir la falta de experiencia formal.
 - Antes de responder, verifica que nombres, empresas, fechas, ubicaciones, herramientas y alcances provengan de la entrada.
 - La precisión factual tiene prioridad sobre hacer que el CV suene más impactante.
@@ -234,6 +236,8 @@ Priority fidelity rules:
 - Do not infer industry experience, licenses, tools, courses, seniority, leadership or availability from the target role.
 - Do not add skills merely because they are commonly requested for the target role.
 - Preserve whether an item was employment, informal work, a project, internship, volunteer work or a course.
+- If experienceMode is no-experience, return experiencia: []. Never turn skills, goals or education into jobs or projects. If education is empty, return formacion: [].
+- Do not add skills the user did not provide.
 - For first-job profiles, highlight real transferable evidence without contradicting the lack of formal experience.
 - Verify that names, companies, dates, locations, tools and scope come from the input.
 - Factual accuracy takes priority over making the resume sound more impressive.
@@ -248,6 +252,7 @@ Respond exclusively with valid JSON using this exact structure:
     sobreMi: body.sobreMi,
     contacto: body.contacto,
     experiencia: body.experiencia,
+    experienceMode: body.experienceMode,
     formacion: body.formacion,
     habilidades: body.habilidades,
     idiomas: body.idiomas,
@@ -344,14 +349,19 @@ Respond exclusively with valid JSON using this exact structure:
     );
   }
 
+  // Enforce the user's explicit choice even when the model returns valid invented entries.
+  if (result && typeof result === "object" && !Array.isArray(result)) {
+    if (body.experienceMode === "no-experience") result.experiencia = [];
+    if (!body.formacion.trim()) result.formacion = [];
+  }
   const directParse = await CVSchema.safeParseAsync(result);
   const parsed = directParse.success
     ? directParse
     : await CVSchema.safeParseAsync(normalizeCvGenerationOutput(result, body));
-  if (!parsed.success) {
+  if (!parsed.success || (body.experienceMode === "with-experience" && parsed.data.experiencia.length === 0)) {
     console.error(
       "La respuesta del modelo no pudo normalizarse:",
-      parsed.error.issues.map((issue) => ({
+      (!parsed.success ? parsed.error.issues : []).map((issue) => ({
         code: issue.code,
         path: issue.path.join("."),
       })),

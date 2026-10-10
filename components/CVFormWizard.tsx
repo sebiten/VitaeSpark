@@ -40,6 +40,7 @@ import { recordAnalyticsEvent } from "@/lib/analytics-events";
 import type { AppLanguage } from "@/lib/i18n";
 import type { DatosCVFormulario } from "@/lib/types/cv";
 import { cn } from "@/lib/utils";
+import { getCvFormContext } from "@/lib/cv-form-context";
 import { templateAllowsPhoto } from "@/lib/cv-templates";
 
 type FormCopy = {
@@ -195,6 +196,8 @@ export default function CVFormWizard({
     getValues,
   } = form;
 
+  const noExperience = form.watch("experienceMode") === "no-experience";
+  const suggestions = getCvFormContext(form.watch("puesto"), language, noExperience).suggestions;
   const steps = useMemo<WizardStep[]>(
     () => [
       {
@@ -202,15 +205,15 @@ export default function CVFormWizard({
         icon: User,
         title: copy.basicTitle,
         description: copy.basicDescription,
-        example: copy.contactPlaceholder,
+        example: `${copy.fullNamePlaceholder}\n${copy.rolePlaceholder}\n${copy.contactPlaceholder}`,
         helperTitle:
           language === "en"
             ? "Use real contact details"
             : "Usá datos reales de contacto",
         helperText:
           language === "en"
-            ? "Add your city, email, phone number and one professional link such as LinkedIn or GitHub."
-            : "Agregá ciudad, email, teléfono y un link profesional como LinkedIn o GitHub.",
+            ? "Add your city, email, phone number and a professional link if relevant."
+            : "Agregá ciudad, email, teléfono y un enlace profesional si corresponde.",
         fields: ["nombre", "puesto", "contacto"],
       },
       {
@@ -232,16 +235,16 @@ export default function CVFormWizard({
         icon: Briefcase,
         title: copy.experienceTitle,
         description: copy.experienceDescription,
-        example: copy.experiencePlaceholder,
+        example: noExperience ? (language === "en" ? "Your resume will omit work experience. You can add real experience later." : "Tu CV no incluirá una sección de experiencia. Podés agregar antecedentes reales después.") : copy.experiencePlaceholder,
         helperTitle:
           language === "en"
             ? "Think one role at a time"
             : "Pensá una experiencia por bloque",
         helperText:
-          language === "en"
+          noExperience ? (language === "en" ? "Use your real skills. You do not need to invent work or projects." : "Usá tus habilidades reales. No necesitás inventar trabajos ni proyectos.") : language === "en"
             ? "Start with role, dates, company or project and location. Then explain what you actually did, without wording it like a formal resume yet."
             : "Empezá con puesto, fechas, empresa o proyecto y lugar. Luego contá lo que hiciste sin preocuparte todavía por la redacción final.",
-        fields: ["experiencia"],
+        fields: ["experienceMode", "experiencia"],
       },
       {
         id: "education",
@@ -270,7 +273,7 @@ export default function CVFormWizard({
         fields: ["habilidades", "idiomas"],
       },
     ],
-    [chrome.finalHelperText, chrome.finalHelperTitle, copy, language],
+    [chrome.finalHelperText, chrome.finalHelperTitle, copy, language, noExperience],
   );
 
   const currentStep = steps[stepIndex];
@@ -312,8 +315,9 @@ export default function CVFormWizard({
     const values = getValues();
     return (
       Boolean(fotoUrl) ||
-      Object.values(values).some((value) =>
-        typeof value === "string" ? value.trim().length > 0 : Boolean(value),
+      Object.entries(values).some(([key, value]) =>
+        key !== "experienceMode" &&
+        (typeof value === "string" ? value.trim().length > 0 : Boolean(value)),
       )
     );
   };
@@ -535,32 +539,91 @@ export default function CVFormWizard({
       </div>
 
       <div className="min-h-0 flex-1 py-5 sm:py-6">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_268px] lg:gap-10">
-          <AnimatePresence mode="wait">
-            <motion.section
-              key={currentStep.id}
-              initial={{ opacity: 0, y: 14, scale: 0.99 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.99 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-              className="min-w-0"
-            >
-              <StepFields
-                stepId={currentStep.id}
-                copy={copy}
-                template={template}
-                fotoUrl={fotoUrl}
-                register={register}
-                errors={errors}
-                onImageUpload={onImageUpload}
-                fieldClass={FIELD_CLASS}
-                textareaClass={TEXTAREA_CLASS}
-                photoFormats={chrome.photoFormats}
-                temporaryPhotoLabel={chrome.temporaryPhoto}
-                optionalLabel={chrome.optional}
-              />
-            </motion.section>
-          </AnimatePresence>
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_268px] lg:gap-x-10">
+          <div className="min-w-0 space-y-6">
+            <AnimatePresence mode="wait">
+              <motion.section
+                key={currentStep.id}
+                initial={{ opacity: 0, y: 14, scale: 0.99 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.99 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+                className="min-w-0"
+              >
+                <StepFields
+                  language={language}
+                  form={form}
+                  noExperience={noExperience}
+                  suggestions={suggestions}
+                  stepId={currentStep.id}
+                  copy={copy}
+                  template={template}
+                  fotoUrl={fotoUrl}
+                  register={register}
+                  errors={errors}
+                  onImageUpload={onImageUpload}
+                  fieldClass={FIELD_CLASS}
+                  textareaClass={TEXTAREA_CLASS}
+                  photoFormats={chrome.photoFormats}
+                  temporaryPhotoLabel={chrome.temporaryPhoto}
+                  optionalLabel={chrome.optional}
+                />
+              </motion.section>
+            </AnimatePresence>
+
+            <div className="min-w-0 border-t border-white/9 pt-4">
+              {error ? (
+                <div role="alert" aria-live="polite" className="mb-4 rounded-2xl border border-red-500/24 bg-red-500/10 p-3 text-sm text-red-200">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>{error}</span>
+                  </div>
+                </div>
+              ) : null}
+              <div className="flex items-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleStepBack}
+                  className="h-11 rounded-full border-white/10 bg-white/[0.025] px-4 text-white/80 transition-colors hover:border-white/18 hover:bg-white/[0.05] hover:text-white"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  <span>{chrome.back}</span>
+                </Button>
+
+                <div className="min-w-0 flex-1">
+                  <div className="hidden">
+                    <span>{currentStep.title}</span>
+                    <span>{chrome.stepCount(stepIndex + 1, steps.length)}</span>
+                  </div>
+                  {stepIndex < steps.length - 1 ? (
+                    <Button
+                      key={`next-${currentStep.id}`}
+                      type="button"
+                      onClick={handleNext}
+                      className="h-12 w-full rounded-full bg-[#F6F2EA] px-5 text-[15px] font-semibold text-[#111113] shadow-none transition-colors hover:bg-[#EDE8DE] focus-visible:ring-[#A78BFA]/55"
+                    >
+                      <span>{nextButtonLabel}</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  ) : (
+                    <Button
+                      key={`submit-${currentStep.id}`}
+                      type="submit"
+                      disabled={isGenerating || isSubmitting}
+                      className="h-12 w-full rounded-full bg-[#F6F2EA] px-5 text-[15px] font-semibold text-[#111113] shadow-none transition-colors hover:bg-[#EDE8DE] focus-visible:ring-[#A78BFA]/55 disabled:bg-[#8D8982] disabled:text-[#27262A]"
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      {isGenerating || isSubmitting ? copy.generating : copy.generate}
+                      {isGenerating || isSubmitting ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : null}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
 
           <aside className="border-t border-white/9 pt-6 lg:sticky lg:top-20 lg:self-start lg:border-t-0 lg:border-l lg:border-white/9 lg:pl-6 lg:pt-0">
             <section>
@@ -594,62 +657,11 @@ export default function CVFormWizard({
               </p>
             </section>
 
-            {error ? (
-              <div role="alert" aria-live="polite" className="mt-4 rounded-2xl border border-red-500/24 bg-red-500/10 p-3 text-sm text-red-200">
-                <div className="flex items-start gap-2">
-                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                  <span>{error}</span>
-                </div>
-              </div>
-            ) : null}
+
           </aside>
         </div>
       </div>
 
-      <div className="pointer-events-none sticky bottom-0 z-30 mt-auto border-t border-white/9 bg-[#111113]/96 py-3 backdrop-blur-md">
-        <div className="pointer-events-auto flex items-end gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleStepBack}
-            className="h-11 rounded-full border-white/10 bg-white/[0.025] px-4 text-white/80 transition-colors hover:border-white/18 hover:bg-white/[0.05] hover:text-white"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            <span>{chrome.back}</span>
-          </Button>
-
-          <div className="min-w-0 flex-1">
-            <div className="hidden">
-              <span>{currentStep.title}</span>
-              <span>{chrome.stepCount(stepIndex + 1, steps.length)}</span>
-            </div>
-            {stepIndex < steps.length - 1 ? (
-              <Button
-                key={`next-${currentStep.id}`}
-                type="button"
-                onClick={handleNext}
-                className="h-12 w-full rounded-full bg-[#F6F2EA] px-5 text-[15px] font-semibold text-[#111113] shadow-none transition-colors hover:bg-[#EDE8DE] focus-visible:ring-[#A78BFA]/55"
-              >
-                <span>{nextButtonLabel}</span>
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            ) : (
-              <Button
-                key={`submit-${currentStep.id}`}
-                type="submit"
-                disabled={isGenerating || isSubmitting}
-                className="h-12 w-full rounded-full bg-[#F6F2EA] px-5 text-[15px] font-semibold text-[#111113] shadow-none transition-colors hover:bg-[#EDE8DE] focus-visible:ring-[#A78BFA]/55 disabled:bg-[#8D8982] disabled:text-[#27262A]"
-              >
-                <Sparkles className="h-4 w-4" />
-                {isGenerating || isSubmitting ? copy.generating : copy.generate}
-                {isGenerating || isSubmitting ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : null}
-              </Button>
-            )}
-          </div>
-        </div>
-      </div>
     </form>
   );
 }
@@ -661,24 +673,6 @@ function ExamplePreview({
   step: WizardStep;
   previewLabel: string;
 }) {
-  if (step.id === "basic") {
-    return (
-      <div className="border-y border-white/9 py-4">
-        <p className="text-lg font-semibold tracking-[-0.02em] text-[#F4F4F8]">
-          Sebastian Lopez
-        </p>
-        <p className="mt-1 text-sm text-[#C9C8D7]">Desarrollador web junior</p>
-        <div className="my-3 h-px bg-white/8" />
-        <div className="space-y-2 text-[13px] leading-6 text-white/70">
-          <p>Salta, Argentina</p>
-          <p>sebastian@email.com</p>
-          <p>+54 9 387 ...</p>
-          <p>linkedin.com/in/sebastianlopez</p>
-        </div>
-      </div>
-    );
-  }
-
   const exampleLines = step.example
     .split("\n")
     .map((line) => line.trim())
@@ -707,6 +701,7 @@ function ExamplePreview({
 }
 
 function StepFields({
+  language, form, noExperience, suggestions,
   stepId,
   copy,
   template,
@@ -720,6 +715,10 @@ function StepFields({
   temporaryPhotoLabel,
   optionalLabel,
 }: {
+  language: AppLanguage;
+  form: UseFormReturn<DatosCVFormulario>;
+  noExperience: boolean;
+  suggestions: string[];
   stepId: WizardStep["id"];
   copy: FormCopy;
   template: string;
@@ -851,6 +850,17 @@ function StepFields({
 
   if (stepId === "experience") {
     return (
+      <div className="space-y-5">
+        <fieldset className="space-y-3">
+          <legend className="mb-3 text-sm">{language === "en" ? "Do you have work experience or projects?" : "¿Tenés experiencia o proyectos?"}</legend>
+          {(["with-experience", "no-experience"] as const).map((mode) => (
+            <label key={mode} className="flex items-center gap-3 text-sm">
+              <input type="radio" value={mode} {...register("experienceMode")} checked={mode === (noExperience ? "no-experience" : "with-experience")} />
+              {mode === "with-experience" ? (language === "en" ? "I have experience or projects to include" : "Tengo experiencia o proyectos para incluir") : (language === "en" ? "I do not have experience or projects yet" : "Todavía no tengo experiencia ni proyectos")}
+            </label>
+          ))}
+        </fieldset>
+        {noExperience ? <p className="text-sm text-white/65">{language === "en" ? "Your resume will omit this section. Any text you entered is kept in this draft, but will not be sent. Switch back to include it." : "Tu CV omitirá esta sección. El texto que escribiste se conserva en el borrador, pero no se enviará. Volvé a la otra opción para incluirlo."}</p> : (
       <FieldError id="experiencia-error" message={errors.experiencia?.message}>
         <FieldLabel htmlFor="experiencia">{copy.experienceTitle}</FieldLabel>
         <textarea
@@ -863,6 +873,9 @@ function StepFields({
           aria-describedby={errors.experiencia ? "experiencia-error" : undefined}
         />
       </FieldError>
+
+        )}
+      </div>
     );
   }
 
@@ -888,6 +901,17 @@ function StepFields({
 
   return (
     <div className="space-y-5">
+      <div className="space-y-2">
+        <p className="text-sm text-white/65">{language === "en" ? "Add only skills you actually have:" : "Agregá solo habilidades que realmente tengas:"}</p>
+        <div className="flex flex-wrap gap-2">{suggestions.map((skill) => (
+          <button key={skill} type="button" className="rounded-lg border border-white/20 px-3 py-2 text-xs" onClick={() => {
+            const current = form.getValues("habilidades");
+            if (!current.split(/[\n;,]+/).some((item) => item.trim().toLowerCase() === skill.toLowerCase())) {
+              form.setValue("habilidades", current.trim() ? current + "\n" + skill : skill, { shouldDirty: true, shouldValidate: true });
+            }
+          }}>{skill}</button>
+        ))}</div>
+      </div>
       <div className="grid gap-4 md:grid-cols-2">
         <FieldError id="habilidades-error" message={errors.habilidades?.message}>
           <FieldLabel htmlFor="habilidades" icon={Hammer}>{copy.skills}</FieldLabel>

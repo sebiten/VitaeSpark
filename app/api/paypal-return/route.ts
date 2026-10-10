@@ -1,190 +1,25 @@
 import { NextResponse } from "next/server";
-import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
-import { completeCvPayment } from "@/lib/payment-checkout-session";
-import { isExpectedPayPalPayment } from "@/lib/payment-validation";
-import { capturePayPalOrder } from "@/lib/paypal";
-import { createClient } from "@/utils/supabase/server";
-import { supabaseAdmin } from "@/utils/supabase/admin";
-import { ensurePurchaseAccessForCv } from "@/lib/purchase-access";
-import { getPaymentAnalyticsContext, recordPaymentFailure } from "@/lib/payment-analytics";
-
-type PayPalCaptureResponse = {
-  id?: string;
-  status?: string;
-  payer?: {
-    email_address?: string | null;
-  };
-  purchase_units?: Array<{
-    reference_id?: string;
-    custom_id?: string;
-    payments?: {
-      captures?: Array<{
-        id?: string;
-        status?: string;
-        amount?: {
-          value?: string;
-          currency_code?: string;
-        };
-        custom_id?: string;
-      }>;
-    };
-  }>;
-};
+import { z } from "zod";
+import { confirmPayPalOrder } from "@/lib/paypal-confirmation";
+import { recordPaymentFailure } from "@/lib/payment-analytics";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const orderId = url.searchParams.get("token");
-  const cvId = url.searchParams.get("cv_id");
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://vitaespark.com";
-
-  if (!orderId || !cvId) {
-    return NextResponse.redirect(
-      new URL("/pago/resultado?provider=paypal&status=missing", siteUrl),
-    );
+  const cvId = z.string().uuid().safeParse(url.searchParams.get("cv_id"));
+  const target = new URL("/pago/resultado", process.env.NEXT_PUBLIC_SITE_URL || "https://vitaespark.com");
+  target.searchParams.set("provider", "paypal");
+  if (!orderId || !cvId.success) {
+    target.searchParams.set("status", "missing");
+    return NextResponse.redirect(target);
   }
-
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const { data: cv } = await supabaseAdmin
-    .from("cvs")
-    .select("id, profile_id, status, template")
-    .eq("id", cvId)
-    .maybeSingle();
-
-  if (!cv || (user && cv.profile_id !== user.id)) {
-    return NextResponse.redirect(
-      new URL(
-        `/pago/resultado?cv_id=${cvId}&provider=paypal&status=cv_not_found`,
-        siteUrl,
-      ),
-    );
-  }
-
-  if (cv.status === "paid") {
-    await ensurePurchaseAccessForCv(cv.id).catch(() => null);
-    return NextResponse.redirect(
-      new URL(
-        `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=approved`,
-        siteUrl,
-      ),
-    );
-  }
-
+  target.searchParams.set("cv_id", cvId.data);
   try {
-    const capturedOrder = (await capturePayPalOrder(
-      orderId,
-    )) as PayPalCaptureResponse;
-    const purchaseUnit = capturedOrder.purchase_units?.[0];
-    const capture = purchaseUnit?.payments?.captures?.[0];
-    const referenceCvId =
-      purchaseUnit?.custom_id ||
-      capture?.custom_id ||
-      purchaseUnit?.reference_id?.replace(/^cv_/, "");
-
-    if (
-      referenceCvId !== cv.id ||
-      capture?.status !== "COMPLETED" ||
-      !isExpectedPayPalPayment({
-        amount: capture.amount?.value,
-        currency: capture.amount?.currency_code,
-      })
-    ) {
-      console.error("PayPal capture invalida:", {
-        orderId,
-        cvId: cv.id,
-        referenceCvId,
-        status: capture?.status,
-        amount: capture?.amount,
-      });
-      await recordPaymentFailure({ cvId: cv.id, provider: "paypal", orderId, stage: "capture", errorCode: "invalid_capture" });
-
-      return NextResponse.redirect(
-        new URL(
-          `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=failure`,
-          siteUrl,
-        ),
-      );
-    }
-
-    const paymentId = capture.id || capturedOrder.id || orderId;
-    const amount = Number(capture.amount?.value);
-    const completion = await completeCvPayment({
-      cvId: cv.id,
-      profileId: cv.profile_id,
-      paymentId,
-      amount,
-      payerEmail: capturedOrder.payer?.email_address ?? user?.email,
-      paymentType: "paypal",
-      provider: "paypal",
-    });
-
-    if (!completion.payment_inserted) {
-      await ensurePurchaseAccessForCv(cv.id).catch(() => null);
-      return NextResponse.redirect(
-        new URL(
-          `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=approved`,
-          siteUrl,
-        ),
-      );
-    }
-
-    if (completion.cv_status !== "paid") {
-      console.error("El CV no quedó pagado después de capturar PayPal");
-      return NextResponse.redirect(
-        new URL(
-          `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=pending`,
-          siteUrl,
-        ),
-      );
-    }
-
-    const startedEvent = await getPaymentAnalyticsContext({
-      cvId: cv.id, provider: "paypal", orderId,
-    });
-
-    await recordAnalyticsEventServer({
-      event_name: "payment_completed",
-      attempt_id: startedEvent?.attempt_id ?? undefined,
-      stage: "capture",
-      user_id: cv.profile_id,
-      cv_id: cv.id,
-      payment_id: paymentId,
-      template: startedEvent?.template ?? cv.template,
-      language: startedEvent?.language,
-      payment_provider: "paypal",
-      is_guest: startedEvent.is_guest,
-      country_code: startedEvent?.country_code,
-      session_id: startedEvent?.session_id ?? undefined,
-      landing_path: startedEvent?.landing_path,
-      cta_label: startedEvent?.cta_label,
-      source_type: startedEvent?.source_type,
-      utm_source: startedEvent?.utm_source,
-      utm_medium: startedEvent?.utm_medium,
-      utm_campaign: startedEvent?.utm_campaign,
-      utm_content: startedEvent?.utm_content,
-    });
-
-    await ensurePurchaseAccessForCv(cv.id).catch((accessError) => {
-      console.error("No se pudo preparar el acceso postcompra:", accessError);
-    });
-
-    return NextResponse.redirect(
-      new URL(
-        `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=approved`,
-        siteUrl,
-      ),
-    );
-  } catch (error) {
-    console.error("Error capturando PayPal:", error);
-    await recordPaymentFailure({ cvId: cv.id, provider: "paypal", orderId, stage: "capture", errorCode: "capture_error" });
-    return NextResponse.redirect(
-      new URL(
-        `/pago/resultado?cv_id=${cv.id}&provider=paypal&status=pending`,
-        siteUrl,
-      ),
-    );
+    const result = await confirmPayPalOrder(orderId, { cvId: cvId.data, capture: true, stage: "capture" });
+    target.searchParams.set("status", result.state === "paid" ? "approved" : result.state);
+  } catch {
+    await recordPaymentFailure({ cvId: cvId.data, provider: "paypal", orderId, stage: "capture", errorCode: "capture_error" });
+    target.searchParams.set("status", "pending");
   }
+  return NextResponse.redirect(target);
 }

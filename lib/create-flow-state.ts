@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { normalizeCreateIntent, type CreateIntent } from "./blog-intent";
 import { CVSchema, TemplateSchema } from "./schemas/cv";
 import type {
@@ -25,6 +26,8 @@ export type StoredCreateDraft = {
   action: ResumeAction | null;
   flowStep: FlowStep;
   generatedCv?: CV;
+  pendingCvId?: string;
+  purchaseKey?: string;
   guestPhotoKey?: string;
 };
 
@@ -56,6 +59,7 @@ function normalizeStoredData(value: Record<string, unknown>): DatosCVFormulario 
     contacto: readString(value.contacto),
     sobreMi: readString(value.sobreMi),
     experiencia: readString(value.experiencia),
+    experienceMode: value.experienceMode === "no-experience" ? "no-experience" : "with-experience",
     formacion: readString(value.formacion),
     habilidades: readString(value.habilidades),
     idiomas: readString(value.idiomas),
@@ -91,6 +95,8 @@ export function parseStoredCreateDraft(
       ? (value.action as ResumeAction)
       : null;
 
+  const pendingCvId = z.string().uuid().safeParse(value.pendingCvId);
+  const purchaseKey = z.string().uuid().safeParse(value.purchaseKey);
   const generatedCvCandidate = isRecord(value.generatedCv)
     ? {
         ...value.generatedCv,
@@ -138,6 +144,8 @@ export function parseStoredCreateDraft(
         ? requestedStep
         : "form",
     generatedCv,
+    pendingCvId: pendingCvId.success ? pendingCvId.data : undefined,
+    purchaseKey: purchaseKey.success ? purchaseKey.data : undefined,
     guestPhotoKey: isGuestPhotoKey(readString(value.guestPhotoKey))
       ? readString(value.guestPhotoKey)
       : undefined,

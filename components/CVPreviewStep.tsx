@@ -34,7 +34,7 @@ import {
 import type { AppLanguage } from "@/lib/i18n";
 import { PRICING } from "@/lib/pricing";
 import { calculateCvScore } from "@/lib/cv-score";
-import { ConversionProof } from "@/components/ConversionProof";
+import { CommercialOffer } from "@/components/CommercialOffer";
 import { MarketSelector } from "@/components/MarketSelector";
 import { MobileCvPreview } from "@/components/MobileCvPreview";
 import { useMarket } from "@/hooks/use-market";
@@ -66,13 +66,12 @@ const checkoutCopy = {
     unlock: "Desbloquear PDF",
     close: "Cerrar",
     closePreview: "Seguir viendo",
-    back: "Volver y editar datos",
+    back: "Editar antes de pagar",
     changeTemplate: "Cambiar plantilla",
     finalTitle: "Desbloquea el PDF final",
     finalText:
       "Tu CV queda guardado en tu perfil para editar datos y volver a descargarlo con la plantilla elegida.",
     singlePayment: "Pago unico",
-    previousPrice: PRICING.mercadoPago.previousLabel,
     noSubscription: "Sin suscripcion",
     previewBeforePay: "Marca de agua temporal",
     secure: "Mercado Pago procesa el pago de forma segura",
@@ -129,13 +128,12 @@ const checkoutCopy = {
     unlock: "Unlock PDF",
     close: "Close",
     closePreview: "Keep viewing",
-    back: "Back and edit details",
+    back: "Edit before paying",
     changeTemplate: "Change template",
     finalTitle: "Unlock the final PDF",
     finalText:
       "Your resume stays saved in your profile, ready to edit and download again with the selected template.",
     singlePayment: "One-time payment",
-    previousPrice: PRICING.paypal.previousLabel,
     noSubscription: "No subscription",
     previewBeforePay: "Temporary watermark",
     secure: "Secure checkout with trusted payment providers",
@@ -187,6 +185,9 @@ type Props = {
   cvData: RespuestaCV["cv"];
   template: string;
   onBack: () => void;
+  pendingCvId: string | null;
+  purchaseKey?: string;
+  onPendingCvId: (id: string) => void;
   onChangeTemplate: () => void;
   currentUser: CheckoutUser | null;
   guestCheckoutEnabled: boolean;
@@ -205,6 +206,9 @@ export default function CVPreviewStepPurple({
   cvData,
   template,
   onBack,
+  pendingCvId,
+  purchaseKey,
+  onPendingCvId,
   onChangeTemplate,
   currentUser,
   guestCheckoutEnabled,
@@ -221,7 +225,6 @@ export default function CVPreviewStepPurple({
   const [mobilePreviewOpen, setMobilePreviewOpen] = useState(false);
   const [mobilePdfView, setMobilePdfView] = useState(false);
   const [canRenderInlinePreview, setCanRenderInlinePreview] = useState(false);
-  const [pendingCvId, setPendingCvId] = useState<string | null>(null);
   const [guestEmailOpen, setGuestEmailOpen] = useState(false);
   const [guestEmail, setGuestEmail] = useState("");
   const [guestEmailError, setGuestEmailError] = useState("");
@@ -232,8 +235,11 @@ export default function CVPreviewStepPurple({
   const { market, setMarket } = useMarket(initialCountryCode);
   const previewViewedTracked = useRef(false);
   const checkoutViewedTracked = useRef(false);
+  const checkoutInFlight = useRef(false);
+  const preparingGuestRef = useRef(false);
+  const [checkoutRecoveryUrl, setCheckoutRecoveryUrl] = useState<string | null>(null);
   const copy = checkoutCopy[language];
-  const cvScore = useMemo(() => calculateCvScore(cvData), [cvData]);
+  const cvScore = useMemo(() => calculateCvScore(cvData, language), [cvData, language]);
   const passedChecks = cvScore.items.filter((item) => item.passed).length;
 
   const recordPaymentFailure = (provider: "mercado_pago" | "paypal", code: "checkout_http_error" | "checkout_network_error" | "checkout_missing_url", cvId: string | null = pendingCvId) => {
@@ -244,7 +250,9 @@ export default function CVPreviewStepPurple({
     paymentCv: RespuestaCV["cv"] = cvData,
     contactEmail?: string,
   ) => {
-    if (photoSyncState !== "idle") return;
+    if (photoSyncState !== "idle" || checkoutInFlight.current) return;
+    checkoutInFlight.current = true;
+    setCheckoutRecoveryUrl(null);
 
     let failureTracked = false;
     const attribution = getLandingAttribution();
@@ -264,6 +272,7 @@ export default function CVPreviewStepPurple({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           cvId: pendingCvId ?? undefined,
+          purchaseKey,
           cvData: paymentCv,
           template,
           language,
@@ -274,7 +283,8 @@ export default function CVPreviewStepPurple({
 
       if (!res.ok) {
         const errorData = await res.json();
-        if (errorData?.cvId) setPendingCvId(errorData.cvId);
+        if (errorData?.cvId) onPendingCvId(errorData.cvId);
+        if (errorData?.recoveryUrl) setCheckoutRecoveryUrl(errorData.recoveryUrl);
         recordPaymentFailure("paypal", "checkout_http_error", errorData?.cvId ?? pendingCvId);
         track("PayPal Order Failed", {
           status: res.status,
@@ -290,7 +300,7 @@ export default function CVPreviewStepPurple({
 
       const { cvId, approveUrl } = await res.json();
 
-      if (cvId) setPendingCvId(cvId);
+      if (cvId) onPendingCvId(cvId);
 
       if (approveUrl) {
         track("Payment Redirected", {
@@ -324,6 +334,7 @@ export default function CVPreviewStepPurple({
       console.error("Error en handlePayPal:", error);
       toast.error(copy.paymentError);
     } finally {
+      checkoutInFlight.current = false;
       setLoadingPayPal(false);
     }
   };
@@ -332,7 +343,9 @@ export default function CVPreviewStepPurple({
     paymentCv: RespuestaCV["cv"] = cvData,
     contactEmail?: string,
   ) => {
-    if (photoSyncState !== "idle") return;
+    if (photoSyncState !== "idle" || checkoutInFlight.current) return;
+    checkoutInFlight.current = true;
+    setCheckoutRecoveryUrl(null);
 
     let failureTracked = false;
     const attribution = getLandingAttribution();
@@ -352,6 +365,7 @@ export default function CVPreviewStepPurple({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           cvId: pendingCvId ?? undefined,
+          purchaseKey,
           cvData: paymentCv,
           template,
           language,
@@ -362,7 +376,8 @@ export default function CVPreviewStepPurple({
 
       if (!res.ok) {
         const errorData = await res.json();
-        if (errorData?.cvId) setPendingCvId(errorData.cvId);
+        if (errorData?.cvId) onPendingCvId(errorData.cvId);
+        if (errorData?.recoveryUrl) setCheckoutRecoveryUrl(errorData.recoveryUrl);
         recordPaymentFailure("mercado_pago", "checkout_http_error", errorData?.cvId ?? pendingCvId);
         track("Payment Preference Failed", {
           status: res.status,
@@ -378,7 +393,7 @@ export default function CVPreviewStepPurple({
 
       const { cvId, init_point } = await res.json();
 
-      if (cvId) setPendingCvId(cvId);
+      if (cvId) onPendingCvId(cvId);
 
       if (init_point) {
         track("Payment Redirected", {
@@ -415,6 +430,7 @@ export default function CVPreviewStepPurple({
       console.error("Error en handlePay:", error);
       toast.error(copy.paymentError);
     } finally {
+      checkoutInFlight.current = false;
       setLoading(false);
     }
   };
@@ -520,10 +536,6 @@ export default function CVPreviewStepPurple({
   const paypalIsPrimary = market === "international";
   const primaryPayment = paypalIsPrimary ? PRICING.paypal : PRICING.mercadoPago;
   const primaryPaymentPrice = primaryPayment.label;
-  const primaryPreviousPrice =
-    paypalIsPrimary && language === "es"
-      ? PRICING.paypal.previousLabelEs
-      : primaryPayment.previousLabel;
   const primaryPaymentCta = showDirectCheckout
     ? paypalIsPrimary
       ? language === "en"
@@ -582,6 +594,7 @@ export default function CVPreviewStepPurple({
   };
 
   const handleGuestEmailSubmit = async () => {
+    if (preparingGuestRef.current || checkoutInFlight.current) return;
     const email = normalizeCheckoutEmail(guestEmail);
     if (!/^\S+@\S+\.\S+$/.test(email)) {
       setGuestEmailError(copy.emailInvalid);
@@ -589,6 +602,7 @@ export default function CVPreviewStepPurple({
     }
 
     const method = pendingPaymentMethod ?? (paypalIsPrimary ? "paypal" : "mercado_pago");
+    preparingGuestRef.current = true;
     setGuestEmailError("");
     setPreparingGuestCheckout(true);
     recordAnalyticsEvent({
@@ -615,6 +629,7 @@ export default function CVPreviewStepPurple({
         error instanceof Error ? error.message : copy.paymentError,
       );
     } finally {
+      preparingGuestRef.current = false;
       setPreparingGuestCheckout(false);
       setPendingPaymentMethod(null);
     }
@@ -649,7 +664,7 @@ export default function CVPreviewStepPurple({
                 {copy.protectedText}
               </p>
             </div>
-            <button type="button" onClick={onBack} className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-lg px-2 text-xs font-semibold text-[#C4B5FD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78BFA]">
+            <button type="button" disabled={paymentInProgress} onClick={onBack} className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-lg px-2 text-xs font-semibold text-[#C4B5FD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78BFA]">
               <ArrowLeft className="h-4 w-4" />
               {language === "en" ? "Edit details" : "Editar datos"}
             </button>
@@ -747,7 +762,7 @@ export default function CVPreviewStepPurple({
                     ? language === "en" ? "Back to reading view" : "Volver a la vista de lectura"
                     : language === "en" ? "View PDF layout" : "Ver diseño PDF"}
                 </button>
-                <button type="button" onClick={() => { setMobilePreviewOpen(false); onBack(); }} className="min-h-11 rounded-lg px-3 text-xs font-semibold text-[#C4B5FD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78BFA]">
+                <button type="button" disabled={paymentInProgress} onClick={() => { setMobilePreviewOpen(false); onBack(); }} className="min-h-11 rounded-lg px-3 text-xs font-semibold text-[#C4B5FD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A78BFA]">
                   {language === "en" ? "Edit details" : "Editar datos"}
                 </button>
               </div>
@@ -805,6 +820,7 @@ export default function CVPreviewStepPurple({
             <div className="flex flex-wrap items-center justify-between gap-2">
               <button
                 type="button"
+                disabled={paymentInProgress}
                 onClick={onBack}
                 className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-semibold text-white/68 transition hover:border-white/18 hover:text-white"
               >
@@ -814,6 +830,7 @@ export default function CVPreviewStepPurple({
 
               <button
                 type="button"
+                disabled={paymentInProgress}
                 onClick={onChangeTemplate}
                 className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-semibold text-[#C4B5FD] transition hover:border-[#A78BFA]/40 hover:text-white"
               >
@@ -835,19 +852,18 @@ export default function CVPreviewStepPurple({
                     {copy.finalTitle}
                   </h3>
                   <p className="mt-2 text-sm leading-6 text-white/68">
-                    {isPermanentUser ? copy.finalText : copy.guestAccess}
+                    {language === "en" ? "One resume, with later editing and new PDF downloads using the chosen template." : "Un CV, con edición posterior y nuevas descargas en PDF con la plantilla elegida."}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-5 flex items-end justify-between gap-4 border-t border-white/10 pt-4">
+              <CommercialOffer language={language} market={market} className="mt-4 text-sm leading-6 text-white/70" />
+              <div className="mt-5 flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-4">
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#38BDF8] sm:text-xs">
                     {copy.singlePayment}
                   </p>
                   <p className="mt-1 text-xs font-medium text-white/48">
-                    <span className="line-through">{primaryPreviousPrice}</span>
-                    <span className="mx-2 text-white/25">|</span>
                     <span>{copy.noSubscription}</span>
                   </p>
                 </div>
@@ -862,7 +878,19 @@ export default function CVPreviewStepPurple({
               </div>
             </div>
 
+            {pendingCvId ? (
+              <p role="status" className="text-xs leading-5 text-white/65">
+                {language === "en"
+                  ? "Your edits are saved as a new version. Previous payment links still refer to the previous version. We check that purchase before issuing another link; an active or unverified order must be resolved first."
+                  : "Tus cambios se conservan como una nueva versión. Los enlaces anteriores siguen asociados a la versión anterior. Verificamos esa compra antes de emitir otro enlace: si sigue activa o no podemos comprobarla, primero hay que resolverla."}
+              </p>
+            ) : null}
             <MarketSelector market={market} onChange={setMarket} />
+            {checkoutRecoveryUrl ? (
+              <a href={checkoutRecoveryUrl} className="block rounded-xl border border-amber-300/25 p-3 text-sm text-amber-100" role="status">
+                {language === "en" ? "A previous purchase needs verification. Review it before paying again." : "Hay una compra anterior por verificar. Revisala antes de volver a pagar."}
+              </a>
+            ) : null}
 
             {photoSyncState === "uploading" ? (
               <div
@@ -913,6 +941,7 @@ export default function CVPreviewStepPurple({
 
             {showDirectCheckout ? (
               <div data-checkout-offer className="flex flex-col gap-2.5">
+              {!paypalIsPrimary ? <>
               <Button
                 disabled={paymentUnavailable}
                 onClick={() => requestPayment("mercado_pago")}
@@ -959,7 +988,7 @@ export default function CVPreviewStepPurple({
                   <div className="h-px w-8 bg-white/14" />
                 </div>
               </div>
-
+              </> : null}
               <Button
                 disabled={paymentUnavailable}
                 onClick={() => requestPayment("paypal")}
@@ -1039,20 +1068,24 @@ export default function CVPreviewStepPurple({
               </span>
             </div>
 
-            <ConversionProof variant="checkout" />
+            <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#C4B5FD]">
+              <a className="inline-flex min-h-11 items-center underline underline-offset-4" href="mailto:soporte@vitaespark.com">{language === "en" ? "Contact support" : "Contactar soporte"}</a>
+              <a className="inline-flex min-h-11 items-center underline underline-offset-4" href={language === "en" ? "/refund" : "/reembolsos"} target="_blank" rel="noopener noreferrer">{language === "en" ? "Refund policy" : "Política de reembolsos"}</a>
+            </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+            <details className="border-t border-white/10 pt-4">
+              <summary className="cursor-pointer text-sm text-white/70">{language === "en" ? "Review resume clarity" : "Revisar claridad del CV"}</summary>
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/46">
-                    Chequeo de claridad
+                    {language === "en" ? "Clarity check" : "Chequeo de claridad"}
                   </p>
                   <h4 className="mt-1 text-base font-semibold text-white">
-                    Lo que ya está resuelto en tu CV
+                    {language === "en" ? "What is already clear in your resume" : "Lo que ya está resuelto en tu CV"}
                   </h4>
                 </div>
                 <div className="shrink-0 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-semibold text-white/72">
-                  {passedChecks}/{cvScore.items.length} claros
+                  {passedChecks}/{cvScore.items.length} {language === "en" ? "clear" : "claros"}
                 </div>
               </div>
               <div className="mt-4 grid gap-2">
@@ -1074,23 +1107,8 @@ export default function CVPreviewStepPurple({
                   </div>
                 ))}
               </div>
-            </div>
+            </details>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-3.5">
-              <p className="mb-3 text-sm font-semibold text-white">
-                {copy.includedTitle}
-              </p>
-              <div className="grid gap-2">
-                {copy.includedItems.map((item) => (
-                  <div key={item} className="flex items-start gap-2.5">
-                    <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#A78BFA]" />
-                    <span className="text-xs leading-5 text-white/72 sm:text-sm">
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
           </CardContent>
         </Card>
       </div>

@@ -49,7 +49,8 @@ export function getRecommendedTemplateForRole(role?: string | null): CvTemplateI
 }
 
 export function getJobCreateHref(path: string) {
-  const params = new URLSearchParams({ intent: "job-specific" });
+  const firstJob = /sin-experiencia|primer-empleo|para-estudiantes/.test(path);
+  const params = new URLSearchParams({ intent: firstJob ? "first-job" : "job-specific" });
   const role = getJobRoleForLanding(path);
   if (role) params.set("role", role);
   return `/crear?${params.toString()}`;

@@ -142,38 +142,42 @@ export default function HarvardTemplate({ cv }: { cv: RespuestaCV["cv"] }) {
         <Text style={styles.sectionHeader}>{getCvLabels(cv).summary}</Text>
         <Text style={styles.summary}>{cv.sobreMi}</Text>
 
-        <Text style={styles.sectionHeader}>{getCvLabels(cv).experience}</Text>
-        {cv.experiencia.map((item, index) => (
-          <View key={index} style={styles.item}>
-            <View style={styles.itemHeader}>
-              <View style={styles.leftColumn}>
-                <Text style={styles.company}>{item.empresa}</Text>
-                <Text style={styles.position}>{item.cargo}</Text>
+        {cv.experiencia.length > 0 && (<>
+          <Text style={styles.sectionHeader}>{getCvLabels(cv).experience}</Text>
+          {cv.experiencia.map((item, index) => (
+            <View key={index} style={styles.item}>
+              <View style={styles.itemHeader}>
+                <View style={styles.leftColumn}>
+                  <Text style={styles.company}>{item.empresa}</Text>
+                  <Text style={styles.position}>{item.cargo}</Text>
+                </View>
+                <View style={styles.rightColumn}>
+                  <Text style={styles.meta}>{item.ubicacion}</Text>
+                  <Text style={styles.meta}>{item.fechas}</Text>
+                </View>
               </View>
-              <View style={styles.rightColumn}>
-                <Text style={styles.meta}>{item.ubicacion}</Text>
-                <Text style={styles.meta}>{item.fechas}</Text>
-              </View>
+              <BulletList items={item.logros} />
             </View>
-            <BulletList items={item.logros} />
-          </View>
-        ))}
+          ))}
+        </>)}
 
-        <Text style={styles.sectionHeader}>{getCvLabels(cv).education}</Text>
-        {cv.formacion.map((item, index) => (
-          <View key={index} style={styles.item} wrap={false}>
-            <View style={styles.itemHeader}>
-              <View style={styles.leftColumn}>
-                <Text style={styles.company}>{item.institucion}</Text>
-                <Text style={styles.position}>{item.titulo || ""}</Text>
-              </View>
-              <View style={styles.rightColumn}>
-                <Text style={styles.meta}>{item.ubicacion}</Text>
-                <Text style={styles.meta}>{item.fechas}</Text>
+        {cv.formacion.length > 0 && (<>
+          <Text style={styles.sectionHeader}>{getCvLabels(cv).education}</Text>
+          {cv.formacion.map((item, index) => (
+            <View key={index} style={styles.item} wrap={false}>
+              <View style={styles.itemHeader}>
+                <View style={styles.leftColumn}>
+                  <Text style={styles.company}>{item.institucion}</Text>
+                  <Text style={styles.position}>{item.titulo || ""}</Text>
+                </View>
+                <View style={styles.rightColumn}>
+                  <Text style={styles.meta}>{item.ubicacion}</Text>
+                  <Text style={styles.meta}>{item.fechas}</Text>
+                </View>
               </View>
             </View>
-          </View>
-        ))}
+          ))}
+        </>)}
 
         <Text style={styles.sectionHeader}>{getCvLabels(cv).skills}</Text>
         <Text style={styles.inlineList}>{cv.habilidades.join(" • ")}</Text>

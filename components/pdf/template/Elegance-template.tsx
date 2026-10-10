@@ -206,43 +206,47 @@ export default function ProfessionalBlueTemplate({
           <Text style={styles.description}>{cv.sobreMi}</Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{getCvLabels(cv).experience}</Text>
-          {cv.experiencia.map((item, index) => (
-            <View key={index} style={styles.item}>
-              <View style={styles.itemHeader} wrap={false}>
-                <View style={{ flex: 1, paddingRight: 10 }}>
-                  <Text style={styles.itemTitle}>{item.cargo}</Text>
-                  <Text style={styles.company}>{item.empresa}</Text>
+        {cv.experiencia.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>{getCvLabels(cv).experience}</Text>
+            {cv.experiencia.map((item, index) => (
+              <View key={index} style={styles.item}>
+                <View style={styles.itemHeader} wrap={false}>
+                  <View style={{ flex: 1, paddingRight: 10 }}>
+                    <Text style={styles.itemTitle}>{item.cargo}</Text>
+                    <Text style={styles.company}>{item.empresa}</Text>
+                  </View>
+                  <Text style={styles.date}>
+                    {[item.fechas, item.ubicacion].filter(Boolean).join(" • ")}
+                  </Text>
                 </View>
-                <Text style={styles.date}>
-                  {[item.fechas, item.ubicacion].filter(Boolean).join(" • ")}
-                </Text>
+                <BulletList items={item.logros} />
               </View>
-              <BulletList items={item.logros} />
-            </View>
-          ))}
-        </View>
+            ))}
+          </View>
+        )}
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{getCvLabels(cv).keySkills}</Text>
           <ChipList items={cv.habilidades} />
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{getCvLabels(cv).education}</Text>
-          {cv.formacion.map((item, index) => (
-            <View key={index} style={styles.itemHeader} wrap={false}>
-              <View style={{ flex: 1, paddingRight: 10 }}>
-                <Text style={styles.itemTitle}>{item.titulo || item.institucion}</Text>
-                <Text style={styles.company}>{item.institucion}</Text>
+        {cv.formacion.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>{getCvLabels(cv).education}</Text>
+            {cv.formacion.map((item, index) => (
+              <View key={index} style={styles.itemHeader} wrap={false}>
+                <View style={{ flex: 1, paddingRight: 10 }}>
+                  <Text style={styles.itemTitle}>{item.titulo || item.institucion}</Text>
+                  <Text style={styles.company}>{item.institucion}</Text>
+                </View>
+                <Text style={styles.date}>
+                  {[item.fechas, item.ubicacion].filter(Boolean).join(" • ")}
+                </Text>
               </View>
-              <Text style={styles.date}>
-                {[item.fechas, item.ubicacion].filter(Boolean).join(" • ")}
-              </Text>
-            </View>
-          ))}
-        </View>
+            ))}
+          </View>
+        )}
 
         {cv.idiomas.length > 0 && (
           <View style={styles.section}>

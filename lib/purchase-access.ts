@@ -35,6 +35,7 @@ export async function ensurePurchaseAccessForCv(cvId: string) {
     .select("profile_id, contact_email, is_guest")
     .eq("cv_id", cvId)
     .eq("is_guest", true)
+    .eq("status", "completed")
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
@@ -79,7 +80,7 @@ export async function ensurePurchaseAccessForCv(cvId: string) {
   }
 
   if (!claim || claim.status === "claimed" || claim.access_sent_at) {
-    return { ok: true as const, skipped: true as const };
+    return { ok: true as const, skipped: true as const, sent: Boolean(claim?.access_sent_at) };
   }
 
   const now = Date.now();
@@ -94,6 +95,7 @@ export async function ensurePurchaseAccessForCv(cvId: string) {
     .from("purchase_claims")
     .update({ last_error: "__sending__", updated_at: new Date().toISOString() })
     .eq("id", claim.id)
+    .eq("updated_at", claim.updated_at)
     .is("access_sent_at", null);
 
   claimQuery = claim.last_error
@@ -141,7 +143,7 @@ export async function ensurePurchaseAccessForCv(cvId: string) {
       source_type: "landing",
     });
 
-    return { ok: true as const, claimId: claim.id };
+    return { ok: true as const, claimId: claim.id, sent: true };
   } catch (error) {
     const message = error instanceof Error ? error.message : "unknown_error";
     await supabaseAdmin

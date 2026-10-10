@@ -32,7 +32,7 @@ describe("normalizacion de respuesta de IA", () => {
     );
 
     expect(CVSchema.safeParse(normalized).success).toBe(true);
-    expect(normalized.experiencia[0].logros[0]).toContain("Controle productos");
+    expect(normalized.experiencia).toEqual([]);
     expect(normalized.contacto).toContain("maria@email.com");
   });
 

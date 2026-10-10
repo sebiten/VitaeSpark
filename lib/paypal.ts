@@ -1,5 +1,5 @@
 export const PAYPAL_API_BASE =
-  process.env.NODE_ENV === "production"
+  (process.env.PAYPAL_ENVIRONMENT ?? (process.env.NODE_ENV === "production" ? "live" : "sandbox")) === "live"
     ? "https://api-m.paypal.com"
     : "https://api-m.sandbox.paypal.com";
 
@@ -46,7 +46,7 @@ export async function verifyPayPalWebhookSignature({
 
   if (!webhookId) {
     console.error("PAYPAL_WEBHOOK_ID no configurado");
-    return process.env.NODE_ENV !== "production";
+    return false;
   }
 
   const authAlgo = headers.get("paypal-auth-algo");
@@ -121,4 +121,24 @@ export async function capturePayPalOrder(orderId: string) {
   }
 
   return json;
+}
+
+export type PayPalOrder = {
+  id?: string; intent?: string; status?: string;
+  payer?: { email_address?: string };
+  purchase_units?: Array<{
+    reference_id?: string; custom_id?: string;
+    amount?: { value?: string; currency_code?: string };
+    payments?: { captures?: Array<{ id?: string; status?: string; custom_id?: string;
+      amount?: { value?: string; currency_code?: string } }> };
+  }>;
+};
+
+export async function getPayPalOrder(orderId: string): Promise<PayPalOrder> {
+  const accessToken = await getPayPalAccessToken();
+  const response = await fetch(`${PAYPAL_API_BASE}/v2/checkout/orders/${encodeURIComponent(orderId)}`, {
+    headers: { Authorization: `Bearer ${accessToken}` }, cache: "no-store", signal: AbortSignal.timeout(12000),
+  });
+  if (!response.ok) throw new Error("PayPal order state unavailable");
+  return response.json();
 }

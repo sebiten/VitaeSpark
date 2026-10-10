@@ -37,6 +37,7 @@ export interface Database {
 }
 
 export interface DatosCVFormulario {
+  experienceMode?: "with-experience" | "no-experience";
   foto_url?: string;
   template?: string;
   language?: "es" | "en";

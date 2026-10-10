@@ -1,11 +1,7 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
-import { completeCvPayment } from "@/lib/payment-checkout-session";
-import { isExpectedMercadoPagoPayment } from "@/lib/payment-validation";
-import { supabaseAdmin } from "@/utils/supabase/admin";
-import { ensurePurchaseAccessForCv } from "@/lib/purchase-access";
+import { confirmMercadoPagoPayment } from "@/lib/mercado-pago-confirmation";
 
 const MercadoPagoWebhookSchema = z.object({
   type: z.string().optional(),
@@ -15,34 +11,6 @@ const MercadoPagoWebhookSchema = z.object({
     })
     .optional(),
 });
-
-type MercadoPagoMetadata = Record<string, unknown> | null | undefined;
-
-type MercadoPagoPayment = {
-  id?: string | number;
-  status?: string;
-  metadata?: MercadoPagoMetadata;
-  external_reference?: string | null;
-  transaction_amount?: number;
-  currency_id?: string | null;
-  payer?: {
-    email?: string | null;
-  };
-  payment_type_id?: string | null;
-};
-
-function metadataString(metadata: MercadoPagoMetadata, key: string) {
-  const value = metadata?.[key];
-  if (typeof value === "string") return value.trim();
-  if (typeof value === "number") return String(value);
-  return "";
-}
-
-function parseCvIdFromExternalReference(reference: unknown) {
-  if (typeof reference !== "string") return "";
-  const match = reference.trim().match(/^cv_(.+)$/);
-  return match?.[1] ?? "";
-}
 
 function parseSignatureHeader(signature: string) {
   return signature.split(",").reduce<Record<string, string>>((acc, part) => {
@@ -115,162 +83,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
-  const mpRes = await fetch(
-    `https://api.mercadopago.com/v1/payments/${encodeURIComponent(String(id))}`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`,
-      },
-    }
-  );
-
-  if (!mpRes.ok) {
-    console.error("Error consultando Mercado Pago:", mpRes.status);
-    return NextResponse.json({ error: "MP error" }, { status: 500 });
-  }
-
-  const payment = (await mpRes.json()) as MercadoPagoPayment;
-  if (payment.status !== "approved") {
-    return NextResponse.json({ message: "Payment not approved" }, { status: 200 });
-  }
-
-  if (
-    payment.id === undefined ||
-    !isExpectedMercadoPagoPayment({
-      amount: payment.transaction_amount,
-      currency: payment.currency_id,
-    })
-  ) {
-    console.error("Pago Mercado Pago con monto o moneda inesperados:", {
-      payment_id: payment.id,
-      amount: payment.transaction_amount,
-      currency: payment.currency_id,
-    });
-    return NextResponse.json({ error: "Invalid payment amount" }, { status: 400 });
-  }
-
-  const cv_id =
-    metadataString(payment.metadata, "cv_id") ||
-    parseCvIdFromExternalReference(payment.external_reference);
-  const metadataProfileId = metadataString(payment.metadata, "profile_id");
-
-  if (!cv_id) {
-    console.error("No se pudo resolver el CV del pago:", {
-      metadata: payment.metadata,
-      external_reference: payment.external_reference,
-    });
-    return NextResponse.json({ error: "CV invalido" }, { status: 400 });
-  }
-
-  const { data: cv } = await supabaseAdmin
-    .from("cvs")
-    .select("id, profile_id, template")
-    .eq("id", cv_id)
-    .maybeSingle();
-
-  if (!cv) {
-    console.error("CV no encontrado para pago aprobado:", { cv_id });
-    return NextResponse.json({ error: "CV not found" }, { status: 404 });
-  }
-
-  if (metadataProfileId && cv.profile_id !== metadataProfileId) {
-    console.error("Profile ID de metadata no coincide con el CV:", {
-      cv_id,
-      metadata_profile_id: metadataProfileId,
-      cv_profile_id: cv.profile_id,
-    });
-    return NextResponse.json({ error: "Invalid profile" }, { status: 400 });
-  }
-
-  const profile_id = cv.profile_id;
-
-  let completion: Awaited<ReturnType<typeof completeCvPayment>>;
   try {
-    completion = await completeCvPayment({
-      cvId: cv_id,
-      profileId: profile_id,
-      paymentId: String(payment.id),
-      amount: payment.transaction_amount!,
-      payerEmail: payment.payer?.email,
-      paymentType: payment.payment_type_id,
-      provider: "mercado_pago",
-    });
-  } catch (error) {
-    console.error("Error completando pago Mercado Pago:", error);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    const result = await confirmMercadoPagoPayment(String(id));
+    return NextResponse.json({ received: true, state: result.state });
+  } catch {
+    return NextResponse.json({ error: "Confirmation unavailable" }, { status: 503 });
   }
-
-  await ensurePurchaseAccessForCv(cv_id).catch((accessError) => {
-    console.error("No se pudo preparar el acceso postcompra:", accessError);
-  });
-
-  if (!completion.payment_inserted) {
-    return NextResponse.json({ message: "Already processed" }, { status: 200 });
-  }
-
-  const { data: startedEvent } = await supabaseAdmin
-    .from("analytics_events")
-    .select(
-      "landing_path, cta_label, source_type, language, payment_provider, template, utm_source, utm_medium, utm_campaign, utm_content, country_code, session_id, is_guest"
-    )
-    .eq("event_name", "payment_started")
-    .eq("cv_id", cv_id)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  const metadataLanguage = metadataString(payment.metadata, "language");
-  const metadataSourceType = metadataString(payment.metadata, "source_type");
-  const metadataCountry = metadataString(payment.metadata, "country_code");
-
-  await recordAnalyticsEventServer({
-    event_name: "payment_completed",
-    attempt_id: z.string().uuid().safeParse(metadataString(payment.metadata, "attempt_id")).success ? metadataString(payment.metadata, "attempt_id") : undefined,
-    stage: "webhook",
-    user_id: profile_id,
-    cv_id,
-    payment_id: String(payment.id),
-    template:
-      metadataString(payment.metadata, "template") ||
-      startedEvent?.template ||
-      cv.template,
-    language:
-      metadataLanguage === "en" || metadataLanguage === "es"
-        ? metadataLanguage
-        : startedEvent?.language,
-    payment_provider: "mercado_pago",
-    is_guest:
-      metadataString(payment.metadata, "is_guest") === "true" ||
-      startedEvent?.is_guest === true,
-    country_code: /^[A-Z]{2}$/.test(metadataCountry || "")
-      ? metadataCountry
-      : startedEvent?.country_code,
-    session_id:
-      metadataString(payment.metadata, "session_id") ||
-      startedEvent?.session_id ||
-      undefined,
-    landing_path:
-      metadataString(payment.metadata, "landing_path") ||
-      startedEvent?.landing_path,
-    cta_label:
-      metadataString(payment.metadata, "cta_label") || startedEvent?.cta_label,
-    source_type:
-      metadataSourceType === "landing" ||
-      metadataSourceType === "blog" ||
-      metadataSourceType === "tool"
-        ? metadataSourceType
-        : startedEvent?.source_type,
-    utm_source:
-      metadataString(payment.metadata, "utm_source") || startedEvent?.utm_source,
-    utm_medium:
-      metadataString(payment.metadata, "utm_medium") || startedEvent?.utm_medium,
-    utm_campaign:
-      metadataString(payment.metadata, "utm_campaign") ||
-      startedEvent?.utm_campaign,
-    utm_content:
-      metadataString(payment.metadata, "utm_content") ||
-      startedEvent?.utm_content,
-  });
-
-  return NextResponse.json({ message: "ok" }, { status: 200 });
 }

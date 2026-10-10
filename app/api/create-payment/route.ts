@@ -1,4 +1,5 @@
 import { recordPaymentFailure } from "@/lib/payment-analytics";
+import { checkoutErrorResponse } from "@/lib/checkout-response";
 import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { getOrCreatePendingPaymentCv } from "@/lib/payment-cv";
@@ -31,7 +32,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { cvId, cvData, template, contactEmail, language, attribution } =
+  const { cvId, purchaseKey, cvData, template, contactEmail, language, attribution } =
     parsed.data;
   const countryCode = getRequestCountry(req.headers);
   const supabase = await createClient();
@@ -65,6 +66,7 @@ export async function POST(req: Request) {
   const paymentCv = await getOrCreatePendingPaymentCv({
     supabase,
     cvId,
+    purchaseKey,
     profileId: profile_id,
     cvData,
     template,
@@ -73,7 +75,7 @@ export async function POST(req: Request) {
 
   if (!paymentCv.ok) {
     return NextResponse.json(
-      { error: paymentCv.error },
+      { error: paymentCv.error, recoveryUrl: paymentCv.recoveryUrl },
       { status: paymentCv.status },
     );
   }
@@ -93,10 +95,7 @@ export async function POST(req: Request) {
   } catch (error) {
     await recordPaymentFailure({ cvId: paymentCv.cv.id, provider: "mercado_pago", stage: "checkout", errorCode: "provider_error" });
     console.error("Error creando preferencia de Mercado Pago:", error);
-    return NextResponse.json(
-      { cvId: paymentCv.cv.id, error: "No se pudo generar link de pago" },
-      { status: 500 }
-    );
+    return checkoutErrorResponse(error, paymentCv.cv.id);
   }
 
   await recordAnalyticsEventServer({

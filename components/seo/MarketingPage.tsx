@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CommercialOffer } from "@/components/CommercialOffer";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import {
@@ -67,6 +68,11 @@ type MarketingPageProps = {
   relatedLinks: RelatedLink[];
   exampleImage?: ExampleImage;
   ctaLabel?: string;
+  conversionGuidance?: {
+    message: string;
+    exampleLabel: string;
+    closingMessage: string;
+  };
   offer?: ReactNode;
   conversionCta?: ConversionCta;
   diagnosticCta?: DiagnosticCta;
@@ -95,6 +101,7 @@ export function MarketingPage({
   relatedLinks,
   exampleImage,
   ctaLabel,
+  conversionGuidance,
   offer,
   conversionCta,
   diagnosticCta,
@@ -168,7 +175,9 @@ export function MarketingPage({
           <div className="mt-8 grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_390px] lg:gap-16">
             <div className="max-w-3xl">
               <p className="text-sm font-medium text-[#C4B5FD]">{eyebrow}</p>
-              <h1 className="mt-4 text-[clamp(2.5rem,5.5vw,4.15rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#F6F2EA]">
+              <h1 className={conversionGuidance
+                ? "mt-4 text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-[#F6F2EA]"
+                : "mt-4 text-[clamp(2.5rem,5.5vw,4.15rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#F6F2EA]"}>
                 {title}
               </h1>
               <p className="mt-6 max-w-[62ch] text-base leading-8 text-white/68 sm:text-lg">
@@ -182,26 +191,43 @@ export function MarketingPage({
                   sourcePath={path}
                   sourceType="landing"
                   trackingLabel="profession_hero_cta"
+                  className={conversionGuidance ? "w-full sm:w-auto [&>button]:w-full" : undefined}
                 />
+                {conversionGuidance ? (
+                  <Link
+                    href="#ejemplo-cv"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-md text-sm font-medium text-[#C4B5FD] underline underline-offset-4 hover:text-[#F6F2EA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/55"
+                  >
+                    {conversionGuidance.exampleLabel}
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Link>
+                ) : null}
                 <Link
                   href="#guia"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-3 text-sm font-medium text-white/72 transition-colors hover:border-white/24 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/55"
+                  className={conversionGuidance
+                    ? "inline-flex min-h-11 items-center gap-2 rounded-md text-sm text-white/72 underline underline-offset-4 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/55"
+                    : "inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-3 text-sm font-medium text-white/72 transition-colors hover:border-white/24 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/55"}
                 >
                   Ver la guía
                   <ArrowRight className="size-4" />
                 </Link>
               </div>
 
-              {offer ? (
-                <div className="mt-4">{offer}</div>
-              ) : (
-                <p className="mt-4 text-xs text-white/46">
-                  Pago único. PDF descargable. Editable desde tu perfil.
+              {conversionGuidance ? (
+                <p className="mt-4 max-w-[62ch] text-sm leading-6 text-white/78">
+                  {conversionGuidance.message}
                 </p>
-              )}
+              ) : null}
+
+              {offer ? <div className="mt-4">{offer}</div> : <CommercialOffer className="mt-4 text-sm leading-6 text-white/70" />}
             </div>
 
-            <figure className="mx-auto w-full max-w-[390px] lg:mx-0">
+            <figure
+              id={conversionGuidance ? "ejemplo-cv" : undefined}
+              className={conversionGuidance
+                ? "mx-auto w-full max-w-[390px] scroll-mt-24 lg:mx-0"
+                : "mx-auto w-full max-w-[390px] lg:mx-0"}
+            >
               <div className="relative aspect-[210/297] overflow-hidden rounded-[20px] bg-[#F4F4F1] shadow-[0_28px_70px_rgba(0,0,0,0.34)] ring-1 ring-white/14">
                 <Image
                   src={visual.src}
@@ -343,6 +369,22 @@ export function MarketingPage({
               ))}
             </div>
           </section>
+
+          {conversionGuidance ? (
+            <div className="mt-10 border-t border-white/9 pt-8">
+              <p className="mb-5 max-w-[62ch] text-lg leading-8 text-[#F6F2EA]">
+                {conversionGuidance.closingMessage}
+              </p>
+              <TrackedCtaLink
+                href={createHref}
+                label={cta}
+                sourcePath={path}
+                sourceType="landing"
+                trackingLabel="profession_closing_cta"
+                className="inline-block w-full sm:w-auto [&>button]:w-full"
+              />
+            </div>
+          ) : null}
         </article>
 
         <aside className="min-w-0 space-y-10 lg:sticky lg:top-24 lg:self-start">

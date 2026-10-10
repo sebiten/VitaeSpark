@@ -3,12 +3,14 @@ import { NextResponse } from "next/server";
 import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
 import { getOrCreatePendingPaymentCv } from "@/lib/payment-cv";
 import {
+  claimCheckoutDispatch,
   failCheckoutSession,
   getOrCreateCheckoutSession,
   saveCheckoutSession,
 } from "@/lib/payment-checkout-session";
 import { getPayPalAccessToken, PAYPAL_API_BASE } from "@/lib/paypal";
 import { PRICING } from "@/lib/pricing";
+import { checkoutErrorResponse } from "@/lib/checkout-response";
 import { CreatePaymentSchema } from "@/lib/schemas/cv";
 import { createClient } from "@/utils/supabase/server";
 import { getRequestCountry } from "@/lib/market";
@@ -37,7 +39,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { cvId, cvData, template, contactEmail, language, attribution } =
+  const { cvId, purchaseKey, cvData, template, contactEmail, language, attribution } =
     parsed.data;
   const countryCode = getRequestCountry(req.headers);
   const supabase = await createClient();
@@ -71,6 +73,7 @@ export async function POST(req: Request) {
   const paymentCv = await getOrCreatePendingPaymentCv({
     supabase,
     cvId,
+    purchaseKey,
     profileId: profile_id,
     cvData,
     template,
@@ -79,19 +82,20 @@ export async function POST(req: Request) {
 
   if (!paymentCv.ok) {
     return NextResponse.json(
-      { error: paymentCv.error },
+      { error: paymentCv.error, recoveryUrl: paymentCv.recoveryUrl },
       { status: paymentCv.status },
     );
   }
 
-  const checkoutSession = await getOrCreateCheckoutSession({
+  let checkoutSession: Awaited<ReturnType<typeof getOrCreateCheckoutSession>>;
+  try { checkoutSession = await getOrCreateCheckoutSession({
     cvId: paymentCv.cv.id,
     profileId: profile_id,
     provider: "paypal",
     attribution,
     contactEmail: email,
     isGuest,
-  });
+  }); } catch (error) { return checkoutErrorResponse(error, paymentCv.cv.id); }
 
   if (checkoutSession.checkout_url) {
     await recordAnalyticsEventServer({
@@ -117,12 +121,10 @@ export async function POST(req: Request) {
 
   try {
     const accessToken = await getPayPalAccessToken();
-    const isPendingRecovery = attribution?.cta_label?.startsWith(
-      "pending_payment_",
-    );
-    const cancelPath = isPendingRecovery && !isGuest
-      ? `/perfil?cv_id=${paymentCv.cv.id}`
-      : `/pago/resultado?cv_id=${paymentCv.cv.id}&provider=paypal&status=cancelled`;
+    if (!await claimCheckoutDispatch(checkoutSession)) {
+      return checkoutErrorResponse(new Error("Checkout is being prepared"), paymentCv.cv.id);
+    }
+    const cancelPath = `/pago/resultado?cv_id=${paymentCv.cv.id}&provider=paypal&status=cancelled`;
     const orderPayload = {
       intent: "CAPTURE",
       purchase_units: [
@@ -140,7 +142,7 @@ export async function POST(req: Request) {
         },
       ],
       payer: {
-        email_address: email,
+        email_address: checkoutSession.contact_email ?? email,
       },
       application_context: {
         brand_name: "VitaeSpark",
@@ -164,15 +166,9 @@ export async function POST(req: Request) {
     const paypalJson = await paypalRes.json();
 
     if (!paypalRes.ok || !paypalJson.id) {
+      if (!paypalJson.id && [400, 401, 403].includes(paypalRes.status)) await failCheckoutSession(checkoutSession.id);
       await recordPaymentFailure({ cvId: paymentCv.cv.id, provider: "paypal", stage: "checkout", errorCode: "provider_error" });
       console.error("PayPal order error:", paypalJson);
-      if (
-        paypalRes.status >= 400 &&
-        paypalRes.status < 500 &&
-        paypalRes.status !== 429
-      ) {
-        await failCheckoutSession(checkoutSession.id);
-      }
       return NextResponse.json(
         {
           cvId: paymentCv.cv.id,
@@ -188,7 +184,6 @@ export async function POST(req: Request) {
 
     if (!approveUrl) {
       await recordPaymentFailure({ cvId: paymentCv.cv.id, provider: "paypal", stage: "checkout", errorCode: "checkout_missing_url" });
-      await failCheckoutSession(checkoutSession.id);
       return NextResponse.json(
         {
           cvId: paymentCv.cv.id,

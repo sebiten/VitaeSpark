@@ -4,7 +4,6 @@ export const PRICING = {
     currency: "ARS",
     shortLabel: "$1.999",
     label: "$1.999 ARS",
-    previousLabel: "Antes $2.500",
     value: "1999",
   },
   paypal: {
@@ -12,8 +11,6 @@ export const PRICING = {
     currency: "USD",
     shortLabel: "US$2.99",
     label: "US$2.99",
-    previousLabel: "Before US$4.99",
-    previousLabelEs: "Antes US$4.99",
     value: "2.99",
   },
   copy: {

@@ -28,6 +28,14 @@ export default function CvParaLimpiezaPage() {
       eyebrow="CV por profesion"
       title="CV para limpieza: ejemplo listo con perfil y habilidades"
       description="Prepara un curriculum de limpieza claro para oficinas, edificios, comercios o casas, con perfil profesional, tareas, productos y disponibilidad."
+      ctaLabel="Crear mi CV de limpieza"
+      conversionGuidance={{
+        message:
+          "Contá qué espacios limpiaste, qué tareas hiciste y tu disponibilidad. Si no tenés experiencia formal, podés incluir tareas domésticas o trabajos informales.",
+        exampleLabel: "Ver ejemplo de CV de limpieza",
+        closingMessage:
+          "Ahora armá el tuyo con tus tareas, habilidades y disponibilidad para trabajar en limpieza.",
+      }}
       intro={[
         "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas, y con que rutinas o productos lo hacias.",
         "VitaeSpark te ayuda a presentar esa experiencia en un curriculum limpieza mas profesional, con perfil claro, habilidades utiles y estructura ATS facil de leer para reclutadores.",

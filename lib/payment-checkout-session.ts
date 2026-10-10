@@ -1,5 +1,6 @@
 import "server-only";
 
+import { CheckoutConflict, reconcileBeforeCheckout } from "@/lib/payment-recovery";
 import type { LandingAttribution } from "@/lib/analytics-attribution";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
@@ -7,6 +8,8 @@ export type PaymentProvider = "mercado_pago" | "paypal";
 
 export type PaymentCheckoutSession = {
   id: string;
+  created_at: string;
+  dispatch_started_at: string | null;
   cv_id: string;
   profile_id: string;
   provider: PaymentProvider;
@@ -28,54 +31,36 @@ type CreateCheckoutSessionInput = {
   isGuest?: boolean;
 };
 
-const checkoutSessionColumns =
-  "id, cv_id, profile_id, provider, idempotency_key, provider_checkout_id, checkout_url, status, attribution, contact_email, is_guest";
+export async function getOrCreateCheckoutSession(input: CreateCheckoutSessionInput) {
+  await reconcileBeforeCheckout(input.cvId, input.profileId, input.provider);
+  const { data, error } = await supabaseAdmin.rpc("reserve_payment_checkout", {
+    p_cv_id: input.cvId, p_profile_id: input.profileId, p_provider: input.provider,
+    p_attribution: input.attribution ?? {}, p_email: input.contactEmail ?? null, p_guest: input.isGuest ?? false,
+  });
+  if (error || !data) throw error ?? new Error("Checkout reservation unavailable");
+  if (data.conflict_cv_id) throw new CheckoutConflict(data.conflict_cv_id, data.provider ?? input.provider, data.reason);
+  return data as PaymentCheckoutSession;
+}
 
-async function findPendingCheckoutSession({
-  cvId,
-  profileId,
-  provider,
-}: CreateCheckoutSessionInput) {
-  const { data, error } = await supabaseAdmin
-    .from("payment_checkout_sessions")
-    .select(checkoutSessionColumns)
-    .eq("cv_id", cvId)
-    .eq("profile_id", profileId)
-    .eq("provider", provider)
-    .eq("status", "pending")
-    .maybeSingle();
-
+// A dispatch claim is persisted before contacting the provider. An ambiguous response
+// never releases it: PayPal reuses its key; Mercado Pago searches the exact preference.
+export async function claimCheckoutDispatch(session: PaymentCheckoutSession) {
+  const sessionAge = Date.now() - Date.parse(session.created_at);
+  if (!Number.isFinite(sessionAge) || sessionAge > 5 * 60 * 60 * 1000) return false;
+  // A historical incomplete preference might already exist outside our database.
+  if (session.provider === "mercado_pago" && !session.dispatch_started_at && sessionAge > 30000) return false;
+  const now = new Date().toISOString();
+  let query = supabaseAdmin.from("payment_checkout_sessions").update({ dispatch_started_at: now })
+    .eq("id", session.id).eq("status", "pending").is("provider_checkout_id", null);
+  if (session.dispatch_started_at) {
+    const age = Date.now() - Date.parse(session.dispatch_started_at);
+    if (session.provider !== "paypal" || age < 30000) return false;
+    query = query.eq("dispatch_started_at", session.dispatch_started_at);
+  } else query = query.is("dispatch_started_at", null);
+  const { data, error } = await query.select("id").maybeSingle();
   if (error) throw error;
-  return data as PaymentCheckoutSession | null;
+  return Boolean(data);
 }
-
-export async function getOrCreateCheckoutSession(
-  input: CreateCheckoutSessionInput,
-) {
-  const existing = await findPendingCheckoutSession(input);
-  if (existing) return existing;
-
-  const { data, error } = await supabaseAdmin
-    .from("payment_checkout_sessions")
-    .insert({
-      cv_id: input.cvId,
-      profile_id: input.profileId,
-      provider: input.provider,
-      attribution: input.attribution ?? {},
-      contact_email: input.contactEmail ?? null,
-      is_guest: input.isGuest ?? false,
-    })
-    .select(checkoutSessionColumns)
-    .single();
-
-  if (!error) return data as PaymentCheckoutSession;
-  if (error.code !== "23505") throw error;
-
-  const concurrent = await findPendingCheckoutSession(input);
-  if (!concurrent) throw error;
-  return concurrent;
-}
-
 export async function saveCheckoutSession(
   id: string,
   values: {
@@ -83,7 +68,7 @@ export async function saveCheckoutSession(
     checkoutUrl: string;
   },
 ) {
-  const { error } = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from("payment_checkout_sessions")
     .update({
       provider_checkout_id: values.providerCheckoutId,
@@ -91,9 +76,11 @@ export async function saveCheckoutSession(
       updated_at: new Date().toISOString(),
     })
     .eq("id", id)
-    .eq("status", "pending");
+    .eq("status", "pending")
+    .is("provider_checkout_id", null)
+    .select("id").maybeSingle();
 
-  if (error) throw error;
+  if (error || !data) throw error ?? new Error("Checkout order was already assigned");
 }
 
 export async function failCheckoutSession(id: string) {
@@ -112,6 +99,7 @@ export async function failCheckoutSession(id: string) {
 }
 
 export async function completeCvPayment(input: {
+  attemptId: string;
   cvId: string;
   profileId: string;
   paymentId: string;
@@ -120,15 +108,13 @@ export async function completeCvPayment(input: {
   paymentType?: string | null;
   provider: PaymentProvider;
 }) {
-  const { data, error } = await supabaseAdmin.rpc("complete_cv_payment", {
-    p_cv_id: input.cvId,
-    p_profile_id: input.profileId,
+  const { data, error } = await supabaseAdmin.rpc("complete_registered_cv_payment", {
+    p_attempt_id: input.attemptId,
     p_payment_id: input.paymentId,
     p_amount: input.amount,
-    p_status: "approved",
     p_payer_email: input.payerEmail ?? null,
     p_payment_type: input.paymentType ?? input.provider,
-    p_payment_method: input.provider,
+    p_provider: input.provider,
   });
 
   if (error) throw error;

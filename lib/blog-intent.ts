@@ -1,3 +1,5 @@
+import { getJobRoleForLanding } from "./job-landing";
+
 export type CreateIntent =
   | "general"
   | "skills"
@@ -92,7 +94,7 @@ export function getBlogCtaContent(path: string): BlogCtaContent {
         "Usá la guía como referencia, cargá tu experiencia real y revisá un resultado editable antes de descargar.",
       primaryLabel: "Crear mi CV para este puesto",
       proof: "Contenido orientado al trabajo que buscás",
-      intent: "job-specific",
+      intent: /sin-experiencia|primer-empleo|para-estudiantes/.test(path) ? "first-job" : "job-specific",
     };
   }
 
@@ -117,7 +119,10 @@ export function getBlogCtaContent(path: string): BlogCtaContent {
 
 export function getBlogCreateHref(path: string) {
   const { intent } = getBlogCtaContent(path);
-  return `/crear?intent=${intent}`;
+  const params = new URLSearchParams({ intent });
+  const role = getJobRoleForLanding(path);
+  if (role) params.set("role", role);
+  return `/crear?${params.toString()}`;
 }
 
 export function normalizeCreateIntent(value?: string | null): CreateIntent {

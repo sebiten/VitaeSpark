@@ -49,19 +49,27 @@ export const GenerateCVInputSchema = z.object({
   puesto: boundedText(1, 140),
   contacto: boundedText(1, 1200),
   sobreMi: boundedText(10, 1600),
-  experiencia: boundedText(20, 5000),
+  experienceMode: z.enum(["with-experience", "no-experience"]).optional().default("with-experience"),
+  experiencia: z.string().trim().max(5000).optional().default(""),
   formacion: z.string().trim().max(2400).optional().default(""),
   habilidades: boundedText(1, 1800),
   idiomas: z.string().trim().max(600).optional().default(""),
   informacionAdicional: z.string().trim().max(1600).optional().default(""),
-});
+}).superRefine((data, context) => {
+  if (data.experienceMode === "with-experience" && data.experiencia.length < 20) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ["experiencia"], message: "Describí un antecedente real (al menos 20 caracteres)" });
+  }
+}).transform((data) => ({
+  ...data,
+  experiencia: data.experienceMode === "no-experience" ? "" : data.experiencia,
+}));
 
 export const CVSchema = z.object({
   foto_url: optionalPhotoUrl,
   nombre: boundedText(1, 120),
   puesto: boundedText(1, 140),
   sobreMi: boundedText(1, 900),
-  contacto: z.array(boundedText(1, 240)).max(8),
+  contacto: z.array(boundedText(1, 240)).min(1).max(8),
   experiencia: z
     .array(
       z.object({
@@ -72,7 +80,6 @@ export const CVSchema = z.object({
         logros: z.array(boundedText(1, 320)).min(1).max(4),
       })
     )
-    .min(1)
     .max(8),
   formacion: z
     .array(
@@ -84,12 +91,13 @@ export const CVSchema = z.object({
       })
     )
     .max(6),
-  habilidades: z.array(boundedText(1, 80)).max(32),
+  habilidades: z.array(boundedText(1, 80)).min(1).max(32),
   idiomas: z.array(boundedText(1, 80)).max(8),
   informacionAdicional: z.array(boundedText(1, 240)).max(8),
 });
 
 export const CreatePaymentSchema = z.object({
+  purchaseKey: z.string().uuid().optional(),
   cvId: z.string().uuid().optional(),
   cvData: CVSchema.optional(),
   template: TemplateSchema.optional(),

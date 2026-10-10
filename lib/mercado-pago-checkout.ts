@@ -2,11 +2,13 @@ import "server-only";
 
 import type { LandingAttribution } from "@/lib/analytics-attribution";
 import {
+  claimCheckoutDispatch,
   failCheckoutSession,
   getOrCreateCheckoutSession,
   saveCheckoutSession,
 } from "@/lib/payment-checkout-session";
 import { PRICING } from "@/lib/pricing";
+import { mercadoPagoGet } from "@/lib/mercado-pago-confirmation";
 
 type MercadoPagoCheckoutInput = {
   cvId: string;
@@ -47,6 +49,21 @@ export async function createMercadoPagoCheckout(
     };
   }
 
+  if (session.dispatch_started_at || Date.now() - Date.parse(session.created_at) > 30000) {
+    const found = await mercadoPagoGet(`/checkout/preferences/search?external_reference=${encodeURIComponent(`cv_${input.cvId}`)}&limit=100`);
+    if (!Array.isArray(found.elements) || found.total > found.elements.length) throw new Error("Checkout state unavailable");
+    for (const item of found.elements) {
+      const preference = await mercadoPagoGet(`/checkout/preferences/${encodeURIComponent(item.id)}`);
+      if (preference.metadata?.attempt_id === session.id && preference.init_point) {
+        await saveCheckoutSession(session.id, { providerCheckoutId: preference.id, checkoutUrl: preference.init_point });
+        // Recheck payment and expiry before returning a recovered link.
+        return createMercadoPagoCheckout(input);
+      }
+    }
+    throw new Error("Checkout response unresolved; do not create another preference");
+  }
+  if (!await claimCheckoutDispatch(session)) throw new Error("Checkout is being prepared");
+
   const attribution = session.attribution ?? {};
   const response = await fetch(
     "https://api.mercadopago.com/checkout/preferences",
@@ -75,7 +92,7 @@ export async function createMercadoPagoCheckout(
             currency_id: PRICING.mercadoPago.currency,
           },
         ],
-        payer: { email: input.email },
+        payer: { email: session.contact_email ?? input.email },
         external_reference: `cv_${input.cvId}`,
         notification_url: `${siteUrl}/api/webhook`,
         back_urls: {
@@ -84,6 +101,8 @@ export async function createMercadoPagoCheckout(
           pending: `${siteUrl}/pago/resultado?cv_id=${input.cvId}&provider=mercado_pago&status=pending`,
         },
         auto_return: "approved",
+        expires: true,
+        expiration_date_to: new Date(Date.parse(session.created_at) + 60 * 60 * 1000).toISOString(),
         metadata: {
           cv_id: input.cvId,
           attempt_id: session.id,
@@ -117,9 +136,7 @@ export async function createMercadoPagoCheckout(
   } | null;
 
   if (!response.ok || !payload?.id || !payload.init_point) {
-    if (response.status >= 400 && response.status < 500 && response.status !== 429) {
-      await failCheckoutSession(session.id);
-    }
+    if (!payload?.id && [400, 401, 403].includes(response.status)) await failCheckoutSession(session.id);
     throw new Error("No se pudo generar link de pago");
   }
 

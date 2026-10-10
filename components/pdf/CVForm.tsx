@@ -7,6 +7,9 @@ import { toast } from "sonner";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import type { DatosCVFormulario, RespuestaCV } from "@/lib/types/cv";
 import TemplateSelector from "../TemplateSelector";
+import { CommercialOffer } from "../CommercialOffer";
+import { getCvTemplate, isCvTemplateId } from "@/lib/cv-templates";
+import { Button } from "@/components/ui/button";
 import { getRecommendedTemplateForRole } from "@/lib/job-landing";
 import {
   getLandingAttribution,
@@ -52,6 +55,7 @@ type CVFormProps = {
   initialLanguage?: AppLanguage;
   initialIntent?: CreateIntent;
   initialRole?: string | null;
+  initialTemplate?: string | null;
   initialResumeAction?: ResumeAction | null;
   currentUser: CheckoutUser | null;
   guestCheckoutEnabled: boolean;
@@ -68,12 +72,18 @@ const CVPreviewStep = dynamic(() => import("../CVPreviewStep"), {
   loading: () => <FlowStepSkeleton label="Preparando checkout..." />,
 });
 
+const CVPreviewEditor = dynamic(
+  () => import("../CVPreviewEditor").then((module) => module.CVPreviewEditor),
+  { ssr: false },
+);
+
 const createEmptyDraft = (): DatosCVFormulario => ({
   nombre: "",
   puesto: "",
   contacto: "",
   sobreMi: "",
   experiencia: "",
+  experienceMode: "with-experience",
   formacion: "",
   habilidades: "",
   idiomas: "",
@@ -102,6 +112,7 @@ function normalizeDraft(data: DatosCVFormulario): DatosCVFormulario {
 
 function hasDraftContent(data: DatosCVFormulario) {
   return (
+    data.experienceMode === "no-experience" ||
     Boolean(data.foto_url) ||
     draftFieldNames.some((field) => {
       const value = data[field];
@@ -114,18 +125,26 @@ export default function CVForm({
   initialLanguage = "es",
   initialIntent = "general",
   initialRole = null,
+  initialTemplate = null,
   initialResumeAction = null,
   currentUser,
   guestCheckoutEnabled,
   initialCountryCode,
 }: CVFormProps) {
+  const explicitTemplate = initialTemplate && isCvTemplateId(initialTemplate) ? initialTemplate : null;
+  const [entryChoice, setEntryChoice] = useState<"continue" | "restart" | null>(null);
+  const [entryDraft, setEntryDraft] = useState<StoredCreateDraft | null>(null);
   const [runtimeUser, setRuntimeUser] = useState<CheckoutUser | null>(currentUser);
   const [recommendedTemplate, setRecommendedTemplate] = useState(() =>
     getRecommendedTemplateForRole(initialRole),
   );
-  const [selectedTemplate, setSelectedTemplate] = useState<string>(recommendedTemplate);
+  const [selectedTemplate, setSelectedTemplate] = useState<string>(explicitTemplate ?? recommendedTemplate);
+  const [editingPreview, setEditingPreview] = useState(false);
+  const [pendingCvId, setPendingCvId] = useState<string | null>(null);
+  const pendingCvIdRef = useRef<string | null>(null);
+  const purchaseKeyRef = useRef<string | null>(null);
   const [cvData, setCvData] = useState<RespuestaCV["cv"] | null>(null);
-  const [activeTab, setActiveTab] = useState<FlowStep>("template");
+  const [activeTab, setActiveTab] = useState<FlowStep>(explicitTemplate ? "form" : "template");
   const draftDataRef = useRef<DatosCVFormulario>(createEmptyDraft());
   const [draftPhotoUrl, setDraftPhotoUrl] = useState<string | null>(null);
   const [templateFlowTarget, setTemplateFlowTarget] = useState<"form" | "preview">(
@@ -158,7 +177,7 @@ export default function CVForm({
     ) => {
       const currentData = normalizeDraft(draftDataRef.current);
 
-      if (!hasDraftContent(currentData)) {
+      if (!hasDraftContent(currentData) && !generatedCvRef.current && !pendingCvIdRef.current && !purchaseKeyRef.current) {
         window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
         return;
       }
@@ -187,6 +206,8 @@ export default function CVForm({
         action,
         flowStep,
         generatedCv,
+        pendingCvId: pendingCvIdRef.current ?? undefined,
+        purchaseKey: purchaseKeyRef.current ?? undefined,
         guestPhotoKey: guestPhotoKeyRef.current ?? undefined,
       };
 
@@ -272,6 +293,9 @@ export default function CVForm({
 
   const handleFormCompleted = useCallback(
     (data: RespuestaCV["cv"]) => {
+      purchaseKeyRef.current = crypto.randomUUID();
+      pendingCvIdRef.current = null;
+      setPendingCvId(null);
       generatedCvRef.current = data;
       setCvData(data);
       const attribution = getLandingAttribution();
@@ -299,6 +323,19 @@ export default function CVForm({
     },
     [initialLanguage, isPermanentUser, navigateToStep, writeStoredDraft],
   );
+
+  const handlePreviewSave = (data: RespuestaCV["cv"]) => {
+    generatedCvRef.current = data;
+    setCvData(data);
+    writeStoredDraft(null, "preview");
+    setEditingPreview(false);
+  };
+
+  const handlePendingCvId = (id: string) => {
+    pendingCvIdRef.current = id;
+    setPendingCvId(id);
+    writeStoredDraft(null, "preview");
+  };
 
   const handleDraftChange = useCallback(
     (data: DatosCVFormulario) => {
@@ -486,10 +523,23 @@ export default function CVForm({
     draftRestoredRef.current = true;
 
     try {
+      const existing = parseStoredCreateDraft(window.sessionStorage.getItem(CREATE_DRAFT_KEY));
+      if (explicitTemplate && existing && !entryChoice) {
+        setEntryDraft(existing);
+        suspendAutosaveRef.current = true;
+        return;
+      }
+      if (explicitTemplate && entryChoice === "restart") {
+        // Never discard the identity protecting an issued or ambiguous checkout.
+        if (existing?.pendingCvId || existing?.purchaseKey) return;
+        window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
+        if (existing?.guestPhotoKey) void removeGuestPhoto(existing.guestPhotoKey);
+        suspendAutosaveRef.current = false;
+      }
       const rawSkillsTransfer = window.sessionStorage.getItem(
         SKILLS_TOOL_TRANSFER_KEY,
       );
-      const skillsTransfer = parseSkillsToolTransfer(rawSkillsTransfer);
+      const skillsTransfer = explicitTemplate && entryChoice === "continue" ? null : parseSkillsToolTransfer(rawSkillsTransfer);
       if (rawSkillsTransfer) {
         window.sessionStorage.removeItem(SKILLS_TOOL_TRANSFER_KEY);
       }
@@ -507,10 +557,10 @@ export default function CVForm({
           setCreateIntent("skills");
           generatedCvRef.current = null;
           setCvData(null);
-          activeTabRef.current = "template";
-          setActiveTab("template");
+          activeTabRef.current = explicitTemplate ? "form" : "template";
+          setActiveTab(activeTabRef.current);
           suspendAutosaveRef.current = false;
-          writeStoredDraft(null, "template");
+          writeStoredDraft(null, activeTabRef.current);
           toast.success(
             "Cargamos tu puesto y habilidades. Elegí una plantilla para continuar.",
           );
@@ -522,9 +572,10 @@ export default function CVForm({
             ...createEmptyDraft(),
             puesto: initialRole,
           };
-          createIntentRef.current = "job-specific";
-          setCreateIntent("job-specific");
-          writeStoredDraft(null, "template");
+          const roleIntent = createIntentRef.current === "general" ? "job-specific" : createIntentRef.current;
+          createIntentRef.current = roleIntent;
+          setCreateIntent(roleIntent);
+          writeStoredDraft(null, explicitTemplate ? "form" : "template");
         }
 
         if (initialResumeAction === "checkout") {
@@ -547,7 +598,7 @@ export default function CVForm({
       const restoredData = skillsTransfer
         ? mergeSkillsToolTransfer(normalizedStoredData, skillsTransfer)
         : normalizedStoredData;
-      if (!hasDraftContent(restoredData)) {
+      if (!hasDraftContent(restoredData) && !storedDraft.generatedCv && !storedDraft.pendingCvId && !storedDraft.purchaseKey && !explicitTemplate) {
         window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
         return;
       }
@@ -583,12 +634,14 @@ export default function CVForm({
         return;
       }
 
-      const pendingAction = storedDraft.action ?? initialResumeAction;
-      const shouldRestorePreview =
-        Boolean(storedDraft.generatedCv) &&
-        (storedDraft.flowStep === "preview" || pendingAction === "checkout");
-
-      if (shouldRestorePreview && storedDraft.generatedCv) {
+      pendingCvIdRef.current = storedDraft.pendingCvId ?? null;
+      purchaseKeyRef.current = storedDraft.purchaseKey ?? crypto.randomUUID();
+      if (!storedDraft.purchaseKey) {
+        window.sessionStorage.setItem(CREATE_DRAFT_KEY, JSON.stringify({ ...storedDraft, purchaseKey: purchaseKeyRef.current }));
+      }
+      setPendingCvId(storedDraft.pendingCvId ?? null);
+      const pendingAction = explicitTemplate ? null : storedDraft.action ?? initialResumeAction;
+      if (storedDraft.generatedCv) {
         generatedCvRef.current = storedDraft.generatedCv;
         setCvData(storedDraft.generatedCv);
         activeTabRef.current = "preview";
@@ -659,11 +712,13 @@ export default function CVForm({
         );
       }
     } catch {
-      window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
+      if (!explicitTemplate) window.sessionStorage.removeItem(CREATE_DRAFT_KEY);
     } finally {
       setDraftReady(true);
     }
   }, [
+    explicitTemplate,
+    entryChoice,
     handleResumeActionConsumed,
     initialLanguage,
     initialRole,
@@ -893,6 +948,26 @@ export default function CVForm({
     return <FlowStepSkeleton label="Preparando tu espacio de trabajo..." />;
   }
 
+  if (entryDraft && !entryChoice) {
+    const blocked = Boolean(entryDraft.pendingCvId || entryDraft.purchaseKey);
+    const choose = (choice: "continue" | "restart") => {
+      if (choice === "restart" && blocked) return;
+      draftRestoredRef.current = false;
+      setDraftReady(false);
+      setEntryChoice(choice);
+    };
+    return <section className="mx-auto max-w-xl space-y-5 py-8 text-white" aria-labelledby="draft-choice-title">
+      <h1 id="draft-choice-title" className="text-2xl font-semibold">{initialLanguage === "en" ? "You have a saved draft" : "Tenés un borrador guardado"}</h1>
+      <p>{initialLanguage === "en" ? `Continue your draft with ${getCvTemplate(entryDraft.template).name}, or start over with ${getCvTemplate(explicitTemplate).name}.` : `Continuá tu borrador con ${getCvTemplate(entryDraft.template).name}, o empezá de nuevo con ${getCvTemplate(explicitTemplate).name}.`}</p>
+      <CommercialOffer language={initialLanguage} initialCountryCode={initialCountryCode} />
+      <div className="flex flex-wrap gap-3">
+        <Button onClick={() => choose("continue")}>{initialLanguage === "en" ? "Continue draft" : "Continuar borrador"}</Button>
+        <Button variant="outline" disabled={blocked} onClick={() => choose("restart")}>{initialLanguage === "en" ? "Start over" : "Empezar de nuevo"}</Button>
+      </div>
+      {blocked ? <p role="status" className="text-sm leading-6 text-white/70">{initialLanguage === "en" ? "This draft has a purchase reference. Continue it to review or recover that purchase before starting over." : "Este borrador tiene una referencia de compra. Continuá para revisar o recuperar esa compra antes de empezar de nuevo."}</p> : <p className="text-sm text-white/70">{initialLanguage === "en" ? "Starting over replaces this draft." : "Empezar de nuevo reemplaza este borrador."}</p>}
+    </section>;
+  }
+
   return (
     <div className="mx-auto w-full overflow-x-hidden py-1 sm:py-2">
       <div className="mx-auto w-full max-w-6xl min-w-0">
@@ -913,6 +988,9 @@ export default function CVForm({
         >
           <TabsContent value="template" className="space-y-6">
             <TemplateSelector
+              language={initialLanguage}
+              guestCheckoutEnabled={guestCheckoutEnabled}
+              initialCountryCode={initialCountryCode}
               selectedTemplate={selectedTemplate}
               recommendedTemplate={recommendedTemplate}
               onSelectTemplate={handleTemplateChoice}
@@ -921,6 +999,7 @@ export default function CVForm({
           </TabsContent>
 
           <TabsContent value="form" className="space-y-6">
+            <CommercialOffer language={initialLanguage} initialCountryCode={initialCountryCode} />
             {selectedTemplate ? (
               <CVFormStep
                 template={selectedTemplate}
@@ -943,11 +1022,21 @@ export default function CVForm({
           </TabsContent>
 
           <TabsContent value="preview" className="space-y-6">
-            {cvData ? (
+            {cvData && editingPreview ? (
+              <CVPreviewEditor
+                value={cvData}
+                language={cvData.language ?? initialLanguage}
+                onSave={handlePreviewSave}
+                onCancel={() => setEditingPreview(false)}
+              />
+            ) : cvData ? (
               <CVPreviewStep
                 cvData={cvData}
                 template={selectedTemplate}
-                onBack={() => navigateToStep("form")}
+                onBack={() => setEditingPreview(true)}
+                pendingCvId={pendingCvId}
+                purchaseKey={purchaseKeyRef.current ?? undefined}
+                onPendingCvId={handlePendingCvId}
                 onChangeTemplate={() => {
                   setTemplateFlowTarget("preview");
                   navigateToStep("template");
@@ -959,7 +1048,7 @@ export default function CVForm({
                 photoSyncState={photoSyncState}
                 onRetryPhotoSync={handleRetryGuestPhotoSync}
                 onContinueWithoutPhoto={handleContinueWithoutGuestPhoto}
-                language={initialLanguage}
+                language={cvData.language ?? initialLanguage}
                 initialCountryCode={initialCountryCode}
               />
             ) : null}

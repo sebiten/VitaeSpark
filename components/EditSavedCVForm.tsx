@@ -1,17 +1,15 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type React from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Loader2, Plus, Save, Trash2 } from "lucide-react";
+import { ArrowLeft, Loader2, Save } from "lucide-react";
 import { toast } from "sonner";
 import type { RespuestaCV } from "@/lib/types/cv";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { validateEditedCv } from "@/lib/cv-content";
+import { CVContentEditor } from "@/components/CVContentEditor";
 import { getCvTemplate, isCvTemplateId } from "@/lib/cv-templates";
 
 const PDFViewerPane = dynamic(() => import("@/components/pdf/PDFViewerPane"), {
@@ -27,35 +25,6 @@ interface EditSavedCVFormProps {
   cvId: string;
 }
 
-interface EditableExperience {
-  cargo: string;
-  empresa: string;
-  fechas: string;
-  ubicacion: string;
-  logrosText: string;
-}
-
-interface EditableEducation {
-  titulo: string;
-  institucion: string;
-  fechas: string;
-  ubicacion: string;
-}
-
-interface EditableCVState {
-  language?: "es" | "en";
-  fotoUrl?: string;
-  nombre: string;
-  puesto: string;
-  contactoText: string;
-  sobreMi: string;
-  experiencia: EditableExperience[];
-  formacion: EditableEducation[];
-  habilidadesText: string;
-  idiomasText: string;
-  informacionAdicionalText: string;
-}
-
 interface SavedCVResponse {
   cv: {
     id: string;
@@ -69,94 +38,9 @@ function getTemplateLabel(value: string) {
   return getCvTemplate(value).shortName;
 }
 
-const emptyExperience: EditableExperience = {
-  cargo: "",
-  empresa: "",
-  fechas: "",
-  ubicacion: "",
-  logrosText: "",
-};
-
-const emptyEducation: EditableEducation = {
-  titulo: "",
-  institucion: "",
-  fechas: "",
-  ubicacion: "",
-};
-
-function joinLines(items: string[]) {
-  return items.filter(Boolean).join("\n");
-}
-
-function splitLines(value: string, maxItems?: number) {
-  const items = value
-    .split(/\r?\n/)
-    .map((item) => item.trim())
-    .filter(Boolean);
-
-  return typeof maxItems === "number" ? items.slice(0, maxItems) : items;
-}
-
-function cvToFormState(cv: RespuestaCV["cv"]): EditableCVState {
-  return {
-    language: cv.language,
-    fotoUrl: cv.foto_url,
-    nombre: cv.nombre,
-    puesto: cv.puesto,
-    contactoText: joinLines(cv.contacto),
-    sobreMi: cv.sobreMi,
-    experiencia:
-      cv.experiencia.length > 0
-        ? cv.experiencia.map((item) => ({
-            cargo: item.cargo,
-            empresa: item.empresa,
-            fechas: item.fechas,
-            ubicacion: item.ubicacion,
-            logrosText: joinLines(item.logros),
-          }))
-        : [emptyExperience],
-    formacion: cv.formacion.map((item) => ({
-      titulo: item.titulo,
-      institucion: item.institucion,
-      fechas: item.fechas,
-      ubicacion: item.ubicacion,
-    })),
-    habilidadesText: joinLines(cv.habilidades),
-    idiomasText: joinLines(cv.idiomas),
-    informacionAdicionalText: joinLines(cv.informacionAdicional),
-  };
-}
-
-function formStateToCv(form: EditableCVState): RespuestaCV["cv"] {
-  return {
-    language: form.language,
-    foto_url: form.fotoUrl,
-    nombre: form.nombre.trim(),
-    puesto: form.puesto.trim(),
-    contacto: splitLines(form.contactoText, 8),
-    sobreMi: form.sobreMi.trim(),
-    experiencia: form.experiencia.slice(0, 8).map((item) => ({
-      cargo: item.cargo.trim(),
-      empresa: item.empresa.trim(),
-      fechas: item.fechas.trim(),
-      ubicacion: item.ubicacion.trim(),
-      logros: splitLines(item.logrosText, 4),
-    })),
-    formacion: form.formacion.slice(0, 6).map((item) => ({
-      titulo: item.titulo.trim(),
-      institucion: item.institucion.trim(),
-      fechas: item.fechas.trim(),
-      ubicacion: item.ubicacion.trim(),
-    })),
-    habilidades: splitLines(form.habilidadesText, 32),
-    idiomas: splitLines(form.idiomasText, 8),
-    informacionAdicional: splitLines(form.informacionAdicionalText, 8),
-  };
-}
-
 export function EditSavedCVForm({ cvId }: EditSavedCVFormProps) {
   const router = useRouter();
-  const [form, setForm] = useState<EditableCVState | null>(null);
+  const [form, setForm] = useState<RespuestaCV["cv"] | null>(null);
   const [template, setTemplate] = useState("elegance");
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -188,7 +72,7 @@ export function EditSavedCVForm({ cvId }: EditSavedCVFormProps) {
         ? savedTemplate
         : "elegance";
 
-      setForm(cvToFormState(data.cv.cv_data));
+      setForm(data.cv.cv_data);
       setTemplate(safeTemplate);
       setIsLoading(false);
     }
@@ -200,97 +84,23 @@ export function EditSavedCVForm({ cvId }: EditSavedCVFormProps) {
     };
   }, [cvId, router]);
 
-  const previewCv = useMemo(() => (form ? formStateToCv(form) : null), [form]);
-
-  const updateField = (field: keyof EditableCVState, value: string) => {
-    setForm((current) => (current ? { ...current, [field]: value } : current));
-  };
-
-  const updateExperience = (
-    index: number,
-    field: keyof EditableExperience,
-    value: string,
-  ) => {
-    setForm((current) =>
-      current
-        ? {
-            ...current,
-            experiencia: current.experiencia.map((item, itemIndex) =>
-              itemIndex === index ? { ...item, [field]: value } : item,
-            ),
-          }
-        : current,
-    );
-  };
-
-  const updateEducation = (
-    index: number,
-    field: keyof EditableEducation,
-    value: string,
-  ) => {
-    setForm((current) =>
-      current
-        ? {
-            ...current,
-            formacion: current.formacion.map((item, itemIndex) =>
-              itemIndex === index ? { ...item, [field]: value } : item,
-            ),
-          }
-        : current,
-    );
-  };
-
-  const addExperience = () => {
-    setForm((current) =>
-      current && current.experiencia.length < 8
-        ? {
-            ...current,
-            experiencia: [...current.experiencia, { ...emptyExperience }],
-          }
-        : current,
-    );
-  };
-
-  const removeExperience = (index: number) => {
-    setForm((current) =>
-      current && current.experiencia.length > 1
-        ? {
-            ...current,
-            experiencia: current.experiencia.filter((_, itemIndex) => itemIndex !== index),
-          }
-        : current,
-    );
-  };
-
-  const addEducation = () => {
-    setForm((current) =>
-      current && current.formacion.length < 6
-        ? { ...current, formacion: [...current.formacion, { ...emptyEducation }] }
-        : current,
-    );
-  };
-
-  const removeEducation = (index: number) => {
-    setForm((current) =>
-      current
-        ? {
-            ...current,
-            formacion: current.formacion.filter((_, itemIndex) => itemIndex !== index),
-          }
-        : current,
-    );
-  };
+  const previewCv = form;
 
   const handleSave = async () => {
     if (!previewCv) return;
 
+    const edited = validateEditedCv(previewCv);
+    if (!edited.success) {
+      toast.error("Revisá los campos obligatorios y los límites de texto.");
+      return;
+    }
     setIsSaving(true);
 
     try {
       const res = await fetch(`/api/cvs/${cvId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cvData: previewCv, template }),
+        body: JSON.stringify({ cvData: edited.data, template }),
       });
 
       const data = await res.json();
@@ -361,264 +171,8 @@ export function EditSavedCVForm({ cvId }: EditSavedCVFormProps) {
           </Button>
         </div>
 
-        <Card className="border-white/10 bg-[#15151A]/85 text-white">
-          <CardHeader>
-            <CardTitle>Datos principales</CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Nombre completo">
-                <Input
-                  value={form.nombre}
-                  onChange={(event) => updateField("nombre", event.target.value)}
-                  className="border-white/10 bg-[#0F0F10] text-white"
-                />
-              </Field>
-              <Field label="Puesto objetivo">
-                <Input
-                  value={form.puesto}
-                  onChange={(event) => updateField("puesto", event.target.value)}
-                  className="border-white/10 bg-[#0F0F10] text-white"
-                />
-              </Field>
-            </div>
-
-            <Field label="Plantilla">
-              <div className="rounded-2xl border border-white/10 bg-[#0F0F10] px-4 py-3">
-                <p className="text-sm font-semibold text-white">
-                  {getTemplateLabel(template)}
-                </p>
-                <p className="mt-1 text-xs leading-5 text-white/52">
-                  La plantilla queda fija para este CV. Para usar otro diseno,
-                  crea un nuevo CV.
-                </p>
-              </div>
-            </Field>
-
-            <Field label="Contacto">
-              <Textarea
-                value={form.contactoText}
-                onChange={(event) => updateField("contactoText", event.target.value)}
-                rows={4}
-                className="border-white/10 bg-[#0F0F10] text-white"
-                placeholder="Ciudad&#10;email@dominio.com&#10;+54 9 ...&#10;LinkedIn o GitHub"
-              />
-            </Field>
-
-            <Field label="Perfil profesional">
-              <Textarea
-                value={form.sobreMi}
-                onChange={(event) => updateField("sobreMi", event.target.value)}
-                rows={5}
-                className="border-white/10 bg-[#0F0F10] text-white"
-              />
-            </Field>
-          </CardContent>
-        </Card>
-
-        <Card className="border-white/10 bg-[#15151A]/85 text-white">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Experiencia</CardTitle>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={addExperience}
-              disabled={form.experiencia.length >= 8}
-              className="border-white/10 bg-[#0F0F10] text-white hover:bg-white/10"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              Agregar
-            </Button>
-          </CardHeader>
-          <CardContent className="space-y-5">
-            {form.experiencia.map((item, index) => (
-              <div
-                key={index}
-                className="rounded-2xl border border-white/10 bg-[#0F0F10]/70 p-4"
-              >
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-white/78">
-                    Experiencia {index + 1}
-                  </p>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    onClick={() => removeExperience(index)}
-                    disabled={form.experiencia.length <= 1}
-                    className="h-9 text-white/55 hover:bg-red-500/10 hover:text-red-300"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label="Cargo">
-                    <Input
-                      value={item.cargo}
-                      onChange={(event) =>
-                        updateExperience(index, "cargo", event.target.value)
-                      }
-                      className="border-white/10 bg-[#111113] text-white"
-                    />
-                  </Field>
-                  <Field label="Empresa">
-                    <Input
-                      value={item.empresa}
-                      onChange={(event) =>
-                        updateExperience(index, "empresa", event.target.value)
-                      }
-                      className="border-white/10 bg-[#111113] text-white"
-                    />
-                  </Field>
-                  <Field label="Fechas">
-                    <Input
-                      value={item.fechas}
-                      onChange={(event) =>
-                        updateExperience(index, "fechas", event.target.value)
-                      }
-                      className="border-white/10 bg-[#111113] text-white"
-                    />
-                  </Field>
-                  <Field label="Ubicacion">
-                    <Input
-                      value={item.ubicacion}
-                      onChange={(event) =>
-                        updateExperience(index, "ubicacion", event.target.value)
-                      }
-                      className="border-white/10 bg-[#111113] text-white"
-                    />
-                  </Field>
-                </div>
-                <div className="mt-4">
-                  <Field label="Logros o tareas">
-                    <Textarea
-                      value={item.logrosText}
-                      onChange={(event) =>
-                        updateExperience(index, "logrosText", event.target.value)
-                      }
-                      rows={4}
-                      className="border-white/10 bg-[#111113] text-white"
-                      placeholder="Un logro o tarea por linea. Maximo 4."
-                    />
-                  </Field>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card className="border-white/10 bg-[#15151A]/85 text-white">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Formacion</CardTitle>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={addEducation}
-              disabled={form.formacion.length >= 6}
-              className="border-white/10 bg-[#0F0F10] text-white hover:bg-white/10"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              Agregar
-            </Button>
-          </CardHeader>
-          <CardContent className="space-y-5">
-            {form.formacion.map((item, index) => (
-              <div
-                key={index}
-                className="rounded-2xl border border-white/10 bg-[#0F0F10]/70 p-4"
-              >
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-white/78">
-                    Formacion {index + 1}
-                  </p>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    onClick={() => removeEducation(index)}
-                    className="h-9 text-white/55 hover:bg-red-500/10 hover:text-red-300"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label="Titulo">
-                    <Input
-                      value={item.titulo}
-                      onChange={(event) =>
-                        updateEducation(index, "titulo", event.target.value)
-                      }
-                      className="border-white/10 bg-[#111113] text-white"
-                    />
-                  </Field>
-                  <Field label="Institucion">
-                    <Input
-                      value={item.institucion}
-                      onChange={(event) =>
-                        updateEducation(index, "institucion", event.target.value)
-                      }
-                      className="border-white/10 bg-[#111113] text-white"
-                    />
-                  </Field>
-                  <Field label="Fechas">
-                    <Input
-                      value={item.fechas}
-                      onChange={(event) =>
-                        updateEducation(index, "fechas", event.target.value)
-                      }
-                      className="border-white/10 bg-[#111113] text-white"
-                    />
-                  </Field>
-                  <Field label="Ubicacion">
-                    <Input
-                      value={item.ubicacion}
-                      onChange={(event) =>
-                        updateEducation(index, "ubicacion", event.target.value)
-                      }
-                      className="border-white/10 bg-[#111113] text-white"
-                    />
-                  </Field>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card className="border-white/10 bg-[#15151A]/85 text-white">
-          <CardHeader>
-            <CardTitle>Habilidades, idiomas y extras</CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            <Field label="Habilidades">
-              <Textarea
-                value={form.habilidadesText}
-                onChange={(event) => updateField("habilidadesText", event.target.value)}
-                rows={5}
-                className="border-white/10 bg-[#0F0F10] text-white"
-                placeholder="Una habilidad por linea."
-              />
-            </Field>
-            <Field label="Idiomas">
-              <Textarea
-                value={form.idiomasText}
-                onChange={(event) => updateField("idiomasText", event.target.value)}
-                rows={3}
-                className="border-white/10 bg-[#0F0F10] text-white"
-                placeholder="Espanol nativo&#10;Ingles B2"
-              />
-            </Field>
-            <Field label="Informacion adicional">
-              <Textarea
-                value={form.informacionAdicionalText}
-                onChange={(event) =>
-                  updateField("informacionAdicionalText", event.target.value)
-                }
-                rows={4}
-                className="border-white/10 bg-[#0F0F10] text-white"
-                placeholder="Portfolio, certificaciones, disponibilidad o links."
-              />
-            </Field>
-          </CardContent>
-        </Card>
+        <p className="text-sm text-white/62">Plantilla: {getTemplateLabel(template)}. La plantilla queda fija para este CV.</p>
+        <CVContentEditor value={form} onChange={setForm} />
       </div>
 
       <aside className="lg:sticky lg:top-24 lg:self-start">
@@ -640,21 +194,6 @@ export function EditSavedCVForm({ cvId }: EditSavedCVFormProps) {
           </CardContent>
         </Card>
       </aside>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="space-y-2">
-      <Label className="text-sm font-semibold text-white/72">{label}</Label>
-      {children}
     </div>
   );
 }

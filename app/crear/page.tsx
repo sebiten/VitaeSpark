@@ -1,4 +1,5 @@
 import CVForm from "@/components/pdf/CVForm";
+import { isCvTemplateId } from "@/lib/cv-templates";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { normalizeLanguage } from "@/lib/i18n";
@@ -15,6 +16,7 @@ const Page = async ({
     intent?: string;
     resume?: string;
     role?: string;
+    template?: string;
   }>;
 }) => {
   const supabase = await createClient();
@@ -45,6 +47,7 @@ const Page = async ({
           initialLanguage={language}
           initialIntent={initialIntent}
           initialRole={initialRole}
+          initialTemplate={typeof params?.template === "string" && isCvTemplateId(params.template) ? params.template : null}
           initialResumeAction={initialResumeAction}
           currentUser={currentUser}
           guestCheckoutEnabled={isGuestCheckoutEnabled()}

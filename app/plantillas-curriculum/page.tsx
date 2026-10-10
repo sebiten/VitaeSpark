@@ -227,6 +227,14 @@ export default function PlantillasCurriculumPage() {
                     ))}
                   </div>
                 </div>
+                <TrackedCtaLink
+                  href={`/crear?template=${template.id}`}
+                  label="Usar esta plantilla"
+                  sourcePath={path}
+                  sourceType="landing"
+                  trackingLabel={`template_${template.id}`}
+                  className="mt-5 inline-block"
+                />
               </div>
             </div>
           ))}

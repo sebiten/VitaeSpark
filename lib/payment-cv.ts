@@ -1,3 +1,5 @@
+import { CVSchema } from "@/lib/schemas/cv";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 import type { createClient } from "@/utils/supabase/server";
 import type { AppLanguage } from "@/lib/i18n";
 import type { RespuestaCV } from "@/lib/types/cv";
@@ -7,6 +9,7 @@ type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>;
 type PaymentCvInput = {
   supabase: SupabaseServerClient;
   cvId?: string;
+  purchaseKey?: string;
   profileId: string;
   cvData?: RespuestaCV["cv"];
   template?: string;
@@ -25,11 +28,13 @@ type PaymentCvFailure = {
   ok: false;
   status: number;
   error: string;
+  recoveryUrl?: string;
 };
 
 export async function getOrCreatePendingPaymentCv({
   supabase,
   cvId,
+  purchaseKey,
   profileId,
   cvData,
   template,
@@ -38,7 +43,7 @@ export async function getOrCreatePendingPaymentCv({
   if (cvId) {
     const { data: existingCv, error } = await supabase
       .from("cvs")
-      .select("id, template, status")
+      .select("id, template, status, cv_data")
       .eq("id", cvId)
       .eq("profile_id", profileId)
       .single();
@@ -48,7 +53,7 @@ export async function getOrCreatePendingPaymentCv({
     }
 
     if (existingCv.status === "paid") {
-      return { ok: false, status: 409, error: "Este CV ya esta pagado" };
+      return { ok: false, status: 409, error: "Este CV ya esta pagado", recoveryUrl: `/pago/resultado?cv_id=${existingCv.id}` };
     }
 
     if (existingCv.status !== "pending") {
@@ -57,6 +62,28 @@ export async function getOrCreatePendingPaymentCv({
         status: 400,
         error: "Este CV no esta pendiente de pago",
       };
+    }
+
+    // A provider link is bound to this snapshot. Never rewrite it under an
+    // existing order: a late confirmation must still deliver that version.
+    const storedContent = CVSchema.safeParse(existingCv.cv_data);
+    const requestedContent = cvData ? CVSchema.safeParse(cvData) : null;
+    const sameContent =
+      !cvData ||
+      (storedContent.success &&
+        requestedContent?.success &&
+        JSON.stringify(storedContent.data) === JSON.stringify(requestedContent.data) &&
+        (existingCv.cv_data?.language ?? "es") === language);
+    const sameTemplate = !template || template === (existingCv.template || "elegance");
+    if (!sameContent || !sameTemplate) {
+      if (!cvData || !template) {
+        return {
+          ok: false,
+          status: 409,
+          error: "La versión revisada requiere contenido y plantilla",
+        };
+      }
+      return prepareSnapshot(profileId, cvId, cvData, template, language, purchaseKey);
     }
 
     return {
@@ -76,28 +103,17 @@ export async function getOrCreatePendingPaymentCv({
     };
   }
 
-  const { data: cv, error } = await supabase
-    .from("cvs")
-    .insert({
-      profile_id: profileId,
-      cv_data: { ...cvData, language },
-      foto_url: cvData.foto_url,
-      template,
-      status: "pending",
-    })
-    .select("id, template")
-    .single();
+  return prepareSnapshot(profileId, null, cvData, template, language, purchaseKey);
+}
 
-  if (error || !cv) {
-    console.error("Error insertando CV:", error);
-    return { ok: false, status: 500, error: "Error creando CV" };
-  }
-
-  return {
-    ok: true,
-    cv: {
-      id: cv.id,
-      template: cv.template || template,
-    },
-  };
+async function prepareSnapshot(profileId: string, previousId: string | null,
+  cvData: RespuestaCV["cv"], template: string, language: AppLanguage, purchaseKey?: string,
+): Promise<PaymentCvSuccess | PaymentCvFailure> {
+  const { data, error } = await supabaseAdmin.rpc("prepare_payment_cv", {
+    p_profile_id: profileId, p_previous_id: previousId,
+    p_data: { ...CVSchema.parse(cvData), language }, p_template: template,
+    p_purchase_key: purchaseKey ?? null,
+  });
+  if (error || !data) return { ok: false, status: 503, error: "No se pudo preparar la compra. Reintentá sin generar otro CV." };
+  return data as PaymentCvSuccess | PaymentCvFailure;
 }

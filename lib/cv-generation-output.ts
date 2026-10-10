@@ -1,4 +1,5 @@
 type CvGenerationFallback = {
+  experienceMode?: "with-experience" | "no-experience";
   nombre: string;
   puesto: string;
   contacto: string;
@@ -42,13 +43,14 @@ function textList(
 }
 
 function normalizeExperience(value: unknown, fallback: CvGenerationFallback) {
+  if (fallback.experienceMode === "no-experience" || !fallback.experiencia.trim()) return [];
   const source = Array.isArray(value) ? value : [];
   const normalized = source
     .map((entry) => {
       const item = asRecord(entry);
       const logros = textList(item.logros, "", 4, 320);
       return {
-        cargo: text(item.cargo, fallback.puesto, 140),
+        cargo: text(item.cargo, "", 140),
         empresa: text(item.empresa, "", 140),
         fechas: text(item.fechas, "", 80),
         ubicacion: text(item.ubicacion, "", 120),
@@ -58,17 +60,7 @@ function normalizeExperience(value: unknown, fallback: CvGenerationFallback) {
     .filter((item) => item.cargo && item.logros.length > 0)
     .slice(0, 8);
 
-  if (normalized.length > 0) return normalized;
-
-  return [
-    {
-      cargo: text(fallback.puesto, "Experiencia relevante", 140),
-      empresa: "",
-      fechas: "",
-      ubicacion: "",
-      logros: textList(fallback.experiencia, fallback.experiencia, 3, 320),
-    },
-  ];
+  return normalized;
 }
 
 function normalizeEducation(value: unknown, fallback = "") {
@@ -110,7 +102,7 @@ export function normalizeCvGenerationOutput(
     sobreMi: text(result.sobreMi, fallback.sobreMi, 900),
     contacto: textList(result.contacto, fallback.contacto, 8, 240),
     experiencia: normalizeExperience(result.experiencia, fallback),
-    formacion: normalizeEducation(result.formacion, fallback.formacion),
+    formacion: fallback.formacion?.trim() ? normalizeEducation(result.formacion, fallback.formacion) : [],
     habilidades: textList(result.habilidades, fallback.habilidades, 32, 80),
     idiomas: textList(result.idiomas, fallback.idiomas ?? "", 8, 80),
     informacionAdicional: textList(

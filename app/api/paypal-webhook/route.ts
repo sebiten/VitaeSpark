@@ -1,137 +1,35 @@
 import { NextResponse } from "next/server";
-import { recordAnalyticsEventServer } from "@/lib/analytics-events-server";
-import { completeCvPayment } from "@/lib/payment-checkout-session";
-import { isExpectedPayPalPayment } from "@/lib/payment-validation";
 import { verifyPayPalWebhookSignature } from "@/lib/paypal";
-import { supabaseAdmin } from "@/utils/supabase/admin";
-import { ensurePurchaseAccessForCv } from "@/lib/purchase-access";
-import { getPaymentAnalyticsContext } from "@/lib/payment-analytics";
+import { confirmPayPalOrder } from "@/lib/paypal-confirmation";
+import { z } from "zod";
 
-type PayPalWebhookPayload = {
-  event_type?: string;
-  resource?: {
-    id?: string;
-    status?: string;
-    custom_id?: string;
-    amount?: { value?: string; currency_code?: string };
-    payer?: { email_address?: string };
-    supplementary_data?: {
-      related_ids?: {
-        order_id?: string;
-      };
-    };
-  };
-};
+const Payload = z.object({ event_type: z.string(), resource: z.object({
+  id: z.string().optional(), supplementary_data: z.object({ related_ids: z.object({
+    order_id: z.string().optional(),
+  }).optional() }).optional(),
+}).optional() });
 
 export async function POST(req: Request) {
-  let payload: PayPalWebhookPayload;
-
+  const raw = await req.json().catch(() => null);
+  const parsed = Payload.safeParse(raw);
+  if (!parsed.success) return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   try {
-    payload = (await req.json()) as PayPalWebhookPayload;
+    if (!await verifyPayPalWebhookSignature({ headers: req.headers, webhookEvent: raw })) {
+      return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+    }
+    const { event_type, resource } = parsed.data;
+    if (!["CHECKOUT.ORDER.APPROVED", "PAYMENT.CAPTURE.COMPLETED"].includes(event_type)) {
+      return NextResponse.json({ received: true, ignored: true });
+    }
+    const orderId = event_type === "CHECKOUT.ORDER.APPROVED" ? resource?.id
+      : resource?.supplementary_data?.related_ids?.order_id;
+    if (!orderId) return NextResponse.json({ error: "Missing order" }, { status: 400 });
+    const result = await confirmPayPalOrder(orderId, { capture: true, stage: "webhook" });
+    if (result.state !== "paid" && result.state !== "expired" && result.state !== "failure") {
+      return NextResponse.json({ error: "Awaiting confirmation" }, { status: 503 });
+    }
+    return NextResponse.json({ received: true });
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    return NextResponse.json({ error: "Confirmation unavailable" }, { status: 503 });
   }
-
-  const isVerified = await verifyPayPalWebhookSignature({
-    headers: req.headers,
-    webhookEvent: payload,
-  });
-
-  if (!isVerified) {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
-  }
-
-  const { event_type, resource } = payload;
-  if (event_type !== "PAYMENT.CAPTURE.COMPLETED") {
-    return NextResponse.json({ received: true, ignored: true });
-  }
-
-  if (!resource?.id || resource.status !== "COMPLETED") {
-    return NextResponse.json({ error: "Invalid capture" }, { status: 400 });
-  }
-
-  if (
-    !isExpectedPayPalPayment({
-      amount: resource.amount?.value,
-      currency: resource.amount?.currency_code,
-    })
-  ) {
-    console.error("PayPal capture con monto o moneda inesperados:", {
-      payment_id: resource.id,
-      amount: resource.amount,
-    });
-    return NextResponse.json({ error: "Invalid payment amount" }, { status: 400 });
-  }
-
-  const cvId = resource.custom_id;
-  if (!cvId) {
-    console.error("PayPal capture sin custom_id:", resource);
-    return NextResponse.json({ error: "Invalid CV" }, { status: 400 });
-  }
-
-  const { data: cv } = await supabaseAdmin
-    .from("cvs")
-    .select("profile_id, template")
-    .eq("id", cvId)
-    .maybeSingle();
-
-  if (!cv) {
-    console.error("CV no encontrado para capture PayPal:", { cvId });
-    return NextResponse.json({ error: "CV not found" }, { status: 404 });
-  }
-
-  const amount = Number(resource.amount?.value);
-  const payerEmail = resource.payer?.email_address || null;
-
-  let completion: Awaited<ReturnType<typeof completeCvPayment>>;
-  try {
-    completion = await completeCvPayment({
-      cvId,
-      profileId: cv.profile_id,
-      paymentId: resource.id,
-      amount,
-      payerEmail,
-      paymentType: "paypal",
-      provider: "paypal",
-    });
-  } catch (error) {
-    console.error("Error completing PayPal payment:", error);
-    return NextResponse.json({ error: "Database error" }, { status: 500 });
-  }
-
-  await ensurePurchaseAccessForCv(cvId).catch((accessError) => {
-    console.error("No se pudo preparar el acceso postcompra:", accessError);
-  });
-
-  if (!completion.payment_inserted) {
-    return NextResponse.json({ received: true, duplicate: true });
-  }
-
-  const startedEvent = await getPaymentAnalyticsContext({
-    cvId, provider: "paypal", orderId: resource.supplementary_data?.related_ids?.order_id,
-  });
-
-  await recordAnalyticsEventServer({
-    event_name: "payment_completed",
-    attempt_id: startedEvent.attempt_id,
-    stage: "webhook",
-    user_id: cv.profile_id,
-    cv_id: cvId,
-    payment_id: resource.id,
-    template: startedEvent?.template ?? cv.template,
-    language: startedEvent?.language,
-    payment_provider: "paypal",
-    is_guest: startedEvent.is_guest,
-    country_code: startedEvent?.country_code,
-    session_id: startedEvent?.session_id ?? undefined,
-    landing_path: startedEvent?.landing_path,
-    cta_label: startedEvent?.cta_label,
-    source_type: startedEvent?.source_type,
-    utm_source: startedEvent?.utm_source,
-    utm_medium: startedEvent?.utm_medium,
-    utm_campaign: startedEvent?.utm_campaign,
-    utm_content: startedEvent?.utm_content,
-  });
-
-  return NextResponse.json({ received: true });
 }

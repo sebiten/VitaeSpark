@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, UsersRound } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { FloatingRobot } from "./floating-robot";
@@ -112,16 +112,6 @@ export default function WelcomeHero() {
             variants={copyItem}
             className="relative z-10 mt-5 max-w-[36rem] border-t border-[#F6F2EA]/[0.1] pt-4"
           >
-            <div className="flex items-center gap-2.5 text-[13px] text-[#D8D2C8]/[0.7] sm:text-sm">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#D7C8FF]/[0.16] bg-[#7A5CFF]/[0.1] text-[#D7C8FF]">
-                <UsersRound className="h-4 w-4" />
-              </span>
-              <p>
-                <strong className="font-semibold text-[#F6F2EA]">
-                  Más de 500 personas ya eligieron VitaeSpark
-                </strong>
-              </p>
-            </div>
 
             <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-[#D8D2C8]/[0.62] sm:text-[12px]">
               <span>

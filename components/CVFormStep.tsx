@@ -20,19 +20,20 @@ import {
   prepareGuestPhoto,
   preparePhotoBlob,
 } from "@/lib/guest-photo";
+import { getCvFormContext } from "@/lib/cv-form-context";
 import CVFormWizard from "./CVFormWizard";
 
 const createSchema = (language: AppLanguage) =>
   z.object({
     foto_url: z.string().url().optional(),
     nombre: z
-      .string()
+      .string().trim().max(120)
       .min(1, language === "en" ? "Name is required" : "El nombre es obligatorio"),
     puesto: z
-      .string()
+      .string().trim().max(140)
       .min(1, language === "en" ? "Target role is required" : "El puesto es obligatorio"),
     contacto: z
-      .string()
+      .string().trim().max(1200)
       .min(
         1,
         language === "en"
@@ -40,30 +41,28 @@ const createSchema = (language: AppLanguage) =>
           : "La información de contacto es obligatoria",
       ),
     sobreMi: z
-      .string()
+      .string().trim().max(1600)
       .min(
         10,
         language === "en"
           ? "Add a short professional summary"
           : "Contá brevemente quién sos y qué puesto buscás",
       ),
-    experiencia: z
-      .string()
-      .min(
-        20,
-        language === "en"
-            ? "Describe work experience, a project or practical experience"
-            : "Contá una experiencia, proyecto, práctica o trabajo informal",
-      ),
-    formacion: z.string(),
+    experienceMode: z.enum(["with-experience", "no-experience"]).optional(),
+    experiencia: z.string().max(5000),
+    formacion: z.string().max(2400),
     habilidades: z
-      .string()
+      .string().trim().max(1800)
       .min(
         1,
         language === "en" ? "Add at least one skill" : "Incluye al menos una habilidad",
       ),
-    idiomas: z.string(),
-    informacionAdicional: z.string().optional(),
+    idiomas: z.string().max(600),
+    informacionAdicional: z.string().max(1600).optional(),
+  }).superRefine((data, context) => {
+    if (data.experienceMode !== "no-experience" && data.experiencia.trim().length < 20) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["experiencia"], message: language === "en" ? "Describe a real job or project (at least 20 characters)" : "Contá un trabajo o proyecto real (al menos 20 caracteres)" });
+    }
   });
 
 const formCopy = {
@@ -264,6 +263,7 @@ export default function CVFormStep({
         contacto: value.contacto ?? "",
         sobreMi: value.sobreMi ?? "",
         experiencia: value.experiencia ?? "",
+        experienceMode: value.experienceMode ?? "with-experience",
         formacion: value.formacion ?? "",
         habilidades: value.habilidades ?? "",
         idiomas: value.idiomas ?? "",
@@ -388,6 +388,8 @@ export default function CVFormStep({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...data,
+          experienceMode: data.experienceMode ?? "with-experience",
+          experiencia: data.experienceMode === "no-experience" ? "" : data.experiencia,
           template,
           language,
           foto_url: currentUserId ? fotoUrl : undefined,
@@ -487,6 +489,7 @@ export default function CVFormStep({
       contacto: "",
       sobreMi: "",
       experiencia: "",
+      experienceMode: "with-experience",
       formacion: "",
       habilidades: "",
       idiomas: "",
@@ -531,7 +534,7 @@ export default function CVFormStep({
 
   return (
     <CVFormWizard
-      copy={copy}
+      copy={{ ...copy, ...getCvFormContext(form.watch("puesto"), language, form.watch("experienceMode") === "no-experience") }}
       language={language}
       template={template}
       templateName={templateName}
