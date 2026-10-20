@@ -63,6 +63,8 @@ export type PublicSeoRoute = (typeof publicSeoRoutes)[number];
 
 // Fechas de cambios sustanciales de contenido, no de cada despliegue.
 export const seoContentLastModified: Partial<Record<PublicSeoRoute, string>> = {
+  "/curriculum-vitae-ejemplo": "2026-10-20",
+  "/blog/ejemplo-de-curriculum-vitae": "2026-10-20",
   "/cv-para-mineria": "2026-10-02",
   "/cv-para-operario": "2026-10-02",
   "/cv-para-cajero": "2026-10-02",
