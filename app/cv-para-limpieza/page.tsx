@@ -4,13 +4,13 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "CV para Limpieza: Ejemplo, Perfil y Habilidades",
   description:
-    "Arma un CV para limpieza con ejemplo listo, perfil profesional, habilidades, mantenimiento de espacios y opcion sin experiencia.",
+    "Arma un CV para limpieza con ejemplo listo, perfil profesional, habilidades, mantenimiento de espacios y opción sin experiencia.",
   path: "/cv-para-limpieza",
   keywords: [
     "cv para limpieza",
-    "curriculum limpieza",
+    "currículum limpieza",
     "ejemplo cv limpieza",
-    "habilidades limpieza curriculum",
+    "habilidades limpieza currículum",
     "cv operario limpieza",
   ],
   image: "/social/cv-limpieza-ejemplo-og.png",
@@ -25,9 +25,9 @@ export default function CvParaLimpiezaPage() {
   return (
     <MarketingPage
       path="/cv-para-limpieza"
-      eyebrow="CV por profesion"
+      eyebrow="CV por profesión"
       title="CV para limpieza: ejemplo listo con perfil y habilidades"
-      description="Prepara un curriculum de limpieza claro para oficinas, edificios, comercios o casas, con perfil profesional, tareas, productos y disponibilidad."
+      description="Prepara un currículum de limpieza claro para oficinas, edificios, comercios o casas, con perfil profesional, tareas, productos y disponibilidad."
       ctaLabel="Crear mi CV de limpieza"
       conversionGuidance={{
         message:
@@ -38,7 +38,7 @@ export default function CvParaLimpiezaPage() {
       }}
       intro={[
         "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas, y con que rutinas o productos lo hacias.",
-        "VitaeSpark te ayuda a presentar esa experiencia en un curriculum limpieza mas profesional, con perfil claro, habilidades utiles y estructura ATS facil de leer para reclutadores.",
+        "VitaeSpark te ayuda a presentar esa experiencia en un currículum limpieza más profesional, con perfil claro, habilidades útiles y estructura ATS fácil de leer para reclutadores.",
       ]}
       conversionCta={{
         title: "Presenta tus tareas de limpieza con más claridad",
@@ -78,8 +78,8 @@ export default function CvParaLimpiezaPage() {
         {
           title: "CV para limpieza: que poner para que se vea serio",
           paragraphs: [
-            "Suele sumar experiencia en limpieza de espacios, mantenimiento de areas comunes, uso de productos, orden de materiales, cumplimiento de rutinas, reposicion de insumos y cuidado de normas de higiene. Estas tareas deberian aparecer antes que frases genericas como 'buena predisposicion'.",
-            "Si trabajaste en lugares con protocolos especiales, como salud, gastronomia o edificios, conviene aclararlo porque aumenta la relevancia del perfil.",
+            "Suele sumar experiencia en limpieza de espacios, mantenimiento de áreas comunes, uso de productos, orden de materiales, cumplimiento de rutinas, reposición de insumos y cuidado de normas de higiene. Estas tareas deberían aparecer antes que frases genéricas como 'buena predisposicion'.",
+            "Si trabajaste en lugares con protocolos especiales, como salud, gastronomía o edificios, conviene aclararlo porque aumenta la relevancia del perfil.",
           ],
         },
         {
@@ -92,48 +92,48 @@ export default function CvParaLimpiezaPage() {
         {
           title: "Perfil profesional para limpieza",
           paragraphs: [
-            "Una base posible es: 'Perfil orientado a limpieza y mantenimiento de espacios, con experiencia en rutinas de higiene, orden de areas comunes, uso responsable de productos y cumplimiento de indicaciones'.",
+            "Una base posible es: 'Perfil orientado a limpieza y mantenimiento de espacios, con experiencia en rutinas de higiene, orden de áreas comunes, uso responsable de productos y cumplimiento de indicaciones'.",
             "Si no tienes experiencia formal, puedes cambiarlo por: 'Perfil inicial para limpieza, con responsabilidad, disponibilidad horaria, orden, puntualidad y capacidad para seguir rutinas de trabajo'.",
           ],
         },
         {
           title: "Ejemplos de experiencia para limpieza",
           paragraphs: [
-            "Para oficinas o edificios puedes escribir: 'Realice limpieza de espacios comunes, sanitarios y puestos de trabajo, repuse insumos y mantuve ordenados los materiales segun la rutina del lugar'.",
+            "Para oficinas o edificios puedes escribir: 'Realice limpieza de espacios comunes, sanitarios y puestos de trabajo, repuse insumos y mantuve ordenados los materiales según la rutina del lugar'.",
             "Para salud o gastronomía: 'Apliqué rutinas de limpieza y desinfección por sector, separé elementos de trabajo, repuse insumos y cumplí los protocolos y frecuencias indicados'. Usa esta estructura solo si representa tus tareas reales.",
           ],
         },
         {
           title: "Habilidades que suelen valorar",
           paragraphs: [
-            "Entre las habilidades utiles estan atencion al detalle, organizacion, responsabilidad, manejo de productos, higiene, rapidez, cuidado de espacios y cumplimiento de rutinas.",
-            "Conviene incluirlas de forma natural junto a tus tareas reales para que el CV no parezca una lista vacia.",
+            "Entre las habilidades útiles estan atención al detalle, organización, responsabilidad, manejo de productos, higiene, rapidez, cuidado de espacios y cumplimiento de rutinas.",
+            "Conviene incluirlas de forma natural junto a tus tareas reales para que el CV no parezca una lista vacía.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Sirve para limpieza de oficinas?",
+          question: "¿Sirve para limpieza de oficinas?",
           answer:
-            "Si. Tambien se puede adaptar a edificios, comercios, casas, instituciones y empresas.",
+            "Sí. También se puede adaptar a edificios, comercios, casas, instituciones y empresas.",
         },
         {
-          question: "Debo incluir disponibilidad horaria?",
+          question: "¿Debo incluir disponibilidad horaria?",
           answer:
             "Si buscas turnos rotativos, fines de semana o media jornada, puede sumar.",
         },
         {
-          question: "Puedo usarlo sin experiencia formal?",
+          question: "¿Puedo usarlo sin experiencia formal?",
           answer:
-            "Si. Puedes destacar trabajos informales, tareas domesticas, responsabilidad y disponibilidad.",
+            "Sí. Puedes destacar trabajos informales, tareas domesticas, responsabilidad y disponibilidad.",
         },
         {
-          question: "Que poner en perfil profesional de limpieza?",
+          question: "¿Qué poner en perfil profesional de limpieza?",
           answer:
             "Menciona limpieza de espacios, orden, uso de productos, cumplimiento de rutinas, responsabilidad, disponibilidad y el tipo de lugar donde trabajaste o quieres trabajar.",
         },
         {
-          question: "Como hacer un curriculum de limpieza sin experiencia?",
+          question: "¿Cómo hacer un currículum de limpieza sin experiencia?",
           answer:
             "Destaca responsabilidad, puntualidad, disponibilidad, tareas domesticas o informales, cuidado de espacios, seguimiento de indicaciones y referencias si las tienes.",
         },
@@ -142,12 +142,12 @@ export default function CvParaLimpiezaPage() {
         {
           href: "/cv-para-repositor",
           title: "CV para repositor",
-          description: "Otra opcion operativa cercana para comercios y supermercados.",
+          description: "Otra opción operativa cercana para comercios y supermercados.",
         },
         {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",
-          description: "Util para armar un perfil inicial mas solido.",
+          description: "Útil para armar un perfil inicial más solido.",
         },
         {
           href: "/cv-para-operario",

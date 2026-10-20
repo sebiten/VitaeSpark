@@ -1,3 +1,4 @@
+import { seoContentLastModified } from "@/lib/seo-routes";
 import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
@@ -19,7 +20,7 @@ export default function PerfilProfesionalPage() {
   return (
     <BlogArticlePage
       path="/glosario/como-escribir-perfil-profesional"
-      dateModified="2026-06-28"
+      dateModified={seoContentLastModified["/glosario/como-escribir-perfil-profesional"]}
       title="Perfil Profesional para CV: Qué Es y Cómo Escribirlo Bien"
       description="El perfil profesional es la primera sección que lee un reclutador después del título. Aprendé qué poner, cómo adaptarlo a tu experiencia y ejemplos por nivel para que tu CV destaque."
       intro="El perfil profesional es el párrafo inicial del CV que resume quién sos, qué experiencia tenés y qué podés aportar. Debe ser breve, específico y estar adaptado al puesto para que el reclutador entienda rápido el foco de tu candidatura."
@@ -43,9 +44,9 @@ export default function PerfilProfesionalPage() {
         {
           title: "Ejemplos de perfil profesional por nivel de experiencia",
           paragraphs: [
-            "Sin experiencia: 'Egresado de Administración de Empresas con conocimientos en gestión de proyectos y herramientas de Microsoft Office. Habilidad para el análisis de datos y comunicación efectiva. Busco desarrollarme en el área administrativa de una empresa FMCG.'",
-            "Con experiencia media: 'Profesional de marketing digital con 4 años de experiencia en gestión de campañas en Google Ads y Meta Ads. Especializado en seo y content marketing con resultados medibles: aumento del 30% en tráfico orgánico en el último año. Busco aplicar mis conocimientos en una empresa de e-commerce.'",
-            "Perfil senior: 'Director comercial con 10 años de experiencia en el sector farmacéutico. Leadership de equipos de +15 personas y cierre de negocios anuales por $50M. Historial de expansión de cartera de clientes en Latinoamérica. Busco oportunidad como Director de Ventas en empresa multinacional del sector salud.'",
+            "Ejemplos ficticios: reemplaza cargos, formación, años, cifras y herramientas por antecedentes reales. Sin experiencia: 'Egresado de Administración de Empresas con conocimientos en gestión de proyectos y herramientas de Microsoft Office. Habilidad para el análisis de datos y comunicación efectiva. Busco desarrollarme en el área administrativa de una empresa de consumo masivo.'",
+            "Con experiencia media: 'Profesional de marketing digital con 4 años de experiencia en gestión de campañas en Google Ads y Meta Ads. Especializado en SEO y marketing de contenidos con resultados medibles: aumento del 30% en tráfico orgánico en el último año. Busco aplicar mis conocimientos en una empresa de e-commerce.'",
+            "Perfil senior: 'Director comercial con 10 años de experiencia en el sector farmacéutico. Coordinación de equipos de +15 personas y cierre de negocios anuales por $50M. Historial de expansión de cartera de clientes en Latinoamérica. Busco oportunidad como Director de Ventas en empresa multinacional del sector salud.'",
           ],
         },
         {
@@ -77,22 +78,22 @@ export default function PerfilProfesionalPage() {
       ]}
       faqs={[
         {
-          question: "El perfil profesional es obligatorio en un CV?",
+          question: "¿El perfil profesional es obligatorio en un CV?",
           answer:
             "No es obligatorio, pero es altamente recomendado. Si no lo incluís, el reclutador empieza directamente con tu experiencia, sin contexto previo. Un buen perfil acelera la comprensión de tu perfil.",
           },
         {
-          question: "Puedo usar el mismo perfil para todos los CV que envío?",
+          question: "¿Puedo usar el mismo perfil para todos los CV que envío?",
           answer:
             "No es lo ideal. Lo mejor es adaptar ligeramente el perfil a cada oferta, especialmente las palabras clave y el enfoque. Un perfil genérico tiene menos impacto que uno específico.",
           },
         {
-          question: "Un perfil sin experiencia debe ser diferente?",
+          question: "¿Un perfil sin experiencia debe ser diferente?",
           answer:
             "Sí. Sin experiencia, el perfil debe enfocarse en lo que sabes hacer (formación, cursos, habilidades) y en qué sector o rol te querés desarrollar. No en logros laborales porque aún no tenés.",
           },
         {
-          question: "Cuántas líneas debe tener un perfil profesional?",
+          question: "¿Cuántas líneas debe tener un perfil profesional?",
           answer:
             "Entre 3 y 5 líneas es lo ideal. Menos puede ser demasiado escueto; más puede perder impacto. La clave es que cada palabra sume y comunique algo relevante.",
         },

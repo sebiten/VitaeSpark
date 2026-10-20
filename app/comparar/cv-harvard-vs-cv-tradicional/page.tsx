@@ -8,8 +8,8 @@ export const metadata = buildMetadata({
   path: "/comparar/cv-harvard-vs-cv-tradicional",
   keywords: [
     "cv harvard vs cv tradicional",
-    "formato harvard curriculum",
-    "curriculum tradicional vs moderno",
+    "formato harvard currículum",
+    "currículum tradicional vs moderno",
     "mejor formato cv",
   ],
   image: "/social/cv-harvard-vs-tradicional-og.png",
@@ -52,7 +52,7 @@ export default function CvHarvardVsTradicionalPage() {
         {
           title: "Analizá tu nivel de experiencia",
           description:
-            "Harvard funciona bien con trayectorias longas y bien definidas. Si recién arrancás, un formato más moderno podría ayudarte a compensar la falta de experiencia.",
+            "Harvard funciona bien con trayectorias extensas y bien definidas. Si recién arrancás, un formato más moderno podría ayudarte a compensar la falta de experiencia.",
         },
         {
           title: "Testeá ambos formatos con tu contenido real",
@@ -78,7 +78,7 @@ export default function CvHarvardVsTradicionalPage() {
         {
           title: "Comparación directa: Harvard vs Tradicional",
           paragraphs: [
-            "La principal diferencia está en la consistencia. Harvard siempre tiene la misma estructura: datos de contacto, perfil profesional, experiencia, educación y habilidades. Un reclutador sabe exactamente dónde buscar cada cosa.",
+            "En una estructura sobria, la experiencia, la formación y las habilidades se distinguen con encabezados claros. El orden puede variar según el puesto y la trayectoria; no existe una secuencia única que garantice una mejor evaluación.",
             "El formato tradicional puede variar enormemente de un candidato a otro, lo cual puede funcionar bien si el contenido es fuerte, pero puede jugar en contra si la estructura confunde más de lo que ayuda.",
           ],
         },
@@ -92,22 +92,22 @@ export default function CvHarvardVsTradicionalPage() {
       ]}
       faqs={[
         {
-          question: "El CV Harvard es compatible con sistemas ATS?",
+          question: "¿El CV Harvard es compatible con sistemas ATS?",
           answer:
             "Sí. Su estructura estandarizada, sin elementos gráficos ni columnas complejas, lo hace muy compatible con sistemas ATS. Es uno de los formatos más seguros para pasar filtros automáticos.",
         },
         {
-          question: "Puedo usar el formato Harvard si no tengo experiencia?",
+          question: "¿Puedo usar el formato Harvard si no tengo experiencia?",
           answer:
-            "Si, pero necesitas compensar la falta de experiencia con un perfil profesional bien redactado y una seccion de educacion o logros que cubra el espacio. Harvard funciona para todos los niveles, solo hay que saber como estructurar el contenido.",
+            "Sí, pero necesitas compensar la falta de experiencia con un perfil profesional bien redactado y una sección de educación o logros que cubra el espacio. Harvard funciona para todos los niveles, solo hay que saber como estructurar el contenido.",
         },
         {
-          question: "Cuál formato prefieren los reclutadores en Argentina?",
+          question: "¿Cuál formato prefieren los reclutadores en Argentina?",
           answer:
-            "En industrias corporativas y formales (banca, consultoria, derecho, tecnologia empresarial), Harvard suele ser bien recibido. En industrias creativas o startups, hay mas apertura a formatos modernos. Depende del sector.",
+            "En industrias corporativas y formales (banca, consultoria, derecho, tecnologia empresarial), Harvard suele ser bien recibido. En industrias creativas o startups, hay más apertura a formatos modernos. Depende del sector.",
         },
         {
-          question: "El CV tradicional es menos profesional?",
+          question: "¿El CV tradicional es menos profesional?",
           answer:
             "No necesariamente. Un CV tradicional bien redactado puede ser igual de efectivo. El problema es que sin una estructura estandarizada, depende más de la habilidad de quien lo escribe y puede variar mucho en calidad.",
         },

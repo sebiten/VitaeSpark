@@ -8,11 +8,11 @@ export const metadata = buildMetadata({
   path: "/cv-para-operario",
   keywords: [
     "cv para operario",
-    "curriculum operario",
+    "currículum operario",
     "ejemplo cv operario",
-    "habilidades operario curriculum",
-    "cv operario produccion",
-    "cv operario de produccion",
+    "habilidades operario currículum",
+    "cv operario producción",
+    "cv operario de producción",
   ],
 });
 
@@ -20,17 +20,17 @@ export default function CvParaOperarioPage() {
   return (
     <MarketingPage
       path="/cv-para-operario"
-      eyebrow="CV por profesion"
+      eyebrow="CV por profesión"
       title="Currículum de operario de producción: ejemplo y perfil profesional"
       description="Adapta un modelo completo con tareas de línea, controles, herramientas y turnos. Incluye ejemplos de perfil para producción y depósito."
       intro={[
-        "Un curriculum operario de produccion tiene que mostrar rapido que tareas sabes hacer: linea de produccion, deposito, mantenimiento, embalaje, control de calidad, carga y descarga o logistica. Esa claridad suele importar mas que un texto largo.",
-        "VitaeSpark te ayuda a ordenar esas tareas en un CV para operario mas claro, con perfil profesional, habilidades utiles y estructura ATS para empresas industriales, depositos, comercios y servicios.",
+        "Un currículum operario de producción tiene que mostrar rápido que tareas sabes hacer: linea de producción, deposito, mantenimiento, embalaje, control de calidad, carga y descarga o logística. Esa claridad suele importar más que un texto largo.",
+        "VitaeSpark te ayuda a ordenar esas tareas en un CV para operario más claro, con perfil profesional, habilidades útiles y estructura ATS para empresas industriales, depositos, comercios y servicios.",
       ]}
       conversionCta={{
         title: "Crea tu CV de operario con estructura profesional",
         description:
-          "Escribe tus tareas reales y la IA las convierte en experiencia clara, habilidades utiles y un PDF listo para postular.",
+          "Escribe tus tareas reales y la IA las convierte en experiencia clara, habilidades útiles y un PDF listo para postular.",
         label: "Crear mi CV de operario",
       }}
       exampleImage={{
@@ -40,15 +40,15 @@ export default function CvParaOperarioPage() {
           "CV ilustrativo para producción con línea, calidad, herramientas y turnos.",
       }}
       benefits={[
-        "Destaca produccion, deposito, herramientas, procesos y seguridad.",
-        "Sirve para operario general, deposito, logistica, mantenimiento o fabrica.",
-        "Ayuda a mostrar experiencia practica y responsabilidad en formato ATS.",
+        "Destaca producción, deposito, herramientas, procesos y seguridad.",
+        "Sirve para operario general, deposito, logística, mantenimiento o fabrica.",
+        "Ayuda a mostrar experiencia práctica y responsabilidad en formato ATS.",
       ]}
       steps={[
         {
           title: "Define el tipo de operario",
           description:
-            "Aclara si fue produccion, deposito, mantenimiento, logistica o tareas generales.",
+            "Aclara si fue producción, deposito, mantenimiento, logística o tareas generales.",
         },
         {
           title: "Describe tareas y herramientas",
@@ -58,7 +58,7 @@ export default function CvParaOperarioPage() {
         {
           title: "Genera tu CV final",
           description:
-            "Obtienes una version clara para postularte a puestos operativos.",
+            "Obtienes una versión clara para postularte a puestos operativos.",
         },
       ]}
       sections={[
@@ -84,10 +84,10 @@ export default function CvParaOperarioPage() {
           ],
         },
         {
-          title: "Curriculum operario de produccion: que destacar primero",
+          title: "Currículum operario de producción: que destacar primero",
           paragraphs: [
-            "Suele sumar experiencia en produccion, armado, embalaje, control de calidad, deposito, carga y descarga, uso de herramientas, limpieza del sector, mantenimiento basico y cumplimiento de normas de seguridad. Esas tareas explican mejor el perfil que una frase como 'trabajos generales'.",
-            "Si trabajaste por objetivos, turnos rotativos, lineas de produccion o tareas fisicas, conviene incluirlo porque muestra adaptacion al ritmo del puesto.",
+            "Suele sumar experiencia en producción, armado, embalaje, control de calidad, deposito, carga y descarga, uso de herramientas, limpieza del sector, mantenimiento básico y cumplimiento de normas de seguridad. Esas tareas explican mejor el perfil que una frase como 'trabajos generales'.",
+            "Si trabajaste por objetivos, turnos rotativos, lineas de producción o tareas fisicas, conviene incluirlo porque muestra adaptación al ritmo del puesto.",
           ],
         },
         {
@@ -108,8 +108,8 @@ export default function CvParaOperarioPage() {
         {
           title: "Ejemplos de experiencia para operario",
           paragraphs: [
-            "Para produccion, puedes escribir: 'Realice tareas de armado, control visual, embalaje y apoyo en linea de produccion, cumpliendo procedimientos de seguridad, orden del sector y objetivos diarios'.",
-            "Para deposito, una frase util seria: 'Colabore en carga y descarga, preparacion de pedidos, orden de mercaderia, control basico de stock y mantenimiento de espacios operativos limpios y seguros'.",
+            "Para producción, puedes escribir: 'Realice tareas de armado, control visual, embalaje y apoyo en linea de producción, cumpliendo procedimientos de seguridad, orden del sector y objetivos diarios'.",
+            "Para deposito, una frase útil sería: 'Colabore en carga y descarga, preparación de pedidos, orden de mercaderia, control básico de stock y mantenimiento de espacios operativos limpios y seguros'.",
           ],
         },
         {
@@ -129,53 +129,53 @@ export default function CvParaOperarioPage() {
         {
           title: "CV para operario sin experiencia",
           paragraphs: [
-            "Si estas empezando, puedes destacar disponibilidad horaria, responsabilidad, capacidad fisica, estudios tecnicos, cursos, manejo basico de herramientas o experiencias informales relacionadas.",
+            "Si estas empezando, puedes destacar disponibilidad horaria, responsabilidad, capacidad física, estudios técnicos, cursos, manejo básico de herramientas o experiencias informales relacionadas.",
             "Para puestos iniciales, suma mostrar ganas de aprender procesos concretos y cumplir rutinas con orden y puntualidad.",
           ],
         },
         {
           title: "Habilidades de operario que conviene incluir",
           paragraphs: [
-            "Entre las habilidades mas utiles estan cumplimiento de procesos, orden, uso de herramientas, carga y descarga, embalaje, control de calidad, limpieza del sector, seguridad laboral y trabajo por turnos.",
-            "Si tienes cursos de seguridad, conocimientos de maquinaria, licencia de conducir o experiencia con deposito, conviene incluirlo en informacion adicional o experiencia para que no quede perdido.",
+            "Entre las habilidades más útiles estan cumplimiento de procesos, orden, uso de herramientas, carga y descarga, embalaje, control de calidad, limpieza del sector, seguridad laboral y trabajo por turnos.",
+            "Si tienes cursos de seguridad, conocimientos de maquinaria, licencia de conducir o experiencia con deposito, conviene incluirlo en información adicional o experiencia para que no quede perdido.",
           ],
         },
         {
-          title: "Errores comunes en un curriculum operario",
+          title: "Errores comunes en un currículum operario",
           paragraphs: [
-            "Un error frecuente es escribir tareas demasiado generales, como 'trabajos varios'. Conviene nombrar acciones concretas: armado, embalaje, mantenimiento, carga, control, limpieza industrial o preparacion de pedidos.",
-            "Otro problema es no aclarar el contexto. Un operario de fabrica, deposito, mantenimiento o logistica puede tener tareas muy distintas, y el reclutador necesita entender rapido donde encaja tu experiencia.",
+            "Un error frecuente es escribir tareas demasiado generales, como 'trabajos varios'. Conviene nombrar acciones concretas: armado, embalaje, mantenimiento, carga, control, limpieza industrial o preparación de pedidos.",
+            "Otro problema es no aclarar el contexto. Un operario de fabrica, deposito, mantenimiento o logística puede tener tareas muy distintas, y el reclutador necesita entender rápido donde encaja tu experiencia.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Sirve para operario de produccion?",
+          question: "¿Sirve para operario de producción?",
           answer:
-            "Si. Tambien puede adaptarse a deposito, mantenimiento, logistica, embalaje o tareas generales.",
+            "Sí. También puede adaptarse a deposito, mantenimiento, logística, embalaje o tareas generales.",
         },
         {
-          question: "Debo incluir herramientas o maquinaria?",
+          question: "¿Debo incluir herramientas o maquinaria?",
           answer:
-            "Si las usaste, si. Es una de las mejores formas de hacer mas concreto el perfil.",
+            "Si las usaste, si. Es una de las mejores formas de hacer más concreto el perfil.",
         },
         {
-          question: "Puedo usarlo para primer trabajo operativo?",
+          question: "¿Puedo usarlo para primer trabajo operativo?",
           answer:
-            "Si. Conviene reforzar disponibilidad, responsabilidad, estudios tecnicos y habilidades practicas.",
+            "Sí. Conviene reforzar disponibilidad, responsabilidad, estudios técnicos y habilidades prácticas.",
         },
         {
-          question: "Que poner en experiencia de operario?",
+          question: "¿Qué poner en experiencia de operario?",
           answer:
-            "Incluye tareas concretas como produccion, armado, embalaje, deposito, carga y descarga, control de calidad, mantenimiento basico, limpieza del sector y uso de herramientas.",
+            "Incluye tareas concretas como producción, armado, embalaje, deposito, carga y descarga, control de calidad, mantenimiento básico, limpieza del sector y uso de herramientas.",
         },
         {
-          question: "Que habilidades poner en un CV de operario?",
+          question: "¿Qué habilidades poner en un CV de operario?",
           answer:
-            "Orden, responsabilidad, seguridad laboral, uso de herramientas, trabajo por turnos, cumplimiento de procesos, carga y descarga, control de calidad y mantenimiento basico.",
+            "Orden, responsabilidad, seguridad laboral, uso de herramientas, trabajo por turnos, cumplimiento de procesos, carga y descarga, control de calidad y mantenimiento básico.",
         },
         {
-          question: "Como hacer un curriculum operario de produccion mas concreto?",
+          question: "¿Cómo hacer un currículum operario de producción más concreto?",
           answer:
             "Nombra tareas reales como armado, empaque, control visual, deposito, carga y descarga, limpieza del sector, herramientas usadas, turnos y normas de seguridad.",
         },
@@ -188,8 +188,8 @@ export default function CvParaOperarioPage() {
         },
         {
           href: "/blog/errores-en-el-curriculum",
-          title: "Errores que debilitan un curriculum",
-          description: "Revisa tareas genericas, falta de contexto y problemas de lectura antes de enviarlo.",
+          title: "Errores que debilitan un currículum",
+          description: "Revisa tareas genéricas, falta de contexto y problemas de lectura antes de enviarlo.",
         },
         {
           href: "/cv-para-repositor",
@@ -199,12 +199,12 @@ export default function CvParaOperarioPage() {
         {
           href: "/cv-para-operario-sin-experiencia",
           title: "CV para operario sin experiencia",
-          description: "Util si estas armando una version inicial para fabrica o deposito.",
+          description: "Útil si estas armando una versión inicial para fabrica o deposito.",
         },
         {
           href: "/cv-para-mineria",
-          title: "CV para mineria",
-          description: "Util si apuntas a puestos operativos, mantenimiento o terreno.",
+          title: "CV para minería",
+          description: "Útil si apuntas a puestos operativos, mantenimiento o terreno.",
         },
         {
           href: "/cv-para-administrativo",
@@ -214,12 +214,12 @@ export default function CvParaOperarioPage() {
         {
           href: "/",
           title: "Crear CV online",
-          description: "Arma una version profesional lista para descargar.",
+          description: "Arma una versión profesional lista para descargar.",
         },
         {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",
-          description: "Util si buscas tu primer puesto operativo o de fabrica.",
+          description: "Útil si buscas tu primer puesto operativo o de fabrica.",
         },
       ]}
     />

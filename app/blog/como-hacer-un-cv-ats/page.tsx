@@ -1,21 +1,22 @@
+import { seoContentLastModified } from "@/lib/seo-routes";
 import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Cómo Hacer un CV ATS que Pase Filtros Automáticos",
+  title: "Cómo Hacer un CV ATS: Estructura y Revisión del Archivo",
   description:
     "Consejos prácticos para crear un CV ATS con buena estructura, mejor uso de palabras clave y contenido orientado a procesos de selección actuales.",
   path: "/blog/como-hacer-un-cv-ats",
   keywords: [
     "como hacer un cv ats",
     "cv ats",
-    "curriculum ats",
+    "currículum ats",
     "pasar filtros ats",
   ],
   type: "article",
   image: "/social/cv-ats-filtro-og.png",
-  imageAlt: "Cinco reglas para que un CV pueda superar filtros ATS",
-  socialTitle: "Un CV lindo tambien puede fallar el filtro ATS",
+  imageAlt: "Cinco pautas para facilitar la lectura de un CV",
+  socialTitle: "Un CV lindo también puede fallar el filtro ATS",
   socialDescription:
     "Revisa estructura, texto, palabras clave, diseño y archivo antes de enviar tu CV.",
 });
@@ -25,10 +26,10 @@ export default function ComoHacerUnCvAtsPage() {
     <BlogArticlePage
       path="/blog/como-hacer-un-cv-ats"
       datePublished="2025-04-12"
-      dateModified="2026-07-28"
+      dateModified={seoContentLastModified["/blog/como-hacer-un-cv-ats"]}
       image="/social/cv-ats-filtro-og.png"
-      title="Cómo Hacer un CV ATS que Pase Filtros Automáticos y Llegue a Reclutadores"
-      description="Guía práctica con pasos concretos, definiciones claras y ejemplos para crear un curriculum compatible con sistemas ATS y aumentar tus posibilidades de conseguir entrevistas."
+      title="Cómo preparar un CV para facilitar su lectura en sistemas ATS"
+      description="Guía práctica para organizar las secciones, revisar el texto del PDF y describir antecedentes relevantes para la oferta."
       intro="Un ATS es un software que ayuda a las empresas a recibir, ordenar y consultar postulaciones. Para reducir errores de lectura, usá secciones claras, texto seleccionable, títulos estándar y el formato solicitado en la oferta. Ningún diseño garantiza avanzar: el contenido real y su relación con la vacante siguen siendo decisivos."
       sections={[
         {
@@ -43,18 +44,18 @@ export default function ComoHacerUnCvAtsPage() {
           title: "Estructura correcta para que el ATS lea bien tu CV",
           paragraphs: [
             "Una estructura clara facilita que el ATS extraiga tu información correctamente. Usá secciones reconocibles para datos de contacto, perfil profesional, experiencia laboral, educación y habilidades.",
-            "Lo que parece intuitivo para una persona (una columna, un diseño creativo, un título artístico) puede hacer que el ATS no identifique correctamente dónde está tu experiencia laboral. Por ejemplo, si tuvieras el título 'Mi trayectoria profesional' en vez de 'Experiencia Laboral', el sistema podría no detectar esa sección y perder toda esa información.",
+            "Si una sección tiene un nombre ambiguo, puede dificultar identificar su contenido. Usa encabezados reconocibles y comprueba que las fechas y los cargos permanezcan juntos al copiar el texto.",
             "Usá encabezados estándar como 'Experiencia laboral', 'Educación', 'Habilidades técnicas' e 'Idiomas'. Ordená la experiencia desde la más reciente y evitá depender de tablas, imágenes o gráficos para comunicar información esencial.",
-            "Ejemplo de estructura incompatible: un CV con dos columnas, colores en los títulos, fuentes decorativas y una sección de 'Sobre mí' con tipografía especial. Ejemplo de estructura compatible: texto plano con encabezados claros, secciones bien definidas, formato consistente en cada empleo con fechas en el mismo lugar, educación en otro, habilidades en otro.",
+            "Compara el orden del texto extraído con el orden visual del CV. Si se mezclan columnas, cargos o fechas, simplifica el diseño. La apariencia por sí sola no permite certificar compatibilidad con todos los sistemas.",
           ],
         },
         {
           title: "Palabras clave: cómo usarlas sin caer en el spam",
           paragraphs: [
-            "Las palabras clave son el mecanismo principal que usa el ATS para evaluar tu CV. Cuando el reclutador configura la vacante, incluye términos que busca: habilidades técnicas, nombres de software, certificaciones, títulos, herramientas específicas. El ATS busca esas palabras en tu CV y les asigna un puntaje.",
+            "Los sistemas pueden permitir búsquedas por términos y otros filtros definidos por la empresa. Nombra herramientas, tareas y formación con precisión, sin asumir una puntuación universal ni añadir requisitos que no cumples.",
             "Por eso el primer paso antes de enviar cualquier CV es leer la oferta detenidamente. Identificá los términos que aparecen más de una vez, los que mencionan como requisitos obligatorios y los que describen el día a día del puesto. Esas son tus palabras clave objetivo.",
-            "La técnica es integrarlas de forma natural en tu CV. Si la oferta dice 'manejo de CRM Salesforce', tu CV debería decir 'Experiencia con Salesforce para gestión de clientes' en algún lugar. No hace falta repetirlo 20 veces: una mención clara y contextual es más efectiva que forzar keywords sin relación.",
-            "Un error común es usar títulos genéricos como 'liderazgo', 'trabajo en equipo' o 'comunicación'. Esas palabras aparecen en casi todos los CV y no suman puntos. En cambio, 'metodología ágil Scrum', 'Power BI para reporting' o 'gestión de cartera de 50 proveedores' son específicas y contextuales, lo que las hace mucho más valiosas para el ATS.",
+            "Si usaste Salesforce, explica para qué: por ejemplo, registrar consultas y actualizar datos de clientes. Si no lo usaste, no lo incluyas solo porque aparece en el aviso.",
+            "Describe aplicaciones concretas de tus habilidades: por ejemplo, una herramienta utilizada para elaborar reportes. Incluye cifras o nombres de metodologías únicamente si puedes respaldarlos con tu experiencia.",
           ],
         },
         {
@@ -62,7 +63,7 @@ export default function ComoHacerUnCvAtsPage() {
           paragraphs: [
             "El formato de archivo importa porque un documento puede verse bien y, aun así, tener texto difícil de extraer. La primera regla es respetar el tipo de archivo solicitado por la empresa.",
             "Un PDF con texto seleccionable conserva bien la presentación y suele ser aceptado. DOCX también es habitual. Evitá enviar una imagen del CV o formatos propietarios si la oferta no los solicita.",
-            "Otros errores críticos incluyen: usar fuentes no estándar que el sistema no reconoce, incluir macros o código ejecutable (esto puede incluso bloquear el archivo), enviar el CV como enlace a Google Drive o Dropbox en vez del archivo directo (el ATS necesita el archivo, no un enlace), y dejar el archivo con un nombre genérico como 'CV.pdf' en vez de 'Juan_Perez_CV_Marketing.pdf'.",
+            "Respeta las instrucciones de envío y el tipo de archivo aceptado por el portal. Usa un nombre reconocible, como Nombre-Apellido-CV.pdf, y verifica que se abra correctamente; el nombre del archivo no determina tu avance.",
             "Antes de enviar, hacé esta prueba: copiá todo el texto de tu CV y pegalo en un documento de texto plano (como el Bloc de notas). ¿Se mantiene toda la información en orden? ¿Las fechas están donde deberían estar? ¿Las secciones están claras? Si al pegar el texto todo se mezcla o se pierde, el ATS probablemente tendrá el mismo problema.",
           ],
         },
@@ -70,7 +71,7 @@ export default function ComoHacerUnCvAtsPage() {
           title: "Cómo personalizar tu CV para cada oferta sin perder tiempo",
           paragraphs: [
             "No necesitás reescribir tu CV completo para cada aplicación. Lo que necesitás es ajustar las palabras clave y la descripción del perfil para cada puesto específico. Esto puede hacerse en 5 a 10 minutos si ya tenés un CV base bien estructurado.",
-            "El proceso es simple: abrí la oferta, identificá las 5-7 palabras clave más importantes, revisá tu CV base y asegurate de que esas palabras aparezcan al menos una vez en contexto. Ajustá el resumen profesional para reflejar el tono y los requisitos de la vacante. Listo. No hace falta rehacer todo.",
+            "Lee las tareas y requisitos del aviso, selecciona los antecedentes relacionados y revisa que el perfil los resuma con precisión. No necesitas alcanzar una cantidad fija de palabras clave.",
             "Esto no significa exagerar tu experiencia. Si la oferta pide manejo de equipos y vos coordinaste a cinco personas, describí ese dato real y el contexto. La coincidencia de términos nunca debe reemplazar la precisión.",
             "Aplicá este principio: cada palabra de tu CV debe poder justificarse con algo real de tu experiencia. Las palabras clave genéricas y forzadas no solo no suman, sino que pueden hacer que tu CV parezca inflado artificialmente, lo que juega en tu contra tanto con el ATS como con el reclutador humano que eventualmente lo lea.",
           ],
@@ -86,34 +87,34 @@ export default function ComoHacerUnCvAtsPage() {
       ]}
       faqs={[
         {
-          question: "Cuánto tiempo tiene que tener un CV para ATS?",
+          question: "¿Qué extensión conviene para un CV?",
           answer:
-            "La extensión ideal es de 1 a 2 páginas. Menos de una puede parecer incompleto. Más de dos aumenta el riesgo de que el ATS confunda o descarte información. Si tenés mucha experiencia, priorizá lo más relevante para cada puesto.",
+            "La extensión depende de tus antecedentes y de lo solicitado. Una o dos páginas pueden ser suficientes, pero no existe un límite universal de páginas que determine el rechazo de un ATS. Prioriza información relevante y una lectura clara.",
         },
         {
-          question: "Puedo usar el mismo CV para todos los puestos?",
+          question: "¿Puedo usar el mismo CV para todos los puestos?",
           answer:
-            "Podés usar un CV base, pero necesitás personalizar las palabras clave y ajustar el resumen para cada oferta. Un CV genérico con las mismas palabras clave para todos los puestos tiene menos chances de pasar el ATS que uno adaptado a cada aplicación.",
+            "Puedes partir de un CV base y seleccionar antecedentes para cada oferta. Usa el vocabulario del aviso cuando describa tu experiencia real; repetir palabras clave no garantiza avanzar en el proceso.",
         },
         {
-          question: "Las fotos y gráficos arruinan el CV para el ATS?",
+          question: "¿Las fotos y gráficos arruinan el CV para el ATS?",
           answer:
             "No necesariamente, pero la información esencial no debería depender de fotos, íconos o gráficos. Algunos sistemas los ignoran y los diseños complejos pueden alterar el orden del texto. Priorizá una estructura simple y verificable.",
         },
         {
-          question: "PDF o Word: cuál formato es mejor para ATS?",
+          question: "¿PDF o Word: cuál formato es mejor para ATS?",
           answer:
             "Seguí siempre el formato pedido por la empresa. Si no indica uno, un PDF con texto seleccionable suele conservar bien el diseño y DOCX también es ampliamente aceptado.",
         },
         {
-          question: "Cómo sé si mi CV pasó el filtro ATS?",
+          question: "¿Cómo sé si mi CV pasó el filtro ATS?",
           answer:
             "No hay una prueba universal porque cada empresa configura su proceso de manera diferente. Verificar que el texto pueda copiarse en orden ayuda a detectar problemas de formato, pero no garantiza avanzar.",
         },
         {
-          question: "Los ATS rechazan CV buenos por no tener palabras clave exactas?",
+          question: "¿Los ATS rechazan CV buenos por no tener palabras clave exactas?",
           answer:
-            "Sí, puede pasar. El ATS busca coincidencia entre las palabras clave de la vacante y las de tu CV. Si tu experiencia es relevante pero usás términos diferentes a los de la oferta, el sistema puede puntuarte bajo aunque seas un buen candidato. Por eso es clave leer la oferta y alinear tu lenguaje con el de la vacante.",
+            "Cada sistema y cada empresa pueden usar funciones y criterios diferentes. Describe tus herramientas y tareas con nombres claros y relaciona tu experiencia real con el aviso, sin asumir que todos los ATS asignan una puntuación por palabras clave.",
         },
       ]}
       sources={[

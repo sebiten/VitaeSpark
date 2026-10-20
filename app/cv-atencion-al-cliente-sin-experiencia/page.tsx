@@ -2,17 +2,17 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV Atencion al Cliente sin Experiencia: Ejemplo, Perfil y Habilidades",
+  title: "CV Atención al Cliente sin Experiencia: Ejemplo, Perfil y Habilidades",
   description:
-    "Crea un CV para atencion al cliente sin experiencia con ejemplo, perfil profesional, habilidades y formato ATS para primer empleo.",
+    "Crea un CV para atención al cliente sin experiencia con ejemplo, perfil profesional, habilidades y formato ATS para primer empleo.",
   path: "/cv-atencion-al-cliente-sin-experiencia",
   keywords: [
-    "cv atencion al cliente sin experiencia",
-    "curriculum atencion al cliente sin experiencia",
-    "cv para atencion al cliente sin experiencia",
-    "perfil atencion al cliente sin experiencia",
-    "ejemplo cv atencion al cliente sin experiencia",
-    "primer empleo atencion al cliente",
+    "cv atención al cliente sin experiencia",
+    "currículum atención al cliente sin experiencia",
+    "cv para atención al cliente sin experiencia",
+    "perfil atención al cliente sin experiencia",
+    "ejemplo cv atención al cliente sin experiencia",
+    "primer empleo atención al cliente",
   ],
   image: "/social/cv-atencion-sin-experiencia-og.png",
   imageAlt:
@@ -27,11 +27,11 @@ export default function CvAtencionClienteSinExperienciaPage() {
     <MarketingPage
       path="/cv-atencion-al-cliente-sin-experiencia"
       eyebrow="CV sin experiencia"
-      title="CV atencion al cliente sin experiencia: ejemplo, perfil y habilidades"
-      description="Arma un curriculum para atencion al cliente sin experiencia destacando estudios, trato con personas, comunicacion y disponibilidad."
+      title="CV atención al cliente sin experiencia: ejemplo, perfil y habilidades"
+      description="Arma un currículum para atención al cliente sin experiencia destacando estudios, trato con personas, comunicación y disponibilidad."
       intro={[
-        "Para postularte a atencion al cliente sin experiencia, el CV no tiene que inventar trabajo previo. Tiene que mostrar que sabes comunicarte, aprender procesos, tratar con personas y sostener una atencion ordenada desde el primer dia.",
-        "VitaeSpark te ayuda a transformar estudios, cursos, ventas informales, voluntariados, proyectos o experiencias cotidianas en un curriculum mas claro para retail, soporte, recepcion, chat o mostrador.",
+        "Para postularte a atención al cliente sin experiencia, el CV no tiene que inventar trabajo previo. Tiene que mostrar que sabes comunicarte, aprender procesos, tratar con personas y sostener una atención ordenada desde el primer día.",
+        "VitaeSpark te ayuda a transformar estudios, cursos, ventas informales, voluntariados, proyectos o experiencias cotidianas en un currículum más claro para retail, soporte, recepción, chat o mostrador.",
       ]}
       conversionCta={{
         title: "Tu experiencia informal también puede convertirse en un CV",
@@ -46,15 +46,15 @@ export default function CvAtencionClienteSinExperienciaPage() {
           "CV ilustrativo de atención con consultas, seguimiento y comunicación clara.",
       }}
       benefits={[
-        "Te ayuda a destacar habilidades utiles aunque no tengas empleo formal previo.",
-        "Sirve para retail, soporte, recepcion, call center, mostrador y comercios.",
+        "Te ayuda a destacar habilidades útiles aunque no tengas empleo formal previo.",
+        "Sirve para retail, soporte, recepción, call center, mostrador y comercios.",
         "Ordena estudios, cursos, disponibilidad y trato con personas en formato ATS.",
       ]}
       steps={[
         {
-          title: "Define el tipo de atencion",
+          title: "Define el tipo de atención",
           description:
-            "Aclara si apuntas a mostrador, chat, telefono, retail, soporte o recepcion.",
+            "Aclara si apuntas a mostrador, chat, teléfono, retail, soporte o recepción.",
         },
         {
           title: "Convierte experiencias en evidencia",
@@ -64,73 +64,73 @@ export default function CvAtencionClienteSinExperienciaPage() {
         {
           title: "Genera tu CV final",
           description:
-            "Obtienes una version clara para enviar a puestos iniciales de atencion al cliente.",
+            "Obtienes una versión clara para enviar a puestos iniciales de atención al cliente.",
         },
       ]}
       sections={[
         {
-          title: "Que poner en un CV de atencion al cliente sin experiencia",
+          title: "Qué poner en un CV de atención al cliente sin experiencia",
           paragraphs: [
-            "Puedes incluir un perfil breve, estudios, cursos, habilidades de comunicacion, manejo basico de herramientas digitales, idiomas, disponibilidad horaria y cualquier actividad donde hayas respondido consultas, organizado tareas o tratado con personas.",
-            "Tambien sirven experiencias no formales: ventas por redes, ayuda en un negocio familiar, voluntariado, eventos, proyectos escolares o atencion informal. Lo importante es explicarlas con seriedad y sin exagerar.",
+            "Puedes incluir un perfil breve, estudios, cursos, habilidades de comunicación, manejo básico de herramientas digitales, idiomas, disponibilidad horaria y cualquier actividad donde hayas respondido consultas, organizado tareas o tratado con personas.",
+            "También sirven experiencias no formales: ventas por redes, ayuda en un negocio familiar, voluntariado, eventos, proyectos escolares o atención informal. Lo importante es explicarlas con seriedad y sin exagerar.",
           ],
         },
         {
-          title: "Perfil profesional atencion al cliente sin experiencia",
+          title: "Perfil profesional atención al cliente sin experiencia",
           paragraphs: [
-            "Una base posible es: 'Perfil inicial orientado a atencion al cliente, con buena comunicacion, responsabilidad y disposicion para aprender procesos de servicio, seguimiento de consultas y resolucion de necesidades de usuarios'.",
-            "Si apuntas a un puesto concreto, conviene adaptar el texto: no es lo mismo retail, call center, recepcion, soporte por chat o atencion presencial.",
+            "Una base posible es: 'Perfil inicial orientado a atención al cliente, con buena comunicación, responsabilidad y disposición para aprender procesos de servicio, seguimiento de consultas y resolución de necesidades de usuarios'.",
+            "Si apuntas a un puesto concreto, conviene adaptar el texto: no es lo mismo retail, call center, recepción, soporte por chat o atención presencial.",
           ],
         },
         {
-          title: "Ejemplo de CV para atencion al cliente sin experiencia",
+          title: "Ejemplo de CV para atención al cliente sin experiencia",
           paragraphs: [
-            "Una frase util para experiencia o actividades puede ser: 'Brinde atencion a personas en contextos informales y academicos, resolviendo consultas, organizando tareas y manteniendo trato claro y responsable'.",
-            "Si vendiste por redes, ayudaste en un negocio familiar o hiciste voluntariado, explicalo de forma directa. Eso suele funcionar mejor que dejar la seccion vacia.",
+            "Una frase útil para experiencia o actividades puede ser: 'Brinde atención a personas en contextos informales y académicos, resolviendo consultas, organizando tareas y manteniendo trato claro y responsable'.",
+            "Si vendiste por redes, ayudaste en un negocio familiar o hiciste voluntariado, explícalo de forma directa. Eso suele funcionar mejor que dejar la sección vacía.",
           ],
         },
         {
           title: "Habilidades que puedes destacar",
           paragraphs: [
-            "Suelen sumar comunicacion clara, escucha activa, responsabilidad, organizacion, empatia, aprendizaje rapido, manejo basico de computadora, correo, planillas, redes sociales o herramientas de mensajeria.",
-            "Para que el CV se vea mas creible, acompana esas habilidades con contexto: donde las usaste, en que actividad y para que tipo de tarea.",
+            "Suelen sumar comunicación clara, escucha activa, responsabilidad, organización, empatía, aprendizaje rápido, manejo básico de computadora, correo, planillas, redes sociales o herramientas de mensajería.",
+            "Para que el CV se vea más creíble, acompaña esas habilidades con contexto: donde las usaste, en que actividad y para que tipo de tarea.",
           ],
         },
         {
-          title: "Como hacer que el CV no se vea vacio",
+          title: "Cómo hacer que el CV no se vea vacío",
           paragraphs: [
             "Si no tienes empleo formal previo, usa secciones cortas pero concretas: perfil, estudios, cursos, actividades, herramientas, idiomas y disponibilidad. Lo que importa es que el documento explique por que puedes aprender el puesto.",
-            "Tambien conviene enlazar este perfil con roles cercanos como call center, recepcion o primer empleo, para que el CV pueda adaptarse segun la vacante.",
+            "También conviene enlazar este perfil con roles cercanos como call center, recepción o primer empleo, para que el CV pueda adaptarse según la vacante.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Puedo postularme a atencion al cliente sin experiencia?",
+          question: "¿Puedo postularme a atención al cliente sin experiencia?",
           answer:
-            "Si. Muchos puestos iniciales valoran trato cordial, comunicacion, disponibilidad y ganas de aprender procesos.",
+            "Sí. Muchos puestos iniciales valoran trato cordial, comunicación, disponibilidad y ganas de aprender procesos.",
         },
         {
-          question: "Que pongo en experiencia si nunca trabaje?",
+          question: "¿Qué pongo en experiencia si nunca trabaje?",
           answer:
-            "Puedes usar proyectos, voluntariado, ventas informales, ayuda familiar, actividades academicas o una seccion de cursos y habilidades relevantes.",
+            "Puedes usar proyectos, voluntariado, ventas informales, ayuda familiar, actividades académicas o una sección de cursos y habilidades relevantes.",
         },
         {
-          question: "Conviene decir que no tengo experiencia?",
+          question: "¿Conviene decir que no tengo experiencia?",
           answer:
             "No hace falta remarcarlo demasiado. Es mejor enfocar el CV en lo que si puedes aportar y en tu disponibilidad para aprender.",
         },
         {
-          question: "Que habilidades poner en un CV de atencion al cliente sin experiencia?",
+          question: "¿Qué habilidades poner en un CV de atención al cliente sin experiencia?",
           answer:
-            "Comunicacion, escucha activa, responsabilidad, orden, manejo basico de computadora, trato con personas, aprendizaje rapido e idiomas si aplican.",
+            "Comunicación, escucha activa, responsabilidad, orden, manejo básico de computadora, trato con personas, aprendizaje rápido e idiomas si aplican.",
         },
       ]}
       relatedLinks={[
         {
           href: "/blog/que-poner-en-un-curriculum",
-          title: "Que poner en un curriculum",
-          description: "Ordena las secciones esenciales cuando todavia no tienes experiencia formal.",
+          title: "Qué poner en un currículum",
+          description: "Ordena las secciones esenciales cuando todavía no tienes experiencia formal.",
         },
         {
           href: "/cv-para-atencion-al-cliente",
@@ -140,17 +140,17 @@ export default function CvAtencionClienteSinExperienciaPage() {
         {
           href: "/cv-call-center",
           title: "CV para call center",
-          description: "Util si apuntas a soporte telefonico, chat o ventas remotas.",
+          description: "Útil si apuntas a soporte telefónico, chat o ventas remotas.",
         },
         {
           href: "/cv-para-recepcionista-sin-experiencia",
           title: "CV para recepcionista sin experiencia",
-          description: "Buena alternativa si apuntas a agenda, front desk o atencion presencial.",
+          description: "Buena alternativa si apuntas a agenda, front desk o atención presencial.",
         },
         {
           href: "/cv-para-primer-empleo",
           title: "CV para primer empleo",
-          description: "Complementa esta pagina si estas buscando tu primera oportunidad.",
+          description: "Complementa esta página si estas buscando tu primera oportunidad.",
         },
       ]}
     />

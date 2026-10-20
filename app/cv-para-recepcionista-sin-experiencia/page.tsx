@@ -8,7 +8,7 @@ export const metadata = buildMetadata({
   path: "/cv-para-recepcionista-sin-experiencia",
   keywords: [
     "cv para recepcionista sin experiencia",
-    "curriculum recepcionista sin experiencia",
+    "currículum recepcionista sin experiencia",
     "cv recepcionista sin experiencia",
     "perfil recepcionista sin experiencia",
     "ejemplo cv recepcionista sin experiencia",
@@ -59,7 +59,7 @@ export default function CvParaRecepcionistaSinExperienciaPage() {
           title: "Qué poner en un CV de recepcionista sin experiencia",
           paragraphs: [
             "Podés incluir estudios en administración, turismo, comunicaciones o carreras afines. También cursos de atención al cliente, manejo de herramientas informáticas, idiomas y disponibilidad horaria.",
-            "Si atendiste personas en algún contexto (voluntariado, trabajo informal, actividades académicas), inclúyelo highlighting tu capacidad de comunicación y organización.",
+            "Si atendiste personas en algún contexto (voluntariado, trabajo informal, actividades académicas), inclúyelo destacando tu capacidad de comunicación y organización.",
           ],
         },
         {
@@ -73,23 +73,23 @@ export default function CvParaRecepcionistaSinExperienciaPage() {
           title: "Habilidades clave para recepcionistas sin experiencia",
           paragraphs: [
             "Comunicación verbal y escrita, Organización y gestión del tiempo, Manejo de información confidencial, Trato cordial y profesional, Microsoft Office básico, Capacidad de aprendizaje rápido, Disponibilidad horaria.",
-            "Idiomas son siempre un plus, especialmente inglés. Si tenés algún nivel, incluyanlo aunque sea básico.",
+            "Idiomas son siempre un plus, especialmente inglés. Si tenés algún nivel, inclúyelos aunque sea básico.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Puedo trabajar de recepcionista sin experiencia?",
+          question: "¿Puedo trabajar de recepcionista sin experiencia?",
           answer:
             "Sí. Muchos hoteles, clínicas y oficinas contratan perfiles iniciales que muestren buena presencia, comunicación clara y disposición para aprender.",
         },
         {
-          question: "Qué importa más en un CV de recepcionista inicial?",
+          question: "¿Qué importa más en un CV de recepcionista inicial?",
           answer:
             "La presentación personal, la comunicación, la organización y la disponibilidad. Si no tenés experiencia, tu perfil y tus estudios pueden compensar.",
         },
         {
-          question: "Necesito saber idiomas para ser recepcionista?",
+          question: "¿Necesito saber idiomas para ser recepcionista?",
           answer:
             "Depende del lugar. Los hoteles y las oficinas con atención internacional suelen requerir inglés. Para contextos locales, un español claro y buena dicción pueden ser suficientes.",
         },

@@ -8,7 +8,7 @@ export const metadata = buildMetadata({
   path: "/cv-para-vendedor-sin-experiencia",
   keywords: [
     "cv para vendedor sin experiencia",
-    "curriculum vendedor sin experiencia",
+    "currículum vendedor sin experiencia",
     "cv vendedor sin experiencia",
     "perfil vendedor sin experiencia",
     "ejemplo cv vendedor sin experiencia",
@@ -21,7 +21,7 @@ export default function CvParaVendedorSinExperienciaPage() {
       path="/cv-para-vendedor-sin-experiencia"
       eyebrow="CV sin experiencia"
       title="CV para vendedor sin experiencia: ejemplo y habilidades"
-      description="Destacá tu perfil comercial aunque sea tu primera experiencia laboral. Enfocá comunicación, orientación a resultados, manejo de objections y disposición para aprender."
+      description="Destacá tu perfil comercial aunque sea tu primera experiencia laboral. Enfocá comunicación, orientación a resultados, manejo de objeciones y disposición para aprender."
       intro={[
         "Un puesto de vendedor suele requerir resultados concretos, pero hay formas de presentar tu potencial aunque no tengas números previos. Lo que valoran los reclutadores en perfiles sin experiencia es la comunicación, la orientación a objetivos, la capacidad de negociación y el aprendizaje rápido.",
         "VitaeSpark te ayuda a construir un CV que comunique tu potencial comercial y que se vea profesional desde el primer envío.",
@@ -46,7 +46,7 @@ export default function CvParaVendedorSinExperienciaPage() {
         {
           title: "Resaltá habilidades transferibles",
           description:
-            "Comunicación, manejo deobjeciones, orientación a metas, trabajo en equipo y capacidad de aprendizaje son relevantes aunque no tengas experiencia formal.",
+            "Comunicación, manejo de objeciones, orientación a metas, trabajo en equipo y capacidad de aprendizaje son relevantes aunque no tengas experiencia formal.",
         },
         {
           title: "Generá tu CV profesional",
@@ -65,31 +65,31 @@ export default function CvParaVendedorSinExperienciaPage() {
         {
           title: "Ejemplo de perfil para vendedor inicial",
           paragraphs: [
-            "Una base util puede ser: 'Perfil orientado a ventas con habilidades de comunicación, negociación y orientación a resultados. Capacidad para aprender procesos comerciales rapidamente y gestionarobjeciones de forma efectiva.'.",
+            "Una base útil puede ser: 'Perfil orientado a ventas con habilidades de comunicación, negociación y orientación a resultados. Capacidad para aprender procesos comerciales rápidamente y gestionar objeciones de forma efectiva'.",
             "Ajustá el perfil al canal donde quieres trabajar: retail, call center, e-commerce o venta directa.",
           ],
         },
         {
           title: "Habilidades clave para vendedores sin experiencia",
           paragraphs: [
-            "Comunicación, Orientación a resultados, Manejo deobjeciones, Trabajo en equipo, Resiliencia, Capacidad de aprendizaje, Conocimiento de herramientas digitales básicas.",
-            "Incluir disponibilidad horaria, willingness para travel si aplica, y actitud positiva hacia metas comerciales genera buena impresión en reclutadores.",
+            "Comunicación, Orientación a resultados, Manejo de objeciones, Trabajo en equipo, Resiliencia, Capacidad de aprendizaje, Conocimiento de herramientas digitales básicas.",
+            "Incluir disponibilidad horaria, disponibilidad para viajar si corresponde, y actitud positiva hacia metas comerciales genera buena impresión en reclutadores.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Puedo ser vendedor sin experiencia previa?",
+          question: "¿Puedo ser vendedor sin experiencia previa?",
           answer:
-            "Sí. Many positions welcome profiles with strong communication skills and a results-oriented mindset, even without formal sales experience.",
+            "Hay búsquedas de ventas iniciales que no exigen experiencia. Revisa los requisitos del aviso y muestra una actividad real en la que hayas atendido consultas o explicado un producto.",
         },
         {
-          question: "Debo inventar logros de ventas?",
+          question: "¿Debo inventar logros de ventas?",
           answer:
             "No. En vez de inventar números, destacá habilidades transferibles, actitud y capacidad de aprendizaje. Los reclutadores saben distinguir un perfil inicial.",
         },
         {
-          question: "Qué tipo de empresas contratan vendedores sin experiencia?",
+          question: "¿Qué tipo de empresas contratan vendedores sin experiencia?",
           answer:
             "Retail, call center, e-commerce, empresas de servicios, tiendas y venta directa suelen contratar perfiles iniciales con buena actitud y comunicación.",
         },

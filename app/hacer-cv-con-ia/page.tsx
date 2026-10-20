@@ -10,8 +10,8 @@ export const metadata = buildMetadata({
     "crear cv con ia",
     "hacer cv con ia",
     "generador de cv con ia",
-    "generador de curriculum con ia",
-    "curriculum con ia",
+    "generador de currículum con ia",
+    "currículum con ia",
     "crear cv con inteligencia artificial",
   ],
 });
@@ -108,19 +108,19 @@ export default function HacerCvConIaPage() {
         },
         {
           href: "/curriculum-ats",
-          title: "Curriculum compatible con ATS",
+          title: "Currículum compatible con ATS",
           description:
             "Entendé cómo ordenar el contenido para sistemas de selección y reclutadores.",
         },
         {
           href: "/plantillas-curriculum",
-          title: "Plantillas de curriculum",
+          title: "Plantillas de currículum",
           description:
             "Compará formatos profesionales antes de elegir el diseño de tu CV.",
         },
         {
           href: "/blog/perfil-profesional-para-cv",
-          title: "Como escribir el perfil profesional",
+          title: "Cómo escribir el perfil profesional",
           description:
             "Aprendé qué información necesita el primer bloque de tu currículum.",
         },

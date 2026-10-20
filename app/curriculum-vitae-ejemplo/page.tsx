@@ -5,7 +5,7 @@ export const metadata = buildMetadata({
   title: "Ejemplos de Currículum Vitae para Copiar y Adaptar",
   description: "Dos ejemplos completos de currículum vitae: con experiencia y para primer empleo. Copia el texto y adapta perfil, formación y habilidades a tu puesto.",
   path: "/curriculum-vitae-ejemplo",
-  keywords: ["ejemplos de curriculum vitae", "curriculum completo", "cv con experiencia", "ejemplo cv primer empleo"],
+  keywords: ["ejemplos de currículum vitae", "currículum completo", "cv con experiencia", "ejemplo cv primer empleo"],
 });
 
 export default function CurriculumVitaeEjemploPage() {

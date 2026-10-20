@@ -8,12 +8,12 @@ export const metadata = buildMetadata({
   path: "/cv-para-seguridad",
   keywords: [
     "cv para seguridad",
-    "curriculum seguridad",
+    "currículum seguridad",
     "cv vigilador",
     "cv para vigilador",
-    "curriculum vigilador",
+    "currículum vigilador",
     "ejemplo cv seguridad",
-    "habilidades seguridad curriculum",
+    "habilidades seguridad currículum",
     "cv de seguridad",
   ],
 });
@@ -22,7 +22,7 @@ export default function CvParaSeguridadPage() {
   return (
     <MarketingPage
       path="/cv-para-seguridad"
-      eyebrow="CV por profesion"
+      eyebrow="CV por profesión"
       title="CV para seguridad: ejemplo, perfil y habilidades de vigilador"
       description="Armá un currículum para seguridad o vigilador destacando control de accesos, recorridas, prevención, cámaras, registro de novedades y responsabilidad."
       intro={[
@@ -36,7 +36,7 @@ export default function CvParaSeguridadPage() {
           "CV ilustrativo de seguridad con accesos, rondas, CCTV y protocolos.",
       }}
       benefits={[
-        "Destaca control de accesos, prevencion, recorridas y registro de novedades.",
+        "Destaca control de accesos, prevención, recorridas y registro de novedades.",
         "Sirve para seguridad privada, vigilancia, consorcios, comercios y empresas.",
         "Ayuda a mostrar responsabilidad y criterio con formato ATS.",
       ]}
@@ -54,22 +54,22 @@ export default function CvParaSeguridadPage() {
         {
           title: "Genera tu CV final",
           description:
-            "Obtienes una version clara para postularte en seguridad privada o vigilancia.",
+            "Obtienes una versión clara para postularte en seguridad privada o vigilancia.",
         },
       ]}
       sections={[
         {
-          title: "CV de seguridad: que destacar para que se entienda rapido",
+          title: "CV de seguridad: que destacar para que se entienda rápido",
           paragraphs: [
-            "Suele sumar experiencia en control de accesos, registro de visitantes, monitoreo de camaras, rondas preventivas, informes de novedades, cumplimiento de protocolos y comunicacion con superiores.",
+            "Suele sumar experiencia en control de accesos, registro de visitantes, monitoreo de camaras, rondas preventivas, informes de novedades, cumplimiento de protocolos y comunicación con superiores.",
             "Si tienes cursos, habilitaciones, registro de conducir o experiencia nocturna, conviene incluirlo porque puede ser diferencial.",
           ],
         },
         {
           title: "Perfil profesional para seguridad",
           paragraphs: [
-            "Una base util puede ser: 'Perfil orientado a seguridad y vigilancia, con experiencia en control de accesos, recorridas preventivas, registro de novedades y atencion responsable ante situaciones operativas'.",
-            "No conviene exagerar. En este tipo de CV suma mas la claridad, la responsabilidad y el contexto real de tus tareas.",
+            "Una base útil puede ser: 'Perfil orientado a seguridad y vigilancia, con experiencia en control de accesos, recorridas preventivas, registro de novedades y atención responsable ante situaciones operativas'.",
+            "No conviene exagerar. En este tipo de CV suma más la claridad, la responsabilidad y el contexto real de tus tareas.",
           ],
         },
         {
@@ -96,41 +96,41 @@ export default function CvParaSeguridadPage() {
         {
           title: "Habilidades de seguridad que suman",
           paragraphs: [
-            "Entre las habilidades mas utiles estan control de accesos, observacion, registro de novedades, trato respetuoso, cumplimiento de protocolos, monitoreo, recorridas, comunicacion clara y respuesta ordenada ante incidentes.",
-            "Si tienes curso de vigilador, habilitacion, manejo de camaras, licencia de conducir o experiencia nocturna, conviene incluirlo para que el CV sea mas competitivo.",
+            "Entre las habilidades más útiles estan control de accesos, observacion, registro de novedades, trato respetuoso, cumplimiento de protocolos, monitoreo, recorridas, comunicación clara y respuesta ordenada ante incidentes.",
+            "Si tienes curso de vigilador, habilitacion, manejo de camaras, licencia de conducir o experiencia nocturna, conviene incluirlo para que el CV sea más competitivo.",
           ],
         },
         {
-          title: "Errores comunes en un curriculum de seguridad",
+          title: "Errores comunes en un currículum de seguridad",
           paragraphs: [
             "Un error frecuente es escribir un perfil demasiado agresivo o exagerado. Para seguridad privada suele funcionar mejor transmitir criterio, calma, responsabilidad y cumplimiento de procedimientos.",
-            "Tambien conviene evitar dejar tareas en abstracto. El reclutador necesita leer control de accesos, rondas, camaras, informes, registro de visitantes o respuesta ante novedades si eso forma parte de tu experiencia.",
+            "También conviene evitar dejar tareas en abstracto. El reclutador necesita leer control de accesos, rondas, camaras, informes, registro de visitantes o respuesta ante novedades si eso forma parte de tu experiencia.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Sirve para vigilador privado?",
+          question: "¿Sirve para vigilador privado?",
           answer:
-            "Si. Puedes adaptar el perfil a vigilador, control de accesos, consorcios, eventos o comercios.",
+            "Sí. Puedes adaptar el perfil a vigilador, control de accesos, consorcios, eventos o comercios.",
         },
         {
-          question: "Debo incluir cursos de seguridad?",
+          question: "¿Debo incluir cursos de seguridad?",
           answer:
-            "Si los tienes, si. Tambien suma cualquier habilitacion o capacitacion relacionada.",
+            "Si los tienes, si. También suma cualquier habilitacion o capacitación relacionada.",
         },
         {
-          question: "Puedo usarlo si busco mi primer trabajo en seguridad?",
+          question: "¿Puedo usarlo si busco mi primer trabajo en seguridad?",
           answer:
-            "Si. Conviene reforzar responsabilidad, disponibilidad, puntualidad y habilidades de observacion.",
+            "Sí. Conviene reforzar responsabilidad, disponibilidad, puntualidad y habilidades de observacion.",
         },
         {
-          question: "Que habilidades poner en un CV de seguridad?",
+          question: "¿Qué habilidades poner en un CV de seguridad?",
           answer:
-            "Control de accesos, recorridas, monitoreo, observacion, registro de novedades, cumplimiento de protocolos, trato con personas y comunicacion clara.",
+            "Control de accesos, recorridas, monitoreo, observacion, registro de novedades, cumplimiento de protocolos, trato con personas y comunicación clara.",
         },
         {
-          question: "Como escribir experiencia de vigilador?",
+          question: "¿Cómo escribir experiencia de vigilador?",
           answer:
             "Menciona lugar o contexto, control de ingresos, rondas, monitoreo, informes, registro de visitantes, respuesta a novedades y cumplimiento de protocolos.",
         },
@@ -139,12 +139,12 @@ export default function CvParaSeguridadPage() {
         {
           href: "/cv-para-recepcionista",
           title: "CV para recepcionista",
-          description: "Cercano si tu experiencia incluye control de ingreso y atencion.",
+          description: "Cercano si tu experiencia incluye control de ingreso y atención.",
         },
         {
           href: "/cv-para-seguridad-sin-experiencia",
           title: "CV para seguridad sin experiencia",
-          description: "Util si estas entrando por primera vez al sector.",
+          description: "Útil si estas entrando por primera vez al sector.",
         },
         {
           href: "/",
@@ -159,7 +159,7 @@ export default function CvParaSeguridadPage() {
         {
           href: "/cv-para-primer-empleo",
           title: "CV para primer empleo",
-          description: "Util si estas armando una primera postulacion seria.",
+          description: "Útil si estas armando una primera postulación sería.",
         },
         {
           href: "/cv-para-administrativo",

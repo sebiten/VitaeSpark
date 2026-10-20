@@ -83,7 +83,7 @@ export default function WelcomeHero() {
             variants={copyItem}
             className="relative z-10 mt-6 max-w-[35rem] text-pretty text-base leading-7 text-[#D8D2C8]/[0.76] sm:text-xl sm:leading-8"
           >
-            Ordena tu experiencia, mejora la redaccion y edita tu CV despues
+            Ordena tu experiencia, mejora la redacción y edita tu CV después
             desde tu perfil.
           </motion.p>
 

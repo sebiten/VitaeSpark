@@ -8,7 +8,7 @@ export const metadata = buildMetadata({
   path: "/cv-para-operario-sin-experiencia",
   keywords: [
     "cv para operario sin experiencia",
-    "curriculum operario sin experiencia",
+    "currículum operario sin experiencia",
     "cv operario sin experiencia",
     "perfil operario sin experiencia",
     "ejemplo cv operario sin experiencia",
@@ -41,7 +41,7 @@ export default function CvParaOperarioSinExperienciaPage() {
         {
           title: "Definí el sector operativo",
           description:
-            "Considerá si apuntás a producción, almacén, logística, empaque o manufacturing. Cada sector tiene requisitos distintos en cuanto a seguridad y procedimientos.",
+            "Considerá si apuntás a producción, almacén, logística, empaque o manufactura. Cada sector tiene requisitos distintos en cuanto a seguridad y procedimientos.",
         },
         {
           title: "Resaltá habilidades operativas transferibles",
@@ -59,7 +59,7 @@ export default function CvParaOperarioSinExperienciaPage() {
           title: "Qué poner en un CV de operario sin experiencia",
           paragraphs: [
             "Podés incluir estudios técnicos, cursos de seguridad e higiene, licencias de conducir si tenés, y cualquier actividad que muestre responsabilidad y trabajo en equipo.",
-            "Si participaste en actividades agrícolas, construction de apoyo, mantenimiento del hogar, o cualquier tarea física, podés presentarlas como experiencia relevante mostrando habilidades transferibles.",
+            "Si participaste en actividades agrícolas, apoyo en construcción, mantenimiento del hogar, o cualquier tarea física, podés presentarlas como experiencia relevante mostrando habilidades transferibles.",
           ],
         },
         {
@@ -72,26 +72,26 @@ export default function CvParaOperarioSinExperienciaPage() {
         {
           title: "Habilidades clave para operarios sin experiencia",
           paragraphs: [
-            "Puntualidad y responsabilidad, Capacidad de aprendizaje rápido, Trabajo en equipo, Disposición física,following de instrucciones, Conocimiento básico de seguridad e higiene, Disponibilidad para turnos rotativos.",
+            "Puntualidad y responsabilidad, Capacidad de aprendizaje rápido, Trabajo en equipo, Disposición física, seguimiento de instrucciones, Conocimiento básico de seguridad e higiene, Disponibilidad para turnos rotativos.",
             "Licencia de conducir, cursos de mantenimiento, manejo de herramientas básicas y conocimiento de normas de seguridad son siempre un plus.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Puedo trabajar como operario sin experiencia?",
+          question: "¿Puedo trabajar como operario sin experiencia?",
           answer:
             "Sí. Muchas fábricas, almacenes y empresas de producción contratan perfiles iniciales que muestren responsabilidad, disposición física y capacidad de aprendizaje.",
         },
         {
-          question: "Qué es más importante en un CV de operario: experiencia o actitud?",
+          question: "¿Qué es más importante en un CV de operario: experiencia o actitud?",
           answer:
-            "La actitud. La responsabilidad, la puntualidad y la disposición para aprender pesan más que la experiencia formal en puestos operarios.",
+            "Depende de los requisitos del puesto. Si el aviso acepta postulantes sin experiencia, muestra cómo seguiste instrucciones y cumpliste tareas en estudios, proyectos o actividades reales. No atribuyas manejo de máquinas que no utilizaste.",
         },
         {
-          question: "Necesito estudios técnicos para ser operario?",
+          question: "¿Necesito estudios técnicos para ser operario?",
           answer:
-            "No siempre. Many posiciones accept profiles with basic education, cursos de seguridad, y disposición para aprender. Estudios técnicos son un plus especialmente en posiciones más especializadas.",
+            "Depende del puesto. Revisa el nivel educativo y las capacitaciones que solicita el aviso. Indica tus estudios reales y distingue los cursos completados de los que aún estás realizando.",
         },
       ]}
       relatedLinks={[

@@ -10,12 +10,12 @@ export const metadata = buildMetadata({
   keywords: [
     "creador de cv",
     "creador de cv online",
-    "creador de curriculum",
+    "creador de currículum",
     "generador de cv",
-    "crear curriculum online",
+    "crear currículum online",
     "crear cv online",
-    "hacer curriculum vitae",
-    "curriculum ats",
+    "hacer currículum vitae",
+    "currículum ats",
     "crear cv con ia",
     "cv editable online",
   ],
@@ -55,7 +55,7 @@ export default function GeneradorCV() {
         name: "Sirve si no tengo experiencia?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Si. Puedes armar un CV inicial destacando estudios, cursos, proyectos, habilidades y disponibilidad.",
+          text: "Sí. Puedes armar un CV inicial destacando estudios, cursos, proyectos, habilidades y disponibilidad.",
         },
       },
       {
@@ -68,10 +68,10 @@ export default function GeneradorCV() {
       },
       {
         "@type": "Question",
-        name: "Puedo editarlo despues?",
+        name: "Puedo editarlo después?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Si. El CV queda guardado en tu perfil para editar datos y descargar nuevas versiones en PDF con la plantilla elegida.",
+          text: "Sí. El CV queda guardado en tu perfil para editar datos y descargar nuevas versiones en PDF con la plantilla elegida.",
         },
       },
       {
@@ -89,7 +89,7 @@ export default function GeneradorCV() {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name: "Cómo crear tu CV online con VitaeSpark",
-    description: "Paso a paso para generar un curriculum profesional editable con IA, estructura ATS y descarga en PDF.",
+    description: "Paso a paso para generar un currículum profesional editable con IA, estructura ATS y descarga en PDF.",
     step: [
       {
         "@type": "HowToStep",

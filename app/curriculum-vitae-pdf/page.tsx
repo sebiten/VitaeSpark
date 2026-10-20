@@ -8,12 +8,12 @@ export const metadata = buildMetadata({
     `Crea, edita y descarga tu curriculum vitae en PDF con formato profesional, compatible con ATS y listo para enviar. ${PRICING.copy.seoLine}`,
   path: "/curriculum-vitae-pdf",
   keywords: [
-    "curriculum vitae pdf",
+    "currículum vitae pdf",
     "cv en pdf",
-    "descargar curriculum pdf",
-    "curriculum pdf",
+    "descargar currículum pdf",
+    "currículum pdf",
     "exportar cv a pdf",
-    "formato pdf curriculum",
+    "formato pdf currículum",
     "cv pdf ats",
   ],
 });
@@ -23,8 +23,8 @@ export default function CurriculumVitaePdfPage() {
     <MarketingPage
       path="/curriculum-vitae-pdf"
       eyebrow="CV en PDF"
-      title="Curriculum vitae en PDF editable listo para enviar a vacantes reales"
-      description="Prepará un CV profesional, editalo desde tu perfil y descargalo en PDF con estructura clara y formato compatible con ATS."
+      title="Currículum vitae en PDF editable listo para enviar a vacantes reales"
+      description="Prepará un CV profesional, edítalo desde tu perfil y descárgalo en PDF con estructura clara y formato compatible con ATS."
       intro={[
         "El formato PDF sigue siendo una de las formas más prácticas y profesionales de enviar un currículum. Mantiene la estructura, evita cambios inesperados y transmite una imagen más cuidada en procesos de selección.",
         "VitaeSpark te permite llegar a ese resultado sin tener que resolver por separado contenido, diseño y exportación. Todo el flujo está orientado a terminar con un CV útil, claro y listo para compartir, con texto real que los sistemas ATS pueden leer.",
@@ -32,7 +32,7 @@ export default function CurriculumVitaePdfPage() {
       benefits={[
         "Mantiene el formato del CV tal como lo preparaste, sin desajustes.",
         "Se ve más profesional al compartirlo por email o formularios de empleo.",
-        "Incluye texto seleccionable, no imágenes, para máxima compatibilidad ATS.",
+        "Usa texto seleccionable y comprueba el orden de lectura; respeta el formato solicitado en el aviso.",
         "Descarga lista para imprimir o adjuntar en postulaciones online.",
       ]}
       steps={[
@@ -42,14 +42,14 @@ export default function CurriculumVitaePdfPage() {
             "Organiza experiencia, estudios y habilidades en una estructura clara.",
         },
         {
-          title: "Refuerza redaccion y formato",
+          title: "Refuerza redacción y formato",
           description:
-            "Mejora el contenido y llevalo a una plantilla profesional.",
+            "Mejora el contenido y llévalo a una plantilla profesional.",
         },
         {
           title: "Descarga tu PDF",
           description:
-            "Obtienes una version lista para adjuntar y postularte.",
+            "Obtienes una versión lista para adjuntar y postularte.",
         },
       ]}
       sections={[

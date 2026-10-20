@@ -63,6 +63,20 @@ export type PublicSeoRoute = (typeof publicSeoRoutes)[number];
 
 // Fechas de cambios sustanciales de contenido, no de cada despliegue.
 export const seoContentLastModified: Partial<Record<PublicSeoRoute, string>> = {
+  "/glosario/como-escribir-perfil-profesional": "2026-10-20",
+  "/comparar/cv-ats-vs-cv-convencional": "2026-10-20",
+  "/comparar/cv-harvard-vs-cv-tradicional": "2026-10-20",
+  "/comparar/plantilla-harvard-vs-moderna": "2026-10-20",
+  "/cv-para-vendedor-sin-experiencia": "2026-10-20",
+  "/cv-para-seguridad-sin-experiencia": "2026-10-20",
+  "/cv-para-operario-sin-experiencia": "2026-10-20",
+  "/cv-para-administrativo-sin-experiencia": "2026-10-20",
+  "/glosario/que-es-ats-curriculum": "2026-10-20",
+  "/blog/como-hacer-un-cv-ats": "2026-10-20",
+  "/cv-call-center": "2026-10-20",
+  "/cv-para-primer-empleo": "2026-10-20",
+  "/curriculum-vitae-pdf": "2026-10-20",
+  "/curriculum-ats": "2026-10-20",
   "/curriculum-vitae-ejemplo": "2026-10-20",
   "/blog/ejemplo-de-curriculum-vitae": "2026-10-20",
   "/cv-para-mineria": "2026-10-02",

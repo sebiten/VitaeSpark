@@ -7,10 +7,10 @@ export const metadata = buildMetadata({
     "Ideas prácticas para mejorar tu currículum vitae y hacerlo más claro, más fuerte y más útil para tus postulaciones.",
   path: "/blog/como-mejorar-mi-curriculum",
   keywords: [
-    "como mejorar mi curriculum",
-    "mejorar curriculum vitae",
+    "como mejorar mi currículum",
+    "mejorar currículum vitae",
     "como mejorar un cv",
-    "optimizar curriculum",
+    "optimizar currículum",
   ],
   type: "article",
 });
@@ -20,9 +20,9 @@ export default function ComoMejorarMiCurriculumPage() {
     <BlogArticlePage
       path="/blog/como-mejorar-mi-curriculum"
       datePublished="2025-04-12"
-      title="Como mejorar mi curriculum para postularme con mas confianza"
-      description="Ideas practicas para mejorar tu curriculum vitae y hacerlo mas claro, mas fuerte y mas util para tus postulaciones."
-      intro="Mejorar un curriculum no siempre implica rehacerlo por completo. Muchas veces los cambios que mas impactan son perfil mas claro, experiencia mejor explicada y una estructura mas facil de leer."
+      title="Cómo mejorar mi currículum para postularme con más confianza"
+      description="Ideas prácticas para mejorar tu currículum vitae y hacerlo más claro, más fuerte y más útil para tus postulaciones."
+      intro="Mejorar un currículum no siempre implica rehacerlo por completo. Muchas veces los cambios que más impactan son perfil más claro, experiencia mejor explicada y una estructura más fácil de leer."
       sections={[
         {
           title: "Empieza por el perfil profesional",
@@ -32,52 +32,52 @@ export default function ComoMejorarMiCurriculumPage() {
           ],
         },
         {
-          title: "Haz mas fuerte la experiencia",
+          title: "Haz más fuerte la experiencia",
           paragraphs: [
             "Conviene revisar si cada experiencia explica bien funciones, herramientas y contexto. Muchas veces el problema no es la trayectoria, sino como esta contada.",
-            "Desarrollar mejor logros y responsabilidades le da mucho mas peso al perfil.",
+            "Desarrollar mejor logros y responsabilidades le da mucho más peso al perfil.",
           ],
         },
         {
           title: "Ajusta el CV al puesto",
           paragraphs: [
-            "No hace falta inventar una version nueva para cada oferta, pero si conviene adaptar palabras clave, orden de informacion y enfoque del perfil.",
+            "No hace falta inventar una versión nueva para cada oferta, pero si conviene adaptar palabras clave, orden de información y enfoque del perfil.",
             "Ese ajuste mejora tanto conversion con reclutadores como relevancia para ATS.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Conviene actualizar el CV aunque no este buscando trabajo activo?",
+          question: "¿Conviene actualizar el CV aunque no este buscando trabajo activo?",
           answer:
-            "Si. Tenerlo al dia hace mucho mas facil reaccionar rapido ante oportunidades.",
+            "Sí. Tenerlo al día hace mucho más fácil reaccionar rápido ante oportunidades.",
         },
         {
-          question: "Debo cambiar tambien el diseno?",
+          question: "¿Debo cambiar también el diseño?",
           answer:
             "Solo si el formato actual entorpece la lectura. A veces el mayor cambio esta en el contenido, no en lo visual.",
         },
         {
-          question: "Sirve usar IA para mejorar el CV?",
+          question: "¿Sirve usar IA para mejorar el CV?",
           answer:
-            "Si, especialmente para ordenar ideas y redactar mejor, siempre que revises el resultado final.",
+            "Sí, especialmente para ordenar ideas y redactar mejor, siempre que revises el resultado final.",
         },
       ]}
       relatedLinks={[
         {
           href: "/hacer-cv-con-ia",
           title: "Hacer CV con IA",
-          description: "Usa IA como apoyo para mejorar redaccion y claridad.",
+          description: "Usa IA como apoyo para mejorar redacción y claridad.",
         },
         {
           href: "/blog/errores-en-el-curriculum",
-          title: "Errores en el curriculum",
+          title: "Errores en el currículum",
           description: "Detecta primero que cosas estan frenando tu CV.",
         },
         {
           href: "/",
           title: "Crear CV online",
-          description: "Pasa esa mejora a una version mas profesional.",
+          description: "Pasa esa mejora a una versión más profesional.",
         },
       ]}
     />

@@ -6,7 +6,7 @@ export const metadata = buildMetadata({
   title: "Un CV Administrativo Explicado: Antes y Después",
   description: "Analiza un CV administrativo antes y después: cómo concretar el perfil, describir tareas y elegir habilidades sin inventar experiencia ni resultados.",
   path: "/blog/ejemplo-de-curriculum-vitae",
-  keywords: ["curriculum explicado", "cv antes y despues", "analisis cv administrativo"],
+  keywords: ["currículum explicado", "cv antes y después", "análisis cv administrativo"],
   type: "article",
 });
 

@@ -7,10 +7,10 @@ export const metadata = buildMetadata({
     "Copia un modelo de currículum vitae en texto, completa cada sección con tus datos y aprende a guardarlo en PDF. Incluye variantes por profesión.",
   path: "/modelo-de-curriculum-vitae",
   keywords: [
-    "modelo de curriculum vitae",
-    "modelo curriculum vitae",
-    "ejemplo curriculum vitae",
-    "plantilla curriculum vitae",
+    "modelo de currículum vitae",
+    "modelo currículum vitae",
+    "ejemplo currículum vitae",
+    "plantilla currículum vitae",
   ],
 });
 
@@ -27,8 +27,8 @@ export default function ModeloDeCurriculumVitaePage() {
       ]}
       benefits={[
         "Sirve como referencia para ordenar contenido y estructura.",
-        "Ayuda a entender que secciones pesan mas en un CV moderno.",
-        "Te permite pasar de ejemplo a version propia sin perder tiempo.",
+        "Ayuda a entender que secciones pesan más en un CV moderno.",
+        "Te permite pasar de ejemplo a versión propia sin perder tiempo.",
       ]}
       steps={[
         {
@@ -39,7 +39,7 @@ export default function ModeloDeCurriculumVitaePage() {
         {
           title: "Adapta el contenido a tu caso",
           description:
-            "No copies un modelo vacio: transformalo en una version propia y util.",
+            "No copies un modelo vacío: transformalo en una versión propia y útil.",
         },
         {
           title: "Cierra con una plantilla final",
@@ -53,10 +53,10 @@ export default function ModeloDeCurriculumVitaePage() {
           paragraphs: [
             "NOMBRE Y CONTACTO: [Nombre y apellido] · [Puesto al que te postulas] · [Ciudad y provincia] · [Teléfono] · [Correo profesional] · [Enlace a portfolio, si corresponde].",
             "PERFIL PROFESIONAL: [Puesto o formación] con experiencia en [dos tareas relacionadas con la vacante]. Manejo de [herramienta o proceso que dominas]. Interés en aportar [capacidad concreta] en [tipo de puesto o sector].",
-            "EXPERIENCIA: [Cargo] · [Empresa o tipo de actividad] · [Mes/año de inicio–mes/año de fin]. [Acción que realizabas + tarea o proceso + contexto]. [Segunda responsabilidad relevante]. [Resultado verificable o alcance de tu trabajo]. Repite este bloque para otras experiencias, empezando por la más reciente.",
+            "Experiencia: [Cargo] · [Empresa o tipo de actividad] · [Mes/año de inicio–mes/año de fin]. [Acción que realizabas + tarea o proceso + contexto]. [Segunda responsabilidad relevante]. [Resultado verificable o alcance de tu trabajo]. Repite este bloque para otras experiencias, empezando por la más reciente.",
             "FORMACIÓN: [Título o estudios] · [Institución] · [Año de finalización o estado actual]. Si estudias, indica 'en curso' y el avance que puedas acreditar.",
             "CURSOS: [Nombre del curso] · [Entidad] · [Fecha]. Incluye los que aporten al puesto; elimina esta sección si no tienes cursos relevantes.",
-            "HABILIDADES: [Herramienta y tarea que sabes resolver con ella] · [Conocimiento técnico] · [Idioma y nivel, si aporta a la vacante].",
+            "Habilidades: [Herramienta y tarea que sabes resolver con ella] · [Conocimiento técnico] · [Idioma y nivel, si aporta a la vacante].",
             "INFORMACIÓN ADICIONAL: [Disponibilidad horaria] · [Licencia o habilitación pertinente y vigente, si corresponde]. Agrega solo datos relacionados con la postulación.",
           ],
         },
@@ -98,19 +98,19 @@ export default function ModeloDeCurriculumVitaePage() {
             "Sí. Puedes copiar el texto de esta página, completar tus datos y guardarlo en tu editor sin registrarte. La descarga del CV generado dentro de VitaeSpark es un servicio de pago único.",
         },
         {
-          question: "Conviene partir de un modelo o de una plantilla?",
+          question: "¿Conviene partir de un modelo o de una plantilla?",
           answer:
-            "Ambos ayudan, pero un modelo te da referencia de contenido y una plantilla te resuelve la presentacion visual.",
+            "Ambos ayudan, pero un modelo te da referencia de contenido y una plantilla te resuelve la presentación visual.",
         },
         {
-          question: "Puedo usar este enfoque si nunca hice un CV?",
+          question: "¿Puedo usar este enfoque si nunca hice un CV?",
           answer:
-            "Si. De hecho, es uno de los casos donde mas valor aporta empezar con una referencia clara.",
+            "Sí. De hecho, es uno de los casos donde más valor aporta empezar con una referencia clara.",
         },
         {
-          question: "Sirve tambien para actualizar un CV viejo?",
+          question: "¿Sirve también para actualizar un CV viejo?",
           answer:
-            "Si. Compararte con una estructura moderna ayuda mucho a detectar que mejorar.",
+            "Sí. Compararte con una estructura moderna ayuda mucho a detectar que mejorar.",
         },
       ]}
       relatedLinks={[
@@ -141,17 +141,17 @@ export default function ModeloDeCurriculumVitaePage() {
         },
         {
           href: "/plantillas-curriculum",
-          title: "Plantillas de curriculum",
+          title: "Plantillas de currículum",
           description: "Pasa del modelo de referencia a una estructura lista para usar.",
         },
         {
           href: "/",
-          title: "Crear curriculum vitae",
+          title: "Crear currículum vitae",
           description: "Transforma la referencia en un CV propio y profesional.",
         },
         {
           href: "/blog/que-poner-en-un-curriculum",
-          title: "Que poner en un curriculum",
+          title: "Qué poner en un currículum",
           description: "Asegura que el contenido del modelo tenga sentido para tu perfil.",
         },
       ]}

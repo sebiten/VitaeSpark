@@ -8,8 +8,8 @@ export const metadata = buildMetadata({
   path: "/comparar/cv-ats-vs-cv-convencional",
   keywords: [
     "cv ats vs cv convencional",
-    "curriculum ats vs tradicional",
-    "formato ats curriculum",
+    "currículum ats vs tradicional",
+    "formato ats currículum",
     "pasar filtros ats",
   ],
 });
@@ -53,8 +53,8 @@ export default function CvAtsVsConvencionalPage() {
         {
           title: "Qué es un CV preparado para ATS",
           paragraphs: [
-            "Un CV ATS está formateado para que los sistemas de seguimiento de candidatos puedan escanear, interpretar y clasificar tu información sin errores. Esto implica usar fuentes estándar, evitar tablas o columnas complejas, incluir palabras clave relevantes y estructurar las secciones de forma predecible.",
-            "El objetivo no es 'engañar' al sistema sino asegurar que tu información se lea correctamente y se compare favorablemente con la de otros candidatos que pasaron por el mismo proceso.",
+            "Un CV preparado para ATS usa secciones reconocibles y texto legible para facilitar la extracción de información. Revisa que cargos, fechas y contacto conserven su orden; ningún formato evita todos los posibles errores de lectura.",
+            "El objetivo es presentar tus antecedentes de forma clara. La evaluación depende de la experiencia requerida y del proceso de cada empresa, no solo del formato del documento.",
           ],
         },
         {
@@ -83,22 +83,22 @@ export default function CvAtsVsConvencionalPage() {
       ]}
       faqs={[
         {
-          question: "Un CV ATS parece aburrido visualmente?",
+          question: "¿Un CV ATS parece aburrido visualmente?",
           answer:
             "No necesariamente. VitaeSpark diseña plantillas ATS que mantienen una buena presentación visual sin sacrificar la compatibilidad con los sistemas de seguimiento.",
         },
         {
-          question: "Tengo que eliminar todo diseño para que funcione en ATS?",
+          question: "¿Tengo que eliminar todo diseño para que funcione en ATS?",
           answer:
             "No. Un diseño limpio y profesional es compatible con ATS. Lo que hay que evitar son elementos como tablas complejas, imágenes o columnas múltiples que el software no pueda interpretar.",
         },
         {
-          question: "Las palabras clave son lo mismo que 'llenar' el CV de términos?",
+          question: "¿Las palabras clave son lo mismo que 'llenar' el CV de términos?",
           answer:
             "No. Las palabras clave deben aparecer de forma natural y representar habilidades o experiencia real. Forzarlas sin contexto hace que el CV pierda claridad y credibilidad.",
         },
         {
-          question: "Puedo usar el mismo CV para procesos con y sin ATS?",
+          question: "¿Puedo usar el mismo CV para procesos con y sin ATS?",
           answer:
             "Sí. Un CV bien estructurado para ATS también funciona en procesos convencionales. La clave es mantener siempre la claridad y estructura estándar.",
         },

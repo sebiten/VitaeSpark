@@ -8,10 +8,10 @@ export const metadata = buildMetadata({
     "Aprende a hacer un currículum desde una oferta: elige la información, redacta perfil y experiencia, adapta tu CV y revisa el PDF antes de enviarlo.",
   path: "/blog/como-hacer-un-curriculum",
   keywords: [
-    "como hacer un curriculum",
-    "hacer curriculum vitae",
+    "como hacer un currículum",
+    "hacer currículum vitae",
     "como hacer un cv",
-    "estructura curriculum",
+    "estructura currículum",
   ],
   type: "article",
 });
@@ -65,10 +65,10 @@ export default function ComoHacerUnCurriculumPage() {
           ],
         },
         {
-          title: "Errores comunes al hacer un curriculum",
+          title: "Errores comunes al hacer un currículum",
           paragraphs: [
-            "Uno de los errores mas frecuentes es usar el mismo CV para todo. Si el puesto pide atencion al cliente, administracion o produccion, el perfil y las habilidades deberian reflejar esa busqueda.",
-            "Otro error comun es priorizar diseño sobre claridad. Un CV puede verse moderno, pero si no se entiende rapido que hiciste, que sabes hacer y como contactarte, pierde fuerza.",
+            "Uno de los errores más frecuentes es usar el mismo CV para todo. Si el puesto pide atención al cliente, administración o producción, el perfil y las habilidades deberían reflejar esa búsqueda.",
+            "Otro error común es priorizar diseño sobre claridad. Un CV puede verse moderno, pero si no se entiende rápido que hiciste, que sabes hacer y como contactarte, pierde fuerza.",
           ],
         },
         {
@@ -82,24 +82,24 @@ export default function ComoHacerUnCurriculumPage() {
       ]}
       faqs={[
         {
-          question: "Cuanto debe medir un curriculum?",
+          question: "¿Cuánto debe medir un currículum?",
           answer:
-            "En la mayoria de los casos, una o dos paginas alcanzan. Lo importante es que cada seccion aporte valor y sea facil de leer.",
+            "En la mayoria de los casos, una o dos páginas alcanzan. Lo importante es que cada sección aporte valor y sea fácil de leer.",
         },
         {
-          question: "Necesito foto en el CV?",
+          question: "¿Necesito foto en el CV?",
           answer:
             "Depende del mercado y del tipo de puesto. En muchos casos no es obligatoria; la prioridad sigue siendo el contenido.",
         },
         {
-          question: "Conviene adaptar el CV a cada oferta?",
+          question: "¿Conviene adaptar el CV a cada oferta?",
           answer:
-            "Si. Ajustar perfil, palabras clave y experiencias destacadas suele mejorar el rendimiento del CV.",
+            "Sí. Ajustar perfil, palabras clave y experiencias destacadas suele mejorar el rendimiento del CV.",
         },
         {
-          question: "Como hago un curriculum si no tengo experiencia?",
+          question: "¿Cómo hago un currículum si no tengo experiencia?",
           answer:
-            "Puedes reforzar estudios, cursos, proyectos, habilidades, voluntariado, practicas o experiencias informales relacionadas con el puesto objetivo.",
+            "Puedes reforzar estudios, cursos, proyectos, habilidades, voluntariado, prácticas o experiencias informales relacionadas con el puesto objetivo.",
         },
       ]}
       relatedLinks={[
@@ -122,7 +122,7 @@ export default function ComoHacerUnCurriculumPage() {
           href: "/",
           title: "Creador de CV online",
           description:
-            "Crea tu curriculum con IA, plantillas profesionales y descarga en PDF.",
+            "Crea tu currículum con IA, plantillas profesionales y descarga en PDF.",
         },
         {
           href: "/modelo-de-curriculum-vitae",
@@ -132,9 +132,9 @@ export default function ComoHacerUnCurriculumPage() {
         },
         {
           href: "/curriculum-sin-experiencia",
-          title: "Curriculum sin experiencia",
+          title: "Currículum sin experiencia",
           description:
-            "Guia especifica si estas armando tu primer CV laboral.",
+            "Guía específica si estas armando tu primer CV laboral.",
         },
         {
           href: "/cv-para-administrativo",
@@ -144,9 +144,9 @@ export default function ComoHacerUnCurriculumPage() {
         },
         {
           href: "/curriculum-ats",
-          title: "Curriculum ATS",
+          title: "Currículum ATS",
           description:
-            "Complementa esta guia con claves para filtros automaticos.",
+            "Complementa esta guía con claves para filtros automáticos.",
         },
       ]}
     />

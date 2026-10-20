@@ -8,12 +8,12 @@ export const metadata = buildMetadata({
   path: "/cv-para-administrativo",
   keywords: [
     "cv para administrativo",
-    "curriculum administrativo",
+    "currículum administrativo",
     "ejemplo cv administrativo",
-    "habilidades administrativo curriculum",
+    "habilidades administrativo currículum",
     "perfil administrativo cv",
     "cv administrativa",
-    "curriculum auxiliar administrativo",
+    "currículum auxiliar administrativo",
     "perfil profesional administrativo ejemplo",
   ],
 });
@@ -22,7 +22,7 @@ export default function CvParaAdministrativoPage() {
   return (
     <MarketingPage
       path="/cv-para-administrativo"
-      eyebrow="CV por profesion"
+      eyebrow="CV por profesión"
       title="Currículum administrativo: ejemplo completo para auxiliar"
       description="Adapta un modelo de auxiliar administrativo con perfil, experiencia de oficina y ejemplos concretos de Excel, documentación y facturación."
       intro={[
@@ -42,25 +42,25 @@ export default function CvParaAdministrativoPage() {
           "CV ilustrativo administrativo con Excel, documentación, proveedores y reportes.",
       }}
       benefits={[
-        "Destaca organizacion, carga de datos, documentacion y soporte de oficina.",
-        "Sirve para administracion, recepcion, facturacion y asistencia operativa.",
-        "Ayuda a explicar tareas administrativas sin que el CV suene generico.",
+        "Destaca organización, carga de datos, documentación y soporte de oficina.",
+        "Sirve para administración, recepción, facturación y asistencia operativa.",
+        "Ayuda a explicar tareas administrativas sin que el CV suene genérico.",
       ]}
       steps={[
         {
           title: "Define el entorno administrativo",
           description:
-            "Aclara si fue oficina, comercio, salud, estudio contable, logistica o empresa de servicios.",
+            "Aclara si fue oficina, comercio, salud, estudio contable, logística o empresa de servicios.",
         },
         {
           title: "Describe procesos y herramientas",
           description:
-            "Incluye sistemas, planillas, facturacion, reportes, agenda y documentacion.",
+            "Incluye sistemas, planillas, facturación, reportes, agenda y documentación.",
         },
         {
-          title: "Genera tu version final",
+          title: "Genera tu versión final",
           description:
-            "Obtienes un CV administrativo mas ordenado y listo para postularte.",
+            "Obtienes un CV administrativo más ordenado y listo para postularte.",
         },
       ]}
       sections={[
@@ -139,34 +139,34 @@ export default function CvParaAdministrativoPage() {
       ]}
       faqs={[
         {
-          question: "Que habilidades poner en un CV administrativo?",
+          question: "¿Qué habilidades poner en un CV administrativo?",
           answer:
-            "Suelen sumar organizacion, Excel, carga de datos, documentacion, atencion telefonica, reportes, agenda y manejo de sistemas administrativos.",
+            "Suelen sumar organización, Excel, carga de datos, documentación, atención telefónica, reportes, agenda y manejo de sistemas administrativos.",
         },
         {
-          question: "Sirve para auxiliar administrativo?",
+          question: "¿Sirve para auxiliar administrativo?",
           answer:
-            "Si. Puedes adaptar el contenido a puestos de auxiliar, asistente, recepcion o soporte administrativo.",
+            "Sí. Puedes adaptar el contenido a puestos de auxiliar, asistente, recepción o soporte administrativo.",
         },
         {
-          question: "Que poner en experiencia administrativa?",
+          question: "¿Qué poner en experiencia administrativa?",
           answer:
-            "Carga de datos, archivo, facturacion, atencion telefonica, agenda, reportes, seguimiento de solicitudes, correo, planillas, documentacion y soporte a otras areas.",
+            "Carga de datos, archivo, facturación, atención telefónica, agenda, reportes, seguimiento de solicitudes, correo, planillas, documentación y soporte a otras áreas.",
         },
         {
-          question: "Puedo usarlo si no tengo experiencia?",
+          question: "¿Puedo usarlo si no tengo experiencia?",
           answer:
-            "Si. Conviene reforzar estudios, cursos, herramientas digitales y habilidades transferibles.",
+            "Sí. Conviene reforzar estudios, cursos, herramientas digitales y habilidades transferibles.",
         },
         {
-          question: "Como escribir un perfil profesional administrativo?",
+          question: "¿Cómo escribir un perfil profesional administrativo?",
           answer:
-            "Menciona el area, las tareas principales y las herramientas usadas: documentacion, carga de datos, Excel, agenda, facturacion, reportes, correo o sistemas internos.",
+            "Menciona el área, las tareas principales y las herramientas usadas: documentación, carga de datos, Excel, agenda, facturación, reportes, correo o sistemas internos.",
         },
         {
-          question: "Que debe incluir un CV de auxiliar administrativo?",
+          question: "¿Qué debe incluir un CV de auxiliar administrativo?",
           answer:
-            "Debe incluir perfil profesional, tareas de oficina, carga de datos, documentacion, Excel, reportes, atencion interna, sistemas usados y experiencia o formacion relacionada.",
+            "Debe incluir perfil profesional, tareas de oficina, carga de datos, documentación, Excel, reportes, atención interna, sistemas usados y experiencia o formación relacionada.",
         },
       ]}
       relatedLinks={[
@@ -188,27 +188,27 @@ export default function CvParaAdministrativoPage() {
         {
           href: "/cv-para-recepcionista",
           title: "CV para recepcionista",
-          description: "Conecta tareas administrativas con atencion al publico y agenda.",
+          description: "Conecta tareas administrativas con atención al publico y agenda.",
         },
         {
           href: "/cv-para-administrativo-sin-experiencia",
           title: "CV administrativo sin experiencia",
-          description: "Util si estas buscando tu primer puesto administrativo o auxiliar.",
+          description: "Útil si estas buscando tu primer puesto administrativo o auxiliar.",
         },
         {
           href: "/cv-call-center",
           title: "CV call center",
-          description: "Cercano si tu experiencia administrativa incluye atencion telefonica y CRM.",
+          description: "Cercano si tu experiencia administrativa incluye atención telefónica y CRM.",
         },
         {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",
-          description: "Util si buscas tu primer puesto administrativo.",
+          description: "Útil si buscas tu primer puesto administrativo.",
         },
         {
           href: "/",
           title: "Crear CV online",
-          description: "Crea una version profesional lista para descargar.",
+          description: "Crea una versión profesional lista para descargar.",
         },
       ]}
     />

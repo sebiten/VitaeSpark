@@ -8,7 +8,7 @@ export const metadata = buildMetadata({
   path: "/cv-para-administrativo-sin-experiencia",
   keywords: [
     "cv para administrativo sin experiencia",
-    "curriculum administrativo sin experiencia",
+    "currículum administrativo sin experiencia",
     "cv administrativo sin experiencia",
     "perfil administrativo sin experiencia",
     "ejemplo cv administrativo sin experiencia",
@@ -66,30 +66,30 @@ export default function CvParaAdministrativoSinExperienciaPage() {
           title: "Ejemplo de perfil para administrativo inicial",
           paragraphs: [
             "Una base útil puede ser: 'Perfil organizado y detallista orientado a la gestión administrativa, con habilidades en manejo de herramientas digitales, procesamiento de datos y comunicación escrita. Capacidad para aprender procesos rápidamente y mantener la confidencialidad de la información.'",
-            "Ajustalo al área específica: recursos humanos valora reclutamiento y rrhh, finanzas valora precisión con números, logística valora organización de inventarios.",
+            "Ajustalo al aviso: para recursos humanos, menciona organización de documentación si la practicaste; para finanzas, registro de datos; para logística, una actividad de inventario. No presentes conocimientos de estudio como experiencia laboral.",
           ],
         },
         {
           title: "Habilidades clave para administrativos sin experiencia",
           paragraphs: [
-            "Microsoft Office intermedio, Organización y gestión documental, Comunicación escrita clara, Precisión y atención al detalle, Capacidad de aprendizaje rápido, Confidencialidad, Capacidad de trabajar bajo presión leve.",
+            "Indica funciones concretas que hayas practicado: filtros y fórmulas en Excel, organización de archivos o redacción de correos. Describe una actividad que las respalde y evita asignarte un nivel intermedio sin poder demostrarlo.",
             "Cursos de Excel avanzado, gestión de base de datos o Administración son muy valorados incluso sin experiencia formal.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Puedo trabajar en administración sin experiencia?",
+          question: "¿Puedo trabajar en administración sin experiencia?",
           answer:
             "Sí. Muchas empresas toman perfiles iniciales con buenos estudios, cursos relacionados y habilidades digitales, aunque no tengan experiencia formal.",
         },
         {
-          question: "Qué habilidades son más importantes para un administrativo?",
+          question: "¿Qué habilidades son más importantes para un administrativo?",
           answer:
             "Organización, precisión, manejo de herramientas digitales (especialmente Excel), comunicación escrita y capacidad de mantener confidencialidad.",
         },
         {
-          question: "Los cursos de administración suman aunque no tenga experiencia?",
+          question: "¿Los cursos de administración suman aunque no tenga experiencia?",
           answer:
             "Sí, especialmente si son prácticos y generan habilidades aplicables como Excel avanzado, gestión documental o atención telefónica.",
         },

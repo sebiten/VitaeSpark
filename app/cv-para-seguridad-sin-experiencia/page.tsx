@@ -8,7 +8,7 @@ export const metadata = buildMetadata({
   path: "/cv-para-seguridad-sin-experiencia",
   keywords: [
     "cv para seguridad sin experiencia",
-    "curriculum seguridad sin experiencia",
+    "currículum seguridad sin experiencia",
     "cv seguridad sin experiencia",
     "perfil seguridad sin experiencia",
     "ejemplo cv seguridad sin experiencia",
@@ -59,14 +59,14 @@ export default function CvParaSeguridadSinExperienciaPage() {
           title: "Qué poner en un CV de seguridad sin experiencia",
           paragraphs: [
             "Podés incluir cursos de seguridad privada si los tenés, cursos de primeros auxilios, manejo de herramientas de comunicación (radio), educación física o entrenamiento deportivo, y cualquier actividad que muestre atención y responsabilidad.",
-            "Si participaste en actividades que involucraron vigilancia, organización de personas, manejo de conflictos o mantenimiento del orden,.presentalos como habilidades relevantes.",
+            "Si participaste en actividades que involucraron vigilancia, organización de personas, manejo de conflictos o mantenimiento del orden, presentalos como habilidades relevantes.",
           ],
         },
         {
           title: "Ejemplo de perfil para seguridad inicial",
           paragraphs: [
             "Una base útil puede ser: 'Perfil orientado a la seguridad y vigilancia con capacidad de observación, responsabilidad y comunicación efectiva. Habilidad para mantener la calma en situaciones de tensión y coordinar con equipos de trabajo.'",
-            "Ajustalo al contexto: vigilancia de edificio requiere kontrol de acceso y reporting, eventos requiere gestión de multitudes, seguridad corporativa requiere protocolos específicos.",
+            "Ajustalo al contexto: vigilancia de edificio requiere control de acceso y registro de novedades, eventos requiere gestión de multitudes, seguridad corporativa requiere protocolos específicos.",
           ],
         },
         {
@@ -79,17 +79,17 @@ export default function CvParaSeguridadSinExperienciaPage() {
       ]}
       faqs={[
         {
-          question: "Puedo trabajar en seguridad sin experiencia?",
+          question: "¿Puedo trabajar en seguridad sin experiencia?",
           answer:
             "Sí. Muchas empresas de seguridad contratan perfiles iniciales con buena presencia, cursos básicos y disposición para aprender protocolos.",
         },
         {
-          question: "Necesito cursos de seguridad para empezar?",
+          question: "¿Necesito cursos de seguridad para empezar?",
           answer:
-            "No es obligatorio en todos los casos, pero cursos de seguridad privada, primeros auxilios y comunicación son muy valorados y mejoran significativamente tus posibilidades.",
+            "Los requisitos dependen de la función y la jurisdicción. Consulta el aviso y la autoridad local correspondiente; incluye únicamente cursos completados y habilitaciones vigentes, sin presentar un curso como autorización para ejercer.",
         },
         {
-          question: "Qué importa más en un CV de seguridad?",
+          question: "¿Qué importa más en un CV de seguridad?",
           answer:
             "La presencia personal, la responsabilidad, la capacidad de observación y la calma bajo presión. Estas cualidades se pueden demostrar mediante experiencias previas, actividad física o cursos.",
         },

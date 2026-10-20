@@ -8,7 +8,7 @@ export const metadata = buildMetadata({
   path: "/comparar/plantilla-harvard-vs-moderna",
   keywords: [
     "plantilla harvard vs moderna",
-    "formato harvard vs moderno curriculum",
+    "formato harvard vs moderno currículum",
     "mejor plantilla cv 2026",
     "plantilla cv formal vs creativa",
   ],
@@ -20,7 +20,7 @@ export default function PlantillaHarvardVsModernaPage() {
       path="/comparar/plantilla-harvard-vs-moderna"
       eyebrow="Comparación"
       title="Plantilla Harvard vs Moderna: Cuál Hace que tu CV Destaque"
-      description="La plantilla Harvard transmite autoridad y orden; la moderna aporta frescura y adaptacion a industrias contemporaneas. Conoce cual conviene segun tu perfil y objetivo."
+      description="La plantilla Harvard transmite autoridad y orden; la moderna aporta frescura y adaptación a industrias contemporaneas. Conoce cual conviene según tu perfil y objetivo."
       intro={[
         "Elegir entre una plantilla Harvard y una moderna no es solo una cuestión de gusto personal. Cada formato comunica algo diferente a los reclutadores y tiene distinta efectividad según la industria, el nivel de experiencia y el tipo de proceso de selección.",
         "La plantilla Harvard prioriza la claridad y la jerarquía profesional. La moderna busca un equilibrio entre diseño y legibilidad, con más flexibilidad visual.",
@@ -28,7 +28,7 @@ export default function PlantillaHarvardVsModernaPage() {
       benefits={[
         "Claridad inmediata: los reclutadores encuentran la información en segundos.",
         "Proyección de profesionalismo y orden en procesos formales.",
-        "Máxima compatibilidad con sistemas ATS y cribado automático.",
+        "Secciones reconocibles y texto legible para facilitar la lectura del CV.",
         "Diseño limpio que no distrae del contenido.",
       ]}
       steps={[
@@ -66,36 +66,36 @@ export default function PlantillaHarvardVsModernaPage() {
         {
           title: "Comparación visual: Harvard vs Moderna",
           paragraphs: [
-            "En una evaluación rápida, Harvard comunica orden y seriedad; moderna comunica versatilidad y adaptación. Un reclutador en un banco o estudio jurídico probablemente prefiera la claridad de Harvard; uno en una startup tecnológica puede valorar más la creatividad.",
+            "Observa la jerarquía de ambos diseños: dónde aparecen el nombre, el puesto y los antecedentes relevantes. No asumas que todos los empleadores de un sector prefieren una apariencia concreta.",
             "Esto no significa que una sea mejor que la otra. Significa que cada una sirve para contextos distintos y que la decisión debe basarse en el objetivo laboral, no en preferencias personales.",
           ],
         },
         {
           title: "Cuál elegir según tu caso",
           paragraphs: [
-            "Para perfiles senior con experiencia sólida en industrias formales, Harvard es la opción más segura y proyectualmente más fuerte. Para perfiles en industrias creativas, tecnológicas o con menos experiencia, una plantilla moderna bien diseñada puede ser más efectiva.",
-            "La clave es que el diseño no sacrifique la legibilidad. Ambas plantillas de VitaeSpark están optimizadas para ATS y para lectura humana, así que la decisión se reduce a cuál transmite mejor tu perfil profesional.",
+            "Compara cómo queda tu información en ambos formatos. Elige el que permita leer cargos, fechas y formación sin cortes ni bloques demasiado densos. La plantilla no sustituye experiencia ni determina la preferencia de cada reclutador.",
+            "Revisa el documento exportado, además de la vista previa. Comprueba el tamaño del texto y el orden de lectura, y sigue las indicaciones del portal de empleo antes de decidir el formato.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "La plantilla moderna es compatible con sistemas ATS?",
+          question: "¿La plantilla moderna es compatible con sistemas ATS?",
           answer:
             "Las plantillas modernas de VitaeSpark están diseñadas para mantener compatibilidad ATS. Evitan tablas complejas, fuentes no estándar e imágenes que interfieran con la lectura automatizada.",
         },
         {
-          question: "Cuando puedo cambiar de plantilla?",
+          question: "¿Cuándo puedo cambiar de plantilla?",
           answer:
             "Podés comparar plantillas durante la creación antes de pagar. Después del pago, ese CV queda editable desde tu perfil, pero asociado a la plantilla elegida.",
         },
         {
-          question: "Qué plantilla conviene para un primer empleo?",
+          question: "¿Qué plantilla conviene para un primer empleo?",
           answer:
-            "Harvard o moderna con diseño limpio son buenas opciones. Lo importante es que el CV se vea completo y profesional, no que tenga un diseño muy elaborada que genere expectativas.",
+            "Ambas pueden servir para un primer empleo si permiten destacar formación, proyectos y habilidades reales. Elige según la claridad del contenido y los requisitos de la postulación.",
         },
         {
-          question: "La plantilla moderna pasa desapercibida en procesos formales?",
+          question: "¿La plantilla moderna pasa desapercibida en procesos formales?",
           answer:
             "Depende del nivel de formalidad del proceso. En un banco o estudio jurídico, una plantilla moderna podría no ser la mejor opción. En una empresa tecnológica o agencia creativa, puede ser bien recibida.",
         },
@@ -117,7 +117,7 @@ export default function PlantillaHarvardVsModernaPage() {
           href: "/",
           title: "Crear mi CV",
           description:
-            "Construí tu currículum con la plantilla que prefieras y descargalo en PDF.",
+            "Construí tu currículum con la plantilla que prefieras y descárgalo en PDF.",
         },
         {
           href: "/curriculum-ats",

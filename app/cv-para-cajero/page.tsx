@@ -8,12 +8,12 @@ export const metadata = buildMetadata({
   path: "/cv-para-cajero",
   keywords: [
     "cv para cajero",
-    "curriculum cajero",
-    "curriculum cajero supermercado",
-    "curriculum cajero sin experiencia",
+    "currículum cajero",
+    "currículum cajero supermercado",
+    "currículum cajero sin experiencia",
     "ejemplo cv cajero",
-    "habilidades cajero curriculum",
-    "curriculum para supermercado",
+    "habilidades cajero currículum",
+    "currículum para supermercado",
   ],
 });
 
@@ -21,17 +21,17 @@ export default function CvParaCajeroPage() {
   return (
     <MarketingPage
       path="/cv-para-cajero"
-      eyebrow="CV por profesion"
+      eyebrow="CV por profesión"
       title="Currículum para cajero o cajera: ejemplo de supermercado"
       description="Consulta un CV completo en texto, un perfil profesional y ejemplos de tareas de caja para adaptar a supermercado o comercio."
       intro={[
-        "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa desde el primer vistazo. No alcanza con poner 'manejo de caja': conviene mostrar medios de pago, cierre, atencion, control basico y ritmo de trabajo.",
-        "VitaeSpark te ayuda a convertir esa experiencia en un curriculum cajero mas claro, con perfil profesional, habilidades y ejemplos para supermercados, farmacias, tiendas, estaciones de servicio o comercios de cercania.",
+        "Un CV para cajero tiene que transmitir confianza, orden y capacidad operativa desde el primer vistazo. No alcanza con poner 'manejo de caja': conviene mostrar medios de pago, cierre, atención, control básico y ritmo de trabajo.",
+        "VitaeSpark te ayuda a convertir esa experiencia en un currículum cajero más claro, con perfil profesional, habilidades y ejemplos para supermercados, farmacias, tiendas, estaciones de servicio o comercios de cercania.",
       ]}
       conversionCta={{
-        title: "Crea tu CV para cajero y descargalo en PDF",
+        title: "Crea tu CV para cajero y descárgalo en PDF",
         description:
-          "Carga tus tareas de caja, atencion, medios de pago y comercio. La IA lo convierte en un CV profesional listo para enviar.",
+          "Carga tus tareas de caja, atención, medios de pago y comercio. La IA lo convierte en un CV profesional listo para enviar.",
         label: "Crear mi CV de cajero",
       }}
       exampleImage={{
@@ -41,7 +41,7 @@ export default function CvParaCajeroPage() {
           "CV ilustrativo para caja con medios de pago, cierre y atención al cliente.",
       }}
       benefits={[
-        "Destaca cobros, medios de pago, atencion y tareas de caja reales.",
+        "Destaca cobros, medios de pago, atención y tareas de caja reales.",
         "Sirve para retail, supermercados, farmacias y comercios en general.",
         "Ayuda a mostrar orden, confianza y ritmo de trabajo en formato ATS.",
       ]}
@@ -54,12 +54,12 @@ export default function CvParaCajeroPage() {
         {
           title: "Describe tareas y responsabilidades",
           description:
-            "Incluye cobros, arqueo, cierre de caja, atencion al cliente y reposicion si aplica.",
+            "Incluye cobros, arqueo, cierre de caja, atención al cliente y reposición si aplica.",
         },
         {
-          title: "Genera una version lista para enviar",
+          title: "Genera una versión lista para enviar",
           description:
-            "Obtienes un CV profesional y facil de leer para procesos de seleccion operativos.",
+            "Obtienes un CV profesional y fácil de leer para procesos de selección operativos.",
         },
       ]}
       sections={[
@@ -85,17 +85,17 @@ export default function CvParaCajeroPage() {
           ],
         },
         {
-          title: "Que destacar en un CV para cajero",
+          title: "Qué destacar en un CV para cajero",
           paragraphs: [
-            "Suele sumar el manejo de efectivo, tarjetas, billeteras virtuales, apertura y cierre de caja, control basico de tickets, atencion al cliente, reposicion, orden de salon y cumplimiento de procedimientos.",
-            "Si ademas trabajaste con facturacion, stock o resolucion de reclamos, conviene incluirlo porque te hace ver como un perfil mas completo.",
+            "Suele sumar el manejo de efectivo, tarjetas, billeteras virtuales, apertura y cierre de caja, control básico de tickets, atención al cliente, reposición, orden de salon y cumplimiento de procedimientos.",
+            "Si ademas trabajaste con facturación, stock o resolución de reclamos, conviene incluirlo porque te hace ver como un perfil más completo.",
           ],
         },
         {
-          title: "Curriculum cajero para supermercado",
+          title: "Currículum cajero para supermercado",
           paragraphs: [
-            "Para supermercado conviene mencionar caja, reposicion, control de productos, atencion en salon, medios de pago, orden del sector y capacidad para trabajar con ritmo alto.",
-            "Si el puesto combina caja y reposicion, no lo escondas. Muchos comercios valoran perfiles versatiles que puedan cobrar, orientar clientes y apoyar tareas operativas.",
+            "Para supermercado conviene mencionar caja, reposición, control de productos, atención en salon, medios de pago, orden del sector y capacidad para trabajar con ritmo alto.",
+            "Si el puesto combina caja y reposición, no lo escondas. Muchos comercios valoran perfiles versatiles que puedan cobrar, orientar clientes y apoyar tareas operativas.",
           ],
         },
         {
@@ -123,7 +123,7 @@ export default function CvParaCajeroPage() {
         {
           title: "Ejemplos de experiencia para cajero",
           paragraphs: [
-            "Para una experiencia en supermercado, una frase concreta seria: 'Realice cobros en efectivo, tarjeta y billeteras virtuales, manteniendo orden en caja, buena atencion al cliente y apoyo en reposicion durante horarios de alta demanda'.",
+            "Para una experiencia en supermercado, una frase concreta sería: 'Realice cobros en efectivo, tarjeta y billeteras virtuales, manteniendo orden en caja, buena atención al cliente y apoyo en reposición durante horarios de alta demanda'.",
             "Para comercio minorista, puedes escribir: 'Atendi clientes en salon, procese pagos, controle tickets y colabore con orden de productos, resolviendo consultas simples y manteniendo una experiencia de compra clara'.",
           ],
         },
@@ -137,53 +137,53 @@ export default function CvParaCajeroPage() {
         {
           title: "Habilidades que suelen mirar reclutadores",
           paragraphs: [
-            "Entre las habilidades mas utiles suelen estar manejo de caja, precision, organizacion, atencion al cliente, rapidez operativa, control basico y resolucion de incidencias simples.",
-            "Para ATS y reclutadores, el mejor formato sigue siendo el mas claro: titulo, perfil, experiencia, habilidades y estudios. Cuanto menos ruido visual tenga, mejor.",
+            "Entre las habilidades más útiles suelen estar manejo de caja, precision, organización, atención al cliente, rapidez operativa, control básico y resolución de incidencias simples.",
+            "Para ATS y reclutadores, el mejor formato sigue siendo el más claro: título, perfil, experiencia, habilidades y estudios. Cuanto menos ruido visual tenga, mejor.",
           ],
         },
         {
-          title: "Errores comunes en un curriculum cajero",
+          title: "Errores comunes en un currículum cajero",
           paragraphs: [
-            "Un error frecuente es escribir solo 'atencion al cliente' sin explicar tareas. Es mejor mencionar caja, medios de pago, cierre, arqueo, reposicion, facturacion o control de tickets si realmente lo hiciste.",
-            "Otro problema es usar un perfil demasiado generico. Para cajero, el reclutador necesita ver confianza, orden, trato con clientes y capacidad para manejar dinero o transacciones sin complicar el proceso.",
+            "Un error frecuente es escribir solo 'atención al cliente' sin explicar tareas. Es mejor mencionar caja, medios de pago, cierre, arqueo, reposición, facturación o control de tickets si realmente lo hiciste.",
+            "Otro problema es usar un perfil demasiado genérico. Para cajero, el reclutador necesita ver confianza, orden, trato con clientes y capacidad para manejar dinero o transacciones sin complicar el proceso.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Como hacer un curriculum cajero para supermercado?",
+          question: "¿Cómo hacer un currículum cajero para supermercado?",
           answer:
-            "Incluye atencion al cliente, cobros, medios de pago, cierre o arqueo de caja, reposicion, orden de salon y disponibilidad horaria si aplica.",
+            "Incluye atención al cliente, cobros, medios de pago, cierre o arqueo de caja, reposición, orden de salon y disponibilidad horaria si aplica.",
         },
         {
-          question: "Sirve para supermercados y farmacias?",
+          question: "¿Sirve para supermercados y farmacias?",
           answer:
-            "Si. La estructura funciona bien para distintos comercios, siempre que adaptes el contexto del perfil y la experiencia.",
+            "Sí. La estructura funciona bien para distintos comercios, siempre que adaptes el contexto del perfil y la experiencia.",
         },
         {
-          question: "Que pasa si no tengo experiencia exacta como cajero?",
+          question: "¿Qué pasa si no tengo experiencia exacta como cajero?",
           answer:
-            "Puedes destacar atencion al publico, ventas, manejo de dinero, estudios, cursos o tareas operativas relacionadas para construir una base creible.",
+            "Puedes destacar atención al publico, ventas, manejo de dinero, estudios, cursos o tareas operativas relacionadas para construir una base creíble.",
         },
         {
-          question: "Conviene incluir reposicion o tareas de salon?",
+          question: "¿Conviene incluir reposición o tareas de salon?",
           answer:
-            "Si. En muchos puestos valoran perfiles versatiles que apoyen mas alla de la caja.",
+            "Sí. En muchos puestos valoran perfiles versatiles que apoyen más alla de la caja.",
         },
         {
-          question: "Que habilidades poner en un CV de cajero?",
+          question: "¿Qué habilidades poner en un CV de cajero?",
           answer:
-            "Manejo de caja, medios de pago, atencion al cliente, cierre o arqueo, orden, precision, reposicion, facturacion basica y resolucion de consultas simples.",
+            "Manejo de caja, medios de pago, atención al cliente, cierre o arqueo, orden, precision, reposición, facturación básica y resolución de consultas simples.",
         },
         {
-          question: "Como escribir experiencia de cajera o cajero?",
+          question: "¿Cómo escribir experiencia de cajera o cajero?",
           answer:
-            "Describe tareas concretas: cobros, medios de pago, cierre de caja, atencion, orden del sector, reposicion y apoyo en momentos de alta demanda.",
+            "Describe tareas concretas: cobros, medios de pago, cierre de caja, atención, orden del sector, reposición y apoyo en momentos de alta demanda.",
         },
         {
-          question: "Que debe incluir un CV de cajero para supermercado?",
+          question: "¿Qué debe incluir un CV de cajero para supermercado?",
           answer:
-            "Debe incluir caja, medios de pago, atencion al cliente, reposicion, orden de salon, disponibilidad horaria, cierre o arqueo si aplica y experiencia en ritmo alto.",
+            "Debe incluir caja, medios de pago, atención al cliente, reposición, orden de salon, disponibilidad horaria, cierre o arqueo si aplica y experiencia en ritmo alto.",
         },
       ]}
       relatedLinks={[
@@ -195,37 +195,37 @@ export default function CvParaCajeroPage() {
         {
           href: "/cv-para-cajero-sin-experiencia",
           title: "CV para cajero sin experiencia",
-          description: "Pagina especifica si buscas tu primer puesto en caja.",
+          description: "Página específica si buscas tu primer puesto en caja.",
         },
         {
           href: "/cv-para-vendedor",
           title: "CV para vendedor",
-          description: "Refuerza la parte comercial si tambien atendias clientes o vendias.",
+          description: "Refuerza la parte comercial si también atendías clientes o vendías.",
         },
         {
           href: "/cv-para-atencion-al-cliente",
-          title: "CV para atencion al cliente",
-          description: "Refuerza la parte de trato con usuarios y resolucion de consultas.",
+          title: "CV para atención al cliente",
+          description: "Refuerza la parte de trato con usuarios y resolución de consultas.",
         },
         {
           href: "/cv-para-recepcionista",
           title: "CV para recepcionista",
-          description: "Otra opcion cercana para perfiles de atencion presencial y organizacion.",
+          description: "Otra opción cercana para perfiles de atención presencial y organización.",
         },
         {
           href: "/cv-para-repositor",
           title: "CV para repositor",
-          description: "Cercano si tu experiencia en comercio tambien incluye stock y reposicion.",
+          description: "Cercano si tu experiencia en comercio también incluye stock y reposición.",
         },
         {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",
-          description: "Util si buscas entrar por primera vez a retail o comercio.",
+          description: "Útil si buscas entrar por primera vez a retail o comercio.",
         },
         {
           href: "/",
           title: "Crear CV online",
-          description: "Pasa de estas ideas a una version lista para descargar.",
+          description: "Pasa de estas ideas a una versión lista para descargar.",
         },
       ]}
     />

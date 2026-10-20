@@ -7,10 +7,10 @@ export const metadata = buildMetadata({
     "Descubre cinco errores comunes en un currículum y cómo corregirlos para mejorar tus postulaciones y entrevistas.",
   path: "/blog/errores-en-el-curriculum",
   keywords: [
-    "errores en el curriculum",
-    "errores curriculum vitae",
+    "errores en el currículum",
+    "errores currículum vitae",
     "errores en un cv",
-    "fallos curriculum",
+    "fallos currículum",
   ],
   type: "article",
   image: "/social/errores-cv-facebook-og.png",
@@ -26,8 +26,8 @@ export default function ErroresEnElCurriculumPage() {
       path="/blog/errores-en-el-curriculum"
       datePublished="2025-04-12"
       dateModified="2026-07-28"
-      title="5 errores en el curriculum que pueden frenarte antes de una entrevista"
-      description="Descubre los errores mas comunes en un curriculum vitae y como corregirlos antes de tu proxima postulacion."
+      title="5 errores en el currículum que pueden frenarte antes de una entrevista"
+      description="Descubre los errores más comunes en un currículum vitae y como corregirlos antes de tu proxima postulación."
       intro="Muchos CV no fallan por falta de experiencia, sino porque el documento comunica mal. Los errores ortográficos, el desorden y las frases genéricas dificultan que un reclutador entienda rápido el perfil, incluso cuando la persona encaja en el puesto."
       image="/social/errores-cv-facebook-og.png"
       sections={[
@@ -39,16 +39,16 @@ export default function ErroresEnElCurriculumPage() {
           ],
         },
         {
-          title: "Tener un perfil demasiado generico",
+          title: "Tener un perfil demasiado genérico",
           paragraphs: [
-            "Uno de los errores mas repetidos es abrir el CV con frases amplias que podrian pertenecer a cualquier candidato. Si no queda claro a que rol apuntas o que valor aportas, el perfil pierde fuerza desde el inicio.",
-            "Conviene escribir un resumen mas concreto, con foco en experiencia, herramientas o tipo de puesto buscado.",
+            "Uno de los errores más repetidos es abrir el CV con frases amplias que podrían pertenecer a cualquier candidato. Si no queda claro a que rol apuntas o que valor aportas, el perfil pierde fuerza desde el inicio.",
+            "Conviene escribir un resumen más concreto, con foco en experiencia, herramientas o tipo de puesto buscado.",
           ],
         },
         {
           title: "Listar tareas sin contexto ni impacto",
           paragraphs: [
-            "Cuando la experiencia se resume solo con tareas, el CV se vuelve plano. Mejora mucho cuando explicas en que entorno trabajabas, con que herramientas y que tipo de resultados o responsabilidades tenias.",
+            "Cuando la experiencia se resume solo con tareas, el CV se vuelve plano. Mejora mucho cuando explicas en que entorno trabajabas, con que herramientas y que tipo de resultados o responsabilidades tenías.",
             "No necesitas inflar cifras. Lo importante es dar contexto para que el lector entienda tu aporte real.",
           ],
         },
@@ -69,19 +69,19 @@ export default function ErroresEnElCurriculumPage() {
       ]}
       faqs={[
         {
-          question: "Un error de ortografia puede afectar mucho?",
+          question: "¿Un error de ortografía puede afectar mucho?",
           answer:
-            "Si. Puede transmitir falta de cuidado y bajar bastante la percepcion profesional del CV.",
+            "Sí. Puede transmitir falta de cuidado y bajar bastante la percepcion profesional del CV.",
         },
         {
-          question: "Conviene rehacer todo el CV o corregir lo principal?",
+          question: "¿Conviene rehacer todo el CV o corregir lo principal?",
           answer:
             "Depende del caso, pero muchas veces ajustar estructura, perfil y experiencia ya mejora mucho el resultado.",
         },
         {
-          question: "Esto tambien aplica a CVs ATS?",
+          question: "¿Esto también aplica a CVs ATS?",
           answer:
-            "Si. De hecho, varios de estos errores afectan tanto a filtros automatizados como a reclutadores.",
+            "Sí. De hecho, varios de estos errores afectan tanto a filtros automatizados como a reclutadores.",
         },
       ]}
       sources={[
@@ -94,18 +94,18 @@ export default function ErroresEnElCurriculumPage() {
       relatedLinks={[
         {
           href: "/blog/como-hacer-un-curriculum",
-          title: "Como hacer un curriculum",
+          title: "Cómo hacer un currículum",
           description: "Vuelve a la base para reconstruir mejor tu CV.",
         },
         {
           href: "/curriculum-ats",
-          title: "Curriculum ATS",
-          description: "Evita errores que tambien perjudican lectura automatizada.",
+          title: "Currículum ATS",
+          description: "Evita errores que también perjudican lectura automatizada.",
         },
         {
           href: "/",
           title: "Crear CV online",
-          description: "Pasa de teoria a una version mejor estructurada.",
+          description: "Pasa de teoria a una versión mejor estructurada.",
         },
       ]}
     />

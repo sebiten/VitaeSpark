@@ -8,12 +8,12 @@ export const metadata = buildMetadata({
   path: "/cv-para-recepcionista",
   keywords: [
     "cv para recepcionista",
-    "curriculum recepcionista",
+    "currículum recepcionista",
     "ejemplo cv recepcionista",
-    "habilidades recepcionista curriculum",
+    "habilidades recepcionista currículum",
     "perfil recepcionista cv",
     "cv para recepcionista sin experiencia",
-    "curriculum vitae de recepcionista",
+    "currículum vitae de recepcionista",
   ],
 });
 
@@ -21,7 +21,7 @@ export default function CvParaRecepcionistaPage() {
   return (
     <MarketingPage
       path="/cv-para-recepcionista"
-      eyebrow="CV por profesion"
+      eyebrow="CV por profesión"
       title="Currículum para recepcionista: perfil, tareas y ejemplos"
       description="Presenta con claridad tu experiencia en agenda, llamadas, turnos, atención al público y soporte administrativo."
       intro={[
@@ -37,29 +37,29 @@ export default function CvParaRecepcionistaPage() {
       conversionCta={{
         title: "Crea tu CV para recepcionista sin empezar de cero",
         description:
-          "Escribe tus tareas de recepcion, agenda y atencion. La IA arma una version profesional, ordenada y lista para descargar en PDF.",
+          "Escribe tus tareas de recepción, agenda y atención. La IA arma una versión profesional, ordenada y lista para descargar en PDF.",
         label: "Crear mi CV de recepcionista",
       }}
       benefits={[
-        "Destaca atencion al publico, agenda, llamadas y tareas administrativas.",
-        "Sirve para recepcion en oficinas, salud, hoteleria, comercios y empresas.",
-        "Ayuda a mostrar organizacion y trato profesional con formato ATS.",
+        "Destaca atención al publico, agenda, llamadas y tareas administrativas.",
+        "Sirve para recepción en oficinas, salud, hoteleria, comercios y empresas.",
+        "Ayuda a mostrar organización y trato profesional con formato ATS.",
       ]}
       steps={[
         {
-          title: "Define el entorno de recepcion",
+          title: "Define el entorno de recepción",
           description:
-            "Aclara si fue oficina, consultorio, hotel, comercio, edificio o centro de atencion.",
+            "Aclara si fue oficina, consultorio, hotel, comercio, edificio o centro de atención.",
         },
         {
           title: "Describe tareas diarias",
           description:
-            "Incluye agenda, llamadas, visitas, documentacion, derivaciones y sistemas usados.",
+            "Incluye agenda, llamadas, visitas, documentación, derivaciones y sistemas usados.",
         },
         {
           title: "Descarga tu CV final",
           description:
-            "Obtienes una version profesional para procesos administrativos y de atencion.",
+            "Obtienes una versión profesional para procesos administrativos y de atención.",
         },
       ]}
       sections={[
@@ -101,39 +101,39 @@ export default function CvParaRecepcionistaPage() {
       ]}
       faqs={[
         {
-          question: "Sirve para recepcion en consultorios?",
+          question: "¿Sirve para recepción en consultorios?",
           answer:
-            "Si. Solo conviene adaptar el contenido a turnos, pacientes, agenda medica y documentacion si ese fue tu contexto.",
+            "Sí. Solo conviene adaptar el contenido a turnos, pacientes, agenda médica y documentación si ese fue tu contexto.",
         },
         {
-          question: "Que habilidades poner para recepcionista?",
+          question: "¿Qué habilidades poner para recepcionista?",
           answer:
-            "Suelen sumar organizacion, comunicacion, agenda, atencion telefonica, trato cordial, carga de datos y manejo de herramientas administrativas.",
+            "Suelen sumar organización, comunicación, agenda, atención telefónica, trato cordial, carga de datos y manejo de herramientas administrativas.",
         },
         {
-          question: "Puedo usarlo si no tengo experiencia?",
+          question: "¿Puedo usarlo si no tengo experiencia?",
           answer:
-            "Si. En ese caso conviene reforzar cursos, herramientas, experiencia de atencion al publico y habilidades transferibles.",
+            "Sí. En ese caso conviene reforzar cursos, herramientas, experiencia de atención al publico y habilidades transferibles.",
         },
         {
-          question: "Que poner en experiencia de recepcionista?",
+          question: "¿Qué poner en experiencia de recepcionista?",
           answer:
-            "Agenda, llamadas, recepcion de visitas, turnos, documentacion, carga de datos, derivacion de consultas, correo, planillas y soporte administrativo.",
+            "Agenda, llamadas, recepción de visitas, turnos, documentación, carga de datos, derivacion de consultas, correo, planillas y soporte administrativo.",
         },
         {
-          question: "Como hacer un CV para recepcionista sin experiencia?",
+          question: "¿Cómo hacer un CV para recepcionista sin experiencia?",
           answer:
-            "Enfoca cursos, herramientas digitales, atencion al publico, organizacion, disponibilidad y ejemplos donde hayas tratado con personas o administrado informacion.",
+            "Enfoca cursos, herramientas digitales, atención al publico, organización, disponibilidad y ejemplos donde hayas tratado con personas o administrado información.",
         },
         {
-          question: "Que debe incluir un curriculum recepcionista para consultorio?",
+          question: "¿Qué debe incluir un currículum recepcionista para consultorio?",
           answer:
-            "Debe incluir agenda, turnos, recepcion de pacientes o visitas, llamadas, documentacion, trato claro, correo, planillas y sistemas usados si corresponde.",
+            "Debe incluir agenda, turnos, recepción de pacientes o visitas, llamadas, documentación, trato claro, correo, planillas y sistemas usados si corresponde.",
         },
         {
-          question: "Como hacer un curriculum para recepcionista?",
+          question: "¿Cómo hacer un currículum para recepcionista?",
           answer:
-            "Empieza con un perfil breve, agrega experiencia en agenda, llamadas, recepcion de visitas, turnos, documentacion, planillas y adapta el contenido al lugar: oficina, consultorio, hotel, comercio o restaurante.",
+            "Empieza con un perfil breve, agrega experiencia en agenda, llamadas, recepción de visitas, turnos, documentación, planillas y adapta el contenido al lugar: oficina, consultorio, hotel, comercio o restaurante.",
         },
       ]}
       relatedLinks={[
@@ -144,33 +144,33 @@ export default function CvParaRecepcionistaPage() {
         },
         {
           href: "/cv-para-atencion-al-cliente",
-          title: "CV para atencion al cliente",
-          description: "Complementa la parte de trato con usuarios y resolucion de consultas.",
+          title: "CV para atención al cliente",
+          description: "Complementa la parte de trato con usuarios y resolución de consultas.",
         },
         {
           href: "/cv-para-recepcionista-sin-experiencia",
           title: "CV para recepcionista sin experiencia",
-          description: "Util si estas armando una version inicial para consultorio, oficina o comercio.",
+          description: "Útil si estas armando una versión inicial para consultorio, oficina o comercio.",
         },
         {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",
-          description: "Util si buscas tu primer puesto administrativo o de recepcion.",
+          description: "Útil si buscas tu primer puesto administrativo o de recepción.",
         },
         {
           href: "/cv-para-cajero",
           title: "CV para cajero",
-          description: "Otra opcion cercana para perfiles de atencion presencial.",
+          description: "Otra opción cercana para perfiles de atención presencial.",
         },
         {
           href: "/cv-para-administrativo",
           title: "CV administrativo",
-          description: "Cercano si tu experiencia de recepcion incluye archivo, planillas o soporte de oficina.",
+          description: "Cercano si tu experiencia de recepción incluye archivo, planillas o soporte de oficina.",
         },
         {
           href: "/",
           title: "Crear CV online",
-          description: "Arma tu curriculum final en una plantilla lista para descargar.",
+          description: "Arma tu currículum final en una plantilla lista para descargar.",
         },
       ]}
     />

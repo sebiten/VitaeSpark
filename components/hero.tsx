@@ -92,15 +92,15 @@ const faqQuestions = [
   },
   {
     q: "Sirve si no tengo experiencia?",
-    a: "Si. Puedes armar un CV inicial destacando estudios, cursos, proyectos, habilidades y disponibilidad.",
+    a: "Sí. Puedes armar un CV inicial destacando estudios, cursos, proyectos, habilidades y disponibilidad.",
   },
   {
     q: "Es solo una plantilla?",
     a: "No. La plantilla resuelve el diseño, pero VitaeSpark también ayuda a ordenar y redactar mejor el contenido.",
   },
   {
-    q: "Puedo editarlo despues?",
-    a: "Si. El CV queda guardado en tu perfil para editar datos y descargar nuevas versiones en PDF con la plantilla elegida.",
+    q: "Puedo editarlo después?",
+    a: "Sí. El CV queda guardado en tu perfil para editar datos y descargar nuevas versiones en PDF con la plantilla elegida.",
   },
   {
     q: PRICING.copy.faqQuestion,
@@ -258,8 +258,8 @@ export default function Home() {
                 Un flujo corto, no una herramienta más.
               </h2>
               <p className="mt-5 max-w-[34rem] text-base leading-8 text-[#D8D2C8]/66">
-                VitaeSpark guia el contenido como un editor: primero ordena,
-                despues pule y al final lo deja editable en tu perfil.
+                VitaeSpark guía el contenido como un editor: primero ordena,
+                después pule y al final lo deja editable en tu perfil.
               </p>
             </div>
 
@@ -454,10 +454,10 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(122,92,255,0.18),transparent_28%)]" />
           <div className="relative p-6 sm:p-8 lg:p-10">
             <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
-              Sali con una version presentable hoy.
+              Salí con una versión presentable hoy.
             </h2>
             <p className="mt-4 max-w-xl text-base leading-8 text-[#D8D2C8]/66">
-              Carga tus datos, deja que la IA los ordene, editalo cuando haga
+              Carga tus datos, deja que la IA los ordene, edítalo cuando haga
               falta y descarga un PDF listo para postular.
             </p>
             <p className="mt-3 text-sm font-medium text-[#D8D2C8]/58">

@@ -12,11 +12,11 @@ export const metadata = buildMetadata({
     "Guías prácticas sobre currículum vitae, ATS, habilidades, primer empleo y cómo mejorar tus postulaciones con VitaeSpark.",
   path: "/blog",
   keywords: [
-    "blog curriculum vitae",
-    "guias de cv",
-    "como hacer curriculum",
+    "blog currículum vitae",
+    "guías de cv",
+    "como hacer currículum",
     "consejos para cv",
-    "empleo y curriculum",
+    "empleo y currículum",
   ],
 });
 

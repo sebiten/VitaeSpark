@@ -17,18 +17,18 @@ import { getBaseUrl } from "@/lib/seo";
 import { CV_TEMPLATES } from "@/lib/cv-templates";
 
 export const metadata = buildMetadata({
-  title: "Plantillas de Curriculum Editables para Descargar en PDF | 2026",
+  title: "Plantillas de Currículum Editables para Descargar en PDF | 2026",
   description:
     `Compara plantillas de curriculum profesionales, editables desde tu perfil y listas para descargar en PDF con formato ATS. ${PRICING.copy.seoLine}`,
   path: "/plantillas-curriculum",
   keywords: [
-    "mejores plantillas de curriculum vitae",
+    "mejores plantillas de currículum vitae",
     "plantillas de cv profesionales",
-    "plantillas curriculum descargar",
-    "modelo de curriculum vitae",
+    "plantillas currículum descargar",
+    "modelo de currículum vitae",
     "template cv",
     "plantillas cv ats",
-    "plantillas de curriculum editables",
+    "plantillas de currículum editables",
   ],
 });
 

@@ -9,7 +9,7 @@ export const metadata = buildMetadata({
   keywords: [
     "como hacer un cv profesional",
     "hacer cv profesional",
-    "curriculum profesional",
+    "currículum profesional",
     "como mejorar un cv profesional",
   ],
   type: "article",
@@ -20,47 +20,47 @@ export default function ComoHacerUnCvProfesionalPage() {
     <BlogArticlePage
       path="/blog/como-hacer-un-cv-profesional"
       datePublished="2025-04-15"
-      title="Como hacer un CV profesional sin complicarlo de mas"
-      description="Descubre como hacer un CV profesional con mejor estructura, contenido mas claro y una presentacion lista para postularte mejor."
-      intro="Hacer un CV profesional no significa escribir dificil ni usar una plantilla recargada. Significa presentar tu perfil con claridad, criterio y una estructura que haga facil entender por que encajas en una oportunidad laboral."
+      title="Cómo hacer un CV profesional sin complicarlo de más"
+      description="Descubre como hacer un CV profesional con mejor estructura, contenido más claro y una presentación lista para postularte mejor."
+      intro="Hacer un CV profesional no significa escribir difícil ni usar una plantilla recargada. Significa presentar tu perfil con claridad, criterio y una estructura que haga fácil entender por que encajas en una oportunidad laboral."
       sections={[
         {
           title: "Empieza por lo que quieres conseguir",
           paragraphs: [
-            "Un CV se vuelve mas profesional cuando tiene direccion. Antes de editar, define a que tipo de roles vas a apuntar y que parte de tu experiencia tiene mas valor para ese objetivo.",
+            "Un CV se vuelve más profesional cuando tiene direccion. Antes de editar, define a que tipo de roles vas a apuntar y que parte de tu experiencia tiene más valor para ese objetivo.",
             "Eso te ayuda a seleccionar mejor logros, palabras clave y habilidades, en lugar de mostrar todo con el mismo peso.",
           ],
         },
         {
           title: "Cuida estructura, tono y foco",
           paragraphs: [
-            "La estructura debe ser simple y escaneable. El tono debe sonar claro y confiable. Y el foco debe estar puesto en experiencia, proyectos o formacion que realmente respalden tu perfil.",
-            "Un CV profesional evita frases infladas y se apoya mas en hechos, contexto y capacidades aplicadas.",
+            "La estructura debe ser simple y escaneable. El tono debe sonar claro y confiable. Y el foco debe estar puesto en experiencia, proyectos o formación que realmente respalden tu perfil.",
+            "Un CV profesional evita frases infladas y se apoya más en hechos, contexto y capacidades aplicadas.",
           ],
         },
         {
-          title: "Haz una version lista para procesos actuales",
+          title: "Haz una versión lista para procesos actuales",
           paragraphs: [
             "Hoy conviene pensar tanto en lectores humanos como en sistemas ATS. Eso significa secciones claras, palabras relevantes y una plantilla que no complique la lectura.",
-            "Si ademas quieres ahorrar tiempo, una herramienta como VitaeSpark puede ayudarte a llevar esa mejora a la practica mucho mas rapido.",
+            "Si ademas quieres ahorrar tiempo, una herramienta como VitaeSpark puede ayudarte a llevar esa mejora a la práctica mucho más rápido.",
           ],
         },
       ]}
       faqs={[
         {
-          question: "Cuanto influye el diseño en un CV profesional?",
+          question: "¿Cuánto influye el diseño en un CV profesional?",
           answer:
-            "Influye, pero menos que la claridad del contenido. Un buen diseño acompana; no reemplaza una estructura bien pensada.",
+            "Influye, pero menos que la claridad del contenido. Un buen diseño acompaña; no reemplaza una estructura bien pensada.",
         },
         {
-          question: "Se puede hacer un CV profesional con poca experiencia?",
+          question: "¿Se puede hacer un CV profesional con poca experiencia?",
           answer:
-            "Si. El secreto esta en el enfoque, no solo en la cantidad de anos trabajados.",
+            "Sí. El secreto esta en el enfoque, no solo en la cantidad de anos trabajados.",
         },
         {
-          question: "Conviene adaptar el CV a cada busqueda?",
+          question: "¿Conviene adaptar el CV a cada búsqueda?",
           answer:
-            "Si. Un documento profesional suele ajustarse segun puesto, industria y prioridad de habilidades.",
+            "Sí. Un documento profesional suele ajustarse según puesto, industria y prioridad de habilidades.",
         },
       ]}
       relatedLinks={[
@@ -68,7 +68,7 @@ export default function ComoHacerUnCvProfesionalPage() {
           href: "/cv-profesional",
           title: "CV profesional",
           description:
-            "Pasa de la guia a una pagina de conversion centrada en ese objetivo.",
+            "Pasa de la guía a una página de conversion centrada en ese objetivo.",
         },
         {
           href: "/hacer-cv-con-ia",
@@ -77,9 +77,9 @@ export default function ComoHacerUnCvProfesionalPage() {
         },
         {
           href: "/blog/como-mejorar-mi-curriculum",
-          title: "Como mejorar mi curriculum",
+          title: "Cómo mejorar mi currículum",
           description:
-            "Complementa esta guia con ideas concretas para iterar tu version actual.",
+            "Complementa esta guía con ideas concretas para iterar tu versión actual.",
         },
       ]}
     />

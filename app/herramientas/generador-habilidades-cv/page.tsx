@@ -12,7 +12,7 @@ const pageMetadata = buildMetadata({
   keywords: [
     "generador de habilidades para cv",
     "habilidades para cv con ia",
-    "habilidades para curriculum",
+    "habilidades para currículum",
     "que habilidades poner en un cv",
   ],
   image: "/social/generador-habilidades-cv-og.png",

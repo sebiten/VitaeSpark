@@ -7,11 +7,11 @@ export const metadata = buildMetadata({
     "Entendé qué es un currículum vitae, en qué se diferencia del CV y del resume, qué secciones debe tener, cómo estructurarlo y qué errores evitar para que destaque.",
   path: "/glosario/que-es-curriculum-vitae",
   keywords: [
-    "que es curriculum vitae",
-    "curriculum vitae definicion",
+    "que es currículum vitae",
+    "currículum vitae definicion",
     "diferencia cv y resume",
-    "como hacer curriculum vitae",
-    "secciones curriculum vitae",
+    "como hacer currículum vitae",
+    "secciones currículum vitae",
   ],
 });
 
@@ -65,7 +65,7 @@ export default function QueEsCurrriculumVitaePage() {
           title: "Cómo hacer un CV que destaque",
           paragraphs: [
             "Comenzá con un perfil claro y específico. No uses frases genéricas: indicá qué hacés, en qué sector, con qué herramientas o metodologías, y qué tipo de resultados lograste.",
-            "Usá verbos de acción y logros medibles: 'Lideré equipo de 5 personas' > 'Responsable del equipo'. 'Aumenté ventas un 20%' > 'Mejoré performance'. Los números hablan más que las descripciones vagas.",
+            "Usá verbos de acción y logros medibles: 'Líderé equipo de 5 personas' > 'Responsable del equipo'. 'Aumenté ventas un 20%' > 'Mejoré performance'. Los números hablan más que las descripciones vagas.",
             "Adaptá el CV a cada puesto: No existe un CV único que sirva para todo. Revisá la oferta, identificá las palabras clave y ajustá tu contenido para maximizar coincidencias.",
             "Mantenelo conciso: 1 a 2 páginas es un rango habitual. Cada línea debe aportar información relevante. Si podés eliminar una frase sin perder sentido, probablemente no sea necesaria.",
             "Usá formato profesional y limpio: Fuente sans-serif tamaño 11-12, títulos claros, espacio en blanco suficiente. Que se vea fácil de escanear.",
@@ -82,17 +82,17 @@ export default function QueEsCurrriculumVitaePage() {
       ]}
       faqs={[
         {
-          question: "Cuántas páginas debe tener un CV?",
+          question: "¿Cuántas páginas debe tener un CV?",
           answer:
             "En Argentina, 1 a 2 páginas es lo más recomendado. Perfiles muy senior pueden usar 2-3 páginas, pero cada línea debe justificar su presencia. Menos es más.",
           },
         {
-          question: "Debo incluir foto en el CV?",
+          question: "¿Debo incluir foto en el CV?",
           answer:
             "En Argentina es común incluir foto, pero cada vez más empresas prefieren evitarla para reducir sesgos. Si la incluís, debe ser profesional, de frente, fondo neutro. No selfies ni fotos de vacaciones.",
           },
         {
-          question: "Es mejor un CV cronológico o por habilidades?",
+          question: "¿Es mejor un CV cronológico o por habilidades?",
           answer:
             "Depende de tu trayectoria. El cronológico funciona mejor para perfiles con experiencia lineal y consistente. El funcional funciona mejor para transiciones de carrera o perfiles con lagunas. VitaeSpark permite elegir el formato que mejor se adapte.",
           },
