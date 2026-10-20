@@ -27,10 +27,9 @@ export default function CvParaSeguridadSinExperienciaPage() {
         "VitaeSpark te ayuda a crear un CV de seguridad profesional que destaque tu potencial y tu compromiso con la protección de bienes y personas.",
       ]}
       exampleImage={{
-        src: "/cv-examples/cv-seguridad.png",
-        alt: "Ejemplo completo de CV para vigilador de seguridad privada",
-        caption:
-          "CV ilustrativo de seguridad con accesos, rondas y protocolos.",
+        src: "/cv-examples/cv-primer-empleo.png",
+        alt: "Referencia visual de un CV inicial con actividades escolares y comunitarias",
+        caption: "Referencia visual general de primer empleo. El modelo en texto de esta página está adaptado al puesto; identifica proyectos y voluntariado como actividades, sin presentarlos como empleos."
       }}
       benefits={[
         "Enfoca vigilancia, responsabilidad y capacidad de reacción.",
@@ -55,6 +54,19 @@ export default function CvParaSeguridadSinExperienciaPage() {
         },
       ]}
       sections={[
+        {
+          title: "Ejemplo completo de CV: postulación inicial a seguridad",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Postulación inicial a seguridad · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: [Estudiante o egresado] interesado en una posición inicial de seguridad. En [actividad real] colaboré con orientación de personas, registro de asistentes y comunicación de incidencias al organizador.",
+            "Proyecto o actividad real: Voluntariado de apoyo en eventos · [Institución, organización o contexto] · [Mes/año de inicio–mes/año de fin]. Orienté participantes, consulté la lista de asistentes y avisé al responsable cuando surgieron dudas. Esta actividad fue de apoyo y no debe presentarse como experiencia profesional de vigilancia.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: Observación y comunicación de novedades; registro de asistentes; seguimiento de indicaciones. Incluye primeros auxilios solo si cuentas con formación real.",
+            "Cursos y habilitaciones: [Nombre, entidad, fecha y vigencia, únicamente si los tienes]. Verifica los requisitos locales y del aviso antes de postularte; el modelo no acredita autorización para ejercer.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
         {
           title: "Qué poner en un CV de seguridad sin experiencia",
           paragraphs: [
@@ -95,6 +107,7 @@ export default function CvParaSeguridadSinExperienciaPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-seguridad",
           title: "CV para seguridad",

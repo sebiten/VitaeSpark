@@ -78,24 +78,29 @@ export default function CvCallCenterPage() {
           ],
         },
         {
-          title: "Ejemplo de CV call center",
+          title: "Ejemplo completo de CV: operador de atención telefónica",
           paragraphs: [
-            "Un ejemplo corto puede ser: 'Asesore clientes por teléfono y chat, registre consultas en CRM, derive casos según protocolo y realice seguimiento hasta su resolución, manteniendo comunicación clara y ordenada'.",
-            "Ese tipo de redacción mejora mucho frente a frases vagas como 'atención al cliente', porque explica canal, herramienta y responsabilidad concreta.",
-          ],
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Operador de atención telefónica · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: Operador con experiencia en llamadas entrantes y seguimiento de consultas. Uso de [CRM utilizado] para registrar motivos de contacto, actualizar casos y derivar incidencias.",
+            "Experiencia: Operador de atención · [Empresa o contexto profesional] · [Mes/año de inicio–mes/año de fin]. Atendí llamadas sobre [servicio], registré consultas en el CRM, derivé incidencias según el procedimiento y consulté el estado de los casos para informar al cliente.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: [CRM] para seguimiento de casos; atención telefónica; redacción de notas; consulta de procedimientos.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
         },
         {
           title: "Ejemplos de experiencia para call center",
           paragraphs: [
-            "Para atención al cliente, puedes escribir: 'Gestione llamadas entrantes, registre consultas en CRM y realice seguimiento de casos, manteniendo comunicación clara y resolución ordenada de reclamos frecuentes'.",
-            "Para ventas telefónicas, una versión más comercial sería: 'Contacte potenciales clientes, explique beneficios del servicio, respondi objeciones y cargue resultados en sistema para dar continuidad al proceso comercial'.",
+            "Para atención al cliente, puedes escribir: 'Gestioné llamadas entrantes, registré consultas en CRM y realicé seguimiento de casos, manteniendo comunicación clara y resolución ordenada de reclamos frecuentes'.",
+            "Para ventas telefónicas, una versión más comercial sería: 'Contacté potenciales clientes, expliqué beneficios del servicio, respondí objeciones y cargué resultados en sistema para dar continuidad al proceso comercial'.",
           ],
         },
         {
           title: "Perfil profesional call center sin experiencia",
           paragraphs: [
             "Si todavía no trabajaste en call center, puedes enfocar el perfil en comunicación clara, escucha activa, aprendizaje rápido, manejo básico de computadora y disponibilidad para trabajar con objetivos.",
-            "También suma cualquier experiencia en atención al publico, ventas, recepción, chat, redes sociales o tareas donde hayas respondido consultas y registrado información.",
+            "También suma cualquier experiencia en atención al público, ventas, recepción, chat, redes sociales o tareas donde hayas respondido consultas y registrado información.",
           ],
         },
         {
@@ -109,7 +114,7 @@ export default function CvCallCenterPage() {
           title: "Currículum call center para chat, ventas o soporte",
           paragraphs: [
             "Si el puesto es por chat, conviene nombrar escritura clara, seguimiento de tickets, CRM y tiempos de respuesta. Si es ventas, prioriza llamadas salientes, objeciones, objetivos y cierre.",
-            "Para soporte técnico, suma diagnóstico inicial, derivacion de casos, registro de incidencias y comunicación con otras áreas. Esa precision mejora la lectura y evita un CV demasiado general.",
+            "Para soporte técnico, suma diagnóstico inicial, derivacion de casos, registro de incidencias y comunicación con otras áreas. Esa precisión mejora la lectura y evita un CV demasiado general.",
           ],
         },
         {
@@ -177,6 +182,7 @@ export default function CvCallCenterPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-atencion-al-cliente-sin-experiencia",
           title: "CV atención al cliente sin experiencia",

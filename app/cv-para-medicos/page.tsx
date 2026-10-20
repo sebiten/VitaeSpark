@@ -55,6 +55,19 @@ export default function CvParaMedicosPage() {
       ]}
       sections={[
         {
+          title: "Ejemplo completo de CV: médico/a — [especialidad acreditada, si corresponde]",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Médico/a — [especialidad acreditada, si corresponde] · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: Profesional de medicina con formación en [institución] y experiencia en [ámbito real]. Participación en atención de pacientes, registro clínico y coordinación con el equipo según las responsabilidades del cargo.",
+            "Experiencia: [Cargo médico real] · [Institución de salud] · [Mes/año de inicio–mes/año de fin]. Realicé [actividad clínica dentro del alcance de mi cargo], registré la atención en [sistema utilizado] y coordiné [seguimiento o derivación] con el equipo. Describe el contexto sin incluir datos que identifiquen pacientes.",
+            "Formación: Medicina · [Universidad] · [Año]. [Especialidad o residencia, institución y estado real].",
+            "Habilidades: [Sistema de historia clínica] para registro; [procedimientos acreditados y pertinentes]; comunicación con equipos de salud.",
+            "Matrícula y habilitación: [Jurisdicción, número y vigencia cuando corresponda]. Incluye solo credenciales vigentes y comprobables; no uses el ejemplo para atribuirte una especialidad.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
+        {
           title: "Qué debe mostrar un CV médico",
           paragraphs: [
             "Lo principal suele ser formación académica, experiencia asistencial, residencia, especialidad, cursos, congresos e idiomas si aportan al perfil. Según el caso, también pueden sumar publicaciones o docencia.",
@@ -87,6 +100,7 @@ export default function CvParaMedicosPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/plantilla-harvard",
           title: "Plantilla Harvard",

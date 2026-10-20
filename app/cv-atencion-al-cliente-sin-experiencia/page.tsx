@@ -40,10 +40,9 @@ export default function CvAtencionClienteSinExperienciaPage() {
         label: "Crear mi primer CV",
       }}
       exampleImage={{
-        src: "/cv-examples/cv-atencion.png",
-        alt: "Ejemplo completo de CV para atención al cliente",
-        caption:
-          "CV ilustrativo de atención con consultas, seguimiento y comunicación clara.",
+        src: "/cv-examples/cv-primer-empleo.png",
+        alt: "Referencia visual de un CV inicial con actividades escolares y comunitarias",
+        caption: "Referencia visual general de primer empleo. El modelo en texto de esta página está adaptado al puesto; identifica proyectos y voluntariado como actividades, sin presentarlos como empleos."
       }}
       benefits={[
         "Te ayuda a destacar habilidades útiles aunque no tengas empleo formal previo.",
@@ -83,11 +82,16 @@ export default function CvAtencionClienteSinExperienciaPage() {
           ],
         },
         {
-          title: "Ejemplo de CV para atención al cliente sin experiencia",
+          title: "Ejemplo completo de CV: atención al cliente — perfil inicial",
           paragraphs: [
-            "Una frase útil para experiencia o actividades puede ser: 'Brinde atención a personas en contextos informales y académicos, resolviendo consultas, organizando tareas y manteniendo trato claro y responsable'.",
-            "Si vendiste por redes, ayudaste en un negocio familiar o hiciste voluntariado, explícalo de forma directa. Eso suele funcionar mejor que dejar la sección vacía.",
-          ],
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Atención al cliente — perfil inicial · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: [Estudiante o egresado] con participación en [actividad real] que incluyó orientación de personas y respuesta a consultas. Interés en atención presencial o por mensajería.",
+            "Proyecto o actividad real: Voluntariado de orientación a participantes · [Institución, organización o contexto] · [Mes/año de inicio–mes/año de fin]. Recibí a participantes, expliqué horarios y ubicaciones, y derivé consultas al responsable de la actividad cuando no tenía la respuesta.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: Escucha y explicación de indicaciones; registro de consultas; [herramienta de mensajería utilizada].",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
         },
         {
           title: "Habilidades que puedes destacar",
@@ -127,6 +131,7 @@ export default function CvAtencionClienteSinExperienciaPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/blog/que-poner-en-un-curriculum",
           title: "Qué poner en un currículum",

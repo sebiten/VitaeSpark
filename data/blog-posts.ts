@@ -78,9 +78,9 @@ export const blogPosts = [
   },
   {
     href: "/blog/ejemplo-de-curriculum-vitae",
-    title: "Ejemplo de curriculum vitae",
+    title: "Un CV explicado: antes y después",
     description:
-      "Aprende a usar ejemplos de CV como referencia sin terminar con un documento generico.",
+      "Analiza una postulación administrativa y aprende por qué cambiar el perfil, las tareas y las habilidades.",
     category: "Ejemplos",
     iconKey: "FileText",
   },

@@ -27,10 +27,9 @@ export default function CvParaRecepcionistaSinExperienciaPage() {
         "VitaeSpark te ayuda a crear un CV que muestre tu potencial como recepcionista desde el primer contacto.",
       ]}
       exampleImage={{
-        src: "/cv-examples/cv-recepcionista.png",
-        alt: "Ejemplo completo de CV para recepcionista administrativa",
-        caption:
-          "CV ilustrativo de recepción con agenda, llamadas y soporte administrativo.",
+        src: "/cv-examples/cv-primer-empleo.png",
+        alt: "Referencia visual de un CV inicial con actividades escolares y comunitarias",
+        caption: "Referencia visual general de primer empleo. El modelo en texto de esta página está adaptado al puesto; identifica proyectos y voluntariado como actividades, sin presentarlos como empleos."
       }}
       benefits={[
         "Enfoca atención al cliente, organización y habilidades comunicacionales.",
@@ -55,6 +54,18 @@ export default function CvParaRecepcionistaSinExperienciaPage() {
         },
       ]}
       sections={[
+        {
+          title: "Ejemplo completo de CV: recepcionista — perfil inicial",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Recepcionista — perfil inicial · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: [Estudiante o egresado] con práctica en orientación de participantes y organización de horarios durante [actividad]. Interés en recepción y atención telefónica.",
+            "Proyecto o actividad real: Apoyo en jornadas escolares o comunitarias · [Institución, organización o contexto] · [Mes/año de inicio–mes/año de fin]. Registré asistentes, comuniqué horarios, indiqué salas y derivé consultas al organizador. Actualicé una lista de participantes con supervisión.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: Registro de asistentes; comunicación de indicaciones; uso de [planilla o calendario]; trato cordial.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
         {
           title: "Qué poner en un CV de recepcionista sin experiencia",
           paragraphs: [
@@ -95,6 +106,7 @@ export default function CvParaRecepcionistaSinExperienciaPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-recepcionista",
           title: "CV para recepcionista",

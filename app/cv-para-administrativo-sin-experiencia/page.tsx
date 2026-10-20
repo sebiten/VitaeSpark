@@ -27,10 +27,9 @@ export default function CvParaAdministrativoSinExperienciaPage() {
         "VitaeSpark te ayuda a crear un CV administrativo profesional que destaque tu potencial desde el primer envío.",
       ]}
       exampleImage={{
-        src: "/cv-examples/cv-administrativo.png",
-        alt: "Ejemplo completo de CV para auxiliar administrativa",
-        caption:
-          "CV ilustrativo administrativo con herramientas y tareas concretas.",
+        src: "/cv-examples/cv-primer-empleo.png",
+        alt: "Referencia visual de un CV inicial con actividades escolares y comunitarias",
+        caption: "Referencia visual general de primer empleo. El modelo en texto de esta página está adaptado al puesto; identifica proyectos y voluntariado como actividades, sin presentarlos como empleos."
       }}
       benefits={[
         "Enfoca organización, precisión y manejo de herramientas digitales.",
@@ -55,6 +54,18 @@ export default function CvParaAdministrativoSinExperienciaPage() {
         },
       ]}
       sections={[
+        {
+          title: "Ejemplo completo de CV: auxiliar administrativo — perfil inicial",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Auxiliar administrativo — perfil inicial · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: [Estudiante o egresado de formación real] con práctica en carga de datos y organización de documentos mediante [herramienta]. Interés en tareas de apoyo de oficina.",
+            "Proyecto o actividad real: Proyecto académico de registro de compras · [Institución, organización o contexto] · [Mes/año de inicio–mes/año de fin]. Cargué comprobantes de práctica en una planilla, ordené archivos por fecha y revisé importes contra los documentos del ejercicio. Presenté el registro al docente.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: [Funciones de planilla que dominas]; clasificación de documentos; revisión de datos; redacción de correos.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
         {
           title: "Qué poner en un CV de administrativo sin experiencia",
           paragraphs: [
@@ -95,6 +106,7 @@ export default function CvParaAdministrativoSinExperienciaPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-administrativo",
           title: "CV para administrativo",

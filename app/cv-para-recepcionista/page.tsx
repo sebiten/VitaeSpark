@@ -41,7 +41,7 @@ export default function CvParaRecepcionistaPage() {
         label: "Crear mi CV de recepcionista",
       }}
       benefits={[
-        "Destaca atención al publico, agenda, llamadas y tareas administrativas.",
+        "Destaca atención al público, agenda, llamadas y tareas administrativas.",
         "Sirve para recepción en oficinas, salud, hoteleria, comercios y empresas.",
         "Ayuda a mostrar organización y trato profesional con formato ATS.",
       ]}
@@ -63,6 +63,18 @@ export default function CvParaRecepcionistaPage() {
         },
       ]}
       sections={[
+        {
+          title: "Ejemplo completo de CV: recepcionista de oficina",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Recepcionista de oficina · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: Recepcionista con experiencia en recepción de visitas, atención telefónica y coordinación de agenda. Manejo de [herramienta] para registrar turnos y comunicar cambios.",
+            "Experiencia: Recepcionista · [Organización] · [Mes/año de inicio–mes/año de fin]. Recibí visitas, confirmé citas, derivé llamadas y actualicé la agenda del equipo. Registré mensajes y avisé cambios de horario a las personas involucradas.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: [Calendario utilizado] para agenda; atención telefónica; registro de mensajes; organización de visitas.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
         {
           title: "Qué debe mostrar un CV para recepcionista",
           paragraphs: [
@@ -113,7 +125,7 @@ export default function CvParaRecepcionistaPage() {
         {
           question: "¿Puedo usarlo si no tengo experiencia?",
           answer:
-            "Sí. En ese caso conviene reforzar cursos, herramientas, experiencia de atención al publico y habilidades transferibles.",
+            "Sí. En ese caso conviene reforzar cursos, herramientas, experiencia de atención al público y habilidades transferibles.",
         },
         {
           question: "¿Qué poner en experiencia de recepcionista?",
@@ -123,7 +135,7 @@ export default function CvParaRecepcionistaPage() {
         {
           question: "¿Cómo hacer un CV para recepcionista sin experiencia?",
           answer:
-            "Enfoca cursos, herramientas digitales, atención al publico, organización, disponibilidad y ejemplos donde hayas tratado con personas o administrado información.",
+            "Enfoca cursos, herramientas digitales, atención al público, organización, disponibilidad y ejemplos donde hayas tratado con personas o administrado información.",
         },
         {
           question: "¿Qué debe incluir un currículum recepcionista para consultorio?",
@@ -137,6 +149,7 @@ export default function CvParaRecepcionistaPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/blog/que-poner-en-un-curriculum",
           title: "Qué poner en un currículum",

@@ -26,9 +26,14 @@ export default function CurriculumSinExperienciaPage() {
         "Hacer un currículum sin experiencia puede sentirse difícil porque muchas personas creen que no tienen nada valioso para mostrar. En realidad, un buen CV para primer empleo no depende solo de trabajos previos: también puede destacar estudios, proyectos, prácticas, herramientas, cursos y habilidades relevantes.",
         "La clave esta en presentar esa información con orden, criterio y enfoque en el puesto que buscas. VitaeSpark te ayuda a estructurar ese contenido para que tu perfil se vea más solido, incluso si todavía estas construyendo experiencia laboral formal.",
       ]}
+      exampleImage={{
+        src: "/cv-examples/cv-primer-empleo.png",
+        alt: "Referencia visual de un CV inicial con actividades escolares y comunitarias",
+        caption: "Referencia visual general de primer empleo. El modelo en texto de esta página está adaptado al puesto; identifica proyectos y voluntariado como actividades, sin presentarlos como empleos."
+      }}
       benefits={[
         "Ayuda a transformar estudios, cursos y proyectos en un perfil más competitivo.",
-        "Sirve para primer empleo, pasantias, prácticas y cambios de rubro.",
+        "Sirve para primer empleo, pasantías, prácticas y cambios de rubro.",
         "Te guía para evitar el clasico CV vacío o demasiado genérico.",
       ]}
       steps={[
@@ -49,6 +54,18 @@ export default function CurriculumSinExperienciaPage() {
         },
       ]}
       sections={[
+        {
+          title: "Ejemplo completo de CV: auxiliar de oficina — perfil inicial",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Auxiliar de oficina — perfil inicial · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: [Estudiante o egresado de formación] con conocimientos de [herramienta practicada]. En [actividad real] organicé archivos y preparé un registro de información. Busco mi primera oportunidad en tareas de apoyo administrativo.",
+            "Proyecto o actividad real: Proyecto de organización de documentación · [Institución, organización o contexto] · [Mes/año de inicio–mes/año de fin]. Clasifiqué documentos por fecha, cargué datos en una planilla y revisé registros repetidos antes de entregar el trabajo.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: [Herramienta] para carga y revisión de datos; clasificación de archivos; seguimiento de instrucciones.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
         {
           title: "Qué poner en un currículum sin experiencia",
           paragraphs: [
@@ -82,6 +99,7 @@ export default function CurriculumSinExperienciaPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-atencion-al-cliente",
           title: "CV para atención al cliente",

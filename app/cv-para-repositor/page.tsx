@@ -23,8 +23,8 @@ export default function CvParaRepositorPage() {
     <MarketingPage
       path="/cv-para-repositor"
       eyebrow="CV por profesión"
-      title="CV de repositor para supermercado, stock y deposito"
-      description="Prepara un currículum repositor con ejemplo listo, perfil profesional, reposición, gondolas, stock, vencimientos, deposito y ritmo operativo."
+      title="CV de repositor para supermercado, stock y depósito"
+      description="Prepara un currículum repositor con ejemplo listo, perfil profesional, reposición, gondolas, stock, vencimientos, depósito y ritmo operativo."
       intro={[
         "Un CV de repositor debe transmitir responsabilidad, orden y capacidad operativa. Conviene mostrar experiencia en reposición, control de stock, rotación de productos, limpieza de sector, descarga, inventario y atención básica al cliente.",
         "En algunos países el puesto se publica como reponedor. VitaeSpark te ayuda a ordenar la misma experiencia en un currículum claro para supermercados, mayoristas, farmacias, tiendas y comercios.",
@@ -44,7 +44,7 @@ export default function CvParaRepositorPage() {
         {
           title: "Define el rubro",
           description:
-            "Aclara si fue supermercado, farmacia, mayorista, tienda o deposito.",
+            "Aclara si fue supermercado, farmacia, mayorista, tienda o depósito.",
         },
         {
           title: "Describe tareas operativas",
@@ -69,20 +69,25 @@ export default function CvParaRepositorPage() {
           title: "Perfil profesional para repositor",
           paragraphs: [
             "Una base clara puede ser: 'Perfil operativo orientado a reposición y orden de mercaderia, con experiencia en control de stock, rotación de productos, limpieza de sector y apoyo a clientes en comercios de alto movimiento'.",
-            "Si también hiciste deposito, caja o atención al cliente, conviene mencionarlo porque muchas empresas valoran perfiles que puedan cubrir varias tareas dentro del salon o supermercado.",
+            "Si también hiciste depósito, caja o atención al cliente, conviene mencionarlo porque muchas empresas valoran perfiles que puedan cubrir varias tareas dentro del salon o supermercado.",
           ],
         },
         {
-          title: "Ejemplo de CV de repositor de supermercado",
+          title: "Ejemplo completo de CV: repositor/a de supermercado",
           paragraphs: [
-            "Una frase útil puede ser: 'Realice reposición de gondolas, control de stock y vencimientos, rotación de productos, orden del sector y apoyo en descarga y atención básica a clientes'.",
-            "Si tu experiencia fue principalmente en deposito, cambia el foco a recepción de mercaderia, carga y descarga, preparación de pedidos y control básico de stock.",
-          ],
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Repositor/a de supermercado · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: Repositor con experiencia en organización de góndolas, revisión de vencimientos y control de mercadería. Coordinación con depósito para solicitar productos faltantes.",
+            "Experiencia: Repositor/a · [Supermercado] · [Mes/año de inicio–mes/año de fin]. Repuse productos según su ubicación, revisé fechas de vencimiento, comuniqué faltantes y mantuve ordenado el sector. Verifiqué etiquetas y derivé diferencias de precio al responsable.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: Reposición y rotación de mercadería; lectura de etiquetas; control visual de productos; [sistema de stock, si lo utilizaste].",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
         },
         {
           title: "Experiencia de repositor en supermercado",
           paragraphs: [
-            "Si apuntas a supermercado, detalla tareas de gondola, stock, vencimientos, rotación, precios, reposición, pasillos, limpieza del sector, deposito y atención al cliente. Elige solo las que formen parte de tu experiencia.",
+            "Si apuntas a supermercado, detalla tareas de gondola, stock, vencimientos, rotación, precios, reposición, pasillos, limpieza del sector, depósito y atención al cliente. Elige solo las que formen parte de tu experiencia.",
             "También conviene aclarar disponibilidad para turnos, fines de semana o horarios rotativos si realmente la tienes, porque muchos procesos de retail filtran por ese dato.",
           ],
         },
@@ -97,7 +102,7 @@ export default function CvParaRepositorPage() {
           title: "CV para repositor sin experiencia",
           paragraphs: [
             "Si no tienes experiencia directa, puedes destacar disponibilidad horaria, responsabilidad, puntualidad, buena condicion para tareas operativas, estudios, cursos o trabajos informales donde hayas demostrado orden y constancia.",
-            "También suma mencionar atención al publico o tareas de deposito si las tuviste, porque son experiencias cercanas al rol.",
+            "También suma mencionar atención al público o tareas de depósito si las tuviste, porque son experiencias cercanas al rol.",
           ],
         },
         {
@@ -111,7 +116,7 @@ export default function CvParaRepositorPage() {
           title: "Errores comunes en un currículum repositor",
           paragraphs: [
             "Un error común es quedarse solo en 'reposición de productos'. Conviene agregar stock, vencimientos, rotación, orden, limpieza, descarga, inventario o atención básica si corresponden.",
-            "Otro error es no aclarar el rubro. Repositor de supermercado, farmacia, mayorista, tienda o deposito pueden parecer puestos parecidos, pero las tareas y exigencias cambian bastante.",
+            "Otro error es no aclarar el rubro. Repositor de supermercado, farmacia, mayorista, tienda o depósito pueden parecer puestos parecidos, pero las tareas y exigencias cambian bastante.",
           ],
         },
       ]}
@@ -144,7 +149,7 @@ export default function CvParaRepositorPage() {
         {
           question: "¿Cómo hacer un CV de repositor sin experiencia?",
           answer:
-            "Destaca disponibilidad horaria, responsabilidad, puntualidad, condicion para tareas operativas, estudios, atención al publico, tareas informales y ganas de aprender procesos de stock o reposición.",
+            "Destaca disponibilidad horaria, responsabilidad, puntualidad, condicion para tareas operativas, estudios, atención al público, tareas informales y ganas de aprender procesos de stock o reposición.",
         },
         {
           question: "¿Repositor y reponedor significan lo mismo?",
@@ -153,6 +158,7 @@ export default function CvParaRepositorPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-cajero",
           title: "CV para cajero",
@@ -171,7 +177,7 @@ export default function CvParaRepositorPage() {
         {
           href: "/cv-para-operario",
           title: "CV para operario",
-          description: "Buena alternativa si también hiciste deposito, carga o tareas operativas.",
+          description: "Buena alternativa si también hiciste depósito, carga o tareas operativas.",
         },
         {
           href: "/cv-para-limpieza",

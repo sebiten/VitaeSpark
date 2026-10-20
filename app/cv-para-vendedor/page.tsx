@@ -56,6 +56,18 @@ export default function CvParaVendedorPage() {
       ]}
       sections={[
         {
+          title: "Ejemplo completo de CV: vendedor/a de comercio",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Vendedor/a de comercio · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: Vendedor con experiencia en asesoramiento sobre [productos], seguimiento de consultas y atención postventa. Manejo de [herramienta] para registrar pedidos y verificar disponibilidad.",
+            "Experiencia: Vendedor/a · [Comercio] · [Mes/año de inicio–mes/año de fin]. Consulté las necesidades del cliente, expliqué características de los productos, registré pedidos y coordiné entregas. Derivé cambios o reclamos al responsable según el procedimiento del local.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: Asesoramiento de productos; consulta de stock; registro de pedidos; [CRM o sistema utilizado].",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
+        {
           title: "Qué destacar en un CV para vendedor",
           paragraphs: [
             "Suele sumar experiencia en atención al cliente, asesoramiento, manejo de objeciones, cierre de ventas, reposición, seguimiento de clientes, cumplimiento de objetivos y uso de sistemas de facturación o CRM.",
@@ -66,7 +78,7 @@ export default function CvParaVendedorPage() {
           title: "Ejemplo de perfil profesional para vendedor",
           paragraphs: [
             "Una base útil puede ser: 'Perfil comercial orientado a ventas y atención al cliente, con experiencia en asesoramiento, cierre de operaciones, seguimiento de consultas y cumplimiento de objetivos en entornos de retail o venta directa'.",
-            "Lo ideal es adaptarlo a tu rubro. No suena igual vender tecnologia, indumentaria, servicios, autos o productos financieros; cuanto más concreto sea el contexto, mejor.",
+            "Lo ideal es adaptarlo a tu rubro. No suena igual vender tecnología, indumentaria, servicios, autos o productos financieros; cuanto más concreto sea el contexto, mejor.",
           ],
         },
         {
@@ -79,7 +91,7 @@ export default function CvParaVendedorPage() {
         {
           title: "CV para vendedor sin experiencia",
           paragraphs: [
-            "Si todavía no trabajaste como vendedor, puedes destacar atención al publico, trato con clientes, actividades comerciales informales, proyectos, cursos o experiencias donde hayas tenido que comunicar, organizar o convencer.",
+            "Si todavía no trabajaste como vendedor, puedes destacar atención al público, trato con clientes, actividades comerciales informales, proyectos, cursos o experiencias donde hayas tenido que comunicar, organizar o convencer.",
             "También ayuda explicar disponibilidad, rubro objetivo y habilidades transferibles. Un CV inicial funciona mejor cuando muestra potencial concreto, no solo ganas de aprender.",
           ],
         },
@@ -88,7 +100,7 @@ export default function CvParaVendedorPage() {
         {
           question: "¿Sirve para ventas en local o retail?",
           answer:
-            "Sí. Puedes usarlo para tiendas, supermercados, indumentaria, tecnologia, farmacias, mostrador y comercios en general.",
+            "Sí. Puedes usarlo para tiendas, supermercados, indumentaria, tecnología, farmacias, mostrador y comercios en general.",
         },
         {
           question: "¿Conviene poner objetivos o resultados de venta?",
@@ -98,10 +110,11 @@ export default function CvParaVendedorPage() {
         {
           question: "¿Puedo usarlo si busco mi primer trabajo en ventas?",
           answer:
-            "Sí. En ese caso conviene reforzar habilidades transferibles, atención al publico, cursos y motivación comercial concreta.",
+            "Sí. En ese caso conviene reforzar habilidades transferibles, atención al público, cursos y motivación comercial concreta.",
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-atencion-al-cliente",
           title: "CV para atención al cliente",

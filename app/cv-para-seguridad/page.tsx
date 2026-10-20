@@ -44,7 +44,7 @@ export default function CvParaSeguridadPage() {
         {
           title: "Define el tipo de seguridad",
           description:
-            "Aclara si fue consorcio, comercio, evento, empresa, deposito o control de ingreso.",
+            "Aclara si fue consorcio, comercio, evento, empresa, depósito o control de ingreso.",
         },
         {
           title: "Describe tareas y protocolos",
@@ -73,11 +73,17 @@ export default function CvParaSeguridadPage() {
           ],
         },
         {
-          title: "Ejemplo de CV para vigilador o seguridad",
+          title: "Ejemplo completo de CV: vigilador/a",
           paragraphs: [
-            "Una frase concreta puede ser: 'Realice control de ingreso y egreso de personas, registro de visitantes, rondas preventivas y reporte de novedades, manteniendo cumplimiento de protocolos y trato responsable'.",
-            "El ejemplo explica tareas y contexto sin exagerar el perfil ni atribuir funciones que no correspondan.",
-          ],
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Vigilador/a · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: Vigilador con experiencia en control de accesos, registro de novedades y recorridas en [tipo de establecimiento]. Aplicación de procedimientos y comunicación con el supervisor.",
+            "Experiencia: Vigilador/a · [Empresa y tipo de servicio] · [Mes/año de inicio–mes/año de fin]. Verifiqué ingresos según las autorizaciones del servicio, registré novedades del turno y comuniqué incidencias al supervisor. Realicé recorridas conforme al procedimiento asignado.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: Registro de novedades; control de accesos; [equipo de comunicación realmente utilizado]; lectura de procedimientos.",
+            "Habilitaciones: [Credencial, jurisdicción y vigencia, si corresponde]. Comprueba los requisitos del puesto y no declares cursos o autorizaciones que no tengas.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
         },
         {
           title: "CV para vigilador privado",
@@ -136,6 +142,7 @@ export default function CvParaSeguridadPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-recepcionista",
           title: "CV para recepcionista",
@@ -154,7 +161,7 @@ export default function CvParaSeguridadPage() {
         {
           href: "/cv-para-operario",
           title: "CV para operario",
-          description: "Alternativa si buscas puestos operativos, deposito o control.",
+          description: "Alternativa si buscas puestos operativos, depósito o control.",
         },
         {
           href: "/cv-para-primer-empleo",

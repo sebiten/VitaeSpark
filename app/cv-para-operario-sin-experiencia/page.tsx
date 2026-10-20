@@ -27,10 +27,9 @@ export default function CvParaOperarioSinExperienciaPage() {
         "VitaeSpark te ayuda a crear un CV operario profesional que comunique tu potencial y disposición para el trabajo.",
       ]}
       exampleImage={{
-        src: "/cv-examples/cv-operario.png",
-        alt: "Ejemplo completo de CV para operario de producción",
-        caption:
-          "CV ilustrativo operativo con producción, calidad y disponibilidad.",
+        src: "/cv-examples/cv-primer-empleo.png",
+        alt: "Referencia visual de un CV inicial con actividades escolares y comunitarias",
+        caption: "Referencia visual general de primer empleo. El modelo en texto de esta página está adaptado al puesto; identifica proyectos y voluntariado como actividades, sin presentarlos como empleos."
       }}
       benefits={[
         "Enfoca responsabilidad, capacidad de aprendizaje y disposición operativa.",
@@ -55,6 +54,19 @@ export default function CvParaOperarioSinExperienciaPage() {
         },
       ]}
       sections={[
+        {
+          title: "Ejemplo completo de CV: ayudante de producción — perfil inicial",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Ayudante de producción — perfil inicial · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: [Estudiante o egresado] interesado en tareas de empaque y apoyo de producción. En [actividad real] organicé materiales y seguí una secuencia de armado con supervisión.",
+            "Proyecto o actividad real: Proyecto de taller o actividad comunitaria · [Institución, organización o contexto] · [Mes/año de inicio–mes/año de fin]. Preparé materiales, conté unidades y colaboré en el armado de paquetes siguiendo las instrucciones del responsable. Mantuve ordenado el espacio al finalizar.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: Conteo y clasificación de materiales; seguimiento de instrucciones; trabajo coordinado; [herramientas que realmente utilizaste].",
+            "No declares manejo de maquinaria ni certificaciones de seguridad sin formación y práctica reales. Indica turnos rotativos únicamente si puedes cumplirlos.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
         {
           title: "Qué poner en un CV de operario sin experiencia",
           paragraphs: [
@@ -95,6 +107,7 @@ export default function CvParaOperarioSinExperienciaPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-operario",
           title: "CV para operario",

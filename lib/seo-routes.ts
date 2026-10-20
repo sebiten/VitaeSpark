@@ -63,6 +63,18 @@ export type PublicSeoRoute = (typeof publicSeoRoutes)[number];
 
 // Fechas de cambios sustanciales de contenido, no de cada despliegue.
 export const seoContentLastModified: Partial<Record<PublicSeoRoute, string>> = {
+  "/cv-para-recepcionista-sin-experiencia": "2026-10-20",
+  "/cv-para-limpieza": "2026-10-20",
+  "/cv-para-seguridad": "2026-10-20",
+  "/cv-para-repositor": "2026-10-20",
+  "/cv-para-recepcionista": "2026-10-20",
+  "/cv-para-vendedor": "2026-10-20",
+  "/cv-para-cajero-sin-experiencia": "2026-10-20",
+  "/cv-atencion-al-cliente-sin-experiencia": "2026-10-20",
+  "/cv-para-estudiantes": "2026-10-20",
+  "/cv-para-medicos": "2026-10-20",
+  "/cv-para-programadores": "2026-10-20",
+  "/curriculum-sin-experiencia": "2026-10-20",
   "/glosario/como-escribir-perfil-profesional": "2026-10-20",
   "/comparar/cv-ats-vs-cv-convencional": "2026-10-20",
   "/comparar/cv-harvard-vs-cv-tradicional": "2026-10-20",

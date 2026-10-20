@@ -76,6 +76,19 @@ export default function CvParaLimpiezaPage() {
       ]}
       sections={[
         {
+          title: "Ejemplo completo de CV: personal de limpieza de oficinas",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Personal de limpieza de oficinas · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: Personal de limpieza con experiencia en mantenimiento de oficinas y espacios comunes. Organización de recorridos, reposición de insumos y uso de productos según indicaciones.",
+            "Experiencia: Personal de limpieza · [Empresa o actividad independiente] · [Mes/año de inicio–mes/año de fin]. Limpié superficies y sanitarios según la rutina asignada, repuse insumos y comuniqué faltantes o desperfectos. Utilicé los productos y elementos de protección indicados para cada tarea.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: Organización de rutinas; identificación de productos utilizados; reposición de insumos; [equipo que sabes operar].",
+            "Si tu experiencia fue en domicilios particulares, identifícala como trabajo independiente. No declares limpieza hospitalaria o manejo de maquinaria industrial si no realizaste esas tareas.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
+        {
           title: "CV para limpieza: que poner para que se vea serio",
           paragraphs: [
             "Suele sumar experiencia en limpieza de espacios, mantenimiento de áreas comunes, uso de productos, orden de materiales, cumplimiento de rutinas, reposición de insumos y cuidado de normas de higiene. Estas tareas deberían aparecer antes que frases genéricas como 'buena predisposicion'.",
@@ -139,6 +152,7 @@ export default function CvParaLimpiezaPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-repositor",
           title: "CV para repositor",
@@ -152,7 +166,7 @@ export default function CvParaLimpiezaPage() {
         {
           href: "/cv-para-operario",
           title: "CV para operario",
-          description: "Cercano si buscas puestos de servicios generales, mantenimiento o deposito.",
+          description: "Cercano si buscas puestos de servicios generales, mantenimiento o depósito.",
         },
         {
           href: "/",

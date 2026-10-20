@@ -19,21 +19,20 @@ export default function CvParaEstudiantesPage() {
     <MarketingPage
       path="/cv-para-estudiantes"
       eyebrow="CV por profesión"
-      title="CV para estudiantes que buscan prácticas, pasantias o primer empleo"
+      title="CV para estudiantes que buscan prácticas, pasantías o primer empleo"
       description="Destaca estudios, cursos, proyectos y habilidades con una estructura pensada para perfiles iniciales y postulaciones de entrada."
       intro={[
         "Un CV para estudiantes tiene que compensar la falta de experiencia formal mostrando de manera inteligente estudios, herramientas, proyectos, idiomas y actividades relevantes.",
-        "VitaeSpark te ayuda a convertir ese recorrido en un perfil más ordenado y profesional para aplicar a pasantias, prácticas o primer empleo.",
+        "VitaeSpark te ayuda a convertir ese recorrido en un perfil más ordenado y profesional para aplicar a pasantías, prácticas o primer empleo.",
       ]}
       exampleImage={{
-        src: "/cv-examples/cv-estudiante.png",
-        alt: "Ejemplo completo de CV para estudiante sin experiencia formal",
-        caption:
-          "CV ilustrativo de estudiante con proyectos, voluntariado y habilidades.",
+        src: "/cv-examples/cv-primer-empleo.png",
+        alt: "Referencia visual de un CV inicial con actividades escolares y comunitarias",
+        caption: "Referencia visual general de primer empleo. El modelo en texto de esta página está adaptado al puesto; identifica proyectos y voluntariado como actividades, sin presentarlos como empleos."
       }}
       benefits={[
         "Mejor presentación de estudios, cursos y proyectos.",
-        "Ideal para pasantias, prácticas profesionales y primer empleo.",
+        "Ideal para pasantías, prácticas profesionales y primer empleo.",
         "Evita el típico CV vacío o demasiado genérico.",
       ]}
       steps={[
@@ -54,6 +53,19 @@ export default function CvParaEstudiantesPage() {
         },
       ]}
       sections={[
+        {
+          title: "Ejemplo completo de CV: estudiante de [carrera] — postulación a pasantía",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Estudiante de [carrera] — postulación a pasantía · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: Estudiante de [carrera y avance real] interesado en una pasantía de [área]. En [materia o proyecto] utilicé [herramienta] para organizar datos y presentar conclusiones.",
+            "Proyecto o actividad real: Proyecto académico de análisis de datos · [Institución, organización o contexto] · [Mes/año de inicio–mes/año de fin]. Recopilé información para el trabajo de [materia], organicé una tabla compartida y preparé una presentación con el equipo. Mi aporte específico fue [tarea realizada].",
+            "Formación: [Carrera] · [Institución] · En curso desde [año]. [Avance verificable].",
+            "Habilidades: [Herramienta] aplicada al proyecto; búsqueda de información; presentación de resultados; coordinación de entregas.",
+            "Disponibilidad académica: [Horarios compatibles con las clases]. Si la pasantía requiere convenio, consulta las condiciones con tu institución antes de afirmarlo en el CV.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
         {
           title: "Qué poner en un CV de estudiante",
           paragraphs: [
@@ -76,7 +88,7 @@ export default function CvParaEstudiantesPage() {
             "Sí. Justamente esta pensado para mostrar potencial, estudios y habilidades aunque falte experiencia formal.",
         },
         {
-          question: "¿Sirve para pasantias?",
+          question: "¿Sirve para pasantías?",
           answer:
             "Sí. Es uno de los mejores casos de uso para este tipo de CV.",
         },
@@ -87,6 +99,7 @@ export default function CvParaEstudiantesPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",

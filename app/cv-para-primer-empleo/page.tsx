@@ -28,14 +28,13 @@ export default function CvParaPrimerEmpleoPage() {
       ]}
       exampleImage={{
         src: "/cv-examples/cv-primer-empleo.png",
-        alt: "Ejemplo completo de CV para primer empleo",
-        caption:
-          "CV ilustrativo de primer empleo con proyectos, estudios y habilidades transferibles.",
+        alt: "Referencia visual de un CV inicial con actividades escolares y comunitarias",
+        caption: "Referencia visual general de primer empleo. El modelo en texto de esta página está adaptado al puesto; identifica proyectos y voluntariado como actividades, sin presentarlos como empleos."
       }}
       benefits={[
         "Te ayuda a destacar potencial sin exagerar experiencia.",
         "Ordena estudios, cursos y proyectos en un formato profesional.",
-        "Sirve para pasantias, prácticas y primeros trabajos formales.",
+        "Sirve para pasantías, prácticas y primeros trabajos formales.",
       ]}
       steps={[
         {
@@ -55,6 +54,18 @@ export default function CvParaPrimerEmpleoPage() {
         },
       ]}
       sections={[
+        {
+          title: "Ejemplo completo de CV: asistente de comercio — primer empleo",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Asistente de comercio — primer empleo · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: [Estudiante o egresado de estudios reales] con práctica en organización de materiales y atención de consultas durante [actividad]. Interés en aprender tareas de salón y atención al público.",
+            "Proyecto o actividad real: Colaboración en feria escolar o comunitaria · [Institución, organización o contexto] · [Mes/año de inicio–mes/año de fin]. Organicé materiales para el puesto, expliqué la actividad a visitantes y registré pedidos en una planilla con supervisión del responsable.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: Organización de materiales; comunicación con visitantes; [planilla utilizada] para registrar pedidos.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
         {
           title: "Qué poner en un CV para primer empleo",
           paragraphs: [
@@ -79,7 +90,7 @@ export default function CvParaPrimerEmpleoPage() {
         {
           title: "Habilidades para un primer trabajo",
           paragraphs: [
-            "Para perfiles iniciales suelen sumar comunicación, responsabilidad, puntualidad, aprendizaje rápido, organización, herramientas digitales, atención al publico, trabajo en equipo y disponibilidad horaria.",
+            "Para perfiles iniciales suelen sumar comunicación, responsabilidad, puntualidad, aprendizaje rápido, organización, herramientas digitales, atención al público, trabajo en equipo y disponibilidad horaria.",
             "No conviene poner una lista demasiado larga. Es mejor elegir habilidades relacionadas con el empleo objetivo y reforzarlas con estudios, cursos o ejemplos simples.",
           ],
         },
@@ -115,10 +126,11 @@ export default function CvParaPrimerEmpleoPage() {
         {
           question: "¿Qué habilidades sirven para primer empleo?",
           answer:
-            "Responsabilidad, puntualidad, comunicación, herramientas digitales, organización, atención al publico, trabajo en equipo, aprendizaje rápido y disponibilidad horaria.",
+            "Responsabilidad, puntualidad, comunicación, herramientas digitales, organización, atención al público, trabajo en equipo, aprendizaje rápido y disponibilidad horaria.",
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-atencion-al-cliente-sin-experiencia",
           title: "CV atención al cliente sin experiencia",
@@ -141,7 +153,7 @@ export default function CvParaPrimerEmpleoPage() {
           href: "/cv-para-operario-sin-experiencia",
           title: "CV para operario sin experiencia",
           description:
-            "Buena opción si buscas tu primer puesto en fabrica, deposito o tareas operativas.",
+            "Buena opción si buscas tu primer puesto en fabrica, depósito o tareas operativas.",
         },
         {
           href: "/curriculum-sin-experiencia",
@@ -153,7 +165,7 @@ export default function CvParaPrimerEmpleoPage() {
           href: "/cv-para-estudiantes",
           title: "CV para estudiantes",
           description:
-            "Ideal si todavía estas cursando y buscas pasantias o primeras oportunidades.",
+            "Ideal si todavía estas cursando y buscas pasantías o primeras oportunidades.",
         },
         {
           href: "/blog/como-hacer-un-curriculum-sin-experiencia",

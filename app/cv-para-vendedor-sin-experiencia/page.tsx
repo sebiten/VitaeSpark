@@ -27,10 +27,9 @@ export default function CvParaVendedorSinExperienciaPage() {
         "VitaeSpark te ayuda a construir un CV que comunique tu potencial comercial y que se vea profesional desde el primer envío.",
       ]}
       exampleImage={{
-        src: "/cv-examples/cv-vendedor.png",
-        alt: "Ejemplo completo de CV para vendedor de salón",
-        caption:
-          "CV ilustrativo comercial con asesoramiento, seguimiento y stock.",
+        src: "/cv-examples/cv-primer-empleo.png",
+        alt: "Referencia visual de un CV inicial con actividades escolares y comunitarias",
+        caption: "Referencia visual general de primer empleo. El modelo en texto de esta página está adaptado al puesto; identifica proyectos y voluntariado como actividades, sin presentarlos como empleos."
       }}
       benefits={[
         "Enfoca habilidades comerciales transferibles y orientación a resultados.",
@@ -55,6 +54,18 @@ export default function CvParaVendedorSinExperienciaPage() {
         },
       ]}
       sections={[
+        {
+          title: "Ejemplo completo de CV: vendedor/a — perfil inicial",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Vendedor/a — perfil inicial · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: [Estudiante o egresado] interesado en ventas de [tipo de producto]. En [actividad real] expliqué productos a participantes y registré consultas y pedidos.",
+            "Proyecto o actividad real: Emprendimiento escolar o colaboración en feria · [Institución, organización o contexto] · [Mes/año de inicio–mes/año de fin]. Presenté productos del proyecto, respondí consultas sobre características y anoté pedidos para confirmar disponibilidad con el responsable.",
+            "Formación: [Estudios realizados] · [Institución] · [Año de finalización o estado actual]. Cursos: [Curso relacionado, entidad y fecha; elimina este campo si no corresponde].",
+            "Habilidades: Explicación de productos; escucha de consultas; registro de pedidos; [herramienta digital utilizada].",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
         {
           title: "Qué poner en un CV de vendedor sin experiencia",
           paragraphs: [
@@ -95,6 +106,7 @@ export default function CvParaVendedorSinExperienciaPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-vendedor",
           title: "CV para vendedor",

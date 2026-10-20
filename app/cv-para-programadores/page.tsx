@@ -55,16 +55,29 @@ export default function CvParaProgramadoresPage() {
       ]}
       sections={[
         {
+          title: "Ejemplo completo de CV: desarrollador frontend",
+          paragraphs: [
+            "Modelo ficticio para adaptar. Reemplaza los campos entre corchetes y conserva solo actividades, formación y habilidades reales. Elimina cualquier sección que no corresponda.",
+            "[Nombre y apellido] · Desarrollador frontend · [Ciudad] · [Teléfono] · [Correo profesional].",
+            "Perfil: Desarrollador con experiencia en interfaces con [tecnologías utilizadas]. Implementación de formularios, integración de servicios y revisión de cambios con Git. Portfolio: [Enlace a trabajos propios].",
+            "Experiencia: Desarrollador frontend · [Empresa o contexto profesional] · [Mes/año de inicio–mes/año de fin]. Implementé formularios con validación, conecté pantallas con una API y corregí estados de carga y error. Revisé cambios mediante pull requests y documenté cómo ejecutar el proyecto.",
+            "Formación: [Carrera, tecnicatura o formación realizada] · [Institución] · [Estado y fechas].",
+            "Habilidades: [Lenguaje] aplicado a interfaces; Git para control de versiones; consumo de API; [herramienta de pruebas realmente utilizada].",
+            "Proyecto: [Nombre y enlace al repositorio o demo]. Explica qué parte desarrollaste, qué problema resuelve y cómo probarla. No presentes un tutorial copiado como un producto propio.",
+            "Disponibilidad: [Días y horarios reales]. Revisa el contacto y elimina todos los campos pendientes antes de enviar el documento."
+          ]
+        },
+        {
           title: "Qué debe incluir un CV de programador",
           paragraphs: [
-            "Lo central suele ser stack, experiencia profesional, proyectos relevantes, herramientas, metodologias y un resumen profesional claro. También puede sumar GitHub o portfolio si aporta contexto real a tu trabajo.",
-            "Lo importante es que la tecnologia no aparezca aislada, sino vinculada a soluciones concretas, responsabilidades y resultados.",
+            "Lo central suele ser stack, experiencia profesional, proyectos relevantes, herramientas, metodologías y un resumen profesional claro. También puede sumar GitHub o portfolio si aporta contexto real a tu trabajo.",
+            "Lo importante es que la tecnología no aparezca aislada, sino vinculada a soluciones concretas, responsabilidades y resultados.",
           ],
         },
         {
           title: "Cómo destacar sin inflar el perfil",
           paragraphs: [
-            "En tecnologia se nota rápido cuando un CV esta inflado. Conviene ser preciso con frameworks, lenguajes y alcance del trabajo realizado. Eso genera más confianza que una lista enorme de herramientas sin contexto.",
+            "En tecnología se nota rápido cuando un CV esta inflado. Conviene ser preciso con frameworks, lenguajes y alcance del trabajo realizado. Eso genera más confianza que una lista enorme de herramientas sin contexto.",
             "También suma priorizar las experiencias más cercanas al tipo de puesto que buscas, en vez de intentar mostrar absolutamente todo.",
           ],
         },
@@ -87,6 +100,7 @@ export default function CvParaProgramadoresPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/curriculum-ats",
           title: "Currículum ATS",
