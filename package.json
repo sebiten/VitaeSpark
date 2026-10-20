@@ -11,6 +11,7 @@
     "cron:setup": "node scripts/setup-cronjob-org.mjs",
     "indexnow:submit": "node scripts/submit-indexnow.mjs",
     "social:posts": "node scripts/generate-facebook-posts.mjs",
+    "pinterest:generate": "node scripts/generate-pinterest-pins.mts",
     "flyers:generate": "node scripts/generate-print-flyers.mts",
     "test": "vitest run",
     "test:watch": "vitest"

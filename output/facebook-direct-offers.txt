@@ -1,0 +1,88 @@
+
+
+PUBLICACIONES DIRECTAS - CREACIÓN DE CV
+=======================================
+
+Estas publicaciones venden directamente el producto. No mezclarlas con las publicaciones educativas del archivo.
+Publicar cada versión solamente en grupos cuyo país y moneda coincidan con la oferta.
+
+
+PUBLICACIÓN DIRECTA A - ARGENTINA · $1.999 ARS
+==============================================
+
+Lugares sugeridos:
+- Grupos generales de empleo en Argentina.
+- Grupos laborales de Jujuy, Salta, Tucumán, Córdoba y Buenos Aires.
+- Grupos de primer empleo, administrativos, comercio, minería y oficios.
+- Grupos donde estén permitidas herramientas o servicios para buscar trabajo.
+
+Texto:
+
+¿Necesitás un CV profesional pero no querés perder horas acomodando una plantilla?
+
+En VitaeSpark cargás tu experiencia, estudios y habilidades. La IA ordena la información y te muestra el CV completo antes de pagar.
+
+✓ Podés empezar y pagar sin registrarte
+✓ Vista previa completa antes del pago
+✓ PDF sin marca de agua
+✓ Queda editable y podés guardarlo en tu perfil
+✓ Pago único, sin suscripción
+
+Precio final en Argentina: $1.999 ARS por Mercado Pago.
+
+Creá tu CV acá:
+https://vitaespark.com/cv-listo-argentina?utm_source=facebook&utm_medium=organic_social&utm_campaign=oferta_directa_cv&utm_content=ars_1999
+
+Si tu experiencia está desordenada o tu CV se ve demasiado genérico, VitaeSpark te ayuda a presentarla de forma más clara sin inventar información.
+
+
+PUBLICACIÓN DIRECTA B - INTERNACIONAL · US$2.99
+================================================
+
+Suggested groups:
+- International job-search groups.
+- Entry-level, remote work, customer service, office and trade job groups.
+- Groups where resume tools and career resources are allowed.
+- Do not use this version in Argentina-only groups.
+
+Post copy:
+
+Need a professional resume but do not want to spend hours formatting a template?
+
+With VitaeSpark, you enter your experience, education, and skills. AI organizes the information and shows you the complete resume before you pay.
+
+✓ No sign-up required to create and pay
+✓ Full preview before payment
+✓ Watermark-free PDF
+✓ Editable and saved to your account after purchase
+✓ One-time payment, no subscription
+
+International price: US$2.99 through PayPal.
+
+Create your resume here:
+https://vitaespark.com/resume-ready?utm_source=facebook&utm_medium=organic_social&utm_campaign=direct_resume_offer&utm_content=usd_299
+
+VitaeSpark helps you present your real experience more clearly. It does not invent jobs, skills, or achievements.
+
+
+VERSIÓN ALTERNATIVA EN ESPAÑOL PARA LATINOS FUERA DE ARGENTINA
+==============================================================
+
+¿Necesitás un CV profesional para postularte y no querés perder horas editando una plantilla?
+
+Con VitaeSpark cargás tus datos, revisás el CV completo antes de pagar y descargás el PDF sin marca de agua. Podés empezar sin registrarte y guardarlo después en tu perfil para editarlo nuevamente.
+
+Precio internacional: US$2.99 por PayPal. Pago único, sin suscripción.
+
+https://vitaespark.com/resume-ready?utm_source=facebook&utm_medium=organic_social&utm_campaign=direct_resume_offer&utm_content=usd_299_latinos
+
+
+MEDICIÓN
+========
+
+- Argentina se identifica por utm_content=ars_1999.
+- Internacional en inglés se identifica por utm_content=usd_299.
+- Internacional en español se identifica por utm_content=usd_299_latinos.
+- Esperar al menos 30 visitas por variante antes de cambiar precio, imagen o copy.
+- Métrica principal: payment_completed / visitas de la landing.
+- Métricas intermedias: CV generado, preview visto y pago iniciado.
