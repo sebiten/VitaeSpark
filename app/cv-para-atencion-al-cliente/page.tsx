@@ -90,8 +90,11 @@ export default function CvParaAtencionAlClientePage() {
         {
           title: "Ejemplos de experiencia para soporte, retail y call center",
           paragraphs: [
-            "Soporte o call center: 'Atendí consultas telefónicas y digitales, registré casos en CRM, derivé reclamos al área correspondiente y realicé seguimiento hasta completar la respuesta'.",
-            "Retail o mostrador: 'Asesoré clientes, resolví consultas sobre productos, gestioné cambios y reclamos simples, y colaboré con caja, stock y orden del sector'.",
+            "Selecciona y copia el fragmento más cercano a tu trabajo en tu editor. Son ejemplos de redacción, no experiencias verificadas de una persona: conserva solo tareas que hiciste y reemplaza los campos entre corchetes.",
+            "Soporte por chat o correo: 'Respondí consultas sobre [producto o servicio] por [canal]. Registré el motivo y las gestiones en [sistema], derivé incidencias a [área responsable] y mantuve informado al cliente hasta recibir una respuesta'.",
+            "Call center de atención: 'Recibí llamadas por consultas de [facturación, pedidos u otro motivo real]. Verifiqué los datos requeridos por el procedimiento, documenté la gestión en [sistema] y escalé los casos que excedían mi autorización'.",
+            "Comercio o mostrador: 'Asesoré sobre [productos], consulté disponibilidad y gestioné cambios conforme a la política del local. Coordiné con caja o depósito cuando la consulta requería verificar un cobro o una entrega'.",
+            "Posventa de comercio electrónico: 'Consulté el estado de pedidos en [sistema], gestioné consultas por demoras o devoluciones y coordiné con logística. Registré el seguimiento para evitar que el cliente tuviera que explicar nuevamente su caso'.",
           ],
         },
         {
@@ -111,8 +114,9 @@ export default function CvParaAtencionAlClientePage() {
         {
           title: "Habilidades y resultados que sí aportan",
           paragraphs: [
-            "Prioriza habilidades que puedas demostrar: manejo de reclamos, CRM, seguimiento de pedidos, soporte por chat, caja, facturación o coordinación con otras áreas.",
-            "Si dispones de datos reales, agrega volumen de consultas, cumplimiento de objetivos o mejoras en tiempos de respuesta. Si no los recuerdas, describe alcance y responsabilidad sin estimarlos.",
+            "Elige habilidades respaldadas por tu experiencia: gestión de reclamos si registrabas el problema y hacías seguimiento; comunicación escrita si redactabas respuestas por chat o correo; coordinación si trabajabas con logística, caja o soporte técnico para resolver casos.",
+            "Nombra el CRM o sistema que utilizabas y su uso concreto: abrir tickets, consultar pedidos o documentar contactos. No agregues herramientas solo porque aparecen en la oferta; tampoco confundas atención de consultas con ventas si no tenías esa función.",
+            "Con datos comprobables: 'Atendí [cantidad real] consultas por [período] mediante [canal], según [registro o reporte]'. Sin métricas: 'Di seguimiento a reclamos por entregas y coordiné su resolución con logística'. No conviertas un objetivo del equipo en un resultado personal ni inventes porcentajes de satisfacción.",
           ],
         },
         {
@@ -173,8 +177,8 @@ export default function CvParaAtencionAlClientePage() {
         },
         {
           href: "/cv-call-center",
-          title: "CV call center",
-          description: "Útil si tu experiencia esta más orientada a llamadas, CRM o soporte remoto.",
+          title: "Ejemplo de CV para atención telefónica y call center",
+          description: "Profundiza en llamadas, registro de gestiones y seguimiento si ese fue tu canal principal.",
         },
         {
           href: "/cv-para-vendedor",
@@ -187,9 +191,9 @@ export default function CvParaAtencionAlClientePage() {
           description: "Enfoca tu experiencia en atención presencial, agenda y administración.",
         },
         {
-          href: "/curriculum-sin-experiencia",
-          title: "CV sin experiencia",
-          description: "Útil si estas entrando por primera vez a roles de contacto con clientes.",
+          href: "/blog/como-adaptar-tu-cv-a-una-vacante",
+          title: "Cómo adaptar tu experiencia a una oferta de atención al cliente",
+          description: "Elige los canales, herramientas y tareas que coinciden con el puesto, conservando solo experiencia real.",
         },
         {
           href: "/blog/habilidades-para-curriculum",

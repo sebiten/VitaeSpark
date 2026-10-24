@@ -68,8 +68,8 @@ export default function CvParaSeguridadPage() {
         {
           title: "Perfil profesional para seguridad",
           paragraphs: [
-            "Una base útil puede ser: 'Perfil orientado a seguridad y vigilancia, con experiencia en control de accesos, recorridas preventivas, registro de novedades y atención responsable ante situaciones operativas'.",
-            "No conviene exagerar. En este tipo de CV suma más la claridad, la responsabilidad y el contexto real de tus tareas.",
+            "Para accesos: 'Vigilador/a con experiencia en [tipo de establecimiento]. Control de ingresos de personas y vehículos, registro de novedades y entrega de turno con comunicación de pendientes al relevo'.",
+            "Para monitoreo: 'Operador/a de CCTV con experiencia en [tipo de instalación]. Observación de cámaras, registro de incidencias y aviso al personal responsable según el protocolo del servicio'. Usa esta variante únicamente si realizaste monitoreo.",
           ],
         },
         {
@@ -86,24 +86,27 @@ export default function CvParaSeguridadPage() {
           ]
         },
         {
-          title: "CV para vigilador privado",
+          title: "Experiencia de vigilador: ejemplos para adaptar y copiar",
           paragraphs: [
-            "Usa términos concretos: control de accesos, rondas, registro de visitantes, monitoreo de cámaras, parte diario, prevención, custodia de instalaciones y cumplimiento de protocolos.",
-            "Si trabajaste en consorcios, comercios, eventos, empresas o depósitos, menciónalo. El contexto ayuda a entender el nivel de exposición, trato con personas y responsabilidad del puesto.",
+            "Elige el fragmento que describa tareas que realmente hiciste. Puedes seleccionar y copiar su texto en tu editor; sustituye los corchetes y elimina lo que no corresponda. Son ejemplos de redacción, no antecedentes de una persona real.",
+            "Consorcio o edificio: 'Verifiqué el ingreso de visitantes y proveedores según las autorizaciones del servicio. Registré entradas, salidas y novedades en [libro o sistema utilizado], y comuniqué los pendientes al relevo de turno'.",
+            "Depósito o planta: 'Controlé el ingreso y egreso de vehículos y personal en [establecimiento]. Realicé recorridas por los sectores asignados, registré anomalías y avisé al supervisor conforme al procedimiento'.",
+            "Monitoreo CCTV: 'Observé las cámaras de [tipo de instalación], registré hora y ubicación de las incidencias y comuniqué las alertas al equipo de vigilancia. Dejé constancia de las acciones realizadas en [sistema o parte de novedades]'.",
+            "Encabeza la experiencia con puesto, empresa y fechas. Si trabajaste para una empresa de seguridad en distintos servicios, identifica a tu empleador y describe los destinos sin revelar nombres de clientes, rutinas sensibles ni ubicaciones de cámaras.",
           ],
         },
         {
           title: "CV para seguridad sin experiencia",
           paragraphs: [
-            "Si estás empezando, podés destacar responsabilidad, puntualidad, disponibilidad horaria, buen trato, atención al detalle, estudios, cursos o experiencias donde hayas cuidado espacios, personas o procedimientos.",
-            "También ayuda mencionar si podés trabajar de noche, fines de semana o turnos rotativos, siempre que sea real.",
+            "Si todavía no trabajaste en vigilancia, usa la guía de seguridad sin experiencia de los enlaces relacionados. Allí puedes organizar formación y actividades reales sin presentar estos ejemplos de servicio como empleos propios.",
           ],
         },
         {
           title: "Habilidades de seguridad que suman",
           paragraphs: [
-            "Entre las habilidades más útiles estan control de accesos, observacion, registro de novedades, trato respetuoso, cumplimiento de protocolos, monitoreo, recorridas, comunicación clara y respuesta ordenada ante incidentes.",
-            "Si tienes curso de vigilador, habilitacion, manejo de camaras, licencia de conducir o experiencia nocturna, conviene incluirlo para que el CV sea más competitivo.",
+            "Control de accesos: explica qué verificabas y cómo registrabas ingresos. Registro de novedades: menciona el libro o sistema utilizado y la entrega de pendientes. Comunicación por radio: inclúyela solo si utilizaste ese equipo en el servicio.",
+            "Observación y criterio: respáldalos con recorridas, detección y comunicación de anomalías. Monitoreo CCTV: distingue observar cámaras de instalar o reparar equipos; no son la misma función.",
+            "Separa habilidades de cursos y habilitaciones. En estos últimos indica entidad, fecha y vigencia cuando corresponda; la disponibilidad nocturna o para turnos rotativos va en disponibilidad, no como competencia técnica.",
           ],
         },
         {
@@ -145,8 +148,8 @@ export default function CvParaSeguridadPage() {
         { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
           href: "/cv-para-recepcionista",
-          title: "CV para recepcionista",
-          description: "Cercano si tu experiencia incluye control de ingreso y atención.",
+          title: "Ejemplo de CV para recepción y atención de visitantes",
+          description: "Si tu trabajo era recibir personas y gestionar una agenda, compara cómo describirlo sin atribuirte funciones de vigilancia.",
         },
         {
           href: "/cv-para-seguridad-sin-experiencia",
@@ -164,9 +167,9 @@ export default function CvParaSeguridadPage() {
           description: "Alternativa si buscas puestos operativos, depósito o control.",
         },
         {
-          href: "/cv-para-primer-empleo",
-          title: "CV para primer empleo",
-          description: "Útil si estas armando una primera postulación sería.",
+          href: "/blog/como-adaptar-tu-cv-a-una-vacante",
+          title: "Cómo adaptar tu experiencia a una oferta de seguridad",
+          description: "Selecciona los servicios, tareas y formación que corresponden a la vacante sin añadir requisitos que no cumples.",
         },
         {
           href: "/cv-para-administrativo",
