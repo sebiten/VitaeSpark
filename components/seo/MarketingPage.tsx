@@ -67,6 +67,7 @@ type MarketingPageProps = {
   faqs: Faq[];
   relatedLinks: RelatedLink[];
   exampleImage?: ExampleImage;
+  prioritizeExample?: boolean;
   ctaLabel?: string;
   conversionGuidance?: {
     message: string;
@@ -88,6 +89,41 @@ function slugify(text: string) {
     .replace(/\s+/g, "-");
 }
 
+function GuideSection({
+  section,
+  index,
+  anchorOffset = false,
+}: {
+  section: Section;
+  index: number;
+  anchorOffset?: boolean;
+}) {
+  return (
+    <section className="border-b border-white/9 py-10 last:border-b-0">
+      <div className="grid gap-4 sm:grid-cols-[36px_minmax(0,1fr)]">
+        <span className="pt-1 text-sm tabular-nums text-white/34">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <div>
+          <h2
+            id={slugify(section.title)}
+            className={`${anchorOffset ? "scroll-mt-24 " : ""}text-2xl font-semibold leading-snug tracking-[-0.025em] text-[#F4F4F5]`}
+          >
+            {section.title}
+          </h2>
+          <div className="mt-5 space-y-5">
+            {section.paragraphs.map((paragraph) => (
+              <p key={paragraph} className="text-[1.03rem] leading-8 text-white/70">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function MarketingPage({
   path,
   eyebrow,
@@ -100,6 +136,7 @@ export function MarketingPage({
   faqs,
   relatedLinks,
   exampleImage,
+  prioritizeExample = false,
   ctaLabel,
   conversionGuidance,
   offer,
@@ -114,6 +151,8 @@ export function MarketingPage({
   const cta = ctaLabel || "Crear mi CV";
   const createHref = getJobCreateHref(path);
   const baseUrl = getBaseUrl();
+  const leadingExample = prioritizeExample ? sections[0] : undefined;
+  const remainingSections = leadingExample ? sections.slice(1) : sections;
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -203,12 +242,12 @@ export function MarketingPage({
                   </Link>
                 ) : null}
                 <Link
-                  href="#guia"
+                  href={leadingExample ? `#${slugify(leadingExample.title)}` : "#guia"}
                   className={conversionGuidance
                     ? "inline-flex min-h-11 items-center gap-2 rounded-md text-sm text-white/72 underline underline-offset-4 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/55"
                     : "inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-3 text-sm font-medium text-white/72 transition-colors hover:border-white/24 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B5CF6]/55"}
                 >
-                  Ver la guía
+                  {leadingExample ? "Ver modelo completo en texto" : "Ver la guía"}
                   <ArrowRight className="size-4" />
                 </Link>
               </div>
@@ -266,7 +305,8 @@ export function MarketingPage({
         className="mx-auto grid max-w-6xl scroll-mt-20 gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_280px] lg:px-8 lg:py-20"
       >
         <article className="min-w-0 max-w-[760px]">
-          <header className="border-b border-white/9 pb-10">
+          {leadingExample ? <GuideSection section={leadingExample} index={0} anchorOffset /> : null}
+          <header className={leadingExample ? "border-b border-white/9 py-10" : "border-b border-white/9 pb-10"}>
             <div className="mb-5 flex items-center gap-2 text-sm font-medium text-[#C4B5FD]">
               <BookOpenCheck className="size-4" />
               Guía práctica
@@ -306,35 +346,12 @@ export function MarketingPage({
           ) : null}
 
           <div>
-            {sections.map((section, index) => (
-              <section
+            {remainingSections.map((section, index) => (
+              <GuideSection
                 key={section.title}
-                className="border-b border-white/9 py-10 last:border-b-0"
-              >
-                <div className="grid gap-4 sm:grid-cols-[36px_minmax(0,1fr)]">
-                  <span className="pt-1 text-sm tabular-nums text-white/34">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <h2
-                      id={slugify(section.title)}
-                      className="text-2xl font-semibold leading-snug tracking-[-0.025em] text-[#F4F4F5]"
-                    >
-                      {section.title}
-                    </h2>
-                    <div className="mt-5 space-y-5">
-                      {section.paragraphs.map((paragraph) => (
-                        <p
-                          key={paragraph}
-                          className="text-[1.03rem] leading-8 text-white/70"
-                        >
-                          {paragraph}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </section>
+                section={section}
+                index={index + (leadingExample ? 1 : 0)}
+              />
             ))}
           </div>
 

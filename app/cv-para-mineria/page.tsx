@@ -3,9 +3,9 @@ import { LandingOffer } from "@/components/seo/LandingOffer";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Minería: Modelo, Perfil y Ejemplo para Minera",
+  title: "CV para minería: modelo para copiar y pasar a PDF",
   description:
-    "Consulta un modelo de CV para minería con perfil, experiencia, cursos y disponibilidad. Adáptalo a ayudante de mina y prepara tu versión en PDF.",
+    "Copia un modelo de currículum para minera, adapta perfil, experiencia y cursos, y guárdalo en PDF desde tu editor. Incluye ejemplo de ayudante de mina.",
   path: "/cv-para-mineria",
   keywords: [
     "cv para minería",
@@ -28,10 +28,11 @@ export const metadata = buildMetadata({
 export default function CvParaMineriaPage() {
   return (
     <MarketingPage
+      prioritizeExample
       path="/cv-para-mineria"
       eyebrow="CV por profesión"
       title="CV para minería: modelo y ejemplo para postular a una minera"
-      description="Convierte tu experiencia, cursos y disponibilidad en un CV para minería. Revisa el resultado antes de pagar la descarga."
+      description="Consulta el modelo completo, copia el texto en tu editor y adáptalo a tu experiencia antes de exportarlo a PDF. Si usas el generador de VitaeSpark, la descarga tiene un pago único."
       ctaLabel="Crear mi CV para minería"
       offer={<LandingOffer />}
       intro={[

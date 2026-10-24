@@ -21,6 +21,7 @@ export const metadata = buildMetadata({
 export default function CvParaAdministrativoPage() {
   return (
     <MarketingPage
+      prioritizeExample
       path="/cv-para-administrativo"
       eyebrow="CV por profesión"
       title="Currículum administrativo: ejemplo completo para auxiliar"

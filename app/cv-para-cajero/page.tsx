@@ -20,6 +20,7 @@ export const metadata = buildMetadata({
 export default function CvParaCajeroPage() {
   return (
     <MarketingPage
+      prioritizeExample
       path="/cv-para-cajero"
       eyebrow="CV por profesión"
       title="Currículum para cajero o cajera: ejemplo de supermercado"

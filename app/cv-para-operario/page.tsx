@@ -19,6 +19,7 @@ export const metadata = buildMetadata({
 export default function CvParaOperarioPage() {
   return (
     <MarketingPage
+      prioritizeExample
       path="/cv-para-operario"
       eyebrow="CV por profesión"
       title="Currículum de operario de producción: ejemplo y perfil profesional"
