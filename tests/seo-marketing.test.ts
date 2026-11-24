@@ -8,6 +8,8 @@ import CashierPage from "../app/cv-para-cajero/page";
 import AdminPage from "../app/cv-para-administrativo/page";
 import SecurityPage from "../app/cv-para-seguridad/page";
 import CustomerServicePage from "../app/cv-para-atencion-al-cliente/page";
+import FirstCustomerServicePage from "../app/cv-atencion-al-cliente-sin-experiencia/page";
+import FirstCvPage from "../app/curriculum-sin-experiencia/page";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -15,7 +17,7 @@ import { resolve } from "node:path";
 vi.mock("@/components/CommercialOffer", () => ({ CommercialOffer: () => null }));
 vi.mock("@/components/seo/LandingOffer", () => ({ LandingOffer: () => null }));
 
-const pages = [MiningPage, OperatorPage, CashierPage, AdminPage];
+const pages = [MiningPage, OperatorPage, CashierPage, AdminPage, FirstCustomerServicePage, FirstCvPage];
 
 describe("segunda intervención editorial", () => {
   it.each([SecurityPage, CustomerServicePage])("mantiene enlaces, CTA y texto accesible sin JavaScript: %s", (Page) => {
@@ -53,6 +55,13 @@ function render(page: ReturnType<typeof MiningPage>, prioritizeExample: boolean)
 }
 
 describe("professional SEO examples", () => {
+  it("links the public mining example separately from the personalized CV", () => {
+    const root = render(MiningPage(), true);
+    const sample = root.querySelector<HTMLAnchorElement>("a[download]");
+    expect(sample?.getAttribute("href")).toBe("/cv-examples/cv-ayudante-de-mina.pdf");
+    expect(existsSync(resolve("public", sample!.getAttribute("href")!.slice(1)))).toBe(true);
+    expect(root.querySelector('a[href^="/crear?"]')).not.toBeNull();
+  });
   it.each(pages)("prioritizes the example without losing content or tracked CTAs: %s", (Page) => {
     const element = Page();
     expect(element.props.prioritizeExample).toBe(true);

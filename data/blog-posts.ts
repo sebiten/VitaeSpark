@@ -158,9 +158,9 @@ export const blogPosts = [
   },
   {
     href: "/blog/como-hacer-un-curriculum-sin-experiencia",
-    title: "Como hacer un curriculum sin experiencia",
+    title: "Cómo escribir tu primer CV a partir de una actividad real",
     description:
-      "Guia para mostrar potencial aunque todavia no tengas historial laboral fuerte.",
+      "Sigue el caso de una feria escolar y redacta tu perfil para atención al público o apoyo administrativo.",
     category: "Primer empleo",
     iconKey: "GraduationCap",
   },

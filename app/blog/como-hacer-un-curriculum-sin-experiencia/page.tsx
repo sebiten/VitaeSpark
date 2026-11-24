@@ -1,11 +1,14 @@
 import { BlogArticlePage } from "@/components/seo/BlogArticlePage";
 import { buildMetadata } from "@/lib/seo";
+import { seoContentLastModified } from "@/lib/seo-routes";
+
+const path = "/blog/como-hacer-un-curriculum-sin-experiencia";
 
 export const metadata = buildMetadata({
-  title: "Cómo Hacer un Currículum sin Experiencia Laboral",
+  title: "Cómo escribir tu primer CV a partir de una actividad real",
   description:
-    "Guía para hacer un currículum sin experiencia laboral destacando estudios, proyectos, cursos y habilidades.",
-  path: "/blog/como-hacer-un-curriculum-sin-experiencia",
+    "Sigue un caso paso a paso para convertir un proyecto escolar en el perfil y las actividades de tu primer CV. Incluye ejemplos de redacción y una revisión final.",
+  path,
   keywords: [
     "como hacer un currículum sin experiencia",
     "cv sin experiencia",
@@ -15,7 +18,7 @@ export const metadata = buildMetadata({
   type: "article",
   image: "/social/cv-sin-experiencia-og.png",
   imageAlt: "Cinco elementos para un CV sin experiencia laboral",
-  socialTitle: "¿Sin experiencia? Tu CV no esta vacío",
+  socialTitle: "Cómo contar un proyecto en tu primer CV",
   socialDescription:
     "Estudios, proyectos, cursos, voluntariados y habilidades también pueden demostrar lo que sabes hacer.",
 });
@@ -23,33 +26,40 @@ export const metadata = buildMetadata({
 export default function ComoHacerUnCurriculumSinExperienciaPage() {
   return (
     <BlogArticlePage
-      path="/blog/como-hacer-un-curriculum-sin-experiencia"
+      path={path}
       datePublished="2025-04-12"
-      dateModified="2026-07-28"
+      dateModified={seoContentLastModified[path]}
       image="/social/cv-sin-experiencia-og.png"
-      title="Cómo hacer un currículum sin experiencia y aun asi mostrar potencial"
-      description="Guía para hacer un currículum sin experiencia laboral destacando estudios, proyectos, cursos y habilidades."
-      intro="No tener experiencia laboral formal no significa no tener nada para mostrar. Un buen CV sin experiencia puede transmitir potencial, direccion profesional y capacidades reales si esta bien construido."
+      title="Cómo hacer tu primer currículum con una actividad que ya realizaste"
+      description="De una feria escolar al primer CV: elige qué contar, redacta dos frases y adáptalas al puesto."
+      intro="Imagina que ayudaste en una feria escolar y ahora quieres postularte a un comercio. Durante la feria explicaste los precios a los visitantes y anotaste los pedidos en una planilla. Con esos dos datos puedes empezar a escribir. El caso es ficticio; para hacer el ejercicio, elige una actividad tuya."
       sections={[
         {
-          title: "Aprovecha estudios, proyectos y cursos",
+          title: "Anota qué hiciste tú",
           paragraphs: [
-            "Cuando aun no tienes experiencia fuerte, estas secciones pasan a ser centrales. No solo importa mencionarlas, sino explicar que aprendiste y como aplicaste ese conocimiento.",
-            "Ese contexto es lo que hace que el CV se vea menos vacío y más profesional.",
+            "Escribe el nombre de la actividad, dónde ocurrió, cuándo participaste y qué parte te tocó. En el ejemplo, el grupo organizó la feria y tu responsabilidad fue atender el mostrador y llevar el registro.",
+            "Si eliges un curso, busca un ejercicio que hayas terminado. Puedes contar qué pieza preparaste en el taller, qué campos cargaste en una planilla o qué consulta resolviste en una práctica.",
           ],
         },
         {
-          title: "Refuerza el perfil profesional",
+          title: "Redacta la entrada para tu CV",
           paragraphs: [
-            "En perfiles iniciales, un buen resumen ayuda mucho a orientar la lectura. Puede explicar hacia donde quieres crecer, que habilidades ya tienes y que tipo de rol estas buscando.",
-            "Eso da una sensacion de direccion y seriedad desde el inicio.",
+            "Bajo «Proyectos y actividades» puedes escribir: «Feria escolar · [Escuela] · [mes y año]. Atendí el mostrador, expliqué los precios a los visitantes y anoté sus pedidos en una planilla». Si fue un taller o un voluntariado, usa el nombre correspondiente.",
+            "Para redactar la tuya, completa «Me encargué de [acción] para [persona o equipo] y usé [herramienta] para [tarea concreta]». Si ya explicaste bien tu tarea en una frase, puedes terminar ahí.",
           ],
         },
         {
-          title: "Haz que el documento se vea fuerte aunque seas junior",
+          title: "Elige el perfil según el aviso",
           paragraphs: [
-            "La diferencia esta en la claridad y en como presentas lo que si tienes. Un CV junior mejora mucho cuando ordena bien la información y evita frases genéricas.",
-            "También ayuda usar una plantilla clara y un contenido bien redactado para ganar presencia profesional.",
+            "Para atención al público: «Busco mi primer puesto de atención en comercio. En una feria escolar respondí consultas sobre precios y registré pedidos en el mostrador».",
+            "Para apoyo administrativo: «Busco mi primer puesto de auxiliar de oficina. En una actividad escolar llevé una planilla de pedidos mientras mis compañeros preparaban las entregas». Cambia el énfasis según el aviso y conserva los hechos.",
+          ],
+        },
+        {
+          title: "Revisa el documento antes de enviarlo",
+          paragraphs: [
+            "Lee cada frase como si te preguntaran por ella en una entrevista. Si el ejemplo dice que cobraste y tú solo anotaste pedidos, corrige el verbo. En formación, indica si sigues estudiando y comprueba que la disponibilidad sea compatible con tus horarios.",
+            "Abre el PDF en tu teléfono, comprueba que se lean tu correo y tu número completos y revisa que hayas sustituido los campos entre corchetes.",
           ],
         },
       ]}
@@ -60,9 +70,9 @@ export default function ComoHacerUnCurriculumSinExperienciaPage() {
             "Sí. Si ayudan a mostrar habilidades, responsabilidad o experiencia relevante, pueden sumar bastante.",
         },
         {
-          question: "¿Sirve para buscar primer empleo?",
+          question: "¿Cómo menciono un curso que todavía estoy haciendo?",
           answer:
-            "Sí. Esta guía esta pensada justamente para ese escenario.",
+            "Inclúyelo en formación con el nombre de la institución y la indicación «en curso». Si ya terminaste una práctica relacionada con el puesto, describe esa práctica en una línea.",
         },
         {
           question: "¿Debo aclarar que no tengo experiencia?",
@@ -73,13 +83,13 @@ export default function ComoHacerUnCurriculumSinExperienciaPage() {
       relatedLinks={[
         {
           href: "/curriculum-sin-experiencia",
-          title: "Landing CV sin experiencia",
-          description: "Versión orientada a conversion para este mismo problema.",
+          title: "Modelo completo de currículum sin experiencia",
+          description: "Usa el modelo de auxiliar de oficina para ordenar el perfil, los estudios y la actividad que acabas de redactar.",
         },
         {
-          href: "/cv-para-estudiantes",
-          title: "CV para estudiantes",
-          description: "Ideal si estas buscando prácticas, pasantias o primer empleo.",
+          href: "/cv-atencion-al-cliente-sin-experiencia",
+          title: "Ejemplo de CV para atención al cliente sin experiencia",
+          description: "Mira cómo presentar la atención al público en un CV para mostrador o mensajería.",
         },
         {
           href: "/blog/habilidades-para-curriculum",

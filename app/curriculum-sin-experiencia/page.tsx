@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Currículum sin Experiencia para Primer Empleo",
+  title: "Currículum sin experiencia: modelo para tu primer empleo",
   description:
-    "Aprende cómo armar un currículum sin experiencia laboral destacando estudios, habilidades, proyectos y potencial profesional.",
+    "Copia un modelo completo de CV para tu primer empleo. Incluye perfil, estudios, proyectos y disponibilidad, con un ejemplo de auxiliar de oficina.",
   path: "/curriculum-sin-experiencia",
   keywords: [
     "currículum sin experiencia",
@@ -18,13 +18,14 @@ export const metadata = buildMetadata({
 export default function CurriculumSinExperienciaPage() {
   return (
     <MarketingPage
+      prioritizeExample
       path="/curriculum-sin-experiencia"
       eyebrow="Primer empleo"
-      title="Currículum sin experiencia para postularte mejor a tu primer trabajo"
-      description="Aprende como armar un CV sin experiencia laboral destacando estudios, habilidades, proyectos y potencial profesional de manera clara y creíble."
+      title="Currículum sin experiencia: modelo para tu primer empleo"
+      description="Usa el ejemplo de auxiliar de oficina como base y reemplaza los campos entre corchetes con tus estudios, proyectos y disponibilidad."
       intro={[
         "Hacer un currículum sin experiencia puede sentirse difícil porque muchas personas creen que no tienen nada valioso para mostrar. En realidad, un buen CV para primer empleo no depende solo de trabajos previos: también puede destacar estudios, proyectos, prácticas, herramientas, cursos y habilidades relevantes.",
-        "La clave esta en presentar esa información con orden, criterio y enfoque en el puesto que buscas. VitaeSpark te ayuda a estructurar ese contenido para que tu perfil se vea más solido, incluso si todavía estas construyendo experiencia laboral formal.",
+        "La clave está en presentar esa información con orden, criterio y enfoque en el puesto que buscas. VitaeSpark te ayuda a estructurar ese contenido para que tu perfil se vea más sólido, incluso si todavía estás construyendo experiencia laboral formal.",
       ]}
       exampleImage={{
         src: "/cv-examples/cv-primer-empleo.png",
@@ -34,13 +35,13 @@ export default function CurriculumSinExperienciaPage() {
       benefits={[
         "Ayuda a transformar estudios, cursos y proyectos en un perfil más competitivo.",
         "Sirve para primer empleo, pasantías, prácticas y cambios de rubro.",
-        "Te guía para evitar el clasico CV vacío o demasiado genérico.",
+        "Te guía para evitar el clásico CV vacío o demasiado genérico.",
       ]}
       steps={[
         {
           title: "Empieza por tu objetivo",
           description:
-            "Aclara que tipo de trabajo buscas para definir mejor el tono del CV.",
+            "Aclara qué tipo de trabajo buscas para definir mejor el tono del CV.",
         },
         {
           title: "Completa estudios, proyectos y habilidades",
@@ -69,8 +70,8 @@ export default function CurriculumSinExperienciaPage() {
         {
           title: "Qué poner en un currículum sin experiencia",
           paragraphs: [
-            "Lo más importante es aprovechar todo lo que si tienes: formación académica, cursos, prácticas, proyectos personales, herramientas, idiomas, voluntariados o actividades donde hayas demostrado responsabilidad y aprendizaje.",
-            "También conviene incluir un breve perfil profesional enfocado en tu objetivo. Aunque todavía no tengas historial laboral fuerte, puedes mostrar motivación, base técnica y direccion profesional si el contenido esta bien armado.",
+            "Lo más importante es aprovechar todo lo que sí tienes: formación académica, cursos, prácticas, proyectos personales, herramientas, idiomas, voluntariados o actividades donde hayas demostrado responsabilidad y aprendizaje.",
+            "También conviene incluir un breve perfil profesional enfocado en tu objetivo. Aunque todavía no tengas historial laboral fuerte, puedes mostrar motivación, base técnica y dirección profesional si el contenido está bien armado.",
           ],
         },
         {
@@ -101,8 +102,8 @@ export default function CurriculumSinExperienciaPage() {
       relatedLinks={[
         { href: "/curriculum-vitae-ejemplo", title: "Más ejemplos completos de CV", description: "Compara modelos con y sin experiencia y adapta sus secciones a tus antecedentes." },
         {
-          href: "/cv-para-atencion-al-cliente",
-          title: "CV para atención al cliente",
+          href: "/cv-atencion-al-cliente-sin-experiencia",
+          title: "CV para atención al cliente sin experiencia",
           description:
             "Una buena salida para primer empleo si quieres entrar en roles de contacto con clientes.",
         },
@@ -119,10 +120,10 @@ export default function CurriculumSinExperienciaPage() {
             "Empieza tu currículum con una guía paso a paso y plantillas claras.",
         },
         {
-          href: "/blog/como-hacer-un-curriculum",
-          title: "Cómo hacer un currículum",
+          href: "/blog/como-hacer-un-curriculum-sin-experiencia",
+          title: "Cómo contar una actividad en tu primer CV",
           description:
-            "Repasa la estructura básica para armar un CV desde cero.",
+            "Convierte un proyecto escolar en una descripción de tus tareas y adáptala al aviso.",
         },
         {
           href: "/blog/habilidades-para-curriculum",

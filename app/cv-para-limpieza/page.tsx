@@ -2,9 +2,9 @@ import { MarketingPage } from "@/components/seo/MarketingPage";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "CV para Limpieza: Ejemplo, Perfil y Habilidades",
+  title: "Currículum de limpieza: ejemplos con y sin experiencia",
   description:
-    "Arma un CV para limpieza con ejemplo listo, perfil profesional, habilidades, mantenimiento de espacios y opción sin experiencia.",
+    "Adapta un modelo de CV para limpieza de oficinas o un ejemplo para tu primer empleo. Incluye perfil, tareas, formación y disponibilidad por turnos.",
   path: "/cv-para-limpieza",
   keywords: [
     "cv para limpieza",
@@ -26,8 +26,8 @@ export default function CvParaLimpiezaPage() {
     <MarketingPage
       path="/cv-para-limpieza"
       eyebrow="CV por profesión"
-      title="CV para limpieza: ejemplo listo con perfil y habilidades"
-      description="Prepara un currículum de limpieza claro para oficinas, edificios, comercios o casas, con perfil profesional, tareas, productos y disponibilidad."
+      title="Currículum de limpieza: ejemplos con y sin experiencia"
+      description="Elige el ejemplo que encaje contigo: limpieza de oficinas con experiencia o primer empleo con actividades y disponibilidad por turnos."
       ctaLabel="Crear mi CV de limpieza"
       conversionGuidance={{
         message:
@@ -37,8 +37,7 @@ export default function CvParaLimpiezaPage() {
           "Ahora armá el tuyo con tus tareas, habilidades y disponibilidad para trabajar en limpieza.",
       }}
       intro={[
-        "Un CV para limpieza debe mostrar responsabilidad, prolijidad y capacidad para mantener espacios en condiciones. Conviene explicar si trabajaste en oficinas, casas, edificios, hospitales, comercios, escuelas o empresas, y con que rutinas o productos lo hacias.",
-        "VitaeSpark te ayuda a presentar esa experiencia en un currículum limpieza más profesional, con perfil claro, habilidades útiles y estructura ATS fácil de leer para reclutadores.",
+        "Si ya trabajaste en limpieza, indica qué espacios atendías y qué quedaba a tu cargo al terminar el turno. Si buscas tu primer empleo, puedes describir una actividad comunitaria, una práctica o una rutina que sepas realizar.",
       ]}
       conversionCta={{
         title: "Presenta tus tareas de limpieza con más claridad",
@@ -89,17 +88,14 @@ export default function CvParaLimpiezaPage() {
           ]
         },
         {
-          title: "CV para limpieza: que poner para que se vea serio",
+          title: "Ejemplo de currículum para limpieza sin experiencia laboral",
           paragraphs: [
-            "Suele sumar experiencia en limpieza de espacios, mantenimiento de áreas comunes, uso de productos, orden de materiales, cumplimiento de rutinas, reposición de insumos y cuidado de normas de higiene. Estas tareas deberían aparecer antes que frases genéricas como 'buena predisposicion'.",
-            "Si trabajaste en lugares con protocolos especiales, como salud, gastronomía o edificios, conviene aclararlo porque aumenta la relevancia del perfil.",
-          ],
-        },
-        {
-          title: "CV para limpieza sin experiencia",
-          paragraphs: [
-            "Si no tienes experiencia formal, puedes destacar responsabilidad, puntualidad, tareas domésticas o informales, disponibilidad horaria, cuidado de espacios y capacidad para seguir instrucciones.",
-            "Aclara el tipo de lugar al que apuntas: oficinas, edificios, casas, comercios, escuelas, salud o limpieza industrial. Un perfil simple y concreto funciona mejor que una lista de cualidades generales.",
+            "Caso ficticio: una persona colaboró en un club de barrio y ahora busca su primer empleo de limpieza en un comercio. Usa tus propios datos y conserva solo lo que hayas hecho.",
+            "[Nombre y apellido] · Auxiliar de limpieza · [Ciudad] · [Teléfono] · [Correo electrónico].",
+            "Perfil: Busco mi primer empleo en limpieza de comercios. En el club de mi barrio colaboré con el aseo del salón y la preparación de las mesas para las actividades de los sábados.",
+            "Voluntariado: [Club o asociación] · [Fechas]. Al terminar cada encuentro, limpié las mesas, barrí el salón y guardé los materiales en el lugar asignado.",
+            "Formación: [Estudios e institución] · [Estado actual]. Disponibilidad: [Días y turnos que puedes cubrir].",
+            "Si solo tienes práctica en casa, puedes mencionarla en el perfil como tal. Si limpiaste domicilios por encargo y cobraste por el servicio, describe esa actividad como trabajo independiente.",
           ],
         },
         {
@@ -112,14 +108,14 @@ export default function CvParaLimpiezaPage() {
         {
           title: "Ejemplos de experiencia para limpieza",
           paragraphs: [
-            "Para oficinas o edificios puedes escribir: 'Realice limpieza de espacios comunes, sanitarios y puestos de trabajo, repuse insumos y mantuve ordenados los materiales según la rutina del lugar'.",
+            "Para oficinas o edificios puedes escribir: 'Realicé limpieza de espacios comunes, sanitarios y puestos de trabajo, repuse insumos y mantuve ordenados los materiales según la rutina del lugar'.",
             "Para salud o gastronomía: 'Apliqué rutinas de limpieza y desinfección por sector, separé elementos de trabajo, repuse insumos y cumplí los protocolos y frecuencias indicados'. Usa esta estructura solo si representa tus tareas reales.",
           ],
         },
         {
           title: "Habilidades que suelen valorar",
           paragraphs: [
-            "Entre las habilidades útiles estan atención al detalle, organización, responsabilidad, manejo de productos, higiene, rapidez, cuidado de espacios y cumplimiento de rutinas.",
+            "Entre las habilidades útiles están atención al detalle, organización, responsabilidad, manejo de productos, higiene, rapidez, cuidado de espacios y cumplimiento de rutinas.",
             "Conviene incluirlas de forma natural junto a tus tareas reales para que el CV no parezca una lista vacía.",
           ],
         },
@@ -138,7 +134,7 @@ export default function CvParaLimpiezaPage() {
         {
           question: "¿Puedo usarlo sin experiencia formal?",
           answer:
-            "Sí. Puedes destacar trabajos informales, tareas domesticas, responsabilidad y disponibilidad.",
+            "Sí. Puedes destacar trabajos informales, tareas domésticas, responsabilidad y disponibilidad.",
         },
         {
           question: "¿Qué poner en perfil profesional de limpieza?",
@@ -148,7 +144,7 @@ export default function CvParaLimpiezaPage() {
         {
           question: "¿Cómo hacer un currículum de limpieza sin experiencia?",
           answer:
-            "Destaca responsabilidad, puntualidad, disponibilidad, tareas domesticas o informales, cuidado de espacios, seguimiento de indicaciones y referencias si las tienes.",
+            "Destaca responsabilidad, puntualidad, disponibilidad, tareas domésticas o informales, cuidado de espacios, seguimiento de indicaciones y referencias si las tienes.",
         },
       ]}
       relatedLinks={[
@@ -161,7 +157,7 @@ export default function CvParaLimpiezaPage() {
         {
           href: "/curriculum-sin-experiencia",
           title: "CV sin experiencia",
-          description: "Útil para armar un perfil inicial más solido.",
+          description: "Útil para armar un perfil inicial más sólido.",
         },
         {
           href: "/cv-para-operario",

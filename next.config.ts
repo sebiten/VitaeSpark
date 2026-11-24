@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/cv-examples/cv-ayudante-de-mina.pdf",
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
+      {
         source: "/(.*)",
         headers: [
           {
